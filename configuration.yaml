@@ -6,10 +6,6 @@ homeassistant:
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
-# Text to speech
-tts:
-  - platform: google_translate
-
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
@@ -30,6 +26,38 @@ media_player:
         - 'media_session_state'
       'com.amazon.avod':
         - 'standby'
+
+light:
+  - platform: group
+    name: Living Room Lights
+    entities:
+      - light.living_room_overhead_1
+      - light.living_room_overhead_2
+  - platform: group
+    name: Master Bedroom Lights
+    entities:
+      - light.master_bedroom_front
+      - light.master_bedroom_side
+  - platform: group
+    name: Basement Lights
+    entities:
+      - light.basement_stairwell
+      - light.basement_tall_lamp
+      - light.basement_short_lamp
+  - platform: group
+    name: First Floor Lights
+    entities:
+      - light.living_room_overhead_1
+      - light.living_room_overhead_2
+      - light.mud_room_overhead
+  - platform: group
+    name: Second Floor Lights
+    entities:
+      - light.master_bedroom_front
+      - light.master_bedroom_side
+      - light.hallway_overhead
+      - light.kallen_bedroom_light
+      - light.nursery_light
 
 frontend:
   themes: !include_dir_merge_named themes
