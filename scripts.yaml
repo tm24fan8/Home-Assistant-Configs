@@ -1,0 +1,158 @@
+start_netflix:
+  alias: Start Netflix
+  sequence:
+  - service: switch.turn_on
+    target:
+      entity_id: switch.adaptive_lighting_sleep_mode_living_room
+  - service: media_player.select_source
+    target:
+      entity_id: media_player.living_room_firetv
+    data:
+      source: com.netflix.ninja
+  mode: single
+  icon: mdi:netflix
+stop_netflix:
+  alias: Stop Netflix
+  sequence:
+  - service: media_player.select_source
+    target:
+      entity_id: media_player.living_room_firetv
+    data:
+      source: '!com.netflix.ninja'
+  - service: switch.turn_off
+    target:
+      entity_id: switch.adaptive_lighting_sleep_mode_living_room
+  mode: single
+  icon: mdi:netflix
+give_me_darkness:
+  alias: Give Me Darkness
+  sequence:
+  - service: switch.turn_on
+    target:
+      entity_id:
+      - switch.adaptive_lighting_sleep_mode_upstairs_hallway
+      - switch.adaptive_lighting_sleep_mode_mud_room
+  - service: light.turn_off
+    target:
+      device_id:
+      - cfa5796f2572082c37db92f809e432bc
+      - 3ccbb8face40bff22fd924966bbb19f5
+      area_id:
+      - kallen_bedroom
+      - master_bedroom
+  mode: single
+  icon: mdi:weather-night
+start_youtube:
+  alias: Start Youtube
+  sequence:
+  - service: switch.turn_on
+    target:
+      entity_id: switch.adaptive_lighting_sleep_mode_living_room
+  - service: media_player.select_source
+    target:
+      entity_id: media_player.living_room_firetv
+    data:
+      source: com.amazon.firetv.youtube
+  mode: single
+  icon: mdi:youtube
+stop_youtube:
+  alias: Stop Youtube
+  sequence:
+  - service: media_player.select_source
+    target:
+      entity_id: media_player.living_room_firetv
+    data:
+      source: '!com.amazon.firetv.youtube'
+  - service: switch.turn_off
+    target:
+      entity_id: switch.adaptive_lighting_sleep_mode_living_room
+  mode: single
+  icon: mdi:youtube
+start_twitch:
+  alias: Start Twitch
+  sequence:
+  - service: switch.turn_on
+    target:
+      entity_id: switch.adaptive_lighting_sleep_mode_living_room
+  - service: media_player.select_source
+    target:
+      entity_id: media_player.living_room_firetv
+    data:
+      source: tv.twitch.android.viewer
+  mode: single
+  icon: mdi:twitch
+stop_twitch:
+  alias: Stop Twitch
+  sequence:
+  - service: media_player.select_source
+    target:
+      entity_id: media_player.living_room_firetv
+    data:
+      source: '!tv.twitch.android.viewer'
+  - service: switch.turn_off
+    target:
+      entity_id: switch.adaptive_lighting_sleep_mode_living_room
+  mode: single
+  icon: mdi:twitch
+start_spotify:
+  alias: Start Spotify
+  sequence:
+  - service: media_player.select_source
+    target:
+      entity_id: media_player.living_room_firetv
+    data:
+      source: com.spotify.tv.android
+  mode: single
+  icon: mdi:spotify
+stop_spotify:
+  alias: Stop Spotify
+  sequence:
+  - service: media_player.select_source
+    target:
+      entity_id: media_player.living_room_firetv
+    data:
+      source: '!com.spotify.tv.android'
+  mode: single
+  icon: mdi:spotify
+goodnight:
+  alias: Goodnight
+  sequence:
+  - service: scene.turn_on
+    target:
+      entity_id:
+      - scene.upstairs_hallway_nightlight
+      - scene.mud_room_nightlight
+  - service: light.turn_off
+    target:
+      device_id:
+      - cfa5796f2572082c37db92f809e432bc
+      - 3ccbb8face40bff22fd924966bbb19f5
+      area_id:
+      - basement_studio
+      - master_bedroom
+      - kallen_bedroom
+      - furnace_room
+      - mud_room
+      - nursery
+  - service: switch.turn_off
+    target:
+      area_id: basement_studio
+  - service: switch.turn_on
+    target:
+      entity_id:
+      - switch.basement_echo_dot_do_not_disturb_switch
+      - switch.living_room_echo_dot_do_not_disturb_switch
+  mode: single
+  icon: mdi:weather-night
+alexa_tts_test:
+  alias: Alexa TTS Test
+  sequence:
+  - service: notify.alexa_media
+    data:
+      data:
+        method: all
+        type: announce
+      target: Living Room Echo Dot
+      message: I farted
+  mode: single
+  icon: mdi:test-tube

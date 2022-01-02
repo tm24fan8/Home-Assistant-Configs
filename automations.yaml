@@ -1,0 +1,247 @@
+- id: '1640833273099'
+  alias: NWS Announce Weather Alert for Tornado
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.weatheralerts_1_active_alerts
+    attribute: tornado_warning_count
+    above: '0'
+  condition: []
+  action:
+  - service: switch.turn_off
+    target:
+      entity_id:
+      - switch.adaptive_lighting_basement_studio
+      - switch.adaptive_lighting_kallen_bedroom
+      - switch.adaptive_lighting_living_room
+      - switch.adaptive_lighting_master_bedroom
+      - switch.adaptive_lighting_mud_room
+      - switch.adaptive_lighting_nursery
+      - switch.adaptive_lighting_upstairs_hallway
+  - service: scene.turn_on
+    target:
+      entity_id:
+      - scene.basement_studio_bright
+      - scene.front_porch_bright
+      - scene.furnace_room_bright
+      - scene.kallen_bedroom_bright
+      - scene.living_room_bright
+      - scene.master_bedroom_bright
+      - scene.mud_room_bright
+      - scene.nursery_bright
+      - scene.upstairs_hallway_bright
+  - service: notify.notify
+    data:
+      title: Tornado Warning - TAKE COVER!
+      message: The National Weather Service has issued a Tornado Warning for our area.
+        Take Cover NOW!!!!
+  - service: notify.alexa_media
+    data:
+      data:
+        method: all
+        type: announce
+      message: A tornado warning has been issued, please take cover immediately! A
+        tornado warning has been issued, please take cover immediately! A tornado
+        warning has been issued, please take cover immediately!
+      target: Living Room Echo Dot, Basement Echo Dot
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 0
+      milliseconds: 0
+  - service: notify.alexa_media
+    data:
+      data:
+        method: all
+        type: announce
+      message: A tornado warning has been issued, please take cover immediately! A
+        tornado warning has been issued, please take cover immediately! A tornado
+        warning has been issued, please take cover immediately!
+      target: Living Room Echo Dot, Basement Echo Dot
+  mode: single
+- id: '1640916845901'
+  alias: Cast to Chromecast
+  description: ''
+  use_blueprint:
+    path: kind3r/cast-and-re-cast-a-lovelace-view-to-a-google-hub.yaml
+    input:
+      dashboard: lovelace
+      player: media_player.living_room_tv
+      view: chromecast
+- id: '1640989510134'
+  alias: New Years
+  description: Flash lights for New Years
+  trigger:
+  - platform: time
+    at: 00:00:00
+  condition: []
+  action:
+  - service: light.turn_off
+    target:
+      area_id:
+      - basement_studio
+      - furnace_room
+      - kallen_bedroom
+      - living_room
+      - master_bedroom
+      - mud_room
+      - nursery
+      - upstairs_hallway
+  - service: switch.turn_off
+    target:
+      entity_id:
+      - switch.adaptive_lighting_basement_studio
+      - switch.adaptive_lighting_kallen_bedroom
+      - switch.adaptive_lighting_living_room
+      - switch.adaptive_lighting_master_bedroom
+      - switch.adaptive_lighting_mud_room
+      - switch.adaptive_lighting_nursery
+      - switch.adaptive_lighting_upstairs_hallway
+  - service: notify.alexa_media
+    data:
+      target: Living Room Echo Dot
+      message: Happy new year! Here's to 2022!
+      data:
+        method: all
+        type: announce
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  - service: light.turn_on
+    target:
+      entity_id:
+      - light.hallway_overhead
+      - light.kallen_bedroom_light
+      - light.living_room_overhead_1
+      - light.living_room_overhead_2
+      - light.master_bedroom_front
+      - light.master_bedroom_side
+      - light.mud_room_overhead
+      - light.nursery_light
+    data:
+      flash: long
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 15
+      milliseconds: 0
+  - service: light.turn_off
+    target:
+      area_id:
+      - basement_studio
+      - furnace_room
+      - kallen_bedroom
+      - living_room
+      - master_bedroom
+      - mud_room
+      - nursery
+      - upstairs_hallway
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 1
+      milliseconds: 500
+  - service: switch.turn_on
+    target:
+      entity_id:
+      - switch.adaptive_lighting_basement_studio
+      - switch.adaptive_lighting_kallen_bedroom
+      - switch.adaptive_lighting_living_room
+      - switch.adaptive_lighting_master_bedroom
+      - switch.adaptive_lighting_mud_room
+      - switch.adaptive_lighting_nursery
+      - switch.adaptive_lighting_upstairs_hallway
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 1
+      milliseconds: 500
+  - service: light.turn_on
+    target:
+      area_id:
+      - living_room
+      - mud_room
+  mode: single
+- id: '1641101491581'
+  alias: Family Has Arrived
+  description: Runs when family arrives at home
+  trigger:
+  - platform: zone
+    entity_id: person.christina_stork
+    zone: zone.home
+    event: enter
+  - platform: zone
+    entity_id: person.tony_stork
+    zone: zone.home
+    event: enter
+  - platform: state
+    entity_id: input_boolean.family_is_home
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_boolean.family_is_home
+    state: 'off'
+  - condition: state
+    entity_id: binary_sensor.night
+    state: 'on'
+  action:
+  - service: input_boolean.turn_on
+    target:
+      entity_id: input_boolean.family_is_home
+  - service: alarm_control_panel.alarm_disarm
+    target:
+      entity_id: alarm_control_panel.alexa_guard_9ee3b
+  - service: light.turn_on
+    target:
+      area_id:
+      - living_room
+      - mud_room
+    data: {}
+  - service: light.turn_off
+    target:
+      area_id:
+      - furnace_room
+      - kallen_bedroom
+      - nursery
+      - master_bedroom
+      - upstairs_hallway
+      - basement_studio
+  mode: single
+- id: '1641102018783'
+  alias: Family Has Left
+  description: Runs when the family has left home
+  trigger:
+  - platform: state
+    entity_id: group.family
+    from: home
+    to: not_home
+  - platform: state
+    entity_id: input_boolean.family_is_home
+    from: 'on'
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: input_boolean.family_is_home
+    state: 'on'
+  action:
+  - service: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.family_is_home
+  - service: light.turn_off
+    target:
+      area_id:
+      - basement_studio
+      - furnace_room
+      - kallen_bedroom
+      - living_room
+      - master_bedroom
+      - mud_room
+      - nursery
+      - upstairs_hallway
+  - service: alarm_control_panel.alarm_arm_away
+    target:
+      entity_id: alarm_control_panel.alexa_guard_9ee3b
+  mode: single

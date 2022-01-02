@@ -1,0 +1,8 @@
+Family:
+  - person.tony_stork
+  - person.christina_stork
+
+Xbox In Game:
+  - binary_sensor.kjsgamer2012_in_game
+  - binary_sensor.irishpirate1988_in_game
+  - binary_sensor.tm24fan_in_game
