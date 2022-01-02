@@ -66,3 +66,5 @@ frontend:
 
 updater:
   include_used_components: true
+
+browser_mod:
