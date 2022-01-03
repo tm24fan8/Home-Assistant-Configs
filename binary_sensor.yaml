@@ -6,3 +6,7 @@
   name: Night
   after: sunset
   before: sunrise
+- platform: tod
+  name: School
+  after: "09:00"
+  before: "15:30"
