@@ -177,38 +177,12 @@
     zone: zone.home
     event: enter
   - platform: state
-    entity_id: input_boolean.family_is_home
-    from: 'off'
-    to: 'on'
-  condition:
-  - condition: state
-    entity_id: input_boolean.family_is_home
-    state: 'off'
-  - condition: state
-    entity_id: binary_sensor.night
-    state: 'on'
+    entity_id: group.family
+    from: not_home
+    to: home
+  condition: []
   action:
-  - service: input_boolean.turn_on
-    target:
-      entity_id: input_boolean.family_is_home
-  - service: alarm_control_panel.alarm_disarm
-    target:
-      entity_id: alarm_control_panel.alexa_guard_9ee3b
-  - service: light.turn_on
-    target:
-      area_id:
-      - living_room
-      - mud_room
-    data: {}
-  - service: light.turn_off
-    target:
-      area_id:
-      - furnace_room
-      - kallen_bedroom
-      - nursery
-      - master_bedroom
-      - upstairs_hallway
-      - basement_studio
+  - service: script.family_is_home
   mode: single
 - id: '1641102018783'
   alias: Family Has Left
@@ -218,30 +192,10 @@
     entity_id: group.family
     from: home
     to: not_home
-  - platform: state
-    entity_id: input_boolean.family_is_home
-    from: 'on'
-    to: 'off'
   condition:
   - condition: state
-    entity_id: input_boolean.family_is_home
-    state: 'on'
+    entity_id: input_boolean.guest_mode
+    state: 'off'
   action:
-  - service: input_boolean.turn_off
-    target:
-      entity_id: input_boolean.family_is_home
-  - service: light.turn_off
-    target:
-      area_id:
-      - basement_studio
-      - furnace_room
-      - kallen_bedroom
-      - living_room
-      - master_bedroom
-      - mud_room
-      - nursery
-      - upstairs_hallway
-  - service: alarm_control_panel.alarm_arm_away
-    target:
-      entity_id: alarm_control_panel.alexa_guard_9ee3b
+  - service: script.family_is_away
   mode: single

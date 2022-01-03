@@ -156,3 +156,51 @@ alexa_tts_test:
       message: I farted
   mode: single
   icon: mdi:test-tube
+family_is_away:
+  alias: Family Is Away
+  sequence:
+  - condition: state
+    entity_id: group.family
+    state: not_home
+  - service: light.turn_off
+    target:
+      area_id:
+      - basement_studio
+      - furnace_room
+      - kallen_bedroom
+      - living_room
+      - master_bedroom
+      - mud_room
+      - nursery
+      - upstairs_hallway
+  - service: alarm_control_panel.alarm_arm_away
+    target:
+      entity_id: alarm_control_panel.alexa_guard_9ee3b
+  mode: single
+  icon: mdi:shield-lock
+family_is_home:
+  alias: Family Is Home
+  sequence:
+  - service: alarm_control_panel.alarm_disarm
+    target:
+      entity_id: alarm_control_panel.alexa_guard_9ee3b
+  - condition: state
+    entity_id: binary_sensor.night
+    state: 'on'
+  - service: light.turn_on
+    target:
+      area_id:
+      - living_room
+      - mud_room
+    data: {}
+  - service: light.turn_off
+    target:
+      area_id:
+      - furnace_room
+      - kallen_bedroom
+      - nursery
+      - master_bedroom
+      - upstairs_hallway
+      - basement_studio
+  mode: single
+  icon: mdi:home-account
