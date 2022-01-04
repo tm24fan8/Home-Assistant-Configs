@@ -188,11 +188,11 @@ family_is_home:
     entity_id: binary_sensor.night
     state: 'on'
   - service: light.turn_on
-    target:
-      area_id:
-      - living_room
-      - mud_room
     data: {}
+    target:
+      entity_id:
+      - light.living_room_lights
+      - light.mud_room_overhead
   - service: light.turn_off
     target:
       area_id:

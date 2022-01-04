@@ -180,6 +180,10 @@
     entity_id: group.family
     from: not_home
     to: home
+  - platform: event
+    event_type: ios.action_fired
+    event_data:
+      actionName: We Are Home
   condition: []
   action:
   - service: script.family_is_home
@@ -192,10 +196,39 @@
     entity_id: group.family
     from: home
     to: not_home
+  - platform: event
+    event_type: ios.action_fired
+    event_data:
+      actionName: We Are Leaving
   condition:
   - condition: state
     entity_id: input_boolean.guest_mode
     state: 'off'
   action:
   - service: script.family_is_away
+  mode: single
+- id: '1641255231416'
+  alias: Goodnight
+  description: ''
+  trigger:
+  - platform: event
+    event_type: ios.action_fired
+    event_data:
+      actionName: Goodnight
+    context: {}
+  condition: []
+  action:
+  - service: script.goodnight
+  mode: single
+- id: '1641255482975'
+  alias: Give Me Darkness
+  description: ''
+  trigger:
+  - platform: event
+    event_type: ios.action_fired
+    event_data:
+      actionName: Give Me Darkness
+  condition: []
+  action:
+  - service: script.give_me_darkness
   mode: single
