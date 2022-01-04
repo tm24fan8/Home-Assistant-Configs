@@ -5,6 +5,7 @@
 - platform: tod
   name: Night
   after: sunset
+  after_offset: "-00:30"
   before: sunrise
 - platform: tod
   name: School
