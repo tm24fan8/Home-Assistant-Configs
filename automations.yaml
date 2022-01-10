@@ -232,3 +232,21 @@
   action:
   - service: script.give_me_darkness
   mode: single
+- id: '1641765546839'
+  alias: Sunset Lights On
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: -00:15
+  condition:
+  - condition: state
+    entity_id: group.family
+    state: home
+  action:
+  - service: light.turn_on
+    target:
+      entity_id:
+      - light.living_room_lights
+      - light.mud_room_overhead
+  mode: single
