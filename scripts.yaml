@@ -202,5 +202,10 @@ family_is_home:
       - master_bedroom
       - upstairs_hallway
       - basement_studio
+  - service: switch.turn_off
+    target:
+      entity_id:
+      - switch.basement_echo_dot_do_not_disturb_switch
+      - switch.living_room_echo_dot_do_not_disturb_switch
   mode: single
   icon: mdi:home-account
