@@ -70,3 +70,16 @@ updater:
 browser_mod:
 
 python_script:
+
+anniversaries:
+  sensors:
+    - name: Wedding Anniversary
+      date: !secret wedding_anniversary
+    - name: Tony's Birthday
+      date: !secret tony_bday
+    - name: Tina's Birthday
+      date: !secret tina_bday
+    - name: Kallen's Birthday
+      date: !secret kallen_bday
+    - name: Emmalynn's Birthday
+      date: !secret emmalynn_bday
