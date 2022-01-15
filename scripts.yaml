@@ -209,3 +209,11 @@ family_is_home:
       - switch.living_room_echo_dot_do_not_disturb_switch
   mode: single
   icon: mdi:home-account
+reading_timer_cancel:
+  sequence:
+  - service: timer.cancel
+    target:
+      entity_id: timer.reading_timer
+  mode: single
+  alias: Reading Timer - Cancel
+  icon: mdi:cancel
