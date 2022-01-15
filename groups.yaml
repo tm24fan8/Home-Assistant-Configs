@@ -6,3 +6,11 @@ Xbox In Game:
   - binary_sensor.kjsgamer2012_in_game
   - binary_sensor.irishpirate1988_in_game
   - binary_sensor.tm24fan_in_game
+
+Presence Simulation:
+  - light.hallway_overhead
+  - light.kallen_bedroom_light
+  - light.living_room_lights
+  - light.master_bedroom_lights
+  - light.mud_room_overhead
+  - light.nursery_light
