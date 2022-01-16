@@ -15,6 +15,11 @@ input_boolean: !include input_boolean.yaml
 binary_sensor: !include binary_sensor.yaml
 sensor: !include sensor.yaml
 
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.30.33.0/24
+
 media_player:
   - platform: androidtv
     name: Living Room FireTV
