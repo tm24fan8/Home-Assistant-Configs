@@ -190,6 +190,11 @@ family_is_home:
   - service: alarm_control_panel.alarm_disarm
     target:
       entity_id: alarm_control_panel.alexa_guard_9ee3b
+  - service: switch.turn_off
+    target:
+      entity_id:
+      - switch.basement_echo_dot_do_not_disturb_switch
+      - switch.living_room_echo_dot_do_not_disturb_switch
   - condition: state
     entity_id: binary_sensor.night
     state: 'on'
@@ -208,11 +213,6 @@ family_is_home:
       - master_bedroom
       - upstairs_hallway
       - basement_studio
-  - service: switch.turn_off
-    target:
-      entity_id:
-      - switch.basement_echo_dot_do_not_disturb_switch
-      - switch.living_room_echo_dot_do_not_disturb_switch
   mode: single
   icon: mdi:home-account
 reading_timer_cancel:
