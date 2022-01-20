@@ -195,9 +195,9 @@ family_is_home:
       entity_id:
       - switch.basement_echo_dot_do_not_disturb_switch
       - switch.living_room_echo_dot_do_not_disturb_switch
-  - condition: state
-    entity_id: binary_sensor.night
-    state: 'on'
+  - condition: sun
+    after: sunset
+    after_offset: -00:30
   - service: light.turn_on
     data: {}
     target:
