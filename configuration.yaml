@@ -88,3 +88,9 @@ anniversaries:
       date: !secret kallen_bday
     - name: Emmalynn's Birthday
       date: !secret emmalynn_bday
+
+calendar:
+  - platform: caldav
+    username: !secret userIcloud
+    password: !secret passIcloud
+    url: https://caldav.icloud.com
