@@ -98,4 +98,4 @@ calendar:
 device_tracker:
   - platform: icloud3
     username: !secret userIcloud
-    password: !secret passIcloud
+    password: !secret passIcloud2
