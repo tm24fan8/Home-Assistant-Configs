@@ -250,3 +250,20 @@
       - light.living_room_lights
       - light.mud_room_overhead
   mode: single
+- id: '1643321652916'
+  alias: Time-Based Presence Simulation
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: group.family
+    to: not_home
+    for:
+      hours: 1
+      minutes: 0
+      seconds: 0
+  condition: []
+  action:
+  - service: switch.turn_on
+    target:
+      entity_id: switch.presence_simulation
+  mode: single
