@@ -8,6 +8,7 @@ devices:
     picture: tina.jpg
   - device_name: Kallen's iPhone
     name: Kallen's iPhone
+    iosapp_entity: kallens_iphone_app
   - device_name: tony_s_apple_watch
     name: Tony's Watch
     iosapp_installed: false
