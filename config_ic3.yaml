@@ -1,7 +1,10 @@
 devices:
   - device_name: Tony's iPhone
     name: Tony
+    iosapp_suffix: _app
   - device_name: iPhone
     name: Tina
+    iosapp_suffix: _app
   - device_name: Kallen's iPhone
     name: Kallen
+    iosapp_suffix: _app
