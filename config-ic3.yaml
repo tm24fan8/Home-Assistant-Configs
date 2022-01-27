@@ -1,0 +1,7 @@
+devices:
+  - device_name: Tony's iPhone
+    name: Tony
+  - device_name: iPhone
+    name: Tina
+  - device_name: Kallen's iPhone
+    name: Kallen
