@@ -1,10 +1,13 @@
 devices:
   - device_name: Tony's iPhone
-    name: Tony
-    iosapp_suffix: _app
+    name: Tony's iPhone
   - device_name: iPhone
-    name: Tina
-    iosapp_suffix: _app
+    name: Tina's iPhone
   - device_name: Kallen's iPhone
-    name: Kallen
-    iosapp_suffix: _app
+    name: Kallen's iPhone
+  - device_name: tony_s_apple_watch
+    name: Tony's Watch
+  - device_name: tony_s_ipad
+    name: Tony's iPad
+  - device_name: christinas_apple_watch
+    name: Tina's Watch
