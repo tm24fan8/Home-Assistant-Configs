@@ -11,3 +11,5 @@ devices:
     name: Tony's iPad
   - device_name: christinas_apple_watch
     name: Tina's Watch
+
+waze_realtime: true
