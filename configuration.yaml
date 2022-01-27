@@ -94,3 +94,8 @@ calendar:
     username: !secret userIcloud
     password: !secret passIcloud
     url: https://caldav.icloud.com
+
+device_tracker:
+  - platform: icloud3
+    username: !secret userIcloud
+    password: !secret passIcloud2
