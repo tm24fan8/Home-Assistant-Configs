@@ -168,14 +168,6 @@
   alias: Family Has Arrived
   description: Runs when family arrives at home
   trigger:
-  - platform: zone
-    entity_id: person.christina_stork
-    zone: zone.home
-    event: enter
-  - platform: zone
-    entity_id: person.tony_stork
-    zone: zone.home
-    event: enter
   - platform: state
     entity_id: group.family
     from: not_home
