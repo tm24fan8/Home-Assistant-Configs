@@ -230,7 +230,7 @@
   trigger:
   - platform: sun
     event: sunset
-    offset: -00:15
+    offset: -00:30
   condition:
   - condition: state
     entity_id: group.family
