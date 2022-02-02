@@ -63,6 +63,12 @@ light:
       - light.hallway_overhead
       - light.kallen_bedroom_light
       - light.nursery_light
+  - platform: group
+    name: Basement Studio Lights
+    entities:
+      - light.basement_stairwell
+      - light.basement_tall_lamp
+      - light.basement_short_lamp
 
 frontend:
   themes: !include_dir_merge_named themes
