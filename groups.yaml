@@ -14,3 +14,4 @@ Presence Simulation:
   - light.master_bedroom_lights
   - light.mud_room_overhead
   - light.nursery_light
+  - switch.dining_room_lamp
