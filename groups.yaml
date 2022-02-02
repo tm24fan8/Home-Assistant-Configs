@@ -15,3 +15,8 @@ Presence Simulation:
   - light.mud_room_overhead
   - light.nursery_light
   - switch.dining_room_lamp
+
+First Floor Group:
+  - light.living_room_lights
+  - light.mud_room_overhead
+  - switch.dining_room_lamp

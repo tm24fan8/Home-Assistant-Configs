@@ -55,7 +55,6 @@ light:
       - light.living_room_overhead_1
       - light.living_room_overhead_2
       - light.mud_room_overhead
-      - switch.dining_room_lamp
   - platform: group
     name: Second Floor Lights
     entities:
