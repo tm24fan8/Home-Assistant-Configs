@@ -16,7 +16,18 @@ Presence Simulation:
   - light.nursery_light
   - switch.dining_room_lamp
 
-First Floor Group:
+First Floor Light Group:
   - light.living_room_lights
   - light.mud_room_overhead
   - switch.dining_room_lamp
+
+Second Floor Light Group:
+  - light.kallen_bedroom_light
+  - light.nursery_light
+  - light.master_bedroom_lights
+  - light.hallway_overhead
+
+Basement Light Group:
+  - light.basement_stairwell
+  - light.basement_tall_lamp
+  - light.basement_short_lamp
