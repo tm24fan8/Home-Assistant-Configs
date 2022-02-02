@@ -239,3 +239,92 @@ reading_timer_cancel:
   mode: single
   alias: Reading Timer - Cancel
   icon: mdi:cancel
+global_off:
+  alias: Global Off
+  sequence:
+  - service: light.turn_off
+    target:
+      area_id:
+      - basement_studio
+      - furnace_room
+      - kallen_bedroom
+      - living_room
+      - master_bedroom
+      - mud_room
+      - nursery
+      - upstairs_hallway
+  - service: switch.turn_off
+    target:
+      area_id:
+      - basement_studio
+      - dining_room
+      - kallen_bedroom
+      - living_room
+      - master_bedroom
+  mode: single
+  icon: mdi:earth-off
+global_on:
+  alias: Global On
+  sequence:
+  - service: light.turn_on
+    target:
+      area_id:
+      - basement_studio
+      - furnace_room
+      - kallen_bedroom
+      - living_room
+      - master_bedroom
+      - mud_room
+      - nursery
+      - upstairs_hallway
+  - service: switch.turn_on
+    target:
+      area_id:
+      - basement_studio
+      - dining_room
+      - kallen_bedroom
+      - living_room
+      - master_bedroom
+  mode: single
+  icon: mdi:earth
+max_brightness:
+  sequence:
+  - service: switch.turn_off
+    target:
+      entity_id:
+      - switch.adaptive_lighting_basement_studio
+      - switch.adaptive_lighting_kallen_bedroom
+      - switch.adaptive_lighting_living_room
+      - switch.adaptive_lighting_master_bedroom
+      - switch.adaptive_lighting_mud_room
+      - switch.adaptive_lighting_nursery
+      - switch.adaptive_lighting_upstairs_hallway
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 1
+      milliseconds: 0
+  - service: light.turn_on
+    target:
+      area_id:
+      - furnace_room
+      - kallen_bedroom
+      - living_room
+      - master_bedroom
+      - mud_room
+      - nursery
+      - upstairs_hallway
+    data:
+      brightness_pct: 100
+  - service: switch.turn_on
+    target:
+      entity_id: switch.dining_room_lamp
+  - service: light.turn_on
+    target:
+      area_id: basement_studio
+    data:
+      kelvin: 6400
+      brightness_pct: 100
+  mode: single
+  alias: Max Brightness
+  icon: mdi:brightness-7
