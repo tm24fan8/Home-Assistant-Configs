@@ -103,3 +103,11 @@ device_tracker:
   - platform: icloud3
     username: !secret userIcloud
     password: !secret passIcloud2
+
+spotify:
+  client_id: !secret spotify_id
+  client_secret: !secret spotify_secret
+
+spotcast:
+  sp_dc: !secret sp_dc
+  sp_key: !secret sp_key
