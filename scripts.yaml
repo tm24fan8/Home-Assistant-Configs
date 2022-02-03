@@ -345,3 +345,51 @@ going_upstairs:
       entity_id: light.living_room_lights
   mode: single
   icon: hue:room-stairs
+good_morning:
+  alias: Good Morning
+  sequence:
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id:
+      - switch.kallen_fan_socket_1
+      - switch.master_bedroom_fan_socket_1
+      - switch.basement_echo_dot_do_not_disturb_switch
+      - switch.living_room_echo_dot_do_not_disturb_switch
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 1
+      milliseconds: 0
+  - service: media_player.play_media
+    data:
+      media_content_id: Alexa.Date.Play
+      media_content_type: sequence
+    target:
+      entity_id: media_player.living_room_echo_dot
+  - service: media_player.play_media
+    data:
+      media_content_id: Alexa.Weather.Play
+      media_content_type: sequence
+    target:
+      entity_id: media_player.living_room_echo_dot
+  - service: media_player.play_media
+    data:
+      media_content_id: Alexa.Traffic.Play
+      media_content_type: sequence
+    target:
+      entity_id: media_player.living_room_echo_dot
+  - service: media_player.play_media
+    data:
+      media_content_id: Alexa.Calendar.PlayToday
+      media_content_type: sequence
+    target:
+      entity_id: media_player.living_room_echo_dot
+  - service: media_player.play_media
+    data:
+      media_content_id: Alexa.Calendar.PlayTomorrow
+      media_content_type: sequence
+    target:
+      entity_id: media_player.living_room_echo_dot
+  mode: single
+  icon: mdi:weather-sunset-up
