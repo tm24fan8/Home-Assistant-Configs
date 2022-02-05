@@ -2,12 +2,19 @@
   state: OH
   zone: 4
   county: 39
-- platform: twitch
-  client_id: !secret twitch_client
-  token: !secret twitch_token
+- platform: twitch_helix
+  client_id: !secret twitch_client_id
+  client_secret: !secret twitch_client_secret
+  own_channel: ironnerd24
+  thumbnail_dimensions: 320x180
+  entity_prefix: Twitch_
   channels:
     - ironnerd24
     - Xia_P988
+    - ManaSen
+    - STPeach
+    - BroteinGaming404
+    - NotoriosPenguin
 - platform: deluge
   host: !secret deluge_ip
   username: !secret deluge_user
