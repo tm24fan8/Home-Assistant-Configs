@@ -3,7 +3,7 @@
   description: ''
   trigger:
   - platform: numeric_state
-    entity_id: sensor.weatheralerts_1_active_alerts
+    entity_id: sensor.weatheralerts_active_alerts
     attribute: tornado_warning_count
     above: '0'
   condition: []
@@ -18,6 +18,7 @@
       - switch.adaptive_lighting_mud_room
       - switch.adaptive_lighting_nursery
       - switch.adaptive_lighting_upstairs_hallway
+    data: {}
   - service: scene.turn_on
     target:
       entity_id:
@@ -30,6 +31,7 @@
       - scene.mud_room_bright
       - scene.nursery_bright
       - scene.upstairs_hallway_bright
+    data: {}
   - service: notify.notify
     data:
       title: Tornado Warning - TAKE COVER!
