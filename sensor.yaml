@@ -1,0 +1,4 @@
+- platform: weatheralerts
+  state: OH
+  zone: 4
+  county: 39
