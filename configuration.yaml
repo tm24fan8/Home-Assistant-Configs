@@ -14,6 +14,7 @@ camera: !include cameras.yaml
 input_boolean: !include input_boolean.yaml
 binary_sensor: !include binary_sensor.yaml
 sensor: !include sensor.yaml
+switch: !include switches.yaml
 
 http:
   use_x_forwarded_for: true
