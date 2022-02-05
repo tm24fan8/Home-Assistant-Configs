@@ -31,6 +31,8 @@ media_player:
         - 'media_session_state'
       'com.amazon.avod':
         - 'standby'
+      'com.amazon.firetv.youtube':
+        - 'media_session_state'
 
 light:
   - platform: group
