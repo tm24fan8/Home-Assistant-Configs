@@ -2,3 +2,9 @@
   state: OH
   zone: 4
   county: 39
+- platform: twitch
+  client_id: !secret twitch_client
+  token: !secret twitch_token
+  channels:
+    - ironnerd24
+    - Xia_P988
