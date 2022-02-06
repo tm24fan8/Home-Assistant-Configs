@@ -23,3 +23,21 @@
     - 'current_status'
     - 'download_speed'
     - 'upload_speed'
+- platform: average
+  name: 'Average Temperature'
+  duration:
+    days: 7
+  entities:
+    - sensor.kdfi_temperature
+- platform: average
+  name: 'Average Wind Chill'
+  duration:
+    days: 7
+  entities:
+    - sensor.kdfi_wind_chill
+- platform: average
+  names: 'Average Wind Speed'
+  duration:
+    days: 7
+  entities:
+    - sensor.kdfi_wind_speed
