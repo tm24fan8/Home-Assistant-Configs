@@ -36,7 +36,7 @@
   entities:
     - sensor.kdfi_wind_chill
 - platform: average
-  names: 'Average Wind Speed'
+  name: 'Average Wind Speed'
   duration:
     days: 7
   entities:
