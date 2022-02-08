@@ -8,29 +8,7 @@
     above: '0'
   condition: []
   action:
-  - service: switch.turn_off
-    target:
-      entity_id:
-      - switch.adaptive_lighting_basement_studio
-      - switch.adaptive_lighting_kallen_bedroom
-      - switch.adaptive_lighting_living_room
-      - switch.adaptive_lighting_master_bedroom
-      - switch.adaptive_lighting_mud_room
-      - switch.adaptive_lighting_nursery
-      - switch.adaptive_lighting_upstairs_hallway
-    data: {}
-  - service: scene.turn_on
-    target:
-      entity_id:
-      - scene.basement_studio_bright
-      - scene.front_porch_bright
-      - scene.furnace_room_bright
-      - scene.kallen_bedroom_bright
-      - scene.living_room_bright
-      - scene.master_bedroom_bright
-      - scene.mud_room_bright
-      - scene.nursery_bright
-      - scene.upstairs_hallway_bright
+  - service: script.max_brightness
     data: {}
   - service: notify.notify
     data:
