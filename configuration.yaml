@@ -58,6 +58,14 @@ light:
       - light.basement_stairwell
       - light.basement_tall_lamp
       - light.basement_short_lamp
+  - platform: group
+    name: Dining Room Lamp
+    entities:
+      - light.dining_room_lamp_blue
+      - light.dining_room_lamp_green
+      - light.dining_room_lamp_purple
+      - light.dining_room_lamp_red
+      - light.dining_room_lamp_white
 
 frontend:
   themes: !include_dir_merge_named themes

@@ -19,7 +19,7 @@ Presence Simulation:
 First Floor Light Group:
   - light.living_room_lights
   - light.mud_room_overhead
-  - switch.dining_room_lamp
+  - light.dining_room_lamp
 
 Second Floor Light Group:
   - light.kallen_bedroom_light

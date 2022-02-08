@@ -3,10 +3,10 @@ start_netflix:
   sequence:
   - service: switch.turn_on
     target:
-      entity_id: switch.adaptive_lighting_sleep_mode_living_room
-  - service: switch.turn_off
-    target:
-      entity_id: switch.dining_room_lamp
+      entity_id:
+      - switch.adaptive_lighting_sleep_mode_living_room
+      - switch.adaptive_lighting_sleep_mode_dining_room
+    data: {}
   - service: media_player.select_source
     target:
       entity_id: media_player.living_room_firetv
@@ -24,20 +24,21 @@ stop_netflix:
       source: '!com.netflix.ninja'
   - service: switch.turn_off
     target:
-      entity_id: switch.adaptive_lighting_sleep_mode_living_room
+      entity_id:
+      - switch.adaptive_lighting_sleep_mode_living_room
+      - switch.adaptive_lighting_sleep_mode_dining_room
+    data: {}
   mode: single
   icon: mdi:netflix
 give_me_darkness:
   alias: Give Me Darkness
   sequence:
-  - service: switch.turn_off
-    target:
-      entity_id: switch.dining_room_lamp
   - service: switch.turn_on
     target:
       entity_id:
       - switch.adaptive_lighting_sleep_mode_upstairs_hallway
       - switch.adaptive_lighting_sleep_mode_mud_room
+    data: {}
   - service: light.turn_off
     target:
       device_id:
@@ -46,6 +47,8 @@ give_me_darkness:
       area_id:
       - kallen_bedroom
       - master_bedroom
+      entity_id: light.dining_room_lamp
+    data: {}
   mode: single
   icon: mdi:weather-night
 start_youtube:
@@ -53,10 +56,10 @@ start_youtube:
   sequence:
   - service: switch.turn_on
     target:
-      entity_id: switch.adaptive_lighting_sleep_mode_living_room
-  - service: switch.turn_off
-    target:
-      entity_id: switch.dining_room_lamp
+      entity_id:
+      - switch.adaptive_lighting_sleep_mode_living_room
+      - switch.adaptive_lighting_sleep_mode_dining_room
+    data: {}
   - service: media_player.select_source
     target:
       entity_id: media_player.living_room_firetv
@@ -74,7 +77,10 @@ stop_youtube:
       source: '!com.amazon.firetv.youtube'
   - service: switch.turn_off
     target:
-      entity_id: switch.adaptive_lighting_sleep_mode_living_room
+      entity_id:
+      - switch.adaptive_lighting_sleep_mode_living_room
+      - switch.adaptive_lighting_sleep_mode_dining_room
+    data: {}
   mode: single
   icon: mdi:youtube
 start_twitch:
@@ -82,10 +88,10 @@ start_twitch:
   sequence:
   - service: switch.turn_on
     target:
-      entity_id: switch.adaptive_lighting_sleep_mode_living_room
-  - service: switch.turn_off
-    target:
-      entity_id: switch.dining_room_lamp
+      entity_id:
+      - switch.adaptive_lighting_sleep_mode_living_room
+      - switch.adaptive_lighting_sleep_mode_dining_room
+    data: {}
   - service: media_player.select_source
     target:
       entity_id: media_player.living_room_firetv
@@ -103,7 +109,10 @@ stop_twitch:
       source: '!tv.twitch.android.viewer'
   - service: switch.turn_off
     target:
-      entity_id: switch.adaptive_lighting_sleep_mode_living_room
+      entity_id:
+      - switch.adaptive_lighting_sleep_mode_living_room
+      - switch.adaptive_lighting_sleep_mode_dining_room
+    data: {}
   mode: single
   icon: mdi:twitch
 start_spotify:
@@ -143,12 +152,12 @@ goodnight:
       - mud_room
       - nursery
       - living_room
+      - dining_room
     data: {}
   - service: switch.turn_off
     target:
       area_id:
       - basement_studio
-      entity_id: switch.dining_room_lamp
     data: {}
   - service: switch.turn_on
     target:
@@ -187,12 +196,12 @@ family_is_away:
       - mud_room
       - nursery
       - upstairs_hallway
-  - service: switch.turn_off
-    target:
-      entity_id: switch.dining_room_lamp
+      - dining_room
+    data: {}
   - service: alarm_control_panel.alarm_arm_away
     target:
       entity_id: alarm_control_panel.alexa_guard_9ee3b
+    data: {}
   mode: single
   icon: mdi:shield-lock
 family_is_home:
@@ -201,14 +210,17 @@ family_is_home:
   - service: switch.turn_off
     target:
       entity_id: switch.presence_simulation
+    data: {}
   - service: alarm_control_panel.alarm_disarm
     target:
       entity_id: alarm_control_panel.alexa_guard_9ee3b
+    data: {}
   - service: switch.turn_off
     target:
       entity_id:
       - switch.basement_echo_dot_do_not_disturb_switch
       - switch.living_room_echo_dot_do_not_disturb_switch
+    data: {}
   - condition: sun
     after: sunset
     after_offset: -00:30
@@ -221,15 +233,14 @@ family_is_home:
       - master_bedroom
       - upstairs_hallway
       - basement_studio
-  - service: switch.turn_on
-    target:
-      entity_id: switch.dining_room_lamp
+    data: {}
   - service: light.turn_on
     data: {}
     target:
       entity_id:
       - light.living_room_lights
       - light.mud_room_overhead
+      - light.dining_room_lamp
   mode: single
   icon: mdi:home-account
 reading_timer_cancel:
@@ -254,6 +265,8 @@ global_off:
       - mud_room
       - nursery
       - upstairs_hallway
+      - dining_room
+    data: {}
   - service: switch.turn_off
     target:
       area_id:
@@ -262,6 +275,7 @@ global_off:
       - kallen_bedroom
       - living_room
       - master_bedroom
+    data: {}
   mode: single
   icon: mdi:earth-off
 global_on:
@@ -278,6 +292,8 @@ global_on:
       - mud_room
       - nursery
       - upstairs_hallway
+      - dining_room
+    data: {}
   - service: switch.turn_on
     target:
       area_id:
@@ -286,6 +302,7 @@ global_on:
       - kallen_bedroom
       - living_room
       - master_bedroom
+    data: {}
   mode: single
   icon: mdi:earth
 max_brightness:
@@ -300,6 +317,8 @@ max_brightness:
       - switch.adaptive_lighting_mud_room
       - switch.adaptive_lighting_nursery
       - switch.adaptive_lighting_upstairs_hallway
+      - switch.adaptive_lighting_dining_room
+    data: {}
   - delay:
       hours: 0
       minutes: 0
@@ -315,11 +334,9 @@ max_brightness:
       - mud_room
       - nursery
       - upstairs_hallway
+      - dining_room
     data:
       brightness_pct: 100
-  - service: switch.turn_on
-    target:
-      entity_id: switch.dining_room_lamp
   - service: light.turn_on
     target:
       area_id: basement_studio
