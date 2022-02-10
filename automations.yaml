@@ -239,3 +239,15 @@
     target:
       entity_id: switch.presence_simulation
   mode: single
+- id: '1644510872801'
+  alias: iCloud3 Restart
+  description: For restarting iCloud3 when my phone goes off the rails
+  trigger:
+  - platform: state
+    entity_id: sensor.tony_s_iphone_info
+    to: ●● PAUSED ●●
+  condition: []
+  action:
+  - service: device_tracker.icloud3_restart
+    data: {}
+  mode: single
