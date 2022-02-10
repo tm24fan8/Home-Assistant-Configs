@@ -65,3 +65,14 @@ basement_studio_scenes:
     - Pink
   initial: Adaptive
   icon: mdi:twitch
+master_bedroom_scenes:
+  name: Master Bedroom Scenes
+  options:
+    - Adaptive
+    - Bright
+    - Dimmed
+    - Nightlight
+    - Front Nightlight
+    - Side Nightlight
+  initial: Adaptive
+  icon: mdi:bed
