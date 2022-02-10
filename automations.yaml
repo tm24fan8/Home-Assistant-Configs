@@ -473,3 +473,49 @@
           entity_id: switch.adaptive_lighting_kallen_bedroom
     default: []
   mode: single
+- id: '1644529671106'
+  alias: Nursery Scenes
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_select.nursery_scenes
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_select.nursery_scenes
+        state: Bright
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.nursery_bright
+    - conditions:
+      - condition: state
+        entity_id: input_select.nursery_scenes
+        state: Dimmed
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.nursery_dimmed
+    - conditions:
+      - condition: state
+        entity_id: input_select.nursery_scenes
+        state: Nightlight
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.nursery_nightlight
+    - conditions:
+      - condition: state
+        entity_id: input_select.nursery_scenes
+        state: Adaptive
+      sequence:
+      - service: adaptive_lighting.apply
+        data:
+          entity_id: switch.adaptive_lighting_nursery
+    default: []
+  mode: single

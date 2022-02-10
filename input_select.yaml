@@ -42,3 +42,12 @@ kallen_bedroom_scenes:
     - Nightlight
   initial: Adaptive
   icon: mdi:bunk-bed
+nursery_scenes:
+  name: Nursery Scenes
+  options:
+    - Adaptive
+    - Bright
+    - Dimmed
+    - Nightlight
+  initial: Adaptive
+  icon: hue:room-nursery
