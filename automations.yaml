@@ -343,3 +343,41 @@
           entity_id: switch.adaptive_lighting_mud_room
     default: []
   mode: single
+- id: '1644528841392'
+  alias: Dining Room Lamp Modes
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_select.dining_room_lamp_modes
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_select.dining_room_lamp_modes
+        state: All Bulbs
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.dining_room_lamp_full
+    - conditions:
+      - condition: state
+        entity_id: input_select.dining_room_lamp_modes
+        state: 3 Bulb - Dining Room
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.dining_room_lamp_dining_side
+    - conditions:
+      - condition: state
+        entity_id: input_select.dining_room_lamp_modes
+        state: 2 Bulb - Wall
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.dining_room_lamp_wall
+    default: []
+  mode: single

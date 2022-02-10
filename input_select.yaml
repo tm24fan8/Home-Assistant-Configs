@@ -16,3 +16,11 @@ mud_room_scenes:
     - Nightlight
   initial: Adaptive
   icon: hue:room-other
+dining_room_lamp_modes:
+  name: Dining Room Lamp Modes
+  options:
+    - All Bulbs
+    - 3 Bulb - Dining Room
+    - 2 Bulb - Wall
+  initial: All Bulbs
+  icon: mdi:floor-lamp-dual
