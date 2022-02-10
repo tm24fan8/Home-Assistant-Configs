@@ -519,3 +519,94 @@
           entity_id: switch.adaptive_lighting_nursery
     default: []
   mode: single
+- id: '1644530206434'
+  alias: Basement Studio Scenes
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_select.basement_studio_scenes
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_select.basement_studio_scenes
+        state: Energize
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.basement_studio_energize
+    - conditions:
+      - condition: state
+        entity_id: input_select.basement_studio_scenes
+        state: Concentrate
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.basement_studio_concentrate
+    - conditions:
+      - condition: state
+        entity_id: input_select.basement_studio_scenes
+        state: Bright
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.basement_studio_bright
+    - conditions:
+      - condition: state
+        entity_id: input_select.basement_studio_scenes
+        state: Dimmed
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.basement_studio_dimmed
+    - conditions:
+      - condition: state
+        entity_id: input_select.basement_studio_scenes
+        state: Nightlight
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.basement_studio_nightlight
+    - conditions:
+      - condition: state
+        entity_id: input_select.basement_studio_scenes
+        state: Relax
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.basement_studio_relax
+    - conditions:
+      - condition: state
+        entity_id: input_select.basement_studio_scenes
+        state: Purple
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.basement_studio_purple
+    - conditions:
+      - condition: state
+        entity_id: input_select.basement_studio_scenes
+        state: Pink
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.basement_studio_pink
+    - conditions:
+      - condition: state
+        entity_id: input_select.basement_studio_scenes
+        state: Adaptive
+      sequence:
+      - service: adaptive_lighting.apply
+        data:
+          entity_id: switch.adaptive_lighting_basement_studio
+    default: []
+  mode: single

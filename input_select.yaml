@@ -51,3 +51,17 @@ nursery_scenes:
     - Nightlight
   initial: Adaptive
   icon: hue:room-nursery
+basement_studio_scenes:
+  name: Basement Studio Scenes
+  options:
+    - Adaptive
+    - Energize
+    - Concentrate
+    - Bright
+    - Dimmed
+    - Nightlight
+    - Relax
+    - Purple
+    - Pink
+  initial: Adaptive
+  icon: mdi:twitch
