@@ -215,12 +215,16 @@
   - condition: state
     entity_id: group.family
     state: home
+  - condition: state
+    entity_id: weather.stratton_ave
+    state: Sunny
   action:
   - service: light.turn_on
     target:
       entity_id:
       - light.living_room_lights
       - light.mud_room_overhead
+    data: {}
   mode: single
 - id: '1643321652916'
   alias: Time-Based Presence Simulation
@@ -698,4 +702,28 @@
       - service: adaptive_lighting.apply
         data: {}
     default: []
+  mode: single
+- id: '1644532216008'
+  alias: Sunset Lights On - Cloudy
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: -01:00
+  condition:
+  - condition: state
+    entity_id: group.family
+    state: home
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: weather.stratton_ave
+      state: Sunny
+  action:
+  - service: light.turn_on
+    target:
+      entity_id:
+      - light.living_room_lights
+      - light.mud_room_overhead
+    data: {}
   mode: single
