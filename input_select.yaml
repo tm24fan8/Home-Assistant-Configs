@@ -1,0 +1,9 @@
+living_room_scenes:
+  name: Living Room Scenes
+  options:
+    - Adaptive
+    - Bright
+    - Dimmed
+    - Nightlight
+  initial: Adaptive
+  icon: hue:room-living
