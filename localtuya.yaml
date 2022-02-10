@@ -5,7 +5,7 @@
   protocol_version: "3.3"
   entities:
     - platform: light
-      friendly_name: Dining Room Lamp - Blue Bulb
+      friendly_name: Dining Room Lamp - Blue
       id: 1
       brightness: 2
       brightness_lower: 29
@@ -17,7 +17,7 @@
   protocol_version: "3.3"
   entities:
     - platform: light
-      friendly_name: Dining Room Lamp - White Bulb
+      friendly_name: Dining Room Lamp - White
       id: 1
       brightness: 2
       brightness_lower: 29
@@ -29,7 +29,7 @@
   protocol_version: "3.3"
   entities:
     - platform: light
-      friendly_name: Dining Room Lamp - Green Bulp
+      friendly_name: Dining Room Lamp - Green
       id: 1
       brightness: 2
       brightness_lower: 29
@@ -41,7 +41,7 @@
   protocol_version: "3.3"
   entities:
     - platform: light
-      friendly_name: Dining Room Lamp - Red Bulb
+      friendly_name: Dining Room Lamp - Red
       id: 1
       brightness: 2
       brightness_lower: 29
@@ -53,7 +53,7 @@
   protocol_version: "3.3"
   entities:
     - platform: light
-      friendly_name: Dining Room Lamp - Purple Bulb
+      friendly_name: Dining Room Lamp - Purple
       id: 1
       brightness: 2
       brightness_lower: 29
@@ -65,7 +65,7 @@
   protocol_version: "3.3"
   entities:
     - platform: switch
-      friendly_name: Master Bedroom Plug 1 - Socket
+      friendly_name: Master Bedroom Fan Socket 1
       id: 1
       current: 18
       current_consumption: 19
@@ -77,7 +77,7 @@
   protocol_version: "3.3"
   entities:
     - platform: switch
-      friendly_name: Kallen Bedroom Plug 1 - Socket
+      friendly_name: Kallen Fan Socket 1
       id: 1
       current: 18
       current_consumption: 19
@@ -89,7 +89,7 @@
   protocol_version: "3.3"
   entities:
     - platform: switch
-      friendly_name: Dining Room Plug 1 - Socket
+      friendly_name: Unused Plug 1
       id: 1
       current: 18
       current_consumption: 19
@@ -101,7 +101,7 @@
   protocol_version: "3.3"
   entities:
     - platform: switch
-      friendly_name: Basement Plug 1 - Socket
+      friendly_name: Basement Socket 1
       id: 1
       current: 18
       current_consumption: 19
