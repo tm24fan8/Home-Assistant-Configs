@@ -110,3 +110,5 @@ spotcast:
   sp_key: !secret sp_key
 
 breaking_changes:
+
+localtuya: !include localtuya.yaml

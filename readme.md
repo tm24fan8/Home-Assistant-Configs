@@ -18,6 +18,7 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [Node-RED Companion](https://github.com/zachowj/hass-node-red)
 - [Holidays](https://github.com/bruxy70/Holidays)
 - [Twitch Helix](https://github.com/Radioh/ha_twitch_helix)
+- [Local Tuya](https://github.com/rospogrigio/localtuya)
 
 # HACS Lovelace Cards
 Again, mostly just the ones I'm **using** or **will use soon**
