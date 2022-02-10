@@ -33,3 +33,12 @@ upstairs_hallway_scenes:
     - Nightlight
   initial: Adaptive
   icon: hue:ceiling-round
+kallen_bedroom_scenes:
+  name: Kallen Bedroom Scenes
+  options:
+    - Adaptive
+    - Bright
+    - Dimmed
+    - Nightlight
+  initial: Adaptive
+  icon: mdi:bunk-bed
