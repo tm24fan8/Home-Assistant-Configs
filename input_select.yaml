@@ -24,3 +24,12 @@ dining_room_lamp_modes:
     - 2 Bulb - Wall
   initial: All Bulbs
   icon: mdi:floor-lamp-dual
+upstairs_hallway_scenes:
+  name: Upstairs Hallway Scenes
+  options:
+    - Adaptive
+    - Bright
+    - Dimmed
+    - Nightlight
+  initial: Adaptive
+  icon: hue:ceiling-round

@@ -381,3 +381,49 @@
           entity_id: scene.dining_room_lamp_wall
     default: []
   mode: single
+- id: '1644529151295'
+  alias: Upstairs Hallway Scenes
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_select.upstairs_hallway_scenes
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_select.upstairs_hallway_scenes
+        state: Bright
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.upstairs_hallway_bright
+    - conditions:
+      - condition: state
+        entity_id: input_select.upstairs_hallway_scenes
+        state: Dimmed
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.upstairs_hallway_dimmed
+    - conditions:
+      - condition: state
+        entity_id: input_select.upstairs_hallway_scenes
+        state: Nightlight
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.upstairs_hallway_nightlight
+    - conditions:
+      - condition: state
+        entity_id: input_select.upstairs_hallway_scenes
+        state: Adaptive
+      sequence:
+      - service: adaptive_lighting.apply
+        data:
+          entity_id: switch.adaptive_lighting_upstairs_hallway
+    default: []
+  mode: single
