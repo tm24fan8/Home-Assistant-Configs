@@ -7,3 +7,12 @@ living_room_scenes:
     - Nightlight
   initial: Adaptive
   icon: hue:room-living
+mud_room_scenes:
+  name: Mud Room Scenes
+  options:
+    - Adaptive
+    - Bright
+    - Dimmed
+    - Nightlight
+  initial: Adaptive
+  icon: hue:room-other

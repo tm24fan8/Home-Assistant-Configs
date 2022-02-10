@@ -297,3 +297,49 @@
           entity_id: switch.adaptive_lighting_living_room
     default: []
   mode: single
+- id: '1644520666008'
+  alias: Mud Room Scenes
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_select.mud_room_scenes
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_select.mud_room_scenes
+        state: Bright
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.mud_room_bright
+    - conditions:
+      - condition: state
+        entity_id: input_select.mud_room_scenes
+        state: Dimmed
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.mud_room_dimmed
+    - conditions:
+      - condition: state
+        entity_id: input_select.mud_room_scenes
+        state: Nightlight
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.mud_room_nightlight
+    - conditions:
+      - condition: state
+        entity_id: input_select.mud_room_scenes
+        state: Adaptive
+      sequence:
+      - service: adaptive_lighting.apply
+        data:
+          entity_id: switch.adaptive_lighting_mud_room
+    default: []
+  mode: single
