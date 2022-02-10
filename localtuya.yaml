@@ -1,0 +1,108 @@
+- host: 192.168.1.135
+  device_id: !secret dining_room_blue_id
+  local_key: !secret dining_room_blue_key
+  friendly_name: Dining Room Lamp - Blue
+  protocol_version: "3.3"
+  entities:
+    - platform: light
+      friendly_name: Dining Room Lamp - Blue Bulb
+      id: 1
+      brightness: 2
+      brightness_lower: 29
+      brightness_upper: 255
+- host: 192.168.1.136
+  device_id: !secret dining_room_white_id
+  local_key: !secret dining_room_white_key
+  friendly_name: Dining Room Lamp - White
+  protocol_version: "3.3"
+  entities:
+    - platform: light
+      friendly_name: Dining Room Lamp - White Bulb
+      id: 1
+      brightness: 2
+      brightness_lower: 29
+      brightness_upper: 255
+- host: 192.168.1.137
+  device_id: !secret dining_room_green_id
+  local_key: !secret dining_room_green_key
+  friendly_name: Dining Room Lamp - Green
+  protocol_version: "3.3"
+  entities:
+    - platform: light
+      friendly_name: Dining Room Lamp - Green Bulp
+      id: 1
+      brightness: 2
+      brightness_lower: 29
+      brightness_upper: 255
+- host: 192.168.1.138
+  device_id: !secret dining_room_red_id
+  local_key: !secret dining_room_red_key
+  friendly_name: Dining Room Lamp - Red
+  protocol_version: "3.3"
+  entities:
+    - platform: light
+      friendly_name: Dining Room Lamp - Red Bulb
+      id: 1
+      brightness: 2
+      brightness_lower: 29
+      brightness_upper: 255
+- host: 192.168.1.139
+  device_id: !secret dining_room_purple_id
+  local_key: !secret dining_room_purple_key
+  friendly_name: Dining Room Lamp - Purple
+  protocol_version: "3.3"
+  entities:
+    - platform: light
+      friendly_name: Dining Room Lamp - Purple Bulb
+      id: 1
+      brightness: 2
+      brightness_lower: 29
+      brightness_upper: 255
+- host: 192.168.1.52
+  device_id: !secret master_bedroom_plug_1_id
+  local_key: !secret master_bedroom_plug_1_key
+  friendly_name: Master Bedroom Plug 1
+  protocol_version: "3.3"
+  entities:
+    - platform: switch
+      friendly_name: Master Bedroom Plug 1 - Socket
+      id: 1
+      current: 18
+      current_consumption: 19
+      voltage: 20
+- host: 192.168.1.51
+  device_id: !secret kallen_plug_1_id
+  local_key: !secret kallen_plug_2_key
+  friendly_name: Kallen Bedroom Plug 1
+  protocol_version: "3.3"
+  entities:
+    - platform: switch
+      friendly_name: Kallen Bedroom Plug 1 - Socket
+      id: 1
+      current: 18
+      current_consumption: 19
+      voltage: 20
+- host: 192.168.1.54
+  device_id: !secret dining_room_plug_1_id
+  local_key: !secret dining_room_plug_1_key
+  friendly_name: Dining Room Plug 1
+  protocol_version: "3.3"
+  entities:
+    - platform: switch
+      friendly_name: Dining Room Plug 1 - Socket
+      id: 1
+      current: 18
+      current_consumption: 19
+      voltage: 20
+- host: 192.168.1.53
+  device_id: !secret basement_plug_1_id
+  local_key: !secret basement_plug_1_key
+  friendly_name: Basement Plug 1
+  protocol_version: "3.3"
+  entities:
+    - platform: switch
+      friendly_name: Basement Plug 1 - Socket
+      id: 1
+      current: 18
+      current_consumption: 19
+      voltage: 20
