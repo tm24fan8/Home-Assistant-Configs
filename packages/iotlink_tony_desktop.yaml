@@ -8,30 +8,6 @@ binary_sensor:
     device_class: "connectivity"
     qos: 1
 
-  - platform: mqtt
-    name: "My Computer - Charging"
-    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/power/status"
-    value_template: "{{ value }}"
-    payload_on: "Online"
-    payload_off: "Offline"
-    device_class: "plug"
-    availability_topic: "iotlink/workgroup/tony-asus/lwt"
-    payload_available: "ON"
-    payload_not_available: "OFF"
-    qos: 1
-
-  - platform: mqtt
-    name: "My Computer - Battery Status"
-    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/battery/status"
-    value_template: "{{ value }}"
-    payload_on: "Online"
-    payload_off: "Offline"
-    device_class: "plug"
-    availability_topic: "iotlink/workgroup/tony-asus/lwt"
-    payload_available: "ON"
-    payload_not_available: "OFF"
-    qos: 1
-
 sensor:
 
   - platform: mqtt
@@ -106,39 +82,6 @@ sensor:
     unit_of_measurement: 'MB'
     icon: mdi:memory
     value_template: "{{ value }}"
-    availability_topic: "iotlink/workgroup/tony-asus/lwt"
-    payload_available: "ON"
-    payload_not_available: "OFF"
-    qos: 1
-
-  - platform: mqtt
-    name: "My Computer - Remaining Battery"
-    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/battery/remaining-percent"
-    unit_of_measurement: '%'
-    device_class: battery
-    value_template: "{{ value }}"
-    availability_topic: "iotlink/workgroup/tony-asus/lwt"
-    payload_available: "ON"
-    payload_not_available: "OFF"
-    qos: 1
-
-  - platform: mqtt
-    name: "My Computer - Remaining Battery Time"
-    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/battery/remaining-time"
-    unit_of_measurement: 'minutes'
-    icon: mdi:timer
-    value_template: "{{ ( value | float / 60 ) | int }}"
-    availability_topic: "iotlink/workgroup/tony-asus/lwt"
-    payload_available: "ON"
-    payload_not_available: "OFF"
-    qos: 1
-
-  - platform: mqtt
-    name: "My Computer - Predicted Lifetime"
-    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/battery/full-lifetime"
-    unit_of_measurement: 'minutes'
-    icon: mdi:timer
-    value_template: "{{ ( value | float / 60 ) | int }}"
     availability_topic: "iotlink/workgroup/tony-asus/lwt"
     payload_available: "ON"
     payload_not_available: "OFF"
