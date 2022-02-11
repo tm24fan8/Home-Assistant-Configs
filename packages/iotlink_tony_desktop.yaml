@@ -287,3 +287,116 @@ switch:
         turn_off:
           service: script.my_computer_shutdown
         icon_template: mdi:laptop
+
+script:
+  my_computer_wake:
+    # To enable see https://www.home-assistant.io/components/wake_on_lan/
+    alias: "My Computer - Wake"
+    sequence:
+      - service: wake_on_lan.send_magic_packet
+        data:
+          mac: "70:85:C2:63:9F:11"
+
+  my_computer_shutdown:
+    alias: "My Computer - Shutdown"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/my-computer/commands/shutdown"
+          payload: ""
+
+  my_computer_suspend:
+    alias: "My Computer - Suspend"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/my-computer/commands/suspend"
+          payload: ""
+
+  my_computer_hibernate:
+    alias: "My Computer - Hibernate"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/my-computer/commands/hibernate"
+          payload: ""
+
+  my_computer_reboot:
+    alias: "My Computer - Reboot"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/my-computer/commands/reboot"
+          payload: ""
+
+  my_computer_lock:
+    alias: "My Computer - Lock"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/my-computer/commands/lock"
+          payload: ""
+
+  my_computer_logoff:
+    alias: "My Computer - Logoff"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/my-computer/commands/logoff"
+          payload: ""
+
+  my_computer_vol_mute:
+    alias: "My Computer - Toggle Mute"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/my-computer/commands/volume/mute"
+          payload: ""
+
+  my_computer_vol_max:
+    alias: "My Computer - Vol Max"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/my-computer/commands/volume/set"
+          payload: "100"
+
+  my_computer_displays_on:
+    alias: "My Computer - Displays ON"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/my-computer/commands/displays/on"
+          payload: ""
+
+  my_computer_displays_off:
+    alias: "My Computer - Displays OFF"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/my-computer/commands/displays/off"
+          payload: ""
+
+  my_computer_refresh:
+    alias: "My Computer - Refresh"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/my-computer/refresh"
+          payload: ""
+
+  my_computer_notify:
+    alias: "My Computer - Notify"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/my-computer/commands/notify"
+          payload: '{ "title": "My Notification Title", "message": "This is an example of notification using IOT Link", "launchParams": "toast://open/https://iotlink.gitlab.io" }'
+
+  my_computer_run_chrome:
+    alias: "My Computer - Run Chrome"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/my-computer/commands/run"
+          payload: '{ "command": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe", "args": "https://iotlink.gitlab.io", "path": "C:\\Program Files (x86)\\Google\\Chrome\\Application", "user": "", "visible": true, "fallback": true }'
