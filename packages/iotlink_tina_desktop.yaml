@@ -219,25 +219,25 @@ camera:
 switch:
   - platform: template
     switches:
-      my_computer:
+      tina_desktop:
         friendly_name: "Tina Desktop"
-        value_template: "{{ is_state('binary_sensor.my_computer_connected', 'on') }}"
+        value_template: "{{ is_state('binary_sensor.tina_desktop_connected', 'on') }}"
         turn_on:
-          service: script.my_computer_wake
+          service: script.tina_desktop_wake
         turn_off:
-          service: script.my_computer_shutdown
+          service: script.tina_desktop_shutdown
         icon_template: mdi:laptop
 
 script:
-  my_computer_wake:
+  tina_desktop_wake:
     # To enable see https://www.home-assistant.io/components/wake_on_lan/
     alias: "Tina Desktop - Wake"
     sequence:
       - service: wake_on_lan.send_magic_packet
         data:
-          mac: "70:85:C2:63:9F:11"
+          mac: "B4:2E:99:A8:CF:88"
 
-  my_computer_shutdown:
+  tina_desktop_shutdown:
     alias: "Tina Desktop - Shutdown"
     sequence:
       - service: mqtt.publish
@@ -245,7 +245,7 @@ script:
           topic: "iotlink/workgroup/xia-desktop/commands/shutdown"
           payload: ""
 
-  my_computer_suspend:
+  tina_desktop_suspend:
     alias: "Tina Desktop - Suspend"
     sequence:
       - service: mqtt.publish
@@ -253,7 +253,7 @@ script:
           topic: "iotlink/workgroup/xia-desktop/commands/suspend"
           payload: ""
 
-  my_computer_hibernate:
+  tina_desktop_hibernate:
     alias: "Tina Desktop - Hibernate"
     sequence:
       - service: mqtt.publish
@@ -261,7 +261,7 @@ script:
           topic: "iotlink/workgroup/xia-desktop/commands/hibernate"
           payload: ""
 
-  my_computer_reboot:
+  tina_desktop_reboot:
     alias: "Tina Desktop - Reboot"
     sequence:
       - service: mqtt.publish
@@ -269,7 +269,7 @@ script:
           topic: "iotlink/workgroup/xia-desktop/commands/reboot"
           payload: ""
 
-  my_computer_lock:
+  tina_desktop_lock:
     alias: "Tina Desktop - Lock"
     sequence:
       - service: mqtt.publish
@@ -277,7 +277,7 @@ script:
           topic: "iotlink/workgroup/xia-desktop/commands/lock"
           payload: ""
 
-  my_computer_logoff:
+  tina_desktop_logoff:
     alias: "Tina Desktop - Logoff"
     sequence:
       - service: mqtt.publish
@@ -285,7 +285,7 @@ script:
           topic: "iotlink/workgroup/xia-desktop/commands/logoff"
           payload: ""
 
-  my_computer_vol_mute:
+  tina_desktop_vol_mute:
     alias: "Tina Desktop - Toggle Mute"
     sequence:
       - service: mqtt.publish
@@ -293,7 +293,7 @@ script:
           topic: "iotlink/workgroup/xia-desktop/commands/volume/mute"
           payload: ""
 
-  my_computer_vol_max:
+  tina_desktop_vol_max:
     alias: "Tina Desktop - Vol Max"
     sequence:
       - service: mqtt.publish
@@ -301,7 +301,7 @@ script:
           topic: "iotlink/workgroup/xia-desktop/commands/volume/set"
           payload: "100"
 
-  my_computer_displays_on:
+  tina_desktop_displays_on:
     alias: "Tina Desktop - Displays ON"
     sequence:
       - service: mqtt.publish
@@ -309,7 +309,7 @@ script:
           topic: "iotlink/workgroup/xia-desktop/commands/displays/on"
           payload: ""
 
-  my_computer_displays_off:
+  tina_desktop_displays_off:
     alias: "Tina Desktop - Displays OFF"
     sequence:
       - service: mqtt.publish
@@ -317,7 +317,7 @@ script:
           topic: "iotlink/workgroup/xia-desktop/commands/displays/off"
           payload: ""
 
-  my_computer_refresh:
+  tina_desktop_refresh:
     alias: "Tina Desktop - Refresh"
     sequence:
       - service: mqtt.publish
@@ -325,7 +325,7 @@ script:
           topic: "iotlink/workgroup/xia-desktop/refresh"
           payload: ""
 
-  my_computer_notify:
+  tina_desktop_notify:
     alias: "Tina Desktop - Notify"
     sequence:
       - service: mqtt.publish
@@ -333,7 +333,7 @@ script:
           topic: "iotlink/workgroup/xia-desktop/commands/notify"
           payload: '{ "title": "My Notification Title", "message": "This is an example of notification using IOT Link", "launchParams": "toast://open/https://iotlink.gitlab.io" }'
 
-  my_computer_run_chrome:
+  tina_desktop_run_chrome:
     alias: "Tina Desktop - Run Chrome"
     sequence:
       - service: mqtt.publish

@@ -222,17 +222,17 @@ camera:
 switch:
   - platform: template
     switches:
-      my_computer:
+      tony_desktop:
         friendly_name: "Tony Desktop"
-        value_template: "{{ is_state('binary_sensor.my_computer_connected', 'on') }}"
+        value_template: "{{ is_state('binary_sensor.tony_desktop_connected', 'on') }}"
         turn_on:
-          service: script.my_computer_wake
+          service: script.tony_desktop_wake
         turn_off:
-          service: script.my_computer_shutdown
+          service: script.tony_desktop_shutdown
         icon_template: mdi:laptop
 
 script:
-  my_computer_wake:
+  tony_desktop_wake:
     # To enable see https://www.home-assistant.io/components/wake_on_lan/
     alias: "Tony Desktop - Wake"
     sequence:
@@ -240,7 +240,7 @@ script:
         data:
           mac: "70:85:C2:63:9F:11"
 
-  my_computer_shutdown:
+  tony_desktop_shutdown:
     alias: "Tony Desktop - Shutdown"
     sequence:
       - service: mqtt.publish
@@ -248,7 +248,7 @@ script:
           topic: "iotlink/workgroup/tony-asus/commands/shutdown"
           payload: ""
 
-  my_computer_suspend:
+  tony_desktop_suspend:
     alias: "Tony Desktop - Suspend"
     sequence:
       - service: mqtt.publish
@@ -256,7 +256,7 @@ script:
           topic: "iotlink/workgroup/tony-asus/commands/suspend"
           payload: ""
 
-  my_computer_hibernate:
+  tony_desktop_hibernate:
     alias: "Tony Desktop - Hibernate"
     sequence:
       - service: mqtt.publish
@@ -264,7 +264,7 @@ script:
           topic: "iotlink/workgroup/tony-asus/commands/hibernate"
           payload: ""
 
-  my_computer_reboot:
+  tony_desktop_reboot:
     alias: "Tony Desktop - Reboot"
     sequence:
       - service: mqtt.publish
@@ -272,7 +272,7 @@ script:
           topic: "iotlink/workgroup/tony-asus/commands/reboot"
           payload: ""
 
-  my_computer_lock:
+  tony_desktop_lock:
     alias: "Tony Desktop - Lock"
     sequence:
       - service: mqtt.publish
@@ -280,7 +280,7 @@ script:
           topic: "iotlink/workgroup/tony-asus/commands/lock"
           payload: ""
 
-  my_computer_logoff:
+  tony_desktop_logoff:
     alias: "Tony Desktop - Logoff"
     sequence:
       - service: mqtt.publish
@@ -288,7 +288,7 @@ script:
           topic: "iotlink/workgroup/tony-asus/commands/logoff"
           payload: ""
 
-  my_computer_vol_mute:
+  tony_desktop_vol_mute:
     alias: "Tony Desktop - Toggle Mute"
     sequence:
       - service: mqtt.publish
@@ -296,7 +296,7 @@ script:
           topic: "iotlink/workgroup/tony-asus/commands/volume/mute"
           payload: ""
 
-  my_computer_vol_max:
+  tony_desktop_vol_max:
     alias: "Tony Desktop - Vol Max"
     sequence:
       - service: mqtt.publish
@@ -304,7 +304,7 @@ script:
           topic: "iotlink/workgroup/tony-asus/commands/volume/set"
           payload: "100"
 
-  my_computer_displays_on:
+  tony_desktop_displays_on:
     alias: "Tony Desktop - Displays ON"
     sequence:
       - service: mqtt.publish
@@ -312,7 +312,7 @@ script:
           topic: "iotlink/workgroup/tony-asus/commands/displays/on"
           payload: ""
 
-  my_computer_displays_off:
+  tony_desktop_displays_off:
     alias: "Tony Desktop - Displays OFF"
     sequence:
       - service: mqtt.publish
@@ -320,7 +320,7 @@ script:
           topic: "iotlink/workgroup/tony-asus/commands/displays/off"
           payload: ""
 
-  my_computer_refresh:
+  tony_desktop_refresh:
     alias: "Tony Desktop - Refresh"
     sequence:
       - service: mqtt.publish
@@ -328,7 +328,7 @@ script:
           topic: "iotlink/workgroup/tony-asus/refresh"
           payload: ""
 
-  my_computer_notify:
+  tony_desktop_notify:
     alias: "Tony Desktop - Notify"
     sequence:
       - service: mqtt.publish
@@ -336,7 +336,7 @@ script:
           topic: "iotlink/workgroup/tony-asus/commands/notify"
           payload: '{ "title": "My Notification Title", "message": "This is an example of notification using IOT Link", "launchParams": "toast://open/https://iotlink.gitlab.io" }'
 
-  my_computer_run_chrome:
+  tony_desktop_run_chrome:
     alias: "Tony Desktop - Run Chrome"
     sequence:
       - service: mqtt.publish
