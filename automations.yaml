@@ -700,7 +700,8 @@
         target:
           entity_id: switch.adaptive_lighting_sleep_mode_master_bedroom
       - service: adaptive_lighting.apply
-        data: {}
+        data:
+          entity_id: switch.adaptive_lighting_master_bedroom
     default: []
   mode: single
 - id: '1644532216008'
