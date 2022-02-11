@@ -238,7 +238,7 @@ script:
     sequence:
       - service: wake_on_lan.send_magic_packet
         data:
-          mac: "70:85:C2:63:9F:11"
+          mac: "18:C0:4D:82:00:95"
 
   tony_desktop_shutdown:
     alias: "Tony Desktop - Shutdown"
