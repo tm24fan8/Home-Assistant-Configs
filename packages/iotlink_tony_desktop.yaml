@@ -1,6 +1,6 @@
 binary_sensor:
   - platform: mqtt
-    name: "My Computer - Connected"
+    name: "Tony Desktop - Connected"
     state_topic: "iotlink/workgroup/tony-asus/lwt"
     value_template: "{{ value }}"
     payload_on: "ON"
@@ -11,7 +11,7 @@ binary_sensor:
 sensor:
 
   - platform: mqtt
-    name: "My Computer - Current User"
+    name: "Tony Desktop - Current User"
     state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/system/current-user"
     unit_of_measurement: ''
     icon: mdi:account
@@ -22,7 +22,7 @@ sensor:
     qos: 1
 
   - platform: mqtt
-    name: "My Computer - Idle Time"
+    name: "Tony Desktop - Idle Time"
     state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/system/idle-time"
     unit_of_measurement: 'seconds'
     icon: mdi:timer
@@ -33,7 +33,7 @@ sensor:
     qos: 1
 
   - platform: mqtt
-    name: "My Computer - CPU Usage"
+    name: "Tony Desktop - CPU Usage"
     state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/cpu/usage"
     unit_of_measurement: '%'
     icon: mdi:speedometer
@@ -44,7 +44,7 @@ sensor:
     qos: 1
 
   - platform: mqtt
-    name: "My Computer - RAM Usage"
+    name: "Tony Desktop - RAM Usage"
     state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/memory/usage"
     unit_of_measurement: '%'
     icon: mdi:memory
@@ -55,7 +55,7 @@ sensor:
     qos: 1
 
   - platform: mqtt
-    name: "My Computer - RAM Available"
+    name: "Tony Desktop - RAM Available"
     state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/memory/available"
     unit_of_measurement: 'MB'
     icon: mdi:memory
@@ -66,7 +66,7 @@ sensor:
     qos: 1
 
   - platform: mqtt
-    name: "My Computer - RAM Used"
+    name: "Tony Desktop - RAM Used"
     state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/memory/used"
     unit_of_measurement: 'MB'
     icon: mdi:memory
@@ -77,7 +77,7 @@ sensor:
     qos: 1
 
   - platform: mqtt
-    name: "My Computer - RAM Total"
+    name: "Tony Desktop - RAM Total"
     state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/memory/total"
     unit_of_measurement: 'MB'
     icon: mdi:memory
@@ -88,7 +88,7 @@ sensor:
     qos: 1
 
   - platform: mqtt
-    name: "My Computer - HDD Usage (C)"
+    name: "Tony Desktop - HDD Usage (C)"
     state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/hard-drive/c/drive-usage"
     unit_of_measurement: '%'
     icon: mdi:chart-donut
@@ -99,7 +99,7 @@ sensor:
     qos: 1
 
   - platform: mqtt
-    name: "My Computer - HDD Total Size (C)"
+    name: "Tony Desktop - HDD Total Size (C)"
     state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/hard-drive/c/total-size"
     unit_of_measurement: 'GB'
     icon: mdi:harddisk
@@ -110,7 +110,7 @@ sensor:
     qos: 1
 
   - platform: mqtt
-    name: "My Computer - HDD Total Free Space (C)"
+    name: "Tony Desktop - HDD Total Free Space (C)"
     state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/hard-drive/c/total-free-space"
     unit_of_measurement: 'GB'
     icon: mdi:harddisk
@@ -121,7 +121,7 @@ sensor:
     qos: 1
 
   - platform: mqtt
-    name: "My Computer - HDD Free Space (C)"
+    name: "Tony Desktop - HDD Free Space (C)"
     state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/hard-drive/c/available-free-space"
     unit_of_measurement: 'GB'
     icon: mdi:harddisk
@@ -132,7 +132,7 @@ sensor:
     qos: 1
 
   - platform: mqtt
-    name: "My Computer - HDD Used Space (C)"
+    name: "Tony Desktop - HDD Used Space (C)"
     state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/hard-drive/c/used-space"
     unit_of_measurement: 'GB'
     icon: mdi:harddisk
@@ -143,7 +143,7 @@ sensor:
     qos: 1
 
   - platform: mqtt
-    name: "My Computer - HDD Format (C)"
+    name: "Tony Desktop - HDD Format (C)"
     state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/hard-drive/c/drive-format"
     unit_of_measurement: ''
     icon: mdi:harddisk
@@ -154,7 +154,7 @@ sensor:
     qos: 1
 
   - platform: mqtt
-    name: "My Computer - HDD Label (C)"
+    name: "Tony Desktop - HDD Label (C)"
     state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/hard-drive/c/volume-label"
     unit_of_measurement: ''
     icon: mdi:harddisk
@@ -165,7 +165,7 @@ sensor:
     qos: 1
 
   - platform: mqtt
-    name: "My Computer - Network IPv4"
+    name: "Tony Desktop - Network IPv4"
     state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/network/0/ipv4"
     unit_of_measurement: ''
     icon: mdi:lan
@@ -176,7 +176,7 @@ sensor:
     qos: 1
 
   - platform: mqtt
-    name: "My Computer - Network IPv6"
+    name: "Tony Desktop - Network IPv6"
     state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/network/0/ipv6"
     unit_of_measurement: ''
     icon: mdi:lan
@@ -187,7 +187,7 @@ sensor:
     qos: 1
 
   - platform: mqtt
-    name: "My Computer - Network Speed"
+    name: "Tony Desktop - Network Speed"
     state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/network/0/speed"
     unit_of_measurement: 'Mbps'
     icon: mdi:speedometer
@@ -198,7 +198,7 @@ sensor:
     qos: 1
 
   - platform: mqtt
-    name: "My Computer - Network Wired"
+    name: "Tony Desktop - Network Wired"
     state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/network/0/wired"
     unit_of_measurement: ''
     icon: mdi:ethernet
@@ -223,7 +223,7 @@ switch:
   - platform: template
     switches:
       my_computer:
-        friendly_name: "My Computer"
+        friendly_name: "Tony Desktop"
         value_template: "{{ is_state('binary_sensor.my_computer_connected', 'on') }}"
         turn_on:
           service: script.my_computer_wake
@@ -234,14 +234,14 @@ switch:
 script:
   my_computer_wake:
     # To enable see https://www.home-assistant.io/components/wake_on_lan/
-    alias: "My Computer - Wake"
+    alias: "Tony Desktop - Wake"
     sequence:
       - service: wake_on_lan.send_magic_packet
         data:
           mac: "70:85:C2:63:9F:11"
 
   my_computer_shutdown:
-    alias: "My Computer - Shutdown"
+    alias: "Tony Desktop - Shutdown"
     sequence:
       - service: mqtt.publish
         data:
@@ -249,7 +249,7 @@ script:
           payload: ""
 
   my_computer_suspend:
-    alias: "My Computer - Suspend"
+    alias: "Tony Desktop - Suspend"
     sequence:
       - service: mqtt.publish
         data:
@@ -257,7 +257,7 @@ script:
           payload: ""
 
   my_computer_hibernate:
-    alias: "My Computer - Hibernate"
+    alias: "Tony Desktop - Hibernate"
     sequence:
       - service: mqtt.publish
         data:
@@ -265,7 +265,7 @@ script:
           payload: ""
 
   my_computer_reboot:
-    alias: "My Computer - Reboot"
+    alias: "Tony Desktop - Reboot"
     sequence:
       - service: mqtt.publish
         data:
@@ -273,7 +273,7 @@ script:
           payload: ""
 
   my_computer_lock:
-    alias: "My Computer - Lock"
+    alias: "Tony Desktop - Lock"
     sequence:
       - service: mqtt.publish
         data:
@@ -281,7 +281,7 @@ script:
           payload: ""
 
   my_computer_logoff:
-    alias: "My Computer - Logoff"
+    alias: "Tony Desktop - Logoff"
     sequence:
       - service: mqtt.publish
         data:
@@ -289,7 +289,7 @@ script:
           payload: ""
 
   my_computer_vol_mute:
-    alias: "My Computer - Toggle Mute"
+    alias: "Tony Desktop - Toggle Mute"
     sequence:
       - service: mqtt.publish
         data:
@@ -297,7 +297,7 @@ script:
           payload: ""
 
   my_computer_vol_max:
-    alias: "My Computer - Vol Max"
+    alias: "Tony Desktop - Vol Max"
     sequence:
       - service: mqtt.publish
         data:
@@ -305,7 +305,7 @@ script:
           payload: "100"
 
   my_computer_displays_on:
-    alias: "My Computer - Displays ON"
+    alias: "Tony Desktop - Displays ON"
     sequence:
       - service: mqtt.publish
         data:
@@ -313,7 +313,7 @@ script:
           payload: ""
 
   my_computer_displays_off:
-    alias: "My Computer - Displays OFF"
+    alias: "Tony Desktop - Displays OFF"
     sequence:
       - service: mqtt.publish
         data:
@@ -321,7 +321,7 @@ script:
           payload: ""
 
   my_computer_refresh:
-    alias: "My Computer - Refresh"
+    alias: "Tony Desktop - Refresh"
     sequence:
       - service: mqtt.publish
         data:
@@ -329,7 +329,7 @@ script:
           payload: ""
 
   my_computer_notify:
-    alias: "My Computer - Notify"
+    alias: "Tony Desktop - Notify"
     sequence:
       - service: mqtt.publish
         data:
@@ -337,7 +337,7 @@ script:
           payload: '{ "title": "My Notification Title", "message": "This is an example of notification using IOT Link", "launchParams": "toast://open/https://iotlink.gitlab.io" }'
 
   my_computer_run_chrome:
-    alias: "My Computer - Run Chrome"
+    alias: "Tony Desktop - Run Chrome"
     sequence:
       - service: mqtt.publish
         data:
