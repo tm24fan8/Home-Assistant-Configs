@@ -1,0 +1,289 @@
+binary_sensor:
+  - platform: mqtt
+    name: "My Computer - Connected"
+    state_topic: "iotlink/workgroup/tony-asus/lwt"
+    value_template: "{{ value }}"
+    payload_on: "ON"
+    payload_off: "OFF"
+    device_class: "connectivity"
+    qos: 1
+
+  - platform: mqtt
+    name: "My Computer - Charging"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/power/status"
+    value_template: "{{ value }}"
+    payload_on: "Online"
+    payload_off: "Offline"
+    device_class: "plug"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+  - platform: mqtt
+    name: "My Computer - Battery Status"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/battery/status"
+    value_template: "{{ value }}"
+    payload_on: "Online"
+    payload_off: "Offline"
+    device_class: "plug"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+sensor:
+
+  - platform: mqtt
+    name: "My Computer - Current User"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/system/current-user"
+    unit_of_measurement: ''
+    icon: mdi:account
+    value_template: "{{ value }}"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+  - platform: mqtt
+    name: "My Computer - Idle Time"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/system/idle-time"
+    unit_of_measurement: 'seconds'
+    icon: mdi:timer
+    value_template: "{{ value }}"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+  - platform: mqtt
+    name: "My Computer - CPU Usage"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/cpu/usage"
+    unit_of_measurement: '%'
+    icon: mdi:speedometer
+    value_template: "{{ value }}"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+  - platform: mqtt
+    name: "My Computer - RAM Usage"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/memory/usage"
+    unit_of_measurement: '%'
+    icon: mdi:memory
+    value_template: "{{ value }}"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+  - platform: mqtt
+    name: "My Computer - RAM Available"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/memory/available"
+    unit_of_measurement: 'MB'
+    icon: mdi:memory
+    value_template: "{{ value }}"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+  - platform: mqtt
+    name: "My Computer - RAM Used"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/memory/used"
+    unit_of_measurement: 'MB'
+    icon: mdi:memory
+    value_template: "{{ value }}"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+  - platform: mqtt
+    name: "My Computer - RAM Total"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/memory/total"
+    unit_of_measurement: 'MB'
+    icon: mdi:memory
+    value_template: "{{ value }}"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+  - platform: mqtt
+    name: "My Computer - Remaining Battery"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/battery/remaining-percent"
+    unit_of_measurement: '%'
+    device_class: battery
+    value_template: "{{ value }}"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+  - platform: mqtt
+    name: "My Computer - Remaining Battery Time"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/battery/remaining-time"
+    unit_of_measurement: 'minutes'
+    icon: mdi:timer
+    value_template: "{{ ( value | float / 60 ) | int }}"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+  - platform: mqtt
+    name: "My Computer - Predicted Lifetime"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/battery/full-lifetime"
+    unit_of_measurement: 'minutes'
+    icon: mdi:timer
+    value_template: "{{ ( value | float / 60 ) | int }}"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+  - platform: mqtt
+    name: "My Computer - HDD Usage (C)"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/hard-drive/c/drive-usage"
+    unit_of_measurement: '%'
+    icon: mdi:chart-donut
+    value_template: "{{ value }}"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+  - platform: mqtt
+    name: "My Computer - HDD Total Size (C)"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/hard-drive/c/total-size"
+    unit_of_measurement: 'GB'
+    icon: mdi:harddisk
+    value_template: "{{ value }}"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+  - platform: mqtt
+    name: "My Computer - HDD Total Free Space (C)"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/hard-drive/c/total-free-space"
+    unit_of_measurement: 'GB'
+    icon: mdi:harddisk
+    value_template: "{{ value }}"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+  - platform: mqtt
+    name: "My Computer - HDD Free Space (C)"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/hard-drive/c/available-free-space"
+    unit_of_measurement: 'GB'
+    icon: mdi:harddisk
+    value_template: "{{ value }}"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+  - platform: mqtt
+    name: "My Computer - HDD Used Space (C)"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/hard-drive/c/used-space"
+    unit_of_measurement: 'GB'
+    icon: mdi:harddisk
+    value_template: "{{ value }}"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+  - platform: mqtt
+    name: "My Computer - HDD Format (C)"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/hard-drive/c/drive-format"
+    unit_of_measurement: ''
+    icon: mdi:harddisk
+    value_template: "{{ value }}"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+  - platform: mqtt
+    name: "My Computer - HDD Label (C)"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/hard-drive/c/volume-label"
+    unit_of_measurement: ''
+    icon: mdi:harddisk
+    value_template: "{{ value }}"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+  - platform: mqtt
+    name: "My Computer - Network IPv4"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/network/0/ipv4"
+    unit_of_measurement: ''
+    icon: mdi:lan
+    value_template: "{{ value }}"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+  - platform: mqtt
+    name: "My Computer - Network IPv6"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/network/0/ipv6"
+    unit_of_measurement: ''
+    icon: mdi:lan
+    value_template: "{{ value }}"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+  - platform: mqtt
+    name: "My Computer - Network Speed"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/network/0/speed"
+    unit_of_measurement: 'Mbps'
+    icon: mdi:speedometer
+    value_template: "{{ value }}"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+  - platform: mqtt
+    name: "My Computer - Network Wired"
+    state_topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/network/0/wired"
+    unit_of_measurement: ''
+    icon: mdi:ethernet
+    value_template: "{{ value }}"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+
+camera:
+  - platform: mqtt
+    name: "Tony Desktop - Screen 0"
+    topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/display/0/screen"
+  - platform: mqtt
+    name: "Tony Desktop - Screen 1"
+    topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/display/1/screen"
+  - platform: mqtt
+    name: "Tony Desktop - Screen 2"
+    topic: "iotlink/workgroup/tony-asus/windows-monitor/stats/display/2/screen"
+
+switch:
+  - platform: template
+    switches:
+      my_computer:
+        friendly_name: "My Computer"
+        value_template: "{{ is_state('binary_sensor.my_computer_connected', 'on') }}"
+        turn_on:
+          service: script.my_computer_wake
+        turn_off:
+          service: script.my_computer_shutdown
+        icon_template: mdi:laptop
