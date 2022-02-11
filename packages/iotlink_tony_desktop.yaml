@@ -302,7 +302,7 @@ script:
     sequence:
       - service: mqtt.publish
         data:
-          topic: "iotlink/workgroup/my-computer/commands/shutdown"
+          topic: "iotlink/workgroup/tony-asus/commands/shutdown"
           payload: ""
 
   my_computer_suspend:
@@ -310,7 +310,7 @@ script:
     sequence:
       - service: mqtt.publish
         data:
-          topic: "iotlink/workgroup/my-computer/commands/suspend"
+          topic: "iotlink/workgroup/tony-asus/commands/suspend"
           payload: ""
 
   my_computer_hibernate:
@@ -318,7 +318,7 @@ script:
     sequence:
       - service: mqtt.publish
         data:
-          topic: "iotlink/workgroup/my-computer/commands/hibernate"
+          topic: "iotlink/workgroup/tony-asus/commands/hibernate"
           payload: ""
 
   my_computer_reboot:
@@ -326,7 +326,7 @@ script:
     sequence:
       - service: mqtt.publish
         data:
-          topic: "iotlink/workgroup/my-computer/commands/reboot"
+          topic: "iotlink/workgroup/tony-asus/commands/reboot"
           payload: ""
 
   my_computer_lock:
@@ -334,7 +334,7 @@ script:
     sequence:
       - service: mqtt.publish
         data:
-          topic: "iotlink/workgroup/my-computer/commands/lock"
+          topic: "iotlink/workgroup/tony-asus/commands/lock"
           payload: ""
 
   my_computer_logoff:
@@ -342,7 +342,7 @@ script:
     sequence:
       - service: mqtt.publish
         data:
-          topic: "iotlink/workgroup/my-computer/commands/logoff"
+          topic: "iotlink/workgroup/tony-asus/commands/logoff"
           payload: ""
 
   my_computer_vol_mute:
@@ -350,7 +350,7 @@ script:
     sequence:
       - service: mqtt.publish
         data:
-          topic: "iotlink/workgroup/my-computer/commands/volume/mute"
+          topic: "iotlink/workgroup/tony-asus/commands/volume/mute"
           payload: ""
 
   my_computer_vol_max:
@@ -358,7 +358,7 @@ script:
     sequence:
       - service: mqtt.publish
         data:
-          topic: "iotlink/workgroup/my-computer/commands/volume/set"
+          topic: "iotlink/workgroup/tony-asus/commands/volume/set"
           payload: "100"
 
   my_computer_displays_on:
@@ -366,7 +366,7 @@ script:
     sequence:
       - service: mqtt.publish
         data:
-          topic: "iotlink/workgroup/my-computer/commands/displays/on"
+          topic: "iotlink/workgroup/tony-asus/commands/displays/on"
           payload: ""
 
   my_computer_displays_off:
@@ -374,7 +374,7 @@ script:
     sequence:
       - service: mqtt.publish
         data:
-          topic: "iotlink/workgroup/my-computer/commands/displays/off"
+          topic: "iotlink/workgroup/tony-asus/commands/displays/off"
           payload: ""
 
   my_computer_refresh:
@@ -382,7 +382,7 @@ script:
     sequence:
       - service: mqtt.publish
         data:
-          topic: "iotlink/workgroup/my-computer/refresh"
+          topic: "iotlink/workgroup/tony-asus/refresh"
           payload: ""
 
   my_computer_notify:
@@ -390,7 +390,7 @@ script:
     sequence:
       - service: mqtt.publish
         data:
-          topic: "iotlink/workgroup/my-computer/commands/notify"
+          topic: "iotlink/workgroup/tony-asus/commands/notify"
           payload: '{ "title": "My Notification Title", "message": "This is an example of notification using IOT Link", "launchParams": "toast://open/https://iotlink.gitlab.io" }'
 
   my_computer_run_chrome:
@@ -398,5 +398,5 @@ script:
     sequence:
       - service: mqtt.publish
         data:
-          topic: "iotlink/workgroup/my-computer/commands/run"
+          topic: "iotlink/workgroup/tony-asus/commands/run"
           payload: '{ "command": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe", "args": "https://iotlink.gitlab.io", "path": "C:\\Program Files (x86)\\Google\\Chrome\\Application", "user": "", "visible": true, "fallback": true }'
