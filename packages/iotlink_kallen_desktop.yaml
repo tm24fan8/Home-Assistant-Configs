@@ -1,0 +1,112 @@
+script:
+  # kallen_desktop_wake:
+  #   # To enable see https://www.home-assistant.io/components/wake_on_lan/
+  #   alias: "Kallen Desktop - Wake"
+  #   sequence:
+  #     - service: wake_on_lan.send_magic_packet
+  #       data:
+  #         mac: "18:C0:4D:82:00:95"
+
+  kallen_desktop_shutdown:
+    alias: "Kallen Desktop - Shutdown"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/kallen-desktop/commands/shutdown"
+          payload: ""
+
+  kallen_desktop_suspend:
+    alias: "Kallen Desktop - Suspend"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/kallen-desktop/commands/suspend"
+          payload: ""
+
+  kallen_desktop_hibernate:
+    alias: "Kallen Desktop - Hibernate"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/kallen-desktop/commands/hibernate"
+          payload: ""
+
+  kallen_desktop_reboot:
+    alias: "Kallen Desktop - Reboot"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/kallen-desktop/commands/reboot"
+          payload: ""
+
+  kallen_desktop_lock:
+    alias: "Kallen Desktop - Lock"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/kallen-desktop/commands/lock"
+          payload: ""
+
+  kallen_desktop_logoff:
+    alias: "Kallen Desktop - Logoff"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/kallen-desktop/commands/logoff"
+          payload: ""
+
+  kallen_desktop_vol_mute:
+    alias: "Kallen Desktop - Toggle Mute"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/kallen-desktop/commands/volume/mute"
+          payload: ""
+
+  kallen_desktop_vol_max:
+    alias: "Kallen Desktop - Vol Max"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/kallen-desktop/commands/volume/set"
+          payload: "100"
+
+  kallen_desktop_displays_on:
+    alias: "Kallen Desktop - Displays ON"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/kallen-desktop/commands/displays/on"
+          payload: ""
+
+  kallen_desktop_displays_off:
+    alias: "Kallen Desktop - Displays OFF"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/kallen-desktop/commands/displays/off"
+          payload: ""
+
+  kallen_desktop_refresh:
+    alias: "Kallen Desktop - Refresh"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/kallen-desktop/refresh"
+          payload: ""
+
+  kallen_desktop_notify:
+    alias: "Kallen Desktop - Notify"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/kallen-desktop/commands/notify"
+          payload: '{ "title": "My Notification Title", "message": "This is an example of notification using IOT Link", "launchParams": "toast://open/https://iotlink.gitlab.io" }'
+
+  kallen_desktop_run_chrome:
+    alias: "Kallen Desktop - Run Chrome"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/kallen-desktop/commands/run"
+          payload: '{ "command": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", "args": "https://iotlink.gitlab.io", "path": "C:\\Program Files\\Google\\Chrome\\Application", "user": "", "visible": true, "fallback": true }'
