@@ -1,0 +1,112 @@
+script:
+  tony_desktop_wake:
+    # To enable see https://www.home-assistant.io/components/wake_on_lan/
+    alias: "Tony Desktop - Wake"
+    sequence:
+      - service: wake_on_lan.send_magic_packet
+        data:
+          mac: "18:C0:4D:82:00:95"
+
+  tony_desktop_shutdown:
+    alias: "Tony Desktop - Shutdown"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/shutdown"
+          payload: ""
+
+  tony_desktop_suspend:
+    alias: "Tony Desktop - Suspend"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/suspend"
+          payload: ""
+
+  tony_desktop_hibernate:
+    alias: "Tony Desktop - Hibernate"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/hibernate"
+          payload: ""
+
+  tony_desktop_reboot:
+    alias: "Tony Desktop - Reboot"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/reboot"
+          payload: ""
+
+  tony_desktop_lock:
+    alias: "Tony Desktop - Lock"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/lock"
+          payload: ""
+
+  tony_desktop_logoff:
+    alias: "Tony Desktop - Logoff"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/logoff"
+          payload: ""
+
+  tony_desktop_vol_mute:
+    alias: "Tony Desktop - Toggle Mute"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/volume/mute"
+          payload: ""
+
+  tony_desktop_vol_max:
+    alias: "Tony Desktop - Vol Max"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/volume/set"
+          payload: "100"
+
+  tony_desktop_displays_on:
+    alias: "Tony Desktop - Displays ON"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/displays/on"
+          payload: ""
+
+  tony_desktop_displays_off:
+    alias: "Tony Desktop - Displays OFF"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/displays/off"
+          payload: ""
+
+  tony_desktop_refresh:
+    alias: "Tony Desktop - Refresh"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/refresh"
+          payload: ""
+
+  tony_desktop_notify:
+    alias: "Tony Desktop - Notify"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/notify"
+          payload: '{ "title": "My Notification Title", "message": "This is an example of notification using IOT Link", "launchParams": "toast://open/https://iotlink.gitlab.io" }'
+
+  tony_desktop_run_chrome:
+    alias: "Tony Desktop - Run Chrome"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/run"
+          payload: '{ "command": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe", "args": "https://iotlink.gitlab.io", "path": "C:\\Program Files (x86)\\Google\\Chrome\\Application", "user": "", "visible": true, "fallback": true }'
