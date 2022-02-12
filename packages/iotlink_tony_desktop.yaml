@@ -109,4 +109,4 @@ script:
       - service: mqtt.publish
         data:
           topic: "iotlink/workgroup/tony-asus/commands/run"
-          payload: '{ "command": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe", "args": "https://iotlink.gitlab.io", "path": "C:\\Program Files (x86)\\Google\\Chrome\\Application", "user": "", "visible": true, "fallback": true }'
+          payload: '{ "command": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", "args": "https://iotlink.gitlab.io", "path": "C:\\Program Files\\Google\\Chrome\\Application", "user": "", "visible": true, "fallback": true }'
