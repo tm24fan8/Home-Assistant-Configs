@@ -113,3 +113,5 @@ spotcast:
 breaking_changes:
 
 localtuya: !include localtuya.yaml
+
+wake_on_lan:
