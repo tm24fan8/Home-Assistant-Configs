@@ -1,0 +1,112 @@
+script:
+#   asus_laptop_wake:
+#     # To enable see https://www.home-assistant.io/components/wake_on_lan/
+#     alias: "Asus Laptop - Wake"
+#     sequence:
+#       - service: wake_on_lan.send_magic_packet
+#         data:
+#           mac: "18:C0:4D:82:00:95"
+
+  asus_laptop_shutdown:
+    alias: "Asus Laptop - Shutdown"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/asus-laptop/commands/shutdown"
+          payload: ""
+
+  asus_laptop_suspend:
+    alias: "Asus Laptop - Suspend"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/asus-laptop/commands/suspend"
+          payload: ""
+
+  asus_laptop_hibernate:
+    alias: "Asus Laptop - Hibernate"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/asus-laptop/commands/hibernate"
+          payload: ""
+
+  asus_laptop_reboot:
+    alias: "Asus Laptop - Reboot"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/asus-laptop/commands/reboot"
+          payload: ""
+
+  asus_laptop_lock:
+    alias: "Asus Laptop - Lock"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/asus-laptop/commands/lock"
+          payload: ""
+
+  asus_laptop_logoff:
+    alias: "Asus Laptop - Logoff"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/asus-laptop/commands/logoff"
+          payload: ""
+
+  asus_laptop_vol_mute:
+    alias: "Asus Laptop - Toggle Mute"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/asus-laptop/commands/volume/mute"
+          payload: ""
+
+  asus_laptop_vol_max:
+    alias: "Asus Laptop - Vol Max"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/asus-laptop/commands/volume/set"
+          payload: "100"
+
+  asus_laptop_displays_on:
+    alias: "Asus Laptop - Displays ON"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/asus-laptop/commands/displays/on"
+          payload: ""
+
+  asus_laptop_displays_off:
+    alias: "Asus Laptop - Displays OFF"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/asus-laptop/commands/displays/off"
+          payload: ""
+
+  asus_laptop_refresh:
+    alias: "Asus Laptop - Refresh"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/asus-laptop/refresh"
+          payload: ""
+
+  asus_laptop_notify:
+    alias: "Asus Laptop - Notify"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/asus-laptop/commands/notify"
+          payload: '{ "title": "My Notification Title", "message": "This is an example of notification using IOT Link", "launchParams": "toast://open/https://iotlink.gitlab.io" }'
+
+  asus_laptop_run_chrome:
+    alias: "Asus Laptop - Run Chrome"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/asus-laptop/commands/run"
+          payload: '{ "command": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", "args": "https://iotlink.gitlab.io", "path": "C:\\Program Files\\Google\\Chrome\\Application", "user": "", "visible": true, "fallback": true }'
