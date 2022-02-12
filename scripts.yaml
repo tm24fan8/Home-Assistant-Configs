@@ -410,3 +410,14 @@ good_morning:
       entity_id: media_player.living_room_echo_dot
   mode: single
   icon: mdi:weather-sunset-up
+basement_on:
+  alias: Basement On
+  sequence:
+  - service: light.turn_on
+    data: {}
+    target:
+      area_id: basement_studio
+  - service: script.tony_desktop_wake
+    data: {}
+  mode: single
+  icon: hue:room-stairs
