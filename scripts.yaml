@@ -165,6 +165,8 @@ goodnight:
       - switch.basement_echo_dot_do_not_disturb_switch
       - switch.living_room_echo_dot_do_not_disturb_switch
     data: {}
+  - service: script.kallen_desktop_shutdown
+    data: {}
   mode: single
   icon: mdi:weather-night
 alexa_tts_test:
