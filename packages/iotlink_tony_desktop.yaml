@@ -1,3 +1,16 @@
+sensor:
+
+  - platform: mqtt
+    name: "Tony Desktop - GPU Temperature"
+    state_topic: "iotlink/workgroup/tony-asus/monitor/stats/gpu_nvidia/temperatures/gpu_core"
+    unit_of_measurement: '°C'
+    icon: mdi:thermometer
+    value_template: "{{ value }}"
+    availability_topic: "iotlink/workgroup/tony-asus/lwt"
+    payload_available: "ON"
+    payload_not_available: "OFF"
+    qos: 1
+    
 script:
   tony_desktop_wake:
     # To enable see https://www.home-assistant.io/components/wake_on_lan/
