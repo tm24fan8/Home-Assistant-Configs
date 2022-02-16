@@ -83,6 +83,16 @@ script:
           message: >
             {{ message }}
 
+  text_notify_kallen:
+    sequence:
+      - condition: state
+        entity_id: input_boolean.text_notify_kallen
+        state: 'on'
+      - service: notify.ios_kallen
+        data_template:
+          message: >
+            {{ message }}
+
   text_notify:
     sequence:
       - condition: state
