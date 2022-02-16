@@ -6,7 +6,7 @@ input_boolean:
     name: Send Texts to Tina
     icon: mdi:telegram
   text_notify_kallen:
-    name: Send Texts Kallen
+    name: Send Texts to Kallen
     icon: mdi:telegram
   text_notify_parents:
     name: Send Texts to Parents
