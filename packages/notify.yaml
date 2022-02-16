@@ -1,0 +1,208 @@
+input_boolean:
+  text_notify_tony:
+    name: Send Texts to Tony
+    icon: mdi:telegram
+  text_notify_tina:
+    name: Send Texts to Tina
+    icon: mdi:telegram
+  text_notify_kallen:
+    name: Send Texts Kallen
+    icon: mdi:telegram
+  text_notify_parents:
+    name: Send Texts to Parents
+    icon: mdi:telegram
+  text_notifications:
+    name: Text Notifications
+    icon: mdi:telegram
+  presence_text_notifications:
+    name: Presence Texts
+    icon: mdi:telegram
+  notifications_audio:
+    name: Audio Notifications
+    icon: mdi:speaker-wireless
+  presence_audio_notifications:
+    name: Presence Audio
+    icon: mdi:speaker-wireless
+  audible_notifications:
+    name: Audible Notifications
+    icon: mdi:speaker-wireless
+  presence_notifications_tony:
+    name: Send Tony Presence Texts
+    icon: mdi:telegram
+  presence_notifications_tina:
+    name: Send Tina Presence Texts
+    icon: mdi:telegram
+  welcome_home:
+    name: Welcome Home
+  debug_texts:
+    name: Debug Texts
+
+script:
+
+
+###############################################################################
+# Txt Notify
+###############################################################################
+  text_notify_all:
+    sequence:
+      - service: notify.all_ios
+        data_template:
+          message: >
+            {{ message }}
+
+  text_debug:
+    sequence:
+      - condition: state
+        entity_id: input_boolean.debug_texts
+        state: 'on'
+      - service: notify.ios_tony
+        data_template:
+          message: >
+            {{ message }}
+
+  text_notify_tony:
+    sequence:
+      - condition: state
+        entity_id: input_boolean.text_notify_tony
+        state: 'on'
+      - service: notify.ios_tony
+        data_template:
+          message: >
+            {{ message }}
+
+  text_notify_tina:
+    sequence:
+      - condition: state
+        entity_id: input_boolean.text_notify_tina
+        state: 'on'
+      - service: notify.ios_tina
+        data_template:
+          message: >
+            {{ message }}
+
+  text_notify:
+    sequence:
+      - condition: state
+        entity_id: input_boolean.text_notifications
+        state: 'on'
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ who == "tony"}}'
+          - condition: state
+            entity_id: input_boolean.text_notify_tony
+            state: 'on'
+          sequence:
+          - service: notify.ios_tony
+            data:
+              title: '{{ title }}'
+              message: '{{ message }}'
+        - conditions:
+          - condition: template
+            value_template: '{{ who == "tina"}}'
+          - condition: state
+            entity_id: input_boolean.text_notify_tina
+            state: 'on'
+          sequence:
+          - service: notify.ios_tina
+            data:
+              title: '{{ title }}'
+              message: '{{ message }}'
+        - conditions:
+          - condition: template
+            value_template: '{{ who == "kallen"}}'
+          - condition: state
+            entity_id: input_boolean.text_notify_kallen
+            state: 'on'
+          sequence:
+          - service: notify.ios_kallen
+            data:
+              title: '{{ title }}'
+              message: '{{ message }}'
+        - conditions:
+          - condition: template
+            value_template: '{{ who == "parents"}}'
+          - condition: state
+            entity_id: input_boolean.text_notify_parents
+            state: 'on'
+          sequence:
+          - service: notify.ios_parents
+            data:
+              title: '{{ title }}'
+              message: '{{ message }}'
+        - conditions:
+          - condition: template
+            value_template: '{{ who == "nerds"}}'
+          - condition: state
+            entity_id: input_boolean.text_notify_nerds
+            state: 'on'
+          sequence:
+          - service: notify.ios_parents
+            data:
+              title: '{{ title }}'
+              message: '{{ message }}'
+        default:
+        - service: notify.all_ios
+          data:
+            title: '{{ title }}'
+            message: '{{ message }}'
+
+  text_alert:
+    sequence:
+      - service: >
+            {% if who == 'tony' %}
+              notify.ios_tony
+            {% elif who == 'tina' %}
+              notify.ios_tina
+            {% elif who == 'kallen' %}
+              notify.ios_kallen
+            {% elif who == 'parents' %}
+              notify.ios_parents
+            {% elif who == 'nerds' %}
+              notify.ios_nerds
+            {% else %}
+              notify.all_ios
+            {% endif %}
+        data:
+          title: '{{ title }}'
+          message: '{{ message }}'
+          data:
+             attachment:
+               url: '{{ url }}'
+               content-type: '{{ content_type }}'
+               hide-thumbnail: false
+            push:
+               sound: '{{ ios_sound }}'
+              badge: 0
+               category: '{{ ios_category }}'
+             entity_id: '{{ camera_entity }}'
+
+  text_alert_image:
+    sequence:
+      - service: >
+            {% if who == 'tony' %}
+              notify.ios_tony
+            {% elif who == 'tina' %}
+              notify.ios_tina
+            {% elif who == 'kallen' %}
+              notify.ios_kallen
+            {% elif who == 'parents' %}
+              notify.ios_parents
+            {% elif who == 'nerds' %}
+              notify.ios_nerds
+            {% else %}
+              notify.all_ios
+            {% endif %}
+        data:
+          title: '{{ title }}'
+          message: '{{ message }}'
+          data:
+            attachment:
+              url: '{{ url }}'
+              content-type: '{{ content_type }}'
+              hide-thumbnail: false
+            push:
+               sound: '{{ ios_sound }}'
+              badge: 0
+               category: '{{ ios_category }}'
+             entity_id: '{{ camera_entity }}'
