@@ -11,6 +11,9 @@ input_boolean:
   text_notify_parents:
     name: Send Texts to Parents
     icon: mdi:telegram
+  text_notify_nerds:
+    name: Send Texts to Nerds
+    icon: mdi:telegram
   text_notifications:
     name: Text Notifications
     icon: mdi:telegram
