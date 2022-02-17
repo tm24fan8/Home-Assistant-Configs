@@ -150,7 +150,7 @@ script:
             entity_id: input_boolean.text_notify_nerds
             state: 'on'
           sequence:
-          - service: notify.ios_parents
+          - service: notify.ios_nerds
             data:
               title: '{{ title }}'
               message: '{{ message }}'
