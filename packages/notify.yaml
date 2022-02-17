@@ -50,6 +50,7 @@ script:
     sequence:
       - service: notify.all_ios
         data_template:
+          title: '{{ title }}'
           message: >
             {{ message }}
 
@@ -60,6 +61,7 @@ script:
         state: 'on'
       - service: notify.ios_tony
         data_template:
+          title: '{{ title }}'
           message: >
             {{ message }}
 
@@ -70,6 +72,7 @@ script:
         state: 'on'
       - service: notify.ios_tony
         data_template:
+          title: '{{ title }}'
           message: >
             {{ message }}
 
@@ -80,6 +83,7 @@ script:
         state: 'on'
       - service: notify.ios_tina
         data_template:
+          title: '{{ title }}'
           message: >
             {{ message }}
 
@@ -90,6 +94,7 @@ script:
         state: 'on'
       - service: notify.ios_kallen
         data_template:
+          title: '{{ title }}'
           message: >
             {{ message }}
 
