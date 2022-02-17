@@ -299,8 +299,19 @@
       - service: adaptive_lighting.apply
         data:
           entity_id: switch.adaptive_lighting_living_room
+    - conditions:
+      - condition: state
+        entity_id: input_select.living_room_scenes
+        state: Reset
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: Adaptive
+        target:
+          entity_id: input_select.living_room_scenes
     default: []
-  mode: single
+  mode: queued
+  max: 2
 - id: '1644520666008'
   alias: Mud Room Scenes
   description: ''
@@ -345,8 +356,19 @@
       - service: adaptive_lighting.apply
         data:
           entity_id: switch.adaptive_lighting_mud_room
+    - conditions:
+      - condition: state
+        entity_id: input_select.mud_room_scenes
+        state: Reset
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: Adaptive
+        target:
+          entity_id: input_select.mud_room_scenes
     default: []
-  mode: single
+  mode: queued
+  max: 2
 - id: '1644528841392'
   alias: Dining Room Lamp Modes
   description: ''
@@ -429,8 +451,19 @@
       - service: adaptive_lighting.apply
         data:
           entity_id: switch.adaptive_lighting_upstairs_hallway
+    - conditions:
+      - condition: state
+        entity_id: input_select.upstairs_hallway_scenes
+        state: Reset
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: Adaptive
+        target:
+          entity_id: input_select.upstairs_hallway_scenes
     default: []
-  mode: single
+  mode: queued
+  max: 2
 - id: '1644529426060'
   alias: Kallen Bedroom Scenes
   description: ''
@@ -475,8 +508,19 @@
       - service: adaptive_lighting.apply
         data:
           entity_id: switch.adaptive_lighting_kallen_bedroom
+    - conditions:
+      - condition: state
+        entity_id: input_select.kallen_bedroom_scenes
+        state: Reset
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: Adaptive
+        target:
+          entity_id: input_select.kallen_bedroom_scenes
     default: []
-  mode: single
+  mode: queued
+  max: 2
 - id: '1644529671106'
   alias: Nursery Scenes
   description: ''
@@ -521,8 +565,19 @@
       - service: adaptive_lighting.apply
         data:
           entity_id: switch.adaptive_lighting_nursery
+    - conditions:
+      - condition: state
+        entity_id: input_select.nursery_scenes
+        state: Reset
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: Adaptive
+        target:
+          entity_id: input_select.nursery_scenes
     default: []
-  mode: single
+  mode: queued
+  max: 2
 - id: '1644530206434'
   alias: Basement Studio Scenes
   description: ''
@@ -612,8 +667,19 @@
       - service: adaptive_lighting.apply
         data:
           entity_id: switch.adaptive_lighting_basement_studio
+    - conditions:
+      - condition: state
+        entity_id: input_select.basement_studio_scenes
+        state: Reset
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: Adaptive
+        target:
+          entity_id: input_select.basement_studio_scenes
     default: []
-  mode: single
+  mode: queued
+  max: 2
 - id: '1644531090692'
   alias: Master Bedroom Scenes
   description: ''
@@ -702,8 +768,19 @@
       - service: adaptive_lighting.apply
         data:
           entity_id: switch.adaptive_lighting_master_bedroom
+    - conditions:
+      - condition: state
+        entity_id: input_select.master_bedroom_scenes
+        state: Reset
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: Adaptive
+        target:
+          entity_id: input_select.master_bedroom_scenes
     default: []
-  mode: single
+  mode: queued
+  max: 2
 - id: '1644532216008'
   alias: Sunset Lights On - Cloudy
   description: ''

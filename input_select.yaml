@@ -5,6 +5,7 @@ living_room_scenes:
     - Bright
     - Dimmed
     - Nightlight
+    - Reset
   initial: Adaptive
   icon: hue:room-living
 mud_room_scenes:
@@ -14,6 +15,7 @@ mud_room_scenes:
     - Bright
     - Dimmed
     - Nightlight
+    - Reset
   initial: Adaptive
   icon: hue:room-other
 dining_room_lamp_modes:
@@ -31,6 +33,7 @@ upstairs_hallway_scenes:
     - Bright
     - Dimmed
     - Nightlight
+    - Reset
   initial: Adaptive
   icon: hue:ceiling-round
 kallen_bedroom_scenes:
@@ -40,6 +43,7 @@ kallen_bedroom_scenes:
     - Bright
     - Dimmed
     - Nightlight
+    - Reset
   initial: Adaptive
   icon: mdi:bunk-bed
 nursery_scenes:
@@ -49,6 +53,7 @@ nursery_scenes:
     - Bright
     - Dimmed
     - Nightlight
+    - Reset
   initial: Adaptive
   icon: hue:room-nursery
 basement_studio_scenes:
@@ -63,6 +68,7 @@ basement_studio_scenes:
     - Relax
     - Purple
     - Pink
+    - Reset
   initial: Adaptive
   icon: mdi:twitch
 master_bedroom_scenes:
@@ -74,5 +80,6 @@ master_bedroom_scenes:
     - Nightlight
     - Front Nightlight
     - Side Nightlight
+    - Reset
   initial: Adaptive
   icon: mdi:bed
