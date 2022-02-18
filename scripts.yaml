@@ -1,5 +1,5 @@
 start_netflix:
-  alias: Start Netflix
+  alias: Start Netflix (Living Room)
   sequence:
   - service: switch.turn_on
     target:
@@ -15,7 +15,7 @@ start_netflix:
   mode: single
   icon: mdi:netflix
 stop_netflix:
-  alias: Stop Netflix
+  alias: Stop Netflix (Living Room)
   sequence:
   - service: media_player.select_source
     target:
@@ -52,7 +52,7 @@ give_me_darkness:
   mode: single
   icon: mdi:weather-night
 start_youtube:
-  alias: Start Youtube
+  alias: Start Youtube (Living Room)
   sequence:
   - service: switch.turn_on
     target:
@@ -68,7 +68,7 @@ start_youtube:
   mode: single
   icon: mdi:youtube
 stop_youtube:
-  alias: Stop Youtube
+  alias: Stop Youtube (Living Room)
   sequence:
   - service: media_player.select_source
     target:
@@ -84,7 +84,7 @@ stop_youtube:
   mode: single
   icon: mdi:youtube
 start_twitch:
-  alias: Start Twitch
+  alias: Start Twitch (Living Room)
   sequence:
   - service: switch.turn_on
     target:
@@ -100,7 +100,7 @@ start_twitch:
   mode: single
   icon: mdi:twitch
 stop_twitch:
-  alias: Stop Twitch
+  alias: Stop Twitch (Living Room)
   sequence:
   - service: media_player.select_source
     target:
@@ -116,7 +116,7 @@ stop_twitch:
   mode: single
   icon: mdi:twitch
 start_spotify:
-  alias: Start Spotify
+  alias: Start Spotify (Living Room)
   sequence:
   - service: media_player.select_source
     target:
@@ -126,7 +126,7 @@ start_spotify:
   mode: single
   icon: mdi:spotify
 stop_spotify:
-  alias: Stop Spotify
+  alias: Stop Spotify (Living Room)
   sequence:
   - service: media_player.select_source
     target:
@@ -425,3 +425,23 @@ basement_on:
     data: {}
   mode: single
   icon: hue:room-stairs
+start_youtube_basement:
+  alias: Start Youtube (Basement)
+  sequence:
+  - service: media_player.select_source
+    data:
+      source: com.google.android.youtube.tv
+    target:
+      entity_id: media_player.basement_tv
+  mode: single
+  icon: mdi:youtube
+stop_youtube_basement:
+  alias: Stop Youtube (Basement)
+  sequence:
+  - service: media_player.select_source
+    data:
+      source: '!com.google.android.youtube.tv'
+    target:
+      entity_id: media_player.basement_tv
+  mode: single
+  icon: mdi:youtube
