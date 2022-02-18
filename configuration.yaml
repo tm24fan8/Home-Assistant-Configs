@@ -39,6 +39,8 @@ light:
       - light.basement_stairwell
       - light.basement_tall_lamp
       - light.basement_short_lamp
+      - light.basement_led_strip_1
+      - light.furnace_room_overhead
   - platform: group
     name: First Floor Lights
     entities:
@@ -59,6 +61,7 @@ light:
       - light.basement_stairwell
       - light.basement_tall_lamp
       - light.basement_short_lamp
+      - light.basement_led_strip_1
   - platform: group
     name: Dining Room Lamp
     entities:

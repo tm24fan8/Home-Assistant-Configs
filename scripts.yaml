@@ -361,7 +361,9 @@ going_upstairs:
   - service: light.turn_on
     data: {}
     target:
-      entity_id: light.living_room_lights
+      entity_id:
+      - light.living_room_lights
+      - light.basement_led_strip_1
   mode: single
   icon: hue:room-stairs
 good_morning:
