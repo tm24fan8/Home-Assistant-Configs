@@ -445,3 +445,63 @@ stop_youtube_basement:
       entity_id: media_player.basement_tv
   mode: single
   icon: mdi:youtube
+start_netflix_basement:
+  alias: Start Netflix (Basement)
+  sequence:
+  - service: media_player.select_source
+    data:
+      source: com.netflix.ninja
+    target:
+      entity_id: media_player.basement_tv
+  mode: single
+  icon: mdi:netflix
+stop_netflix_basement:
+  alias: Stop Netflix (Basement)
+  sequence:
+  - service: media_player.select_source
+    data:
+      source: '!com.netflix.ninja'
+    target:
+      entity_id: media_player.basement_tv
+  mode: single
+  icon: mdi:netflix
+start_twitch_basement:
+  alias: Start Twitch (Basement)
+  sequence:
+  - service: media_player.select_source
+    data:
+      source: tv.twitch.android.app
+    target:
+      entity_id: media_player.basement_tv
+  mode: single
+  icon: mdi:twitch
+stop_twitch_basement:
+  alias: Stop Twitch (Basement)
+  sequence:
+  - service: media_player.select_source
+    data:
+      source: '!tv.twitch.android.app'
+    target:
+      entity_id: media_player.basement_tv
+  mode: single
+  icon: mdi:twitch
+start_spotify_basement:
+  alias: Start Spotify (Basement)
+  sequence:
+  - service: media_player.select_source
+    data:
+      source: com.spotify.tv.android
+    target:
+      entity_id: media_player.basement_tv
+  mode: single
+  icon: mdi:spotify
+stop_spotify_basement:
+  alias: Stop Spotify (Basement)
+  sequence:
+  - service: media_player.select_source
+    data:
+      source: '!com.spotify.tv.android'
+    target:
+      entity_id: media_player.basement_tv
+  mode: single
+  icon: mdi:spotify
