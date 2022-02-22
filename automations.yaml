@@ -426,10 +426,6 @@
         data: {}
         target:
           entity_id: switch.adaptive_lighting_sleep_mode_dining_room
-      - service: scene.turn_on
-        data: {}
-        target:
-          entity_id: scene.dining_room_lamp_nightlight
     - conditions:
       - condition: state
         entity_id: input_select.dining_room_lamp_modes
