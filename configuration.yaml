@@ -42,11 +42,20 @@ light:
       - light.basement_led_strip_1
       - light.furnace_room_overhead
   - platform: group
+    name: Dining Room Lamp
+    entities:
+      - light.dining_room_lamp_blue
+      - light.dining_room_lamp_green
+      - light.dining_room_lamp_purple
+      - light.dining_room_lamp_red
+      - light.dining_room_lamp_white
+  - platform: group
     name: First Floor Lights
     entities:
       - light.living_room_overhead_1
       - light.living_room_overhead_2
       - light.mud_room_overhead
+      - light.dining_room_lamp
   - platform: group
     name: Second Floor Lights
     entities:
@@ -62,14 +71,6 @@ light:
       - light.basement_tall_lamp
       - light.basement_short_lamp
       - light.basement_led_strip_1
-  - platform: group
-    name: Dining Room Lamp
-    entities:
-      - light.dining_room_lamp_blue
-      - light.dining_room_lamp_green
-      - light.dining_room_lamp_purple
-      - light.dining_room_lamp_red
-      - light.dining_room_lamp_white
 
 frontend:
   themes: !include_dir_merge_named themes
