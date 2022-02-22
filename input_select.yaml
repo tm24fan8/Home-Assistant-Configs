@@ -24,6 +24,8 @@ dining_room_lamp_modes:
     - All Bulbs
     - 3 Bulb - Dining Room
     - 2 Bulb - Wall
+    - Nightlight
+    - Reset
   initial: All Bulbs
   icon: mdi:floor-lamp-dual
 upstairs_hallway_scenes:

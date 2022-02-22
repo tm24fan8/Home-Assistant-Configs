@@ -383,10 +383,22 @@
         entity_id: input_select.dining_room_lamp_modes
         state: All Bulbs
       sequence:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.adaptive_lighting_sleep_mode_dining_room
       - service: scene.turn_on
         data: {}
         target:
           entity_id: scene.dining_room_lamp_full
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 0
+          milliseconds: 500
+      - service: adaptive_lighting.apply
+        data:
+          entity_id: switch.adaptive_lighting_dining_room
     - conditions:
       - condition: state
         entity_id: input_select.dining_room_lamp_modes
@@ -405,8 +417,32 @@
         data: {}
         target:
           entity_id: scene.dining_room_lamp_wall
+    - conditions:
+      - condition: state
+        entity_id: input_select.dining_room_lamp_modes
+        state: Nightlight
+      sequence:
+      - service: switch.turn_on
+        data: {}
+        target:
+          entity_id: switch.adaptive_lighting_sleep_mode_dining_room
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.dining_room_lamp_nightlight
+    - conditions:
+      - condition: state
+        entity_id: input_select.dining_room_lamp_modes
+        state: Reset
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: All Bulbs
+        target:
+          entity_id: input_select.dining_room_lamp_modes
     default: []
-  mode: single
+  mode: queued
+  max: 2
 - id: '1644529151295'
   alias: Upstairs Hallway Scenes
   description: ''
