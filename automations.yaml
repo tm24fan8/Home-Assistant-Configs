@@ -837,3 +837,12 @@
       - light.mud_room_overhead
     data: {}
   mode: single
+- id: '1645738561470'
+  alias: Cast to Basement TV
+  description: ''
+  use_blueprint:
+    path: kind3r/cast-and-re-cast-a-lovelace-view-to-a-google-hub.yaml
+    input:
+      dashboard: lovelace
+      player: media_player.basement_tv_chromecast
+      view: chromecast
