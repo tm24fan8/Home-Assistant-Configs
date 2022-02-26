@@ -41,3 +41,14 @@
     days: 7
   entities:
     - sensor.kdfi_wind_speed
+- platform: rest
+  name: Household Tasks
+  method: GET
+  resource: 'https://api.todoist.com/sync/v8/projects/get_data'
+  params:
+    token: !secret todoist_api_token
+    project_id: 2285967928
+  value_template: '{{value_json[''project''][''id'']}}'
+  json_attributes:
+    - items
+  scan_interval: 30
