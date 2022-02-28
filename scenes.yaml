@@ -180,3 +180,5 @@
       friendly_name: Dining Room Lamp - White
       supported_features: 5
       state: 'on'
+- platform: lifx_cloud
+  token: !secret lifx_token
