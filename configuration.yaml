@@ -9,7 +9,10 @@ default_config:
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
-scene: !include scenes.yaml
+scene:
+  - !include scenes.yaml
+  - platform: lifx_cloud
+    token: !secret lifx_token
 camera: !include cameras.yaml
 input_boolean: !include input_boolean.yaml
 binary_sensor: !include binary_sensor.yaml
@@ -169,6 +172,3 @@ rest_command:
     url: 'https://api.todoist.com/sync/v8/sync'
     payload: !secret todoist_api_payload
     content_type: 'application/x-www-form-urlencoded'
-scene:
-  - platform: lifx_cloud
-    token: !secret lifx_token
