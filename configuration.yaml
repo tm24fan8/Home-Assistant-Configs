@@ -169,3 +169,6 @@ rest_command:
     url: 'https://api.todoist.com/sync/v8/sync'
     payload: !secret todoist_api_payload
     content_type: 'application/x-www-form-urlencoded'
+scene:
+  - platform: lifx_cloud
+    token: !secret lifx_token
