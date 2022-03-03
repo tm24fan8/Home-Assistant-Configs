@@ -80,9 +80,6 @@ frontend:
   extra_module_url:
   - /hacsfiles/hass-hue-icons/hass-hue-icons.js
 
-updater:
-  include_used_components: true
-
 python_script:
 
 anniversaries:
