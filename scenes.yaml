@@ -816,80 +816,20 @@
   name: Basement Studio - Baby is Napping
   entities:
     light.basement_led_strip_1:
-      min_mireds: 111
-      max_mireds: 666
-      effect_list:
-      - effect_colorloop
-      - effect_pulse
-      - effect_stop
-      supported_color_modes:
-      - color_temp
-      - hs
       icon: mdi:led-strip-variant
       friendly_name: Basement LED Strip 1
-      supported_features: 55
       state: 'off'
     light.basement_tall_lamp:
-      min_mireds: 153
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode: color_temp
-      brightness: 255
-      color_temp: 174
-      hs_color:
-      - 28.91
-      - 9.942
-      rgb_color:
-      - 255
-      - 241
-      - 229
-      xy_color:
-      - 0.347
-      - 0.34
-      mode: normal
-      dynamics: none
       icon: hue:floor-shade
       friendly_name: Basement Tall Lamp
-      supported_features: 40
       state: 'on'
     light.basement_stairwell:
-      min_mireds: 153
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode: color_temp
-      brightness: 255
-      color_temp: 174
-      hs_color:
-      - 28.91
-      - 9.942
-      rgb_color:
-      - 255
-      - 241
-      - 229
-      xy_color:
-      - 0.347
-      - 0.34
-      mode: normal
-      dynamics: none
       icon: hue:wall-lantern
       friendly_name: Basement Stairwell
-      supported_features: 40
       state: 'on'
     light.basement_short_lamp:
-      min_mireds: 153
-      max_mireds: 500
-      supported_color_modes:
-      - color_temp
-      - xy
-      mode: normal
-      dynamics: none
       icon: hue:floor-shade
       friendly_name: Basement Short Lamp
-      supported_features: 40
       state: 'off'
   icon: mdi:palette
 - id: '1646261780278'
