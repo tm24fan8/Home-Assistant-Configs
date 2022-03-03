@@ -892,3 +892,211 @@
       supported_features: 40
       state: 'off'
   icon: mdi:palette
+- id: '1646261780278'
+  name: Basement Studio - Pink
+  entities:
+    light.basement_led_strip_1:
+      min_mireds: 111
+      max_mireds: 666
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_stop
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: hs
+      brightness: 255
+      hs_color:
+      - 313.599
+      - 98
+      rgb_color:
+      - 255
+      - 5
+      - 198
+      xy_color:
+      - 0.465
+      - 0.192
+      icon: mdi:led-strip-variant
+      friendly_name: Basement LED Strip 1
+      supported_features: 55
+      state: 'on'
+    light.basement_tall_lamp:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 251
+      hs_color:
+      - 310.141
+      - 83.529
+      rgb_color:
+      - 255
+      - 42
+      - 219
+      xy_color:
+      - 0.4314
+      - 0.1823
+      mode: normal
+      dynamics: none
+      icon: hue:floor-shade
+      friendly_name: Basement Tall Lamp
+      supported_features: 40
+      state: 'on'
+    light.basement_stairwell:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 251
+      hs_color:
+      - 310.141
+      - 83.529
+      rgb_color:
+      - 255
+      - 42
+      - 219
+      xy_color:
+      - 0.4314
+      - 0.1823
+      mode: normal
+      dynamics: none
+      icon: hue:wall-lantern
+      friendly_name: Basement Stairwell
+      supported_features: 40
+      state: 'on'
+    light.basement_short_lamp:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 251
+      hs_color:
+      - 310.141
+      - 83.529
+      rgb_color:
+      - 255
+      - 42
+      - 219
+      xy_color:
+      - 0.4314
+      - 0.1823
+      mode: normal
+      dynamics: none
+      icon: hue:floor-shade
+      friendly_name: Basement Short Lamp
+      supported_features: 40
+      state: 'on'
+  icon: mdi:palette
+- id: '1646262074365'
+  name: Basement Studio - Relax
+  entities:
+    light.basement_led_strip_1:
+      min_mireds: 111
+      max_mireds: 666
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_stop
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: color_temp
+      brightness: 143
+      color_temp: 400
+      hs_color:
+      - 28.874
+      - 72.522
+      rgb_color:
+      - 255
+      - 159
+      - 70
+      xy_color:
+      - 0.546
+      - 0.389
+      icon: mdi:led-strip-variant
+      friendly_name: Basement LED Strip 1
+      supported_features: 55
+      state: 'on'
+    light.basement_tall_lamp:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: color_temp
+      brightness: 143
+      color_temp: 447
+      hs_color:
+      - 29.667
+      - 82.994
+      rgb_color:
+      - 255
+      - 148
+      - 43
+      xy_color:
+      - 0.575
+      - 0.389
+      mode: normal
+      dynamics: none
+      icon: hue:floor-shade
+      friendly_name: Basement Tall Lamp
+      supported_features: 40
+      state: 'on'
+    light.basement_stairwell:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: color_temp
+      brightness: 143
+      color_temp: 447
+      hs_color:
+      - 29.667
+      - 82.994
+      rgb_color:
+      - 255
+      - 148
+      - 43
+      xy_color:
+      - 0.575
+      - 0.389
+      mode: normal
+      dynamics: none
+      icon: hue:wall-lantern
+      friendly_name: Basement Stairwell
+      supported_features: 40
+      state: 'on'
+    light.basement_short_lamp:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: color_temp
+      brightness: 143
+      color_temp: 447
+      hs_color:
+      - 29.667
+      - 82.994
+      rgb_color:
+      - 255
+      - 148
+      - 43
+      xy_color:
+      - 0.575
+      - 0.389
+      mode: normal
+      dynamics: none
+      icon: hue:floor-shade
+      friendly_name: Basement Short Lamp
+      supported_features: 40
+      state: 'on'
+  icon: mdi:palette
