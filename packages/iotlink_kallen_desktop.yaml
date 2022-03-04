@@ -1,11 +1,11 @@
 script:
-  # kallen_desktop_wake:
-  #   # To enable see https://www.home-assistant.io/components/wake_on_lan/
-  #   alias: "Kallen Desktop - Wake"
-  #   sequence:
-  #     - service: wake_on_lan.send_magic_packet
-  #       data:
-  #         mac: "18:C0:4D:82:00:95"
+  kallen_desktop_wake:
+    # To enable see https://www.home-assistant.io/components/wake_on_lan/
+    alias: "Kallen Desktop - Wake"
+    sequence:
+      - service: wake_on_lan.send_magic_packet
+        data:
+          mac: "70:4D:7B:A0:FF:15"
 
   kallen_desktop_shutdown:
     alias: "Kallen Desktop - Shutdown"
