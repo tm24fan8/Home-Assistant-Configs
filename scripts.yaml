@@ -9,7 +9,7 @@ start_netflix:
     data: {}
   - service: media_player.select_source
     target:
-      entity_id: media_player.living_room_firetv
+      entity_id: media_player.living_room_tv
     data:
       source: com.netflix.ninja
   mode: single
@@ -19,7 +19,7 @@ stop_netflix:
   sequence:
   - service: media_player.select_source
     target:
-      entity_id: media_player.living_room_firetv
+      entity_id: media_player.living_room_tv
     data:
       source: '!com.netflix.ninja'
   - service: switch.turn_off
@@ -62,9 +62,9 @@ start_youtube:
     data: {}
   - service: media_player.select_source
     target:
-      entity_id: media_player.living_room_firetv
+      entity_id: media_player.living_room_tv
     data:
-      source: com.amazon.firetv.youtube
+      source: com.google.android.youtube.tv
   mode: single
   icon: mdi:youtube
 stop_youtube:
@@ -72,9 +72,9 @@ stop_youtube:
   sequence:
   - service: media_player.select_source
     target:
-      entity_id: media_player.living_room_firetv
+      entity_id: media_player.living_room_tv
     data:
-      source: '!com.amazon.firetv.youtube'
+      source: '!com.google.android.youtube.tv'
   - service: switch.turn_off
     target:
       entity_id:
@@ -94,9 +94,9 @@ start_twitch:
     data: {}
   - service: media_player.select_source
     target:
-      entity_id: media_player.living_room_firetv
+      entity_id: media_player.living_room_tv
     data:
-      source: tv.twitch.android.viewer
+      source: tv.twitch.android.app
   mode: single
   icon: mdi:twitch
 stop_twitch:
@@ -106,7 +106,7 @@ stop_twitch:
     target:
       entity_id: media_player.living_room_firetv
     data:
-      source: '!tv.twitch.android.viewer'
+      source: '!tv.twitch.android.app'
   - service: switch.turn_off
     target:
       entity_id:
@@ -120,7 +120,7 @@ start_spotify:
   sequence:
   - service: media_player.select_source
     target:
-      entity_id: media_player.living_room_firetv
+      entity_id: media_player.living_room_tv
     data:
       source: com.spotify.tv.android
   mode: single
@@ -130,7 +130,7 @@ stop_spotify:
   sequence:
   - service: media_player.select_source
     target:
-      entity_id: media_player.living_room_firetv
+      entity_id: media_player.living_room_tv
     data:
       source: '!com.spotify.tv.android'
   mode: single
