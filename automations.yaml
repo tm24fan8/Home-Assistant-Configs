@@ -302,6 +302,42 @@
     - conditions:
       - condition: state
         entity_id: input_select.living_room_scenes
+        state: Energize
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.living_room_energize
+    - conditions:
+      - condition: state
+        entity_id: input_select.living_room_scenes
+        state: Concentrate
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.living_room_concentrate
+    - conditions:
+      - condition: state
+        entity_id: input_select.living_room_scenes
+        state: Read
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.living_room_read
+    - conditions:
+      - condition: state
+        entity_id: input_select.living_room_scenes
+        state: Relax
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.living_room_relax
+    - conditions:
+      - condition: state
+        entity_id: input_select.living_room_scenes
         state: Reset
       sequence:
       - service: input_select.select_option

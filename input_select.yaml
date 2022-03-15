@@ -5,6 +5,10 @@ living_room_scenes:
     - Bright
     - Dimmed
     - Nightlight
+    - Energize
+    - Concentrate
+    - Read
+    - Relax
     - Reset
   initial: Adaptive
   icon: hue:room-living

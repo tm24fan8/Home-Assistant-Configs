@@ -29,8 +29,8 @@ light:
   - platform: group
     name: Living Room Lights
     entities:
-      - light.living_room_overhead_1
-      - light.living_room_overhead_2
+      - light.living_room_color_1
+      - light.living_room_color_2
   - platform: group
     name: Master Bedroom Lights
     entities:
@@ -74,6 +74,11 @@ light:
       - light.basement_tall_lamp
       - light.basement_short_lamp
       - light.basement_led_strip_1
+  - platform: group
+    name: Upstairs Bathroom Lights
+    entities:
+      - light.upstairs_bathroom_left
+      - light.upstairs_bathroom_right
 
 frontend:
   themes: !include_dir_merge_named themes

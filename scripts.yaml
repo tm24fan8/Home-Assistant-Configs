@@ -39,16 +39,20 @@ give_me_darkness:
       - switch.adaptive_lighting_sleep_mode_upstairs_hallway
       - switch.adaptive_lighting_sleep_mode_mud_room
       - switch.adaptive_lighting_sleep_mode_dining_room
+      - switch.adaptive_lighting_sleep_mode_upstairs_bathroom
     data: {}
   - service: light.turn_off
     target:
-      device_id:
-      - cfa5796f2572082c37db92f809e432bc
-      - 3ccbb8face40bff22fd924966bbb19f5
       area_id:
       - kallen_bedroom
       - master_bedroom
+      - living_room
+      - nursery
     data: {}
+  - service: light.turn_on
+    data: {}
+    target:
+      area_id: upstairs_bathroom
   mode: single
   icon: mdi:weather-night
 start_youtube:
@@ -141,7 +145,9 @@ goodnight:
   - service: switch.turn_on
     data: {}
     target:
-      entity_id: switch.adaptive_lighting_sleep_mode_upstairs_hallway
+      entity_id:
+      - switch.adaptive_lighting_sleep_mode_upstairs_hallway
+      - switch.adaptive_lighting_sleep_mode_upstairs_bathroom
   - service: light.turn_off
     target:
       area_id:
@@ -153,6 +159,7 @@ goodnight:
       - nursery
       - living_room
       - dining_room
+      - upstairs_hallway
     data: {}
   - service: switch.turn_off
     target:
@@ -268,6 +275,7 @@ global_off:
       - nursery
       - upstairs_hallway
       - dining_room
+      - upstairs_bathroom
     data: {}
   - service: switch.turn_off
     target:
@@ -295,6 +303,7 @@ global_on:
       - nursery
       - upstairs_hallway
       - dining_room
+      - upstairs_bathroom
     data: {}
   - service: switch.turn_on
     target:
@@ -320,6 +329,7 @@ max_brightness:
       - switch.adaptive_lighting_nursery
       - switch.adaptive_lighting_upstairs_hallway
       - switch.adaptive_lighting_dining_room
+      - switch.adaptive_lighting_upstairs_bathroom
     data: {}
   - delay:
       hours: 0
@@ -337,6 +347,7 @@ max_brightness:
       - nursery
       - upstairs_hallway
       - dining_room
+      - upstairs_bathroom
     data:
       brightness_pct: 100
   - service: light.turn_on
@@ -358,12 +369,14 @@ going_upstairs:
       - switch.adaptive_lighting_sleep_mode_basement_studio
       - switch.adaptive_lighting_sleep_mode_mud_room
       - switch.adaptive_lighting_sleep_mode_upstairs_hallway
+      - switch.adaptive_lighting_sleep_mode_upstairs_bathroom
   - service: light.turn_on
     data: {}
     target:
       entity_id:
       - light.living_room_lights
       - light.basement_led_strip_1
+      - light.upstairs_bathroom_lights
   mode: single
   icon: hue:room-stairs
 good_morning:
