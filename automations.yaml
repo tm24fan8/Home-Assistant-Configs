@@ -882,3 +882,60 @@
       dashboard: lovelace
       player: media_player.basement_tv_chromecast
       view: chromecast
+- id: '1647303056500'
+  alias: Upstairs Bathroom Scenes
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_select.upstairs_bathroom_scenes
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_select.upstairs_bathroom_scenes
+        state: Bright
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.upstairs_bathroom_bright
+    - conditions:
+      - condition: state
+        entity_id: input_select.upstairs_bathroom_scenes
+        state: Dimmed
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.upstairs_bathroom_dimmed
+    - conditions:
+      - condition: state
+        entity_id: input_select.upstairs_bathroom_scenes
+        state: Nightlight
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.upstairs_bathroom_nightlight
+    - conditions:
+      - condition: state
+        entity_id: input_select.upstairs_bathroom_scenes
+        state: Adaptive
+      sequence:
+      - service: adaptive_lighting.apply
+        data:
+          entity_id: switch.adaptive_lighting_upstairs_bathroom
+    - conditions:
+      - condition: state
+        entity_id: input_select.upstairs_bathroom_scenes
+        state: Reset
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: Adaptive
+        target:
+          entity_id: input_select.upstairs_bathroom_scenes
+    default: []
+  mode: queued
+  max: 2

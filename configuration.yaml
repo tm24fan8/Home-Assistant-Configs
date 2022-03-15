@@ -67,6 +67,8 @@ light:
       - light.hallway_overhead
       - light.kallen_bedroom_light
       - light.nursery_light
+      - light.upstairs_bathroom_left
+      - light.upstairs_bathroom_right
   - platform: group
     name: Basement Studio Lights
     entities:
