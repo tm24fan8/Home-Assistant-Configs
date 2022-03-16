@@ -237,6 +237,7 @@ family_is_home:
       entity_id:
       - switch.basement_echo_dot_do_not_disturb_switch
       - switch.living_room_echo_dot_do_not_disturb_switch
+      - switch.master_bedroom_echo_dot_do_not_disturb_switch
     data: {}
   - service: light.turn_off
     target:
