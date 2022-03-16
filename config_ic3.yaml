@@ -3,7 +3,7 @@ devices:
     name: Tony's iPhone
     iosapp_entity: tony_s_iphone_app
     picture: tony.jpg
-  - device_name: iPhone
+  - device_name: Tinas iPhone
     name: Tina's iPhone
     iosapp_entity: tinas_iphone_app
     picture: tina.jpg
