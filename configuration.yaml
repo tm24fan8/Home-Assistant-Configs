@@ -81,6 +81,12 @@ light:
     entities:
       - light.upstairs_bathroom_left
       - light.upstairs_bathroom_right
+      - light.upstairs_bathroom_wall
+  - platform: group
+    name: Downstairs Bathroom Lights
+    entities:
+      - light.downstairs_bathroom_left
+      - light.downstairs_bathroom_right
 
 frontend:
   themes: !include_dir_merge_named themes

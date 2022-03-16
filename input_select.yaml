@@ -99,3 +99,13 @@ upstairs_bathroom_scenes:
     - Reset
   initial: Adaptive
   icon: mdi:toilet
+downstairs_bathroom_scenes:
+  name: Downstairs Bathroom Scenes
+  options:
+    - Adaptive
+    - Bright
+    - Dimmed
+    - Nightlight
+    - Reset
+  initial: Adaptive
+  icon: mdi:toilet

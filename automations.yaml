@@ -939,3 +939,60 @@
     default: []
   mode: queued
   max: 2
+- id: '1647389966311'
+  alias: Downstairs Bathroom Scenes
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_select.downstairs_bathroom_scenes
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_select.downstairs_bathroom_scenes
+        state: Bright
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.downstairs_bathroom_bright
+    - conditions:
+      - condition: state
+        entity_id: input_select.downstairs_bathroom_scenes
+        state: Dimmed
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.downstairs_bathroom_dimmed
+    - conditions:
+      - condition: state
+        entity_id: input_select.downstairs_bathroom_scenes
+        state: Nightlight
+      sequence:
+      - service: scene.turn_on
+        data: {}
+        target:
+          entity_id: scene.downstairs_bathroom_nightlight
+    - conditions:
+      - condition: state
+        entity_id: input_select.downstairs_bathroom_scenes
+        state: Adaptive
+      sequence:
+      - service: adaptive_lighting.apply
+        data:
+          entity_id: switch.adaptive_lighting_downstairs_bathroom
+    - conditions:
+      - condition: state
+        entity_id: input_select.downstairs_bathroom_scenes
+        state: Reset
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: Adaptive
+        target:
+          entity_id: input_select.downstairs_bathroom_scenes
+    default: []
+  mode: queued
+  max: 2
