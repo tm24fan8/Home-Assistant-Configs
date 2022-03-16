@@ -59,6 +59,8 @@ light:
       - light.living_room_overhead_2
       - light.mud_room_overhead
       - light.dining_room_lamp
+      - light.downstairs_bathroom_left
+      - light.downstairs_bathroom_right
   - platform: group
     name: Second Floor Lights
     entities:
@@ -69,6 +71,7 @@ light:
       - light.nursery_light
       - light.upstairs_bathroom_left
       - light.upstairs_bathroom_right
+      - light.upstairs_bathroom_wall
   - platform: group
     name: Basement Studio Lights
     entities:
