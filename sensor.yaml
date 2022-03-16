@@ -63,3 +63,8 @@
   json_attributes:
     - items
   scan_interval: 30
+- platform: season
+  type: astronomical
+  name: Current Season
+- platform: uptime
+  name: Last Boot
