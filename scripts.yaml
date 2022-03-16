@@ -162,6 +162,9 @@ goodnight:
       - dining_room
       - upstairs_hallway
       - downstairs_bathroom
+      entity_id:
+      - light.upstairs_bathroom_right
+      - light.upstairs_bathroom_wall
     data: {}
   - service: switch.turn_off
     target:
