@@ -48,6 +48,7 @@ give_me_darkness:
       - master_bedroom
       - living_room
       - nursery
+      - downstairs_bathroom
     data: {}
   - service: light.turn_on
     data: {}
@@ -160,6 +161,7 @@ goodnight:
       - living_room
       - dining_room
       - upstairs_hallway
+      - downstairs_bathroom
     data: {}
   - service: switch.turn_off
     target:
@@ -171,6 +173,7 @@ goodnight:
       entity_id:
       - switch.basement_echo_dot_do_not_disturb_switch
       - switch.living_room_echo_dot_do_not_disturb_switch
+      - switch.master_bedroom_echo_dot_do_not_disturb_switch
     data: {}
   - service: script.kallen_desktop_shutdown
     data: {}
@@ -206,6 +209,8 @@ family_is_away:
       - nursery
       - upstairs_hallway
       - dining_room
+      - downstairs_bathroom
+      - upstairs_bathroom
     data: {}
   - service: alarm_control_panel.alarm_arm_away
     target:
@@ -230,9 +235,6 @@ family_is_home:
       - switch.basement_echo_dot_do_not_disturb_switch
       - switch.living_room_echo_dot_do_not_disturb_switch
     data: {}
-  - condition: sun
-    after: sunset
-    after_offset: -00:30
   - service: light.turn_off
     target:
       area_id:
@@ -242,7 +244,12 @@ family_is_home:
       - master_bedroom
       - upstairs_hallway
       - basement_studio
+      - downstairs_bathroom
+      - upstairs_bathroom
     data: {}
+  - condition: sun
+    after: sunset
+    after_offset: -00:30
   - service: light.turn_on
     data: {}
     target:
@@ -276,6 +283,7 @@ global_off:
       - upstairs_hallway
       - dining_room
       - upstairs_bathroom
+      - downstairs_bathroom
     data: {}
   - service: switch.turn_off
     target:
@@ -304,6 +312,7 @@ global_on:
       - upstairs_hallway
       - dining_room
       - upstairs_bathroom
+      - downstairs_bathroom
     data: {}
   - service: switch.turn_on
     target:
@@ -330,6 +339,7 @@ max_brightness:
       - switch.adaptive_lighting_upstairs_hallway
       - switch.adaptive_lighting_dining_room
       - switch.adaptive_lighting_upstairs_bathroom
+      - switch.adaptive_lighting_downstairs_bathroom
     data: {}
   - delay:
       hours: 0
@@ -341,18 +351,20 @@ max_brightness:
       area_id:
       - furnace_room
       - kallen_bedroom
-      - living_room
-      - master_bedroom
       - mud_room
       - nursery
       - upstairs_hallway
       - dining_room
       - upstairs_bathroom
+      - master_bedroom
+      - downstairs_bathroom
     data:
       brightness_pct: 100
   - service: light.turn_on
     target:
-      area_id: basement_studio
+      area_id:
+      - basement_studio
+      - living_room
     data:
       kelvin: 6400
       brightness_pct: 100
@@ -390,6 +402,7 @@ good_morning:
       - switch.master_bedroom_fan_socket_1
       - switch.basement_echo_dot_do_not_disturb_switch
       - switch.living_room_echo_dot_do_not_disturb_switch
+      - switch.master_bedroom_echo_dot_do_not_disturb_switch
   - delay:
       hours: 0
       minutes: 0
