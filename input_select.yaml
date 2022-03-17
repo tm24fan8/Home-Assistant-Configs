@@ -74,6 +74,7 @@ basement_studio_scenes:
     - Relax
     - Purple
     - Pink
+    - Baby Is Napping
     - Reset
   initial: Adaptive
   icon: mdi:twitch
@@ -96,6 +97,7 @@ upstairs_bathroom_scenes:
     - Bright
     - Dimmed
     - Nightlight
+    - Single Nightlight
     - Reset
   initial: Adaptive
   icon: mdi:toilet
