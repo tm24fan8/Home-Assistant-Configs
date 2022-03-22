@@ -55,8 +55,8 @@ light:
   - platform: group
     name: First Floor Lights
     entities:
-      - light.living_room_overhead_1
-      - light.living_room_overhead_2
+      - light.living_room_color_1
+      - light.living_room_color_2
       - light.mud_room_overhead
       - light.dining_room_lamp
       - light.downstairs_bathroom_left
