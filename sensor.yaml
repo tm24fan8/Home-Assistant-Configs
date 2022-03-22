@@ -15,14 +15,6 @@
     - STPeach
     - BroteinGaming404
     - NotoriosPenguin
-- platform: deluge
-  host: !secret deluge_ip
-  username: !secret deluge_user
-  password: !secret deluge_password
-  monitored_variables:
-    - 'current_status'
-    - 'download_speed'
-    - 'upload_speed'
 - platform: average
   name: 'Average Temperature'
   duration:

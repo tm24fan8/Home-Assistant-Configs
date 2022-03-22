@@ -1,4 +1,0 @@
-- platform: deluge
-  host: !secret deluge_ip
-  username: !secret deluge_user
-  password: !secret deluge_password
