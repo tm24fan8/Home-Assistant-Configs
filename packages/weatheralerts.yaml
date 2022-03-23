@@ -1484,7 +1484,7 @@ automation:
             method: all
             type: announce
           message: Severe thunderstorm warning has been issued, it's about to get loud!
-          target: Living Room Echo Dot, Basement Echo Dot
+          target: Living Room Echo Dot, Basement Echo Dot, Master Bedroom Echo Dot
       - service: input_text.set_value
         data_template:
           entity_id: input_text.weatheralerts_triggered_audible_alert_ids
