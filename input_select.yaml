@@ -7,8 +7,10 @@ living_room_scenes:
     - Nightlight
     - Energize
     - Concentrate
-    - Read
-    - Relax
+    - Savanna Sunset
+    - Tropical Twilight
+    - Tokyo
+    - Forest Adventure
     - Reset
   initial: Adaptive
   icon: hue:room-living
