@@ -114,3 +114,11 @@ downstairs_bathroom_scenes:
     - Reset
   initial: Adaptive
   icon: mdi:toilet
+alexa_devices:
+  name: Alexa Devices
+  options:
+    - Living Room Echo Dot
+    - Basement Echo Dot
+    - Master Bedroom Echo Dot
+  initial: Living Room Echo Dot
+  icon: mdi:dots-horizontal-circle
