@@ -19,6 +19,7 @@ binary_sensor: !include binary_sensor.yaml
 sensor: !include sensor.yaml
 switch: !include switches.yaml
 input_select: !include input_select.yaml
+input_text: !include input_text.yaml
 
 http:
   use_x_forwarded_for: true
