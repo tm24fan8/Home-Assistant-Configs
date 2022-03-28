@@ -20,19 +20,19 @@
   duration:
     days: 7
   entities:
-    - sensor.kdfi_temperature
+    - sensor.temperature
 - platform: average
-  name: 'Average Wind Chill'
+  name: 'Average Feels Like'
   duration:
     days: 7
   entities:
-    - sensor.kdfi_wind_chill
+    - sensor.feels_like
 - platform: average
   name: 'Average Wind Speed'
   duration:
     days: 7
   entities:
-    - sensor.kdfi_wind_speed
+    - sensor.wind_speed
 - platform: rest
   name: Household Tasks
   method: GET
