@@ -120,5 +120,6 @@ alexa_devices:
     - Living Room Echo Dot
     - Basement Echo Dot
     - Master Bedroom Echo Dot
+    - Everywhere
   initial: Living Room Echo Dot
   icon: mdi:dots-horizontal-circle
