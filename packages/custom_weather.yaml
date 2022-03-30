@@ -10,3 +10,7 @@ weather:
     wind_bearing_template: "{{ states('sensor.wind_direction') | float }}"
     visibility_template: "{{ states('sensor.kdfi_visibility') | float }}"
     attribution_template: "Weather data from Iron Nerd's custom weather station template"
+  - platform: pirateweather
+    api_key: !secret pirate_weather_api
+    mode: "daily"
+    name: Iron Nerd Studios
