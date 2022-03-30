@@ -11,24 +11,6 @@
     - STPeach
     - BroteinGaming404
     - NotoriosPenguin
-- platform: average
-  name: 'Average Temperature'
-  duration:
-    days: 7
-  entities:
-    - sensor.temperature
-- platform: average
-  name: 'Average Feels Like'
-  duration:
-    days: 7
-  entities:
-    - sensor.feels_like
-- platform: average
-  name: 'Average Wind Speed'
-  duration:
-    days: 7
-  entities:
-    - sensor.wind_speed
 - platform: rest
   name: Household Tasks
   method: GET
