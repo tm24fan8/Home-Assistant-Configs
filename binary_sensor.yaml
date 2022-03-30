@@ -2,7 +2,43 @@
   country: US
   province: OH
   workdays: [mon, tue, wed, thu, fri]
+
 - platform: tod
   name: School
-  after: "09:00"
-  before: "15:30"
+  after: '09:00'
+  before: '15:30'
+
+- platform: tod
+  name: Night
+  after: sunset
+  before: sunrise
+
+- platform: tod
+  name: Day
+  after: sunrise
+  before: sunset
+
+- platform: tod
+  name: Quiet time
+  after: '21:00'
+  before: '07:30'
+
+- platform: tod
+  name: Morning
+  after: '07:30'
+  before: '09:00'
+
+- platform: tod
+  name: Midday
+  after: '09:00'
+  before: '16:00'
+
+- platform: tod
+  name: Evening
+  after: '16:00'
+  before: '21:00'
+
+- platform: tod
+  name: Overnight
+  after: '18:00'
+  before: '07:30'
