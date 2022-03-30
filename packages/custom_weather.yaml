@@ -50,3 +50,7 @@ sensor:
       - sunset_time
       - nearest_storm_bearing
       - alerts
+  - platform: weatheralerts
+    state: OH
+    zone: 4
+    county: 39

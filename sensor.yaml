@@ -1,7 +1,3 @@
-- platform: weatheralerts
-  state: OH
-  zone: 4
-  county: 39
 - platform: twitch_helix
   client_id: !secret twitch_client_id
   client_secret: !secret twitch_client_secret
