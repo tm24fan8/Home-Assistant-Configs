@@ -76,8 +76,9 @@ basement_studio_scenes:
     - Relax
     - Purple
     - Pink
-    - Baby Is Napping
     - Kallen Reading
+    - Baby Is Napping
+    - Stairwell
     - Reset
   initial: Adaptive
   icon: mdi:twitch

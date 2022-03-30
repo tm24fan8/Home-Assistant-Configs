@@ -1061,3 +1061,23 @@
       friendly_name: Basement LED Strip 1
       state: 'on'
   icon: mdi:palette
+- id: '1648660038401'
+  name: Basement Studio - Stairwell
+  entities:
+    light.basement_short_lamp:
+      icon: hue:floor-shade
+      friendly_name: Basement Short Lamp
+      state: 'off'
+    light.basement_stairwell:
+      icon: hue:wall-lantern
+      friendly_name: Basement Stairwell
+      state: 'on'
+    light.basement_led_strip_1:
+      icon: mdi:led-strip-variant
+      friendly_name: Basement LED Strip 1
+      state: 'off'
+    light.basement_tall_lamp:
+      icon: hue:floor-shade
+      friendly_name: Basement Tall Lamp
+      state: 'off'
+  icon: mdi:palette
