@@ -1,10 +1,10 @@
 weather:
   - platform: template
     name: "Iron Nerd Weather Station"
-    condition_template: "{{ states('weather.iron_nerd_studios') }}"
+    condition_template: "{{ states('weather.iron_nerd_weather_station') }}"
     temperature_template: "{{ states('sensor.pirateweather_temperature') | float }}"
     humidity_template: "{{ states('sensor.pirateweather_humidity') | float }}"
-    forecast_template: "{{ state_attr('weather.iron_nerd_studios', 'forecast') }}"
+    forecast_template: "{{ state_attr('weather.iron_nerd_weather_station', 'forecast') }}"
     pressure_template: "{{ states('sensor.barometric_pressure') | float }}"
     wind_speed_template: "{{ states('sensor.pirateweather_wind_speed') | float }}"
     wind_bearing_template: "{{ states('sensor.pirateweather_wind_bearing') | float }}"
@@ -91,23 +91,23 @@ sensor:
         unit_of_measurement: ''
         icon_template: mdi:weather-sunny
         value_template: >-
-            {% set forecast = state_attr('weather.iron_nerd_studios','forecast')[0] %}
+            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
             {{ forecast.condition }}
         attribute_templates:
           high_temp: >-
-            {% set forecast = state_attr('weather.iron_nerd_studios','forecast')[0] %}
+            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
             {{ forecast.temperature }}
           overnight_low: >-
-            {% set forecast = state_attr('weather.iron_nerd_studios','forecast')[1] %}
+            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
             {{ forecast.templow }}
           wind_bearing: >-
-            {% set forecast = state_attr('weather.iron_nerd_studios','forecast')[0] %}
+            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
             {{ forecast.wind_bearing }}
           wind_speed: >-
-            {% set forecast = state_attr('weather.iron_nerd_studios','forecast')[0] %}
+            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
             {{ forecast.wind_speed }}
           precipitation: >-
-            {% set forecast = state_attr('weather.iron_nerd_studios','forecast')[0] %}
+            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
             {{ forecast.precipitation }}
       current_forecast_detail:
         friendly_name: Current Forecast Detail
@@ -234,23 +234,23 @@ sensor:
         unit_of_measurement: ''
         icon_template: mdi:weather-sunny
         value_template: >-
-            {% set forecast = state_attr('weather.iron_nerd_studios','forecast')[1] %}
+            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
             {{ forecast.condition }}
         attribute_templates:
           high_temp: >-
-            {% set forecast = state_attr('weather.iron_nerd_studios','forecast')[1] %}
+            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
             {{ forecast.temperature }}
           overnight_low: >-
-            {% set forecast = state_attr('weather.iron_nerd_studios','forecast')[2] %}
+            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[2] %}
             {{ forecast.templow }}
           wind_bearing: >-
-            {% set forecast = state_attr('weather.iron_nerd_studios','forecast')[1] %}
+            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
             {{ forecast.wind_bearing }}
           wind_speed: >-
-            {% set forecast = state_attr('weather.iron_nerd_studios','forecast')[1] %}
+            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
             {{ forecast.wind_speed }}
           precipitation: >-
-           {% set forecast = state_attr('weather.iron_nerd_studios','forecast')[1] %}
+           {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
             {{ forecast.precipitation }}
       tomorrow_forecast_detail:
         friendly_name: Tomorrow Forecast Detail
@@ -590,14 +590,14 @@ sensor:
         unit_of_measurement: ''
         device_class: temperature
         value_template: >-
-          {% set forecast = state_attr('weather.iron_nerd_studios','forecast')[0] %}
+          {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
           {{ forecast.temperature }}
       tonights_low_temp:
         friendly_name: "Tonight's Low Temp"
         unit_of_measurement: ''
         device_class: temperature
         value_template: >-
-          {% set forecast = state_attr('weather.iron_nerd_studios','forecast')[1] %}
+          {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
           {{ forecast.lowtemp }}
       clothing_forecast:
         friendly_name: "Clothing Forecast"
@@ -709,7 +709,7 @@ sensor:
             {% endif %}
       nws_current_visibility:
         friendly_name: "Current Visibility"
-        value_template: "{{ ((state_attr('weather.iron_nerd_studios','visibility') | int) * 0.621371) | round }}"
+        value_template: "{{ ((state_attr('weather.iron_nerd_weather_station','visibility') | int) * 0.621371) | round }}"
 
       current_inside_humidity:
         friendly_name: "Current Inside Humidity"
