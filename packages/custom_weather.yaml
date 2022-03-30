@@ -75,7 +75,7 @@ sensor:
     duration:
       days: 7
     entities:
-      - sensor.pirateweather_apparent
+      - sensor.pirateweather_apparent_temperature
   - platform: average
     name: 'Average Wind Speed'
     duration:
