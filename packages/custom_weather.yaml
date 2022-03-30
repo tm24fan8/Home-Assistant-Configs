@@ -14,3 +14,39 @@ weather:
     api_key: !secret pirate_weather_api
     mode: "daily"
     name: Iron Nerd Studios
+
+sensor:
+  - platform: pirateweather
+    api_key: !secret pirate_weather_api
+    scan_interval: '00:15:00'
+    monitored_conditions:
+      - icon
+      - temperature
+      - precip_probability
+      - precip_type
+      - humidity
+      - cloud_cover
+      - nearest_storm_distance
+      - precip_intensity
+      - wind_speed
+      - precip_accumulation
+      - apparent_temperature
+      - dew_point
+      - wind_gust
+      - wind_bearing
+      - pressure
+      - ozone
+      - minutely_summary
+      - hourly_summary
+      - daily_summary
+      - temperature_high
+      - temperature_low
+      - apparent_temperature_high
+      - apparent_temperature_low
+      - precip_intensity_max
+      - uv_index
+      - moon_phase
+      - sunrise_time
+      - sunset_time
+      - nearest_storm_bearing
+      - alerts
