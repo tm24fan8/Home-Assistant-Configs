@@ -1,10 +1,10 @@
 weather:
   - platform: template
     name: "Iron Nerd Weather Station"
-    condition_template: "{{ states('weather.iron_nerd_weather_station') }}"
+    condition_template: "{{ states('weather.iron_nerd_studios') }}"
     temperature_template: "{{ states('sensor.pirateweather_temperature') | float }}"
     humidity_template: "{{ states('sensor.pirateweather_humidity') | float }}"
-    forecast_template: "{{ state_attr('weather.iron_nerd_weather_station', 'forecast') }}"
+    forecast_template: "{{ state_attr('weather.iron_nerd_studios', 'forecast') }}"
     pressure_template: "{{ states('sensor.barometric_pressure') | float }}"
     wind_speed_template: "{{ states('sensor.pirateweather_wind_speed') | float }}"
     wind_bearing_template: "{{ states('sensor.pirateweather_wind_bearing') | float }}"
