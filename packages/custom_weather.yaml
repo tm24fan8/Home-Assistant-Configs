@@ -118,30 +118,30 @@ sensor:
             {{ [
               'Today in Defiance ',
               'Later Today ',
-              'For the rest of the day'
+              'For the rest of the day '
               ] | random }}
             expect a high of {{ state_attr('sensor.current_forecast','high_temp') }}
             {%- if states('sensor.current_forecast') == 'sunny' and is_state('binary_sensor.night','off')%}
               {{ [
-                  'and sunny.',
-                  'with sun.',
-                  'with sunny conditions prevailing.'
+                  'and sunny. ',
+                  'with sun. ',
+                  'with sunny conditions prevailing. '
                   ] | random }}
             {%- elif states('sensor.current_forecast') == 'sunny' and is_state('binary_sensor.night','on') %}
               {{ [
-                'and clear.',
-                'with clear skies.'
+                'and clear. ',
+                'with clear skies. '
                 ] | random }}
             {%- elif states('sensor.current_forecast') == 'clear-night' %}
               {{ [
-                'and clear.',
-                'with clear skies.'
+                'and clear. ',
+                'with clear skies. '
                 ] | random }}
             {%- elif states('sensor.current_forecast') == 'rainy' %}
               {{ [
-                'with rain.',
-                'with showers.',
-                'and rainy.'
+                'with rain. ',
+                'with showers. ',
+                'and rainy. '
                 ] | random }}
               {{ [
                 'Rainfall accumulations ',
@@ -151,8 +151,8 @@ sensor:
                 possible.
             {%- elif states('sensor.current_forecast') == 'snowy' %}
               {{ [
-                'with snow.',
-                'with snow showers.'
+                'with snow. ',
+                'with snow showers. '
                 ] | random }}
               {{ [
                 'Snowfall accumulations ',
@@ -162,36 +162,36 @@ sensor:
                 possible.
             {%- elif states('sensor.current_forecast') == 'snowy-rainy' %}
               {{ [
-                  'with mix preciptation possible.',
-                  'with snow and rain showers.'
+                  'with mix preciptation possible. ',
+                  'with snow and rain showers. '
                   ] | random }}
               Total accumulation near {{ state_attr('sensor.current_forecast','precipitation') }} inches
                 possible.
             {%- elif states('sensor.current_forecast') == 'windy' %}
               {{ [
-                'and windy.',
-                'with lots of wind.'
+                'and windy. ',
+                'with lots of wind. '
                 ] | random }}
             {%- elif states('sensor.current_forecast') == 'fog' %}
               {{ [
-                'and foggy.',
-                'with some fog.'
+                'and foggy. ',
+                'with some fog. '
                 ] | random }}
             {% elif states('sensor.current_forecast') == 'cloudy' %}
               {{ [
-                'with clouds.',
-                'with cloudy skies.'
+                'with clouds. ',
+                'with cloudy skies. '
                 ] | random }}
             {% elif states('sensor.current_forecast') == 'partlycloudy' %}
               {{ [
-                  'with some clouds.',
-                  'with partly cloudy skies.',
-                  'with scattered clouds'
+                  'with some clouds. ',
+                  'with partly cloudy skies. ',
+                  'with scattered clouds '
                   ] | random }}
             {%- elif states('sensor.current_forecast') == 'hail' %}
               {{ [
-                'with severve thunderstorms possible.',
-                'with hail possible.'
+                'with severe thunderstorms possible. ',
+                'with hail possible. '
                 ] | random }}
               {{ [
                 'Rainfall accumulations ',
@@ -201,8 +201,8 @@ sensor:
                 possible.
             {%- elif states('sensor.current_forecast') == 'lightning' %}
               {{ [
-                'with thunderstorms possible.',
-                'with the potential of thunderstorms.'
+                'with thunderstorms possible. ',
+                'with the potential of thunderstorms. '
                 ] | random }}
               {{ [
                 'Rainfall accumulations ',
@@ -266,15 +266,15 @@ sensor:
             expect a high of {{ state_attr('sensor.tomorrow_forecast','high_temp') }}
             {%- if states('sensor.tomorrow_forecast') == 'sunny' %}
               {{ [
-                  'and sunny.',
-                  'with sun.',
-                  'with sunny conditions prevailing.'
+                  'and sunny. ',
+                  'with sun. ',
+                  'with sunny conditions prevailing. '
                   ] | random }}
             {%- elif states('sensor.tomorrow_forecast') == 'rainy' %}
               {{ [
-                'with rain.',
-                'with showers.',
-                'and rainy.'
+                'with rain. ',
+                'with showers. ',
+                'and rainy. '
                 ] | random }}
               {{ [
                 'Rainfall accumulations ',
@@ -284,8 +284,8 @@ sensor:
                 possible.
             {%- elif states('sensor.tomorrow_forecast') == 'snowy' %}
               {{ [
-                'with snow.',
-                'with snow showers.'
+                'with snow. ',
+                'with snow showers. '
                 ] | random }}
               {{ [
                 'Snowfall accumulations ',
@@ -295,36 +295,36 @@ sensor:
                 possible.
             {%- elif states('sensor.tomorrow_forecast') == 'snowy-rainy' %}
               {{ [
-                  'with mix preciptation possible.',
-                  'with snow and rain showers.'
+                  'with mix preciptation possible. ',
+                  'with snow and rain showers. '
                   ] | random }}
               Total accumulation near {{ state_attr('sensor.tomorrow_forecast','precipitation') }} inches
                 possible.
             {%- elif states('sensor.tomorrow_forecast') == 'windy' %}
               {{ [
-                'and windy.',
-                'with lots of wind.'
+                'and windy. ',
+                'with lots of wind. '
                 ] | random }}
             {%- elif states('sensor.current_forecast') == 'fog' %}
               {{ [
-                'and foggy.',
-                'with some fog.'
+                'and foggy. ',
+                'with some fog. '
                 ] | random }}
             {% elif states('sensor.tomorrow_forecast') == 'cloudy' %}
               {{ [
-                'with clouds.',
-                'with cloudy skies.'
+                'with clouds. ',
+                'with cloudy skies. '
                 ] | random }}
             {% elif states('sensor.tomorrow_forecast') == 'partlycloudy' %}
               {{ [
-                  'with some clouds.',
-                  'with partly cloudy skies.',
-                  'with scattered clouds'
+                  'with some clouds. ',
+                  'with partly cloudy skies. ',
+                  'with scattered clouds '
                   ] | random }}
             {%- elif states('sensor.tomorrow_forecast') == 'hail' %}
               {{ [
-                'with severve thunderstorms possible.',
-                'with hail possible.'
+                'with severe thunderstorms possible. ',
+                'with hail possible. '
                 ] | random }}
               {{ [
                 'Rainfall accumulations ',
@@ -334,8 +334,8 @@ sensor:
                 possible.
             {%- elif states('sensor.current_forecast') == 'lightning' %}
               {{ [
-                'with thunderstorms possible.',
-                'with the potential of thunderstorms.'
+                'with thunderstorms possible. ',
+                'with the potential of thunderstorms. '
                 ] | random }}
               {{ [
                 'Rainfall accumulations ',
@@ -375,30 +375,30 @@ sensor:
              {{states('sensor.pirateweather_temperature')|round}} degrees
             {% if is_state('weather.iron_nerd_weather_station', 'rainy') %}
               {{ [
-              'with rain.',
-              'with showers.'
+              'with rain. ',
+              'with showers. '
               ] | random }}
             {% elif is_state('weather.iron_nerd_weather_station', 'cloudy') %}
               {{ [
-              'with clouds.',
-              'with cloudy skies.'
+              'with clouds. ',
+              'with cloudy skies. '
               ] | random }}
             {% elif is_state('weather.iron_nerd_weather_station', 'partlycloudy') %}
               {{ [
-              'with some clouds.',
-              'with partly cloudy skies.',
-              'with scatterd clouds'
+              'with some clouds. ',
+              'with partly cloudy skies. ',
+              'with scatterd clouds '
               ] | random }}
             {% elif is_state('weather.iron_nerd_weather_station', 'sunny') %}
               {% if is_state('sun.sun', 'above_horizon') %}
                 {{ [
-                'and sunny.',
-                'with sun.'
+                'and sunny. ',
+                'with sun. '
                 ] | random }}
               {% else %}
                 {{ [
-                'and clear.',
-                'with clear skies.'
+                'and clear. ',
+                'with clear skies. '
                 ] | random }}
               {% endif %}
             {% else %}
@@ -431,30 +431,30 @@ sensor:
              {{states('sensor.pirateweather_temperature')|round}} degrees
             {% if is_state('weather.iron_nerd_weather_station', 'rainy') %}
               {{ [
-              'with rain.',
-              'with showers.'
+              'with rain. ',
+              'with showers. '
               ] | random }}
             {% elif is_state('weather.iron_nerd_weather_station', 'cloudy') %}
               {{ [
-              'with clouds.',
-              'with cloudy skies.'
+              'with clouds. ',
+              'with cloudy skies. '
               ] | random }}
             {% elif is_state('weather.iron_nerd_weather_station', 'partlycloudy') %}
               {{ [
-              'with some clouds.',
-              'with partly cloudy skies.',
-              'with scatterd clouds'
+              'with some clouds. ',
+              'with partly cloudy skies. ',
+              'with scatterd clouds '
               ] | random }}
             {% elif is_state('weather.iron_nerd_weather_station', 'sunny') %}
               {% if is_state('sun.sun', 'above_horizon') %}
                 {{ [
-                'and sunny.',
-                'with sun.'
+                'and sunny. ',
+                'with sun. '
                 ] | random }}
               {% else %}
                 {{ [
-                'and clear.',
-                'with clear skies.'
+                'and clear. ',
+                'with clear skies. '
                 ] | random }}
               {% endif %}
             {% else %}
@@ -463,30 +463,30 @@ sensor:
             {%- if is_state('binary_sensor.night','off')%}
               {{ [
                 'Later Today ',
-                'For the rest of the day'
+                'For the rest of the day '
                 ] | random }}
               expect a high of {{ state_attr('sensor.current_forecast','high_temp') }}
               {%- if states('sensor.current_forecast') == 'sunny' and is_state('binary_sensor.night','off')%}
                 {{ [
-                    'and sunny.',
-                    'with sun.',
-                    'with sunny conditions prevailing.'
+                    'and sunny. ',
+                    'with sun. ',
+                    'with sunny conditions prevailing. '
                     ] | random }}
               {%- elif states('sensor.current_forecast') == 'sunny' and is_state('binary_sensor.night','on') %}
                 {{ [
-                  'and clear.',
-                  'with clear skies.'
+                  'and clear. ',
+                  'with clear skies. '
                   ] | random }}
               {%- elif states('sensor.current_forecast') == 'clear-night' %}
                 {{ [
-                  'and clear.',
-                  'with clear skies.'
+                  'and clear. ',
+                  'with clear skies. '
                   ] | random }}
               {%- elif states('sensor.current_forecast') == 'rainy' %}
                 {{ [
-                  'with rain.',
-                  'with showers.',
-                  'and rainy.'
+                  'with rain. ',
+                  'with showers. ',
+                  'and rainy. '
                   ] | random }}
                 {{ [
                   'Rainfall accumulations ',
@@ -496,8 +496,8 @@ sensor:
                   possible.
               {%- elif states('sensor.current_forecast') == 'snowy' %}
                 {{ [
-                  'with snow.',
-                  'with snow showers.'
+                  'with snow. ',
+                  'with snow showers. '
                   ] | random }}
                 {{ [
                   'Snowfall accumulations ',
@@ -507,36 +507,36 @@ sensor:
                   possible.
               {%- elif states('sensor.current_forecast') == 'snowy-rainy' %}
                 {{ [
-                    'with mix preciptation possible.',
-                    'with snow and rain showers.'
+                    'with mix preciptation possible. ',
+                    'with snow and rain showers. '
                     ] | random }}
                 Total accumulation near {{ state_attr('sensor.current_forecast','precipitation') }} inches
                   possible.
               {%- elif states('sensor.current_forecast') == 'windy' %}
                 {{ [
-                  'and windy.',
-                  'with lots of wind.'
+                  'and windy. ',
+                  'with lots of wind. '
                   ] | random }}
               {%- elif states('sensor.current_forecast') == 'fog' %}
                 {{ [
-                  'and foggy.',
-                  'with some fog.'
+                  'and foggy. ',
+                  'with some fog. '
                   ] | random }}
               {% elif states('sensor.current_forecast') == 'cloudy' %}
                 {{ [
-                  'with clouds.',
-                  'with cloudy skies.'
+                  'with clouds. ',
+                  'with cloudy skies. '
                   ] | random }}
               {% elif states('sensor.current_forecast') == 'partlycloudy' %}
                 {{ [
-                    'with some clouds.',
-                    'with partly cloudy skies.',
-                    'with scattered clouds'
+                    'with some clouds. ',
+                    'with partly cloudy skies. ',
+                    'with scattered clouds. '
                     ] | random }}
               {%- elif states('sensor.current_forecast') == 'hail' %}
                 {{ [
-                  'with severve thunderstorms possible.',
-                  'with hail possible.'
+                  'with severe thunderstorms possible. ',
+                  'with hail possible. '
                   ] | random }}
                 {{ [
                   'Rainfall accumulations ',
@@ -546,8 +546,8 @@ sensor:
                   possible.
               {%- elif states('sensor.current_forecast') == 'lightning' %}
                 {{ [
-                  'with thunderstorms possible.',
-                  'with the potential of thunderstorms.'
+                  'with thunderstorms possible. ',
+                  'with the potential of thunderstorms. '
                   ] | random }}
                 {{ [
                   'Rainfall accumulations ',
