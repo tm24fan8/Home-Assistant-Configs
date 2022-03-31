@@ -190,7 +190,10 @@
     context: {}
   condition: []
   action:
-  - service: script.goodnight
+  - service: button.press
+    data: {}
+    target:
+      entity_id: button.goodnight
   mode: single
 - id: '1641255482975'
   alias: Give Me Darkness

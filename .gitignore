@@ -16,6 +16,7 @@
 /hacs
 /image
 /node-red
+/files
 
 
 # ignore any of these files no matter where they are using double *
@@ -61,5 +62,3 @@
 **production_auth.json
 **.log*
 **alexa_auth
-weather_briefing_full.txt
-yesterday_rain_total.txt
