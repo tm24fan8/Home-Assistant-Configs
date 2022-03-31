@@ -751,3 +751,65 @@ input_boolean:
     icon: mdi:speaker-wireless
   raining:
     name: Raining
+
+automation:
+  - alias: 'record previous day rainfall'
+    trigger:
+      - platform: time
+        at: '23:58:00'
+    action:
+      service: mqtt.publish
+      data_template:
+        topic: 'house/rain/yesterday_total'
+        retain: true
+        payload: "{{ states('sensor.todays_rainfall') }}"
+
+  - alias: Forecast Low Near Freezing
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.tonights_low_temp
+        below: 35
+      - platform: numeric_state
+        entity_id: sensor.pirateweather_temperature
+        below: 35
+    condition:
+      - condition: state
+        entity_id: input_boolean.freeze_warning
+        state: 'off'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.freeze_warning
+
+  - alias: Forecast Low Above Freezing
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.tonights_low_temp
+        above: 33
+    condition:
+      - condition: state
+        entity_id: input_boolean.freeze_warning
+        state: 'on'
+      - condition: numeric_state
+        entity_id: sensor.tonights_low_temp
+        above: 35
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.freeze_warning
+
+
+script:
+
+  refresh_weather_alert_sensors:
+    sequence:
+      - service: homeassistant.update_entity
+        entity_id: sensor.tornado_warning
+      - service: homeassistant.update_entity
+        entity_id: sensor.tornado_watch
+      - service: homeassistant.update_entity
+        entity_id: sensor.tstorm_warning
+      - service: homeassistant.update_entity
+        entity_id: sensor.tstorm_watch
+      - service: homeassistant.update_entity
+        entity_id: sensor.flood_warning
+      - service: homeassistant.update_entity
+        entity_id: sensor.flood_watch
