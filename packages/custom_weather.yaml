@@ -98,7 +98,7 @@ sensor:
             {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
             {{ forecast.temperature }}
           overnight_low: >-
-            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
+            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
             {{ forecast.templow }}
           wind_bearing: >-
             {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
@@ -241,7 +241,7 @@ sensor:
             {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
             {{ forecast.temperature }}
           overnight_low: >-
-            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[2] %}
+            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
             {{ forecast.templow }}
           wind_bearing: >-
             {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
