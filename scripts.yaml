@@ -140,48 +140,6 @@ stop_spotify:
       source: '!com.spotify.tv.android'
   mode: single
   icon: mdi:spotify
-goodnight:
-  alias: Goodnight
-  sequence:
-  - service: switch.turn_on
-    data: {}
-    target:
-      entity_id:
-      - switch.adaptive_lighting_sleep_mode_upstairs_hallway
-      - switch.adaptive_lighting_sleep_mode_upstairs_bathroom
-  - service: light.turn_off
-    target:
-      area_id:
-      - basement_studio
-      - master_bedroom
-      - kallen_bedroom
-      - furnace_room
-      - mud_room
-      - nursery
-      - living_room
-      - dining_room
-      - upstairs_hallway
-      - downstairs_bathroom
-      entity_id:
-      - light.upstairs_bathroom_right
-      - light.upstairs_bathroom_wall
-    data: {}
-  - service: switch.turn_off
-    target:
-      area_id:
-      - basement_studio
-    data: {}
-  - service: switch.turn_on
-    target:
-      entity_id:
-      - switch.basement_echo_dot_do_not_disturb_switch
-      - switch.living_room_echo_dot_do_not_disturb_switch
-      - switch.master_bedroom_echo_dot_do_not_disturb_switch
-    data: {}
-  - service: script.kallen_desktop_shutdown
-    data: {}
-  mode: single
-  icon: mdi:weather-night
 alexa_tts_test:
   alias: Alexa TTS Test
   sequence:
@@ -395,55 +353,6 @@ going_upstairs:
       - light.upstairs_bathroom_lights
   mode: single
   icon: hue:room-stairs
-good_morning:
-  alias: Good Morning
-  sequence:
-  - service: switch.turn_off
-    data: {}
-    target:
-      entity_id:
-      - switch.kallen_fan_socket_1
-      - switch.master_bedroom_fan_socket_1
-      - switch.basement_echo_dot_do_not_disturb_switch
-      - switch.living_room_echo_dot_do_not_disturb_switch
-      - switch.master_bedroom_echo_dot_do_not_disturb_switch
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 1
-      milliseconds: 0
-  - service: media_player.play_media
-    data:
-      media_content_id: Alexa.Date.Play
-      media_content_type: sequence
-    target:
-      entity_id: media_player.living_room_echo_dot
-  - service: media_player.play_media
-    data:
-      media_content_id: Alexa.Weather.Play
-      media_content_type: sequence
-    target:
-      entity_id: media_player.living_room_echo_dot
-  - service: media_player.play_media
-    data:
-      media_content_id: Alexa.Traffic.Play
-      media_content_type: sequence
-    target:
-      entity_id: media_player.living_room_echo_dot
-  - service: media_player.play_media
-    data:
-      media_content_id: Alexa.Calendar.PlayToday
-      media_content_type: sequence
-    target:
-      entity_id: media_player.living_room_echo_dot
-  - service: media_player.play_media
-    data:
-      media_content_id: Alexa.Calendar.PlayTomorrow
-      media_content_type: sequence
-    target:
-      entity_id: media_player.living_room_echo_dot
-  mode: single
-  icon: mdi:weather-sunset-up
 basement_on:
   alias: Basement On
   sequence:
