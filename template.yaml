@@ -3,3 +3,7 @@ binary_sensor:
     state: >
       {{ is_state('person.tony_stork', 'home')
           or is_state('person.christina_stork', 'home') }}
+  - name: School Time
+    state: >
+      {{ is_state('binary_sensor.school', 'on') 
+          and is_state('binary_sensor.workday_sensor', 'on') }}
