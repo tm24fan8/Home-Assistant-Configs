@@ -21,6 +21,8 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [Local Tuya](https://github.com/rospogrigio/localtuya)
 - [Pirate Weather](https://github.com/alexander0042/pirate-weather-ha)
 - [Holidays](https://github.com/bruxy70/Holidays)
+- [Plex Recently Added](https://github.com/custom-components/sensor.plex_recently_added)
+- [Plex Assistant](https://github.com/maykar/plex_assistant)
 
 # HACS Lovelace Cards
 Again, mostly just the ones I'm **using** or **will use soon**
@@ -50,6 +52,9 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Apexcharts Card](https://github.com/RomRider/apexcharts-card)
 - [Auto Entities Card](https://github.com/thomasloven/lovelace-auto-entities)
 - [Header Cards](https://github.com/gadgetchnnel/lovelace-header-cards)
+- [Upcoming Media Card](https://github.com/custom-cards/upcoming-media-card)
+- [Plex Meets Home Assistant](https://github.com/JurajNyiri/PlexMeetsHomeAssistant)
+
 
 # Themes/Icons
 - [Noctis](https://github.com/aFFekopp/noctis)
