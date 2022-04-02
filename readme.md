@@ -19,6 +19,8 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [Holidays](https://github.com/bruxy70/Holidays)
 - [Twitch Helix](https://github.com/Radioh/ha_twitch_helix)
 - [Local Tuya](https://github.com/rospogrigio/localtuya)
+- [Pirate Weather](https://github.com/alexander0042/pirate-weather-ha)
+- [Holidays](https://github.com/bruxy70/Holidays)
 
 # HACS Lovelace Cards
 Again, mostly just the ones I'm **using** or **will use soon**
@@ -41,8 +43,16 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [History Explorer Card](https://github.com/alexarch21/history-explorer-card)
 - [Plotly Graph Card](https://github.com/dbuezas/lovelace-plotly-graph-card)
 - [Mushroom](https://github.com/piitaya/lovelace-mushroom)
+- [Transmission Card](https://github.com/amaximus/transmission-card)
+- [Todoist Card](https://github.com/grinstantin/todoist-card)
+- [TV Remote Card](https://github.com/marrobHD/tv-card)
+- [FireTV Remote Card](https://github.com/marrobHD/firetv-card)
+- [Apexcharts Card](https://github.com/RomRider/apexcharts-card)
+- [Auto Entities Card](https://github.com/thomasloven/lovelace-auto-entities)
+- [Header Cards](https://github.com/gadgetchnnel/lovelace-header-cards)
 
 # Themes/Icons
 - [Noctis](https://github.com/aFFekopp/noctis)
 - [Hass Hue Icons](https://github.com/arallsopp/hass-hue-icons)
 - [Thermal Comfort Icons](https://github.com/rautesamtr/thermal_comfort_icons)
+- [BHA Icon Pack](https://github.com/hulkhaugen/hass-bha-icons)
