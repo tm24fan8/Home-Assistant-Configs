@@ -39,16 +39,7 @@
 - platform: uptime
   name: Last Boot
 - platform: plex_recently_added
-  name: Recently Added Videos
+  name: Recently Added on Plex
   token: !secret plex_token
   host: 192.168.1.4
   port: 32400
-  section_types:
-    - video
-- platform: plex_recently_added
-  name: Recently Added Movies
-  token: !secret plex_token
-  host: 192.168.1.4
-  port: 32400
-  section_types:
-    - movie
