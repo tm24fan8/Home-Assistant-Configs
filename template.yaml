@@ -7,3 +7,6 @@ binary_sensor:
     state: >
       {{ is_state('binary_sensor.school', 'on') 
           and is_state('binary_sensor.workday_sensor', 'on') }}
+  - name: Tina Work
+    state: >
+      {{ is_state('calendar.family_tinawork', 'on') }}

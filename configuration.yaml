@@ -121,6 +121,14 @@ calendar:
     username: !secret userIcloud
     password: !secret passIcloud
     url: https://caldav.icloud.com
+  - platform: caldav
+    username: !secret userIcloud
+    password: !secret passIcloud
+    url: https://caldav.icloud.com
+    custom_calendars:
+      - name: "TinaWork"
+        calendar: "Family"
+        search: "Work"
   - platform: todoist
     token: !secret todoist_api_token
     custom_projects:
