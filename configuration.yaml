@@ -154,14 +154,14 @@ notify:
   - name: all_ios
     platform: group
     services:
-      - service: mobile_app_iphone
+      - service: mobile_app_tinas_iphone
       - service: mobile_app_tony_s_iphone
       - service: mobile_app_tony_s_ipad
       - service: mobile_app_kallen_iphone
   - name: ios_parents
     platform: group
     services:
-      - service: mobile_app_iphone
+      - service: mobile_app_tinas_iphone
       - service: mobile_app_tony_s_ipad
       - service: mobile_app_tony_s_iphone
   - name: ios_tony
@@ -172,7 +172,7 @@ notify:
   - name: ios_tina
     platform: group
     services:
-      - service: mobile_app_iphone
+      - service: mobile_app_tinas_iphone
   - name: ios_kallen
     platform: group
     services:
