@@ -1,3 +1,6 @@
+# ATTENTION: The actual notify services are currently defined in configuration.yaml and NOT in this file. 
+# Just a note because I've already forgotten once ;)
+
 input_boolean:
   text_notify_tony:
     name: Send Texts to Tony
