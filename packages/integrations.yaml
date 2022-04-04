@@ -1,0 +1,31 @@
+breaking_changes:
+
+wake_on_lan:
+
+python_script:
+
+anniversaries:
+  sensors:
+    - name: Wedding Anniversary
+      date: !secret wedding_anniversary
+    - name: Tony's Birthday
+      date: !secret tony_bday
+    - name: Tina's Birthday
+      date: !secret tina_bday
+    - name: Kallen's Birthday
+      date: !secret kallen_bday
+    - name: Emmalynn's Birthday
+      date: !secret emmalynn_bday
+
+spotify:
+  client_id: !secret spotify_id
+  client_secret: !secret spotify_secret
+
+spotcast:
+  sp_dc: !secret sp_dc
+  sp_key: !secret sp_key
+
+device_tracker:
+  - platform: icloud3
+    username: !secret userIcloud
+    password: !secret passIcloud2
