@@ -619,7 +619,7 @@ sensor:
             {% elif states('sensor.todays_high_temp')|int < 64 %}
               {%- if states('sensor.todays_high_temp')|int < 32 %}
                 Freezing
-              {% elif states('sensor.todays_high_temp')|int > 50 %}
+              {% elif states('sensor.todays_high_temp')|int > 48 %}
                 Chilly
               {% else %}
                 Cold
