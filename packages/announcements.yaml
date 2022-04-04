@@ -81,7 +81,7 @@ script:
       data_template:
         media: "/media/music/ES_RiserSuction5.mp3"
         volume: .5
-        speaker: 'media_player.basement_echo_dot'
+        speaker: 'media_player.living_room_echo_dot'
     - service: script.text_notify
       data_template:
         who: "all_ios"
