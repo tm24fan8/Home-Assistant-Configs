@@ -1,0 +1,180 @@
+################################
+# Media Player section for any media players you want to define. Most of these are setup via the integrations flow in the UI, 
+# but if not you may need to modify the following section. 
+# For more info on Media Players visit https://www.home-assistant.io/integrations/media_player/
+# MODIFY this section as needed or comment it out completely if not needed.
+# media_player:
+  # - platform: yamaha
+  #   host: 192.168.7.152
+
+################################
+# Media extractor is used for playing youtube audio. For more info ->https://www.home-assistant.io/integrations/media_extractor/
+#
+# If you have this enabled in another package or in your configuration.yaml comment out the line below
+media_extractor:
+
+
+############################
+# input_datetime (https://www.home-assistant.io/integrations/input_datetime/)
+# 
+# This is simply so we can track last called alexa.     
+input_datetime:
+  last_time_alexa_called:
+    name: Last Time Alexa Called
+    has_date: true
+    has_time: true
+
+################################
+# Scripts to handle audio
+script:
+
+  ################################
+  # local_audio is meant to be used to play audio in your media folder. (https://www.home-assistant.io/integrations/media_source/)
+  # 
+  # Before using make sure you update as needed.
+  # 
+  # To call this using in the action section of your automation:
+  # 
+  # - service: script.local_audio
+  #   data:
+  #     speaker: main
+  #     volume: .5
+  #     media: /media/local_audio.mp3
+  #
+  local_audio:
+    sequence:
+    # Ensure that audible notifications are allowed. Comment out if not needed.
+    - condition: state
+      entity_id: input_boolean.audible_notifications
+      state: 'on'
+    # Ensure the family is home. If you are using a group to track the family, or a person just update as needed. Comment out if not needed.
+    - condition: state
+      entity_id: group.family
+      state: 'home'
+    # Update the media player with the one you want to use
+    - service: media_player.turn_on
+      data:
+        entity_id: >
+          {{ speaker }}
+    # This sets the voume via a parameter when the script is called, and should be a value between .1 and 1.0
+    - service: media_player.volume_set
+      data:
+        entity_id: >
+          {{ speaker }}
+        volume_level: >
+          {{ volume }}
+    - delay: 00:00:05
+    # This tells it to play the media and is set when the script is called. 
+    - service: media_player.play_media
+      data:
+        entity_id: >
+          {{ speaker }}
+        media_content_type: "music"
+        media_content_id: >
+          {{ media }}
+  
+  
+  ################################
+  # youtube_audio is meant to be used to play audio from well youtube. 
+  # This scrtip requires the media_extractor integration.
+  # 
+  # Before using make sure you update as needed.
+  # 
+  # To call this using in the action section of your automation:
+  # 
+  # - service: script.youtube_audio
+  #   data:
+  #     speaker: main
+  #     volume: .5
+  #     media: https://www.youtube.com/watch?v=pVeX4C9B1Lk
+  #
+  youtube_audio:
+    sequence:
+    # Ensure that audible notifications are allowed. Comment out if not needed.
+    - condition: state
+      entity_id: input_boolean.audible_notifications
+      state: 'on'
+    # Ensure the family is home. If you are using a group to track the family, or a person just update as needed. Comment out if not needed.
+    - condition: state
+      entity_id: group.family
+      state: 'home'
+    # Update the media player with the one you want to use
+    - service: media_player.turn_on
+      data:
+        entity_id: >
+          {{ speaker }}
+    # This sets the voume via a parameter when the script is called, and should be a value between .1 and 1.0
+    - service: media_player.volume_set
+      data:
+        entity_id: >
+          {{ speaker }}
+        volume_level: >
+          {{ volume }}
+    # This tells it to play the media and is set when the script is called.
+    #  media_content_type: video/Youtube
+    - service: media_extractor.play_media
+      data:
+        entity_id: >
+          {{ speaker }}
+        media_content_type: music
+        media_content_id: >
+          {{ media }}
+
+automation:
+  - id: e1cb17ea-0423-11eb-adc1-0242ac120002
+    alias: Set Last Alexa Called Time 
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: 
+        - media_player.living_room_echo_dot
+        - media_player.basement_echo_dot
+        - media_player.master_bedroom_echo_dot
+    condition:
+      - condition: template
+        value_template: '{{ trigger.to_state.attributes.last_called_timestamp | float > trigger.from_state.attributes.last_called_timestamp | float }}'   # Alexa has been triggered
+    action:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.last_time_alexa_called
+        data:
+          datetime: '{{ now().strftime(''%Y-%m-%d %H:%M:%S'') }}'
+
+  - id: e1cb2fdc-0423-11eb-adc1-0242ac120002
+    alias: Set Room Presence
+    mode: restart
+    trigger:
+      - platform: state
+        entity_id: sensor.room_audio
+    action:
+      - service: input_text.set_value
+        data_template:
+          entity_id: input_text.room_presence
+          value: '{{ states(''sensor.room_audio'') }}'
+      - service: mqtt.publish
+        data:
+          topic: house/presence/current_room
+          payload: '{{ states(''sensor.room_audio'') }}'
+          retain: true
+
+sensor:
+  - platform: mqtt
+    name: "Room Presence"
+    state_topic: "house/presence/current_room"
+  - platform: template
+    sensors:
+      alexa_audio:
+        friendly_name: "Alexa Audio"
+        value_template: >-
+            {%- if is_state('sensor.last_alexa', 'media_player.living_room_echo_dot') %}
+              living_room
+            {% elif is_state('sensor.last_alexa', 'media_player.basement_echo_dot') %}
+              basement
+            {% elif is_state('sensor.last_alexa', 'media_player.master_bedroom_echo_dot') %}
+              master_bedroom
+            {% else %}
+              everywhere
+            {%- endif %}
+      last_alexa:
+        value_template: >
+          {{ states.media_player | selectattr('attributes.last_called','eq',True) | map(attribute='entity_id') | first }}

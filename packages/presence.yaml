@@ -1,0 +1,129 @@
+input_datetime:
+  last_time_home_tony:
+    name: Tony Last Seen
+    has_date: true
+    has_time: true
+  last_time_home_tina:
+    name: Tina Last Seen
+    has_date: true
+    has_time: true
+  last_time_home_kallen:
+    name: Kallen Last Seen
+    has_date: true
+    has_time: true
+
+proximity:
+  home_tony:
+    devices:
+      - device_tracker.tony_s_iphone
+    zone: home
+    tolerance: 5
+    unit_of_measurement: mi
+  home_tina:
+    devices:
+      - device_tracker.tinas_iphone
+    zone: home
+    tolerance: 5
+    unit_of_measurement: mi
+  home:
+    devices:
+      - device_tracker.tony_s_iphone
+      - device_tracker.tinas_iphone
+    zone: home
+    tolerance: 5
+    unit_of_measurement: mi
+
+sensor:
+  - platform: mqtt
+    name: "Family Status"
+    state_topic: "house/family/status"
+    payload_available: "online"
+    payload_not_available: "offline"
+  - platform: mqtt
+    name: "Family Arrived"
+    state_topic: "house/family/arrived"
+    payload_available: "online"
+    payload_not_available: "offline"
+  - platform: template
+    sensors:
+      tony_home:
+        value_template: >-
+          {{ is_state('device_tracker.tony_s_iphone', 'home') or is_state('device_tracker.tony_s_iphone_app', 'home') }}
+  - platform: template
+    sensors:
+      tina_home:
+        value_template: >-
+          {{ is_state('device_tracker.tinas_iphone', 'home') or is_state('device_tracker.tinas_iphone_app', 'home') }}
+
+automation:
+  - id: kallen_at_school
+    alias: Kallen is at School
+    trigger:
+      - entity_id: person.tony_stork
+        event: leave
+        platform: zone
+        zone: zone.school
+      - entity_id: person.christina_stork
+        event: leave
+        platform: zone
+        zone: zone.school
+      - entity_id: person.kallen_stork
+        event: enter
+        platform: zone
+        zone: zone.school
+    condition:
+      - condition: time
+        before: "11:30:00"
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+      - condition: state
+        entity_id: input_boolean.kallen_school
+        state: "off"
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.kallen_school
+      - service: script.text_alert
+        data:
+          who: parents
+          message: "Kallen has been dropped off at school."
+    initial_state: true
+
+  - id: kallen_left_school
+    alias: Kallen left School
+    trigger:
+      - entity_id: person.tony_stork
+        event: leave
+        platform: zone
+        zone: zone.school
+      - entity_id: person.christina_stork
+        event: leave
+        platform: zone
+        zone: zone.school
+      - entity_id: person.kallen_stork
+        event: leave
+        platform: zone
+        zone: zone.school
+    condition:
+      - condition: time
+        after: "11:30:02"
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+      - condition: state
+        entity_id: input_boolean.kallen_school
+        state: "on"
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.kallen_school
+      - service: script.text_alert
+        data:
+          who: parents
+          message: "Kallen has been picked up from school."
+    initial_state: true
