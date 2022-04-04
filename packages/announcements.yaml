@@ -1,0 +1,64 @@
+###############################
+# input_datetime - So the time report automation fires can be set in the UI
+###############################
+
+input_datetime:
+  morning_report:
+    name: Morning Report
+    has_date: false
+    has_time: true
+  nightly_report:
+    name: Nightly Report
+    has_date: false
+    has_time: true
+  daily_report:
+    name: Daily Report
+    has_date: false
+    has_time: true
+  kallen_morning_report:
+    name: Kallen Dressed Announcement
+    has_date: false
+    has_time: true
+  kallen_nightly_report:
+    name: Kallen Bedtime Announcement
+    has_date: false
+    has_time: true
+  audible_notification_on:
+    name: Audible Notifications On
+    has_date: false
+    has_time: true
+  audible_notification_off:
+    name: Audible Notifications Off
+    has_date: false
+    has_time: true
+
+################################
+# Announcment Automation - fires at the time of the above input_datetimes
+################################
+
+automation:
+  
+  - id: 81bee5ee-6820-4626-aebf-3deb8de69e4d
+    alias: Turn On Audible Notifications
+    initial_state: true
+    trigger:
+      platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.audible_notification_on', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+    action:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.audible_notifications
+
+  # Turn off audible notifications if they have't been turned off yet. 
+  - id: e0e9c774-6abe-42aa-bdab-32108bebb0e9
+    alias: Turn Off Audible Notifications
+    initial_state: true
+    trigger:
+    - platform: template
+      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.audible_notification_off', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+    - condition: state
+      entity_id: input_boolean.audible_notifications
+      state: 'on'
+    action:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.audible_notifications
