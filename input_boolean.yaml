@@ -2,3 +2,14 @@ kallen_school:
   name: Kallen at School
 good_morning_report:
   name: Good Morning Report 
+weather_reports:
+  name: Weather Info 
+traffic_reports:
+  name: traffic_reports
+sun_reports:
+  name: Sun Reports 
+shuffle_spotify:
+  name: Spotify Shuffle
+tornado_watch:
+  name: Tornado Watch
+  icon: mdi:message-alert

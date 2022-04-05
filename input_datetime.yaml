@@ -3,9 +3,20 @@ tina_workday_start:
   has_date: false
   has_time: true
   icon: mdi:briefcase
-
 tina_workday_end:
   name: Tina Workday End
   has_date: false
   has_time: true
   icon: mdi:briefcase-off
+announcement_delay:
+  name: Announcement Delay
+  has_date: false
+  has_time: true
+good_morning:
+  name: Good Morning
+  has_date: false
+  has_time: true
+good_night_routine:
+  name: Good Night Routine
+  has_date: false
+  has_time: true
