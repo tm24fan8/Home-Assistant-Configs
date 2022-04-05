@@ -159,6 +159,12 @@ notify:
       - service: mobile_app_kallen_iphone
       - service: mobile_app_tony_s_ipad
       - service: mobile_app_tony_s_iphone
+  - name: tv_notifications
+    platform: group
+    services:
+      - service: living_room_tv
+      - service: basement_tv
+      - service: master_bedroom_tv
 
 rest_command:
   todoist:
