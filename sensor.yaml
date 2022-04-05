@@ -43,3 +43,60 @@
   token: !secret plex_token
   host: 192.168.1.4
   port: 32400
+- platform: template
+  sensors:
+    sensor_count:
+      friendly_name: 'Number of Sensors'
+      value_template: >-
+        {{ states.sensor | rejectattr('state', 'eq', 'unavailable') | list | count }}
+    automation_count:
+      friendly_name: 'Number of Automations'
+      value_template: >-
+        {{ states.automation| rejectattr('state', 'eq', 'unavailable') | list | count }}
+    script_count:
+      friendly_name: 'Number of Scripts'
+      value_template: >-
+        {{ states.script | rejectattr('state', 'eq', 'unavailable') | list | count }}
+    binary_sensor_count:
+      friendly_name: 'Number of Binary Sensors'
+      value_template: >-
+        {{ states.binary_sensor | rejectattr('state', 'eq', 'unavailable') | list | count }}
+    tracker_count:
+      friendly_name: 'Number of Devices'
+      value_template: >-
+        {{ states.device_tracker| rejectattr('state', 'eq', 'unavailable') | list | count }}
+    lights_count:
+      friendly_name: 'Number of Lights'
+      value_template: >-
+        {{ states.light | rejectattr('state', 'eq', 'unavailable') | list | count }}
+    switches_count:
+      friendly_name: 'Number of Switches'
+      value_template: >-
+        {{ states.switch | rejectattr('state', 'eq', 'unavailable') | list | count }}
+    camera_count:
+      friendly_name: 'Number of online Cameras'
+      value_template: >-
+        {{ states.camera | rejectattr('state', 'eq', 'unavailable') | list | count }}
+    entities_count:
+      friendly_name: 'Number of Entities'
+      value_template: >-
+        {{ states | rejectattr('state', 'eq', 'unavailable') | list | count}}
+    na_entities_count:
+      friendly_name: 'Number of NA Entities'
+      value_template: >-
+        {{ states | selectattr('state', 'eq', 'unavailable') | map(attribute='entity_id') | list | count }}
+    today_is:
+      friendly_name: 'Today is'
+      value_template: "{{ ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'][now().weekday()] }}"
+    month_is:
+      friendly_name: 'Month is'
+      value_template: "{{ ['January','February','March','April','May','June','August','September','October','November','December'][now().month-1] }}" 
+    school_tomorrow:
+      friendly_name: 'School Tomorrow'
+      value_template: >-
+        {%- set test=(as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) %}
+        {% if states.calendar.kallen_school.attributes.start_time == test + " 07:35:00" %}
+          on
+        {% else %}
+          off
+        {% endif %}
