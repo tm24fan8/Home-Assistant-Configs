@@ -91,6 +91,7 @@ script:
       data_template:
         who: "all_ios"
         message: "Time for Kallen to get ready for bed."
-    - service: notify.alexa_media_basement_echo_dot
+    - service: notify.alexa_media
       data:
+        target: Basement Echo Dot
         message: !include ../templates/speech/kallen_nightly_briefing.yaml
