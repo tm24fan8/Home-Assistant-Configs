@@ -10,7 +10,12 @@
   action:
   - service: script.max_brightness
     data: {}
-  - service: notify.notify
+  - service: notify.all_ios
+    data:
+      title: Tornado Warning - TAKE COVER!
+      message: The National Weather Service has issued a Tornado Warning for our area.
+        Take Cover NOW!!!!
+  - service: notify.tv_notifications
     data:
       title: Tornado Warning - TAKE COVER!
       message: The National Weather Service has issued a Tornado Warning for our area.
