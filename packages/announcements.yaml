@@ -63,16 +63,6 @@ automation:
     - service: input_boolean.turn_off
       entity_id: input_boolean.audible_notifications
 
-  - id: 754da2e2-af95-43b0-bb4e-9df553c305fd
-    alias: Kallen Nightly Briefing
-    trigger:
-      platform: time
-      at: input_datetime.kallen_nightly_report
-    action:
-    - service: script.turn_on 
-      entity_id: script.kallen_nightly_briefing
-
-
 script:
   reset_annc_switches:
     sequence:
@@ -84,14 +74,3 @@ script:
       - service: button.press
         target:
           entity_id: button.good_morning
-
-  kallen_nightly_briefing:
-    sequence:
-    - service: script.text_notify
-      data_template:
-        who: "all_ios"
-        message: "Time for Kallen to get ready for bed."
-    - service: notify.alexa_media
-      data:
-        target: Basement Echo Dot
-        message: !include ../templates/speech/kallen_nightly_briefing.yaml

@@ -91,12 +91,3 @@
     month_is:
       friendly_name: 'Month is'
       value_template: "{{ ['January','February','March','April','May','June','August','September','October','November','December'][now().month-1] }}" 
-    school_tomorrow:
-      friendly_name: 'School Tomorrow'
-      value_template: >-
-        {%- set test=(as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) %}
-        {% if states.calendar.kallen_school.attributes.start_time == test + " 07:35:00" %}
-          on
-        {% else %}
-          off
-        {% endif %}
