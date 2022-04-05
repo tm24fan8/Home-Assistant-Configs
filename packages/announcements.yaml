@@ -74,15 +74,3 @@ script:
       - service: button.press
         target:
           entity_id: button.good_morning
-
-  kallen_nightly_briefing:
-    sequence:
-    - service: script.local_audio
-      data_template:
-        media: "/media/music/ES_RiserSuction5.mp3"
-        volume: .5
-        speaker: 'media_player.living_room_echo_dot'
-    - service: script.text_notify
-      data_template:
-        who: "all_ios"
-        message: "Time for Kallen to get ready for bed."
