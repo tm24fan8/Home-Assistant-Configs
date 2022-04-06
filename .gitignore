@@ -15,7 +15,7 @@
 /deps
 /hacs
 /image
-/node-red
+/node-red/*
 /files
 
 
@@ -62,3 +62,6 @@
 **production_auth.json
 **.log*
 **alexa_auth
+
+# exceptions
+!/node-red/flows.json
