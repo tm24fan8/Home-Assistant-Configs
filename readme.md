@@ -1,5 +1,10 @@
 Just a place to track my work on my personal Home Assistant configuration, and learn as I go. Maybe also TRY to keep myself a little bit more organized ;)
 
+# Attributions
+I am fairly new to this, and while I'm learning to do a lot of it myself, I have definitely pulled ideas (in most cases modifying them for my needs) from other sources as well. Some of the most noteworthy are below.
+
+- [SlackerLabs](https://github.com/thejeffreystone/home-assistant-configuration) - This guy has a lot of EXCELLENT videos on [his YouTube channel](https://www.youtube.com/c/SlackerLabs) and is very good at explaining things in a way that someone new to all of this can understand.
+
 # HACS Components
 These aren't all the ones I have installed...just the ones I am actively **using** or **will use soon**
 
