@@ -26,6 +26,7 @@ input_text: !include input_text.yaml
 input_datetime: !include input_datetime.yaml
 template: !include template.yaml
 localtuya: !include localtuya.yaml
+light groups: !include light-groups.yaml
 
 frontend:
   themes: !include_dir_merge_named themes
@@ -38,72 +39,6 @@ http:
   use_x_forwarded_for: true
   trusted_proxies:
     - 172.30.33.0/24
-
-light:
-  - platform: group
-    name: Living Room Lights
-    entities:
-      - light.living_room_color_1
-      - light.living_room_color_2
-  - platform: group
-    name: Master Bedroom Lights
-    entities:
-      - light.master_bedroom_front
-      - light.master_bedroom_side
-  - platform: group
-    name: Basement Lights
-    entities:
-      - light.basement_stairwell
-      - light.basement_tall_lamp
-      - light.basement_short_lamp
-      - light.basement_led_strip_1
-      - light.furnace_room_overhead
-  - platform: group
-    name: Dining Room Lamp
-    entities:
-      - light.dining_room_lamp_blue
-      - light.dining_room_lamp_green
-      - light.dining_room_lamp_purple
-      - light.dining_room_lamp_red
-      - light.dining_room_lamp_white
-  - platform: group
-    name: First Floor Lights
-    entities:
-      - light.living_room_color_1
-      - light.living_room_color_2
-      - light.mud_room_overhead
-      - light.dining_room_lamp
-      - light.downstairs_bathroom_left
-      - light.downstairs_bathroom_right
-  - platform: group
-    name: Second Floor Lights
-    entities:
-      - light.master_bedroom_front
-      - light.master_bedroom_side
-      - light.hallway_overhead
-      - light.kallen_bedroom_light
-      - light.nursery_light
-      - light.upstairs_bathroom_left
-      - light.upstairs_bathroom_right
-      - light.upstairs_bathroom_wall
-  - platform: group
-    name: Basement Studio Lights
-    entities:
-      - light.basement_stairwell
-      - light.basement_tall_lamp
-      - light.basement_short_lamp
-      - light.basement_led_strip_1
-  - platform: group
-    name: Upstairs Bathroom Lights
-    entities:
-      - light.upstairs_bathroom_left
-      - light.upstairs_bathroom_right
-      - light.upstairs_bathroom_wall
-  - platform: group
-    name: Downstairs Bathroom Lights
-    entities:
-      - light.downstairs_bathroom_left
-      - light.downstairs_bathroom_right
 
 calendar:
   - platform: caldav
