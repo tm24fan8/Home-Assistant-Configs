@@ -6,6 +6,8 @@ homeassistant:
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
+# Includes
+
 group: !include groups.yaml
 automation ui: !include automations.yaml
 automation manual: !include_dir_merge_list automations
@@ -23,6 +25,14 @@ input_select: !include input_select.yaml
 input_text: !include input_text.yaml
 input_datetime: !include input_datetime.yaml
 template: !include template.yaml
+localtuya: !include localtuya.yaml
+
+frontend:
+  themes: !include_dir_merge_named themes
+  extra_module_url:
+  - /hacsfiles/hass-hue-icons/hass-hue-icons.js
+  - /hacsfiles/hass-bha-icons/hass-bha-icons.js
+  javascript_version: latest
 
 http:
   use_x_forwarded_for: true
@@ -95,13 +105,6 @@ light:
       - light.downstairs_bathroom_left
       - light.downstairs_bathroom_right
 
-frontend:
-  themes: !include_dir_merge_named themes
-  extra_module_url:
-  - /hacsfiles/hass-hue-icons/hass-hue-icons.js
-  - /hacsfiles/hass-bha-icons/hass-bha-icons.js
-  javascript_version: latest
-
 calendar:
   - platform: caldav
     username: !secret userIcloud
@@ -123,8 +126,6 @@ calendar:
         due_date_days: 0
       - name: 'Due This Week'
         due_date_days: 7
-
-localtuya: !include localtuya.yaml
 
 notify:
   - platform: ios
