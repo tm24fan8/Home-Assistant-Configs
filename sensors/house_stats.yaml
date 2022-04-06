@@ -53,7 +53,7 @@
   duration:
     hours: 24
 - platform: history_stats
-  name: Basement TV Chromecase Time
+  name: Basement TV Chromecast Time
   entity_id: media_player.basement_tv_chromecast
   state: 'playing'
   type: time
