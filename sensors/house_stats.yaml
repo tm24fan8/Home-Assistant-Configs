@@ -40,5 +40,84 @@
       friendly_name: 'Number of NA Entities'
       value_template: >-
         {{ states | selectattr('state', 'eq', 'unavailable') | map(attribute='entity_id') | list | count }}
+
 - platform: uptime
   name: Last Boot
+
+- platform: history_stats
+  name: Basement TV Time
+  entity_id: media_player.basement_tv
+  state: 'playing'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Basement TV Chromecase Time
+  entity_id: media_player.basement_tv_chromecast
+  state: 'playing'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Living Room TV Time
+  entity_id: media_player.living_room_tv
+  state: 'playing'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Living Room TV Chromecast Time
+  entity_id: media_player.living_room_tv_chromecast
+  state: 'playing'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Master Bedroom TV Time
+  entity_id: media_player.master_bedroom_firetv
+  state: 'playing'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Living Room Xbox One Time
+  entity_id: media_player.xboxone
+  state: 'playing'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Outside Lights
+  entity_id: group.outside_lights
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+
+- platform: statistics
+  name: Outside Temp Stats
+  entity_id: sensor.pirateweather_temperature
+  state_characteristic: mean
+  sampling_size: 500
+- platform: statistics
+  name: Wind Speed Stats
+  entity_id: sensor.pirateweather_wind_speed
+  state_characteristic: mean
+  sampling_size: 500
+- platform: statistics
+  name: Visibility Stats
+  entity_id: sensor.kdfi_visibility
+  state_characteristic: mean
+  sampling_size: 500
+- platform: statistics
+  name: Humidity Stats
+  entity_id: sensor.pirateweather_humidity
+  state_characteristic: mean
+  sampling_size: 500
