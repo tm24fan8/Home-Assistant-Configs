@@ -94,7 +94,7 @@
     hours: 24
 - platform: history_stats
   name: Outside Lights
-  entity_id: group.outside_lights
+  entity_id: light.outside_lights
   state: 'on'
   type: time
   end: '{{ now() }}'
