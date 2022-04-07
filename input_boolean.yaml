@@ -5,7 +5,7 @@ good_morning_report:
 weather_reports:
   name: Weather Info 
 traffic_reports:
-  name: traffic_reports
+  name: Traffic Reports
 sun_reports:
   name: Sun Reports 
 shuffle_spotify:
