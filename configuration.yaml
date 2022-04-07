@@ -26,7 +26,6 @@ input_text: !include input_text.yaml
 input_datetime: !include input_datetime.yaml
 template: !include template.yaml
 localtuya: !include localtuya.yaml
-light groups: !include light-groups.yaml
 
 frontend:
   themes: !include_dir_merge_named themes
