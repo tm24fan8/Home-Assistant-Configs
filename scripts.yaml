@@ -233,58 +233,22 @@ global_off:
   alias: Global Off
   sequence:
   - service: light.turn_off
-    target:
-      area_id:
-      - basement_studio
-      - furnace_room
-      - kallen_bedroom
-      - living_room
-      - master_bedroom
-      - mud_room
-      - nursery
-      - upstairs_hallway
-      - dining_room
-      - upstairs_bathroom
-      - downstairs_bathroom
     data: {}
-  - service: switch.turn_off
     target:
-      area_id:
-      - basement_studio
-      - dining_room
-      - kallen_bedroom
-      - living_room
-      - master_bedroom
+      entity_id: all
+  - service: fan.turn_off
     data: {}
+    target:
+      entity_id: all
   mode: single
   icon: mdi:earth-off
 global_on:
   alias: Global On
   sequence:
   - service: light.turn_on
-    target:
-      area_id:
-      - basement_studio
-      - furnace_room
-      - kallen_bedroom
-      - living_room
-      - master_bedroom
-      - mud_room
-      - nursery
-      - upstairs_hallway
-      - dining_room
-      - upstairs_bathroom
-      - downstairs_bathroom
     data: {}
-  - service: switch.turn_on
     target:
-      area_id:
-      - basement_studio
-      - dining_room
-      - kallen_bedroom
-      - living_room
-      - master_bedroom
-    data: {}
+      entity_id: all
   mode: single
   icon: mdi:earth
 max_brightness:
@@ -309,27 +273,11 @@ max_brightness:
       seconds: 1
       milliseconds: 0
   - service: light.turn_on
-    target:
-      area_id:
-      - furnace_room
-      - kallen_bedroom
-      - mud_room
-      - nursery
-      - upstairs_hallway
-      - dining_room
-      - upstairs_bathroom
-      - master_bedroom
-      - downstairs_bathroom
-    data:
-      brightness_pct: 100
-  - service: light.turn_on
-    target:
-      area_id:
-      - basement_studio
-      - living_room
     data:
       kelvin: 6400
       brightness_pct: 100
+    target:
+      entity_id: all
   mode: single
   alias: Max Brightness
   icon: mdi:brightness-7
