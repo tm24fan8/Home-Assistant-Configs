@@ -17,7 +17,7 @@
 /image
 /node-red/*
 /files
-
+/appdaemon/
 
 # ignore any of these files no matter where they are using double *
 **.DS_Store
