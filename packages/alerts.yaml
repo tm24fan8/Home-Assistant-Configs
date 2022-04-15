@@ -1,0 +1,15 @@
+alert:
+  furnace_room_light:
+    name: Furnace Room light has been left on
+    done_message: Thank you for turning off the furnace room light!
+    entity_id: light.furnace_room_overhead
+    state: "on"
+    repeat:
+      - 30
+      - 30
+      - 60
+    can_acknowledge: false
+    skip_first: true
+    notifiers:
+      - tv_notifications
+      - ios_parents
