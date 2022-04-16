@@ -17,7 +17,8 @@
 /image
 /node-red/*
 /files
-/appdaemon/
+/appdaemon/*
+/appdaemon/apps/*
 
 # ignore any of these files no matter where they are using double *
 **.DS_Store
@@ -65,3 +66,5 @@
 
 # exceptions
 !/node-red/flows.json
+!/appdaemon/apps/
+!/appdaemon/apps/apps.yaml

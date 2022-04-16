@@ -1,0 +1,43 @@
+---
+hello_world:
+  module: hello
+  class: HelloWorld
+
+media_lights_sync_living_room:
+  module: media_lights_sync
+  class: MediaLightsSync
+  media_player: media_player.living_room_tv
+  lights:
+    - light.living_room_color_1
+    - light.living_room_color_2
+  ha_url: !secret local_url
+  reset_lights_after: true
+  use_saturated_colors: false
+  use_current_brightness: false
+  condition:
+    entity: input_boolean.sync_tv_lights_living_room
+    state: "on"
+
+media_lights_sync_basement:
+  module: media_lights_sync
+  class: MediaLightsSync
+  media_player: media_player.basement_tv
+  lights:
+    - light.basement_tall_lamp
+    - light.basement_short_lamp
+    - light.basement_stairwell
+    - light.basement_led_strip_1
+  ha_url: !secret local_url
+  reset_lights_after: true
+  use_saturated_colors: false
+  use_current_brightness: false
+  condition:
+    entity: input_boolean.sync_tv_lights_basement
+    state: "on"
+
+white_noise_basement:
+  module: whitenoise
+  class: WhiteNoise
+  media_player: basement_tv_chromecast
+  input_boolean: white_noise_basement
+  filename: !secret remote_url_thunderstorm
