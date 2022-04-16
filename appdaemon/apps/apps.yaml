@@ -1,8 +1,4 @@
 ---
-hello_world:
-  module: hello
-  class: HelloWorld
-
 media_lights_sync_living_room:
   module: media_lights_sync
   class: MediaLightsSync
@@ -41,3 +37,17 @@ white_noise_basement:
   media_player: basement_tv_chromecast
   input_boolean: white_noise_basement
   filename: !secret remote_url_thunderstorm
+
+white_noise_living_room:
+  module: whitenoise
+  class: WhiteNoise
+  media_player: living_room_tv_chromecast
+  input_boolean: white_noise_living_room
+  filename: !secret remote_url_thunderstorm
+
+# white_noise_master_bedroom:
+#   module: whitenoise
+#   class: WhiteNoise
+#   media_player: master_bedroom_firetv
+#   input_boolean: white_noise_master_bedroom
+#   filename: !secret remote_url_thunderstorm
