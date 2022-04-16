@@ -60,6 +60,14 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Upcoming Media Card](https://github.com/custom-cards/upcoming-media-card)
 - [Plex Meets Home Assistant](https://github.com/JurajNyiri/PlexMeetsHomeAssistant)
 
+# AppDaemon Apps
+This is a new adventure so we'll see where it ends up going, but so far I am using (or trying to use) the following
+
+- [White Noise](https://github.com/apop880/White-Noise)
+- [Follow Me](https://github.com/aneisch/follow_me_appdaemon)
+- [Spotify Mood Lights Sync](https://github.com/NiklasReiche/ad-spotify-mood-lights-sync)
+- [Media Player Lights Sync](https://github.com/ericmatte/ad-media-lights-sync)
+- [Count Domain Entities](https://github.com/Petro31/ad_count_entities)
 
 # Themes/Icons
 - [Noctis](https://github.com/aFFekopp/noctis)
