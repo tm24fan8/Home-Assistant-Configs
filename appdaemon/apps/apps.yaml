@@ -45,6 +45,13 @@ white_noise_living_room:
   input_boolean: white_noise_living_room
   filename: !secret remote_url_thunderstorm
 
+white_noise_kallen_bedroom:
+  module: whitenoise
+  class: WhiteNoise
+  media_player: kallen_bedroom_speaker
+  input_boolean: white_noise_kallen_bedroom
+  filename: !secret remote_url_thunderstorm
+
 # white_noise_master_bedroom:
 #   module: whitenoise
 #   class: WhiteNoise
