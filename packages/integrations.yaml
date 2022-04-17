@@ -29,3 +29,11 @@ device_tracker:
   - platform: icloud3
     username: !secret userIcloud
     password: !secret passIcloud2
+
+tts:
+  - platform: google_translate
+    cache: true
+    cache_dir: /config/tts
+    time_memory: 300
+    base_url: !secret remote_url
+    service_name: google_say
