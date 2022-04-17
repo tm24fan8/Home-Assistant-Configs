@@ -20,3 +20,11 @@ good_night_routine:
   name: Good Night Routine
   has_date: false
   has_time: true
+kallen_bedtime:
+  name: Kallen Bedtime
+  has_date: false
+  has_time: true
+kallen_wakeup_time:
+  name: Kallen Wake-up Time
+  has_date: false
+  has_time: true
