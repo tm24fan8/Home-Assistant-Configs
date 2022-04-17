@@ -35,5 +35,5 @@ tts:
     cache: true
     cache_dir: /tmp/tts
     time_memory: 300
-    base_url: !secret local_url
+    base_url: !secret remote_url
     service_name: google_say
