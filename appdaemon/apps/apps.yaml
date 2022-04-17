@@ -50,7 +50,7 @@ white_noise_kallen_bedroom:
   class: WhiteNoise
   media_player: kallen_bedroom_speaker
   input_boolean: white_noise_kallen_bedroom
-  filename: !secret remote_url_thunderstorm
+  filename: !secret remote_url_whitenoise
 
 # white_noise_master_bedroom:
 #   module: whitenoise
