@@ -106,21 +106,21 @@
       current: 11
 #      current_consumption: 19
 #      voltage: 20
-- host: 192.168.1.80
-  device_id: !secret back_door_sensor_id
-  local_key: !secret back_door_sensor_key
-  friendly_name: Back Door Sensor
-  protocol_version: "3.3"
-  entities:
-    - platform: binary_sensor
-      friendly_name: Back Door Sensor
-      id: 1
-- host: 192.168.1.82
-  device_id: !secret front_door_sensor_id
-  local_key: !secret front_door_sensor_key
-  friendly_name: Front Door Sensor
-  protocol_version: "3.3"
-  entities:
-    - platform: binary_sensor
-      friendly_name: Front Door Sensor
-      id: 1
+# - host: 192.168.1.80
+#   device_id: !secret back_door_sensor_id
+#   local_key: !secret back_door_sensor_key
+#   friendly_name: Back Door Sensor
+#   protocol_version: "3.3"
+#   entities:
+#     - platform: binary_sensor
+#       friendly_name: Back Door Sensor
+#       id: 1
+# - host: 192.168.1.82
+#   device_id: !secret front_door_sensor_id
+#   local_key: !secret front_door_sensor_key
+#   friendly_name: Front Door Sensor
+#   protocol_version: "3.3"
+#   entities:
+#     - platform: binary_sensor
+#       friendly_name: Front Door Sensor
+#       id: 1
