@@ -19,5 +19,8 @@ devices:
   - device_name: christinas_apple_watch
     name: Tina's Watch
     iosapp_installed: false
+  - device_name: christinas_airpods
+    name: Tina's Airpods
+    iosapp_installed: false
 
 waze_realtime: true
