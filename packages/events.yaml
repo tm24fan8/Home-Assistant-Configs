@@ -91,40 +91,40 @@ sensor:
       {%- endif %}
 
 automation:
-  - id: refresh_special_event_sensors
-    alias: Refresh special event sensors
-    initial_state: true
-    trigger:
-    - platform: time
-      at: '00:00:01'
-    - platform: homeassistant
-      event: start
-    action:
-    - service: python_script.special_events
-      data:
-        name: Tony
-        type: birthday
-        date: !secret tony_bday
-    - service: python_script.special_events
-      data:
-        name: Tina
-        type: birthday
-        date: !secret tina_bday
-    - service: python_script.special_events
-      data:
-        name: Kallen
-        type: birthday
-        date: !secret kallen_bday
-    - service: python_script.special_events
-      data:
-        name: Emmalynn
-        type: birthday
-        date: !secret emmalynn_bday
-    - service: python_script.special_events
-      data:
-        name: Our Anniversary
-        type: anniversary
-        date: !secret wedding_anniversary
+  # - id: refresh_special_event_sensors
+  #   alias: Refresh special event sensors
+  #   initial_state: true
+  #   trigger:
+  #   - platform: time
+  #     at: '00:00:01'
+  #   - platform: homeassistant
+  #     event: start
+  #   action:
+  #   - service: python_script.special_events
+  #     data:
+  #       name: Tony
+  #       type: birthday
+  #       date: !secret tony_bday
+  #   - service: python_script.special_events
+  #     data:
+  #       name: Tina
+  #       type: birthday
+  #       date: !secret tina_bday
+  #   - service: python_script.special_events
+  #     data:
+  #       name: Kallen
+  #       type: birthday
+  #       date: !secret kallen_bday
+  #   - service: python_script.special_events
+  #     data:
+  #       name: Emmalynn
+  #       type: birthday
+  #       date: !secret emmalynn_bday
+  #   - service: python_script.special_events
+  #     data:
+  #       name: Our Anniversary
+  #       type: anniversary
+  #       date: !secret wedding_anniversary
 
   - id: e1cb2d02-0423-11eb-adc1-0242ac120002
     alias: School today
