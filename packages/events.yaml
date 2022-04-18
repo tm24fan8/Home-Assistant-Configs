@@ -72,7 +72,7 @@ sensor:
           {% endif %}
         unit_of_measurement: 'Days'
   # - platform: rest
-  #   resource: https://raw.githubusercontent.com/tm24fan8/home-assistant-config/master/packages/json_data/school.json
+  #   resource: https://raw.githubusercontent.com/tm24fan8/Home-Assistant-Configs/master/packages/json_data/school.json
   #   name: School Lunch
   #   scan_interval: 14400
   #   value_template: >
@@ -85,7 +85,7 @@ sensor:
   #     {%- endif %}
 
   - platform: rest
-    resource: https://raw.githubusercontent.com/tm24fan8/home-assistant-config/master/packages/json_data/school.json
+    resource: https://raw.githubusercontent.com/tm24fan8/Home-Assistant-Configs/master/packages/json_data/school.json
     name: School Event
     scan_interval: 14400
     value_template: >
