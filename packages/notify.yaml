@@ -566,13 +566,9 @@ script:
           {% endif %}
         volume_level: >
             {% if states.input_boolean.audible_notifications.state == 'on' %}
-              {% if who == 'kallen_bedroom_speaker' %}
-                {{ states('input_number.tts_volume') | float }}
-              {% else %}
-                {{ states('input_number.tts_volume') | float }}
-              {% endif %} 
+              .7
             {% else %}
-              {{ states('input_number.tts_low_volume') | float }}
+              .3
             {% endif %}
     - service: tts.amazon_polly_say
       data_template:
