@@ -1,10 +1,3 @@
-###############################################################################
-#   @author         :   Jeffrey Stone 
-#   @date           :   02/19/2019
-#   @package        :   Events
-#   @description    :   Special Events.
-###############################################################################
-
 input_boolean:
   school_in_session:
     name: School In Session
