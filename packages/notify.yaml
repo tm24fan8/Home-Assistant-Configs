@@ -1,6 +1,35 @@
 # ATTENTION: The actual notify services are currently defined in configuration.yaml and NOT in this file. 
 # Just a note because I've already forgotten once ;)
 
+###############################################################################
+# AWS Polly Options:
+# pause:
+#   <break time="3s"/> 
+# emphasis: 
+#   <emphasis level="strong">really like</emphasis>
+#   level attribute values:
+#     Strong: Increases the volume and slows the speaking rate so that the speech is louder and slower.
+#     Moderate: Increases the volume and slows the speaking rate, but less than strong. Moderate is the default.
+#     Reduced: Decreases the volume and speeds up the speaking rate. Speech is softer and faster.
+# Pause Between Paragraphs:
+#   Wrap text in <p> </p>
+# Adding a Pause Between Sentences:
+#   Ending a sentence with a period (.)
+# Controlling How Special Types of Words Are Spoken:
+#   <say-as interpret-as="value">[text to be interpreted]</say-as>
+#   characters or spell-out: Spells out each letter of the text, as in a-b-c. 
+#   cardinal or number: Interprets the numerical text as a cardinal number, as in 1,234.
+#   ordinal: Interprets the numerical text as an ordinal number, as in 1,234th.
+#   digits: Spells out each digit individually, as in 1-2-3-4.
+#   fraction: Interprets the numerical text as a fraction. This works for both common fractions such as 3/20, and mixed fractions, such as 2 ½. See below for more information.
+#   unit: Interprets a numerical text as a measurement. The value should be either a number or a fraction followed by a unit with no space in between as in 1/2inch, or by just a unit, as in 1meter.
+#   date: Interprets the text as a date. The format of the date must be specified with the format attribute. See below for more information.
+#   time: Interprets the numerical text as duration, in minutes and seconds, as in 1'21".
+#   address: Interprets the text as part of a street address.
+#   expletive: "Beeps out" the content included within the tag.
+#   telephone: Interprets the numerical text as a 7-digit or 10-digit telephone number, as in 2025551212. You can also use this value for handle telephone extensions, as in 2025551212x345. See below for more information.
+################################################################################
+
 input_boolean:
   text_notify_tony:
     name: Send Texts to Tony
@@ -42,6 +71,48 @@ input_boolean:
     name: Welcome Home
   debug_texts:
     name: Debug Texts
+
+notify:
+  - platform: ios
+  - name: all_ios
+    platform: group
+    services:
+      - service: mobile_app_tinas_iphone
+      - service: mobile_app_tony_s_iphone
+      - service: mobile_app_tony_s_ipad
+      - service: mobile_app_kallen_iphone
+  - name: ios_parents
+    platform: group
+    services:
+      - service: mobile_app_tinas_iphone
+      - service: mobile_app_tony_s_ipad
+      - service: mobile_app_tony_s_iphone
+  - name: ios_tony
+    platform: group
+    services:
+      - service: mobile_app_tony_s_ipad
+      - service: mobile_app_tony_s_iphone
+  - name: ios_tina
+    platform: group
+    services:
+      - service: mobile_app_tinas_iphone
+  - name: ios_kallen
+    platform: group
+    services:
+      - service: mobile_app_kallen_iphone
+  - name: ios_nerds
+    platform: group
+    services:
+      - service: mobile_app_kallen_iphone
+      - service: mobile_app_tony_s_ipad
+      - service: mobile_app_tony_s_iphone
+  - name: tv_notifications
+    platform: group
+    services:
+      - service: living_room_tv
+      - service: basement_tv
+      - service: master_bedroom_tv
+
 
 script:
 
@@ -227,3 +298,371 @@ script:
           #    badge: 0
           #     category: '{{ ios_category }}'
           #   entity_id: '{{ camera_entity }}'
+
+###############################################################################
+# Alert Notify
+# Conditions:
+#   => Vacation mode should be off
+# Services:
+#   => Audible 
+#   => iOS 
+###############################################################################
+  alert_notify:
+    sequence:
+      - condition: state
+        entity_id: input_boolean.vacation_mode
+        state: 'off'
+      - service: tts.google_say
+        data_template:
+          entity_id: media_player.living_room_tv
+          message: >
+            {{ message }}
+
+  jarvis_alert:
+    sequence:
+    - service: mqtt.publish
+      data_template:
+        topic: 'house/polly/lastmsg'
+        payload: 'This message is from {{ now().strftime("%-I") }}:{{ now().strftime("%M") }} {{ now().strftime("%p") }}. {{ message | striptags | truncate(220)}}'
+        retain: true
+    - service: media_player.turn_on
+      data_template:
+        entity_id: >
+          {% if who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
+            media_player.kallen_bedroom_speaker
+          {% else %}
+            {% if states.input_boolean.audible_notifications.state == 'on' %}
+            media_player.living_room_tv
+            {% else %}
+            media_player.living_room_tv
+            {% endif %}
+          {% endif %}
+    - service: media_player.volume_set
+      data_template:
+        entity_id: >
+          {% if who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
+            media_player.kallen_bedroom_speaker
+          {% else %}
+            {% if states.input_boolean.audible_notifications.state == 'on' %}
+            media_player.living_room_tv
+            {% else %}
+            media_player.living_room_tv
+            {% endif %}
+          {% endif %}
+        volume_level: >
+          {% if who == 'kallen_bedroom_speaker' %}
+            .60
+          {% else %}
+            {% if states.input_boolean.audible_notifications.state == 'on' %}
+              .50
+            {% else %}
+              .50
+            {% endif %}
+          {% endif %}
+    - service: tts.amazon_polly_say
+      data_template:
+        entity_id: >
+          {% if who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
+            media_player.kallen_bedroom_speaker
+          {% else %}
+            {% if states.input_boolean.audible_notifications.state == 'on' %}
+            media_player.living_room_tv
+            {% else %}
+            media_player.living_room_tv
+            {% endif %}
+          {% endif %}
+        message: >-
+          <speak>
+          
+            {{ message }}
+          
+          </speak>
+        cache: true
+
+
+
+
+###############################################################################
+# Voice Notify
+# Conditions:
+#   => Only Announce when people are home.
+#   => Only Announce when Audible Notifications are on
+###############################################################################
+
+  speech_engine:
+    sequence:
+      - service: mqtt.publish
+        data_template:
+          topic: 'house/polly/lastmsg'
+          payload: 'This message is from {{ now().strftime("%-I") }}:{{ now().strftime("%M") }} {{ now().strftime("%p") }}. {{ message | striptags | truncate(220)}}'
+          retain: true
+      - service: mqtt.publish
+        data_template:
+          topic: 'house/polly/lastloc'
+          payload: '{{ who }}'
+          retain: true
+      - condition: state
+        entity_id: input_boolean.audible_notifications
+        state: 'on'
+      - condition: state
+        entity_id: group.family
+        state: 'home'
+      - condition: state
+        entity_id: input_boolean.vacation_mode
+        state: 'off'
+      - service: >
+          {% if voice == 'nabu' %}
+            script.nabu_voice      
+          {% elif who in ['living_room_echo_dot', 'media_player.living_room_echo_dot','living_room']  %}
+            {% set who = 'living_room_echo_dot' %}
+            script.alexa_voice
+          {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_speaker']  %}
+            {% set who = 'kallen_bedroom_speaker' %}
+            script.jarvis_voice
+          {% elif who in ['master_bedroom','master_bedroom_echo_dot']  %}
+            {% set who = 'master_bedroom_echo_dot' %}
+            script.alexa_voice
+          {% elif who in ['basement','basement_echo_dot']  %}
+            {% set who = 'basement_echo_dot' %}
+            script.alexa_voice
+          {% else %}
+            {% set who = 'living_room_echo_dot' %}
+            script.alexa_voice
+          {% endif %}
+        data:
+          who: '{{ who }}'
+          message: >
+            {{ message }}
+
+
+
+
+
+  # Use this Simplfied Script by calling in automaint or script like:
+  # service: script.speech_engine_simplified
+  # data:
+  #   who: media_player.ha_blue
+  #   #who:  “{{ states(‘sensor.room_presence’) }}”
+  #   #who: notify.kitchen_echo
+  #   message: something to say
+  #
+  # 
+  speech_engine_simplified:
+    sequence:
+      - condition: state
+        entity_id: input_boolean.audible_notifications
+        state: 'on'
+      - condition: state
+        entity_id: group.family
+        state: 'home'
+      - condition: state
+        entity_id: input_boolean.vacation_mode
+        state: 'off'
+      - service: tts.amazon_polly_say
+        data_template:
+          entity_id: >-
+            {{ who }}
+          message: >-
+            <speak>
+            <break time="1s"/>
+            {{ message }}
+            </speak>
+          cache: true
+      - service: >-
+            {{ who }}
+        data: 
+          message: >
+            {{ message }}
+          data:
+            type: tts
+      - service: tts.cloud_say
+        data_template:
+          entity_id: >-
+            {{ who }}
+          message: >-
+            {{ message }}
+          cache: true
+          language: en-GB
+          options: 
+            gender: male
+      
+
+  
+  # Called wheh notification needs to play on echos
+  alexa_voice:
+    sequence:
+    - service: media_player.turn_on
+      data_template:
+        entity_id: >
+          {% if who in ['living_room_echo_dot', 'media_player.living_room_echo_dot','living_room'] %}
+            notify.alexa_media_living_room_echo_dot
+          {% elif who in ['master_bedroom','master_bedroom_echo_dot'] %}
+            notify.alexa_media_master_bedroom_echo_dot
+          {% elif who in ['basement','basement_echo_dot'] %}
+            notify.alexa_media_basement_echo_dot
+          {% else %}
+            notify.alexa_media_living_room_echo_dot
+          {% endif %}
+    - service: media_player.volume_set
+      data_template:
+        entity_id: >
+          {% if who in ['living_room_echo_dot', 'media_player.living_room_echo_dot','living_room'] %}
+            notify.alexa_media_living_room_echo_dot
+          {% elif who in ['master_bedroom','master_bedroom_echo_dot'] %}
+            notify.alexa_media_master_bedroom_echo_dot
+          {% elif who in ['basement','basement_echo_dot'] %}
+            notify.alexa_media_basement_echo_dot
+          {% else %}
+            notify.alexa_media_living_room_echo_dot
+          {% endif %}
+        volume_level: >
+            {% if is_state('input_boolean.audible_notifications.state','on') %}
+              .6
+            {% else %}
+              .4
+            {% endif %}
+    - service: >
+        {% if who in ['living_room_echo_dot', 'media_player.living_room_echo_dot','living_room'] %}
+          notify.alexa_media_living_room_echo_dot
+        {% elif who in ['master_bedroom','master_bedroom_echo_dot'] %}
+          notify.alexa_media_master_bedroom_echo_dot
+        {% elif who in ['basement','basement_echo_dot'] %}
+          notify.alexa_media_basement_echo_dot
+        {% else %}
+          notify.alexa_media_living_room_echo_dot
+        {% endif %}
+      data: 
+          message: >
+            {{ message }}
+          data:
+            type: tts
+
+  # Default audible notifications. Notifcations play on the google devices. 
+  jarvis_voice:
+    sequence:
+    - service: media_player.turn_on
+      data_template:
+        entity_id: >
+          {% if who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
+            media_player.kallen_bedroom_speaker
+          {% else %}
+            {% if states.input_boolean.audible_notifications.state == 'on' %}
+            media_player.living_room_tv
+            {% else %}
+            media_player.living_room_tv
+            {% endif %}
+          {% endif %}
+    - service: media_player.volume_set
+      data_template:
+        entity_id: >
+          {% if who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
+            media_player.kallen_bedroom_speaker
+          {% else %}
+            {% if states.input_boolean.audible_notifications.state == 'on' %}
+            media_player.living_room_tv
+            {% else %}
+            media_player.living_room_tv
+            {% endif %}
+          {% endif %}
+        volume_level: >
+            {% if states.input_boolean.audible_notifications.state == 'on' %}
+              .7
+            {% else %}
+              .3
+            {% endif %}
+    - service: tts.amazon_polly_say
+      data_template:
+        entity_id: >
+          {% if who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
+            media_player.kallen_bedroom_speaker
+          {% else %}
+            {% if states.input_boolean.audible_notifications.state == 'on' %}
+            media_player.living_room_tv
+            {% else %}
+            media_player.living_room_tv
+            {% endif %}
+          {% endif %}
+        message: >-
+          <speak>
+          <break time="1s"/>
+          {{ message }}
+          </speak>
+        cache: true
+
+  nabu_voice:
+    sequence:
+    - service: media_player.turn_on
+      data_template:
+        entity_id: >
+          {% if who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
+            media_player.kallen_bedroom_speaker
+          {% else %}
+            {% if states.input_boolean.audible_notifications.state == 'on' %}
+            media_player.living_room_tv
+            {% else %}
+            media_player.living_room_tv
+            {% endif %}
+          {% endif %}
+    - service: media_player.volume_set
+      data_template:
+        entity_id: >
+          {% if who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
+            media_player.kallen_bedroom_speaker
+          {% else %}
+            {% if states.input_boolean.audible_notifications.state == 'on' %}
+            media_player.living_room_tv
+            {% else %}
+            media_player.living_room_tv
+            {% endif %}
+          {% endif %}
+        volume_level: >
+            {% if states.input_boolean.audible_notifications.state == 'on' %}
+              .7
+            {% else %}
+              .3
+            {% endif %}
+    - service: tts.cloud_say
+      data_template:
+        entity_id: >
+          {% if who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
+            media_player.kallen_bedroom_speaker
+          {% else %}
+            {% if states.input_boolean.audible_notifications.state == 'on' %}
+            media_player.living_room_tv
+            {% else %}
+            media_player.living_room_tv
+            {% endif %}
+          {% endif %}
+        message: >-
+            {{ message }}
+        cache: true
+        language: en-GB
+        options: 
+          gender: male
+  
+  
+  # dim_main_volume:
+  #   sequence:
+  #   - condition: state
+  #     entity_id: 'media_player.ha_blue'
+  #     state: 'playing'
+  #   - service: input_number.set_value
+  #     data_template:
+  #       entity_id: input_number.old_volume
+  #       value: >
+  #         {{ states.media_player.ha_blue.attributes.volume_level }}
+  #   - service: media_player.volume_set
+  #     data_template:
+  #       entity_id: media_player.ha_blue
+  #       volume_level: .2
+  
+  # raise_main_volume:
+  #   sequence:
+  #   - condition: state
+  #     entity_id: 'media_player.ha_blue'
+  #     state: 'playing'
+  #   - service: media_player.volume_set
+  #     data_template:
+  #       entity_id: media_player.ha_blue
+  #       volume_level: >
+  #         {{ states.input_number.old_volume.state }}    
