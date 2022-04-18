@@ -13,3 +13,6 @@ shuffle_spotify:
 tornado_watch:
   name: Tornado Watch
   icon: mdi:message-alert
+vacation_mode:
+  name: Vacation Mode
+  icon: mdi:umbrella-beach
