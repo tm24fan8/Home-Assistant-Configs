@@ -350,13 +350,13 @@ script:
             {% endif %}
           {% endif %}
         volume_level: >
-          {% elif who == 'skylar_bedroom' %}
-            .50
+          {% if who == 'kallen_bedroom_speaker' %}
+            .60
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
-              .75
+              .50
             {% else %}
-              .99
+              .50
             {% endif %}
           {% endif %}
     - service: tts.amazon_polly_say
