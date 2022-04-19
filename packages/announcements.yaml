@@ -74,3 +74,14 @@ script:
       - service: button.press
         target:
           entity_id: button.good_morning
+
+  kallen_nightly_briefing:
+    sequence:
+    - service: script.speech_engine
+      data: 
+          who: living_room
+          message: !include ../templates/speech/kallen_nightly_briefing.yaml
+    - service: script.text_notify
+      data:
+        who: "ios_parents"
+        message: "I just gave Kallen's nightly briefing."
