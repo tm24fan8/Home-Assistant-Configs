@@ -1,3 +1,3 @@
-alexa_message:
-  name: Alexa Message
+tts_message:
+  name: TTS Message
   initial: Type your message here

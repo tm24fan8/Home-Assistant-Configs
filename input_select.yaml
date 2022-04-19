@@ -115,8 +115,8 @@ downstairs_bathroom_scenes:
     - Reset
   initial: Adaptive
   icon: mdi:toilet
-alexa_devices:
-  name: Alexa Devices
+tts_devices:
+  name: TTS Devices
   options:
     - Living Room Echo Dot
     - Basement Echo Dot
