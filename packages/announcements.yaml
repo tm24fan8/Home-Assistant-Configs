@@ -19,7 +19,7 @@ input_datetime:
     name: Kallen Dressed Announcement
     has_date: false
     has_time: true
-  kallen_nightly_report:
+  kallen_nightly_briefing:
     name: Kallen Bedtime Announcement
     has_date: false
     has_time: true
@@ -67,9 +67,9 @@ automation:
     alias: Kallen Nightly Report
     trigger:
       platform: time
-      at: input_datetime.kallen_nightly_report
+      at: input_datetime.kallen_nightly_briefing
     action:
-    - service: script.kallen_nightly_report
+    - service: script.kallen_nightly_briefing
 
   - id: c772b54d-6448-4d74-a0c2-32998f49b17c
     alias: Kallen Scheduling
@@ -96,7 +96,7 @@ automation:
             22:00
           {% endif %}
     - service: input_datetime.set_datetime
-      entity_id: input_datetime.kallen_nightly_report
+      entity_id: input_datetime.kallen_nightly_briefing
       data_template:
         time: >
           {% if states('sensor.school_tomorrow', 'on') %}
