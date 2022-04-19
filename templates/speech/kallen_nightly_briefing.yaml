@@ -56,8 +56,8 @@
       {% elif states.sensor.school_end_days2go.state | int == 0 -%}
         Tomorrow is the first day of summer. Are you ready? 
       {%- endif %}
-        {{ [ 'I have turned on your bedroom lights.',
-          'I have executed the Pre bed routine for your room.'
+        {{ [ 'I will turn on your bedroom lights and appropriate white noise device at bedtime.',
+          'I have executed the Pre bed routine for your room. Standby for bedtime protocol in two zero minutes.'
         ] | random }}
     </p>
   {%- endmacro -%}

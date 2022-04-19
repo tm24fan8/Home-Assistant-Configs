@@ -63,6 +63,48 @@ automation:
     - service: input_boolean.turn_off
       entity_id: input_boolean.audible_notifications
 
+  - id: b8d21d04-c263-4d33-9590-9fb1e76b0de8
+    alias: Kallen Nightly Report
+    trigger:
+      platform: time
+      at: input_datetime.kallen_nightly_report
+    action:
+    - service: script.kallen_nightly_report
+
+  - id: c772b54d-6448-4d74-a0c2-32998f49b17c
+    alias: Kallen Scheduling
+    trigger:
+      platform: time
+      at: '06:05:00'
+    action:
+    - service: input_datetime.set_datetime
+      entity_id: input_datetime.kallen_wakeup_time
+      data_template:
+        time: >
+          {% if states('input_boolean.school_today', 'on') %}
+            07:30
+          {% else %}
+            08:00
+          {% endif %}
+    - service: input_datetime.set_datetime
+      entity_id: input_datetime.kallen_bedtime
+      data_template:
+        time: >
+          {% if states('sensor.school_tomorrow', 'on') %}
+            21:00
+          {% else %}
+            22:00
+          {% endif %}
+    - service: input_datetime.set_datetime
+      entity_id: input_datetime.kallen_nightly_report
+      data_template:
+        time: >
+          {% if states('sensor.school_tomorrow', 'on') %}
+            20:40
+          {% else %}
+            21:40
+          {% endif %}
+
 script:
   reset_annc_switches:
     sequence:
