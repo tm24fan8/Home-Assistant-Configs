@@ -12,4 +12,6 @@ alert:
     skip_first: true
     notifiers:
       - tv_notifications
-      - ios_parents
+      - ios_tony
+      - ios_tina
+      - ios_kallen
