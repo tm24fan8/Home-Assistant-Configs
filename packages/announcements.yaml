@@ -15,12 +15,12 @@ input_datetime:
     name: Daily Report
     has_date: false
     has_time: true
-  kallen_morning_report:
-    name: Kallen Dressed Announcement
+  kallen_morning_briefing:
+    name: Kallen Morning Briefing
     has_date: false
     has_time: true
   kallen_nightly_briefing:
-    name: Kallen Bedtime Announcement
+    name: Kallen Nightly Briefing
     has_date: false
     has_time: true
   audible_notification_on:
@@ -104,6 +104,25 @@ automation:
           {% else %}
             21:40
           {% endif %}
+    - service: input_datetime.set_datetime
+      entity_id: input_datetime.kallen_morning_briefing
+      data_template:
+        time: >
+          {% if is_state('input_boolean.school_today', 'on') %}
+            07:40
+          {% else %}
+            10:00
+          {% endif %}
+
+  - id: db50d96f-8e2a-4e48-8d7c-ce5968527b82
+    alias: Kallen Morning Briefing
+    trigger:
+      platform: time
+      at: input_datetime.kallen_morning_briefing
+    action:
+    - service: light.turn_on
+      entity_id: light.kallen_bedroom_light
+    - service: script.kallen_morning_briefing
 
 script:
   reset_annc_switches:
@@ -121,9 +140,25 @@ script:
     sequence:
     - service: script.speech_engine
       data: 
-          who: living_room
-          message: !include ../templates/speech/kallen_nightly_briefing.yaml
+        who: living_room
+        message: !include ../templates/speech/kallen_nightly_briefing.yaml
     - service: script.text_notify
       data:
         who: "ios_parents"
         message: "I just gave Kallen's nightly briefing."
+
+  kallen_morning_briefing:
+    sequence:
+    - service: script.speech_engine
+      data:
+        who: >
+          {% if is_state('input_boolean.school_today', 'on') %}
+            kallen_bedroom
+          {% else %}
+            living_room
+          {% endif %}
+        message: !include ../templates/speech/kallen_morning_briefing.yaml
+    - service: script.text_notify
+      data:
+        who: "ios_parents"
+        message: "I just gave Kallen's morning briefing"

@@ -1,0 +1,106 @@
+>
+  {# Kallen Morning Report #}
+  {%- macro getReport() -%}
+    <p>
+      Good morning, Kallen.
+
+      <s>It is {{ now().strftime("%I:%M %p") }}</s> 
+
+      {% if is_state('sensor.birthday_kallen', '0') %}
+        Even birthday boys have to get dressed. So get to it. 
+      {% else %} 
+        {{ [ 'It is time to get dressed. ',
+          'It is time to put some real clothes on. ',
+          'it is now time to change your underwear.',
+          'You need to get dressed for the day.',
+          'If you have not gotten dressed it is that time.'
+        ] | random }} 
+      {% endif %}
+    </p>
+
+    <p>
+      {% if is_state('sensor.clothing_forecast', 'Freezing') %}
+        It is going to be freezing today. so I suggest wearing long pants and a heavy coat.
+      {% elif is_state('sensor.clothing_forecast','Cold') %}
+        It is going to be cold today. so I suggest wearing long pants and a light jacket.
+      {% elif is_state('sensor.clothing_forecast', 'Chilly') %}
+        It is going to be chilly today. so I suggest wearing at least long pants.
+      {% elif is_state('sensor.clothing_forecast', 'Nice') %}
+        It is going to be           
+        {{ [ 'nice outside.',
+          'pretty nice outside. ',
+          'a good day to be outside. ',
+          'rather enjoyable outside. ',
+        ] | random }} 
+        So I suggest wearing shorts.
+      {% elif is_state('sensor.clothing_forecast', 'Toasty') %}
+        It is going to be 
+        {{ [ 'bit warm today. ',
+          ' rather warm outside. ',
+          ' almost too hot outside. ',
+          ' a little warm today. ',
+        ] | random }} 
+        So I suggest wearing shorts. 
+      {% elif is_state('sensor.clothing_forecast', 'Hot') %}
+        It is going to be 
+        {{ [ 'hot',
+          'hotter than the sun today. ',
+          'hotter than hot. but in a lot of bad ways today. ',
+          'hotter than the sun outside. ',
+          'super hot today. ',
+          'hotter than the inside of a volcano today. Well not exactly, but you get the point. '
+        ] | random }} 
+        So I suggest wearing shorts.
+      {% else %}
+        It is going to be {{ states.sensor.clothing_forecast.state }} today so I suggest wearing shorts.
+      {% endif %} 
+    </p>
+
+    <p>
+      {% if is_state('input_boolean.school_today', 'on') and state_attr('input_datetime.school_day_end', 'timestamp') > as_timestamp(now()) %}
+        {% if is_state('sensor.school_start_days2go', '0') %}
+          Today is the first day of school! 
+        {% else %}
+          {{ [ 'Today is a school day.',
+            'It is a school day. '
+          ] | random }}
+        {% endif %}
+        <s>Pickup today will be at {{(state_attr('input_datetime.school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }}</s>
+        {% if 'Early Release' in states('sensor.school_event') %}
+          And It is early dismissal today!
+        {% endif %}
+        {% if states.sensor.school_end_days2go.state | int == 0 -%}
+          But today is the last day of School! 
+        {%- endif %}
+      {% endif %}
+      {% if is_state('input_boolean.school_today', 'off') %}
+        And look at that. You do not have school today.
+        {{ [ 'Guess today would be a good day to clean your room.',
+          'You could always do some chores. HA, good one.',
+          'Want to play a nice game of chess? Sorry. I meant, want to play Dark Souls?',
+          'I hope you enjoy your day off. You deserve it.',
+          'Today would be a good day to spend some time with mom and dad.'
+        ] | random }} 
+        
+      {% endif %}
+
+      {% if states.sensor.school_end_days2go.state | int == -1 -%}
+        Today is the first day of Summer Break! 
+      {%- endif %}
+      
+      </p>
+  {%- endmacro -%}
+
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+    {%- macro cleanup(data) -%}
+      {%- for item in data.split("\n")  if item | trim != "" -%}
+        {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+
+  {# a macro to call all macros :)  #}
+    {%- macro mother_of_all_macros() -%}
+      {{ getReport() }}
+    {%- endmacro -%}
+    
+    {# Call the macro  #}
+    {{- cleanup(mother_of_all_macros()) -}}
