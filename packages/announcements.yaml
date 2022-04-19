@@ -81,7 +81,7 @@ automation:
       entity_id: input_datetime.kallen_wakeup_time
       data_template:
         time: >
-          {% if states('input_boolean.school_today', 'on') %}
+          {% if is_state('input_boolean.school_today', 'on') %}
             07:30
           {% else %}
             08:00
@@ -90,7 +90,7 @@ automation:
       entity_id: input_datetime.kallen_bedtime
       data_template:
         time: >
-          {% if states('sensor.school_tomorrow', 'on') %}
+          {% if is_state('sensor.school_tomorrow', 'on') %}
             21:00
           {% else %}
             22:00
@@ -99,7 +99,7 @@ automation:
       entity_id: input_datetime.kallen_nightly_briefing
       data_template:
         time: >
-          {% if states('sensor.school_tomorrow', 'on') %}
+          {% if is_state('sensor.school_tomorrow', 'on') %}
             20:40
           {% else %}
             21:40
