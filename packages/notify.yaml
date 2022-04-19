@@ -517,9 +517,9 @@ script:
           {% endif %}
         volume_level: >
             {% if is_state('input_boolean.audible_notifications.state','on') %}
-              .6
+              .7
             {% else %}
-              .4
+              .3
             {% endif %}
     - service: >
         {% if who in ['living_room_echo_dot', 'media_player.living_room_echo_dot','living_room'] %}
