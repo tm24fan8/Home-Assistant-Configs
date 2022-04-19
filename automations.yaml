@@ -346,23 +346,28 @@
             entity_id: sensor.pirateweather_temperature
             below: '40'
           sequence:
-          - service: tts.google_say
+          - service: script.speech_engine
             data:
-              entity_id: media_player.kallen_bedroom_speaker
+              who: kallen_bedroom
               message: No fan tonight, too cold outside! Brrrr!
           - delay:
               hours: 0
               minutes: 0
               seconds: 5
               milliseconds: 0
+          - service: media_player.volume_set
+            data:
+              volume_level: 0.3
+            target:
+              entity_id: media_player.kallen_bedroom_speaker
           - service: input_boolean.turn_on
             data: {}
             target:
               entity_id: input_boolean.white_noise_kallen_bedroom
         default:
-        - service: tts.google_say
+        - service: script.speech_engine
           data:
-            entity_id: media_player.kallen_bedroom_speaker
+            who: kallen_bedroom
             message: Fan on. Stay cool!
         - service: fan.turn_on
           data: {}
