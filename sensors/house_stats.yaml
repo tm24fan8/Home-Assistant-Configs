@@ -121,3 +121,11 @@
   entity_id: sensor.pirateweather_humidity
   state_characteristic: mean
   sampling_size: 500
+
+# Amazon Polly Sensors to see last message and location of audible notification
+- platform: mqtt
+  name: "Jarvis Last Msg"
+  state_topic: "house/polly/lastmsg"
+- platform: mqtt
+  name: "Jarvis Last Location"
+  state_topic: "house/polly/lastloc"
