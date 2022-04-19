@@ -118,10 +118,10 @@ downstairs_bathroom_scenes:
 tts_devices:
   name: TTS Devices
   options:
-    - Living Room Echo Dot
-    - Basement Echo Dot
-    - Master Bedroom Echo Dot
-    - Kallen Bedroom Speaker
+    - Living Room
+    - Basement
+    - Master Bedroom
+    - Kallen Bedroom
     - Everywhere
-  initial: Living Room Echo Dot
+  initial: Living Room
   icon: mdi:dots-horizontal-circle
