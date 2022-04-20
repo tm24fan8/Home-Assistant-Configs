@@ -42,8 +42,8 @@ automation:
     alias: Turn On Audible Notifications
     initial_state: true
     trigger:
-      platform: template
-      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.audible_notification_on', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+      platform: time
+      at: input_datetime.audible_notification_on
     action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.audible_notifications
@@ -53,8 +53,8 @@ automation:
     alias: Turn Off Audible Notifications
     initial_state: true
     trigger:
-    - platform: template
-      value_template: "{{ states('sensor.time') == (state_attr('input_datetime.audible_notification_off', 'timestamp') | int | timestamp_custom('%H:%M', False)) }}"
+    - platform: time
+      at: input_datetime.audible_notification_off
     condition:
     - condition: state
       entity_id: input_boolean.audible_notifications
@@ -114,14 +114,37 @@ automation:
             10:00
           {% endif %}
 
+  - id: 1c9f7e4b-2d5a-4b95-bd80-d9aa2244a6db
+    alias: House Scheduling
+    trigger:
+      platform: time
+      at: '06:10:00'
+    action:
+    - service: input_datetime.set_datetime
+      entity_id: input_datetime.audible_notification_on
+      data_template:
+        time: >
+          {% if is_state('input_boolean.school_today','on') %}
+            07:30
+          {% else %}
+            09:00
+          {% endif %}
+    - service: input_datetime.set_datetime
+      entity_id: input_datetime.audible_notification_off
+      data_template:
+        time: >
+          {% if is_state('sensor.school_tomorrow','on') %}
+            22:00
+          {% else %}
+            23:00
+          {% endif %}
+
   - id: db50d96f-8e2a-4e48-8d7c-ce5968527b82
     alias: Kallen Morning Briefing
     trigger:
       platform: time
       at: input_datetime.kallen_morning_briefing
     action:
-    - service: light.turn_on
-      entity_id: light.kallen_bedroom_light
     - service: script.kallen_morning_briefing
 
 script:
@@ -149,16 +172,26 @@ script:
 
   kallen_morning_briefing:
     sequence:
-    - service: script.speech_engine
-      data:
-        who: >
-          {% if is_state('input_boolean.school_today', 'on') %}
-            kallen_bedroom
-          {% else %}
-            living_room
-          {% endif %}
-        message: !include ../templates/speech/kallen_morning_briefing.yaml
-    - service: script.text_notify
-      data:
-        who: "ios_parents"
-        message: "I just gave Kallen's morning briefing"
+      - choose:
+        - conditions: 
+          - condition: state
+            entity_id: input_boolean.school_today
+            state: 'on'
+          sequence:
+          - service: light.turn_on
+            target:
+              entity_id: light.kallen_bedroom_light
+        default: []
+      - service: script.speech_engine
+        data:
+          who: >
+            {% if is_state('input_boolean.school_today', 'on') %}
+              kallen_bedroom
+            {% else %}
+              living_room
+            {% endif %}
+          message: !include ../templates/speech/kallen_morning_briefing.yaml
+      - service: script.text_notify
+        data:
+          who: "ios_parents"
+          message: "I just gave Kallen's morning briefing"
