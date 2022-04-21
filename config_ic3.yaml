@@ -16,11 +16,15 @@ devices:
     iosapp_installed: false
   - device_name: tony_s_ipad
     name: Tony's iPad
+    iosapp_entity: device_tracker.tony_s_ipad_app
   - device_name: christinas_apple_watch
     name: Tina's Watch
     iosapp_installed: false
   - device_name: christinas_airpods
     name: Tina's Airpods
     iosapp_installed: false
+  - device_name: tinas_ipad
+    name: Tina's iPad
+    iosapp_entity: device_tracker.tinas_ipad_app
 
 waze_realtime: true
