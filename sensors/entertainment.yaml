@@ -16,3 +16,10 @@
   token: !secret plex_token
   host: 192.168.1.4
   port: 32400
+- platform: steam_online
+  api_key: !secret steam_api_key
+  accounts:
+    - 76561198006931886
+    - 76561199249380296
+    - 76561198078898192
+    - 76561199079356881
