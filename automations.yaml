@@ -394,12 +394,12 @@
     default: []
   mode: single
 - id: '1650918265367'
-  alias: Speedtest Hourly
-  description: Runs an internet speed test once every hour UNLESS Tony or Tina are
-    streaming on Twitch.
+  alias: Speedtest Schedule
+  description: Runs an internet speed test on a schedule UNLESS Tony or Tina are streaming
+    on Twitch.
   trigger:
   - platform: time_pattern
-    hours: '1'
+    hours: '4'
   condition:
   - condition: state
     entity_id: sensor.twitch_ironnerd24
