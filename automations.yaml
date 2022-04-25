@@ -393,3 +393,21 @@
           entity_id: input_boolean.white_noise_kallen_bedroom
     default: []
   mode: single
+- id: '1650918265367'
+  alias: Speedtest Hourly
+  description: Runs an internet speed test once every hour UNLESS Tony or Tina are
+    streaming on Twitch.
+  trigger:
+  - platform: time_pattern
+    hours: '1'
+  condition:
+  - condition: state
+    entity_id: sensor.twitch_ironnerd24
+    state: offline
+  - condition: state
+    entity_id: sensor.twitch_xia_p988
+    state: offline
+  action:
+  - service: speedtestdotnet.speedtest
+    data: {}
+  mode: single
