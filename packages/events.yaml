@@ -161,7 +161,17 @@ automation:
     - service: input_boolean.turn_on
       entity_id: input_boolean.school_today  
     - service: script.turn_on
-      entity_id: script.school_in_session    
+      entity_id: script.school_in_session
+
+  - id: b9028665-401c-4de3-8f13-1099160b011f
+    alias: School Reset
+    initial_state: true
+    trigger:
+      - platform: time
+        at: input_datetime.school_day_end
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.school_today
 
 script:
     
