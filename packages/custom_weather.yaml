@@ -631,6 +631,7 @@ sensor:
         friendly_name: "Clothing Forecast Detail"
         unit_of_measurement: ''
         value_template: >-
+          {%- macro getReport() -%}
             {% if is_state('binary_sensor.morning','on') %}
               Based on the forecasted high temperature,
               {% if is_state('sensor.clothing_forecast', 'Freezing') %}
@@ -701,6 +702,20 @@ sensor:
                 It is {{ states.sensor.clothing_forecast.state }} right now so I suggest wearing shorts.
               {% endif %}
             {% endif %}
+          {%- endmacro -%}
+          {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+            {%- macro cleanup(data) -%}
+              {%- for item in data.split("\n")  if item | trim != "" -%}
+                {{ item | trim }} {% endfor -%}
+          {%- endmacro -%}
+
+          {# a macro to call all macros :)  #}
+            {%- macro mother_of_all_macros() -%}
+              {{ getReport() }}
+            {%- endmacro -%}
+            
+            {# Call the macro  #}
+            {{- cleanup(mother_of_all_macros()) -}}
       nws_current_visibility:
         friendly_name: "Current Visibility"
         value_template: "{{ ((state_attr('weather.iron_nerd_weather_station','visibility') | int) * 0.621371) | round }}"
