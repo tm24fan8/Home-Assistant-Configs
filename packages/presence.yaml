@@ -44,7 +44,7 @@ sensor:
           {%- if person in ['Wal-Mart','Kroger','Chief','Meijer'] %}
             Grocery Store
           {% else %}
-            {% if person in ['not_home'] %}
+            {% if person in ['not_home','Stationary'] %}
               {{ state_attr('device_tracker.life360_tony_stork','address') }} 
             {% else %}
               {{ states('person.tony_stork') }}
@@ -59,10 +59,10 @@ sensor:
           {% set person = states.person.christina_stork.state %}
           {%- if person in ['Wal-Mart','Kroger','Chief','Meijer'] %}
             Grocery Store
-          {% elif person in ['Chipotle'] and is_state('binary_sensor.tina_work','on') %}
+          {% elif person in ['Chipotle','Ft Wayne Chipotle'] and is_state('binary_sensor.tina_work','on') %}
             Work
           {% else %}
-            {% if person in ['not_home'] %}
+            {% if person in ['not_home','Stationary'] %}
               {{ state_attr('device_tracker.life360_christina_stork','address') }} 
             {% else %}
               {{ states('person.christina_stork') }}
