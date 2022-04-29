@@ -177,6 +177,10 @@ family_is_away:
     target:
       entity_id: alarm_control_panel.alexa_guard_9ee3b
     data: {}
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.front_porch_camera_motion_alarm
   mode: single
   icon: mdi:shield-lock
 family_is_home:
