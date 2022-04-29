@@ -16,3 +16,5 @@ tornado_watch:
 vacation_mode:
   name: Vacation Mode
   icon: mdi:umbrella-beach
+living_room_entertainment_mode:
+  name: Living Room Entertainment Mode
