@@ -399,7 +399,7 @@
     on Twitch.
   trigger:
   - platform: time_pattern
-    hours: '4'
+    hours: /4
   condition:
   - condition: state
     entity_id: sensor.twitch_ironnerd24
