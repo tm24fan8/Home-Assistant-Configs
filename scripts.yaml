@@ -223,6 +223,10 @@ family_is_home:
       - light.living_room_lights
       - light.mud_room_overhead
       - light.dining_room_lamp
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id: switch.front_porch_camera_motion_alarm
   mode: single
   icon: mdi:home-account
 reading_timer_cancel:
