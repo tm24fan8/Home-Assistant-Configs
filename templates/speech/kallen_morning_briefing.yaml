@@ -9,11 +9,11 @@
       {% if is_state('sensor.birthday_kallen', '0') %}
         Even birthday boys have to get dressed. So get to it. 
       {% else %} 
-        {{ [ 'It is time to get dressed. ',
-          'It is time to put some real clothes on. ',
-          'it is now time to change your underwear.',
-          'You need to get dressed for the day.',
-          'If you have not gotten dressed it is that time.'
+        {{ [ 'It is time to put some real clothes on. ',
+          'If you have not gotten dressed it is that time.',
+          'It is time to get your butt in gear. And your face too, ideally.',
+          'It is time to do the getting of readiness. And be nice to your mother!',
+          'In the words of the legendary Tom Brady, LETS GO!!!'
         ] | random }} 
       {% endif %}
     </p>
@@ -27,25 +27,21 @@
         It is going to be chilly today. so I suggest wearing at least long pants.
       {% elif is_state('sensor.clothing_forecast', 'Nice') %}
         It is going to be           
-        {{ [ 'nice outside.',
-          'pretty nice outside. ',
+        {{ [ 'pretty nice outside. ',
           'a good day to be outside. ',
           'rather enjoyable outside. ',
         ] | random }} 
         So I suggest wearing shorts.
       {% elif is_state('sensor.clothing_forecast', 'Toasty') %}
         It is going to be 
-        {{ [ 'bit warm today. ',
-          ' rather warm outside. ',
+        {{ [ ' rather warm outside. ',
           ' almost too hot outside. ',
           ' a little warm today. ',
         ] | random }} 
         So I suggest wearing shorts. 
       {% elif is_state('sensor.clothing_forecast', 'Hot') %}
         It is going to be 
-        {{ [ 'hot',
-          'hotter than the sun today. ',
-          'hotter than hot. but in a lot of bad ways today. ',
+        {{ [ 'hotter than the sun today. ',
           'hotter than the sun outside. ',
           'super hot today. ',
           'hotter than the inside of a volcano today. Well not exactly, but you get the point. '
@@ -81,7 +77,10 @@
           'I hope you enjoy your day off. You deserve it.',
           'Today would be a good day to spend some time with mom and dad.'
         ] | random }} 
-        
+      {% endif %}
+
+      {% if is_state ('input_boolean.school_today', 'off') and is_state('sensor.pirateweather_icon', 'snow') %}
+        Do you wanna build a snowman?
       {% endif %}
 
       {% if states.sensor.school_end_days2go.state | int == -1 -%}
