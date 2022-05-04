@@ -336,62 +336,62 @@
     entity_id: binary_sensor.people_present
     state: 'on'
   action:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: kallen-night
-      sequence:
-      - choose:
-        - conditions:
-          - condition: numeric_state
-            entity_id: sensor.pirateweather_temperature
-            below: '40'
-          sequence:
-          - service: script.speech_engine
-            data:
-              who: kallen_bedroom
-              message: No fan tonight, too cold outside! Brrrr!
-          - delay:
-              hours: 0
-              minutes: 0
-              seconds: 5
-              milliseconds: 0
-          - service: media_player.volume_set
-            data:
-              volume_level: 0.3
-            target:
-              entity_id: media_player.kallen_bedroom_speaker
-          - service: input_boolean.turn_on
-            data: {}
-            target:
-              entity_id: input_boolean.white_noise_kallen_bedroom
-        default:
-        - service: script.speech_engine
-          data:
-            who: kallen_bedroom
-            message: Fan on. Stay cool!
-        - service: media_player.volume_set
-          data:
-            volume_level: 0.3
-          target:
-            entity_id: media_player.kallen_bedroom_speaker
-        - service: fan.turn_on
-          data: {}
-          target:
-            entity_id: fan.kallen_fan_socket_1
-    - conditions:
-      - condition: trigger
-        id: kallen-morning
-      sequence:
-      - service: fan.turn_off
-        data: {}
+  - if:
+    - condition: trigger
+      id: kallen-night
+    then:
+    - if:
+      - condition: numeric_state
+        entity_id: sensor.pirateweather_temperature
+        below: '40'
+      then:
+      - service: script.speech_engine
+        data:
+          who: kallen_bedroom
+          message: No fan tonight, too cold outside! Brrrr!
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 5
+          milliseconds: 0
+      - service: media_player.volume_set
+        data:
+          volume_level: 0.3
         target:
-          entity_id: fan.kallen_fan_socket_1
-      - service: input_boolean.turn_off
+          entity_id: media_player.kallen_bedroom_speaker
+      - service: input_boolean.turn_on
         data: {}
         target:
           entity_id: input_boolean.white_noise_kallen_bedroom
-    default: []
+      else:
+      - service: script.speech_engine
+        data:
+          who: kallen_bedroom
+          message: Fan on. Stay cool!
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 5
+          milliseconds: 0
+      - service: media_player.volume_set
+        data:
+          volume_level: 0.3
+      - service: fan.turn_on
+        data: {}
+        target:
+          entity_id: fan.kallen_fan_socket_1
+  - if:
+    - condition: trigger
+      id: kallen-morning
+    then:
+    - service: fan.turn_off
+      data: {}
+      target:
+        entity_id: fan.kallen_fan_socket_1
+    - service: input_boolean.turn_off
+      data: {}
+      target:
+        entity_id: input_boolean.white_noise_kallen_bedroom
   mode: single
 - id: '1650918265367'
   alias: Speedtest Schedule
