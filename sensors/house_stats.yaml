@@ -101,27 +101,6 @@
   duration:
     hours: 24
 
-- platform: statistics
-  name: Outside Temp Stats
-  entity_id: sensor.pirateweather_temperature
-  state_characteristic: mean
-  sampling_size: 500
-- platform: statistics
-  name: Wind Speed Stats
-  entity_id: sensor.pirateweather_wind_speed
-  state_characteristic: mean
-  sampling_size: 500
-- platform: statistics
-  name: Visibility Stats
-  entity_id: sensor.kdfi_visibility
-  state_characteristic: mean
-  sampling_size: 500
-- platform: statistics
-  name: Humidity Stats
-  entity_id: sensor.pirateweather_humidity
-  state_characteristic: mean
-  sampling_size: 500
-
 # Amazon Polly Sensors to see last message and location of audible notification
 - platform: mqtt
   name: "Jarvis Last Msg"
