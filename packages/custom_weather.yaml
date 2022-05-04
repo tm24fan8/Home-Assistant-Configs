@@ -64,25 +64,41 @@ sensor:
     zone: 4
     county: 39
 
-  - platform: average
-    name: 'Average Temperature'
-    duration:
+  - platform: statistics
+    unique_id: b5996cb4-b715-4fc9-b3d8-98fc12c2b7dd
+    name: Outside Temp Average
+    entity_id: sensor.pirateweather_temperature
+    state_characteristic: average_linear
+    max_age:
       days: 7
-    entities:
-      - sensor.pirateweather_temperature
-  - platform: average
-    name: 'Average Feels Like'
-    duration:
+  - platform: statistics
+    unique_id: 6192c95a-8fd1-4ba0-87de-d06fdc071d6b
+    name: Apparent Temp Average
+    entity_id: sensor.pirateweather_apparent_temperature
+    state_characteristic: average_linear
+    max_age:
       days: 7
-    entities:
-      - sensor.pirateweather_apparent_temperature
-  - platform: average
-    name: 'Average Wind Speed'
-    duration:
+  - platform: statistics
+    unique_id: 7b9c269c-40b7-4255-a051-2d1b7a6af017
+    name: Wind Speed Average
+    entity_id: sensor.pirateweather_wind_speed
+    state_characteristic: average_linear
+    max_age:
       days: 7
-    entities:
-      - sensor.pirateweather_wind_speed
-
+  - platform: statistics
+    unique_id: b43d053f-aafb-4237-a742-a2ca841498fa
+    name: Visibility Stats Average
+    entity_id: sensor.kdfi_visibility
+    state_characteristic: average_linear
+    max_age:
+      days: 7
+  - platform: statistics
+    unique_id: b1206da2-fa00-4f7d-9af4-f2cf6794bd24
+    name: Humidity Stats Average
+    entity_id: sensor.pirateweather_humidity
+    state_characteristic: average_linear
+    max_age:
+      days: 7
 
   - platform: template
     sensors:
