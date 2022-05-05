@@ -411,3 +411,20 @@
   - service: speedtestdotnet.speedtest
     data: {}
   mode: single
+- id: '1651785688186'
+  alias: Watchman Audit on Startup
+  description: Runs the Watchman Audit script after Home Assistant has successfully
+    started up
+  trigger:
+  - platform: homeassistant
+    event: start
+  condition: []
+  action:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 30
+      milliseconds: 0
+  - service: script.watchman_audit
+    data: {}
+  mode: single
