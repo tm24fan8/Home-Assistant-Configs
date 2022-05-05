@@ -28,6 +28,7 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [Holidays](https://github.com/bruxy70/Holidays)
 - [Plex Recently Added](https://github.com/custom-components/sensor.plex_recently_added)
 - [Plex Assistant](https://github.com/maykar/plex_assistant)
+- [Thermal Comfort](https://github.com/dolezsa/thermal_comfort)
 
 # HACS Lovelace Cards
 Again, mostly just the ones I'm **using** or **will use soon**

@@ -51,3 +51,10 @@ google:
   client_secret: !secret google_client_secret
 
 conversation:
+
+thermal_comfort:
+  - custom_icons: true
+    sensor:
+    - name: Outside
+      temperature_sensor: sensor.pirateweather_temperature
+      humidity_sensor: sensor.pirateweather_humidity
