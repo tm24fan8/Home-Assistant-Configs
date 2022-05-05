@@ -1,12 +1,6 @@
 start_netflix:
   alias: Start Netflix (Living Room)
   sequence:
-  - service: switch.turn_on
-    target:
-      entity_id:
-      - switch.adaptive_lighting_sleep_mode_living_room
-      - switch.adaptive_lighting_sleep_mode_dining_room
-    data: {}
   - service: media_player.select_source
     target:
       entity_id: media_player.living_room_tv
@@ -22,12 +16,6 @@ stop_netflix:
       entity_id: media_player.living_room_tv
     data:
       source: '!com.netflix.ninja'
-  - service: switch.turn_off
-    target:
-      entity_id:
-      - switch.adaptive_lighting_sleep_mode_living_room
-      - switch.adaptive_lighting_sleep_mode_dining_room
-    data: {}
   mode: single
   icon: mdi:netflix
 give_me_darkness:
@@ -59,12 +47,6 @@ give_me_darkness:
 start_youtube:
   alias: Start Youtube (Living Room)
   sequence:
-  - service: switch.turn_on
-    target:
-      entity_id:
-      - switch.adaptive_lighting_sleep_mode_living_room
-      - switch.adaptive_lighting_sleep_mode_dining_room
-    data: {}
   - service: media_player.select_source
     target:
       entity_id: media_player.living_room_tv
@@ -80,23 +62,11 @@ stop_youtube:
       entity_id: media_player.living_room_tv
     data:
       source: '!com.google.android.youtube.tv'
-  - service: switch.turn_off
-    target:
-      entity_id:
-      - switch.adaptive_lighting_sleep_mode_living_room
-      - switch.adaptive_lighting_sleep_mode_dining_room
-    data: {}
   mode: single
   icon: mdi:youtube
 start_twitch:
   alias: Start Twitch (Living Room)
   sequence:
-  - service: switch.turn_on
-    target:
-      entity_id:
-      - switch.adaptive_lighting_sleep_mode_living_room
-      - switch.adaptive_lighting_sleep_mode_dining_room
-    data: {}
   - service: media_player.select_source
     target:
       entity_id: media_player.living_room_tv
@@ -108,16 +78,10 @@ stop_twitch:
   alias: Stop Twitch (Living Room)
   sequence:
   - service: media_player.select_source
-    target:
-      entity_id: media_player.living_room_firetv
     data:
       source: '!tv.twitch.android.app'
-  - service: switch.turn_off
     target:
-      entity_id:
-      - switch.adaptive_lighting_sleep_mode_living_room
-      - switch.adaptive_lighting_sleep_mode_dining_room
-    data: {}
+      entity_id: media_player.living_room_tv
   mode: single
   icon: mdi:twitch
 start_spotify:
