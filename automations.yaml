@@ -428,3 +428,41 @@
   - service: script.watchman_audit
     data: {}
   mode: single
+- id: '1651787468337'
+  alias: Reboot handling
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+    id: hass_start
+  - platform: homeassistant
+    event: shutdown
+    id: hass_stop
+  condition: []
+  action:
+  - if:
+    - condition: trigger
+      id: hass_start
+    then:
+    - delay:
+        hours: 0
+        minutes: 1
+        seconds: 0
+        milliseconds: 0
+    - service: automation.turn_on
+      data: {}
+      target:
+        entity_id:
+        - automation.family_has_arrived
+        - automation.family_has_left
+  - if:
+    - condition: trigger
+      id: hass_stop
+    then:
+    - service: automation.turn_off
+      data: {}
+      target:
+        entity_id:
+        - automation.family_has_arrived
+        - automation.family_has_left
+  mode: restart
