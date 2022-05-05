@@ -99,8 +99,8 @@
       entity_id:
       - light.hallway_overhead
       - light.kallen_bedroom_light
-      - light.living_room_overhead_1
-      - light.living_room_overhead_2
+      - light.living_room_color_1
+      - light.living_room_color_2
       - light.master_bedroom_front
       - light.master_bedroom_side
       - light.mud_room_overhead
