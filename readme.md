@@ -59,6 +59,8 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Header Cards](https://github.com/gadgetchnnel/lovelace-header-cards)
 - [Upcoming Media Card](https://github.com/custom-cards/upcoming-media-card)
 - [Plex Meets Home Assistant](https://github.com/JurajNyiri/PlexMeetsHomeAssistant)
+- [Slider Button Card](https://github.com/mattieha/slider-button-card)
+- [Vertical Stack In Card](https://github.com/ofekashery/vertical-stack-in-card)
 
 # AppDaemon Apps
 This is a new adventure so we'll see where it ends up going, but so far I am using (or trying to use) the following
