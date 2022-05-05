@@ -45,25 +45,25 @@ input_boolean:
 #         call_house_party_protocol_disabled: 1
 
 script:
-  house_party_protocol_on:
-    sequence:
-      - delay: 00:00:05
-      - service: homeassistant.turn_on
-        entity_id: group.incense
-      - service: script.status_annc
-        data_template:
-          who: '{{ states.sensor.room_presence.state }}'
-          call_house_party_protocol_enabled: 1
+  # house_party_protocol_on:
+  #   sequence:
+  #     - delay: 00:00:05
+  #     - service: homeassistant.turn_on
+  #       entity_id: group.incense
+  #     - service: script.status_annc
+  #       data_template:
+  #         who: '{{ states.sensor.room_presence.state }}'
+  #         call_house_party_protocol_enabled: 1
 
-  house_party_protocol_off:
-    sequence:
-      - delay: 00:00:05
-      - service: homeassistant.turn_off
-        entity_id: group.incense
-      - service: script.status_annc
-        data_template:
-          who: '{{ states.sensor.room_presence.state }}'
-          call_house_party_protocol_disabled: 1
+  # house_party_protocol_off:
+  #   sequence:
+  #     - delay: 00:00:05
+  #     - service: homeassistant.turn_off
+  #       entity_id: group.incense
+  #     - service: script.status_annc
+  #       data_template:
+  #         who: '{{ states.sensor.room_presence.state }}'
+  #         call_house_party_protocol_disabled: 1
 
   alexa_interjection:
     sequence:
