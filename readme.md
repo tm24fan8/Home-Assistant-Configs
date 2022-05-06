@@ -1,11 +1,15 @@
+# Tony's Home Assistant Configs
+
 Just a place to track my work on my personal Home Assistant configuration, and learn as I go. Maybe also TRY to keep myself a little bit more organized ;)
 
-# Attributions
+## Attributions
+
 I am fairly new to this, and while I'm learning to do a lot of it myself, I have definitely pulled ideas (in most cases modifying them for my needs) from other sources as well. Some of the most noteworthy are below.
 
 - [SlackerLabs](https://github.com/thejeffreystone/home-assistant-configuration) - This guy has a lot of EXCELLENT videos on [his YouTube channel](https://www.youtube.com/c/SlackerLabs) and is very good at explaining things in a way that someone new to all of this can understand.
 
-# HACS Components
+## HACS Components
+
 These aren't all the ones I have installed...just the ones I am actively **using** or **will use soon**
 
 - [Adaptive Lighting](https://github.com/basnijholt/adaptive-lighting)
@@ -30,7 +34,8 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [Plex Assistant](https://github.com/maykar/plex_assistant)
 - [Thermal Comfort](https://github.com/dolezsa/thermal_comfort)
 
-# HACS Lovelace Cards
+## HACS Lovelace Cards
+
 Again, mostly just the ones I'm **using** or **will use soon**
 
 - [Card Tools](https://github.com/thomasloven/lovelace-card-tools) (required for various other cards)
@@ -63,7 +68,8 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Slider Button Card](https://github.com/mattieha/slider-button-card)
 - [Vertical Stack In Card](https://github.com/ofekashery/vertical-stack-in-card)
 
-# AppDaemon Apps
+## AppDaemon Apps
+
 This is a new adventure so we'll see where it ends up going, but so far I am using (or trying to use) the following
 
 - [White Noise](https://github.com/apop880/White-Noise)
@@ -72,7 +78,8 @@ This is a new adventure so we'll see where it ends up going, but so far I am usi
 - [Media Player Lights Sync](https://github.com/ericmatte/ad-media-lights-sync)
 - [Count Domain Entities](https://github.com/Petro31/ad_count_entities)
 
-# Themes/Icons
+## Themes/Icons
+
 - [Noctis](https://github.com/aFFekopp/noctis)
 - [Hass Hue Icons](https://github.com/arallsopp/hass-hue-icons)
 - [Thermal Comfort Icons](https://github.com/rautesamtr/thermal_comfort_icons)
