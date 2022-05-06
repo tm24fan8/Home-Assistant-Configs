@@ -82,16 +82,16 @@
       current: 11
 #      current_consumption: 19
 #      voltage: 20
-#- host: 192.168.1.54
-#  device_id: !secret dining_room_plug_1_id
-#  local_key: !secret dining_room_plug_1_key
-#  friendly_name: Dining Room Plug 1
-#  protocol_version: "3.3"
-#  entities:
-#    - platform: switch
-#      friendly_name: Unused Plug 1
-#      id: 1
-#      current: 11
+- host: 192.168.1.54
+  device_id: !secret dining_room_plug_1_id
+  local_key: !secret dining_room_plug_1_key
+  friendly_name: Dining Room Plug 1
+  protocol_version: "3.3"
+  entities:
+    - platform: switch
+      friendly_name: Unused Plug 1
+      id: 1
+      current: 11
 #      current_consumption: 19
 #      voltage: 20
 - host: 192.168.1.53
