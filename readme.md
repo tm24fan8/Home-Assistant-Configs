@@ -33,6 +33,9 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [Plex Recently Added](https://github.com/custom-components/sensor.plex_recently_added)
 - [Plex Assistant](https://github.com/maykar/plex_assistant)
 - [Thermal Comfort](https://github.com/dolezsa/thermal_comfort)
+- [Swatch](https://github.com/NickM-27/swatch-hass-integration)
+- [HASS.Agent Notifier](https://github.com/LAB02-Research/HASS.Agent-Notifier)
+- [HASS.Agent Media Player](https://github.com/LAB02-Research/HASS.Agent-MediaPlayer)
 
 ## HACS Lovelace Cards
 
