@@ -36,6 +36,7 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [Swatch](https://github.com/NickM-27/swatch-hass-integration)
 - [HASS.Agent Notifier](https://github.com/LAB02-Research/HASS.Agent-Notifier)
 - [HASS.Agent Media Player](https://github.com/LAB02-Research/HASS.Agent-MediaPlayer)
+- [Music Assistant](https://github.com/music-assistant/hass-music-assistant)
 
 ## HACS Lovelace Cards
 
