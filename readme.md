@@ -70,6 +70,8 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Plex Meets Home Assistant](https://github.com/JurajNyiri/PlexMeetsHomeAssistant)
 - [Slider Button Card](https://github.com/mattieha/slider-button-card)
 - [Vertical Stack In Card](https://github.com/ofekashery/vertical-stack-in-card)
+- [Minimalistic Area Card](https://github.com/junalmeida/homeassistant-minimalistic-area-card)
+- [Weather Radar Card](https://github.com/Makin-Things/weather-radar-card)
 
 ## AppDaemon Apps
 
