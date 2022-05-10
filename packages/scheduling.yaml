@@ -88,7 +88,7 @@ automation:
         at: '06:07:00'
         id: mrbedroom-morning
       - platform: time
-        at: '20:45:00'
+        at: '16:30:00'
         id: mrbedroom-evening
     action:
       - if:
