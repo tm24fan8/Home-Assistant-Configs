@@ -80,3 +80,43 @@ automation:
           {% else %}
             23:00
           {% endif %}
+
+  - id: 89470712-f94d-4c01-8215-ed15b3bc799a
+    alias: Master Bedroom Scheduling
+    trigger:
+      - platform: time
+        at: '06:07:00'
+        id: mrbedroom-morning
+      - platform: time
+        at: '20:45:00'
+        id: mrbedroom-evening
+    action:
+      - if:
+        - condition: trigger
+          id: mrbedroom-morning
+        then:
+          - service: input_datetime.set_datetime
+            entity_id: input_datetime.master_bedroom_wakeup
+            data_template:
+              time: >
+                {% if is_state('input_boolean.school_today','on') %}
+                  13:45
+                {% else %}
+                  13:00
+                {% endif %}
+      - if:
+        - condition: trigger
+          id: mrbedroom-evening
+        then:
+          - service: input_datetime.set_datetime
+            entity_id: input_datetime.master_bedroom_cooling
+            data_template:
+              time: >
+                {% set low = state_attr('sensor.current_forecast','overnight_low') | float %}
+                {% if low > 55 and low < 60 %}
+                  22:00
+                {% elif low > 60 %}
+                  21:00
+                {% else %}
+                  00:00
+                {% endif %}

@@ -28,3 +28,13 @@ kallen_wakeup_time:
   name: Kallen Wake-up Time
   has_date: false
   has_time: true
+master_bedroom_cooling:
+  name: Master Bedroom Cooling
+  has_date: false
+  has_time: true
+  icon: mdi:fan-auto
+master_bedroom_wakeup:
+  name: Master Bedroom Wakeup
+  has_date: false
+  has_time: true
+  icon: mdi:fan-off
