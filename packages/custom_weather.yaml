@@ -613,8 +613,8 @@ sensor:
         unit_of_measurement: ''
         device_class: temperature
         value_template: >-
-          {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
-          {{ forecast.lowtemp }}
+          {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
+          {{ forecast.templow }}
       clothing_forecast:
         friendly_name: "Clothing Forecast"
         unit_of_measurement: ''
