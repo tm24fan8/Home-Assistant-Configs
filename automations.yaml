@@ -478,17 +478,17 @@
     id: master-bedroom-wakeup
   condition: []
   action:
-  - if:
-    - condition: trigger
-      id: master-bedroom-cooling
-    then:
-    - choose:
-      - conditions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: master-bedroom-cooling
+      sequence:
+      - if:
         - condition: numeric_state
           entity_id: sensor.current_forecast
           attribute: overnight_low
           above: '40'
-        sequence:
+        then:
         - service: fan.turn_on
           data: {}
           target:
@@ -504,16 +504,31 @@
               title: Fan Schedule Activated
               message: Master bedroom fan has been activated, as scheduled based on
                 tonight's forecast low
-      default:
-      - parallel:
-        - service: script.text_notify_tony
-          data:
-            title: Fan Schedule Skipped
-            message: Too cold outside, fan not activated
-        - service: script.text_notify_tina
-          data:
-            title: Fan Schedule Skipped
-            message: Too cold outside, fan not activated
+        else:
+        - parallel:
+          - service: script.text_notify_tony
+            data:
+              title: Fan Schedule Skipped
+              message: Too cold outside, fan not activated
+          - service: script.text_notify_tina
+            data:
+              title: Fan Schedule Skipped
+              message: Too cold outside, fan not activated
+    - conditions:
+      - condition: trigger
+        id: master-bedroom-wakeup
+      sequence:
+      - service: fan.turn_off
+        data: {}
+        target:
+          entity_id: fan.master_bedroom_fan_socket_1
+    default:
+    - service: script.text_notify_tony
+      data:
+        title: Master Bedroom Info
+        message: '"Today''s wakeup time is set to {{ states(''input_datetime.master_bedroom_wakeup'')
+          }} and tonight''s cooling is set to start at {{ states(''input_datetime.master_bedroom_cooling'')
+          }}"'
   - if:
     - condition: trigger
       id: master-bedroom-wakeup
