@@ -466,3 +466,60 @@
         - automation.family_has_arrived
         - automation.family_has_left
   mode: restart
+- id: '1652215901673'
+  alias: Master Bedroom Nighttime Protocol
+  description: ''
+  trigger:
+  - platform: time
+    at: input_datetime.master_bedroom_cooling
+    id: master-bedroom-cooling
+  - platform: time
+    at: input_datetime.master_bedroom_wakeup
+    id: master-bedroom-wakeup
+  condition: []
+  action:
+  - if:
+    - condition: trigger
+      id: master-bedroom-cooling
+    then:
+    - choose:
+      - conditions:
+        - condition: numeric_state
+          entity_id: sensor.current_forecast
+          attribute: overnight_low
+          above: '40'
+        sequence:
+        - service: fan.turn_on
+          data: {}
+          target:
+            entity_id: fan.master_bedroom_fan_socket_1
+        - parallel:
+          - service: script.text_notify_tony
+            data:
+              title: Fan Schedule Activated
+              message: Master bedroom fan has been activated, as scheduled based on
+                tonight's forecast low
+          - service: script.text_notify_tina
+            data:
+              title: Fan Schedule Activated
+              message: Master bedroom fan has been activated, as scheduled based on
+                tonight's forecast low
+      default:
+      - parallel:
+        - service: script.text_notify_tony
+          data:
+            title: Fan Schedule Skipped
+            message: Too cold outside, fan not activated
+        - service: script.text_notify_tina
+          data:
+            title: Fan Schedule Skipped
+            message: Too cold outside, fan not activated
+  - if:
+    - condition: trigger
+      id: master-bedroom-wakeup
+    then:
+    - service: fan.turn_off
+      data: {}
+      target:
+        entity_id: fan.master_bedroom_fan_socket_1
+  mode: single
