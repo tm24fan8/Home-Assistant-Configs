@@ -114,6 +114,14 @@
           states.fan.master_bedroom_air_conditioner
         ] %}
         {{ fans | selectattr('state','eq','on') | list | count }}
+    current_outdoor_lights_on:
+      friendly_name: Current Outdoor Lights On
+      unit_of_measurement: 'on'
+      value_template: >-
+        {% set lights = [
+          states.light.front_porch_light
+        ] %}
+        {{ lights | selectattr('state','eq','on') | list | count }}
 
 - platform: uptime
   name: Last Boot
