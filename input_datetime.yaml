@@ -33,6 +33,11 @@ master_bedroom_cooling:
   has_date: false
   has_time: true
   icon: mdi:fan-auto
+master_bedroom_fan:
+  name: Master Bedroom Fan
+  has_date: false
+  has_time: true
+  icon: mdi:fan-auto
 master_bedroom_wakeup:
   name: Master Bedroom Wakeup
   has_date: false

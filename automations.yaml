@@ -468,7 +468,7 @@
   mode: restart
 - id: '1652215901673'
   alias: Master Bedroom Nighttime Protocol
-  description: ''
+  description: Management of the fan and air conditioner in the master bedroom
   trigger:
   - platform: time
     at: input_datetime.master_bedroom_cooling
@@ -476,7 +476,13 @@
   - platform: time
     at: input_datetime.master_bedroom_wakeup
     id: master-bedroom-wakeup
-  condition: []
+  - platform: time
+    at: input_datetime.master_bedroom_fan
+    id: master-bedroom-fan
+  condition:
+  - condition: state
+    entity_id: input_boolean.vacation_mode
+    state: 'off'
   action:
   - choose:
     - conditions:
@@ -487,41 +493,68 @@
         - condition: numeric_state
           entity_id: sensor.current_forecast
           attribute: overnight_low
-          above: '40'
+          above: '50'
         then:
-        - service: fan.turn_on
+        - service: switch.turn_on
           data: {}
           target:
-            entity_id: fan.master_bedroom_fan_socket_1
+            entity_id: switch.master_bedroom_aircon
         - parallel:
           - service: script.text_notify_tony
             data:
-              title: Fan Schedule Activated
-              message: Master bedroom fan has been activated, as scheduled based on
-                tonight's forecast low
+              title: AC Schedule Activated
+              message: '"Master bedroom AC has been activated, as scheduled based
+                on tonight''s forecast low"'
           - service: script.text_notify_tina
             data:
-              title: Fan Schedule Activated
-              message: Master bedroom fan has been activated, as scheduled based on
-                tonight's forecast low
+              title: AC Schedule Activated
+              message: '"Master bedroom AC has been activated, as scheduled based
+                on tonight''s forecast low"'
         else:
         - parallel:
           - service: script.text_notify_tony
             data:
-              title: Fan Schedule Skipped
-              message: Too cold outside, fan not activated
+              title: AC Schedule Skipped
+              message: Too cold outside, AC not activated
           - service: script.text_notify_tina
             data:
-              title: Fan Schedule Skipped
-              message: Too cold outside, fan not activated
+              title: AC Schedule Skipped
+              message: Too cold outside, AC not activated
+    - conditions:
+      - condition: trigger
+        id: master-bedroom-fan
+      sequence:
+      - if:
+        - condition: numeric_state
+          entity_id: sensor.current_forecast
+          attribute: overnight_low
+          above: '40'
+        then:
+        - service: switch.turn_on
+          data: {}
+          target:
+            entity_id: switch.master_bedroom_fan_socket_1
+        - parallel:
+          - service: script.text_notify_tony
+            data:
+              title: Fan Schedule Activated
+              message: '"Master bedroom fan has been activated, as scheduled based
+                on tonight''s forecast low"'
+          - service: script.text_notify_tina
+            data:
+              title: Fan Schedule Activated
+              message: '"Master bedroom fan has been activated, as scheduled based
+                on tonight''s forecast low"'
     - conditions:
       - condition: trigger
         id: master-bedroom-wakeup
       sequence:
-      - service: fan.turn_off
+      - service: switch.turn_off
         data: {}
         target:
-          entity_id: fan.master_bedroom_fan_socket_1
+          entity_id:
+          - switch.master_bedroom_fan_socket_1
+          - switch.master_bedroom_aircon
     default:
     - service: script.text_notify_tony
       data:
@@ -529,12 +562,4 @@
         message: '"Today''s wakeup time is set to {{ states(''input_datetime.master_bedroom_wakeup'')
           }} and tonight''s cooling is set to start at {{ states(''input_datetime.master_bedroom_cooling'')
           }}"'
-  - if:
-    - condition: trigger
-      id: master-bedroom-wakeup
-    then:
-    - service: fan.turn_off
-      data: {}
-      target:
-        entity_id: fan.master_bedroom_fan_socket_1
-  mode: single
+  mode: queued
