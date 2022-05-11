@@ -266,7 +266,7 @@ sensor:
             {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
             {{ forecast.wind_speed }}
           precipitation: >-
-           {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
+            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
             {{ forecast.precipitation }}
       tomorrow_forecast_detail:
         friendly_name: Tomorrow Forecast Detail
@@ -384,11 +384,11 @@ sensor:
         value_template: >-
           {%- macro getReport() -%}
             The Weather in Defiance
-             {{ [
+              {{ [
               ' is ',
               ' is currently '
               ] | random }}
-             {{states('sensor.pirateweather_temperature')|round}} degrees
+              {{states('sensor.pirateweather_temperature')|round}} degrees
             {% if is_state('weather.iron_nerd_weather_station', 'rainy') %}
               {{ [
               'with rain. ',
@@ -440,11 +440,11 @@ sensor:
         value_template: >-
           {%- macro getReport() -%}
             The Weather in Defiance
-             {{ [
+              {{ [
               ' is ',
               ' is currently '
               ] | random }}
-             {{states('sensor.pirateweather_temperature')|round}} degrees
+              {{states('sensor.pirateweather_temperature')|round}} degrees
             {% if is_state('weather.iron_nerd_weather_station', 'rainy') %}
               {{ [
               'with rain. ',
@@ -627,7 +627,7 @@ sensor:
             {%- if states('sensor.todays_high_temp')|int > 63 %}
               {%- if states('sensor.todays_high_temp')|int < 80 %}
                 Nice
-              {% elif states('sensor.todays_high_temp')|int > 95 %}
+              {% elif states('sensor.todays_high_temp')|int > 90 %}
                 Hot
               {% else %}
                 Toasty
@@ -664,6 +664,29 @@ sensor:
                   'downright tolerable outside. ',
                 ] | random }}
                 So I suggest wearing shorts.
+              {% elif is_state('sensor.clothing_forecast', 'Toasty') and is_state('sensor.current_forecast', 'sunny') %}
+                It is going to be
+                {{ [ 'on the warm side ',
+                  ' rather warm outside ',
+                  ' almost too hot outside ',
+                  ' a little warm ',
+                ] | random }}
+                today, and very sunny. So I suggest wearing shorts and 
+                {{ [ 'bringing your shades, hat, and maybe some sunscreen.',
+                  'preparing to bake under the sun.',
+                  'getting ready to be cooked alive.',
+                ] | random }}
+              {% elif is_state('sensor.clothing_forecast', 'Hot') and is_state('sensor.current_forecast', 'sunny') %}
+                It is going to be
+                {{ [ 'so hot you\'ll sweat your balls off',
+                  'hotter than the sun ',
+                  'hotter than the inside of a volcano ',
+                ] | random }}
+                today, and very sunny. So I suggest wearing shorts and 
+                {{ [ 'bringing your shades, hat, and maybe some sunscreen.',
+                  'preparing to bake under the sun.',
+                  'getting ready to be cooked alive.',
+                ] | random }}
               {% elif is_state('sensor.clothing_forecast', 'Toasty') %}
                 It is going to be
                 {{ [ 'on the warm side ',
@@ -677,10 +700,15 @@ sensor:
                 {{ [ 'so hot you\'ll sweat your balls off',
                   'hotter than the sun ',
                   'hotter than the inside of a volcano ',
+                  'hotter than hell itself ',
                 ] | random }}
                 today. So I suggest wearing shorts.
               {% else %}
                 It is going to be {{ states.sensor.clothing_forecast.state }} today so I suggest wearing shorts.
+              {% endif %}
+              {% set high = state_attr('sensor.current_forecast','high_temp') %}
+              {% if high > 85 %}
+                Warning, today will be a very sweaty day, so please remember to stay hydrated!
               {% endif %}
             {% else %}
               Based on the current temperature,
@@ -699,11 +727,34 @@ sensor:
                   'downright tolerable outside. ',
                 ] | random }}
                 So I suggest wearing shorts.
+              {% elif is_state('sensor.clothing_forecast', 'Toasty') and is_state('weather.iron_nerd_weather_station','sunny') %}
+                It is
+                {{ [ 'on the warm side ',
+                  ' rather warm ',
+                  ' almost too hot ',
+                  ' a little warm ',
+                ] | random }}
+                and very sunny outside. So I suggest wearing shorts and
+                {{ [ 'bringing your shades, hat, and maybe some sunscreen.',
+                  'preparing to bake under the sun.',
+                  'getting ready to be cooked alive.',
+                ] | random }}
+              {% elif is_state('sensor.clothing_forecast', 'Hot') and is_state('weather.iron_nerd_weather_station','sunny') %}
+                It is
+                {{ [ 'so hot you\'ll sweat your balls off',
+                  'hotter than the sun ',
+                  'hotter than the inside of a volcano ',
+                ] | random }}
+                and very sunny outside. So I suggest wearing shorts and
+                {{ [ 'bringing your shades, hat, and maybe some sunscreen.',
+                  'preparing to bake under the sun.',
+                  'getting ready to be cooked alive.',
+                ] | random }}
               {% elif is_state('sensor.clothing_forecast', 'Toasty') %}
                 It is
                 {{ [ 'on the warm side ',
-                  ' rather warm outside ',
-                  ' almost too hot outside ',
+                  ' rather warm ',
+                  ' almost too hot ',
                   ' a little warm ',
                 ] | random }}
                 outside. So I suggest wearing shorts.
@@ -712,10 +763,15 @@ sensor:
                 {{ [ 'so hot you\'ll sweat your balls off',
                   'hotter than the sun ',
                   'hotter than the inside of a volcano ',
+                  'hotter than hell itself ',
                 ] | random }}
                 outside. So I suggest wearing shorts.
               {% else %}
                 It is {{ states.sensor.clothing_forecast.state }} right now so I suggest wearing shorts.
+              {% endif %}
+              {% set heatindex = states('sensor.pirateweather_apparent_temperature') | float | round %}
+              {% if heatindex > 90 %}
+                Warning, the heat index is {{ heatindex }} degrees right now, which is very high. So please make sure to stay hydrated!
               {% endif %}
             {% endif %}
           {%- endmacro -%}

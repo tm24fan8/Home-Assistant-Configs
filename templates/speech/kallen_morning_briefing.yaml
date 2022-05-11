@@ -13,7 +13,7 @@
           'If you have not gotten dressed it is that time.',
           'It is time to get your butt in gear. And your face too, ideally.',
           'It is time to do the getting of readiness. And be nice to your mother!',
-          'In the words of the legendary Tom Brady, LETS GO!!!'
+          'In the words of the legendary Tom Brady, LETS GO!!!',
         ] | random }} 
       {% endif %}
     </p>
@@ -32,6 +32,21 @@
           'rather enjoyable outside. ',
         ] | random }} 
         So I suggest wearing shorts.
+      {% elif is_state('sensor.clothing_forecast', 'Toasty') and is_state('sensor.current_forecast','sunny') %}
+        It is going to be 
+        {{ [ ' rather warm outside. ',
+          ' almost too hot outside. ',
+          ' a little warm today. ',
+        ] | random }} 
+        and very sunny, so I suggest wearing shorts and maybe some sunscreen.
+      {% elif is_state('sensor.clothing_forecast', 'Hot') and is_state('sensor.current_forecast','sunny') %}
+        It is going to be 
+        {{ [ 'hotter than the sun today. ',
+          'hotter than the sun outside. ',
+          'super hot today. ',
+          'hotter than the inside of a volcano today. Well not exactly, but you get the point. '
+        ] | random }} 
+        and very sunny, so I suggest wearing shorts and maybe some sunscreen.
       {% elif is_state('sensor.clothing_forecast', 'Toasty') %}
         It is going to be 
         {{ [ ' rather warm outside. ',
@@ -49,7 +64,11 @@
         So I suggest wearing shorts.
       {% else %}
         It is going to be {{ states.sensor.clothing_forecast.state }} today so I suggest wearing shorts.
-      {% endif %} 
+      {% endif %}
+      {% set hightemp = state_attr('sensor.current_forecast','high_temp') | float %}
+      {% if hightemp > 85 %}
+        Warning, today will be a very sweaty day, so you need to remember to stay hydrated.
+      {% endif %}
     </p>
 
     <p>
@@ -58,7 +77,7 @@
           Today is the first day of school! 
         {% else %}
           {{ [ 'Today is a school day.',
-            'It is a school day. '
+            'It is a school day. ',
           ] | random }}
         {% endif %}
         <s>Pickup today will be at {{(state_attr('input_datetime.school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }}</s>
@@ -73,9 +92,9 @@
         And look at that. You do not have school today.
         {{ [ 'Guess today would be a good day to clean your room.',
           'You could always do some chores. HA, good one.',
-          'Want to play a nice game of chess? Sorry. I meant, want to play Dark Souls?',
+          'Want to play a nice game of chess? Sorry. I meant, want to play Beam NG?',
           'I hope you enjoy your day off. You deserve it.',
-          'Today would be a good day to spend some time with mom and dad.'
+          'Today would be a good day to spend some time with mom and dad.',
         ] | random }} 
       {% endif %}
 
