@@ -65,6 +65,55 @@
           states.light.nursery_light
         ] %}
         {{ lights | selectattr('state','eq','on') | list | count }}
+    first_floor_lights_on:
+      friendly_name: First Floor Lights On
+      unit_of_measurement: 'on'
+      value_template: >-
+        {% set lights = [
+          states.light.living_room_color_1,
+          states.light.living_room_color_2,
+          states.light.dining_room_lamp,
+          states.light.mud_room_overhead,
+          states.light.downstairs_bathroom_left
+        ] %}
+        {{ lights | selectattr('state','eq','on') | list | count }}
+    second_floor_lights_on:
+      friendly_name: Second Floor Lights On
+      unit_of_measurement: 'on'
+      value_template: >-
+        {% set lights = [
+          states.light.hallway_overhead,
+          states.light.upstairs_bathroom_left,
+          states.light.upstairs_bathroom_right,
+          states.light.upstairs_bathroom_wall,
+          states.light.master_bedroom_front,
+          states.light.master_bedroom_side,
+          states.light.kallen_bedroom_light,
+          states.light.nursery_light
+        ] %}
+        {{ lights | selectattr('state','eq','on') | list | count }}
+    basement_lights_on:
+      friendly_name: Basement Lights On
+      unit_of_measurement: 'on'
+      value_template: >-
+        {% set lights = [
+          states.light.basement_stairwell,
+          states.light.basement_tall_lamp,
+          states.light.basement_short_lamp,
+          states.light.basement_led_strip_1
+        ] %}
+        {{ lights | selectattr('state','eq','on') | list | count }}
+    current_fans_on:
+      friendly_name: Current Fans On
+      unit_of_measurement: 'on'
+      value_template: >-
+        {% set fans = [
+          states.fan.basement_fan,
+          states.fan.kallen_fan_socket_1,
+          states.fan.master_bedroom_fan_socket_1,
+          states.fan.master_bedroom_air_conditioner
+        ] %}
+        {{ fans | selectattr('state','eq','on') | list | count }}
 
 - platform: uptime
   name: Last Boot
