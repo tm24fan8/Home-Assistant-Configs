@@ -350,7 +350,9 @@
           - service: light.turn_on
             data: {}
             target:
-              area_id: kallen_bedroom
+              area_id:
+              - kallen_bedroom
+              - upstairs_hallway
           - service: script.speech_engine
             data:
               who: kallen_bedroom
@@ -373,7 +375,9 @@
         - service: light.turn_on
           data: {}
           target:
-            area_id: kallen_bedroom
+            area_id:
+            - kallen_bedroom
+            - upstairs_hallway
         - service: script.speech_engine
           data:
             who: kallen_bedroom
