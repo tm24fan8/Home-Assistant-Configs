@@ -347,6 +347,10 @@
             entity_id: sensor.pirateweather_temperature
             below: '40'
           sequence:
+          - service: light.turn_on
+            data: {}
+            target:
+              area_id: kallen_bedroom
           - service: script.speech_engine
             data:
               who: kallen_bedroom
@@ -366,6 +370,10 @@
             target:
               entity_id: input_boolean.white_noise_kallen_bedroom
         default:
+        - service: light.turn_on
+          data: {}
+          target:
+            area_id: kallen_bedroom
         - service: script.speech_engine
           data:
             who: kallen_bedroom
