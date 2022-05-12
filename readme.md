@@ -74,6 +74,7 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Weather Radar Card](https://github.com/Makin-Things/weather-radar-card)
 - [Stack In Card](https://github.com/custom-cards/stack-in-card)
 - [Canary](https://github.com/jcwillox/lovelace-canary)
+- [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row)
 
 ## AppDaemon Apps
 
