@@ -335,6 +335,9 @@
   - condition: state
     entity_id: binary_sensor.people_present
     state: 'on'
+  - condition: state
+    entity_id: input_boolean.kallen_overnight
+    state: 'off'
   action:
   - choose:
     - conditions:

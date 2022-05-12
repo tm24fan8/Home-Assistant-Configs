@@ -21,3 +21,6 @@ living_room_entertainment_mode:
 front_porch_light_on:
   name: Front Porch Light On
   icon: hue:room-outdoors
+kallen_overnight:
+  name: Kallen Overnight
+  icon: mdi:weather-night

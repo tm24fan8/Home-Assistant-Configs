@@ -68,6 +68,10 @@ automation:
     trigger:
       platform: time
       at: input_datetime.kallen_morning_briefing
+    condition:
+      - condition: state
+        entity_id: input_boolean.kallen_overnight
+        state: 'off'
     action:
     - service: script.kallen_morning_briefing
 
@@ -76,6 +80,10 @@ automation:
     trigger:
       platform: time
       at: input_datetime.kallen_nightly_briefing
+    condition:
+      condition: state
+      entity_id: input_boolean.kallen_overnight
+      state: 'off'
     action:
     - service: script.kallen_nightly_briefing
 
