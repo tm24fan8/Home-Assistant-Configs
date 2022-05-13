@@ -76,6 +76,7 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Canary](https://github.com/jcwillox/lovelace-canary)
 - [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row)
 - [State Switch](https://github.com/thomasloven/lovelace-state-switch)
+- [Multiple Entity Row](https://github.com/benct/lovelace-multiple-entity-row)
 
 ## AppDaemon Apps
 
