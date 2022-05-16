@@ -78,6 +78,7 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [State Switch](https://github.com/thomasloven/lovelace-state-switch)
 - [Multiple Entity Row](https://github.com/benct/lovelace-multiple-entity-row)
 - [Weather Card](https://github.com/benct/lovelace-multiple-entity-row)
+- [Template Entity Row](https://github.com/thomasloven/lovelace-template-entity-row)
 
 ## AppDaemon Apps
 
