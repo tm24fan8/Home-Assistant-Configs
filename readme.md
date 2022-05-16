@@ -79,6 +79,7 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Multiple Entity Row](https://github.com/benct/lovelace-multiple-entity-row)
 - [Weather Card](https://github.com/benct/lovelace-multiple-entity-row)
 - [Template Entity Row](https://github.com/thomasloven/lovelace-template-entity-row)
+- [Config Template Card](https://github.com/iantrich/config-template-card)
 
 ## AppDaemon Apps
 
