@@ -125,3 +125,11 @@ tts_devices:
     - Everywhere
   initial: Living Room
   icon: mdi:dots-horizontal-circle
+router_stats:
+  name: Router Stats
+  options:
+    - Current Stats
+    - History Stats - Download
+    - History Stats - Upload
+  initial: Current Stats
+  icon: mdi:router
