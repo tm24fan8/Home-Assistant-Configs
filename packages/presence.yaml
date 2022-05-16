@@ -101,12 +101,12 @@ sensor:
     sensors:
       tony_home:
         value_template: >-
-          {{ is_state('device_tracker.tony_s_iphone', 'home') or is_state('device_tracker.tony_s_iphone_app', 'home') }}
+          {{ is_state('device_tracker.tony_s_iphone', 'home') or is_state('device_tracker.tony_s_iphone_app', 'home') or is_state('device_tracker.life360_tony_stork','home') }}
   - platform: template
     sensors:
       tina_home:
         value_template: >-
-          {{ is_state('device_tracker.tinas_iphone', 'home') or is_state('device_tracker.tinas_iphone_app', 'home') }}
+          {{ is_state('device_tracker.tinas_iphone', 'home') or is_state('device_tracker.tinas_iphone_app', 'home') or is_state('device_tracker.life360_christina_stork','home') }}
 
 automation:
   - id: kallen_at_school
