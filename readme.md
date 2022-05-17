@@ -80,6 +80,7 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Weather Card](https://github.com/benct/lovelace-multiple-entity-row)
 - [Template Entity Row](https://github.com/thomasloven/lovelace-template-entity-row)
 - [Config Template Card](https://github.com/iantrich/config-template-card)
+- [Canvas Gauge Card](https://github.com/custom-cards/canvas-gauge-card)
 
 ## AppDaemon Apps
 
