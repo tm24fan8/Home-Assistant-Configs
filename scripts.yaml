@@ -274,6 +274,10 @@ basement_on:
       area_id: basement_studio
   - service: script.tony_desktop_wake
     data: {}
+  - service: media_player.turn_on
+    data: {}
+    target:
+      entity_id: media_player.basement_tv
   mode: single
   icon: hue:room-stairs
 start_youtube_basement:
