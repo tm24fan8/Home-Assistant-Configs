@@ -81,6 +81,7 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Template Entity Row](https://github.com/thomasloven/lovelace-template-entity-row)
 - [Config Template Card](https://github.com/iantrich/config-template-card)
 - [Canvas Gauge Card](https://github.com/custom-cards/canvas-gauge-card)
+- [Datetime Card](https://github.com/a-p-z/datetime-card)
 
 ## AppDaemon Apps
 
@@ -98,3 +99,4 @@ This is a new adventure so we'll see where it ends up going, but so far I am usi
 - [Hass Hue Icons](https://github.com/arallsopp/hass-hue-icons)
 - [Thermal Comfort Icons](https://github.com/rautesamtr/thermal_comfort_icons)
 - [BHA Icon Pack](https://github.com/hulkhaugen/hass-bha-icons)
+- [Custom Icons Library](https://github.com/Mariusthvdb/custom-icons)
