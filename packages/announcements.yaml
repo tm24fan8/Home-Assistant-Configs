@@ -87,6 +87,18 @@ automation:
     action:
     - service: script.kallen_nightly_briefing
 
+  - id: c53d84ee-9e6d-4268-8d44-d427c722602a
+    alias: Daily Briefing
+    trigger:
+      platform: time
+      at: input_datetime.daily_report
+    condition:
+      condition: state
+      entity_id: binary_sensor.people_present
+      state: 'on'
+    action:
+    - service: script.daily_briefing
+
 script:
   reset_annc_switches:
     sequence:
@@ -135,3 +147,10 @@ script:
         data:
           who: "ios_parents"
           message: "I just gave Kallen's morning briefing"
+
+  daily_briefing:
+    sequence:
+    - service: script.speech_engine
+      data:
+        who: living_room
+        message: !include ../templates/speech/daily_briefing.yaml
