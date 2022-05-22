@@ -151,6 +151,6 @@ script:
   daily_briefing:
     sequence:
     - service: script.speech_engine
-      data:
-        who: living_room
+      data_template:
+        who: "{{ who }}"
         message: !include ../templates/speech/daily_briefing.yaml
