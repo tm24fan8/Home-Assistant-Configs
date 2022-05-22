@@ -18,6 +18,20 @@
         {% else %}
           off
         {% endif %}
+    work_tomorrow:
+      friendly_name: 'Work Tomorrow'
+      value_template: >-
+        {%- set test=(as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) %}
+        {% if states.calendar.family_tinawork.attributes.start_time == test + " 09:00:00" %}
+          on
+        {% elif states.calendar.family_tinawork.attributes.start_time == test + " 07:00:00" %}
+          on
+        {% elif states.calendar.family_tinawork.attributes.start_time == test + " 10:00:00" %}
+          on
+        {% else %}
+          off
+        {% endif %}
+
 - platform: time_date
   display_options:
   - 'time'

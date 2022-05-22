@@ -59,7 +59,7 @@ sensor:
           {% set person = states.person.christina_stork.state %}
           {%- if person in ['Wal-Mart','Kroger','Chief','Meijer'] %}
             Grocery Store
-          {% elif person in ['Chipotle','Ft Wayne Chipotle'] and is_state('binary_sensor.tina_work','on') %}
+          {% elif person in ['Chipotle'] and is_state('input_boolean.work_today','on') %}
             Work
           {% else %}
             {% if person in ['not_home','Stationary'] %}

@@ -8,6 +8,9 @@ input_boolean:
   school_early_release:
     name: School Early Release
     icon: mdi:bus-school
+  work_today:
+    name: Work Today
+    icon: mdi:briefcase
 
 input_datetime:
   school_first_day:
@@ -163,6 +166,35 @@ automation:
     - service: script.turn_on
       entity_id: script.school_in_session
 
+  - id: cd9f921f-71c7-4e29-9aee-7421ef19bdd3
+    alias: Work Today
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '05:45:00'
+    condition:
+    - condition: template
+      value_template: >
+        {%- if as_timestamp(strptime(state_attr('calendar.family_tinawork','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%Y-%m-%d") == now().strftime("%Y-%m-%d") %}
+          true
+        {%- endif -%}
+    action:
+    - service: input_datetime.set_datetime
+      target:
+        entity_id: input_datetime.tina_workday_start
+      data:
+        time: >
+          {{ as_timestamp(strptime(state_attr('calendar.family_tinawork','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
+    - service: input_datetime.set_datetime
+      target:
+        entity_id: input_datetime.tina_workday_end
+      data:
+        time: >
+          {{ as_timestamp(strptime(state_attr('calendar.family_tinawork','end_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.work_today
+
+
   - id: b9028665-401c-4de3-8f13-1099160b011f
     alias: School Reset
     initial_state: true
@@ -172,6 +204,16 @@ automation:
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.school_today
+
+  - id: a6eeb075-d21b-436c-983f-39188ee9b016
+    alias: Work Reset
+    initial_state: true
+    trigger:
+      - platform: time
+        at: input_datetime.tina_workday_end
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.work_today
 
 script:
     
