@@ -52,7 +52,7 @@
             ] | random }}
           {% endif %}
         {% else %}
-          and {{ states.weather.iron_nerd_weather_studio.state }}
+          and {{ states.weather.iron_nerd_weather_station.state }}
         {% endif %}
 
         {% if states.sensor.weatheralerts_active_alerts.state | int > 0 %}
@@ -200,7 +200,7 @@
                 {{ [
                 'I think that means we should have pizza today. and by we I mean those of us with a mouth.',
                 'So who is going to make the pizza?',
-                'Everyone knows Pepporini Pizza is the best. am I right?'
+                'Everyone knows Pepperoni Pizza is the best. am I right?'
               ]|random }}
               {%- endif -%}
 
@@ -214,7 +214,7 @@
 
               {% if 'Fools' in event %}
                 {{ [
-                'Which reminds me. The camera looking at the drive way caught a Tee Rex last night. <break time="1s"/> April Fools!',
+                'Which reminds me. The front porch camera caught a Tee Rex last night. <break time="1s"/> April Fools!',
                 'Which reminds me. I won the lottery and I am moving out to go live with Siri. <break time="1s"/> April Fools!',
                 'Which reminds me. there was a time change last night. We have jumped 15 years into the future. <break time="1s"/> April Fools!'
               ]|random }}
@@ -274,6 +274,9 @@
                 'Also, did you know.'
               ] | random }}
                 There are only {{ states.sensor.school_end_days2go.state }} days left in the school year!
+            {% endif %}
+            {% if now().strftime('%Y-%m-%d') == states.input_datetime.school_last_day.state %}
+              Congratulations, today is the last day of school! Have an awesome day!
             {% endif %}
             {% if states.sensor.school_end_days2go.state | int == -1 -%}
               Today is the first day of Summer Break! 
