@@ -48,7 +48,18 @@ input_datetime:
   school_day_end_reminder:
     name: School Day End Reminder
     has_date: false
-    has_time: true  
+    has_time: true
+  tina_workday_start:
+    name: Tina Workday Start
+    has_date: false
+    has_time: true
+    icon: mdi:briefcase
+  tina_workday_end:
+    name: Tina Workday End
+    has_date: false
+    has_time: true
+    icon: mdi:briefcase-off
+
 
 sensor:
   - platform: template
