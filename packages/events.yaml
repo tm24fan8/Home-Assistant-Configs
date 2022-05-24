@@ -226,6 +226,20 @@ automation:
       - service: input_boolean.turn_off
         entity_id: input_boolean.work_today
 
+  - id: 05ee0f8d-5411-4486-8acf-9bfadad2b23a
+    alias: End of School Year
+    initial_state: true
+    trigger:
+      - platform: time
+        at: input_datetime.school_last_day
+    condition:
+      - condition: state
+        entity_id: input_boolean.school_in_session
+        state: 'on'
+    action:
+      - service: script.turn_on
+        entity_id: script.school_year_over
+
 script:
     
   school_in_session:
