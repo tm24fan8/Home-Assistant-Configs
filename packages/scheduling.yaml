@@ -98,6 +98,26 @@ automation:
           {% else %}
             09:00
           {% endif %}
+    - service: input_datetime.set_datetime
+      entity_id: input_datetime.morning_report
+      data_template:
+        time: >
+          {% if is_state('input_boolean.school_today','on') %}
+            08:20
+          {% elif is_state('input_boolean.work_today','on') and is_state('input_boolean.school_today','off') %}
+            {{ (state_attr('input_datetime.tina_workday_start', 'timestamp') - 1800) | timestamp_custom('%H:%M', false) }}
+          {% else %}
+            12:00
+          {% endif %}
+    - service: input_datetime.set_datetime
+      entity_id: input_datetime.daily_briefing
+      data_template:
+        time: >
+          {% if is_state('input_boolean.school_today','on') %}
+            14:15
+          {% else %}
+            {{ (state_attr('input_datetime.tina_workday_end', 'timestamp') + 1800) | timestamp_custom('%H:%M', false) }}
+          {% endif %}
 
   - id: 55293e9a-ec3b-46bb-af47-94e95f3c9951
     alias: House Scheduling - Evening

@@ -1,0 +1,135 @@
+>
+  {# Morning Report #}
+  {%- macro getReport() -%}
+    <p>
+      {% if now().strftime('%H')|int < 12 and now().strftime('%H')|int > 6 %}
+        Good morning.
+      {% elif now().strftime('%H')|int >= 12 and now().strftime('%H')|int < 17 %}
+        Good afternoon.
+      {% else %}
+        Good evening.
+      {% endif %}
+      </p>
+      <p>
+      {% if now().strftime('%H')|int < 12 %}
+        {% if now().strftime('%M')|int == 0 %}
+          It is {{ now().strftime('%H')|int }} AM.
+        {% else %}
+          It is {{ now().strftime('%H')|int }} {{ now().strftime('%M')|int }} AM.
+        {% endif %}
+
+      {% elif now().strftime('%H')|int > 12 %}
+        {% if now().strftime('%M')|int == 0 %}
+          It is {{ now().strftime('%H')|int }} PM.
+        {% else %}
+          It is {{ now().strftime('%H')|int }} {{ now().strftime('%M')|int }} PM.
+        {% endif %}
+      
+      {% else %}
+
+      {% endif %}
+      </p>
+      <p>
+      {{ [
+          'Today is ',
+          'If you have not been keeping track today is ',
+          'Do you know what day of the week it is? Today is',
+          'I hate to be the bearer of bad news, but today is '
+      ]|random }}
+      {{states.sensor.today_is.state }}.
+      </p>
+      <p>
+        It is currently {{states.weather.iron_nerd_weather_station.state}} and {{states.sensor.pirateweather_temperature.state|round}} degrees in Defiance. 
+      </p>
+      <p>
+        {% if states.sensor.weatheralerts_active_alerts.state | int > 0 %}
+          There are currently {{states.sensor.weatheralerts_active_alerts.state }} active weather alerts for our area.
+        {% endif %}
+      </p>
+      <p>
+        {{ [
+            'The rest of the day should be,',
+            'Todays forecast should be ,'
+        ]|random }}
+          {{ states.sensor.current_forecast.state }} 
+        </p>
+        <p>
+        {% if is_state('sensor.halloween_countdown','0') %}
+          Happy Halloween!
+        {% endif %}
+        {% if is_state('sensor.christmas_countdown','0') %}
+          Merry Christmas Everyone!
+        {% endif %}
+        {% if is_state('sensor.anniversary_wedding_anniversary','0') %}
+          Happy Anniversary! It been an amazing {{ states.sensor.anniversary_wedding_anniversary.attributes.years }} years!
+        {% endif %}
+        {% if is_state('calendar.holidays_in_united_states', 'on') %}
+          Today is {{states.calendar.holidays_in_united_states.attributes.message}}. 
+        {% endif %}
+        {% if states.calendar.birthdays.state == 'on' %}
+          Today is {{ states.calendar.birthdays.attributes.message }}! So Happy Birthday! The confetti cannon is not working otherwise I would shower you in paper garbage that someone else would have to pick up.
+        {% endif %}
+        {%- set event=states.calendar.national_holidays.attributes.message %}
+        {% if 'Day' in event and 'National' in event%}
+          {{ [
+            'And a very special Happy ',
+            'It is also ',
+            'Today is also known as ',
+            'Oh <emphasis>Look</emphasis>. Today is ',
+            'Want to know a fact? Today is ',
+            'Everyday can be a holiday. So today is '
+        ]|random }}
+        {{states.calendar.national_holidays.attributes.message | replace("&"," and ") }}.
+        {%- endif -%}
+        </p>
+        <p>
+
+          {% if is_state('input_boolean.school_today','on') and is_state('input_boolean.work_today','on') %}
+            {%- if states.sensor.home_to_school.state|round > 12 %}
+              Traffic to the school appears heavier than normnal.
+            {% else %}
+              Traffic to the school is normal.
+            {% endif %}
+            Currently it will take {{states.sensor.home_to_school.state|round}} minutes to get to the school.
+            {%- if states.sensor.school_to_chipotle.state|round > 15 %}
+              Traffic from the school to Chipotle appears heavier than normnal.
+            {% else %}
+              Traffic from the school to Chipotle is normal.
+            {% endif %}
+            Currently it will take {{states.sensor.school_to_chipotle.state|round}} minutes to get to Chipotle from the school.
+          {% elif is_state('input_boolean.work_today','on') %}
+            {%- if states.sensor.home_to_chipotle.state|round > 15 %}
+              Traffic to Chipotle appears heavier than normnal.
+            {% else %}
+              Traffic to Chipotle is normal.
+            {% endif %}
+            Currently it will take {{states.sensor.home_to_chipotle.state|round}} minutes to get to Chipotle.
+          {% elif is_state('input_boolean.school_today','on') %}
+            {%- if states.sensor.home_to_school.state|round > 12 %}
+              Traffic to the school appears heavier than normnal.
+            {% else %}
+              Traffic to the school is normal.
+            {% endif %}
+            Currently it will take {{states.sensor.home_to_school.state|round}} minutes to get to the school.
+          {% else %}
+            It appears no traffic reports are needed today. Enjoy your day off!
+          {% endif %}
+
+
+      </p>
+  {%- endmacro -%}
+
+
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+    {%- macro cleanup(data) -%}
+      {%- for item in data.split("\n")  if item | trim != "" -%}
+        {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+
+  {# a macro to call all macros :)  #}
+    {%- macro mother_of_all_macros() -%}
+      {{ getReport() }}
+    {%- endmacro -%}
+    
+    {# Call the macro  #}
+    {{- cleanup(mother_of_all_macros()) -}}

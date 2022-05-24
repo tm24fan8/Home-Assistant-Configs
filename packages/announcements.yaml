@@ -99,6 +99,18 @@ automation:
     action:
     - service: script.daily_briefing
 
+  - id: 5d06ba92-de10-4bf3-bc08-86f5be60c4a7
+    alias: Morning Briefing
+    trigger:
+      - platform: time
+        at: input_datetime.morning_report
+    condition:
+      condition: state
+      entity_id: binary_sensor.people_present
+      state: 'on'
+    action:
+    - service: script.morning_report
+
 script:
   reset_annc_switches:
     sequence:
@@ -154,3 +166,10 @@ script:
       data_template:
         who: "{{ who }}"
         message: !include ../templates/speech/daily_briefing.yaml
+
+  morning_report:
+    sequence:
+    - service: script.speech_engine
+      data_template:
+        who: "{{ who }}"
+        message: !include ../templates/speech/morning_briefing.yaml
