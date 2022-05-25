@@ -11,6 +11,7 @@ living_room_scenes:
     - Tropical Twilight
     - Tokyo
     - Forest Adventure
+    - Painted Sky
     - Reset
   initial: Adaptive
   icon: hue:room-living
@@ -115,6 +116,17 @@ downstairs_bathroom_scenes:
     - Reset
   initial: Adaptive
   icon: mdi:toilet
+front_porch_scenes:
+  name: Front Porch Scenes
+  options:
+    - Bright
+    - Energize
+    - Concentrate
+    - Dimmed
+    - Nightlight
+    - St Patricks Day
+    - Halloween
+  icon: hue:room-porch
 tts_devices:
   name: TTS Devices
   options:

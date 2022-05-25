@@ -24,3 +24,6 @@ front_porch_light_on:
 kallen_overnight:
   name: Kallen Overnight
   icon: mdi:weather-night
+living_room_dynamic_scenes:
+  name: Living Room Dynamic Scenes
+  icon: mdi:animation
