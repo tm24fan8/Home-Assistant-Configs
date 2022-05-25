@@ -6,6 +6,7 @@ media_lights_sync_living_room:
   lights:
     - light.living_room_color_1
     - light.living_room_color_2
+    - light.living_room_color_3
   ha_url: !secret local_url
   reset_lights_after: true
   use_saturated_colors: false

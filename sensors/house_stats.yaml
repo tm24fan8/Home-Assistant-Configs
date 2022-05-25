@@ -47,6 +47,7 @@
         {% set lights = [
           states.light.living_room_color_1,
           states.light.living_room_color_2,
+          states.light.living_room_color_3,
           states.light.dining_room_lamp,
           states.light.mud_room_overhead,
           states.light.downstairs_bathroom_left,
@@ -57,6 +58,7 @@
           states.light.basement_led_strip_1,
           states.light.hallway_overhead,
           states.light.upstairs_bathroom_left,
+          states.light.upstairs_bathroom_middle_left,
           states.light.upstairs_bathroom_right,
           states.light.upstairs_bathroom_wall,
           states.light.master_bedroom_front,
@@ -72,6 +74,7 @@
         {% set lights = [
           states.light.living_room_color_1,
           states.light.living_room_color_2,
+          states.light.living_room_color_3,
           states.light.dining_room_lamp,
           states.light.mud_room_overhead,
           states.light.downstairs_bathroom_left
@@ -84,6 +87,7 @@
         {% set lights = [
           states.light.hallway_overhead,
           states.light.upstairs_bathroom_left,
+          states.light.upstairs_bathroom_middle_left,
           states.light.upstairs_bathroom_right,
           states.light.upstairs_bathroom_wall,
           states.light.master_bedroom_front,
