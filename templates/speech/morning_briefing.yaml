@@ -83,6 +83,11 @@
         {%- endif -%}
         </p>
         <p>
+          {% if now().strftime('%Y-%m-%d') == states.input_datetime.school_last_day.state %}
+            Congratulations, today is the last day of school! Have an awesome day!
+          {% endif %}
+        </p>
+        <p>
 
           {% if is_state('input_boolean.school_today','on') and is_state('input_boolean.work_today','on') %}
             {%- if states.sensor.home_to_school.state|round > 12 %}
