@@ -121,6 +121,7 @@ front_porch_scenes:
   name: Front Porch Scenes
   options:
     - Select
+    - Adaptive
     - Bright
     - Energize
     - Concentrate
