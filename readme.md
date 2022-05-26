@@ -46,7 +46,6 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Layout Card](https://github.com/thomasloven/lovelace-layout-card)
 - [Scheduler Card](https://github.com/nielsfaber/scheduler-card) (required for Scheduler component)
 - [Sun Card](https://github.com/AitorDB/home-assistant-sun-card)
-- [RGB Light Card](https://github.com/bokub/rgb-light-card)
 - [Spotify Lovelace Card](https://github.com/custom-cards/spotify-card)
 - [Surveillance Card](https://github.com/custom-cards/surveillance-card)
 - [Lovelace Home Feed Card](https://github.com/gadgetchnnel/lovelace-home-feed-card)
@@ -57,7 +56,6 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Compass Card](https://github.com/tomvanswam/compass-card)
 - [Flipdown Timer Card](https://github.com/pmongloid/flipdown-timer-card)
 - [Atomic Calendar Revive](https://github.com/totaldebug/atomic-calendar-revive)
-- [History Explorer Card](https://github.com/alexarch21/history-explorer-card)
 - [Plotly Graph Card](https://github.com/dbuezas/lovelace-plotly-graph-card)
 - [Mushroom](https://github.com/piitaya/lovelace-mushroom)
 - [Transmission Card](https://github.com/amaximus/transmission-card)
@@ -82,6 +80,8 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Config Template Card](https://github.com/iantrich/config-template-card)
 - [Canvas Gauge Card](https://github.com/custom-cards/canvas-gauge-card)
 - [Datetime Card](https://github.com/a-p-z/datetime-card)
+- [Waze Travel Time](https://github.com/r-renato/ha-card-waze-travel-time)
+- [Time Picker Card](https://github.com/GeorgeSG/lovelace-time-picker-card)
 
 ## AppDaemon Apps
 
