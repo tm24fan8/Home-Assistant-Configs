@@ -1,6 +1,7 @@
 living_room_scenes:
   name: Living Room Scenes
   options:
+    - Select
     - Adaptive
     - Bright
     - Dimmed
@@ -12,62 +13,63 @@ living_room_scenes:
     - Tokyo
     - Forest Adventure
     - Painted Sky
-    - Reset
-  initial: Adaptive
+  initial: Select
   icon: hue:room-living
 mud_room_scenes:
   name: Mud Room Scenes
   options:
+    - Select
     - Adaptive
     - Bright
     - Dimmed
     - Nightlight
-    - Reset
-  initial: Adaptive
+  initial: Select
   icon: hue:room-other
 dining_room_lamp_modes:
   name: Dining Room Lamp Modes
   options:
+    - Select
     - All Bulbs
     - 3 Bulb - Dining Room
     - 2 Bulb - Wall
     - Nightlight
     - Reset
-  initial: All Bulbs
+  initial: Select
   icon: mdi:floor-lamp-dual
 upstairs_hallway_scenes:
   name: Upstairs Hallway Scenes
   options:
+    - Select
     - Adaptive
     - Bright
     - Dimmed
     - Nightlight
-    - Reset
-  initial: Adaptive
+  initial: Select
   icon: hue:ceiling-round
 kallen_bedroom_scenes:
   name: Kallen Bedroom Scenes
   options:
+    - Select
     - Adaptive
     - Bright
     - Dimmed
     - Nightlight
-    - Reset
-  initial: Adaptive
+  initial: Select
   icon: mdi:bunk-bed
 nursery_scenes:
   name: Nursery Scenes
   options:
+    - Select
     - Adaptive
     - Bright
     - Dimmed
     - Nightlight
-    - Reset
-  initial: Adaptive
+  initial: Select
   icon: hue:room-nursery
 basement_studio_scenes:
   name: Basement Studio Scenes
   options:
+    - Select
     - Adaptive
     - Energize
     - Concentrate
@@ -80,45 +82,45 @@ basement_studio_scenes:
     - Kallen Reading
     - Baby Is Napping
     - Stairwell
-    - Reset
-  initial: Adaptive
+  initial: Select
   icon: mdi:twitch
 master_bedroom_scenes:
   name: Master Bedroom Scenes
   options:
+    - Select
     - Adaptive
     - Bright
     - Dimmed
     - Nightlight
     - Front Nightlight
     - Side Nightlight
-    - Reset
-  initial: Adaptive
+  initial: Select
   icon: mdi:bed
 upstairs_bathroom_scenes:
   name: Upstairs Bathroom Scenes
   options:
+    - Select
     - Adaptive
     - Bright
     - Dimmed
     - Nightlight
     - Single Nightlight
-    - Reset
-  initial: Adaptive
+  initial: Select
   icon: mdi:toilet
 downstairs_bathroom_scenes:
   name: Downstairs Bathroom Scenes
   options:
+    - Select
     - Adaptive
     - Bright
     - Dimmed
     - Nightlight
-    - Reset
-  initial: Adaptive
+  initial: Select
   icon: mdi:toilet
 front_porch_scenes:
   name: Front Porch Scenes
   options:
+    - Select
     - Bright
     - Energize
     - Concentrate
