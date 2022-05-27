@@ -126,6 +126,15 @@
           states.light.front_porch_light
         ] %}
         {{ lights | selectattr('state','eq','on') | list | count }}
+    front_porch_color_temp:
+      friendly_name: Front Porch Color Temp
+      unit_of_measurement: 'mireds'
+      value_template: >
+        {% if is_state('light.front_porch_light','off') %}
+          {{ 0 | int }}
+        {% else %}
+          {{ state_attr('light.front_porch_light','color_temp') | int }}
+        {% endif %}
 
 - platform: uptime
   name: Last Boot
