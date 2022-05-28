@@ -52,6 +52,8 @@
           states.light.mud_room_overhead,
           states.light.downstairs_bathroom_left,
           states.light.downstairs_bathroom_right,
+          states.light.tina_lamp_top,
+          states.light.tina_lamp_side,
           states.light.basement_tall_lamp,
           states.light.basement_short_lamp,
           states.light.basement_stairwell,
@@ -77,7 +79,10 @@
           states.light.living_room_color_3,
           states.light.dining_room_lamp,
           states.light.mud_room_overhead,
-          states.light.downstairs_bathroom_left
+          states.light.downstairs_bathroom_left,
+          states.light.downstairs_bathroom_right,
+          states.light.tina_lamp_top,
+          states.light.tina_lamp_side
         ] %}
         {{ lights | selectattr('state','eq','on') | list | count }}
     second_floor_lights_on:
