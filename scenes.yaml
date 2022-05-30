@@ -1081,3 +1081,219 @@
       friendly_name: Basement Tall Lamp
       state: 'off'
   icon: mdi:palette
+- id: '1653789912821'
+  name: Tina Lamp Bright
+  entities:
+    light.tina_lamp_side:
+      min_mireds: 154
+      max_mireds: 554
+      effect_list:
+      - sun match
+      supported_color_modes:
+      - color_temp
+      - hs
+      attribution: Data provided by Wyze
+      state: 'on'
+      available: true
+      device_model: WLPA19C
+      mac: 7C78B28F30A8
+      IP: 192.168.1.159
+      RSSI: '-40'
+      SSID: deltaforce-2G
+      Sun Match: false
+      local_control: true
+      mode: White
+      friendly_name: Tina Lamp - Side
+      supported_features: 23
+      color_mode: hs
+      brightness: 255
+      hs_color:
+      - 29.072
+      - 76.078
+      rgb_color:
+      - 255
+      - 155
+      - 61
+      xy_color:
+      - 0.557
+      - 0.389
+      color_temp: 416
+    light.tina_lamp_top:
+      min_mireds: 154
+      max_mireds: 554
+      effect_list:
+      - sun match
+      supported_color_modes:
+      - color_temp
+      - hs
+      attribution: Data provided by Wyze
+      state: 'on'
+      available: true
+      device_model: WLPA19C
+      mac: 7C78B28F21E7
+      IP: 192.168.1.160
+      RSSI: '-32'
+      SSID: deltaforce-2G
+      Sun Match: false
+      local_control: true
+      mode: White
+      friendly_name: Tina Lamp - Top
+      supported_features: 23
+      color_mode: hs
+      brightness: 255
+      hs_color:
+      - 29.072
+      - 76.078
+      rgb_color:
+      - 255
+      - 155
+      - 61
+      xy_color:
+      - 0.557
+      - 0.389
+      color_temp: 416
+  icon: mdi:palette
+- id: '1653790005871'
+  name: Tina Lamp Energize
+  entities:
+    light.tina_lamp_top:
+      min_mireds: 154
+      max_mireds: 554
+      effect_list:
+      - sun match
+      supported_color_modes:
+      - color_temp
+      - hs
+      attribution: Data provided by Wyze
+      state: 'on'
+      available: true
+      device_model: WLPA19C
+      mac: 7C78B28F21E7
+      IP: 192.168.1.160
+      RSSI: '-32'
+      SSID: deltaforce-2G
+      Sun Match: false
+      local_control: true
+      mode: White
+      friendly_name: Tina Lamp - Top
+      supported_features: 23
+      color_mode: hs
+      brightness: 255
+      hs_color:
+      - 31.765
+      - 6.667
+      rgb_color:
+      - 255
+      - 246
+      - 237
+      xy_color:
+      - 0.339
+      - 0.338
+      color_temp: 166
+    light.tina_lamp_side:
+      min_mireds: 154
+      max_mireds: 554
+      effect_list:
+      - sun match
+      supported_color_modes:
+      - color_temp
+      - hs
+      attribution: Data provided by Wyze
+      state: 'on'
+      available: true
+      device_model: WLPA19C
+      mac: 7C78B28F30A8
+      IP: 192.168.1.159
+      RSSI: '-40'
+      SSID: deltaforce-2G
+      Sun Match: false
+      local_control: true
+      mode: White
+      friendly_name: Tina Lamp - Side
+      supported_features: 23
+      color_mode: hs
+      brightness: 255
+      hs_color:
+      - 31.765
+      - 6.667
+      rgb_color:
+      - 255
+      - 246
+      - 237
+      xy_color:
+      - 0.339
+      - 0.338
+      color_temp: 166
+  icon: mdi:palette
+- id: '1653790126251'
+  name: Tina Lamp Nightlight
+  entities:
+    light.tina_lamp_top:
+      min_mireds: 154
+      max_mireds: 554
+      effect_list:
+      - sun match
+      supported_color_modes:
+      - color_temp
+      - hs
+      attribution: Data provided by Wyze
+      state: 'on'
+      available: true
+      device_model: WLPA19C
+      mac: 7C78B28F21E7
+      IP: 192.168.1.160
+      RSSI: '-32'
+      SSID: deltaforce-2G
+      Sun Match: false
+      local_control: true
+      mode: White
+      friendly_name: Tina Lamp - Top
+      supported_features: 23
+      color_mode: hs
+      brightness: 2.5
+      hs_color:
+      - 29.072
+      - 76.078
+      rgb_color:
+      - 255
+      - 155
+      - 61
+      xy_color:
+      - 0.557
+      - 0.389
+      color_temp: 500
+    light.tina_lamp_side:
+      min_mireds: 154
+      max_mireds: 554
+      effect_list:
+      - sun match
+      supported_color_modes:
+      - color_temp
+      - hs
+      attribution: Data provided by Wyze
+      state: 'on'
+      available: true
+      device_model: WLPA19C
+      mac: 7C78B28F30A8
+      IP: 192.168.1.159
+      RSSI: '-40'
+      SSID: deltaforce-2G
+      Sun Match: false
+      local_control: true
+      mode: White
+      friendly_name: Tina Lamp - Side
+      supported_features: 23
+      color_mode: hs
+      brightness: 2.5
+      hs_color:
+      - 29.072
+      - 76.078
+      rgb_color:
+      - 255
+      - 155
+      - 61
+      xy_color:
+      - 0.557
+      - 0.389
+      color_temp: 500
+  icon: mdi:palette

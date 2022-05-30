@@ -129,7 +129,18 @@ front_porch_scenes:
     - Nightlight
     - St Patricks Day
     - Halloween
+  initial: Select
   icon: hue:room-porch
+tina_lamp_scenes:
+  name: Tina Lamp Scenes
+  options:
+    - Select
+    - Adaptive
+    - Energize
+    - Bright
+    - Nightlight
+  initial: Select
+  icon: hue:room-dining
 tts_devices:
   name: TTS Devices
   options:

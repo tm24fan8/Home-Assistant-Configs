@@ -28,6 +28,7 @@ give_me_darkness:
       - switch.adaptive_lighting_sleep_mode_mud_room
       - switch.adaptive_lighting_sleep_mode_dining_room
       - switch.adaptive_lighting_sleep_mode_upstairs_bathroom
+      - switch.adaptive_lighting_sleep_mode_tina_lamp
     data: {}
   - service: light.turn_off
     target:
@@ -41,7 +42,9 @@ give_me_darkness:
   - service: light.turn_on
     data: {}
     target:
-      area_id: upstairs_bathroom
+      area_id:
+      - upstairs_bathroom
+      - dining_room
   mode: single
   icon: mdi:weather-night
 start_youtube:
@@ -172,6 +175,8 @@ family_is_home:
       - basement_studio
       - downstairs_bathroom
       - upstairs_bathroom
+      - dining_room
+      - living_room
     data: {}
   - condition: sun
     after: sunset
@@ -230,6 +235,7 @@ max_brightness:
       - switch.adaptive_lighting_dining_room
       - switch.adaptive_lighting_upstairs_bathroom
       - switch.adaptive_lighting_downstairs_bathroom
+      - switch.adaptive_lighting_tina_lamp
     data: {}
   - delay:
       hours: 0

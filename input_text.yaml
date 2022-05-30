@@ -23,3 +23,5 @@ downstairs_bathroom_selected_scene:
   name: Downstairs Bathroom Selected Scene
 front_porch_selected_scene:
   name: Front Porch Selected Scene
+tina_lamp_selected_scene:
+  name: Tina Lamp Selected Scene
