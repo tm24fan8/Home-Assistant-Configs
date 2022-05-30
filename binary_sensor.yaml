@@ -31,14 +31,14 @@
 - platform: tod
   name: Midday
   after: '09:00'
-  before: '16:00'
+  before: '17:00'
 
 - platform: tod
   name: Evening
-  after: '16:00'
+  after: '17:00'
   before: '21:00'
 
 - platform: tod
   name: Overnight
-  after: '19:00'
+  after: '20:00'
   before: '07:30'
