@@ -1501,8 +1501,9 @@ automation:
         state: 'off'
     action:
       - service: script.text_notify_all
-        title: "Lightning Detected!"
-        message: "Lightning has been detected within 20 miles of the house. Nearest storm is {{ states('sensor.blitzortung_lightning_distance') }} miles away."
+        data:
+          title: "Lightning Detected!"
+          message: "Lightning has been detected within 20 miles of the house. Nearest storm is {{ states('sensor.blitzortung_lightning_distance') }} miles away."
       - service: input_boolean.turn_on
         entity_id: input_boolean.lightning_warning
       - service: script.lightning_warning_audible
