@@ -47,6 +47,11 @@ automation:
     action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.audible_notifications
+    - service: switch.turn_off
+      target:
+        entity_id:
+          - switch.basement_echo_dot_do_not_disturb_switch
+          - switch.living_room_echo_dot_do_not_disturb_switch
 
   # Turn off audible notifications if they have't been turned off yet. 
   - id: e0e9c774-6abe-42aa-bdab-32108bebb0e9

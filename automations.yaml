@@ -570,6 +570,7 @@
           entity_id:
           - switch.master_bedroom_fan_socket_1
           - switch.master_bedroom_aircon
+          - switch.master_bedroom_echo_dot_do_not_disturb_switch
     default:
     - service: script.text_notify_tony
       data:
