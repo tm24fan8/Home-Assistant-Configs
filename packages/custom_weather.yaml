@@ -805,14 +805,14 @@ sensor:
       previous_rainfall:
         friendly_name: "Past 48h Rainfall"
         value_template: "{{ states('sensor.daily_rainfall_in') | float  + state_attr('sensor.daily_rainfall_in', 'last_period') | float  }}"
-      # lightning_warning:
-      #   friendly_name: "Lightning Warning"
-      #   value_template: >-
-      #       {%- if states('sensor.recent_lightning_strikes') | int > 0 %}
-      #         Unsafe
-      #       {% else %}
-      #         Safe
-      #       {%- endif %}
+      lightning_warning:
+        friendly_name: "Lightning Warning"
+        value_template: >-
+            {%- if states('sensor.blitzortung_lightning_counter') | int > 0 %}
+              Unsafe
+            {% else %}
+              Safe
+            {%- endif %}
 
 input_boolean:
   freeze_warning:

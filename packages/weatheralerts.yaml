@@ -1500,6 +1500,9 @@ automation:
         entity_id: input_boolean.lightning_warning
         state: 'off'
     action:
+      - service: script.text_notify_all
+        title: "Lightning Detected!"
+        message: "Lightning has been detected within 20 miles of the house. Nearest storm is {{ states('sensor.blitzortung_lightning_distance') }} miles away."
       - service: input_boolean.turn_on
         entity_id: input_boolean.lightning_warning
       - service: script.lightning_warning_audible
@@ -1510,8 +1513,6 @@ automation:
       - platform: state
         entity_id: sensor.lightning_warning
         to: 'Safe'
-        for:
-          minutes: 20
     condition:
       - condition: state
         entity_id: input_boolean.lightning_warning
@@ -1538,6 +1539,44 @@ automation:
 ## script ##
 
 script:
+  lightning_warning_audible:
+    sequence: 
+      - condition: state
+        entity_id:  binary_sensor.day
+        state: 'on'
+      - service: script.status_annc
+        data_template:
+          who: 'living_room'
+          call_interuption: 1
+          speech_message: >-
+            <p>
+              {{ [
+                  'I have detected lightning withing 20 miles of the house.',
+                  'Did you see that flash? I did. Lightning is near.',
+                  'If you didnt hear the thunder you will soon. '
+                ]|random }}
+              If anyone is outside they should seek shelter inside. 
+            </p>
+  
+  lightning_clear_audible:
+    sequence: 
+      - condition: state
+        entity_id:  binary_sensor.day
+        state: 'on'
+      - service: script.status_annc
+        data_template:
+          who: 'living_room'
+          call_interuption: 1
+          speech_message: >-
+            <p>
+              {{ [
+                'Lightning threat appears to be over.',
+                'No more lightning appears to be occuring.',
+                'Lightning is gone.'
+            ]|random }}
+              It is safe to resume normal activities. 
+            </p>
+
   ## Script creates UI notification and is called via automation defined above
   weatheralerts_popup_on_wx_alert:
     alias: Weather Alert Pop Up - 1
