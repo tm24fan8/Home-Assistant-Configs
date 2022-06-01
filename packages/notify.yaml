@@ -72,6 +72,14 @@ input_boolean:
   debug_texts:
     name: Debug Texts
 
+# Amazon Polly Sensors to see last message and location of audible notification
+mqtt:
+  sensor:
+    - name: "Jarvis Last Msg"
+      state_topic: "house/polly/lastmsg"
+    - name: "Jarvis Last Location"
+      state_topic: "house/polly/lastloc"
+
 notify:
   - platform: ios
   - name: all_ios
