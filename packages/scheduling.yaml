@@ -116,7 +116,7 @@ automation:
           {% if is_state('input_boolean.school_today','on') %}
             14:15
           {% else %}
-            {{ (state_attr('input_datetime.tina_workday_end', 'timestamp') + 1800) | timestamp_custom('%H:%M', false) }}
+            {{ (state_attr('input_datetime.tina_workday_end', 'timestamp') + 3600) | timestamp_custom('%H:%M', false) }}
           {% endif %}
 
   - id: 55293e9a-ec3b-46bb-af47-94e95f3c9951
