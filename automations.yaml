@@ -480,7 +480,7 @@
         entity_id:
         - automation.family_has_arrived
         - automation.family_has_left
-  mode: restart
+  mode: queued
 - id: '1652215901673'
   alias: Master Bedroom Nighttime Protocol
   description: Management of the fan and air conditioner in the master bedroom
