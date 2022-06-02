@@ -1,15 +1,21 @@
 kallen_school:
   name: Kallen at School
+  icon: mdi:school
 good_morning_report:
-  name: Good Morning Report 
+  name: Good Morning Report
+  icon: mdi:home-analytics
 weather_reports:
-  name: Weather Info 
+  name: Weather Info
+  icon: mdi:weather-cloudy-alert
 traffic_reports:
   name: Traffic Reports
+  icon: mdi:traffic-light
 sun_reports:
-  name: Sun Reports 
+  name: Sun Reports
+  icon: mdi:weather-sunny-alert
 shuffle_spotify:
   name: Spotify Shuffle
+  icon: mdi:spotify
 tornado_watch:
   name: Tornado Watch
   icon: mdi:message-alert
@@ -18,6 +24,7 @@ vacation_mode:
   icon: mdi:umbrella-beach
 living_room_entertainment_mode:
   name: Living Room Entertainment Mode
+  icon: mdi:party-popper
 front_porch_light_on:
   name: Front Porch Light On
   icon: hue:room-outdoors

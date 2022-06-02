@@ -7,30 +7,37 @@ input_datetime:
     name: Morning Report
     has_date: false
     has_time: true
+    icon: mdi:home-analytics
   nightly_report:
     name: Nightly Report
     has_date: false
     has_time: true
+    icon: mdi:home-analytics
   daily_report:
     name: Daily Report
     has_date: false
     has_time: true
+    icon: mdi:home-analytics
   kallen_morning_briefing:
     name: Kallen Morning Briefing
     has_date: false
     has_time: true
+    icon: mdi:weather-sunset-up
   kallen_nightly_briefing:
     name: Kallen Nightly Briefing
     has_date: false
     has_time: true
+    icon: mdi:weather-night
   audible_notification_on:
     name: Audible Notifications On
     has_date: false
     has_time: true
+    icon: mdi:volume-high
   audible_notification_off:
     name: Audible Notifications Off
     has_date: false
     has_time: true
+    icon: mdi:volume-off
 
 ################################
 # Announcment Automation - fires at the time of the above input_datetimes

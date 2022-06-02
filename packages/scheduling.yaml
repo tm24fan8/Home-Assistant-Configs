@@ -3,18 +3,22 @@ input_datetime:
     name: Good Morning
     has_date: false
     has_time: true
+    icon: mdi:weather-sunset-up
   good_night_routine:
     name: Good Night Routine
     has_date: false
     has_time: true
+    icon: mdi:weather-night
   kallen_bedtime:
     name: Kallen Bedtime
     has_date: false
     has_time: true
+    icon: mdi:weather-night
   kallen_wakeup_time:
     name: Kallen Wake-up Time
     has_date: false
     has_time: true
+    icon: mdi:bell-alert
   master_bedroom_cooling:
     name: Master Bedroom Cooling
     has_date: false

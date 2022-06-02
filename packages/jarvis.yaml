@@ -10,6 +10,7 @@
 input_boolean:
   house_party_protocol_switch:
     name: House Party Switch
+    icon: mdi:party-popper
 
 # automation:
 #   - id: house_party_protocol_on

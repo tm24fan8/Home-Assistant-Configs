@@ -67,10 +67,15 @@ input_boolean:
   presence_notifications_tina:
     name: Send Tina Presence Texts
     icon: mdi:message
+  trash_notification:
+    name: Trash Notification
+    icon: mdi:delete
   welcome_home:
     name: Welcome Home
+    icon: mdi:human-greeting
   debug_texts:
     name: Debug Texts
+    icon: mdi:debug-step-over
 
 # Amazon Polly Sensors to see last message and location of audible notification
 mqtt:
