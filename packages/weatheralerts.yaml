@@ -1503,7 +1503,9 @@ automation:
       - service: script.text_notify_all
         data:
           title: "Lightning Detected!"
-          message: "Lightning has been detected within 20 miles of the house. Nearest storm is {{ states('sensor.blitzortung_lightning_distance') }} miles away."
+          message: >-
+            {% set ltgdist = (states('sensor.blitzortung_lightning_distance') | int) / 1.609 | round %}
+            "Lightning has been detected within 20 miles of the house. Nearest storm is {{ ltgdist }} miles away."
       - service: input_boolean.turn_on
         entity_id: input_boolean.lightning_warning
       - service: script.lightning_warning_audible
@@ -1519,6 +1521,10 @@ automation:
         entity_id: input_boolean.lightning_warning
         state: 'on'
     action:
+      - service: script.text_notify_all
+        data:
+          title: "Lightning Clear"
+          message: "The lightning threat has passed. It is safe to resume normal activities."
       - service: input_boolean.turn_off
         entity_id: input_boolean.lightning_warning
       - service: script.lightning_clear_audible
@@ -1543,7 +1549,7 @@ script:
   lightning_warning_audible:
     sequence: 
       - condition: state
-        entity_id:  binary_sensor.day
+        entity_id:  input_boolean.audible_notifications
         state: 'on'
       - service: script.status_annc
         data_template:
@@ -1562,7 +1568,7 @@ script:
   lightning_clear_audible:
     sequence: 
       - condition: state
-        entity_id:  binary_sensor.day
+        entity_id:  input_boolean.audible_notifications
         state: 'on'
       - service: script.status_annc
         data_template:
@@ -1572,7 +1578,7 @@ script:
             <p>
               {{ [
                 'Lightning threat appears to be over.',
-                'No more lightning appears to be occuring.',
+                'No more lightning appears to be occurring.',
                 'Lightning is gone.'
             ]|random }}
               It is safe to resume normal activities. 
