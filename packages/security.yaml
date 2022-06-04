@@ -1,0 +1,61 @@
+input_boolean:
+  # Main security switch. If this is on, the security is armed.
+  sentry_mode:
+    name: Sentry Mode
+    icon: mdi:security
+  # Vacation mode is automagically set when we are 3 hours from the house, and turns off when we return.
+  # This is used to modify some of the normal automations.
+  vacation_mode:
+    name: Vacation Mode
+    icon: mdi:airplane-takeoff
+  # Guest mode is use to modify automations when we have guests.
+  # In some cases this prevents security from being set to prevent security alarm going off
+  guest_mode:
+    name: Guest Mode
+    icon: mdi:account-multiple
+  # This switch powers the security alarm and gives an easy way to kill the alarm.
+  # When it is on, the alarm is going off
+  security_alarm:
+    name: Security Alarm
+    icon: mdi:speaker-wireless
+  # This switch powers the fire alarm.
+  # When on the fire alarm is going off.
+  fire_alarm:
+    name: Fire Alarm
+    icon: mdi:speaker-wireless
+  # This switch turns on if the security system checks that fire when someone tries to arm the system
+  # finds a door open, or another condition that would prevent the system from being able to monitor properly.
+  lockdown_issue:
+    name: Lockdown Issue
+    icon: mdi:lock-reset
+  # This switch is turned on if there is a security breach. Turning on this switch starts the countdown to the alarm.
+  security_issue:
+    name: Security Issue
+    icon: mdi:alert-circle-outline
+
+input_datetime:
+  morning_alarm_disarm:
+    name: Morning Alarm Disarm
+    icon: mdi:shield-off
+    has_date: false
+    has_time: true
+
+automation:
+  - id: 51819f36-2407-496c-afcd-ae160d747f0a
+    alias: Morning Alarm Disarm
+    trigger:
+      - platform: time
+        at: input_datetime.morning_alarm_disarm
+    condition:
+      - condition: state
+        entity_id: binary_sensor.people_present
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.vacation_mode
+        state: 'off'
+    action:
+      - service: alarm_control_panel.alarm_disarm
+        target:
+          entity_id: alarm_control_panel.stratton_ave_alarm
+        data:
+          code: !secret ring_alarm_code

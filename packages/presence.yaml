@@ -184,3 +184,78 @@ automation:
           who: parents
           message: "Kallen has been picked up from school."
     initial_state: true
+
+script:
+  family_is_away:
+    alias: Family Is Away
+    sequence:
+    - condition: state
+      entity_id: group.family
+      state: not_home
+    - service: light.turn_off
+      target:
+        area_id:
+        - basement_studio
+        - furnace_room
+        - kallen_bedroom
+        - living_room
+        - master_bedroom
+        - mud_room
+        - nursery
+        - upstairs_hallway
+        - dining_room
+        - downstairs_bathroom
+        - upstairs_bathroom
+      data: {}
+    - service: alarm_control_panel.alarm_arm_away
+      data:
+        code: !secret ring_alarm_code
+      target:
+        entity_id: alarm_control_panel.stratton_ave_alarm
+    mode: single
+    icon: mdi:shield-lock
+  family_is_home:
+    alias: Family Is Home
+    sequence:
+    - service: switch.turn_off
+      target:
+        entity_id: switch.presence_simulation
+      data: {}
+    - service: alarm_control_panel.alarm_disarm
+      data:
+        code: !secret ring_alarm_code
+      target:
+        entity_id: alarm_control_panel.stratton_ave_alarm
+    - service: switch.turn_off
+      target:
+        entity_id:
+        - switch.basement_echo_dot_do_not_disturb_switch
+        - switch.living_room_echo_dot_do_not_disturb_switch
+        - switch.master_bedroom_echo_dot_do_not_disturb_switch
+      data: {}
+    - service: light.turn_off
+      target:
+        area_id:
+        - furnace_room
+        - kallen_bedroom
+        - nursery
+        - master_bedroom
+        - upstairs_hallway
+        - basement_studio
+        - downstairs_bathroom
+        - upstairs_bathroom
+        - dining_room
+        - living_room
+      data: {}
+    - condition: sun
+      after: sunset
+      after_offset: -00:30
+    - service: light.turn_on
+      data: {}
+      target:
+        entity_id:
+        - light.living_room_lights
+        - light.mud_room_overhead
+        - light.dining_room_lamp
+    mode: single
+    icon: mdi:home-account

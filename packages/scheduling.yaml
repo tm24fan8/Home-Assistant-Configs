@@ -96,7 +96,7 @@ automation:
     alias: House Scheduling
     trigger:
       - platform: time
-        at: '06:10:00'
+        at: '06:00:00'
         id: house-morning
       - platform: time
         at: '16:05:00'
@@ -134,6 +134,15 @@ automation:
                   14:15
                 {% else %}
                   {{ (state_attr('input_datetime.tina_workday_end', 'timestamp') + 3600) | timestamp_custom('%H:%M', false) }}
+                {% endif %}
+          - service: input_datetime.set_datetime
+            entity_id: input_datetime.morning_alarm_disarm
+            data_template:
+              time: >
+                {% if is_state('input_boolean.work_today','on') and is_state('input_boolean.school_today','off') %}
+                  {{ (state_attr('input_datetime.tina_workday_end', 'timestamp') + 3600) | timestamp_custom('%H:%M', false) }}
+                {% else %}
+                  08:00
                 {% endif %}
       - if:
         - condition: trigger
