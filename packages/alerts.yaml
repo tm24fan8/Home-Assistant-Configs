@@ -15,3 +15,31 @@ alert:
       - ios_tony
       - ios_tina
       - ios_kallen
+  front_door_open:
+    name: Front Door has been left open
+    done_message: Someone finally shut the front door! It's about damn time!
+    entity_id: binary_sensor.front_door
+    state: "on"
+    repeat:
+      - 5
+    can_acknowledge: false
+    skip_first: true
+    notifiers:
+      - tv_notifications
+      - ios_tony
+      - ios_tina
+      - ios_kallen
+  back_door_open:
+    name: Back Door has been left open
+    done_message: Someone finally shut the back door! It's about damn time!
+    entity_id: binary_sensor.back_door
+    state: "on"
+    repeat:
+      - 5
+    can_acknowledge: false
+    skip_first: true
+    notifiers:
+      - tv_notifications
+      - ios_tony
+      - ios_tina
+      - ios_kallen
