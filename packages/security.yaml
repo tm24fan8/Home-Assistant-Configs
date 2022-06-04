@@ -54,6 +54,30 @@ automation:
         entity_id: input_boolean.vacation_mode
         state: 'off'
     action:
+      - service: script.security_disarm
+
+script:
+  security_arm_home:
+    alias: Security Arm - Home
+    sequence:
+      - service: alarm_control_panel.alarm_arm_home
+        target:
+          entity_id: alarm_control_panel.stratton_ave_alarm
+        data:
+          code: !secret ring_alarm_code
+
+  security_arm_away:
+    alias: Security Arm - Away
+    sequence:
+      - service: alarm_control_panel.alarm_arm_away
+        target:
+          entity_id: alarm_control_panel.stratton_ave_alarm
+        data:
+          code: !secret ring_alarm_code
+
+  security_disarm:
+    alias: Security Disarm
+    sequence:
       - service: alarm_control_panel.alarm_disarm
         target:
           entity_id: alarm_control_panel.stratton_ave_alarm
