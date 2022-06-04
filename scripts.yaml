@@ -205,6 +205,8 @@ going_upstairs:
       entity_id:
       - light.living_room_lights
       - light.basement_led_strip_1
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.night_mode
   mode: single
   icon: hue:room-stairs
 basement_on:
