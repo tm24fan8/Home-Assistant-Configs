@@ -90,16 +90,6 @@ sensor:
           {% else %}
             Unknown
           {%- endif %}
-  - platform: mqtt
-    name: "Family Status"
-    state_topic: "house/family/status"
-    payload_available: "online"
-    payload_not_available: "offline"
-  - platform: mqtt
-    name: "Family Arrived"
-    state_topic: "house/family/arrived"
-    payload_available: "online"
-    payload_not_available: "offline"
   - platform: template
     sensors:
       tony_home:
@@ -110,6 +100,17 @@ sensor:
       tina_home:
         value_template: >-
           {{ is_state('device_tracker.tinas_iphone', 'home') or is_state('device_tracker.tinas_iphone_app', 'home') or is_state('device_tracker.life360_christina_stork','home') }}
+
+mqtt:
+  sensor:
+    - name: "Family Status"
+      state_topic: "house/family/status"
+      payload_available: "online"
+      payload_not_available: "offline"
+    - name: "Family Arrived"
+      state_topic: "house/family/arrived"
+      payload_available: "online"
+      payload_not_available: "offline"
 
 automation:
   - id: kallen_at_school
