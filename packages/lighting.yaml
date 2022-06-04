@@ -1,0 +1,48 @@
+automation:
+  - id: 6fe64356-00a2-4cad-bb85-f6dd05f29de7
+    alias: Upstairs Bathroom Motion Lights
+    description: Turns up lights in the upstairs bathroom at night when someone walks into the room.
+    mode: queued
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.upstairs_bathroom_motion
+        to: 'on'
+        id: motion-on
+      - platform: state
+        entity_id: binary_sensor.upstairs_bathroom_motion
+        to: 'off'
+        id: motion-off
+        for:
+          hours: 0
+          minutes: 2
+          seconds: 0
+    condition:
+      - condition: state
+        entity_id: light.upstairs_bathroom_lights
+        state: 'on'
+    action:
+      - if:
+          - condition: trigger
+            id: motion-on
+        then:
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.upstairs_bathroom_scenes
+            data:
+              option: Adaptive
+      - if:
+          - condition: trigger
+            id: motion-off
+        then:
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.upstairs_bathroom_scenes
+            data:
+              option: >-
+                {% if is_state('input_boolean.early_night_mode','on') and is_state('input_boolean.night_mode','off') %}
+                  Nightlight
+                {% elif is_state('input_boolean.night_mode','on') %}
+                  Single Nightlight
+                {% else %}
+                  Adaptive
+                {% endif %}

@@ -21,14 +21,18 @@ stop_netflix:
 give_me_darkness:
   alias: Give Me Darkness
   sequence:
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.early_night_mode
   - service: switch.turn_on
     target:
       entity_id:
       - switch.adaptive_lighting_sleep_mode_upstairs_hallway
       - switch.adaptive_lighting_sleep_mode_mud_room
       - switch.adaptive_lighting_sleep_mode_dining_room
-      - switch.adaptive_lighting_sleep_mode_upstairs_bathroom
       - switch.adaptive_lighting_sleep_mode_tina_lamp
+      - switch.adaptive_lighting_sleep_mode_upstairs_bathroom
     data: {}
   - service: light.turn_off
     target:
@@ -45,6 +49,11 @@ give_me_darkness:
       area_id:
       - upstairs_bathroom
       - dining_room
+  - service: input_select.select_option
+    data:
+      option: Nightlight
+    target:
+      entity_id: input_select.upstairs_bathroom_scenes
   mode: single
   icon: mdi:weather-night
 start_youtube:
@@ -141,9 +150,9 @@ family_is_away:
       - upstairs_bathroom
     data: {}
   - service: alarm_control_panel.alarm_arm_away
-    target:
-      entity_id: alarm_control_panel.alexa_guard_9ee3b
     data: {}
+    target:
+      entity_id: alarm_control_panel.stratton_ave_alarm
   mode: single
   icon: mdi:shield-lock
 family_is_home:
@@ -154,9 +163,9 @@ family_is_home:
       entity_id: switch.presence_simulation
     data: {}
   - service: alarm_control_panel.alarm_disarm
-    target:
-      entity_id: alarm_control_panel.alexa_guard_9ee3b
     data: {}
+    target:
+      entity_id: alarm_control_panel.stratton_ave_alarm
   - service: switch.turn_off
     target:
       entity_id:
@@ -261,14 +270,12 @@ going_upstairs:
       - switch.adaptive_lighting_sleep_mode_basement_studio
       - switch.adaptive_lighting_sleep_mode_mud_room
       - switch.adaptive_lighting_sleep_mode_upstairs_hallway
-      - switch.adaptive_lighting_sleep_mode_upstairs_bathroom
   - service: light.turn_on
     data: {}
     target:
       entity_id:
       - light.living_room_lights
       - light.basement_led_strip_1
-      - light.upstairs_bathroom_lights
   mode: single
   icon: hue:room-stairs
 basement_on:
