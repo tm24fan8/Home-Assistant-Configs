@@ -762,17 +762,17 @@ script:
 
             {% macro lightning_alert() %}
                 {{ [
-                  'I have detected lightning withing 20 miles of our house.',
+                  'I have detected lightning within 20 miles of our house.',
                   'Did you see that flash? I did. Lightning is near.',
                   'If you didnt hear the thunder you will soon. '
                 ]|random }}
-                  If anyone is outside they shoudld seek shelter inside. 
+                  If anyone is outside they should seek shelter inside. 
             {% endmacro %}
 
             {% macro lightning_clear() %}
                 {{ [
                   'Lightning threat appears to be over.',
-                  'No more lightning appears to be occuring.',
+                  'No more lightning appears to be occurring.',
                   'Lightning is gone.'
               ]|random }}
                 It is safe to resume normal activities. 
