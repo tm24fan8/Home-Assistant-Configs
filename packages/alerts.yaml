@@ -43,3 +43,21 @@ alert:
       - ios_tony
       - ios_tina
       - ios_kallen
+
+automation:
+  - id: 5a82b718-3846-452b-9aa4-a183a88c8f29
+    alias: Door Open Alert
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.front_door
+        state: 'on'
+        for:
+          hours: 0
+          minutes: 2
+          seconds: 0
+    action:
+      - service: script.status_annc
+        data_template:
+          who: 'living_room'
+          call_interuption: 1
+          call_snark_door_open: 1
