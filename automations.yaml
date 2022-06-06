@@ -472,6 +472,10 @@
         entity_id:
         - automation.family_has_arrived
         - automation.family_has_left
+    - service: switch.turn_off
+      target:
+        entity_id:
+        - switch.presence_simulation
   - if:
     - condition: trigger
       id: hass_stop
