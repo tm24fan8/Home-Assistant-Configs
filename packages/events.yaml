@@ -269,17 +269,3 @@ script:
         {{ states('input_datetime.school_last_day') == now().strftime("%Y-%m-%d") }}
     - service: input_boolean.turn_off
       entity_id: input_boolean.school_in_session
-
-  class_alarm:
-    sequence:
-    - service: script.status_annc
-      data_template:
-        who: '{{ states.sensor.room_presence.state }}'
-        call_interuption: 1
-        speech_message: >
-          {{ class }} starts in two minutes.
-    - service: script.text_notify
-      data:
-        who: 'parents'
-        message: >
-          {{ class }} starts in two minutes.
