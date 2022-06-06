@@ -38,6 +38,11 @@ input_datetime:
     has_date: false
     has_time: true
     icon: mdi:volume-off
+  announcement_delay:
+    name: Announcement Delay
+    has_date: false
+    has_time: true
+    icon: mdi:clock-edit
 
 ################################
 # Announcment Automation - fires at the time of the above input_datetimes
