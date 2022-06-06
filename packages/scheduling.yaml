@@ -132,6 +132,8 @@ automation:
               time: >
                 {% if is_state('input_boolean.school_today','on') %}
                   14:15
+                {% elif is_state('input_boolean.school_today','off') and is_state('input_boolean.work_today','off') %}
+                  15:00
                 {% else %}
                   {{ (state_attr('input_datetime.tina_workday_end', 'timestamp') + 3600) | timestamp_custom('%H:%M', false) }}
                 {% endif %}
