@@ -84,6 +84,8 @@ mqtt:
       state_topic: "house/polly/lastmsg"
     - name: "Jarvis Last Location"
       state_topic: "house/polly/lastloc"
+    - name: "Jarvis Last Msg Time"
+      state_topic: "house/polly/msgtime"
 
 notify:
   - platform: ios
@@ -413,7 +415,25 @@ script:
       - service: mqtt.publish
         data_template:
           topic: 'house/polly/lastmsg'
-          payload: 'This message is from {{ now().strftime("%-I") }}:{{ now().strftime("%M") }} {{ now().strftime("%p") }}. {{ message | striptags | truncate(220)}}'
+          payload: >
+            {% if msg_summary == 'recall' %}
+              {% set msg_summary = '{{states(''sensor.jarvis_last_msg'')}}' %}
+            {% else %}
+              {% if msg_summary %}
+                {% set message = msg_summary %}
+              {% endif %}
+              {%- macro cleanup(data) -%}
+                {%- for item in data.split("\n") if item | trim != "" -%}
+                  {{ item | trim }} {% endfor -%}
+              {% endmacro %}
+              {{- cleanup( message | striptags | truncate(220) ) -}}
+            {% endif %}
+          retain: true
+      - service: mqtt.publish
+        data_template:
+          topic: 'house/polly/msgtime'
+          payload: >
+            {{ now().strftime("%-I") }}:{{ now().strftime("%M") }} {{ now().strftime("%p") }}
           retain: true
       - service: mqtt.publish
         data_template:
@@ -432,16 +452,16 @@ script:
       - service: >
           {% if voice == 'nabu' %}
             script.nabu_voice      
-          {% elif who in ['living_room_echo_dot', 'media_player.living_room_echo_dot','living_room']  %}
+          {% elif who in ['living_room_echo_dot', 'media_player.living_room_echo_dot','living_room','Living Room Echo Dot']  %}
             {% set who = 'living_room_echo_dot' %}
             script.alexa_voice
           {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_speaker']  %}
             {% set who = 'kallen_bedroom_speaker' %}
             script.jarvis_voice
-          {% elif who in ['master_bedroom','master_bedroom_echo_dot']  %}
+          {% elif who in ['master_bedroom','master_bedroom_echo_dot','media_player.master_bedroom_echo_dot','Master Bedroom Echo Dot']  %}
             {% set who = 'master_bedroom_echo_dot' %}
             script.alexa_voice
-          {% elif who in ['basement','basement_echo_dot']  %}
+          {% elif who in ['basement','basement_echo_dot','media_player.basement_echo_dot','Basement Echo Dot']  %}
             {% set who = 'basement_echo_dot' %}
             script.alexa_voice
           {% else %}
@@ -477,7 +497,35 @@ script:
       - condition: state
         entity_id: input_boolean.vacation_mode
         state: 'off'
-      - service: tts.amazon_polly_say
+      - service: mqtt.publish
+        data_template:
+          topic: 'house/polly/lastmsg'
+          payload: >
+            {% if msg_summary == 'recall' %}
+              {% set msg_summary = '{{states(''sensor.jarvis_last_msg'')}}' %}
+            {% else %}
+              {% if msg_summary %}
+                {% set message = msg_summary %}
+              {% endif %}
+              {%- macro cleanup(data) -%}
+                {%- for item in data.split("\n") if item | trim != "" -%}
+                  {{ item | trim }} {% endfor -%}
+              {% endmacro %}
+              {{- cleanup( message | striptags | truncate(220) ) -}}
+            {% endif %}
+          retain: true
+      - service: mqtt.publish
+        data_template:
+          topic: 'house/polly/msgtime'
+          payload: >
+            {{ now().strftime("%-I") }}:{{ now().strftime("%M") }} {{ now().strftime("%p") }}
+          retain: true
+      - service: mqtt.publish
+        data_template:
+          topic: 'house/polly/lastloc'
+          payload: '{{ who }}'
+          retain: true
+      - service: script.alexa_voice
         data_template:
           entity_id: >-
             {{ who }}
@@ -486,26 +534,6 @@ script:
             <break time="1s"/>
             {{ message }}
             </speak>
-          cache: true
-      - service: >-
-            {{ who }}
-        data: 
-          message: >
-            {{ message }}
-          data:
-            type: tts
-      - service: tts.cloud_say
-        data_template:
-          entity_id: >-
-            {{ who }}
-          message: >-
-            {{ message }}
-          cache: true
-          language: en-GB
-          options: 
-            gender: male
-      
-
   
   # Called wheh notification needs to play on echos
   alexa_voice:
@@ -685,6 +713,17 @@ script:
   #       entity_id: media_player.ha_blue
   #       volume_level: >
   #         {{ states.input_number.old_volume.state }}    
+
+  play_last_message:
+    sequence:
+      - service: script.speech_engine_simplified
+        data:
+          who: '{{ states(''sensor.alexa_audio'') }}'
+          message: >
+            At {{ states('sensor.jarvis_last_msg_time') }}
+            in the {{ states('sensor.jarvis_last_location') }}
+            I said. {{ states('sensor.jarvis_last_msg') }}
+          msg_summary: "recall"
 
   status_annc:
     sequence:
