@@ -718,7 +718,7 @@ script:
     sequence:
       - service: script.speech_engine_simplified
         data:
-          who: '{{ states(''sensor.alexa_audio'') }}'
+          who: '{{ states(''sensor.last_alexa'') }}'
           message: >
             At {{ states('sensor.jarvis_last_msg_time') }}
             in the {{ states('sensor.jarvis_last_location') }}
