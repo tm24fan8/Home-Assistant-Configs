@@ -50,7 +50,8 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.front_door
-        state: 'on'
+        from: 'off'
+        to: 'on'
         for:
           hours: 0
           minutes: 2
