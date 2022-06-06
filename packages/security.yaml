@@ -40,6 +40,84 @@ input_datetime:
     has_date: false
     has_time: true
 
+sensor:
+  - platform: template
+    sensors:
+      windows_open:
+        friendly_name: "Windows"
+        unit_of_measurement: 'open'
+        value_template: >-
+          {% set windows = [
+            states.binary_sensor.front_window_near,
+            states.binary_sensor.kitchen_big_window,
+            ] %}
+          {% set windows_open = windows | selectattr('state','eq','on') | list | count %}
+          {{ windows_open }}
+        icon_template: >-
+          {% set windows = [
+            states.binary_sensor.front_window_near,
+            states.binary_sensor.kitchen_big_window,
+            ] %}
+          {% set windows_open = windows | selectattr('state','eq','on') | list | count %}
+          {% if windows_open == 0 %}
+            mdi:window-closed
+          {% else %}
+            mdi:window-open
+          {% endif %}
+      doors_open:
+        friendly_name: "Doors"
+        unit_of_measurement: 'open'
+        value_template: >-
+          {% set doors = [
+            states.binary_sensor.front_door,
+            states.binary_sensor.back_door,
+            ] %}
+          {% set doors_open = doors | selectattr('state','eq','on') | list | count %}
+          {{ doors_open }}
+        icon_template: >-
+          {% set doors = [
+            states.binary_sensor.front_door,
+            states.binary_sensor.back_door,
+            ] %}
+          {% set doors_open = doors | selectattr('state','eq','on') | list | count %}
+          {% if doors_open == 0 %}
+            mdi:door-closed
+          {% else %}
+            mdi:door-open
+          {% endif %}
+      total_faults:
+        friendly_name: Faults
+        unit_of_measurement: 'open'
+        value_template: >-
+          {% set windows = [
+            states.binary_sensor.front_window_near,
+            states.binary_sensor.kitchen_big_window,
+            ] %}
+          {% set doors = [
+            states.binary_sensor.front_door,
+            states.binary_sensor.back_door,
+            ] %}
+          {% set windows_open = windows | selectattr('state','eq','on') | list | count %}
+          {% set doors_open = doors | selectattr('state','eq','on') | list | count %}
+          {{ doors_open + windows_open }}
+        icon_template: >-
+          {% set windows = [
+            states.binary_sensor.front_window_near,
+            states.binary_sensor.kitchen_big_window,
+            ] %}
+          {% set doors = [
+            states.binary_sensor.front_door,
+            states.binary_sensor.back_door,
+            ] %}
+          {% set windows_open = windows | selectattr('state','eq','on') | list | count %}
+          {% set doors_open = doors | selectattr('state','eq','on') | list | count %}
+          {% set faults = ( doors_open + windows_open ) %}
+          {% if faults == 0 %}
+            mdi:shield-home
+          {% else %}
+            mdi:shield-off
+          {% endif %}
+
 automation:
   - id: 51819f36-2407-496c-afcd-ae160d747f0a
     alias: Morning Alarm Disarm
