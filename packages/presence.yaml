@@ -207,11 +207,7 @@ script:
         - downstairs_bathroom
         - upstairs_bathroom
       data: {}
-    - service: alarm_control_panel.alarm_arm_away
-      data:
-        code: !secret ring_alarm_code
-      target:
-        entity_id: alarm_control_panel.stratton_ave_alarm
+    - service: script.security_arm_away
     mode: single
     icon: mdi:shield-lock
   family_is_home:
@@ -221,11 +217,7 @@ script:
       target:
         entity_id: switch.presence_simulation
       data: {}
-    - service: alarm_control_panel.alarm_disarm
-      data:
-        code: !secret ring_alarm_code
-      target:
-        entity_id: alarm_control_panel.stratton_ave_alarm
+    - service: script.security_disarm
     - service: switch.turn_off
       target:
         entity_id:

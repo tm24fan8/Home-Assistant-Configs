@@ -21,10 +21,6 @@ stop_netflix:
 give_me_darkness:
   alias: Give Me Darkness
   sequence:
-  - service: input_boolean.turn_on
-    data: {}
-    target:
-      entity_id: input_boolean.early_night_mode
   - service: switch.turn_on
     target:
       entity_id:
@@ -54,6 +50,7 @@ give_me_darkness:
       option: Nightlight
     target:
       entity_id: input_select.upstairs_bathroom_scenes
+  - service: script.security_arm_home
   mode: single
   icon: mdi:weather-night
 start_youtube:
