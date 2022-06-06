@@ -1555,15 +1555,7 @@ script:
         data_template:
           who: 'living_room'
           call_interuption: 1
-          speech_message: >-
-            <p>
-              {{ [
-                  'I have detected lightning withing 20 miles of the house.',
-                  'Did you see that flash? I did. Lightning is near.',
-                  'If you didnt hear the thunder you will soon. '
-                ]|random }}
-              If anyone is outside they should seek shelter inside. 
-            </p>
+          call_lightning_alert: 1
   
   lightning_clear_audible:
     sequence: 
@@ -1574,15 +1566,7 @@ script:
         data_template:
           who: 'living_room'
           call_interuption: 1
-          speech_message: >-
-            <p>
-              {{ [
-                'Lightning threat appears to be over.',
-                'No more lightning appears to be occurring.',
-                'Lightning is gone.'
-            ]|random }}
-              It is safe to resume normal activities. 
-            </p>
+          call_lightning_clear: 1
 
   ## Script creates UI notification and is called via automation defined above
   weatheralerts_popup_on_wx_alert:
