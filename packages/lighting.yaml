@@ -105,3 +105,58 @@ automation:
                   entity_id: input_text.upstairs_bathroom_selected_scene
                 data:
                   value: Adaptive
+
+  - id: 477e6e8a-4e33-4268-8c2d-f39902c0d64f
+    alias: Living Room Night Lighting
+    description: Provide nighting in case anyone needs to go downstairs in the middle of the night.
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.living_room_motion
+        from: 'off'
+        to: 'on'
+        id: motion-on
+      - platform: state
+        entity_id: binary_sensor.living_room_motion
+        from: 'on'
+        to: 'off'
+        for:
+          hours: 0
+          minutes: 10
+          seconds: 0
+        id: motion-off
+    condition:
+      - condition: state
+        entity_id: binary_sensor.people_present
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.night_mode
+        state: 'on'
+    action:
+      - if:
+        - condition: trigger
+          id: motion-on
+        then:
+          - service: light.turn_on
+            target:
+              entity_id: light.first_floor_lights
+          - service: input_select.select_option
+            target:
+              entity_id:
+                - input_select.living_room_scenes
+                - input_select.tina_lamp_scenes
+                - input_select.mud_room_scenes
+                - input_select.downstairs_bathroom_scenes
+            data:
+              option: Adaptive
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.dining_room_lamp_modes
+            data:
+              option: Reset
+      - if:
+        - condition: trigger
+          id: motion-off
+        then:
+          - service: light.turn_off
+            target:
+              entity_id: light.first_floor_lights
