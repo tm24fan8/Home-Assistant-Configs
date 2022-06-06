@@ -48,8 +48,8 @@ automation:
         at: input_datetime.morning_alarm_disarm
     condition:
       - condition: state
-        entity_id: binary_sensor.people_present
-        state: 'on'
+        entity_id: group.family
+        state: 'home'
       - condition: state
         entity_id: input_boolean.vacation_mode
         state: 'off'
