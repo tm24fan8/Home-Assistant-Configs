@@ -1540,6 +1540,31 @@ automation:
       - service: input_boolean.turn_on
         entity_id: input_boolean.freeze_warning
 
+  - alias: Rain Window Warning
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.precipitation
+        to: 'on'
+    condition:
+      - condition: state
+        entity_id: binary_sensor.people_present
+        state: 'on'
+      - condition: state
+        entity_id: binary_sensor.windows
+        state: 'on'
+    action:
+      - service: script.text_notify_all
+        data:
+          title: "WINDOWS ARE OPEN!"
+          message: "It is raining and there are windows open in the house. Please close them!"
+      - service: notify.alexa_media
+        data:
+          data:
+            method: all
+            type: announce
+          message: "It is raining and there are windows open in the house. Please close them!"
+          target: Living Room Echo Dot, Basement Echo Dot, Master Bedroom Echo Dot
+
 
 
 ################################################################################
