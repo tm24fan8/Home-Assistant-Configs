@@ -355,6 +355,7 @@
             target:
               area_id:
               - kallen_bedroom
+              - upstairs_bathroom
               - upstairs_hallway
           - service: script.speech_engine
             data:
@@ -380,6 +381,7 @@
           target:
             area_id:
             - kallen_bedroom
+            - upstairs_bathroom
             - upstairs_hallway
         - service: script.speech_engine
           data:

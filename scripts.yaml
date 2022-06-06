@@ -21,15 +21,25 @@ stop_netflix:
 give_me_darkness:
   alias: Give Me Darkness
   sequence:
+  - service: light.turn_on
+    data: {}
+    target:
+      area_id:
+      - dining_room
   - service: switch.turn_on
     target:
       entity_id:
-      - switch.adaptive_lighting_sleep_mode_upstairs_hallway
-      - switch.adaptive_lighting_sleep_mode_mud_room
       - switch.adaptive_lighting_sleep_mode_dining_room
-      - switch.adaptive_lighting_sleep_mode_tina_lamp
-      - switch.adaptive_lighting_sleep_mode_upstairs_bathroom
     data: {}
+  - service: input_select.select_option
+    target:
+      entity_id:
+      - input_select.upstairs_hallway_scenes
+      - input_select.mud_room_scenes
+      - input_select.upstairs_bathroom_scenes
+      - input_select.tina_lamp_scenes
+    data:
+      option: Nightlight
   - service: light.turn_off
     target:
       area_id:
@@ -39,17 +49,6 @@ give_me_darkness:
       - nursery
       - downstairs_bathroom
     data: {}
-  - service: light.turn_on
-    data: {}
-    target:
-      area_id:
-      - upstairs_bathroom
-      - dining_room
-  - service: input_select.select_option
-    data:
-      option: Nightlight
-    target:
-      entity_id: input_select.upstairs_bathroom_scenes
   - service: script.security_arm_home
   mode: single
   icon: mdi:weather-night
