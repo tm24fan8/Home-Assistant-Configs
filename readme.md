@@ -37,6 +37,9 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [HASS.Agent Notifier](https://github.com/LAB02-Research/HASS.Agent-Notifier)
 - [HASS.Agent Media Player](https://github.com/LAB02-Research/HASS.Agent-MediaPlayer)
 - [Music Assistant](https://github.com/music-assistant/hass-music-assistant)
+- [Wyze](https://github.com/JoshuaMulliken/ha-wyzeapi)
+- [Blitzortung Lightning Detector](https://github.com/mrk-its/homeassistant-blitzortung)
+- [LIFX Beta](https://github.com/Djelibeybi/ha-lifx-beta)
 
 ## HACS Lovelace Cards
 
