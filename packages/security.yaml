@@ -39,6 +39,11 @@ input_datetime:
     icon: mdi:shield-off
     has_date: false
     has_time: true
+  morning_alarm_rearm:
+    name: Morning Alarm Rearm
+    icon: mdi:shield-home
+    has_date: false
+    has_time: true
 
 sensor:
   - platform: template
@@ -120,10 +125,12 @@ sensor:
 
 automation:
   - id: 51819f36-2407-496c-afcd-ae160d747f0a
-    alias: Morning Alarm Disarm
+    alias: Scheduled Alarm Disarm
     trigger:
       - platform: time
         at: input_datetime.morning_alarm_disarm
+      - platform: time
+        at: input_datetime.master_bedroom_wakeup
     condition:
       - condition: state
         entity_id: group.family
@@ -131,8 +138,39 @@ automation:
       - condition: state
         entity_id: input_boolean.vacation_mode
         state: 'off'
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: input_boolean.work_today
+            state: 'on'
+          - condition: state
+            entity_id: input_boolean.school_today
+            state: 'on'
     action:
       - service: script.security_disarm
+
+  - id: f51eb02f-3f44-4b5d-a389-762b8ca88e2a
+    alias: Scheduled Alarm Rearm
+    trigger:
+      - platform: time
+        at: input_datetime.morning_alarm_rearm
+    condition:
+      - condition: state
+        entity_id: group.family
+        state: 'home'
+      - condition: state
+        entity_id: input_boolean.vacation_mode
+        state: 'off'
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: input_boolean.work_today
+            state: 'on'
+          - condition: state
+            entity_id: input_boolean.school_today
+            state: 'on'
+    action:
+      - service: script.security_arm_home
 
 script:
   security_arm_home:
