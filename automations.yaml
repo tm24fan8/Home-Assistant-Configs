@@ -585,3 +585,28 @@
           }} and tonight''s cooling is set to start at {{ states(''input_datetime.master_bedroom_cooling'')
           }}"'
   mode: queued
+- id: '1654547257475'
+  alias: Battery Monitoring
+  description: Monitor all battery-powered things for low battery states
+  use_blueprint:
+    path: sbyx/low-battery-level-detection-notification-for-all-battery-sensors.yaml
+    input:
+      time: '11:00:00'
+      exclude:
+        entity_id:
+        - sensor.iphone_battery_level
+        - sensor.kallen_iphone_battery_level
+        - sensor.tinas_ipad_battery_level
+        - sensor.tony_s_iphone_battery_level
+        - sensor.tony_s_ipad_battery_level
+        - sensor.kallen_desktop_battery_level
+        - sensor.kallen_desktop_battery_remaining
+        - sensor.tony_asus_battery_level
+        - sensor.tony_asus_battery_remaining
+        - sensor.xia_desktop_battery_level
+        - sensor.xia_desktop_battery_remaining
+      actions:
+      - service: script.text_notify_all
+        data:
+          title: Low Batteries in House
+          message: 'Low battery alert for: {{sensors}}'
