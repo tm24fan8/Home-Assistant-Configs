@@ -97,6 +97,8 @@ automation:
               - service: light.turn_off
                 target:
                   entity_id: light.upstairs_bathroom_lights
+              - delay:
+                  seconds: 5
               - service: switch.turn_on
                 target:
                   entity_id: switch.adaptive_lighting_upstairs_bathroom
