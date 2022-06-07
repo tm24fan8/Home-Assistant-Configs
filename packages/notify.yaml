@@ -725,6 +725,14 @@ script:
             I said. {{ states('sensor.jarvis_last_msg') }}
           msg_summary: "recall"
 
+  notify_mqtt:
+    sequence:
+      - service: mqtt.publish
+        data:
+          payload: "{{ message }}"
+          topic: home/notifications/"{{ target }}"
+          retain: true
+
   status_annc:
     sequence:
       - service: script.speech_engine
