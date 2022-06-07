@@ -15,7 +15,7 @@
 /deps
 /hacs
 /image
-/node-red
+/node-red/*
 /files
 /appdaemon/*
 /appdaemon/apps/*
@@ -66,5 +66,6 @@
 **alexa_auth
 
 # exceptions
+!/node-red/flows.json
 !/appdaemon/apps/
 !/appdaemon/apps/apps.yaml
