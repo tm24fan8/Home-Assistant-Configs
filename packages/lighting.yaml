@@ -2,58 +2,237 @@ input_boolean:
   shower_mode:
     name: Shower Mode
     icon: mdi:shower
+  living_room_entertainment_mode:
+    name: Living Room Entertainment Mode
+    icon: mdi:party-popper
+  front_porch_light_on:
+    name: Front Porch Light On
+    icon: hue:room-outdoors
+  living_room_dynamic_scenes:
+    name: Living Room Dynamic Scenes
+    icon: mdi:animation
+
+input_select:
+  living_room_scenes:
+    name: Living Room Scenes
+    options:
+      - Select
+      - Adaptive
+      - Bright
+      - Dimmed
+      - Nightlight
+      - Energize
+      - Concentrate
+      - Savanna Sunset
+      - Tropical Twilight
+      - Tokyo
+      - Forest Adventure
+      - Painted Sky
+    initial: Select
+    icon: hue:room-living
+  mud_room_scenes:
+    name: Mud Room Scenes
+    options:
+      - Select
+      - Adaptive
+      - Bright
+      - Dimmed
+      - Nightlight
+    initial: Select
+    icon: hue:room-other
+  dining_room_lamp_modes:
+    name: Dining Room Lamp Modes
+    options:
+      - Select
+      - Full
+      - Dining Room
+      - Wall
+      - Nightlight
+    initial: Select
+    icon: mdi:floor-lamp-dual
+  upstairs_hallway_scenes:
+    name: Upstairs Hallway Scenes
+    options:
+      - Select
+      - Adaptive
+      - Bright
+      - Dimmed
+      - Nightlight
+    initial: Select
+    icon: hue:ceiling-round
+  kallen_bedroom_scenes:
+    name: Kallen Bedroom Scenes
+    options:
+      - Select
+      - Adaptive
+      - Bright
+      - Dimmed
+      - Nightlight
+    initial: Select
+    icon: mdi:bunk-bed
+  nursery_scenes:
+    name: Nursery Scenes
+    options:
+      - Select
+      - Adaptive
+      - Bright
+      - Dimmed
+      - Nightlight
+    initial: Select
+    icon: hue:room-nursery
+  basement_studio_scenes:
+    name: Basement Studio Scenes
+    options:
+      - Select
+      - Adaptive
+      - Energize
+      - Concentrate
+      - Bright
+      - Dimmed
+      - Nightlight
+      - Relax
+      - Purple
+      - Pink
+      - Kallen Reading
+      - Baby Is Napping
+      - Stairwell
+    initial: Select
+    icon: mdi:twitch
+  master_bedroom_scenes:
+    name: Master Bedroom Scenes
+    options:
+      - Select
+      - Adaptive
+      - Bright
+      - Dimmed
+      - Nightlight
+      - Front Nightlight
+      - Side Nightlight
+    initial: Select
+    icon: mdi:bed
+  upstairs_bathroom_scenes:
+    name: Upstairs Bathroom Scenes
+    options:
+      - Select
+      - Adaptive
+      - Bright
+      - Dimmed
+      - Nightlight
+      - Single Nightlight
+    initial: Select
+    icon: mdi:toilet
+  downstairs_bathroom_scenes:
+    name: Downstairs Bathroom Scenes
+    options:
+      - Select
+      - Adaptive
+      - Bright
+      - Dimmed
+      - Nightlight
+    initial: Select
+    icon: mdi:toilet
+  front_porch_scenes:
+    name: Front Porch Scenes
+    options:
+      - Select
+      - Adaptive
+      - Bright
+      - Energize
+      - Concentrate
+      - Dimmed
+      - Nightlight
+      - St Patricks Day
+      - Halloween
+    initial: Select
+    icon: hue:room-porch
+  tina_lamp_scenes:
+    name: Tina Lamp Scenes
+    options:
+      - Select
+      - Adaptive
+      - Energize
+      - Bright
+      - Nightlight
+    initial: Select
+    icon: hue:room-dining
+
+input_text:
+  living_room_selected_scene:
+    name: Living Room Selected Scene
+  mud_room_selected_scene:
+    name: Mud Room Selected Scene
+  dining_room_lamp_selected_scene:
+    name: Dining Room Lamp Selected Scene
+  upstairs_hallway_selected_scene:
+    name: Upstairs Hallway Selected Scene
+  kallen_bedroom_selected_scene:
+    name: Kallen Bedroom Selected Scene
+  nursery_selected_scene:
+    name: Nursery Selected Scene
+  basement_studio_selected_scene:
+    name: Basement Studio Selected Scene
+  master_bedroom_selected_scene:
+    name: Master Bedroom Selected Scene
+  upstairs_bathroom_selected_scene:
+    name: Upstairs Bathroom Selected Scene
+  downstairs_bathroom_selected_scene:
+    name: Downstairs Bathroom Selected Scene
+  front_porch_selected_scene:
+    name: Front Porch Selected Scene
+  tina_lamp_selected_scene:
+    name: Tina Lamp Selected Scene
 
 automation:
-  - id: 6fe64356-00a2-4cad-bb85-f6dd05f29de7
-    alias: Upstairs Bathroom Motion Lights
-    description: Turns up lights in the upstairs bathroom at night when someone walks into the room.
-    mode: queued
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.upstairs_bathroom_motion
-        to: 'on'
-        id: motion-on
-      - platform: state
-        entity_id: binary_sensor.upstairs_bathroom_motion
-        to: 'off'
-        id: motion-off
-        for:
-          hours: 0
-          minutes: 1
-          seconds: 30
-    condition:
-      - condition: state
-        entity_id: input_boolean.early_night_mode
-        state: 'on'
-      - condition: state
-        entity_id: input_boolean.shower_mode
-        state: 'off'
-    action:
-      - if:
-          - condition: trigger
-            id: motion-on
-        then:
-          - service: input_select.select_option
-            target:
-              entity_id: input_select.upstairs_bathroom_scenes
-            data:
-              option: Adaptive
-      - if:
-          - condition: trigger
-            id: motion-off
-        then:
-          - service: input_select.select_option
-            target:
-              entity_id: input_select.upstairs_bathroom_scenes
-            data:
-              option: >-
-                {% if is_state('input_boolean.early_night_mode','on') and is_state('input_boolean.night_mode','off') %}
-                  Nightlight
-                {% elif is_state('input_boolean.night_mode','on') %}
-                  Single Nightlight
-                {% else %}
-                  Adaptive
-                {% endif %}
+  # - id: 6fe64356-00a2-4cad-bb85-f6dd05f29de7
+  #   alias: Upstairs Bathroom Motion Lights
+  #   description: Turns up lights in the upstairs bathroom at night when someone walks into the room.
+  #   mode: queued
+  #   trigger:
+  #     - platform: state
+  #       entity_id: binary_sensor.upstairs_bathroom_motion
+  #       to: 'on'
+  #       id: motion-on
+  #     - platform: state
+  #       entity_id: binary_sensor.upstairs_bathroom_motion
+  #       to: 'off'
+  #       id: motion-off
+  #       for:
+  #         hours: 0
+  #         minutes: 1
+  #         seconds: 30
+  #   condition:
+  #     - condition: state
+  #       entity_id: input_boolean.early_night_mode
+  #       state: 'on'
+  #     - condition: state
+  #       entity_id: input_boolean.shower_mode
+  #       state: 'off'
+  #   action:
+  #     - if:
+  #         - condition: trigger
+  #           id: motion-on
+  #       then:
+  #         - service: input_select.select_option
+  #           target:
+  #             entity_id: input_select.upstairs_bathroom_scenes
+  #           data:
+  #             option: Adaptive
+  #     - if:
+  #         - condition: trigger
+  #           id: motion-off
+  #       then:
+  #         - service: input_select.select_option
+  #           target:
+  #             entity_id: input_select.upstairs_bathroom_scenes
+  #           data:
+  #             option: >-
+  #               {% if is_state('input_boolean.early_night_mode','on') and is_state('input_boolean.night_mode','off') %}
+  #                 Nightlight
+  #               {% elif is_state('input_boolean.night_mode','on') %}
+  #                 Single Nightlight
+  #               {% else %}
+  #                 Adaptive
+  #               {% endif %}
 
   - id: f52eca30-c2e4-43dc-b220-7e9be96b465a
     alias: Shower Mode

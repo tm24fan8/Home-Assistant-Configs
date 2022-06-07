@@ -1,5 +1,5 @@
 - id: '1644453456591'
-  name: Dining Room Lamp - Dining Side
+  name: Dining Room Lamp - Dining Room
   entities:
     light.dining_room_lamp_blue:
       effect_list: []

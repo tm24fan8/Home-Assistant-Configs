@@ -1,27 +1,3 @@
 tts_message:
   name: TTS Message
   initial: Type your message here
-living_room_selected_scene:
-  name: Living Room Selected Scene
-mud_room_selected_scene:
-  name: Mud Room Selected Scene
-dining_room_selected_scene:
-  name: Dining Room Selected Scene
-upstairs_hallway_selected_scene:
-  name: Upstairs Hallway Selected Scene
-kallen_bedroom_selected_scene:
-  name: Kallen Bedroom Selected Scene
-nursery_selected_scene:
-  name: Nursery Selected Scene
-basement_studio_selected_scene:
-  name: Basement Studio Selected Scene
-master_bedroom_selected_scene:
-  name: Master Bedroom Selected Scene
-upstairs_bathroom_selected_scene:
-  name: Upstairs Bathroom Selected Scene
-downstairs_bathroom_selected_scene:
-  name: Downstairs Bathroom Selected Scene
-front_porch_selected_scene:
-  name: Front Porch Selected Scene
-tina_lamp_selected_scene:
-  name: Tina Lamp Selected Scene

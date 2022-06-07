@@ -22,18 +22,9 @@ tornado_watch:
 vacation_mode:
   name: Vacation Mode
   icon: mdi:umbrella-beach
-living_room_entertainment_mode:
-  name: Living Room Entertainment Mode
-  icon: mdi:party-popper
-front_porch_light_on:
-  name: Front Porch Light On
-  icon: hue:room-outdoors
 kallen_overnight:
   name: Kallen Overnight
   icon: mdi:weather-night
-living_room_dynamic_scenes:
-  name: Living Room Dynamic Scenes
-  icon: mdi:animation
 night_mode:
   name: Night Mode
   icon: mdi:lightbulb-night
