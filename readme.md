@@ -85,6 +85,7 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Datetime Card](https://github.com/a-p-z/datetime-card)
 - [Waze Travel Time](https://github.com/r-renato/ha-card-waze-travel-time)
 - [Time Picker Card](https://github.com/GeorgeSG/lovelace-time-picker-card)
+- [Fold Entity Row](https://github.com/thomasloven/lovelace-fold-entity-row)
 
 ## AppDaemon Apps
 
