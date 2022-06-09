@@ -188,21 +188,28 @@ max_brightness:
 going_upstairs:
   alias: Going Upstairs
   sequence:
-  - service: switch.turn_off
-    data: {}
+  - service: input_select.select_option
+    data:
+      option: Adaptive
     target:
       entity_id:
-      - switch.adaptive_lighting_sleep_mode_basement_studio
-      - switch.adaptive_lighting_sleep_mode_mud_room
-      - switch.adaptive_lighting_sleep_mode_upstairs_hallway
-  - service: light.turn_on
-    data: {}
-    target:
-      entity_id:
-      - light.living_room_lights
-      - light.basement_led_strip_1
+      - input_select.basement_studio_scenes
+      - input_select.tina_lamp_scenes
+      - input_select.mud_room_scenes
+      - input_select.upstairs_hallway_scenes
+      - input_select.living_room_scenes
   - service: input_boolean.turn_on
     entity_id: input_boolean.night_mode
+  - delay:
+      hours: 0
+      minutes: 2
+      seconds: 0
+      milliseconds: 0
+  - service: input_select.select_option
+    data:
+      option: Side Nightlight
+    target:
+      entity_id: input_select.master_bedroom_scenes
   mode: single
   icon: hue:room-stairs
 basement_on:

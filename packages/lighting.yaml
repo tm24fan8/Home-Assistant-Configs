@@ -333,7 +333,7 @@ automation:
             target:
               entity_id: input_select.dining_room_lamp_modes
             data:
-              option: Reset
+              option: Full
       - if:
         - condition: trigger
           id: motion-off
