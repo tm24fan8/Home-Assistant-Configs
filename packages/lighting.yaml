@@ -40,8 +40,8 @@ input_select:
       - Nightlight
     initial: Select
     icon: hue:room-other
-  dining_room_lamp_modes:
-    name: Dining Room Lamp Modes
+  dining_room_lamp_scenes:
+    name: Dining Room Lamp Scenes
     options:
       - Select
       - Full
