@@ -55,6 +55,8 @@ sensor:
           {% set windows = [
             states.binary_sensor.front_window_near,
             states.binary_sensor.kitchen_big_window,
+            states.binary_sensor.mud_room_window,
+            states.binary_sensor.stairway_window_lower,
             ] %}
           {% set windows_open = windows | selectattr('state','eq','on') | list | count %}
           {{ windows_open }}
@@ -62,6 +64,8 @@ sensor:
           {% set windows = [
             states.binary_sensor.front_window_near,
             states.binary_sensor.kitchen_big_window,
+            states.binary_sensor.mud_room_window,
+            states.binary_sensor.stairway_window_lower,
             ] %}
           {% set windows_open = windows | selectattr('state','eq','on') | list | count %}
           {% if windows_open == 0 %}
@@ -97,6 +101,8 @@ sensor:
           {% set windows = [
             states.binary_sensor.front_window_near,
             states.binary_sensor.kitchen_big_window,
+            states.binary_sensor.mud_room_window,
+            states.binary_sensor.stairway_window_lower,
             ] %}
           {% set doors = [
             states.binary_sensor.front_door,
@@ -109,6 +115,8 @@ sensor:
           {% set windows = [
             states.binary_sensor.front_window_near,
             states.binary_sensor.kitchen_big_window,
+            states.binary_sensor.mud_room_window,
+            states.binary_sensor.stairway_window_lower,
             ] %}
           {% set doors = [
             states.binary_sensor.front_door,
