@@ -96,7 +96,7 @@ automation:
     alias: House Scheduling
     trigger:
       - platform: time
-        at: '06:00:00'
+        at: '05:45:00'
         id: house-morning
       - platform: time
         at: '16:05:00'
