@@ -434,6 +434,9 @@
   - condition: state
     entity_id: input_boolean.vacation_mode
     state: 'off'
+  - condition: numeric_state
+    entity_id: sensor.tonights_low_temp
+    above: '40'
   action:
   - choose:
     - conditions:
@@ -446,31 +449,38 @@
           attribute: overnight_low
           above: '50'
         then:
-        - service: switch.turn_on
-          data: {}
+        - service: climate.set_temperature
+          data:
+            hvac_mode: cool
+            temperature: 72
           target:
-            entity_id: switch.master_bedroom_aircon
+            entity_id: climate.master_bedroom_aircon
         - parallel:
           - service: script.text_notify_tony
             data:
               title: AC Schedule Activated
-              message: '"Master bedroom AC has been activated, as scheduled based
+              message: '"Master bedroom AC temp has been lowered, as scheduled based
                 on tonight''s forecast low"'
           - service: script.text_notify_tina
             data:
               title: AC Schedule Activated
-              message: '"Master bedroom AC has been activated, as scheduled based
+              message: '"Master bedroom AC temp has been lowered, as scheduled based
                 on tonight''s forecast low"'
         else:
+        - service: climate.set_hvac_mode
+          data:
+            hvac_mode: fan_only
+          target:
+            entity_id: climate.master_bedroom_aircon
         - parallel:
           - service: script.text_notify_tony
             data:
               title: AC Schedule Skipped
-              message: Too cold outside, AC not activated
+              message: Too cold outside, AC running fan only
           - service: script.text_notify_tina
             data:
               title: AC Schedule Skipped
-              message: Too cold outside, AC not activated
+              message: Too cold outside, AC running fan only
     - conditions:
       - condition: trigger
         id: master-bedroom-fan
@@ -505,8 +515,23 @@
         target:
           entity_id:
           - switch.master_bedroom_fan_socket_1
-          - switch.master_bedroom_aircon
           - switch.master_bedroom_echo_dot_do_not_disturb_switch
+      - if:
+        - condition: numeric_state
+          entity_id: sensor.todays_high_temp
+          above: '80'
+        then:
+        - service: climate.set_temperature
+          data:
+            hvac_mode: cool
+            temperature: 75
+          target:
+            entity_id: climate.master_bedroom_aircon
+        else:
+        - service: climate.turn_off
+          data: {}
+          target:
+            entity_id: climate.master_bedroom_aircon
     default:
     - service: script.text_notify_tony
       data:
