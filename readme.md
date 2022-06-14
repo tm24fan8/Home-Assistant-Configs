@@ -40,6 +40,7 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [Wyze](https://github.com/JoshuaMulliken/ha-wyzeapi)
 - [Blitzortung Lightning Detector](https://github.com/mrk-its/homeassistant-blitzortung)
 - [LIFX Beta](https://github.com/Djelibeybi/ha-lifx-beta)
+- [Midea Air Conditioning](https://github.com/mac-zhou/midea-ac-py)
 
 ## HACS Lovelace Cards
 
@@ -86,6 +87,7 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Waze Travel Time](https://github.com/r-renato/ha-card-waze-travel-time)
 - [Time Picker Card](https://github.com/GeorgeSG/lovelace-time-picker-card)
 - [Fold Entity Row](https://github.com/thomasloven/lovelace-fold-entity-row)
+- [Mini Climate Card](https://github.com/artem-sedykh/mini-climate-card)
 
 ## AppDaemon Apps
 
