@@ -259,3 +259,4 @@ automation:
               23:00
             {% else %}
               00:00
+            {% endif %}
