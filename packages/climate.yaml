@@ -1,0 +1,15 @@
+sensor:
+  - platform: template
+    sensors:
+      master_bedroom_current_temp:
+        friendly_name: "Master Bedroom Current Temp"
+        value_template: >
+          {{ state_attr('climate.master_bedroom_aircon','current_temperature') | float }}
+      master_bedroom_outdoor_temp:
+        friendly_name: "Master Bedroom Outdoor Temp"
+        value_template: >
+          {{ state_attr('climate.master_bedroom_aircon','outdoor_temperature') | float }}
+      master_bedroom_target_temp:
+        friendly_name: "Master Bedroom Target Temp"
+        value_template: >
+          {{ state_attr('climate.master_bedroom_aircon','temperature') | float }}
