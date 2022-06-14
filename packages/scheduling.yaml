@@ -34,6 +34,16 @@ input_datetime:
     has_date: false
     has_time: true
     icon: mdi:fan-off
+  nursery_cooling:
+    name: Nursery Cooling
+    has_date: false
+    has_time: true
+    icon: mdi:fan-auto
+  nursery_wakeup:
+    name: Nursery Wakeup
+    has_date: false
+    has_time: true
+    icon: mdi:fan-off
 
 
 automation:
@@ -230,3 +240,22 @@ automation:
                 {% else %}
                   00:00
                 {% endif %}
+
+  - id: a69d3d36-09d6-4ef3-a245-c564c7cb577c
+    alias: Nursery Scheduling
+    trigger:
+      - platform: time
+        at: '06:06:00'
+    action:
+      - service: input_datetime.set_datetime
+        entity_id: input_datetime.nursery_cooling
+        data_template:
+          time: >
+            {% set high = state_attr('sensor.current_forecast','high_temp') | float %}
+            {% set low = state_attr('sensor.current_forecast','overnight_low') | float %}
+            {% if high > 85 %}
+              22:00
+            {% elif high > 80 %}
+              23:00
+            {% else %}
+              00:00
