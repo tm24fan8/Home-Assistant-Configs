@@ -120,7 +120,7 @@
           states.fan.basement_fan,
           states.fan.kallen_fan_socket_1,
           states.fan.master_bedroom_fan_socket_1,
-          states.fan.master_bedroom_air_conditioner
+          states.fan.nursery_air_conditioner
         ] %}
         {{ fans | selectattr('state','eq','on') | list | count }}
     current_outdoor_lights_on:
