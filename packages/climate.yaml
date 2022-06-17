@@ -13,3 +13,8 @@ sensor:
         friendly_name: "Master Bedroom Target Temp"
         value_template: >
           {{ state_attr('climate.master_bedroom_aircon','temperature') | float }}
+
+input_boolean:
+  master_bedroom_nighttime_protocol:
+    name: Master Bedroom Nighttime Protocol
+    icon: mdi:lightbulb-night
