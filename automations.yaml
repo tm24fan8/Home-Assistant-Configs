@@ -452,3 +452,29 @@
     target:
       entity_id: fan.nursery_air_conditioner
   mode: queued
+- id: '1655493590791'
+  alias: NWS Announce Weather Alert for Tornado (CLEAR)
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.weatheralerts_active_alerts
+    attribute: tornado_warning_count
+    below: '1'
+  condition: []
+  action:
+  - service: script.max_brightness_cleanup
+    data: {}
+  - service: notify.all_ios
+    data:
+      title: Check your surroundings and make sure it is safe to leave cover
+      message: Tornado Warning is cleared
+  - service: notify.tv_notifications
+    data:
+      title: Check your surroundings and make sure it is safe to leave cover
+      message: Tornado Warning is cleared
+  - service: script.speech_engine
+    data:
+      who: everywhere
+      message: Tornado warning has been cleared. Check your surroundings and make
+        sure it is safe to leave cover.
+  mode: single
