@@ -678,7 +678,7 @@ sensor:
                 ] | random }}
               {% elif is_state('sensor.clothing_forecast', 'Hot') and is_state('sensor.current_forecast', 'sunny') %}
                 It is going to be
-                {{ [ 'so hot you\'ll sweat your balls off',
+                {{ [ 'so hot you will sweat your balls off',
                   'hotter than the sun ',
                   'hotter than the inside of a volcano ',
                 ] | random }}
@@ -697,14 +697,14 @@ sensor:
                 today. So I suggest wearing shorts.
               {% elif is_state('sensor.clothing_forecast', 'Hot') %}
                 It is going to be
-                {{ [ 'so hot you\'ll sweat your balls off',
+                {{ [ 'so hot you will sweat your balls off',
                   'hotter than the sun ',
                   'hotter than the inside of a volcano ',
                   'hotter than hell itself ',
                 ] | random }}
                 today. So I suggest wearing shorts.
               {% else %}
-                It is going to be {{ states.sensor.clothing_forecast.state }} today so I suggest wearing shorts.
+                It is going to be {{ states('sensor.clothing_forecast') }} today so I suggest wearing shorts.
               {% endif %}
               {% set high = state_attr('sensor.current_forecast','high_temp') %}
               {% if high > 85 %}
@@ -741,7 +741,7 @@ sensor:
                 ] | random }}
               {% elif is_state('sensor.clothing_forecast', 'Hot') and is_state('weather.iron_nerd_weather_station','sunny') %}
                 It is
-                {{ [ 'so hot you\'ll sweat your balls off',
+                {{ [ 'so hot you will sweat your balls off',
                   'hotter than the sun ',
                   'hotter than the inside of a volcano ',
                 ] | random }}
@@ -760,14 +760,14 @@ sensor:
                 outside. So I suggest wearing shorts.
               {% elif is_state('sensor.clothing_forecast', 'Hot') %}
                 It is
-                {{ [ 'so hot you\'ll sweat your balls off',
+                {{ [ 'so hot you will sweat your balls off',
                   'hotter than the sun ',
                   'hotter than the inside of a volcano ',
                   'hotter than hell itself ',
                 ] | random }}
                 outside. So I suggest wearing shorts.
               {% else %}
-                It is {{ states.sensor.clothing_forecast.state }} right now so I suggest wearing shorts.
+                It is {{ states('sensor.clothing_forecast') }} right now so I suggest wearing shorts.
               {% endif %}
               {% set heatindex = states('sensor.pirateweather_apparent_temperature') | float | round %}
               {% if heatindex > 90 %}
@@ -776,18 +776,18 @@ sensor:
             {% endif %}
           {%- endmacro -%}
           {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
-            {%- macro cleanup(data) -%}
-              {%- for item in data.split("\n")  if item | trim != "" -%}
-                {{ item | trim }} {% endfor -%}
+          {%- macro cleanup(data) -%}
+            {%- for item in data.split("\n")  if item | trim != "" -%}
+              {{ item | trim }} {% endfor -%}
           {%- endmacro -%}
 
           {# a macro to call all macros :)  #}
-            {%- macro mother_of_all_macros() -%}
-              {{ getReport() }}
-            {%- endmacro -%}
+          {%- macro mother_of_all_macros() -%}
+            {{ getReport() }}
+          {%- endmacro -%}
             
-            {# Call the macro  #}
-            {{- cleanup(mother_of_all_macros()) -}}
+          {# Call the macro  #}
+          {{- cleanup(mother_of_all_macros()) -}}
       nws_current_visibility:
         friendly_name: "Current Visibility"
         value_template: "{{ ((state_attr('weather.iron_nerd_weather_station','visibility') | int) * 0.621371) | round }}"
@@ -820,7 +820,7 @@ input_boolean:
     icon: mdi:snowflake-alert
   weather_alert_texts:
     name: Weather Alert Texts
-    icon: mdi:telegram
+    icon: mdi:message-processing
   lightning_warning:
     name: Lightning Warning
     icon: mdi:flash-alert
