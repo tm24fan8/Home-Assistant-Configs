@@ -200,3 +200,19 @@
   end: '{{ now() }}'
   duration:
     hours: 24
+- platform: history_stats
+  name: Windows Open Time
+  entity_id: sensor.windows_open
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Doors Open Time
+  entity_id: sensor.doors_open
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
