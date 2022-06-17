@@ -176,9 +176,21 @@ max_brightness:
       minutes: 0
       seconds: 1
       milliseconds: 0
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.shower_mode
+  - service: automation.turn_off
+    data: {}
+    target:
+      entity_id: automation.living_room_night_lighting
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.front_porch_light_on
   - service: light.turn_on
     data:
-      kelvin: 6400
+      kelvin: 5500
       brightness_pct: 100
     target:
       entity_id: all
