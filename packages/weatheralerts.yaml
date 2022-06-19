@@ -1554,13 +1554,10 @@ automation:
         data:
           title: "WINDOWS ARE OPEN!"
           message: "It is raining and there are windows open in the house. Please close them!"
-      - service: notify.alexa_media
+      - service: script.speech_engine
         data:
-          data:
-            method: all
-            type: announce
+          who: everywhere
           message: "It is raining and there are windows open in the house. Please close them!"
-          target: Living Room Echo Dot, Basement Echo Dot, Master Bedroom Echo Dot
 
 
 
