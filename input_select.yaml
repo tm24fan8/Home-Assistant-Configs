@@ -5,6 +5,7 @@ tts_devices:
     - Basement
     - Master Bedroom
     - Kallen Bedroom
+    - Common Areas
     - Everywhere
   initial: Living Room
   icon: mdi:dots-horizontal-circle

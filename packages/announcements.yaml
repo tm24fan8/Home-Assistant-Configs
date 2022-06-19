@@ -116,7 +116,7 @@ automation:
     action:
     - service: script.daily_briefing
       data:
-        who: living_room
+        who: common
 
   - id: 5d06ba92-de10-4bf3-bc08-86f5be60c4a7
     alias: Morning Briefing
@@ -130,7 +130,7 @@ automation:
     action:
     - service: script.morning_report
       data:
-        who: living_room
+        who: common
 
 script:
   reset_annc_switches:
@@ -148,7 +148,7 @@ script:
     sequence:
     - service: script.speech_engine
       data: 
-        who: living_room
+        who: common
         message: !include ../templates/speech/kallen_nightly_briefing.yaml
     - service: script.text_notify
       data:
@@ -173,7 +173,7 @@ script:
             {% if is_state('input_boolean.school_today', 'on') %}
               kallen_bedroom
             {% else %}
-              living_room
+              common
             {% endif %}
           message: !include ../templates/speech/kallen_morning_briefing.yaml
       - service: script.text_notify

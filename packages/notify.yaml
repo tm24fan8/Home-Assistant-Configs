@@ -139,6 +139,11 @@ notify:
       - service: alexa_media_living_room_echo_dot
       - service: alexa_media_basement_echo_dot
       - service: alexa_media_master_bedroom_echo_dot
+  - name: alexa_common_areas
+    platform: group
+    services:
+      - service: alexa_media_living_room_echo_dot
+      - service: alexa_media_basement_echo_dot
 
 script:
 
@@ -469,6 +474,9 @@ script:
           {% elif who in ['basement','basement_echo_dot','media_player.basement_echo_dot','Basement Echo Dot']  %}
             {% set who = 'basement_echo_dot' %}
             script.alexa_voice
+          {% elif who in ['Common Areas','common','common_areas'] %}
+            {% set who = 'common' %}
+            script.alexa_voice
           {% elif who in ['Everywhere','everywhere'] %}
             {% set who = 'everywhere' %}
             script.alexa_voice
@@ -600,6 +608,8 @@ script:
           notify.alexa_media_master_bedroom_echo_dot
         {% elif who in ['basement','basement_echo_dot'] %}
           notify.alexa_media_basement_echo_dot
+        {% elif who in ['common'] %}
+          notify.alexa_common_areas
         {% elif who in ['Everywhere','everywhere'] %}
           notify.alexa_everywhere
         {% else %}
