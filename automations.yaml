@@ -334,24 +334,6 @@
           entity_id: input_boolean.white_noise_kallen_bedroom
     default: []
   mode: queued
-- id: '1650918265367'
-  alias: Speedtest Schedule
-  description: Runs an internet speed test on a schedule UNLESS Tony or Tina are streaming
-    on Twitch.
-  trigger:
-  - platform: time_pattern
-    hours: /4
-  condition:
-  - condition: state
-    entity_id: sensor.twitch_ironnerd24
-    state: offline
-  - condition: state
-    entity_id: sensor.twitch_xia_p988
-    state: offline
-  action:
-  - service: speedtestdotnet.speedtest
-    data: {}
-  mode: single
 - id: '1651785688186'
   alias: Watchman Audit on Startup
   description: Runs the Watchman Audit script after Home Assistant has successfully

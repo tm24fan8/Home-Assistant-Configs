@@ -319,13 +319,6 @@ stop_spotify_basement:
       entity_id: media_player.basement_tv
   mode: single
   icon: mdi:spotify
-manual_speed_test:
-  alias: Manual Speed Test
-  sequence:
-  - service: speedtestdotnet.speedtest
-    data: {}
-  mode: single
-  icon: mdi:speedometer
 watchman_audit:
   alias: Watchman Audit
   sequence:
