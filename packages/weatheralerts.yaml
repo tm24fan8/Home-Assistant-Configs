@@ -1478,13 +1478,10 @@ automation:
           - condition: template
             value_template: "{{ state_attr('sensor.weatheralerts_alert_1', 'alert_id') not in states('input_text.weatheralerts_triggered_audible_alert_ids') }}"
     action:
-      - service: notify.alexa_media
+      - service: script.speech_engine
         data:
-          data:
-            method: all
-            type: announce
+          who: everywhere
           message: Severe thunderstorm warning has been issued, it's about to get loud!
-          target: Living Room Echo Dot, Basement Echo Dot, Master Bedroom Echo Dot
       - service: input_text.set_value
         data_template:
           entity_id: input_text.weatheralerts_triggered_audible_alert_ids
@@ -1578,7 +1575,7 @@ script:
         state: 'on'
       - service: script.status_annc
         data_template:
-          who: 'living_room'
+          who: 'common'
           call_interuption: 1
           call_lightning_alert: 1
   
@@ -1589,7 +1586,7 @@ script:
         state: 'on'
       - service: script.status_annc
         data_template:
-          who: 'living_room'
+          who: 'common'
           call_interuption: 1
           call_lightning_clear: 1
 
