@@ -2,7 +2,7 @@ homeassistant:
     packages: !include_dir_named packages
     customize: !include customize.yaml
     external_url: !secret remote_url
-    internal_url: http://homeassistant.local:8123
+    internal_url: !secret local_url
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
