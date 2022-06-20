@@ -8,6 +8,10 @@
     above: '0'
   condition: []
   action:
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.audible_notifications
   - service: script.max_brightness
     data: {}
   - service: notify.all_ios
