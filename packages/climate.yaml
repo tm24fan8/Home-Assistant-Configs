@@ -13,13 +13,21 @@ sensor:
         friendly_name: "Master Bedroom Target Temp"
         value_template: >
           {{ state_attr('climate.master_bedroom_aircon','temperature') | float }}
-      master_bedroom_aircon_preset:
-        friendly_name: "Master Bedroom Aircon Preset"
-        value_template: >
-          {{ state_attr('climate.master_bedroom_aircon','preset_mode') | capitalize }}
-        icon_template: >
+      master_bedroom_aircon_eco_mode:
+        friendly_name: "Master Bedroom Eco Mode"
+        value_template: >-
+          {% if is_state_attr('climate.master_bedroom_aircon','preset_mode','eco') %}
+            On
+          {% elif is_state_attr('climate.master_bedroom_aircon','preset_mode','none') %}
+            Off
+          {% else %}
+            Off
+          {% endif %}
+        icon_template: >-
           {% if is_state_attr('climate.master_bedroom_aircon','preset_mode','eco') %}
             mdi:home-lightning-bolt
+          {% elif is_state_attr('climate.master_bedroom_aircon','preset_mode','none') %}
+            mdi:home-lightning-bolt-outline
           {% else %}
             mdi:home-lightning-bolt-outline
           {% endif %}
