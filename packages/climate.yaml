@@ -23,6 +23,22 @@ sensor:
           {% else %}
             mdi:home-lightning-bolt-outline
           {% endif %}
+      master_bedroom_aircon_fan_mode:
+        friendly_name: "Master Bedroom Aircon Fan Mode"
+        value_template: >
+          {{ state_attr('climate.master_bedroom_aircon','fan_mode') }}
+        icon_template: >
+          {% if is_state_attr('climate.master_bedroom_aircon','fan_mode','Auto') %}
+            mdi:fan-auto
+          {% elif is_state_attr('climate.master_bedroom_aircon','fan_mode','Low') %}
+            mdi:fan-speed-1
+          {% elif is_state_attr('climate.master_bedroom_aircon','fan_mode','Medium') %}
+            mdi:fan-speed-2
+          {% elif is_state_attr('climate.master_bedroom_aircon','fan_mode','High') %}
+            mdi:fan-speed-3
+          {% else %}
+            mdi:fan-off
+          {% endif %}
 
 input_boolean:
   master_bedroom_nighttime_protocol:
