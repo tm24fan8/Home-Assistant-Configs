@@ -15,6 +15,10 @@ weather:
     api_key: !secret pirate_weather_api
     mode: "daily"
     name: Iron Nerd Studios
+  - platform: pirateweather
+    api_key: !secret pirate_weather_api
+    mode: "hourly"
+    name: Iron Nerd Studios Hourly
 
 sensor:
   # - platform: template
