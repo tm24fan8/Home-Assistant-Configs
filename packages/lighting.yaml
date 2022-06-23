@@ -68,6 +68,8 @@ input_select:
       - Bright
       - Dimmed
       - Nightlight
+      - Overhead Nightlight
+      - Wall Nightlight
     initial: Select
     icon: mdi:bunk-bed
   nursery_scenes:

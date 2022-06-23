@@ -1297,3 +1297,305 @@
       - 0.389
       color_temp: 500
   icon: mdi:palette
+- id: '1656026801409'
+  name: Master Bedroom Bright
+  entities:
+    light.master_bedroom_front:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      icon: hue:wall-lantern
+      friendly_name: Master Bedroom Front
+      supported_features: 40
+      color_mode: brightness
+      brightness: 255
+      state: 'on'
+    light.master_bedroom_side:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      icon: hue:wall-lantern
+      friendly_name: Master Bedroom Side
+      supported_features: 40
+      color_mode: brightness
+      brightness: 255
+      state: 'on'
+  icon: mdi:palette
+  metadata:
+    light.master_bedroom_front:
+      entity_only: false
+    light.master_bedroom_side:
+      entity_only: false
+- id: '1656026880499'
+  name: Master Bedroom Dimmed
+  entities:
+    light.master_bedroom_front:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      icon: hue:wall-lantern
+      friendly_name: Master Bedroom Front
+      supported_features: 40
+      color_mode: brightness
+      brightness: 76
+      state: 'on'
+    light.master_bedroom_side:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      icon: hue:wall-lantern
+      friendly_name: Master Bedroom Side
+      supported_features: 40
+      color_mode: brightness
+      brightness: 76
+      state: 'on'
+  icon: mdi:palette
+  metadata:
+    light.master_bedroom_front:
+      entity_only: false
+    light.master_bedroom_side:
+      entity_only: false
+- id: '1656026931017'
+  name: Master Bedroom Nightlight
+  entities:
+    light.master_bedroom_front:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      icon: hue:wall-lantern
+      friendly_name: Master Bedroom Front
+      supported_features: 40
+      color_mode: brightness
+      brightness: 3
+      state: 'on'
+    light.master_bedroom_side:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      icon: hue:wall-lantern
+      friendly_name: Master Bedroom Side
+      supported_features: 40
+      color_mode: brightness
+      brightness: 3
+      state: 'on'
+  icon: mdi:palette
+  metadata:
+    light.master_bedroom_front:
+      entity_only: false
+    light.master_bedroom_side:
+      entity_only: false
+- id: '1656026983414'
+  name: Master Bedroom Front Nightlight
+  entities:
+    light.master_bedroom_front:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      icon: hue:wall-lantern
+      friendly_name: Master Bedroom Front
+      supported_features: 40
+      color_mode: brightness
+      brightness: 3
+      state: 'on'
+    light.master_bedroom_side:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      icon: hue:wall-lantern
+      friendly_name: Master Bedroom Side
+      supported_features: 40
+      state: 'off'
+  icon: mdi:palette
+  metadata:
+    light.master_bedroom_front:
+      entity_only: false
+    light.master_bedroom_side:
+      entity_only: false
+- id: '1656027029147'
+  name: Master Bedroom Side Nightlight
+  entities:
+    light.master_bedroom_front:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      icon: hue:wall-lantern
+      friendly_name: Master Bedroom Front
+      supported_features: 40
+      state: 'off'
+    light.master_bedroom_side:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      icon: hue:wall-lantern
+      friendly_name: Master Bedroom Side
+      supported_features: 40
+      color_mode: brightness
+      brightness: 3
+      state: 'on'
+  icon: mdi:palette
+  metadata:
+    light.master_bedroom_front:
+      entity_only: false
+    light.master_bedroom_side:
+      entity_only: false
+- id: '1656027337965'
+  name: Kallen Bedroom Bright
+  entities:
+    light.kallen_bedroom_overhead:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      friendly_name: Kallen Bedroom Overhead
+      supported_features: 40
+      color_mode: brightness
+      brightness: 255
+      icon: hue:ceiling-round
+      state: 'on'
+    light.kallen_bedroom_wall:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      icon: hue:wall-lantern
+      friendly_name: Kallen Bedroom Wall
+      supported_features: 40
+      color_mode: brightness
+      brightness: 255
+      state: 'on'
+  icon: mdi:palette
+  metadata:
+    light.kallen_bedroom_wall:
+      entity_only: false
+    light.kallen_bedroom_overhead:
+      entity_only: false
+- id: '1656027388770'
+  name: Kallen Bedroom Dimmed
+  entities:
+    light.kallen_bedroom_overhead:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      friendly_name: Kallen Bedroom Overhead
+      supported_features: 40
+      icon: hue:ceiling-round
+      color_mode: brightness
+      brightness: 76
+      state: 'on'
+    light.kallen_bedroom_wall:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      icon: hue:wall-lantern
+      friendly_name: Kallen Bedroom Wall
+      supported_features: 40
+      color_mode: brightness
+      brightness: 76
+      state: 'on'
+  icon: mdi:palette
+  metadata:
+    light.kallen_bedroom_wall:
+      entity_only: false
+    light.kallen_bedroom_overhead:
+      entity_only: false
+- id: '1656027425250'
+  name: Kallen Bedroom Nightlight
+  entities:
+    light.kallen_bedroom_overhead:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      friendly_name: Kallen Bedroom Overhead
+      supported_features: 40
+      icon: hue:ceiling-round
+      color_mode: brightness
+      brightness: 3
+      state: 'on'
+    light.kallen_bedroom_wall:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      icon: hue:wall-lantern
+      friendly_name: Kallen Bedroom Wall
+      supported_features: 40
+      color_mode: brightness
+      brightness: 3
+      state: 'on'
+  icon: mdi:palette
+  metadata:
+    light.kallen_bedroom_wall:
+      entity_only: false
+    light.kallen_bedroom_overhead:
+      entity_only: false
+- id: '1656027553033'
+  name: Kallen Bedroom Overhead Nightlight
+  entities:
+    light.kallen_bedroom_overhead:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      friendly_name: Kallen Bedroom Overhead
+      supported_features: 40
+      icon: hue:ceiling-round
+      color_mode: brightness
+      brightness: 3
+      state: 'on'
+    light.kallen_bedroom_wall:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      icon: hue:wall-lantern
+      friendly_name: Kallen Bedroom Wall
+      supported_features: 40
+      state: 'off'
+  icon: mdi:palette
+  metadata:
+    light.kallen_bedroom_wall:
+      entity_only: false
+    light.kallen_bedroom_overhead:
+      entity_only: false
+- id: '1656027588527'
+  name: Kallen Bedroom Wall Nightlight
+  entities:
+    light.kallen_bedroom_overhead:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      friendly_name: Kallen Bedroom Overhead
+      supported_features: 40
+      icon: hue:ceiling-round
+      state: 'off'
+    light.kallen_bedroom_wall:
+      supported_color_modes:
+      - brightness
+      mode: normal
+      dynamics: none
+      icon: hue:wall-lantern
+      friendly_name: Kallen Bedroom Wall
+      supported_features: 40
+      color_mode: brightness
+      brightness: 3
+      state: 'on'
+  icon: mdi:palette
+  metadata:
+    light.kallen_bedroom_wall:
+      entity_only: false
+    light.kallen_bedroom_overhead:
+      entity_only: false
