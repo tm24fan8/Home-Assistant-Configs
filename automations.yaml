@@ -321,12 +321,6 @@
         - sensor.tinas_ipad_battery_level
         - sensor.tony_s_iphone_battery_level
         - sensor.tony_s_ipad_battery_level
-        - sensor.kallen_desktop_battery_level
-        - sensor.kallen_desktop_battery_remaining
-        - sensor.tony_asus_battery_level
-        - sensor.tony_asus_battery_remaining
-        - sensor.xia_desktop_battery_level
-        - sensor.xia_desktop_battery_remaining
       actions:
       - service: script.text_notify_all
         data:
