@@ -4,7 +4,7 @@ Family:
 
 Presence Simulation:
   - light.hallway_overhead
-  - light.kallen_bedroom_light
+  - light.kallen_bedroom_lights
   - light.living_room_lights
   - light.master_bedroom_lights
   - light.mud_room_overhead

@@ -165,7 +165,7 @@ script:
           sequence:
           - service: light.turn_on
             target:
-              entity_id: light.kallen_bedroom_light
+              entity_id: light.kallen_bedroom_lights
         default: []
       - service: script.speech_engine
         data:
