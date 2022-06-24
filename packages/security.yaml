@@ -175,6 +175,9 @@ automation:
       - condition: state
         entity_id: input_boolean.guest_mode
         state: 'off'
+      - condition: time
+        after: '06:00'
+        before: '12:00'
       - condition: or
         conditions:
           - condition: state
