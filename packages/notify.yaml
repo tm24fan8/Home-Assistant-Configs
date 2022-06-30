@@ -87,6 +87,19 @@ mqtt:
     - name: "Jarvis Last Msg Time"
       state_topic: "house/polly/msgtime"
 
+group:
+  alexa_everywhere:
+    name: Alexa Everywhere
+    entities:
+      - media_player.living_room_echo_dot
+      - media_player.basement_echo_dot
+      - media_player.master_bedroom_echo_dot
+  common_areas:
+    name: Alexa Common Areas
+    entities:
+      - media_player.living_room_echo_dot
+      - media_player.basement_echo_dot
+
 notify:
   - platform: ios
   - name: all_ios
@@ -421,6 +434,8 @@ script:
 ###############################################################################
 
   speech_engine:
+    variables:
+      voice: "{{ states('input_select.jarvis_voice') }}"
     sequence:
       - service: mqtt.publish
         data_template:
@@ -488,11 +503,17 @@ script:
           who: '{{ who }}'
           message: >
             {{ message }}
-      - service: >-
+          voice: '{{ voice }}'
+      - condition: template
+        value_template: >
           {% if who in ['Everywhere','everywhere'] %}
-            {% set who = 'everywhere' %}
-            script.jarvis_voice
+            true
+          {% else %}
+            false
           {% endif %}
+      - service: >-
+          {% set who = 'everywhere' %}
+            script.jarvis_voice
         data:
           who: '{{ who }}'
           message: >
@@ -563,63 +584,32 @@ script:
   # Called wheh notification needs to play on echos
   alexa_voice:
     sequence:
-    # - service: media_player.turn_on
-    #   data_template:
-    #     entity_id: >-
-    #       {% if who in ['living_room_echo_dot', 'media_player.living_room_echo_dot','living_room'] %}
-    #         media_player.living_room_echo_dot
-    #       {% elif who in ['master_bedroom','master_bedroom_echo_dot'] %}
-    #         media_player.master_bedroom_echo_dot
-    #       {% elif who in ['basement','basement_echo_dot'] %}
-    #         media_player.basement_echo_dot
-    #       {% elif who in ['Everywhere','everywhere'] %}
-    #         - media_player.basement_echo_dot
-    #         - media_player.living_room_echo_dot
-    #         - media_player.master_bedroom_echo_dot
-    #       {% else %}
-    #         media_player.living_room_echo_dot
-    #       {% endif %}
-    # - service: media_player.volume_set
-    #   data_template:
-    #     entity_id: >-
-    #       {% if who in ['living_room_echo_dot', 'media_player.living_room_echo_dot','living_room'] %}
-    #         media_player.living_room_echo_dot
-    #       {% elif who in ['master_bedroom','master_bedroom_echo_dot'] %}
-    #         media_player.master_bedroom_echo_dot
-    #       {% elif who in ['basement','basement_echo_dot'] %}
-    #         media_player.basement_echo_dot
-    #       {% elif who in ['Everywhere','everywhere'] %}
-    #         - media_player.basement_echo_dot
-    #         - media_player.living_room_echo_dot
-    #         - media_player.master_bedroom_echo_dot
-    #       {% else %}
-    #         media_player.living_room_echo_dot
-    #       {% endif %}
-    #     volume_level: >-
-    #         {% if is_state('input_boolean.audible_notifications.state','on') %}
-    #           .7
-    #         {% else %}
-    #           .3
-    #         {% endif %}
-    - service: >-
-        {% if who in ['living_room_echo_dot', 'media_player.living_room_echo_dot','living_room'] %}
-          notify.alexa_media_living_room_echo_dot
-        {% elif who in ['master_bedroom','master_bedroom_echo_dot'] %}
-          notify.alexa_media_master_bedroom_echo_dot
-        {% elif who in ['basement','basement_echo_dot'] %}
-          notify.alexa_media_basement_echo_dot
-        {% elif who in ['common'] %}
-          notify.alexa_common_areas
-        {% elif who in ['Everywhere','everywhere'] %}
-          notify.alexa_everywhere
-        {% else %}
-          notify.alexa_media_living_room_echo_dot
-        {% endif %}
-      data: 
-          message: >
-            {{ message }}
-          data:
-            type: tts
+    - service: notify.alexa_media
+      data:
+        message: >
+          <voice name="{{ voice }}">
+          <amazon:auto-breaths>
+          <prosody rate="fast">
+          {{ message }}
+          </prosody>
+          </amazon:auto-breaths>
+          </voice>
+        target: >
+          {% if who in ['living_room_echo_dot', 'media_player.living_room_echo_dot','living_room'] %}
+            media_player.living_room_echo_dot
+          {% elif who in ['master_bedroom','master_bedroom_echo_dot'] %}
+            media_player.master_bedroom_echo_dot
+          {% elif who in ['basement','basement_echo_dot'] %}
+            media_player.basement_echo_dot
+          {% elif who in ['common'] %}
+            group.common_areas
+          {% elif who in ['Everywhere','everywhere'] %}
+            group.alexa_everywhere
+          {% else %}
+            media_player.living_room_echo_dot
+          {% endif %}
+        data:
+          type: tts
 
   # Default audible notifications. Notifcations play on the google devices. 
   jarvis_voice:

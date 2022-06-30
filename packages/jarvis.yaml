@@ -12,6 +12,15 @@ input_boolean:
     name: House Party Switch
     icon: mdi:party-popper
 
+input_select:
+  jarvis_voice:
+    name: Jarvis voice
+    options:
+      - Brian
+      - Emma
+      - Joanna
+    initial: Brian
+
 # automation:
 #   - id: house_party_protocol_on
 #     alias: Turn On House Party Protocol

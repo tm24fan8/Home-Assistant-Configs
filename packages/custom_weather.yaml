@@ -898,3 +898,10 @@ script:
         entity_id: sensor.flood_warning
       - service: homeassistant.update_entity
         entity_id: sensor.flood_watch
+
+  weather_briefing:
+    sequence:
+    - service: script.speech_engine
+      data_template:
+        who: "{{ who }}"
+        message: !include ../templates/speech/weather_briefing_full.yaml
