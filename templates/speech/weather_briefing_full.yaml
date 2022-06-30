@@ -1,6 +1,6 @@
 >
   {# Weather Briefing #}
-  {%- macro getReport -%}
+  {%- macro getReport() -%}
 
     <p>
       {{ states('sensor.current_conditions_detail') }}
