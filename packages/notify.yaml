@@ -491,11 +491,16 @@ script:
           message: >
             {{ message }}
           voice: '{{ voice }}'
-      - service: >-
+      - condition: template
+        value_template: >
           {% if who in ['Everywhere','everywhere'] %}
-            {% set who = 'everywhere' %}
-            script.jarvis_voice
+            true
+          {% else %}
+            false
           {% endif %}
+      - service: >-
+          {% set who = 'everywhere' %}
+            script.jarvis_voice
         data:
           who: '{{ who }}'
           message: >
