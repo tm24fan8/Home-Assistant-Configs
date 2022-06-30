@@ -87,6 +87,19 @@ mqtt:
     - name: "Jarvis Last Msg Time"
       state_topic: "house/polly/msgtime"
 
+group:
+  alexa_everywhere:
+    name: Alexa Everywhere
+    entities:
+      - media_player.living_room_echo_dot
+      - media_player.basement_echo_dot
+      - media_player.master_bedroom_echo_dot
+  common_areas:
+    name: Alexa Common Areas
+    entities:
+      - media_player.living_room_echo_dot
+      - media_player.basement_echo_dot
+
 notify:
   - platform: ios
   - name: all_ios
