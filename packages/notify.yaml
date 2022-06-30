@@ -343,6 +343,31 @@ script:
           #     category: '{{ ios_category }}'
           #   entity_id: '{{ camera_entity }}'
 
+  text_urgent_alert:
+    sequence:
+      - service: >
+          {% if who == 'tony' %}
+            notify.ios_tony
+          {% elif who == 'tina' %}
+            notify.ios_tina
+          {% elif who == 'kallen' %}
+            notify.ios_kallen
+          {% elif who == 'parents' %}
+            notify.ios_parents
+          {% elif who == 'nerds' %}
+            notify.ios_nerds
+          {% else %}
+            notify.all_ios
+          {% endif %}
+        data:
+          title: "{{ title }}"
+          message: "{{ message }}"
+          data:
+            push:
+              sound:
+                name: default
+                critical: 1
+
 ###############################################################################
 # Alert Notify
 # Conditions:
