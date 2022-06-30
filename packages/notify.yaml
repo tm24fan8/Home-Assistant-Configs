@@ -569,7 +569,7 @@ script:
     - service: notify.alexa_media
       data:
         message: >
-          <voice name="{{ voice }}"
+          <voice name="{{ voice }}">
           <amazon:auto-breaths>
           <prosody rate="fast">
           {{ message }}
