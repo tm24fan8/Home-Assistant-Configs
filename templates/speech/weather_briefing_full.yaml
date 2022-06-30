@@ -1,0 +1,30 @@
+>
+  {# Weather Briefing #}
+  {%- macro getReport -%}
+
+    <p>
+      {{ states('sensor.current_conditions_detail') }}
+    </p>
+    <p>
+      {{ states('sensor.tomorrow_forecast_detail') }}
+    </p>
+    <p>
+      {{ states('sensor.clothing_forecast_detail') }}
+    </p>
+
+  {%- endmacro -%}
+
+
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+    {%- macro cleanup(data) -%}
+      {%- for item in data.split("\n")  if item | trim != "" -%}
+        {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+
+  {# a macro to call all macros :)  #}
+    {%- macro mother_of_all_macros() -%}
+      {{ getReport() }}
+    {%- endmacro -%}
+    
+    {# Call the macro  #}
+    {{- cleanup(mother_of_all_macros()) -}}
