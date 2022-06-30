@@ -175,7 +175,7 @@ sensor:
             {% elif is_state('sensor.last_alexa', 'media_player.master_bedroom_echo_dot') %}
               Master Bedroom Echo Dot
             {% else %}
-              Everywhere
+              Living Room Echo Dot
             {%- endif %}
       last_alexa:
         value_template: >
