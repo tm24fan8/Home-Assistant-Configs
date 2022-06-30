@@ -586,12 +586,17 @@ script:
           {% elif who in ['common'] %}
             media_player.common_areas
           {% elif who in ['Everywhere','everywhere'] %}
-            media_player.alexa_everywhere
+            media_player.everywhere
           {% else %}
             media_player.living_room_echo_dot
           {% endif %}
         data:
-          type: tts
+          type: >
+            {% if who in ['common','Everywhere','everywhere'] %}
+              announce
+            {% else %}
+              tts
+            {% endif %}
 
   # Default audible notifications. Notifcations play on the google devices. 
   jarvis_voice:
