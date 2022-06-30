@@ -421,6 +421,8 @@ script:
 ###############################################################################
 
   speech_engine:
+    variables:
+      voice: "{{ states('input_select.jarvis_voice') }}"
     sequence:
       - service: mqtt.publish
         data_template:
@@ -488,7 +490,7 @@ script:
           who: '{{ who }}'
           message: >
             {{ message }}
-          voice: "{{ states('input_select.jarvis_voice') }}"
+          voice: '{{ voice }}'
       - service: >-
           {% if who in ['Everywhere','everywhere'] %}
             {% set who = 'everywhere' %}
