@@ -576,9 +576,7 @@ script:
         message: >
           <voice name="{{ voice }}">
           <amazon:auto-breaths>
-          <prosody rate="fast">
           {{ message }}
-          </prosody>
           </amazon:auto-breaths>
           </voice>
         target: >
