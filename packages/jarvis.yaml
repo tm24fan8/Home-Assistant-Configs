@@ -14,11 +14,15 @@ input_boolean:
 
 input_select:
   jarvis_voice:
-    name: Jarvis voice
+    name: Jarvis Voice
     options:
       - Brian
       - Emma
       - Joanna
+      - Amy
+      - Justin
+      - Matthew
+      - Salli
     initial: Brian
 
 # automation:
