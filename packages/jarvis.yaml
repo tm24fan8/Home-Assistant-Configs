@@ -24,6 +24,7 @@ input_select:
       - Matthew
       - Salli
     initial: Brian
+    icon: mdi:account-voice
 
 # automation:
 #   - id: house_party_protocol_on
