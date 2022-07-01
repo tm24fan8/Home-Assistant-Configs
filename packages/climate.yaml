@@ -55,3 +55,26 @@ input_boolean:
   kallen_bedtime_protocol:
     name: Kallen Bedtime Protocol
     icon: mdi:lightbulb-night
+
+input_number:
+  master_bedroom_daytime_temp:
+    name: Master Bedroom Daytime Temp
+    min: 60
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
+  master_bedroom_night_temp:
+    name: Master Bedroom Night Temp
+    min: 60
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
+  master_bedroom_bedtime_temp:
+    name: Master Bedroom Bedtime Temp
+    min: 60
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
