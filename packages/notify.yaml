@@ -903,6 +903,18 @@ script:
                   ] | random}} 
             {% endmacro %}
 
+            {% macro ha_started() %}
+              <p>
+              {{ [
+                  'All systems are operational again. ',
+                  'I am back, sir. Not to worry. ',
+                  'I am back online. Nice to see you, sir. ',
+                  'Your home assistant is back online, sir. ',
+                  'My systems are back online. Hello, sir. '
+                  ] | random }}
+              </p>
+            {% endmacro %}
+
             {%- macro snark_door_motion() -%}
               {{ [
                 'Do you want me to send them away?',

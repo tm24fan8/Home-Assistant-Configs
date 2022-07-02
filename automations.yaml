@@ -296,6 +296,11 @@
       target:
         entity_id:
         - switch.presence_simulation
+      data: {}
+    - service: script.status_annc
+      data_template:
+        who: basement
+        call_ha_started: 1
   - if:
     - condition: trigger
       id: hass_stop
