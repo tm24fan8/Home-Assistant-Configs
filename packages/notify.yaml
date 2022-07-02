@@ -869,7 +869,7 @@ script:
 
             {% macro freeze_warning() %}
               {% if is_state('input_boolean.freeze_warning','on') %}
-              { [ 'It appears that it will be cold tonight. Like, the turn water solid kind of cold. Think of the poor plants.',
+              {{ [ 'It appears that it will be cold tonight. Like, the turn water solid kind of cold. Think of the poor plants.',
                 'I would say winter is coming. But, based on the weather forecast it appears to be here.',
                 'It will be freezing cold tonight. I would bring in the plants but I lack legs. And Arms. So I am forced to rely on you. Do not let me down.'
               ] | random }}
