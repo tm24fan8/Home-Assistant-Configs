@@ -42,6 +42,7 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [Blitzortung Lightning Detector](https://github.com/mrk-its/homeassistant-blitzortung)
 - [LIFX Beta](https://github.com/Djelibeybi/ha-lifx-beta)
 - [Midea Air Conditioning](https://github.com/mac-zhou/midea-ac-py)
+- [WeatherAPI](https://github.com/iprak/weatherapi)
 
 ## HACS Lovelace Cards
 
