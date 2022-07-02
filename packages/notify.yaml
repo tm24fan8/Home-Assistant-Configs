@@ -73,9 +73,6 @@ input_boolean:
   welcome_home:
     name: Welcome Home
     icon: mdi:human-greeting
-  debug_texts:
-    name: Debug Texts
-    icon: mdi:debug-step-over
 
 # Amazon Polly Sensors to see last message and location of audible notification
 mqtt:
@@ -167,17 +164,6 @@ script:
   text_notify_all:
     sequence:
       - service: notify.all_ios
-        data_template:
-          title: '{{ title }}'
-          message: >
-            {{ message }}
-
-  text_debug:
-    sequence:
-      - condition: state
-        entity_id: input_boolean.debug_texts
-        state: 'on'
-      - service: notify.ios_tony
         data_template:
           title: '{{ title }}'
           message: >
