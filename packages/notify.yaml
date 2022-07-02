@@ -974,6 +974,10 @@ script:
                 {{ interuption() }}
               {% endif %}
 
+              {% if call_ha_started == 1 %}
+                {{ ha_started() }}
+              {% endif %}
+
               {% if call_issue == 1 %}
                 {{ issue() }}
               {% endif %}
