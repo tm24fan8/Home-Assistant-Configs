@@ -91,6 +91,7 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Mini Climate Card](https://github.com/artem-sedykh/mini-climate-card)
 - [Slider Entity Row](https://github.com/thomasloven/lovelace-slider-entity-row)
 - [Number Box](https://github.com/htmltiger/numberbox-card)
+- [Swiss Army Knife Card](https://github.com/AmoebeLabs/swiss-army-knife-card)
 
 ## AppDaemon Apps
 
