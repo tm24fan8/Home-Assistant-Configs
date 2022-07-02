@@ -88,6 +88,8 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Time Picker Card](https://github.com/GeorgeSG/lovelace-time-picker-card)
 - [Fold Entity Row](https://github.com/thomasloven/lovelace-fold-entity-row)
 - [Mini Climate Card](https://github.com/artem-sedykh/mini-climate-card)
+- [Slider Entity Row](https://github.com/thomasloven/lovelace-slider-entity-row)
+- [Number Box](https://github.com/htmltiger/numberbox-card)
 
 ## AppDaemon Apps
 
