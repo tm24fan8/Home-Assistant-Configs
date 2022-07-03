@@ -863,6 +863,17 @@ script:
               </p>
             {% endmacro %}
 
+            {% macro dinner_is_ready() %}
+              <p>
+              {{ [
+                'Dinner is served!',
+                'A lovely dinner has been prepared, come eat it!',
+                'I have prepared dinner for you all! <break time="2s"/> Just kidding, I have no arms. But it is ready!',
+                'Do you like eating? Me too! Come get your dinner!',
+                'Tony may have forgotten to eat <break time="1s"/> again <break time="1s"/> but dinner has indeed been served!'
+                ] | random }}
+              </p>
+            {% endmacro %}
 
             {% macro lightning_alert() %}
                 {{ [
@@ -987,6 +998,10 @@ script:
 
               {% if call_interuption == 1 %}
                 {{ interuption() }}
+              {% endif %}
+
+              {% if dinner_is_ready == 1 %}
+                {{ dinner_is_ready() }}
               {% endif %}
 
               {% if call_ha_started == 1 %}
