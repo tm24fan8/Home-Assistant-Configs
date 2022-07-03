@@ -928,7 +928,7 @@ script:
 
             {%- macro snark_door_open() -%}
               {{ [
-                'Would you like me to calulate how much air condition is being wasted? Spoiler Alert. You are not going to like the answer.',
+                'Would you like me to calulate how much air conditioning is being wasted? Spoiler Alert, you are not going to like the answer.',
                 'I have detected a large number of insects entering the house.',
                 'Can a human be so kind and close it?',
                 'The air quality in this house has actually improved.',
