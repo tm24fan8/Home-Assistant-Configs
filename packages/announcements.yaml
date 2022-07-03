@@ -194,3 +194,10 @@ script:
       data_template:
         who: "{{ who }}"
         message: !include ../templates/speech/morning_briefing.yaml
+
+  dinner_is_ready:
+    sequence:
+    - service: script.status_annc
+      data_template:
+        who: 'everywhere'
+        call_dinner_is_ready: 1
