@@ -926,6 +926,17 @@ script:
               </p>
             {% endmacro %}
 
+            {%- macro snark_doorbell() -%}
+              {{ [
+                'Someone is at the door. Do you want me to send them away?',
+                'There is someone at the door. I have armed the lasers. Just say the word.',
+                'Someone is at the front door. I was not informed there would be guests.',
+                'Someone is at the door. They do not appear to have any gifts, so I suggest we do not open it.',
+                'My sensors have detected a meat popsicle at the front door.',
+                'Someone seems to be at the door. I do not think they can hear me.'
+                ] | random }}
+            {%- endmacro -%}
+
             {%- macro snark_door_motion() -%}
               {{ [
                 'Do you want me to send them away?',
@@ -1039,6 +1050,10 @@ script:
               {{ welcome_home }}  
 
               {{ speech_message }}
+
+              {% if call_snark_doorbell == 1 %}
+                {{ snark_doorbell() }}
+              {% endif %}
 
               {% if call_snark_door_motion == 1 %}
                 {{ snark_door_motion() }}
