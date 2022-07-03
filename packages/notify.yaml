@@ -832,6 +832,21 @@ script:
               </p>
             {% endmacro %}
 
+            {% macro time_for_bed() %}
+              <p>
+              'Message for Kallen!'
+              {{ [
+                  '<say-as interpret-as="interjection">ahem!</say-as> Its time for bed sir. ',
+                  'Its time for bed sir. ',
+                  'Its that time again sir. ',
+                  'Its time for bed. ',
+                  'Its time for bed. <break time="2s"/> Yup, this is my job now. ',
+                  'Its time for bed sir <break time="2s"/> I like this job. ',
+                  'Its time for bed sir <break time="2s"/> or just stay up forever. What do I care? '
+                  ] | random }}
+              </p>
+            {% endmacro %}
+
             {% macro issue() %}
               <p>
               {{ [
