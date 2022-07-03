@@ -1015,6 +1015,10 @@ script:
                 {{ dinner_is_ready() }}
               {% endif %}
 
+              {% if call_time_for_bed == 1 %}
+                {{ time_for_bed() }}
+              {% endif %}
+
               {% if call_ha_started == 1 %}
                 {{ ha_started() }}
               {% endif %}
