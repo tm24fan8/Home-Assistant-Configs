@@ -1011,7 +1011,7 @@ script:
                 {{ interuption() }}
               {% endif %}
 
-              {% if dinner_is_ready == 1 %}
+              {% if call_dinner_is_ready == 1 %}
                 {{ dinner_is_ready() }}
               {% endif %}
 
