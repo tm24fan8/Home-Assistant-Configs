@@ -1,0 +1,9 @@
+intent_script:
+  ActivateSceneIntent:
+    action:
+      service: scene.turn_on
+      target:
+        entity_id: scene.{{ Scene | replace(" ","_") }}
+    speech:
+      type: plain
+      text: "Scene is set to {{ Scene }}"
