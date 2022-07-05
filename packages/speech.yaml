@@ -6,7 +6,6 @@ script:
         data:
           who: '{{ who }}'
           message: >-
-
             {% macro greeting() %}
               <p>
               {% if now().strftime('%H')|int < 12%}
