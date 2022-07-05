@@ -7,11 +7,6 @@
 #   @description    :   Bringing some Jarvis to Home Assistant
 ###############################################################################
 
-input_boolean:
-  house_party_protocol_switch:
-    name: House Party Switch
-    icon: mdi:party-popper
-
 input_select:
   jarvis_voice:
     name: Jarvis Voice
@@ -26,60 +21,7 @@ input_select:
     initial: Brian
     icon: mdi:account-voice
 
-# automation:
-#   - id: house_party_protocol_on
-#     alias: Turn On House Party Protocol
-#     initial_state: true
-#     trigger:
-#     - platform: state
-#       entity_id: input_boolean.house_party_protocol_switch
-#       to: 'on'
-#     action:
-#     - delay: 00:00:05
-#     - service: homeassistant.turn_on
-#       entity_id: group.incense
-#     - service: script.status_annc
-#       data_template:
-#         who: '{{ states.sensor.room_presence.state }}'
-#         call_house_party_protocol_enabled: 1
-  
-#   - id: house_party_protocol_off
-#     alias: Turn Off House Party Protocol
-#     initial_state: true
-#     trigger:
-#     - platform: state
-#       entity_id: input_boolean.house_party_protocol_switch
-#       to: 'off'
-#     action:
-#     - delay: 00:00:05
-#     - service: homeassistant.turn_off
-#       entity_id: group.incense
-#     - service: script.status_annc
-#       data_template:
-#         who: '{{ states.sensor.room_presence.state }}'
-#         call_house_party_protocol_disabled: 1
-
 script:
-  # house_party_protocol_on:
-  #   sequence:
-  #     - delay: 00:00:05
-  #     - service: homeassistant.turn_on
-  #       entity_id: group.incense
-  #     - service: script.status_annc
-  #       data_template:
-  #         who: '{{ states.sensor.room_presence.state }}'
-  #         call_house_party_protocol_enabled: 1
-
-  # house_party_protocol_off:
-  #   sequence:
-  #     - delay: 00:00:05
-  #     - service: homeassistant.turn_off
-  #       entity_id: group.incense
-  #     - service: script.status_annc
-  #       data_template:
-  #         who: '{{ states.sensor.room_presence.state }}'
-  #         call_house_party_protocol_disabled: 1
-
   alexa_interjection:
     sequence:
       - service: script.status_annc
