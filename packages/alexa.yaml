@@ -1,9 +1,10 @@
 intent_script:
   ActivateSceneIntent:
     action:
-      service: scene.turn_on
+      service: input_select.select_option
       target:
-        entity_id: scene.{{ Scene | replace(" ","_") }}
+        entity_id: input_select.{{ Room | replace(" ","_") }}_scenes
+      data:
+        option: "{{ Scene }}"
     speech:
-      type: plain
       text: "Scene is set to {{ Scene }}"
