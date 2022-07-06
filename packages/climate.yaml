@@ -59,6 +59,9 @@ input_boolean:
   master_bedroom_aircon_installed:
     name: Master Bedroom Aircon Installed
     icon: mdi:tools
+  # Used internally for automations to know if cooling time has passed or not
+  master_bedroom_cooling_on:
+    name: Master Bedroom Cooling On
 
 input_number:
   master_bedroom_daytime_temp:
