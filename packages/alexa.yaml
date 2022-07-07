@@ -11,7 +11,7 @@ intent_script:
       target:
         entity_id: input_select.{{ Room | replace(" ","_") }}_scenes
       data:
-        option: "{{ Scene }}"
+        option: "{{ Scene | title }}"
     speech:
       text: "Scene is set to {{ Scene }}"
 
