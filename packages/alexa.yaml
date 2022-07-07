@@ -11,39 +11,65 @@ intent_script:
       target:
         entity_id: input_select.{{ Room | replace(" ","_") }}_scenes
       data:
-        option: "{{ Scene }}"
+        option: "{{ Scene | title }}"
     speech:
       text: "Scene is set to {{ Scene }}"
 
 automation:
-  # Examples for testing
+  - id: 31169983-7a5d-4533-a5f7-172a36339931
+    alias: Furnace Room Light Reminder
+    trigger:
+      platform: state
+      entity_id: light.furnace_room_overhead
+      to: "on"
+      for:
+        minutes: 15
+    action:
+      - service: script.activate_alexa_actionable_notification
+        data_template:
+          text: 'The furnace room light is on, should I turn it off?'
+          event_id: 'actionable_notification_furnace_room_light_on'
+          alexa_device: 'media_player.basement_echo_dot'
 
-  # - id: 31169983-7a5d-4533-a5f7-172a36339931
-  #   alias: Furnace Room Light Reminder
-  #   trigger:
-  #     platform: state
-  #     entity_id: light.furnace_room_overhead
-  #     to: "on"
-  #     for:
-  #       seconds: 5
-  #   action:
-  #     - service: script.activate_alexa_actionable_notification
-  #       data_template:
-  #         text: 'The furnace room light is on, should I turn it off?'
-  #         event_id: 'actionable_notification_furnace_room_light_on'
-  #         alexa_device: 'media_player.basement_echo_dot'
+  - id: 28a97594-eba9-4bcc-afa4-c161b87fa065
+    alias: Turn off Furnace Room Light via Actionable Notification
+    trigger:
+      platform: event
+      event_type: alexa_actionable_notification
+      event_data:
+        event_id: actionable_notification_furnace_room_light_on
+        event_response_type: ResponseYes
+    action:
+      - service: light.turn_off
+        entity_id: light.furnace_room_overhead
 
-  # - id: 28a97594-eba9-4bcc-afa4-c161b87fa065
-  #   alias: Turn off Furnace Room Light via Actionable Notification
-  #   trigger:
-  #     platform: event
-  #     event_type: alexa_actionable_notification
-  #     event_data:
-  #       event_id: actionable_notification_furnace_room_light_on
-  #       event_response_type: ResponseYes
-  #   action:
-  #     - service: light.turn_off
-  #       entity_id: light.furnace_room_overhead
+  - id: 922740c8-0c23-4e71-81a8-f88de8b2a8ae
+    alias: Shut down computer at end of night
+    trigger:
+      - platform: event
+        event_type: alexa_actionable_notification
+        event_data:
+          event_id: actionable_notification_shutdown_computer
+          event_response_type: ResponseYes
+        id: shutdown_yes
+      - platform: event
+        event_type: alexa_actionable_notification
+        event_data:
+          event_id: actionable_notification_shutdown_computer
+          event_response_type: ResponseNo
+        id: shutdown_no
+    action:
+    - if:
+      - condition: trigger
+        id: shutdown-yes
+      then:
+        - service: script.tony_desktop_shutdown
+    - if:
+      - condition: trigger
+        id: shutdown-no
+      then:
+        - service: script.tony_desktop_lock
+
 
 script:
   activate_alexa_actionable_notification:
