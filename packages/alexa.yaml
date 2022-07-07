@@ -43,6 +43,34 @@ automation:
       - service: light.turn_off
         entity_id: light.furnace_room_overhead
 
+  - id: 922740c8-0c23-4e71-81a8-f88de8b2a8ae
+    alias: Shut down computer at end of night
+    trigger:
+      - platform: event
+        event_type: alexa_actionable_notification
+        event_data:
+          event_id: actionable_notification_shutdown_computer
+          event_response_type: ResponseYes
+        id: shutdown_yes
+      - platform: event
+        event_type: alexa_actionable_notification
+        event_data:
+          event_id: actionable_notification_shutdown_computer
+          event_response_type: ResponseNo
+        id: shutdown_no
+    action:
+    - if:
+      - condition: trigger
+        id: shutdown-yes
+      then:
+        - service: script.tony_desktop_shutdown
+    - if:
+      - condition: trigger
+        id: shutdown-no
+      then:
+        - service: script.tony_desktop_lock
+
+
 script:
   activate_alexa_actionable_notification:
     description: 'Activates an actionable notification on a specific echo device'
