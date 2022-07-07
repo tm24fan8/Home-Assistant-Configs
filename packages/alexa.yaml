@@ -1,3 +1,9 @@
+input_text:
+  alexa_actionable_notification:
+    name: Alexa Actionable Notification Holder
+    max: 255
+    initial: '{"text": "This is a test of the alexa actions custom skill. Did it work?", "event": "actionable.skill.test"}'
+
 intent_script:
   ActivateSceneIntent:
     action:
@@ -8,3 +14,57 @@ intent_script:
         option: "{{ Scene }}"
     speech:
       text: "Scene is set to {{ Scene }}"
+
+automation:
+  # Examples for testing
+
+  # - id: 31169983-7a5d-4533-a5f7-172a36339931
+  #   alias: Furnace Room Light Reminder
+  #   trigger:
+  #     platform: state
+  #     entity_id: light.furnace_room_overhead
+  #     to: "on"
+  #     for:
+  #       seconds: 5
+  #   action:
+  #     - service: script.activate_alexa_actionable_notification
+  #       data_template:
+  #         text: 'The furnace room light is on, should I turn it off?'
+  #         event_id: 'actionable_notification_furnace_room_light_on'
+  #         alexa_device: 'media_player.basement_echo_dot'
+
+  # - id: 28a97594-eba9-4bcc-afa4-c161b87fa065
+  #   alias: Turn off Furnace Room Light via Actionable Notification
+  #   trigger:
+  #     platform: event
+  #     event_type: alexa_actionable_notification
+  #     event_data:
+  #       event_id: actionable_notification_furnace_room_light_on
+  #       event_response_type: ResponseYes
+  #   action:
+  #     - service: light.turn_off
+  #       entity_id: light.furnace_room_overhead
+
+script:
+  activate_alexa_actionable_notification:
+    description: 'Activates an actionable notification on a specific echo device'
+    fields:
+      text:
+        description: 'The text you would like alexa to speak.'
+        example: 'What would you like your thermostat set to?'
+      event_id:
+        description: 'Correlation ID for event responses'
+        example: 'ask_for_temperature'
+      alexa_device:
+        description: 'Alexa device you want to trigger'
+        example: 'media_player.bedroom_echo'
+    sequence:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.alexa_actionable_notification
+          value: '{"text": "{{ text }}", "event": "{{ event_id }}"}'
+      - service: media_player.play_media
+        data:
+          entity_id: "{{ alexa_device }}"
+          media_content_type: skill
+          media_content_id: !secret alexa_actionable_notifications_skill_key
