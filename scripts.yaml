@@ -219,6 +219,11 @@ going_upstairs:
       - input_select.living_room_scenes
   - service: input_boolean.turn_on
     entity_id: input_boolean.night_mode
+  - service: script.activate_alexa_actionable_notification
+    data_template:
+      text: 'Would you like me to shut down your computer?'
+      event_id: 'actionable_notification_shutdown_computer'
+      alexa_device: 'media_player.basement_echo_dot'
   - delay:
       hours: 0
       minutes: 2
@@ -229,11 +234,6 @@ going_upstairs:
       option: Side Nightlight
     target:
       entity_id: input_select.master_bedroom_scenes
-  - service: script.activate_alexa_actionable_notification
-    data_template:
-      text: 'Would you like me to shut down your computer?'
-      event_id: 'actionable_notification_shutdown_computer'
-      alexa_device: 'media_player.basement_echo_dot'
   mode: single
   icon: hue:room-stairs
 basement_on:
