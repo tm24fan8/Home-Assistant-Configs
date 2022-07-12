@@ -64,5 +64,9 @@ browser_mod:
       name: tony-ipad
       disable:
         - light
+    ccd56bc7-f503dc1d:
+      name: basement-server-chrome
+      disable:
+        - light
   disable:
     - all
