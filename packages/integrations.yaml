@@ -54,7 +54,15 @@ browser_mod:
   devices:
     ef49c07d-8abdac9b:
       name: tony-desktop
+      disable:
+        - light
     cf65bab4-04f90b5d:
       name: tony-iphone
+      disable:
+        - light
     4a47f605-88b675e3:
       name: tony-ipad
+      disable:
+        - light
+  disable:
+    - all
