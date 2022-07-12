@@ -49,3 +49,5 @@ thermal_comfort:
         humidity_sensor: sensor.pirateweather_humidity
 
 alexa:
+
+browser_mod:
