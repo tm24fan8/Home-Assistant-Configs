@@ -43,6 +43,7 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [LIFX Beta](https://github.com/Djelibeybi/ha-lifx-beta)
 - [Midea Air Conditioning](https://github.com/mac-zhou/midea-ac-py)
 - [WeatherAPI](https://github.com/iprak/weatherapi)
+- [Browser Mod](https://github.com/thomasloven/hass-browser_mod)
 
 ## HACS Lovelace Cards
 
