@@ -1,3 +1,6 @@
 tts_message:
   name: TTS Message
   initial: Type your message here
+report_system:
+  name: Report System
+  initial: Type your report here

@@ -29,3 +29,10 @@ router_stats:
     - History Stats - Upload
   initial: Current Stats
   icon: mdi:router
+report_type:
+  name: Report Type
+  options:
+    - Bug Report
+    - New Idea
+  initial: Bug Report
+  icon: mdi:bug
