@@ -104,6 +104,7 @@ This is a new adventure so we'll see where it ends up going, but so far I am usi
 - [Spotify Mood Lights Sync](https://github.com/NiklasReiche/ad-spotify-mood-lights-sync)
 - [Media Player Lights Sync](https://github.com/ericmatte/ad-media-lights-sync)
 - [Count Domain Entities](https://github.com/Petro31/ad_count_entities)
+- [Wasp In A Box](https://github.com/wernerhp/ha.appdaemon.wasp)
 
 ## Themes/Icons
 
