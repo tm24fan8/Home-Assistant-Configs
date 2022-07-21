@@ -1,3 +1,25 @@
+mqtt:
+  sensor:
+    - name: "Tina Desktop - Storage C Temperature"
+      state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/storages/ct1000p1ssd8/temperatue"
+      unit_of_measurement: 'C'
+      icon: mdi:thermometer
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/xia-desktop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "Tina Desktop - Storage D Temperature"
+      state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/storages/san-disk_ssd_plus_240gb/temperatue"
+      unit_of_measurement: 'C'
+      icon: mdi:thermometer
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/xia-desktop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
 script:
   tina_desktop_wake:
     # To enable see https://www.home-assistant.io/components/wake_on_lan/

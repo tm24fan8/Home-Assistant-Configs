@@ -20,6 +20,46 @@ mqtt:
       payload_not_available: "OFF"
       qos: 1
 
+    - name: "Tony Desktop - Storage C Temperature"
+      state_topic: "iotlink/workgroup/tony-asus/monitor/stats/storages/ct1000p1ssd8/temperatue"
+      unit_of_measurement: 'C'
+      icon: mdi:thermometer
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/tony-asus/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "Tony Desktop - Storage S Temperature"
+      state_topic: "iotlink/workgroup/tony-asus/monitor/stats/storages/san-disk_sd8sb8u512g1002/temperatue"
+      unit_of_measurement: 'C'
+      icon: mdi:thermometer
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/tony-asus/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "Tony Desktop - Storage V Temperature"
+      state_topic: "iotlink/workgroup/tony-asus/monitor/stats/storages/wdc__wdbnce0010pnc/temperatue"
+      unit_of_measurement: 'C'
+      icon: mdi:thermometer
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/tony-asus/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "Tony Desktop - Storage E Temperature"
+      state_topic: "iotlink/workgroup/tony-asus/monitor/stats/storages/wdc_wd20earx-00pasb0/temperatue"
+      unit_of_measurement: 'C'
+      icon: mdi:thermometer
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/tony-asus/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
     - name: "Tony Desktop - Memory Usage"
       state_topic: "iotlink/workgroup/tony-asus/monitor/stats/memory/load/memory"
       unit_of_measurement: '%'
