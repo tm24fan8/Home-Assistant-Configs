@@ -19,8 +19,6 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [Weatheralerts](https://github.com/custom-components/weatheralerts)
 - [Spotcast](https://github.com/fondberg/spotcast)
 - [iCloud3](https://github.com/gcobb321/icloud3)
-- [Average Sensor](https://github.com/Limych/ha-average)
-- [Discord Game](https://github.com/LordBoos/discord_game)
 - [Mail and Packages](https://github.com/moralmunky/Home-Assistant-Mail-And-Packages)
 - [Scheduler](https://github.com/nielsfaber/scheduler-component)
 - [Anniversaries](https://github.com/pinkywafer/Anniversaries)
@@ -56,7 +54,6 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Spotify Lovelace Card](https://github.com/custom-cards/spotify-card)
 - [Surveillance Card](https://github.com/custom-cards/surveillance-card)
 - [Lovelace Home Feed Card](https://github.com/gadgetchnnel/lovelace-home-feed-card)
-- [Restriction Card](https://github.com/iantrich/restriction-card)
 - [Mini Graph Card](https://github.com/kalkih/mini-graph-card)
 - [Battery State Card](https://github.com/maxwroc/battery-state-card)
 - [Timer Bar Card](https://github.com/rianadon/timer-bar-card)
@@ -93,7 +90,6 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Mini Climate Card](https://github.com/artem-sedykh/mini-climate-card)
 - [Slider Entity Row](https://github.com/thomasloven/lovelace-slider-entity-row)
 - [Number Box](https://github.com/htmltiger/numberbox-card)
-- [Swiss Army Knife Card](https://github.com/AmoebeLabs/swiss-army-knife-card)
 - [Platinum Weather Card](https://github.com/Makin-Things/platinum-weather-card)
 
 ## AppDaemon Apps
