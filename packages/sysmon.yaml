@@ -3,3 +3,42 @@ sensor:
     name: Lines of Code
     command: "find /config -name '*.yaml' | xargs cat | wc -l"
     scan_interval: 20000
+
+  - platform: template
+    sensors:
+      min_ping:
+        friendly_name: "Min Ping"
+        value_template: "{{ state_attr('binary_sensor.internet','round_trip_time_min') }}"
+        availability_template: >-
+          {% if is_state('binary_sensor.internet','on') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        unit_of_measurement: "ms"
+      avg_ping:
+        friendly_name: "Avg Ping"
+        value_template: "{{ state_attr('binary_sensor.internet','round_trip_time_avg') }}"
+        availability_template: >-
+          {% if is_state('binary_sensor.internet','on') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        unit_of_measurement: "ms"
+      max_ping:
+        friendly_name: "Max Ping"
+        value_template: "{{ state_attr('binary_sensor.internet','round_trip_time_max') }}"
+        availability_template: >-
+          {% if is_state('binary_sensor.internet','on') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        unit_of_measurement: "ms"
+
+binary_sensor:
+  - platform: ping
+    name: Internet
+    host: 8.8.8.8
+    scan_interval: 15
