@@ -44,7 +44,7 @@ sensor:
         unit_of_measurement: ""
         value_template: >-
           {% set person = states.person.tony_stork.state %}
-          {%- if person in ['Wal-Mart','Kroger','Chief','Meijer'] %}
+          {%- if person in ['WalMart','Kroger','Chief','Meijer','Dollar General - Clinton St'] %}
             Grocery Store
           {% else %}
             {% if person in ['not_home','Stationary'] %}
@@ -60,7 +60,7 @@ sensor:
         unit_of_measurement: ""
         value_template: >-
           {% set person = states.person.christina_stork.state %}
-          {%- if person in ['Wal-Mart','Kroger','Chief','Meijer'] %}
+          {%- if person in ['WalMart','Kroger','Chief','Meijer','Dollar General - Clinton St'] %}
             Grocery Store
           {% elif person in ['Chipotle'] and is_state('input_boolean.work_today','on') %}
             Work
