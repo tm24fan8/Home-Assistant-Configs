@@ -41,4 +41,4 @@ binary_sensor:
   - platform: ping
     name: Internet
     host: 8.8.8.8
-    scan_interval: 15
+    scan_interval: 5
