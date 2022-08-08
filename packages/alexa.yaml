@@ -70,6 +70,17 @@ automation:
       then:
         - service: script.tony_desktop_lock
 
+  - id: 21f6ee35-797e-4066-8f0e-cad964cb0f26
+    alias: Boot up Kallen computer when basement on
+    trigger:
+      - platform: event
+        event_type: alexa_actionable_notification
+        event_data:
+          event_id: actionable_notification_kallen_computer_on
+          event_response_type: ResponseYes
+    action:
+      - service: script.kallen_desktop_wake
+
 
 script:
   activate_alexa_actionable_notification:
