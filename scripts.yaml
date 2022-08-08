@@ -219,6 +219,7 @@ going_upstairs:
       - input_select.living_room_scenes
   - service: input_boolean.turn_on
     entity_id: input_boolean.night_mode
+  - service: script.kallen_desktop_shutdown
   - service: script.activate_alexa_actionable_notification
     data_template:
       text: 'Would you like me to shut down your computer?'
