@@ -11,6 +11,9 @@ input_boolean:
   living_room_dynamic_scenes:
     name: Living Room Dynamic Scenes
     icon: mdi:animation
+  living_room_entertainment_control:
+    name: Living Room Entertainment Control
+    icon: mdi:television-ambient-light
 
 input_select:
   living_room_scenes:
