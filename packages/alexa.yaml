@@ -51,13 +51,13 @@ automation:
         event_data:
           event_id: actionable_notification_shutdown_computer
           event_response_type: ResponseYes
-        id: shutdown_yes
+        id: shutdown-yes
       - platform: event
         event_type: alexa_actionable_notification
         event_data:
           event_id: actionable_notification_shutdown_computer
           event_response_type: ResponseNo
-        id: shutdown_no
+        id: shutdown-no
     action:
     - if:
       - condition: trigger
