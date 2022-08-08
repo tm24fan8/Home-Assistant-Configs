@@ -62,7 +62,7 @@ sensor:
           {% set person = states.person.christina_stork.state %}
           {%- if person in ['WalMart','Kroger','Chief','Meijer','Dollar General - Clinton St'] %}
             Grocery Store
-          {% elif person in ['Chipotle'] and is_state('input_boolean.work_today','on') %}
+          {% elif person in ['Bob Evans'] and is_state('input_boolean.work_today','on') %}
             Work
           {% else %}
             {% if person in ['not_home','Stationary'] %}
@@ -85,7 +85,7 @@ sensor:
             home
           {%- elif is_state('person.tony_stork', 'Hospital') and is_state('input_boolean.kallen_school', 'off')%}
             {{ states('sensor.tina_location') }}
-          {%- elif is_state('person.christina_stork', 'Chipotle') and is_state('input_boolean.kallen_school', 'off')%}
+          {%- elif is_state('person.christina_stork', 'Bob Evans') and is_state('input_boolean.kallen_school', 'off')%}
             {{ states('sensor.tony_location') }}
           {% else %}
             Unknown
