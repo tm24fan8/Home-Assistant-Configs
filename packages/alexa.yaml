@@ -94,7 +94,7 @@ script:
         example: 'ask_for_temperature'
       alexa_device:
         description: 'Alexa device you want to trigger'
-        example: 'media_player.bedroom_echo'
+        example: 'media_player.living_room_echo_dot'
     sequence:
       - service: input_text.set_value
         data:
