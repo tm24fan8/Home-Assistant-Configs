@@ -66,21 +66,21 @@ input_boolean:
 input_number:
   master_bedroom_daytime_temp:
     name: Master Bedroom Daytime Temp
-    min: 60
+    min: 65
     max: 80
     step: 1
     unit_of_measurement: °F
     icon: mdi:thermometer
   master_bedroom_night_temp:
     name: Master Bedroom Night Temp
-    min: 60
+    min: 65
     max: 80
     step: 1
     unit_of_measurement: °F
     icon: mdi:thermometer
   master_bedroom_bedtime_temp:
     name: Master Bedroom Bedtime Temp
-    min: 60
+    min: 65
     max: 80
     step: 1
     unit_of_measurement: °F
