@@ -159,7 +159,13 @@ automation:
             entity_id: input_datetime.morning_alarm_disarm
             data_template:
               time: >
-                {% if is_state('input_boolean.work_today','on') and is_state('input_boolean.school_today','off') %}
+                {% if is_state('input_boolean.work_today','on') and is_state('input_boolean.school_today','on') %}
+                  {% if state_attr('input_datetime.tina_workday_start','timestamp') < (state_attr('input_datetime.school_day_start','timestamp')) %}
+                    {{ (state_attr('input_datetime.tina_workday_start','timestamp') - 1800) | timestamp_custom('%H:%M', false) }}
+                  {% else %}
+                    {{ (state_attr('input_datetime.school_day_start','timestamp') - 2700) | timestamp_custom('%H:%M', false) }}
+                  {% endif %}
+                {% elif is_state('input_boolean.work_today','on') and is_state('input_boolean.school_today','off') %}
                   {{ (state_attr('input_datetime.tina_workday_start', 'timestamp') - 1800) | timestamp_custom('%H:%M', false) }}
                 {% elif is_state('input_boolean.school_today','on') %}
                   {{ (state_attr('input_datetime.school_day_start','timestamp') - 2700) | timestamp_custom('%H:%M', false) }}
@@ -175,7 +181,11 @@ automation:
                 {% elif is_state('input_boolean.school_today','on') and is_state('input_boolean.work_today','off') %}
                   {{ (state_attr('input_datetime.school_day_start','timestamp') + 3600) | timestamp_custom('%H:%M', false) }}
                 {% elif is_state('input_boolean.work_today','on') and is_state('input_boolean.school_today','on') %}
-                  {{ (state_attr('input_datetime.tina_workday_start','timestamp') + 900) | timestamp_custom('%H:%M', false) }}
+                  {% if state_attr('input_datetime.tina_workday_start','timestamp') < state_attr('input_datetime.school_day_start','timestamp') %}
+                    {{ (state_attr('input_datetime.school_day_start','timestamp') + 1800) | timestamp_custom('%H:%M', false) }}
+                  {% else %}
+                    {{ (state_attr('input_datetime.tina_workday_start','timestamp') + 900) | timestamp_custom('%H:%M', false) }}
+                  {% endif %}
                 {% else %}
                   12:00
                 {% endif %}
@@ -232,9 +242,9 @@ automation:
                 {% elif high > 85 and is_state('sensor.school_tomorrow','off') %}
                   21:00
                 {% elif low > 55 and low < 60 %}
-                  22:00
+                  22:30
                 {% elif low > 60 %}
-                  21:30
+                  21:45
                 {% else %}
                   00:00
                 {% endif %}
@@ -244,7 +254,7 @@ automation:
               time: >
                 {% set low = state_attr('sensor.current_forecast','overnight_low') | float %}
                 {% if low > 60 %}
-                  22:00
+                  22:30
                 {% else %}
                   00:00
                 {% endif %}
