@@ -274,9 +274,9 @@ automation:
             {% set high = state_attr('sensor.current_forecast','high_temp') | float %}
             {% set low = state_attr('sensor.current_forecast','overnight_low') | float %}
             {% if high > 85 %}
-              22:00
+              21:00
             {% elif high > 80 %}
-              23:00
+              22:00
             {% else %}
-              00:00
+              23:00
             {% endif %}
