@@ -3,18 +3,14 @@
   {%- macro getReport() -%}
     <p>
       Good Evening, Kallen, 
-      {%- if as_timestamp(strptime(state_attr('calendar.kallen_tasks','end_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%Y-%m-%d") == now().strftime("%Y-%m-%d") and is_state_attr('calendar.kallen_tasks','message','Shower') %}
-        {{ [ 'My sensors are detecting a strange smell. I am running diagnostics. But in the mean time, you should start a shower.',
-            'It is a shower night, so you need to head upstairs and get on that.',
-            'Did you ever hear the one about the kid who never took a shower? <break time="2s"/>Yeah, me either. So we should keep it that way. It is time to get ready for bed.'
-          ] | random }}
-      {% else %}
-        {{ [ 'It is almost bedtime. That means it is time to start preparing for bed.',
-            'I hate to say it but, the day is coming to an end. Time to finish up your tasks, pick up any toys you have out, and get ready for bed.',
-            'The count down clock until bedtime has started. Time to get cleaned up, get your pajamas on, and head for your bedroom.',
-            'Its the final countdown <break time="2s"/> until bedtime, silly. Time to get ready to head that way!'
-          ] | random }}
-      {% endif %}
+      {{ [ 'My sensors are detecting a strange smell. I am running diagnostics. But in the mean time, you should start a shower.',
+          'It is a shower night, so you need to head upstairs and get on that.',
+          'Did you ever hear the one about the kid who never took a shower? <break time="2s"/>Yeah, me either. So we should keep it that way. It is time to get ready for bed.',
+          'It is almost bedtime. That means it is time to start preparing for bed.',
+          'I hate to say it but, the day is coming to an end. Time to finish up your tasks, pick up any toys you have out, and get ready for bed.',
+          'The count down clock until bedtime has started. Time to get cleaned up, get your pajamas on, and head for your bedroom.',
+          'Its the final countdown <break time="2s"/> until bedtime, silly. Time to get ready to head that way!'
+        ] | random }}
       {% if is_state('sensor.school_tomorrow', 'on') %} 
         {{ [ 'Because you have school tomorrow. ',
           'Because you have to get up early tomorrow for school.',
