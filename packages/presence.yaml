@@ -44,8 +44,10 @@ sensor:
         unit_of_measurement: ""
         value_template: >-
           {% set person = states.person.tony_stork.state %}
-          {%- if person in ['WalMart','Kroger','Chief','Meijer','Dollar General - Clinton St'] %}
+          {%- if person in ['WalMart','Kroger','Chief','Meijer','Dollar General - Clinton St','Aldi'] %}
             Grocery Store
+          {% elif person in ['Rite Aid'] %}
+            Pharmacy
           {% else %}
             {% if person in ['not_home','Stationary'] %}
               {{ state_attr('device_tracker.life360_tony_stork','address') }} 
@@ -60,8 +62,10 @@ sensor:
         unit_of_measurement: ""
         value_template: >-
           {% set person = states.person.christina_stork.state %}
-          {%- if person in ['WalMart','Kroger','Chief','Meijer','Dollar General - Clinton St'] %}
+          {%- if person in ['WalMart','Kroger','Chief','Meijer','Dollar General - Clinton St','Aldi'] %}
             Grocery Store
+          {% elif person in ['Rite Aid'] %}
+            Pharmacy
           {% elif person in ['Bob Evans'] and is_state('input_boolean.work_today','on') %}
             Work
           {% else %}
