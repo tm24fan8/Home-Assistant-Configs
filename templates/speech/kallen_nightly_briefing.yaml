@@ -46,7 +46,7 @@
             ' left of summer break.',
             'Until School starts again.'
           ] | random }}
-      {% elif states.sensor.school_start_days2go.state | int == 1 -%}
+      {% elif states.sensor.school_start_days2go.state | int == 0 -%}
         Tomorrow is the first day of school. Are you ready? 
       {%- endif %}
       {% if states.sensor.school_end_days2go.state | int < 15 and states.sensor.school_end_days2go.state | int > 0 -%}
