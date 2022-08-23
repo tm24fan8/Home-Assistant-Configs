@@ -1,33 +1,36 @@
 - platform: rest
   name: Household Tasks
   method: GET
-  resource: 'https://api.todoist.com/sync/v8/projects/get_data'
+  resource: 'https://api.todoist.com/sync/v9/projects/get_data'
   params:
     token: !secret todoist_api_token
     project_id: 2285967928
   value_template: '{{value_json[''project''][''id'']}}'
   json_attributes:
+    - project
     - items
   scan_interval: 30
 - platform: rest
   name: Kallen Tasks
   method: GET
-  resource: 'https://api.todoist.com/sync/v8/projects/get_data'
+  resource: 'https://api.todoist.com/sync/v9/projects/get_data'
   params:
     token: !secret todoist_api_token
     project_id: 2285969005
   value_template: '{{value_json[''project''][''id'']}}'
   json_attributes:
+    - project
     - items
   scan_interval: 30
 - platform: rest
   name: Home Tech
   method: GET
-  resource: 'https://api.todoist.com/sync/v8/projects/get_data'
+  resource: 'https://api.todoist.com/sync/v9/projects/get_data'
   params:
     token: !secret todoist_api_token
     project_id: 2285967948
   value_template: '{{value_json[''project''][''id'']}}'
   json_attributes:
+    - project
     - items
   scan_interval: 30
