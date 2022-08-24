@@ -297,7 +297,7 @@ automation:
 
   - id: 477e6e8a-4e33-4268-8c2d-f39902c0d64f
     alias: Living Room Night Lighting
-    description: Provide nighting in case anyone needs to go downstairs in the middle of the night.
+    description: Provide lighting in case anyone needs to go downstairs in the middle of the night.
     trigger:
       - platform: state
         entity_id: binary_sensor.living_room_motion
