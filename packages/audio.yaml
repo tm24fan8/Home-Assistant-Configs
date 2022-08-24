@@ -24,6 +24,10 @@ input_datetime:
     has_date: true
     has_time: true
 
+input_text:
+  room_presence:
+    name: Room Presence
+
 ################################
 # Scripts to handle audio
 script:
