@@ -80,7 +80,6 @@ automation:
                   10:00
                 {% endif %}
           - service: input_select.select_option
-            entity_id: input_select.kallen_morning_briefing_location
             data_template:
               option: >
                 {% if is_state('input_boolean.school_today','on') %}
@@ -88,6 +87,8 @@ automation:
                 {% else %}
                   Common Areas
                 {% endif %}
+              target:
+                entity_id: input_select.kallen_morning_briefing_location
       - if:
         - condition: trigger
           id: kallen-evening
