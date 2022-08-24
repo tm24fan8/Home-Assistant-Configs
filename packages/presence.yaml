@@ -322,5 +322,10 @@ script:
           - input_select.front_porch_scenes
       data:
         option: Adaptive
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.dining_room_lamp_scenes
+      data:
+        option: Full
     mode: single
     icon: mdi:home-account
