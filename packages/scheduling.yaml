@@ -79,6 +79,15 @@ automation:
                 {% else %}
                   10:00
                 {% endif %}
+          - service: input_select.select_option
+            entity_id: input_select.kallen_morning_briefing_location
+            data_template:
+              option: >
+                {% if is_state('input_boolean.school_today','on') %}
+                  Kallen Bedroom
+                {% else %}
+                  Common Areas
+                {% endif %}
       - if:
         - condition: trigger
           id: kallen-evening

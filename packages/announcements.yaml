@@ -44,6 +44,14 @@ input_datetime:
     has_time: true
     icon: mdi:clock-edit
 
+input_select:
+  kallen_morning_briefing_location:
+    name: Kallen Morning Briefing Location
+    options:
+      - Kallen Bedroom
+      - Common Areas
+    icon: mdi:map-marker
+
 ################################
 # Announcment Automation - fires at the time of the above input_datetimes
 ################################
@@ -170,8 +178,10 @@ script:
       - service: script.speech_engine
         data:
           who: >
-            {% if is_state('input_boolean.school_today', 'on') %}
+            {% if is_state('input_select.kallen_morning_briefing_location','Kallen Bedroom') %}
               kallen_bedroom
+            {% elif is_state('input_select.kallen_morning_briefing_location','Common Areas') %}
+              common
             {% else %}
               common
             {% endif %}
