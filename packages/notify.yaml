@@ -96,6 +96,11 @@ group:
     entities:
       - media_player.living_room_echo_dot
       - media_player.basement_echo_dot
+  alexa_no_basement:
+    name: Alexa No Basement
+    entities:
+      - media_player.living_room_echo_dot
+      - media_player.master_bedroom_echo_dot
 
 notify:
   - platform: ios
@@ -498,13 +503,26 @@ script:
             {% set who = 'master_bedroom_echo_dot' %}
             script.alexa_voice
           {% elif who in ['basement','basement_echo_dot','media_player.basement_echo_dot','Basement Echo Dot']  %}
-            {% set who = 'basement_echo_dot' %}
+            {% if is_state('input_boolean.stream_online','on') %}
+              {% set who = 'living_room' %}
+              {% set message = 'I cannot play notifications in the basement while the stream is live' %}
+            {% else %}
+              {% set who = 'basement' %}
+            {% endif %}
             script.alexa_voice
           {% elif who in ['Common Areas','common','common_areas'] %}
-            {% set who = 'common' %}
+            {% if is_state('input_boolean.stream_online','on') %}
+              {% set who = 'living_room' %}
+            {% else %}
+              {% set who = 'common' %}
+            {% endif %}
             script.alexa_voice
           {% elif who in ['Everywhere','everywhere'] %}
-            {% set who = 'everywhere' %}
+            {% if is_state('input_boolean.stream_online','on') %}
+              {% set who = 'alexa_no_basement' %}
+            {% else %}
+              {% set who = 'everywhere' %}
+            {% endif %}
             script.alexa_voice
           {% else %}
             {% set who = 'living_room_echo_dot' %}
@@ -616,6 +634,8 @@ script:
             group.common_areas
           {% elif who in ['Everywhere','everywhere'] %}
             group.alexa_everywhere
+          {% elif who in ['alexa_no_basement'] %}
+            group.alexa_no_basement
           {% else %}
             media_player.living_room_echo_dot
           {% endif %}
