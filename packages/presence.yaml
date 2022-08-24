@@ -182,6 +182,8 @@ automation:
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.kallen_school
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.kallen_awake
       - service: script.text_alert
         data:
           who: parents
