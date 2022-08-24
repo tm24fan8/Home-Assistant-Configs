@@ -140,6 +140,24 @@ automation:
       data:
         who: common
 
+  - id: d7641b5e-3cbb-4fb3-b6ed-5edf3157b88d
+    alias: Kallen Briefing Location Change
+    trigger:
+      - platform: state
+        entity_id: input_boolean.kallen_awake
+        from: 'off'
+        to: 'on'
+    condition:
+      condition: state
+      entity_id: input_boolean.school_today
+      state: 'on'
+    action:
+      - service: input_select.select_option
+        data:
+          option: Common Areas
+        target:
+          entity_id: input_select.kallen_morning_briefing_location
+
 script:
   reset_annc_switches:
     sequence:

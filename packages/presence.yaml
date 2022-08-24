@@ -15,6 +15,11 @@ input_datetime:
     has_time: true
     icon: mdi:binoculars
 
+input_boolean:
+  kallen_awake:
+    name: Kallen Awake
+    icon: mdi:eye-check
+
 proximity:
   home_tony:
     devices:
@@ -218,6 +223,15 @@ automation:
           who: parents
           message: "Kallen has been picked up from school."
     initial_state: true
+
+  - id: 94b57d79-efe0-4f34-b5e3-baeaa5eea9f4
+    alias: Kallen Asleep
+    trigger:
+      - platform: time
+        at: input_datetime.kallen_bedtime
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.kallen_awake
 
 script:
   family_is_away:
