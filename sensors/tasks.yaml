@@ -34,3 +34,35 @@
     - project
     - items
   scan_interval: 30
+- platform: template
+  sensors:
+    home_tech_bug_reports:
+      friendly_name: 'Bug Reports'
+      value_template: "{{ states('sensor.home_tech') }}"
+      attribute_templates:
+        project: "{{ state_attr('sensor.home_tech', 'project') }}"
+        items: "{{ state_attr('sensor.home_tech', 'items')|selectattr('section_id', 'eq', '94865633')|list }}"
+    home_tech_new_ideas:
+      friendly_name: 'New Ideas'
+      value_template: "{{ states('sensor.home_tech') }}"
+      attribute_templates:
+        project: "{{ state_attr('sensor.home_tech', 'project') }}"
+        items: "{{ state_attr('sensor.home_tech', 'items')|selectattr('section_id', 'eq', '81234669')|list }}"
+    home_tech_in_progress:
+      friendly_name: 'In Progress'
+      value_template: "{{ states('sensor.home_tech') }}"
+      attribute_templates:
+        project: "{{ state_attr('sensor.home_tech', 'project') }}"
+        items: "{{ state_attr('sensor.home_tech', 'items')|selectattr('section_id', 'eq', '81234677')|list }}"
+    home_tech_long_term:
+      friendly_name: 'Long Term'
+      value_template: "{{ states('sensor.home_tech') }}"
+      attribute_templates:
+        project: "{{ state_attr('sensor.home_tech', 'project') }}"
+        items: "{{ state_attr('sensor.home_tech', 'items')|selectattr('section_id', 'eq', '88456343')|list }}"
+    home_tech_postponed_indefinitely:
+      friendly_name: 'Postponed Indefinitely'
+      value_template: "{{ states('sensor.home_tech') }}"
+      attribute_templates:
+        project: "{{ state_attr('sensor.home_tech', 'project') }}"
+        items: "{{ state_attr('sensor.home_tech', 'items')|selectattr('section_id', 'eq', '81234736')|list }}"
