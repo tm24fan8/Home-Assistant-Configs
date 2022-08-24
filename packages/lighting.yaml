@@ -188,6 +188,9 @@ input_text:
     name: Tina Lamp Selected Scene
 
 automation:
+  # The commented-out automations have been moved to Node-RED because they are easier to implement there.
+  # Keeping here for reference purposes.
+
   # - id: 6fe64356-00a2-4cad-bb85-f6dd05f29de7
   #   alias: Upstairs Bathroom Motion Lights
   #   description: Turns up lights in the upstairs bathroom at night when someone walks into the room.
