@@ -1,5 +1,5 @@
 >
-  {# Script Name Here #}
+  {# Welcome Home #}
   {%- macro getReport() -%}
     <p>
       "Welcome home, "
@@ -20,6 +20,65 @@
           "and good evening. I hope you had a good day!"
         {% endif %}
     </p>
+
+    <p>
+      As you are no doubt aware, the weather outside is {{ state_attr('weather.iron_nerd_weather_station','temperature') | round }} degrees
+        {% if is_state('weather.iron_nerd_weather_station','rainy') %}
+          {{ [
+          'with rain.',
+          'with showers.'
+          ] | random }}
+        {% elif is_state('weather.iron_nerd_weather_station','cloudy') %}
+          {{ [
+          'with clouds.',
+          'with cloudy skies.'
+          ] | random }}
+        {% elif is_state('weather.iron_nerd_weather_station','partlycloudy') %}
+          {{ [
+          'with some clouds.',
+          'with partly cloudy skies.',
+          'with scattered clouds.'
+          ] | random }}
+        {% elif is_state('weather.iron_nerd_weather_station','sunny') %}
+          {% if is_state('sun.sun','above_horizon') %}
+            {{ [
+            'and sunny.',
+            'with sun.'
+            ] | random }}
+          {% else %}
+            {{ [
+            'and clear.',
+            'with clear skies.'
+            ] | random }}
+          {% endif %}
+        {% else %}
+          and {{ states.weather.iron_nerd_weather_station.state }}
+        {% endif %}
+    </p>
+
+    <p>
+      "However, inside the house "
+        {% if is_state('input_boolean.master_bedroom_aircon_installed','on') %}
+          "the master bedroom temperature is currently {{ state_attr('climate.master_bedroom_aircon','current_temperature') }} degrees. "
+            {% if is_state('climate.master_bedroom_aircon','cool') %}
+              "and the master bedroom air conditioner is currently set for cooling to {{ state_attr('climate.master_bedroom_aircon','temperature') }}. "
+            {% elif is_state('climate.master_bedroom_aircon','fan_only') %}
+              "and the master bedroom air conditioner is currently in fan only mode. "
+            {% elif is_state('climate.master_bedroom_aircon','dry') %}
+              "and the master bedroom air conditioner is currently moonlighting as a dehumidifier. "
+            {% elif is_state('climate.master_bedroom_aircon','off') %}
+              "and the master bedroom air conditioner is currently off. "
+            {% elif is_state('climate.master_bedroom_aircon','auto') %}
+              "and the master bedroom air conditioner is making its own decisions. Be afraid, be very afraid. "
+            {% else %}
+              "and the master bedroom air conditioner is currently not speaking to me. Was it something I said? "
+            {% endif %}
+        {% else %}
+          "There is no air conditioner or temperature sensor currently installed in the master bedroom. "
+        {% endif %}
+        "The first floor thermostat refuses to be my friend. I am very sad about this. You should replace him. Her. It. Whatever. "
+    </p>
+        
   {%- endmacro -%}
 
   {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
