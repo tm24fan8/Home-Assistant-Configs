@@ -76,9 +76,9 @@
         {% else %}
           "There is no air conditioner or temperature sensor currently installed in the master bedroom. "
         {% endif %}
-        "The first floor thermostat refuses to be my friend. I am very sad about this. You should replace him. Her. It. Whatever. "
+        "The first floor thermostat refuses to be my friend. I am very sad about this. I mean, who the hell is Honeywell anyway? "
     </p>
-        
+
   {%- endmacro -%}
 
   {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
