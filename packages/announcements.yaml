@@ -232,6 +232,9 @@ script:
 
   welcome_home:
     sequence:
+      - condition: state
+        entity_id: input_boolean.welcome_home
+        state: 'on'
       - wait_template: "{{ is_state('binary_sensor.front_door','on') }}"
         timeout:
           minutes: 5
