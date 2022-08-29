@@ -56,7 +56,11 @@ give_me_darkness:
       {% else %}
         true
       {% endif %}
-  - service: script.security_arm_home
+  - service: script.activate_alexa_actionable_notification
+    data_template:
+      text: 'Would you like me to arm the security system?'
+      event_id: 'actionable_notification_night_security_arm'
+      alexa_device: "{{ states('sensor.last_alexa') }}"
   mode: single
   icon: mdi:weather-night
 start_youtube:

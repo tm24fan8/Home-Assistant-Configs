@@ -81,6 +81,43 @@ automation:
     action:
       - service: script.kallen_desktop_wake
 
+  - id: d1edfcf7-2712-49f4-b8f1-17f5b184b5ce
+    alias: Arm security on Give Me Darkness
+    trigger:
+      - platform: event
+        event_type: alexa_actionable_notification
+        event_data:
+          event_id: actionable_notification_night_security_arm
+          event_response_type: ResponseYes
+        id: security-yes
+      - platform: event
+        event_type: alexa_actionable_notification
+        event_data:
+          event_id: actionable_notification_night_security_arm
+          event_response_type: ResponseNo
+        id: security-no
+    action:
+      - if:
+        - condition: trigger
+          id: security-yes
+        then:
+        - service: script.security_arm_home
+        - delay:
+            seconds: 1
+        - service: script.speech_engine
+          data:
+            who: "{{ states('sensor.last_alexa') }}"
+            message: "Security is armed, guard dogs deployed, and lasers set from stun to kill!"
+      - if:
+        - condition: trigger
+          id: security-no
+        then:
+        - service: script.speech_engine
+          data:
+            who: "{{ states('sensor.last_alexa') }}"
+            message: "Security squadron is standing down, but always at your service!"
+
+
 
 script:
   activate_alexa_actionable_notification:
