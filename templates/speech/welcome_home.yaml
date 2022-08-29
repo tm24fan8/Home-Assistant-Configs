@@ -61,7 +61,7 @@
         {% if is_state('input_boolean.master_bedroom_aircon_installed','on') %}
           "the master bedroom temperature is currently {{ state_attr('climate.master_bedroom_aircon','current_temperature') }} degrees. "
             {% if is_state('climate.master_bedroom_aircon','cool') %}
-              "and the master bedroom air conditioner is currently set for cooling to {{ state_attr('climate.master_bedroom_aircon','temperature') }}. "
+              "and the master bedroom air conditioner is currently set for cooling to {{ state_attr('climate.master_bedroom_aircon','temperature') }} degrees. "
             {% elif is_state('climate.master_bedroom_aircon','fan_only') %}
               "and the master bedroom air conditioner is currently in fan only mode. "
             {% elif is_state('climate.master_bedroom_aircon','dry') %}
