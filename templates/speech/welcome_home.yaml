@@ -79,6 +79,12 @@
         "The first floor thermostat refuses to be my friend. I am very sad about this. I mean, who the hell is Honeywell anyway? "
     </p>
 
+    <p>
+      {% if is_state('light.living_room_lights','on') %}
+        "Because it is getting dark, I have turned on the lights for you in the living room, dining room, and mud room. This makes for a total of {{ states.sensor.current_lights_on.state }} lights on. "
+      {% endif %}
+    </p>
+
   {%- endmacro -%}
 
   {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
