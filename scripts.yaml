@@ -51,7 +51,7 @@ give_me_darkness:
     data: {}
   - condition: template
     value_template: >
-      {% if is_state('input_boolean.work_today','on') and state_attr('input_datetime.tina_workday_end','timestamp') > 75600 %}
+      {% if is_state('input_boolean.work_today','on') and state_attr('input_datetime.tina_workday_end','timestamp') > state_attr('input_datetime.kallen_bedtime','timestamp') %}
         false
       {% else %}
         true
