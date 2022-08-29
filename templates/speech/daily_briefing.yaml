@@ -102,7 +102,7 @@
           Kallen does not have school today.
         {% endif %}
 
-        {% if is_state('person.christina_stork','Chipotle') and is_state('input_boolean.work_today','on') %}
+        {% if is_state('person.christina_stork','Bob Evans') and is_state('input_boolean.work_today','on') %}
           Tina is at work right now.
         {% elif is_state('input_boolean.work_today','on') %}
           Tina has work today.
