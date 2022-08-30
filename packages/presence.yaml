@@ -276,6 +276,7 @@ script:
         entity_id: switch.presence_simulation
       data: {}
     - service: script.security_disarm
+    - service: script.welcome_home
     - service: switch.turn_off
       target:
         entity_id:
