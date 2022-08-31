@@ -22,6 +22,14 @@
     </p>
 
     <p>
+      {% set endbefore = state_attr('input_datetime.school_day_end','timestamp') - 3600 %}
+      {% set endafter = state_attr('input_datetime.school_day_end','timestamp') + 3600 %}
+      {% set current = ((now().hour * 60 + now().minute) * 60 ) %}
+      {% if is_state('input_boolean.school_today_extended','on') and current > endbefore and current < endafter %}
+        Welcome home Kallen as well, I hope you had a great day at school!
+      {% endif %}
+
+    <p>
       As you are no doubt aware, the weather outside is {{ state_attr('weather.iron_nerd_weather_station','temperature') | round }} degrees
         {% if is_state('weather.iron_nerd_weather_station','rainy') %}
           {{ [
