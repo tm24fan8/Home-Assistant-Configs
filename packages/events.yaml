@@ -185,7 +185,9 @@ automation:
         data:
           time: "15:19:00" 
     - service: input_boolean.turn_on
-      entity_id: input_boolean.school_today  
+      entity_id: input_boolean.school_today
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.school_today_extended
     - service: script.turn_on
       entity_id: script.school_in_session
 
@@ -224,9 +226,23 @@ automation:
     trigger:
       - platform: time
         at: input_datetime.school_day_end
+        id: day_end
+      - platform: time
+        at: 00:00
+        id: midnight
     action:
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.school_today
+      - if:
+        - condition: trigger
+          id: day_end
+        then:
+        - service: input_boolean.turn_off
+          entity_id: input_boolean.school_today
+      - if:
+        - condition: trigger
+          id: midnight
+        then:
+        - service: input_boolean.turn_off
+          entity_id: input_boolean.school_today_extended
 
   - id: a6eeb075-d21b-436c-983f-39188ee9b016
     alias: Work Reset
