@@ -111,6 +111,8 @@ automation:
       state: 'off'
     action:
     - service: script.kallen_nightly_briefing
+      data:
+        who: common
 
   - id: c53d84ee-9e6d-4268-8d44-d427c722602a
     alias: Daily Briefing
@@ -174,7 +176,7 @@ script:
     sequence:
     - service: script.speech_engine
       data: 
-        who: common
+        who: "{{ who }}"
         message: !include ../templates/speech/kallen_nightly_briefing.yaml
     - service: script.text_notify
       data:
