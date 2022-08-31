@@ -96,18 +96,6 @@
       <p>
         Let me check the sit rep for today.
 
-        {% if is_state('input_boolean.kallen_school','on') %}
-          Kallen is at school right now.
-        {% elif is_state('input_boolean.school_today','off') and is_state('input_boolean.school_in_session','on') %}
-          Kallen does not have school today.
-        {% endif %}
-
-        {% if is_state('person.christina_stork','Bob Evans') and is_state('input_boolean.work_today','on') %}
-          Tina is at work right now.
-        {% elif is_state('input_boolean.work_today','on') %}
-          Tina has work today.
-        {% endif %}
-
         {% if dow == 'Monday' %}
           {{ [
           'Do not forget to take the trash bin to the curb, tomorrow is trash pickup day.',
@@ -252,6 +240,12 @@
                 {{states.calendar.national_holidays.attributes.message | replace("&"," and ") }}.
               {%- endif -%}
             {%- endif -%}
+
+            {% if is_state('person.christina_stork','Bob Evans') and is_state('input_boolean.work_today','on') %}
+              <s>Tina is at work right now. She will be done at approximately {{ (state_attr('input_datetime.tina_workday_end','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}</s>
+            {% elif is_state('input_boolean.work_today','on') %}
+              Tina has work today.
+            {% endif %}
 
             {% if is_state('input_boolean.school_today', 'on') and state_attr('input_datetime.school_day_end', 'timestamp') < as_timestamp(now()) %}
               {% if is_state('sensor.school_start_days2go', '0') %}
