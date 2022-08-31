@@ -87,7 +87,7 @@
 
     <p>
       {% if is_state('person.christina_stork','Bob Evans') and is_state('input_boolean.work_today','on') %}
-        <s>Tina is at work right now. She will be done at approximately {{ (state_attr('input_datetime.tina_workday_end','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}</s>
+        Tina is at work right now. She will be done at approximately {{ (state_attr('input_datetime.tina_workday_end','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}
       {% elif is_state('input_boolean.work_today','on') %}
         Tina has work today.
       {% endif %}
