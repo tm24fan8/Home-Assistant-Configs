@@ -11,6 +11,9 @@ input_boolean:
   work_today:
     name: Work Today
     icon: mdi:briefcase
+  school_today_extended:
+    name: School Today Extended
+    icon: mdi:bus-school
 
 input_datetime:
   school_first_day:
