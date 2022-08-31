@@ -60,6 +60,13 @@ sensor:
               {{ states('person.tony_stork') }}
             {%- endif %}
           {%- endif %}
+        icon_template: >-
+          {% set person = states.person.tony_stork.state %}
+          {% if person in ['Home','home'] %}
+            mdi:home
+          {% else %}
+            mdi:car
+          {% endif %}
   - platform: template
     sensors:
       tina_location:
@@ -80,6 +87,13 @@ sensor:
               {{ states('person.christina_stork') }}
             {%- endif %}
           {%- endif %}
+        icon_template: >-
+          {% set person = states.person.christina_stork.state %}
+          {% if person in ['Home','home'] %}
+            mdi:home
+          {% else %}
+            mdi:car
+          {% endif %}
   - platform: template
     sensors:
       kallen_location:
