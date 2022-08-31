@@ -28,6 +28,7 @@
       {% if is_state('input_boolean.school_today_extended','on') and current > endbefore and current < endafter %}
         Welcome home Kallen as well, I hope you had a great day at school!
       {% endif %}
+    </p>
 
     <p>
       As you are no doubt aware, the weather outside is {{ state_attr('weather.iron_nerd_weather_station','temperature') | round }} degrees
