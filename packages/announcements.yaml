@@ -250,3 +250,4 @@ script:
         data_template:
           who: living_room
           message: !include ../templates/speech/welcome_home.yaml
+    mode: restart
