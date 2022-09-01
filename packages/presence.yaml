@@ -311,36 +311,38 @@ script:
         - dining_room
         - living_room
       data: {}
-    - condition: sun
-      after: sunset
-      after_offset: -00:30
-    - service: light.turn_on
-      data: {}
-      target:
-        area_id:
-        - living_room
-        - dining_room
-        - mud_room
-        - front_porch
-    - delay:
-        hours: 0
-        minutes: 0
-        seconds: 5
-        milliseconds: 0
-    - service: input_select.select_option
-      target:
-        entity_id:
-          - input_select.living_room_scenes
-          - input_select.tina_lamp_scenes
-          - input_select.mud_room_scenes
-          - input_select.front_porch_scenes
-      data:
-        option: Adaptive
-    - service: input_select.select_option
-      target:
-        entity_id: input_select.dining_room_lamp_scenes
-      data:
-        option: Full
+    - if:
+      - condition: sun
+        after: sunset
+        after_offset: -00:30
+      then:
+      - service: light.turn_on
+        data: {}
+        target:
+          area_id:
+          - living_room
+          - dining_room
+          - mud_room
+          - front_porch
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 5
+          milliseconds: 0
+      - service: input_select.select_option
+        target:
+          entity_id:
+            - input_select.living_room_scenes
+            - input_select.tina_lamp_scenes
+            - input_select.mud_room_scenes
+            - input_select.front_porch_scenes
+        data:
+          option: Adaptive
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.dining_room_lamp_scenes
+        data:
+          option: Full
     - service: script.welcome_home
     mode: single
     icon: mdi:home-account
