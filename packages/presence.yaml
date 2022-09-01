@@ -290,7 +290,6 @@ script:
         entity_id: switch.presence_simulation
       data: {}
     - service: script.security_disarm
-    - service: script.welcome_home
     - service: switch.turn_off
       target:
         entity_id:
@@ -342,5 +341,6 @@ script:
         entity_id: input_select.dining_room_lamp_scenes
       data:
         option: Full
+    - service: script.welcome_home
     mode: single
     icon: mdi:home-account
