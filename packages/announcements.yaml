@@ -150,9 +150,12 @@ automation:
         from: 'off'
         to: 'on'
     condition:
-      condition: state
-      entity_id: input_boolean.school_today
-      state: 'on'
+      - condition: state
+        entity_id: input_boolean.school_today
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.kallen_overnight
+        state: 'off'
     action:
       - service: input_select.select_option
         data:
