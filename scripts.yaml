@@ -233,11 +233,12 @@ going_upstairs:
       text: 'Would you like me to shut down your computer?'
       event_id: 'actionable_notification_shutdown_computer'
       alexa_device: 'media_player.basement_echo_dot'
-  - delay:
-      hours: 0
-      minutes: 2
-      seconds: 0
-      milliseconds: 0
+  - wait_for_trigger:
+    - platform: state
+      entity_id:
+      - binary_sensor.upstairs_bathroom_motion
+      to: 'on'
+    timeout: 00:05:00
   - service: input_select.select_option
     data:
       option: Side Nightlight
