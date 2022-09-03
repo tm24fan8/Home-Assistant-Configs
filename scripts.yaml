@@ -135,13 +135,13 @@ alexa_tts_test:
       message: I farted
   mode: single
   icon: mdi:test-tube
-reading_timer_cancel:
+kallen_timer_cancel:
   sequence:
   - service: timer.cancel
     target:
-      entity_id: timer.reading_timer
+      entity_id: timer.kallen_timer
   mode: single
-  alias: Reading Timer - Cancel
+  alias: Kallen Timer - Cancel
   icon: mdi:cancel
 global_off:
   alias: Global Off
