@@ -55,7 +55,7 @@
         project: "{{ state_attr('sensor.home_tech', 'project') }}"
         items: "{{ state_attr('sensor.home_tech', 'items')|selectattr('section_id', 'eq', '81234677')|list|selectattr('parent_id','eq',none)|list }}"
     home_tech_long_term:
-      friendly_name: 'Long Term'
+      friendly_name: 'Long Term or Maintaining'
       value_template: "{{ states('sensor.home_tech') }}"
       attribute_templates:
         project: "{{ state_attr('sensor.home_tech', 'project') }}"
