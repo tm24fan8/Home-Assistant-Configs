@@ -557,5 +557,9 @@ freeze_cleanup:
       volume_level: 0.5
     target:
       entity_id: media_player.master_bedroom_echo_dot
+  - service: button.press
+    data: {}
+    target:
+      entity_id: button.cleanup
   mode: single
   icon: mdi:truck-snowflake
