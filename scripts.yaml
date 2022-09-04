@@ -409,6 +409,7 @@ freeze_cleanup:
       entity_id:
       - input_boolean.early_night_mode
       - input_boolean.night_mode
+      - input_boolean.shower_mode
   - service: switch.turn_off
     data: {}
     target:
@@ -426,11 +427,19 @@ freeze_cleanup:
       data: {}
       target:
         entity_id: input_boolean.master_bedroom_cooling_on
+    - service: button.press
+      data: {}
+      target:
+        entity_id: button.master_bedroom_day_mode
     else:
     - service: input_boolean.turn_on
       data: {}
       target:
         entity_id: input_boolean.master_bedroom_cooling_on
+    - service: button.press
+      data: {}
+      target:
+        entity_id: button.master_bedroom_night_mode
   - if:
     - condition: state
       entity_id: sensor.twitch_ironnerd24
@@ -499,5 +508,54 @@ freeze_cleanup:
       data: {}
       target:
         entity_id: input_boolean.audible_notifications
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id:
+      - switch.adaptive_lighting_basement_studio
+      - switch.adaptive_lighting_dining_room
+      - switch.adaptive_lighting_downstairs_bathroom
+      - switch.adaptive_lighting_front_porch
+      - switch.adaptive_lighting_kallen_bedroom
+      - switch.adaptive_lighting_living_room
+      - switch.adaptive_lighting_master_bedroom
+      - switch.adaptive_lighting_mud_room
+      - switch.adaptive_lighting_tina_lamp
+      - switch.adaptive_lighting_nursery
+      - switch.adaptive_lighting_upstairs_bathroom
+      - switch.adaptive_lighting_upstairs_hallway
+  - service: input_text.set_value
+    data:
+      value: Adaptive
+    target:
+      entity_id:
+      - input_text.basement_studio_selected_scene
+      - input_text.downstairs_bathroom_selected_scene
+      - input_text.front_porch_selected_scene
+      - input_text.kallen_bedroom_selected_scene
+      - input_text.living_room_selected_scene
+      - input_text.master_bedroom_selected_scene
+      - input_text.mud_room_selected_scene
+      - input_text.nursery_selected_scene
+      - input_text.tina_lamp_selected_scene
+      - input_text.upstairs_bathroom_selected_scene
+      - input_text.upstairs_hallway_selected_scene
+  - service: input_text.set_value
+    data:
+      value: Full
+    target:
+      entity_id: input_text.dining_room_lamp_selected_scene
+  - service: media_player.volume_set
+    data:
+      volume_level: 0.6
+    target:
+      entity_id:
+      - media_player.basement_echo_dot
+      - media_player.living_room_echo_dot
+  - service: media_player.volume_set
+    data:
+      volume_level: 0.5
+    target:
+      entity_id: media_player.master_bedroom_echo_dot
   mode: single
   icon: mdi:truck-snowflake
