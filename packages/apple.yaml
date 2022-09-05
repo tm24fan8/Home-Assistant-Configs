@@ -1,0 +1,19 @@
+# This file will be for various Apple-related automations, scripts, and other needs
+
+automation:
+  - id: f4b16032-34f2-4446-bddd-ea22cb32b12f
+    alias: Apple Watch Actions
+    trigger:
+      - platform: event
+        event_type: ios.action_fired
+        event_data:
+          actionName: manual-night
+        id: manual-night
+    action:
+      - if:
+          - condition: trigger
+            id: manual-night
+        then:
+          - service: button.press
+            target:
+              entity_id: button.master_bedroom_night_mode
