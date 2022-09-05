@@ -182,22 +182,6 @@
   action:
   - service: script.family_is_away
   mode: single
-- id: '1641255231416'
-  alias: Goodnight
-  description: ''
-  trigger:
-  - platform: event
-    event_type: ios.action_fired
-    event_data:
-      actionName: Goodnight
-    context: {}
-  condition: []
-  action:
-  - service: button.press
-    data: {}
-    target:
-      entity_id: button.goodnight
-  mode: single
 - id: '1641255482975'
   alias: Give Me Darkness
   description: ''
