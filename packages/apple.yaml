@@ -9,6 +9,11 @@ automation:
         event_data:
           actionName: manual-night
         id: manual-night
+      - platform: event
+        event_type: ios.action_fired
+        event_data:
+          actionName: manual-day
+        id: manual-day
     action:
       - if:
           - condition: trigger
@@ -17,3 +22,10 @@ automation:
           - service: button.press
             target:
               entity_id: button.master_bedroom_night_mode
+      - if:
+          - condition: trigger
+            id: manual-day
+        then:
+          - service: button.press
+            target:
+              entity_id: button.master_bedroom_day_mode
