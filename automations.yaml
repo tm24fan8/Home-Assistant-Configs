@@ -182,18 +182,6 @@
   action:
   - service: script.family_is_away
   mode: single
-- id: '1641255482975'
-  alias: Give Me Darkness
-  description: ''
-  trigger:
-  - platform: event
-    event_type: ios.action_fired
-    event_data:
-      actionName: Give Me Darkness
-  condition: []
-  action:
-  - service: script.give_me_darkness
-  mode: single
 - id: '1643321652916'
   alias: Time-Based Presence Simulation
   description: ''
