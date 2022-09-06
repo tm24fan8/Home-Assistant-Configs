@@ -339,12 +339,12 @@
     data: {}
   - service: notify.all_ios
     data:
-      title: Check your surroundings and make sure it is safe to leave cover
-      message: Tornado Warning is cleared
+      title: Tornado Warning is cleared
+      message: Check your surroundings and make sure it is safe to leave cover
   - service: notify.tv_notifications
     data:
-      title: Check your surroundings and make sure it is safe to leave cover
-      message: Tornado Warning is cleared
+      title: Tornado Warning is cleared
+      message: Check your surroundings and make sure it is safe to leave cover
   - service: script.speech_engine
     data:
       who: everywhere
