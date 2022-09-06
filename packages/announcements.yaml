@@ -80,10 +80,6 @@ automation:
     trigger:
     - platform: time
       at: input_datetime.audible_notification_off
-    condition:
-    - condition: state
-      entity_id: input_boolean.audible_notifications
-      state: 'on'
     action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.audible_notifications
