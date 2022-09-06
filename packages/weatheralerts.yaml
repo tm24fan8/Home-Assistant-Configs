@@ -1544,9 +1544,6 @@ automation:
         to: 'on'
     condition:
       - condition: state
-        entity_id: binary_sensor.people_present
-        state: 'on'
-      - condition: state
         entity_id: binary_sensor.windows
         state: 'on'
     action:
@@ -1554,10 +1551,15 @@ automation:
         data:
           title: "WINDOWS ARE OPEN!"
           message: "It is raining and there are windows open in the house. Please close them!"
-      - service: script.speech_engine
-        data:
-          who: everywhere
-          message: "It is raining and there are windows open in the house. Please close them!"
+      - if:
+        - condition: state
+          entity_id: binary_sensor.people_present
+          state: 'on'
+        then:
+        - service: script.speech_engine
+          data:
+            who: everywhere
+            message: "It is raining and there are windows open in the house. Please close them!"
 
 
 
