@@ -320,6 +320,9 @@ automation:
       - condition: state
         entity_id: input_boolean.night_mode
         state: 'on'
+      - condition: state
+        entity_id: input_boolean.vacation_mode
+        state: 'off'
     action:
       - if:
         - condition: trigger
