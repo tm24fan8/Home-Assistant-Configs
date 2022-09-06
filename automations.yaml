@@ -6,7 +6,10 @@
     entity_id: sensor.weatheralerts_active_alerts
     attribute: tornado_warning_count
     above: '0'
-  condition: []
+  condition:
+  - condition: state
+    entity_id: input_boolean.vacation_mode
+    state: 'off'
   action:
   - service: input_boolean.turn_on
     data: {}
@@ -327,7 +330,10 @@
     entity_id: sensor.weatheralerts_active_alerts
     attribute: tornado_warning_count
     below: '1'
-  condition: []
+  condition:
+  - condition: state
+    entity_id: input_boolean.vacation_mode
+    state: 'off'
   action:
   - service: script.max_brightness_cleanup
     data: {}
