@@ -249,14 +249,14 @@ automation:
               time: >
                 {% set low = state_attr('sensor.current_forecast','overnight_low') | float %}
                 {% set high = state_attr('sensor.current_forecast','high_temp') | float %}
-                {% if high > 85 and is_state('sensor.school_tomorrow','on') %}
+                {% if high >= 85 and is_state('sensor.school_tomorrow','on') %}
                   20:00
-                {% elif high > 85 and is_state('sensor.school_tomorrow','off') %}
+                {% elif high >= 85 and is_state('sensor.school_tomorrow','off') %}
                   21:00
-                {% elif low > 55 and low < 60 %}
+                {% elif low >= 55 and low <= 60 %}
                   22:30
                 {% elif low > 60 %}
-                  21:45
+                  21:30
                 {% else %}
                   00:00
                 {% endif %}
@@ -283,10 +283,10 @@ automation:
           time: >
             {% set high = state_attr('sensor.current_forecast','high_temp') | float %}
             {% set low = state_attr('sensor.current_forecast','overnight_low') | float %}
-            {% if high > 85 %}
-              21:00
-            {% elif high > 80 %}
-              22:00
+            {% if high >= 85 %}
+              20:30
+            {% elif high >= 80 or low >= 60 %}
+              21:30
             {% else %}
-              23:00
+              22:30
             {% endif %}
