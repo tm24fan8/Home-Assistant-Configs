@@ -87,19 +87,19 @@ automation:
   - id: db50d96f-8e2a-4e48-8d7c-ce5968527b82
     alias: Kallen Morning Briefing
     trigger:
-      platform: time
+    - platform: time
       at: input_datetime.kallen_morning_briefing
     condition:
-      - condition: state
-        entity_id: input_boolean.kallen_overnight
-        state: 'off'
+    - condition: state
+      entity_id: input_boolean.kallen_overnight
+      state: 'off'
     action:
     - service: script.kallen_morning_briefing
 
   - id: b8d21d04-c263-4d33-9590-9fb1e76b0de8
     alias: Kallen Nightly Briefing
     trigger:
-      platform: time
+    - platform: time
       at: input_datetime.kallen_nightly_briefing
     condition:
     - condition: state
@@ -116,7 +116,7 @@ automation:
   - id: c53d84ee-9e6d-4268-8d44-d427c722602a
     alias: Daily Briefing
     trigger:
-      platform: time
+    - platform: time
       at: input_datetime.daily_report
     condition:
     - condition: state
@@ -133,8 +133,8 @@ automation:
   - id: 5d06ba92-de10-4bf3-bc08-86f5be60c4a7
     alias: Morning Briefing
     trigger:
-      - platform: time
-        at: input_datetime.morning_report
+    - platform: time
+      at: input_datetime.morning_report
     condition:
     - condition: state
       entity_id: binary_sensor.people_present
