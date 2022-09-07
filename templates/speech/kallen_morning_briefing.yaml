@@ -6,7 +6,7 @@
 
       <s>It is {{ now().strftime("%I:%M %p") }}</s> 
 
-      {% if is_state('sensor.birthday_kallen', '0') %}
+      {% if is_state('sensor.anniversary_kallen_s_birthday', '0') %}
         Even birthday boys have to get dressed. So get to it. 
       {% else %} 
         {{ [ 'It is time to put some real clothes on. ',

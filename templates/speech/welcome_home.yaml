@@ -36,6 +36,20 @@
         ] | random }}
       {% endif %}
     </p>
+    <p>
+      {% if is_state('sensor.anniversary_tony_s_birthday','0') %}
+        Happy Birthday Tony!
+      {% endif %}
+      {% if is_state('sensor.anniversary_tina_s_birthday','0') %}
+        Happy Birthday Tina!
+      {% endif %}
+      {% if is_state('sensor.anniversary_kallen_s_birthday','0') %}
+        Happy Birthday Colin!
+      {% endif %}
+      {% if is_state('sensor.anniversary_emmalynn_s_birthday','0') %}
+        Happy Birthday Emmalynn!
+      {% endif %}
+    </p>
 
     <p>
       As you are no doubt aware, the weather outside is {{ state_attr('weather.iron_nerd_weather_station','temperature') | round }} degrees

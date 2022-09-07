@@ -114,6 +114,19 @@
         {% endif %}
 
         {% if is_state('binary_sensor.evening','on') %}
+          {% if is_state('sensor.anniversary_tony_s_birthday','0') %}
+            Hope you had a happy birthday Tony!
+          {% endif %}
+          {% if is_state('sensor.anniversary_tina_s_birthday','0') %}
+            Hope you had a happy birthday Tina!
+          {% endif %}
+          {% if is_state('sensor.anniversary_kallen_s_birthday','0') %}
+            Hope you had a happy birthday Colin!
+          {% endif %}
+          {% if is_state('sensor.anniversary_emmalynn_s_birthday','0') %}
+            Hope you had a happy birthday Emmalynn!
+          {% endif %}
+
           {% if states.sensor.halloween_countdown.state | int == 1 %}
             Tomorrow is Halloween. I hope you have picked out a costume. I will be going as Tony. I'm scared just thinking about it!
           {% elif states.sensor.halloween_countdown.state | int < 30 %}
@@ -153,6 +166,18 @@
           {% endif %}
           {% if is_state('sensor.anniversary_wedding_anniversary','0') %}
             Happy Anniversary! It has been an amazing {{ states.sensor.anniversary_wedding_anniversary.attributes.years }} years!
+          {% endif %}
+          {% if is_state('sensor.anniversary_tony_s_birthday','0') %}
+            Happy Birthday Tony!
+          {% endif %}
+          {% if is_state('sensor.anniversary_tina_s_birthday','0') %}
+            Happy Birthday Tina!
+          {% endif %}
+          {% if is_state('sensor.anniversary_kallen_s_birthday','0') %}
+            Happy Birthday Colin!
+          {% endif %}
+          {% if is_state('sensor.anniversary_emmalynn_s_birthday','0') %}
+            Happy Birthday Emmalynn!
           {% endif %}
           {%- set event=states.calendar.national_holidays.attributes.message %}
           {% if 'Day' in event and 'National' in event%}
