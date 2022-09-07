@@ -26,7 +26,14 @@
       {% set endafter = state_attr('input_datetime.school_day_end','timestamp') + 3600 %}
       {% set current = ((now().hour * 60 + now().minute) * 60 ) %}
       {% if is_state('input_boolean.school_today_extended','on') and current > endbefore and current < endafter %}
-        Welcome home Kallen as well, I hope you had a great day at school!
+        "Welcome home Kallen as well, "
+        {{ [
+        'I hope you had a great day at school! ',
+        'I hope school was as boring, uh I mean exciting as ever! ',
+        'Hopefully your day at school was educational and fun! ',
+        'Do not forget to do your homework! ',
+        'You must be glad that you school day is over! '
+        ] | random }}
       {% endif %}
     </p>
 
