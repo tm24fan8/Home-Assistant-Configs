@@ -157,6 +157,30 @@ sensor:
             states.person.christina_stork,
             ] %}
           {{ adults | selectattr('state','ne','home') | list | count }}
+  - platform: template
+    sensors:
+      family_presence:
+        friendly_name: "Family Presence"
+        value_template: >-
+          {% if is_state('person.tony_stork','not_home') and is_state('person.christina_stork','not_home') %}
+            not_home
+          {% elif is_state('person.tony_stork','home') or is_state('person.christina_stork','home') %}
+            home
+          {% elif is_state('person.tony_stork','unknown') or is_state('person.christina_stork','unknown') %}
+            error
+          {% else %}
+            other
+          {% endif %}
+        icon_template: >-
+          {% if is_state('person.tony_stork','not_home') and is_state('person.christina_stork','not_home') %}
+            mdi:home-outline
+          {% elif is_state('person.tony_stork','home') or is_state('person.christina_stork','home') %}
+            mdi:home
+          {% elif is_state('person.tony_stork','unknown') or is_state('person.christina_stork','unknown') %}
+            mdi:alert-circle
+          {% else %}
+            mdi:home-outline
+          {% endif %}
 
 mqtt:
   sensor:
