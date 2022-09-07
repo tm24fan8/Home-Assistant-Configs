@@ -91,6 +91,7 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Slider Entity Row](https://github.com/thomasloven/lovelace-slider-entity-row)
 - [Number Box](https://github.com/htmltiger/numberbox-card)
 - [Platinum Weather Card](https://github.com/Makin-Things/platinum-weather-card)
+- [Room Card](https://github.com/marcokreeft87/room-card)
 
 ## AppDaemon Apps
 
