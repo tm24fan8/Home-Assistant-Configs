@@ -177,7 +177,7 @@
   action:
   - service: script.family_is_home
     data: {}
-  mode: single
+  mode: restart
 - id: '1641102018783'
   alias: Family Has Left
   description: Runs when the family has left home
