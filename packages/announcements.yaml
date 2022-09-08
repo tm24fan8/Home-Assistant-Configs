@@ -186,6 +186,7 @@ script:
       data: 
         who: "{{ who }}"
         message: !include ../templates/speech/kallen_nightly_briefing.yaml
+        voice: Emma
     - service: script.text_notify
       data:
         who: "ios_parents"
@@ -214,6 +215,7 @@ script:
               common
             {% endif %}
           message: !include ../templates/speech/kallen_morning_briefing.yaml
+          voice: Emma
       - service: script.text_notify
         data:
           who: "ios_parents"
