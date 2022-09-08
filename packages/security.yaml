@@ -193,23 +193,51 @@ script:
   security_arm_home:
     alias: Security Arm - Home
     sequence:
-      - service: alarm_control_panel.alarm_arm_home
-        target:
-          entity_id: alarm_control_panel.stratton_ave_alarm
-        data:
-          code: !secret ring_alarm_code
+      - if:
+        - condition: state
+          entity_id: sensor.total_faults
+          state: '0'
+        then:
+        - service: alarm_control_panel.alarm_arm_home
+          target:
+            entity_id: alarm_control_panel.stratton_ave_alarm
+          data:
+            code: !secret ring_alarm_code
+        else:
+        - service: script.speech_engine
+          data:
+            who: common
+            message: 'There are active security faults. Please close all doors and windows before arming.'
+        - service: script.text_notify
+          data:
+            who: 'ios_parents'
+            message: 'There are active security faults. Please close all doors and windows before arming.'
 
   security_arm_away:
     alias: Security Arm - Away
     sequence:
-      - service: alarm_control_panel.alarm_arm_away
-        target:
-          entity_id: alarm_control_panel.stratton_ave_alarm
-        data:
-          code: !secret ring_alarm_code
-      - service: alarm_control_panel.alarm_arm_away
-        target:
-          entity_id: alarm_control_panel.alexa_guard_9ee3b
+      - if:
+        - condition: state
+          entity_id: sensor.total_faults
+          state: '0'
+        then:
+        - service: alarm_control_panel.alarm_arm_away
+          target:
+            entity_id: alarm_control_panel.stratton_ave_alarm
+          data:
+            code: !secret ring_alarm_code
+        - service: alarm_control_panel.alarm_arm_away
+          target:
+            entity_id: alarm_control_panel.alexa_guard_9ee3b
+        else:
+        - service: script.speech_engine
+          data:
+            who: common
+            message: 'There are active security faults. Please close all doors and windows before arming.'
+        - service: script.text_notify
+          data:
+            who: 'ios_parents'
+            message: 'There are active security faults. Please close all doors and windows before arming.'
 
   security_disarm:
     alias: Security Disarm
