@@ -92,6 +92,7 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Number Box](https://github.com/htmltiger/numberbox-card)
 - [Platinum Weather Card](https://github.com/Makin-Things/platinum-weather-card)
 - [Room Card](https://github.com/marcokreeft87/room-card)
+- [Simple Thermostat Card](https://github.com/nervetattoo/simple-thermostat)
 
 ## AppDaemon Apps
 
