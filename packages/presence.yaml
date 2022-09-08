@@ -282,7 +282,7 @@ script:
     alias: Family Is Away
     sequence:
     - condition: state
-      entity_id: sensor.family_presence
+      entity_id: group.family
       state: not_home
     - service: light.turn_off
       target:

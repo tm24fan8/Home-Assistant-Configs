@@ -155,7 +155,7 @@
   description: Runs when family arrives at home
   trigger:
   - platform: state
-    entity_id: sensor.family_presence
+    entity_id: group.family
     from: not_home
     to: home
   - platform: event
@@ -171,7 +171,7 @@
   description: Runs when the family has left home
   trigger:
   - platform: state
-    entity_id: sensor.family_presence
+    entity_id: group.family
     from: home
     to: not_home
   - platform: event
