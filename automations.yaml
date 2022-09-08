@@ -162,9 +162,21 @@
     event_type: ios.action_fired
     event_data:
       actionName: We Are Home
-  condition: []
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: person.tony_stork
+      state: unknown
+    - condition: state
+      entity_id: person.christina_stork
+      state: unknown
+    - condition: state
+      entity_id: group.family
+      state: unknown
   action:
   - service: script.family_is_home
+    data: {}
   mode: single
 - id: '1641102018783'
   alias: Family Has Left
@@ -182,8 +194,20 @@
   - condition: state
     entity_id: input_boolean.guest_mode
     state: 'off'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: person.tony_stork
+      state: unknown
+    - condition: state
+      entity_id: person.christina_stork
+      state: unknown
+    - condition: state
+      entity_id: group.family
+      state: unknown
   action:
   - service: script.family_is_away
+    data: {}
   mode: single
 - id: '1643321652916'
   alias: Time-Based Presence Simulation
