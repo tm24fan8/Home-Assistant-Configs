@@ -253,7 +253,7 @@ automation:
                   20:00
                 {% elif high >= 85 and is_state('sensor.school_tomorrow','off') %}
                   21:00
-                {% elif low >= 55 and low <= 60 %}
+                {% elif low >= 56 and low <= 60 %}
                   22:30
                 {% elif low > 60 %}
                   21:30
