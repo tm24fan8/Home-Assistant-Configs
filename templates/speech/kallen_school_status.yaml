@@ -10,6 +10,8 @@
         {% else %}
           "You have school today, and it is running on time. "
         {% endif %}
+      {% elif is_state('input_boolean.kallen_school_cancelled','on') %}
+        "School has been cancelled for today! "
       {% else %}
         "You do not have school today. Enjoy your day off! "
       {% endif %}

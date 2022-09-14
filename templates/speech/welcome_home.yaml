@@ -32,8 +32,10 @@
         'I hope school was as boring, uh I mean exciting as ever! ',
         'Hopefully your day at school was educational and fun! ',
         'Do not forget to do your homework! ',
-        'You must be glad that you school day is over! '
+        'You must be glad that your school day is over! '
         ] | random }}
+      {% elif is_state('input_boolean.kallen_school_cancelled','on') %}
+        "I hope you are enjoying your free day off from school, Colin. "
       {% endif %}
     </p>
     <p>

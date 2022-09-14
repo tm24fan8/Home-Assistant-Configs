@@ -272,7 +272,7 @@
               Tina has work today.
             {% endif %}
 
-            {% if is_state('input_boolean.school_today', 'on') and state_attr('input_datetime.school_day_end', 'timestamp') < as_timestamp(now()) %}
+            {% if is_state('input_boolean.school_today', 'on') %}
               {% if is_state('sensor.school_start_days2go', '0') %}
                 Today is the first day of school! There are {{ states('sensor.school_end_days2go') }} to go until the last day.
               {% else %}
@@ -280,11 +280,17 @@
                   'Colin has school today.',
                   'It is a school day. '
                 ] | random }}
+                {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
+                  'But there is a two hour delay. '
+                {% endif %}
               {% endif %}
               <s>Pickup today will be at {{(state_attr('input_datetime.school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }}</s>
               {% if 'Early Release' in states('sensor.school_event') %}
                 And It is early release!
               {% endif %}
+            {% endif %}
+            {% if is_state('input_boolean.kallen_school_cancelled','on') %}
+              'School has been cancelled for today. '
             {% endif %}
             {% if states.sensor.school_end_days2go.state | int <= 35 and states.sensor.school_end_days2go.state | int > 0  %}
                 {{ [ 'Oh, and look at that.',

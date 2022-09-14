@@ -95,7 +95,11 @@
         {%- endif %}
       {% endif %}
       {% if is_state('input_boolean.school_today', 'off') %}
-        And look at that. You do not have school today.
+        {% if is_state('input_boolean.kallen_school_cancelled','on') %}
+          "School is cancelled for today. "
+        {% else %}
+          "And look at that. You do not have school today. "
+        {% endif %}
         {{ [ 'Guess today would be a good day to clean your room.',
           'You could always do some chores. HA, good one.',
           'Want to play a nice game of chess? Sorry. I meant, want to play Beam NG?',
