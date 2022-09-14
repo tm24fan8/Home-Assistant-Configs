@@ -106,7 +106,7 @@
             {% elif is_state('climate.master_bedroom_aircon','dry') %}
               "and the master bedroom air conditioner is currently moonlighting as a dehumidifier. "
             {% elif is_state('climate.master_bedroom_aircon','off') %}
-              "and the master bedroom air conditioner is currently off. "
+              "and the master bedroom air conditioner is currently not running. "
             {% elif is_state('climate.master_bedroom_aircon','auto') %}
               "and the master bedroom air conditioner is making its own decisions. Be afraid, be very afraid. "
             {% else %}
