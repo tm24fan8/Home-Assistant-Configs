@@ -147,13 +147,13 @@ script:
               10:00
             {% endif %}
       - service: input_datetime.set_datetime
-        entity_id: input_datetime.kallen_morning_briefing
+        entity_id: input_datetime.school_day_start
         data_template:
           time: >
-            {% if is_state('input_boolean.school_today', 'on') %}
-              07:40
+            {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
+              11:00
             {% else %}
-              10:00
+              09:00
             {% endif %}
       - service: input_select.select_option
         target:
@@ -168,6 +168,37 @@ script:
               {% endif %}
             {% else %}
               Common Areas
+            {% endif %}
+      - service: input_datetime.set_datetime
+        entity_id: input_datetime.kallen_morning_briefing
+        data_template:
+          time: >
+            {% if is_state('input_boolean.school_today', 'on') %}
+              {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
+                09:40
+              {% else %}
+                07:40
+              {% endif %}
+            {% else %}
+              10:00
+            {% endif %}
+      - service: input_datetime.set_datetime
+        entity_id: input_datetime.school_day_start_reminder
+        data_template:
+          time: >
+            {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
+              10:00
+            {% else %}
+              08:00
+            {% endif %}
+      - service: input_datetime.set_datetime
+        entity_id: input_datetime.school_day_end_reminder
+        data_template:
+          time: >
+            {% if is_state('input_boolean.school_early_release','on') %}
+              13:30
+            {% else %}
+              14:00
             {% endif %}
 
   kallen_scheduling_evening:
