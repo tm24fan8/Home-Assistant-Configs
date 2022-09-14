@@ -80,6 +80,10 @@
             'It is a school day. ',
           ] | random }}
         {% endif %}
+        {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
+          'You have a two hour delay today. '
+        {% endif %}
+        <s>School today starts at {{ (state_attr('input_datetime.school_day_start','timestamp') | int | timestamp_custom('%I:%M %p' , False)) }}</s>
         <s>Pickup today will be at {{(state_attr('input_datetime.school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }}</s>
         {% if 'Early Release' in states('sensor.school_event') %}
           And It is early dismissal today!
