@@ -189,7 +189,7 @@ script:
         voice: Emma
     - service: script.text_notify
       data:
-        who: "ios_parents"
+        who: "parents"
         message: "I just gave Kallen's nightly briefing."
 
   kallen_morning_briefing:
@@ -218,7 +218,7 @@ script:
           voice: Emma
       - service: script.text_notify
         data:
-          who: "ios_parents"
+          who: "parents"
           message: "I just gave Kallen's morning briefing"
 
   daily_briefing:
