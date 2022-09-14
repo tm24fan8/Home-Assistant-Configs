@@ -161,7 +161,11 @@ script:
         data_template:
           option: >
             {% if is_state('input_boolean.school_today','on') %}
-              Kallen Bedroom
+              {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
+                Common Areas
+              {% else %}
+                Kallen Bedroom
+              {% endif %}
             {% else %}
               Common Areas
             {% endif %}
