@@ -54,7 +54,14 @@
     </p>
 
     <p>
-      As you are no doubt aware, the weather outside is {{ state_attr('weather.iron_nerd_weather_station','temperature') | round }} degrees
+      {{ [
+        "As you are no doubt aware, ",
+        "Even though you just came in from out there, I feel compelled to inform you that ",
+        "In case you weren't paying attention, ",
+        "If you were wondering, ",
+        "For some reason, I still feel the need to inform you that "
+        ] | random }}
+        "the weather outside is {{ state_attr('weather.iron_nerd_weather_station','temperature') | round }} degrees"
         {% if is_state('weather.iron_nerd_weather_station','rainy') %}
           {{ [
           'with rain.',
