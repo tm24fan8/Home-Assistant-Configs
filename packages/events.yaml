@@ -170,32 +170,8 @@ automation:
         {%- if as_timestamp(strptime(state_attr('calendar.kallen_school_days', 'start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%Y-%m-%d") == now().strftime("%Y-%m-%d") %}
           true
         {%- endif -%}
-    action:
-    - choose:
-      - conditions:
-        - condition: template
-          value_template: >
-            {{ 'Early Release' in states('sensor.school_event') }}
-        sequence:
-        - service: input_boolean.turn_on
-          entity_id: input_boolean.school_early_release
-        - service: input_datetime.set_datetime
-          target:
-            entity_id: input_datetime.school_day_end
-          data:
-            time: "14:45:00"
-      default:
-      - service: input_datetime.set_datetime
-        target:
-          entity_id: input_datetime.school_day_end
-        data:
-          time: "15:20:00" 
-    - service: input_boolean.turn_on
-      entity_id: 
-        - input_boolean.school_today
-        - input_boolean.school_today_extended
-    - service: script.turn_on
-      entity_id: script.school_in_session
+    action: 
+      - service: script.kallen_school_today
 
   - id: cd9f921f-71c7-4e29-9aee-7421ef19bdd3
     alias: Work Today
@@ -210,21 +186,7 @@ automation:
           true
         {%- endif -%}
     action:
-    - service: input_datetime.set_datetime
-      target:
-        entity_id: input_datetime.tina_workday_start
-      data:
-        time: >
-          {{ as_timestamp(strptime(state_attr('calendar.family_tinawork','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
-    - service: input_datetime.set_datetime
-      target:
-        entity_id: input_datetime.tina_workday_end
-      data:
-        time: >
-          {{ as_timestamp(strptime(state_attr('calendar.family_tinawork','end_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.work_today
-
+      - service: script.tina_work_today
 
   - id: b9028665-401c-4de3-8f13-1099160b011f
     alias: School Reset
@@ -236,22 +198,8 @@ automation:
       - platform: time
         at: 00:00
         id: midnight
-    action:
-      - if:
-        - condition: trigger
-          id: day_end
-        then:
-        - service: input_boolean.turn_off
-          entity_id: 
-            - input_boolean.school_today
-            - input_boolean.kallen_two_hour_delay
-            - input_boolean.kallen_school_cancelled
-      - if:
-        - condition: trigger
-          id: midnight
-        then:
-        - service: input_boolean.turn_off
-          entity_id: input_boolean.school_today_extended
+    action: 
+      - service: script.kallen_school_reset
 
   - id: a6eeb075-d21b-436c-983f-39188ee9b016
     alias: Work Reset
@@ -259,9 +207,8 @@ automation:
     trigger:
       - platform: time
         at: input_datetime.tina_workday_end
-    action:
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.work_today
+    action: 
+      - service: script.tina_work_reset
 
   - id: 05ee0f8d-5411-4486-8acf-9bfadad2b23a
     alias: End of School Year
@@ -278,22 +225,89 @@ automation:
         entity_id: script.school_year_over
 
 script:
-    
+  kallen_school_today:
+    sequence:
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: >
+              {{ 'Early Release' in states('sensor.school_event') }}
+          sequence:
+          - service: input_boolean.turn_on
+            entity_id: input_boolean.school_early_release
+          - service: input_datetime.set_datetime
+            target:
+              entity_id: input_datetime.school_day_end
+            data:
+              time: "14:45:00"
+        default:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.school_day_end
+          data:
+            time: "15:20:00" 
+      - service: input_boolean.turn_on
+        entity_id: 
+          - input_boolean.school_today
+          - input_boolean.school_today_extended
+      - service: script.turn_on
+        entity_id: script.school_in_session
+
+  kallen_school_reset:
+    sequence:
+      - if:
+        - condition: trigger
+          id: day_end
+        then:
+        - service: input_boolean.turn_off
+          entity_id: 
+            - input_boolean.school_today
+            - input_boolean.kallen_two_hour_delay
+            - input_boolean.kallen_school_cancelled
+      - if:
+        - condition: trigger
+          id: midnight
+        then:
+        - service: input_boolean.turn_off
+          entity_id: input_boolean.school_today_extended
+
+  tina_work_today:
+    sequence:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.tina_workday_start
+        data:
+          time: >
+            {{ as_timestamp(strptime(state_attr('calendar.family_tinawork','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.tina_workday_end
+        data:
+          time: >
+            {{ as_timestamp(strptime(state_attr('calendar.family_tinawork','end_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.work_today
+
+  tina_work_reset:
+    sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.work_today
+
   school_in_session:
     sequence:
-    - condition: state
-      entity_id: input_boolean.school_in_session
-      state: 'off'
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.school_in_session
+      - condition: state
+        entity_id: input_boolean.school_in_session
+        state: 'off'
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.school_in_session
 
   school_year_over:
     sequence:
-    - condition: state
-      entity_id: input_boolean.school_in_session
-      state: 'on'
-    - condition: template
-      value_template: >
-        {{ states('input_datetime.school_last_day') == now().strftime("%Y-%m-%d") }}
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.school_in_session
+      - condition: state
+        entity_id: input_boolean.school_in_session
+        state: 'on'
+      - condition: template
+        value_template: >
+          {{ states('input_datetime.school_last_day') == now().strftime("%Y-%m-%d") }}
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.school_in_session

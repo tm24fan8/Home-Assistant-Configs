@@ -116,19 +116,7 @@ automation:
       - platform: time
         at: '06:06:00'
     action:
-      - service: input_datetime.set_datetime
-        entity_id: input_datetime.nursery_cooling
-        data_template:
-          time: >
-            {% set high = state_attr('sensor.current_forecast','high_temp') | float %}
-            {% set low = state_attr('sensor.current_forecast','overnight_low') | float %}
-            {% if high >= 85 %}
-              20:30
-            {% elif high >= 80 or low >= 60 %}
-              21:30
-            {% else %}
-              22:30
-            {% endif %}
+      - service: script.nursery_scheduling
 
 script:
   kallen_scheduling_morning:
@@ -356,4 +344,20 @@ script:
               22:30
             {% else %}
               00:00
+            {% endif %}
+
+  nursery_scheduling:
+    sequence:
+      - service: input_datetime.set_datetime
+        entity_id: input_datetime.nursery_cooling
+        data_template:
+          time: >
+            {% set high = state_attr('sensor.current_forecast','high_temp') | float %}
+            {% set low = state_attr('sensor.current_forecast','overnight_low') | float %}
+            {% if high >= 85 %}
+              20:30
+            {% elif high >= 80 or low >= 60 %}
+              21:30
+            {% else %}
+              22:30
             {% endif %}
