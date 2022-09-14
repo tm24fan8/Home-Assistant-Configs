@@ -96,19 +96,19 @@
               Traffic to the school is normal.
             {% endif %}
             Currently it will take {{states.sensor.home_to_school.state|round}} minutes to get to the school.
-            {%- if states.sensor.school_to_chipotle.state|round > 15 %}
-              Traffic from the school to Chipotle appears heavier than normnal.
+            {%- if states.sensor.school_to_bob_evans.state|round > 15 %}
+              Traffic from the school to Bob Evans appears heavier than normnal.
             {% else %}
-              Traffic from the school to Chipotle is normal.
+              Traffic from the school to Bob Evans is normal.
             {% endif %}
-            Currently it will take {{states.sensor.school_to_chipotle.state|round}} minutes to get to Chipotle from the school.
+            Currently it will take {{states.sensor.school_to_bob_evans.state|round}} minutes to get to Bob Evans from the school.
           {% elif is_state('input_boolean.work_today','on') %}
-            {%- if states.sensor.home_to_chipotle.state|round > 15 %}
-              Traffic to Chipotle appears heavier than normnal.
+            {%- if states.sensor.home_to_bob_evans.state|round > 8 %}
+              Traffic to Bob Evans appears heavier than normnal.
             {% else %}
-              Traffic to Chipotle is normal.
+              Traffic to Bob Evans is normal.
             {% endif %}
-            Currently it will take {{states.sensor.home_to_chipotle.state|round}} minutes to get to Chipotle.
+            Currently it will take {{states.sensor.home_to_bob_evans.state|round}} minutes to get to Bob Evans.
           {% elif is_state('input_boolean.school_today','on') %}
             {%- if states.sensor.home_to_school.state|round > 12 %}
               Traffic to the school appears heavier than normnal.
