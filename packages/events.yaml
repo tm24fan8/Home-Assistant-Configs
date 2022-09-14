@@ -186,7 +186,7 @@ automation:
         target:
           entity_id: input_datetime.school_day_end
         data:
-          time: "15:19:00" 
+          time: "15:20:00" 
     - service: input_boolean.turn_on
       entity_id: input_boolean.school_today
     - service: input_boolean.turn_on
