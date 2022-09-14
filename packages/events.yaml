@@ -14,6 +14,9 @@ input_boolean:
   school_today_extended:
     name: School Today Extended
     icon: mdi:bus-school
+  kallen_two_hour_delay:
+    name: Kallen Two Hour Delay
+    icon: mdi:bus-clock
 
 input_datetime:
   school_first_day:
