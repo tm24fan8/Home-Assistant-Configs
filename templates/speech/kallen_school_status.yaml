@@ -1,0 +1,37 @@
+>
+  {# Kallen School Status #}
+  {%- macro getReport() -%}
+    <p>
+      "Hello Colin, "
+
+      {% if is_state('input_boolean.school_today','on') %}
+        {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
+          "You have school today, but there is currently a two hour delay. "
+        {% else %}
+          "You have school today, and it is running on time. "
+        {% endif %}
+      {% else %}
+        "You do not have school today. Enjoy your day off! "
+      {% endif %}
+
+      {% if is_state('input_boolean.school_today','on') %}
+        "Your school day will start at {{ (state_attr('input_datetime.school_day_start','timestamp') | int | timestamp_custom('%I:%M %p' , False)) }}. "
+        "Your school day will end at {{(state_attr('input_datetime.school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+      {% endif %}
+    </p>
+
+  {%- endmacro -%}
+
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+    {%- macro cleanup(data) -%}
+      {%- for item in data.split("\n")  if item | trim != "" -%}
+        {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+
+  {# a macro to call all macros :)  #}
+    {%- macro mother_of_all_macros() -%}
+      {{ getReport() }}
+    {%- endmacro -%}
+    
+    {# Call the macro  #}
+    {{- cleanup(mother_of_all_macros()) -}}

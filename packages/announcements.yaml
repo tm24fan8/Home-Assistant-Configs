@@ -221,6 +221,14 @@ script:
           who: "parents"
           message: "I just gave Kallen's morning briefing"
 
+  kallen_school_status:
+    sequence:
+      - service: script.speech_engine
+        data:
+          who: "{{ who }}"
+          message: !include ../templates/speech/kallen_school_status.yaml
+          voice: Emma
+
   daily_briefing:
     sequence:
     - service: script.speech_engine
