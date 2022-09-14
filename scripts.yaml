@@ -596,6 +596,10 @@ kallen_two_hour_delay:
 kallen_school_cancelled:
   alias: Kallen School Cancelled
   sequence:
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.kallen_school_cancelled
   - service: input_boolean.turn_off
     data: {}
     target:

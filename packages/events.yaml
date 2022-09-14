@@ -17,6 +17,9 @@ input_boolean:
   kallen_two_hour_delay:
     name: Kallen Two Hour Delay
     icon: mdi:bus-clock
+  kallen_school_cancelled:
+    name: Kallen School Cancelled
+    icon: mdi:calendar-remove
 
 input_datetime:
   school_first_day:
@@ -242,6 +245,7 @@ automation:
           entity_id: 
             - input_boolean.school_today
             - input_boolean.kallen_two_hour_delay
+            - input_boolean.kallen_school_cancelled
       - if:
         - condition: trigger
           id: midnight
