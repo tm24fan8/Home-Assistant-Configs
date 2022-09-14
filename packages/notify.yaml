@@ -46,6 +46,9 @@ input_boolean:
   text_notify_nerds:
     name: Send Texts to Nerds
     icon: mdi:message
+  text_notify_all:
+    name: Send Texts to All
+    icon: mdi:message
   text_notifications:
     name: Text Notifications
     icon: mdi:message
@@ -207,6 +210,17 @@ script:
           message: >
             {{ message }}
 
+  text_notify_parents:
+    sequence:
+      - condition: state
+        entity_id: input_boolean.text_notify_parents
+        state: 'on'
+      - service: notify.ios_parents
+        data_template:
+          title: '{{ title }}'
+          message: >
+            {{ message }}
+
   text_notify:
     sequence:
       - condition: state
@@ -269,6 +283,9 @@ script:
               title: '{{ title }}'
               message: '{{ message }}'
         default:
+        - condition: state
+          entity_id: input_boolean.text_notify_all
+          state: 'on'
         - service: notify.all_ios
           data:
             title: '{{ title }}'
