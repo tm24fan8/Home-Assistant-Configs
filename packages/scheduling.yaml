@@ -138,7 +138,11 @@ script:
         data_template:
           time: >
             {% if is_state('input_boolean.school_today', 'on') %}
-              07:30
+              {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
+                09:30
+              {% else %}
+                07:30
+              {% endif %}
             {% else %}
               10:00
             {% endif %}
