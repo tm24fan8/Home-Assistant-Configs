@@ -51,7 +51,7 @@ automation:
     alias: Kallen Scheduling
     trigger:
       - platform: time
-        at: '05:05:00'
+        at: '05:00:00'
         id: kallen-morning
       - platform: time
         at: '16:00:00'
@@ -72,7 +72,7 @@ automation:
     alias: House Scheduling
     trigger:
       - platform: time
-        at: '05:00:00'
+        at: '05:05:00'
         id: house-morning
       - platform: time
         at: '16:05:00'
