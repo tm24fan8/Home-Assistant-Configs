@@ -188,9 +188,9 @@ automation:
         data:
           time: "15:20:00" 
     - service: input_boolean.turn_on
-      entity_id: input_boolean.school_today
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.school_today_extended
+      entity_id: 
+        - input_boolean.school_today
+        - input_boolean.school_today_extended
     - service: script.turn_on
       entity_id: script.school_in_session
 
