@@ -72,7 +72,7 @@
     </p>
 
     <p>
-      {% if is_state('input_boolean.school_today', 'on') and state_attr('input_datetime.school_day_end', 'timestamp') > as_timestamp(now()) %}
+      {% if is_state('input_boolean.school_today', 'on') %}
         {% if is_state('sensor.school_start_days2go', '0') %}
           Today is the first day of school! 
         {% else %}
