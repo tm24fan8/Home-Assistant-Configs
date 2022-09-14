@@ -584,6 +584,13 @@ kallen_two_hour_delay:
       milliseconds: 0
   - service: script.house_scheduling_morning
     data: {}
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  - service: script.master_bedroom_scheduling_morning
+    data: {}
   mode: single
   icon: mdi:bus-clock
 kallen_school_cancelled:
@@ -611,6 +618,13 @@ kallen_school_cancelled:
       seconds: 2
       milliseconds: 0
   - service: script.house_scheduling_morning
+    data: {}
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  - service: script.master_bedroom_scheduling_morning
     data: {}
   mode: single
   icon: mdi:calendar-remove
