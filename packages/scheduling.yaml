@@ -238,11 +238,15 @@ script:
         data_template:
           time: >
             {% if is_state('input_boolean.school_today','on') %}
-              08:20
+              {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
+                10:20
+              {% else %}
+                08:20
+              {% endif %}
             {% elif is_state('input_boolean.work_today','on') and is_state('input_boolean.school_today','off') %}
               {% if (state_attr('input_datetime.tina_workday_start','timestamp')) > 43200 %}
                 12:00
-              {% elif (state_attr('input_datetime.tina_workday_start','timestamp')) > (state_attr('input_datetime.audible_notification_on','timestamp')) %}
+              {% elif (state_attr('input_datetime.tina_workday_start','timestamp') - 1800 ) > (state_attr('input_datetime.audible_notification_on','timestamp')) %}
                 {{ (state_attr('input_datetime.tina_workday_start', 'timestamp') - 1800) | timestamp_custom('%H:%M', false) }}
               {% else %}
                 10:00
