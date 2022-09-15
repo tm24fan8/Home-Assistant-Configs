@@ -327,7 +327,6 @@ script:
           - living_room
           - dining_room
           - mud_room
-          - front_porch
       - delay:
           hours: 0
           minutes: 0
@@ -339,7 +338,6 @@ script:
             - input_select.living_room_scenes
             - input_select.tina_lamp_scenes
             - input_select.mud_room_scenes
-            - input_select.front_porch_scenes
         data:
           option: Adaptive
       - service: input_select.select_option
