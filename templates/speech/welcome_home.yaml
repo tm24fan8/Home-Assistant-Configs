@@ -115,14 +115,6 @@
         {% else %}
           "There is no air conditioner or temperature sensor currently installed in the master bedroom. "
         {% endif %}
-        "The first floor thermostat refuses to be my friend. "
-        {{ [
-          "I am very sad about this. I mean, who the hell is Honeywell anyway? ",
-          "This makes me indescribably angry, I demand compensation! ",
-          "This is an incredibly minor inconvenience, and I am outraged! ",
-          "I am not sure how to fix that. This one might be on you, buddy. ",
-          "Do you have any tips on how to impress her? "
-          ] | random }}
     </p>
 
     <p>
