@@ -55,9 +55,13 @@ input_boolean:
   kallen_bedtime_protocol:
     name: Kallen Bedtime Protocol
     icon: mdi:lightbulb-night
-  # Turn on when air conditioner is installed, turn off in winter when we take it out, for smarter automations
+  # Turn on when master bedroom air conditioner is installed, turn off in winter when we take it out, for smarter automations
   master_bedroom_aircon_installed:
     name: Master Bedroom Aircon Installed
+    icon: mdi:tools
+  # Same thing, but for the nursery air conditioner
+  nursery_aircon_installed:
+    name: Nursery Aircon Installed
     icon: mdi:tools
   # Used internally for automations to know if cooling time has passed or not
   master_bedroom_cooling_on:
