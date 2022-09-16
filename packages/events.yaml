@@ -199,7 +199,16 @@ automation:
         at: 00:00
         id: midnight
     action: 
-      - service: script.kallen_school_reset
+      - if:
+        - condition: trigger
+          id: day_end
+        then:
+        - service: script.kallen_school_reset
+      - if:
+        - condition: trigger
+          id: midnight
+        then:
+        - service: script.kallen_school_reset_late
 
   - id: a6eeb075-d21b-436c-983f-39188ee9b016
     alias: Work Reset
@@ -255,21 +264,16 @@ script:
 
   kallen_school_reset:
     sequence:
-      - if:
-        - condition: trigger
-          id: day_end
-        then:
-        - service: input_boolean.turn_off
-          entity_id: 
-            - input_boolean.school_today
-            - input_boolean.kallen_two_hour_delay
-            - input_boolean.kallen_school_cancelled
-      - if:
-        - condition: trigger
-          id: midnight
-        then:
-        - service: input_boolean.turn_off
-          entity_id: input_boolean.school_today_extended
+      - service: input_boolean.turn_off
+        entity_id: 
+          - input_boolean.school_today
+          - input_boolean.kallen_two_hour_delay
+          - input_boolean.kallen_school_cancelled
+
+  kallen_school_reset_late:
+    sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.school_today_extended
 
   tina_work_today:
     sequence:
