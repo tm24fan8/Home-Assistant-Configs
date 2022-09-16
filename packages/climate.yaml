@@ -89,3 +89,23 @@ input_number:
     step: 1
     unit_of_measurement: °F
     icon: mdi:thermometer
+
+automation:
+  - id: '1655415573165'
+    alias: Nursery Cooling
+    description: For keeping the baby’s room at a safe temperature
+    trigger:
+    - platform: time
+      at: input_datetime.nursery_cooling
+    condition:
+    - condition: state
+      entity_id: input_boolean.nursery_aircon_installed
+      state: 'on'
+    - condition: numeric_state
+      entity_id: sensor.tonights_low_temp
+      above: 57
+    action:
+    - service: fan.turn_on
+      target:
+        entity_id: fan.nursery_air_conditioner
+    mode: restart
