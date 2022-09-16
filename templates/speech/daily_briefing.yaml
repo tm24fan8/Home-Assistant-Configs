@@ -281,7 +281,7 @@
                   'It is a school day. '
                 ] | random }}
                 {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
-                  'But there is a two hour delay. '
+                  'But there was a two hour delay. '
                 {% endif %}
               {% endif %}
               <s>Pickup today will be at {{(state_attr('input_datetime.school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }}</s>
