@@ -667,7 +667,11 @@
         "out": [],
         "env": [],
         "meta": {},
-        "color": "#DDAA99"
+        "color": "#DDAA99",
+        "inputLabels": [
+            "Inject Node Here"
+        ],
+        "icon": "node-red-contrib-huemagic/hue-light.svg"
     },
     {
         "id": "eccca853a916b662",
@@ -716,9 +720,7 @@
             "017de174925e8c75"
         ],
         "x": 94,
-        "y": 319,
-        "w": 1992,
-        "h": 602
+        "y": 319
     },
     {
         "id": "39a7ac02f2727f1d",
@@ -20628,7 +20630,7 @@
         "type": "subflow:3aa2aec226246753",
         "z": "d49b385d8b582b20",
         "name": "",
-        "x": 280,
+        "x": 290,
         "y": 400,
         "wires": []
     },
