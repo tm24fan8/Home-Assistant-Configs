@@ -645,6 +645,39 @@
         "icon": "font-awesome/fa-location-arrow"
     },
     {
+        "id": "d6e06448d9bd1c2e",
+        "type": "subflow",
+        "name": "Subflow 1",
+        "info": "",
+        "in": [],
+        "out": []
+    },
+    {
+        "id": "3aa2aec226246753",
+        "type": "subflow",
+        "name": "Lifx Testing",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 40,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "8b4af77e07c66df9"
+                    },
+                    {
+                        "id": "54f4bebfc9414dbd"
+                    }
+                ]
+            }
+        ],
+        "out": [],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
         "id": "eccca853a916b662",
         "type": "group",
         "z": "5e238cbbe6d612c9",
@@ -691,7 +724,9 @@
             "017de174925e8c75"
         ],
         "x": 94,
-        "y": 319
+        "y": 319,
+        "w": 1992,
+        "h": 602
     },
     {
         "id": "39a7ac02f2727f1d",
@@ -3903,6 +3938,69 @@
             [],
             []
         ]
+    },
+    {
+        "id": "54f4bebfc9414dbd",
+        "type": "lifx-list-scenes",
+        "z": "3aa2aec226246753",
+        "name": "",
+        "api": "60eb53fb94cd64e4",
+        "x": 210,
+        "y": 140,
+        "wires": [
+            [
+                "96da394eceab9244"
+            ]
+        ]
+    },
+    {
+        "id": "8b4af77e07c66df9",
+        "type": "lifx-list-lights",
+        "z": "3aa2aec226246753",
+        "name": "",
+        "api": "60eb53fb94cd64e4",
+        "selector": "",
+        "x": 200,
+        "y": 80,
+        "wires": [
+            [
+                "817c0a6afb11477b"
+            ]
+        ]
+    },
+    {
+        "id": "817c0a6afb11477b",
+        "type": "debug",
+        "z": "3aa2aec226246753",
+        "name": "lights",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 370,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "96da394eceab9244",
+        "type": "debug",
+        "z": "3aa2aec226246753",
+        "name": "scenes",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 380,
+        "y": 140,
+        "wires": []
     },
     {
         "id": "cc8645ebae721601",
@@ -20534,66 +20632,37 @@
         "wires": []
     },
     {
-        "id": "54f4bebfc9414dbd",
-        "type": "lifx-list-scenes",
+        "id": "2a6fe7c07c6b34e1",
+        "type": "subflow:3aa2aec226246753",
         "z": "d49b385d8b582b20",
         "name": "",
-        "api": "60eb53fb94cd64e4",
-        "x": 770,
-        "y": 220,
-        "wires": [
-            [
-                "96da394eceab9244"
-            ]
-        ]
-    },
-    {
-        "id": "8b4af77e07c66df9",
-        "type": "lifx-list-lights",
-        "z": "d49b385d8b582b20",
-        "name": "",
-        "api": "60eb53fb94cd64e4",
-        "selector": "",
-        "x": 760,
-        "y": 160,
-        "wires": [
-            [
-                "817c0a6afb11477b"
-            ]
-        ]
-    },
-    {
-        "id": "817c0a6afb11477b",
-        "type": "debug",
-        "z": "d49b385d8b582b20",
-        "name": "lights",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 930,
-        "y": 160,
+        "x": 280,
+        "y": 400,
         "wires": []
     },
     {
-        "id": "96da394eceab9244",
-        "type": "debug",
+        "id": "942304b8743cdd40",
+        "type": "inject",
         "z": "d49b385d8b582b20",
-        "name": "scenes",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 940,
-        "y": 220,
-        "wires": []
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 400,
+        "wires": [
+            [
+                "2a6fe7c07c6b34e1"
+            ]
+        ]
     }
 ]
