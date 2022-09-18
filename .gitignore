@@ -76,5 +76,6 @@
 !/node-red/projects/
 !/node-red/projects/NerdFlows/
 !/node-red/projects/NerdFlows/flows.json
+!/node-red/projects/NerdFlows/flows_cred.json
 !/node-red/projects/NerdFlows/package.json
 !/node-red/projects/NerdFlows/README.md
