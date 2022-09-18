@@ -537,19 +537,19 @@ script:
             {% elif who in ['master_bedroom','master_bedroom_echo_dot','media_player.master_bedroom_echo_dot','Master Bedroom Echo Dot','Master Bedroom']  %}
               'master_bedroom'
             {% elif who in ['Basement','basement','basement_echo_dot','media_player.basement_echo_dot','Basement Echo Dot']  %}
-              {% if is_state('input_boolean.stream_online','on') %}
+              {% if is_state('input_boolean.studio_quiet','on') %}
                 'living_room'
               {% else %}
                 'basement'
               {% endif %}
             {% elif who in ['Common Areas','common','common_areas'] %}
-              {% if is_state('input_boolean.stream_online','on') %}
+              {% if is_state('input_boolean.studio_quiet','on') %}
                 'living_room'
               {% else %}
                 'common'
               {% endif %}
             {% elif who in ['Everywhere','everywhere'] %}
-              {% if is_state('input_boolean.stream_online','on') %}
+              {% if is_state('input_boolean.studio_quiet','on') %}
                 'alexa_no_basement'
               {% else %}
                 'everywhere'
@@ -558,7 +558,7 @@ script:
               'living_room_echo_dot'
             {% endif %}
           message: >
-            {% if who in ['Basement','basement','basement_echo_dot','media_player.basement_echo_dot','Basement Echo Dot'] and is_state('input_boolean.stream_online','on') %}
+            {% if who in ['Basement','basement','basement_echo_dot','media_player.basement_echo_dot','Basement Echo Dot'] and is_state('input_boolean.studio_quiet','on') %}
               'I cannot play notifications in the basement while the stream is live'
             {% else %}
               {{ message }}
