@@ -510,16 +510,16 @@ script:
       - service: >-
           {% if voice == 'nabu' %}
             script.nabu_voice      
-          {% elif who in ['living_room_echo_dot', 'media_player.living_room_echo_dot','living_room','Living Room Echo Dot']  %}
-            {% set who = 'living_room_echo_dot' %}
+          {% elif who in ['living_room_echo_dot', 'media_player.living_room_echo_dot','living_room','Living Room Echo Dot','Living Room']  %}
+            {% set who = 'living_room' %}
             script.alexa_voice
-          {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_speaker']  %}
-            {% set who = 'kallen_bedroom_speaker' %}
+          {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_speaker','Kallen Bedroom']  %}
+            {% set who = 'kallen_bedroom' %}
             script.jarvis_voice
-          {% elif who in ['master_bedroom','master_bedroom_echo_dot','media_player.master_bedroom_echo_dot','Master Bedroom Echo Dot']  %}
-            {% set who = 'master_bedroom_echo_dot' %}
+          {% elif who in ['master_bedroom','master_bedroom_echo_dot','media_player.master_bedroom_echo_dot','Master Bedroom Echo Dot','Master Bedroom']  %}
+            {% set who = 'master_bedroom' %}
             script.alexa_voice
-          {% elif who in ['basement','basement_echo_dot','media_player.basement_echo_dot','Basement Echo Dot']  %}
+          {% elif who in ['Basement','basement','basement_echo_dot','media_player.basement_echo_dot','Basement Echo Dot']  %}
             {% if is_state('input_boolean.stream_online','on') %}
               {% set who = 'living_room' %}
               {% set message = 'I cannot play notifications in the basement while the stream is live' %}
