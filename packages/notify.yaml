@@ -559,7 +559,7 @@ script:
             {% endif %}
           message: >
             {% if who in ['Basement','basement','basement_echo_dot','media_player.basement_echo_dot','Basement Echo Dot'] and is_state('input_boolean.studio_quiet','on') %}
-              'I cannot play notifications in the basement while the stream is live'
+              'I cannot play notifications in the basement right now, because quiet has been requested'
             {% else %}
               {{ message }}
             {% endif %}
