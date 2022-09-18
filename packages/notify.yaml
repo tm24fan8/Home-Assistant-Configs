@@ -647,7 +647,7 @@ script:
             media_player.master_bedroom_echo_dot
           {% elif who in ['basement','basement_echo_dot'] %}
             media_player.basement_echo_dot
-          {% elif who in ['common'] %}
+          {% elif who in ['common','common_areas'] %}
             group.common_areas
           {% elif who in ['Everywhere','everywhere'] %}
             group.alexa_everywhere
