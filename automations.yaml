@@ -305,10 +305,18 @@
       data: {}
     - service: script.kallen_desktop_refresh
       data: {}
-    - service: script.status_annc
-      data_template:
-        who: basement
-        call_ha_started: 1
+    - if:
+      - condition: state
+        entity_id: input_boolean.studio_quiet
+        state: 'off'
+      then:
+      - service: script.status_annc
+        data_template:
+          who: basement
+          call_ha_started: 1
+      else:
+      - stop: Studio has requested quiet, and Jarvis respects this
+      alias: Announce back online, unless studio has requested quiet
   - if:
     - condition: trigger
       id: hass_stop
