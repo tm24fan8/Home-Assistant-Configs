@@ -20416,9 +20416,9 @@
         "rules": [
             {
                 "t": "set",
-                "p": "#:(secrets)::secret",
+                "p": "#:(secrets)::secret_id",
                 "pt": "global",
-                "to": "thing",
+                "to": "secret_value",
                 "tot": "str"
             }
         ],
