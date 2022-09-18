@@ -279,6 +279,7 @@
   - if:
     - condition: trigger
       id: hass_start
+      alias: Startup
     then:
     - delay:
         hours: 0
@@ -296,6 +297,14 @@
         entity_id:
         - switch.presence_simulation
       data: {}
+    - service: script.tony_desktop_refresh
+      data: {}
+    - service: script.tina_desktop_refresh
+      data: {}
+    - service: script.asus_laptop_refresh
+      data: {}
+    - service: script.kallen_desktop_refresh
+      data: {}
     - service: script.status_annc
       data_template:
         who: basement
@@ -303,6 +312,7 @@
   - if:
     - condition: trigger
       id: hass_stop
+      alias: Shutdown
     then:
     - service: automation.turn_off
       data: {}
