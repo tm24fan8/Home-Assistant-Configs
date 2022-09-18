@@ -2,6 +2,12 @@
 
 Just a place to track my work on my personal Home Assistant configuration, and learn as I go. Maybe also TRY to keep myself a little bit more organized ;)
 
+## New location for Node-RED flows
+
+I have recently started using the Node-RED Projects feature, which makes version control for my flows a LOT easier than it was before.
+
+With this change, the Node-RED flows are now in a new repo used as a submodule to this repo. They can be found at [HA-NerdFlows](https://github.com/tm24fan8/HA-NerdFlows).
+
 ## Attributions
 
 I am fairly new to this, and while I'm learning to do a lot of it myself, I have definitely pulled ideas (in most cases modifying them for my needs) from other sources as well. Some of the most noteworthy are below.
