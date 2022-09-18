@@ -16,6 +16,8 @@
 /hacs
 /image
 /node-red/*
+/node-red/projects/*
+/node-red/projects/NerdFlows/*
 /files
 /appdaemon/*
 /appdaemon/apps/*
@@ -65,8 +67,14 @@
 **production_auth.json
 **.log*
 **alexa_auth
+*.backup
 
 # exceptions
 !/node-red/flows.json
 !/appdaemon/apps/
 !/appdaemon/apps/apps.yaml
+!/node-red/projects/
+!/node-red/projects/NerdFlows/
+!/node-red/projects/NerdFlows/flows.json
+!/node-red/projects/NerdFlows/package.json
+!/node-red/projects/NerdFlows/README.md
