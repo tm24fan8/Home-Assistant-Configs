@@ -76,6 +76,9 @@ input_boolean:
   welcome_home:
     name: Welcome Home
     icon: mdi:human-greeting
+  studio_quiet:
+    name: Studio Quiet
+    icon: mdi:twitch
 
 # Amazon Polly Sensors to see last message and location of audible notification
 mqtt:
