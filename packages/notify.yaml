@@ -571,9 +571,7 @@ script:
           {% else %}
             false
           {% endif %}
-      - service: >-
-          {% set who = 'everywhere' %}
-            script.jarvis_voice
+      - service: script.jarvis_voice
         data:
           who: '{{ who }}'
           message: >
