@@ -10,3 +10,23 @@ sensor:
     power_sensor_naming: "{} Power Sensor"
     energy_sensor_naming: "{} Energy Sensor"
     mode: lut
+  - platform: powercalc
+    create_group: Living Room Lights
+    include:
+      group: light.living_room_lights
+  - platform: powercalc
+    create_group: Upstairs Bathroom Lights
+    include:
+      group: light.upstairs_bathroom_lights
+  - platform: powercalc
+    create_group: Downstairs Bathroom Lights
+    include:
+      group: light.downstairs_bathroom_lights
+  - platform: powercalc
+    create_group: Master Bedroom Lights
+    include:
+      group: light.master_bedroom_lights
+  - platform: powercalc
+    create_group: Kallen Bedroom Lights
+    include:
+      group: light.kallen_bedroom_lights
