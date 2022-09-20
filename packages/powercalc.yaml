@@ -1,0 +1,12 @@
+# Hue bulbs seem to be auto discovered just fine. This file will be for anything that is not auto discovered.
+
+sensor:
+  - platform: powercalc
+    entity_id: light.basement_led_strip_1
+    manufacturer: lifx
+    model: LIFX Z/length_4
+    create_energy_sensor: true
+    create_utility_meters: true
+    power_sensor_naming: "{} Power Sensor"
+    energy_sensor_naming: "{} Energy Sensor"
+    mode: lut
