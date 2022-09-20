@@ -59,3 +59,8 @@ powercalc:
   enable_autodiscovery: true
   create_energy_sensors: true
   create_utility_meters: true
+  create_domain_groups:
+    - light
+    - media_player
+    - switch
+    - fan
