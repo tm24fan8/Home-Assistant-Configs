@@ -37,8 +37,8 @@ sensor:
   - platform: powercalc
     create_group: First Floor Lights
     include:
-      group: light.first_floor_lights
+      group: light.first_floor_light_bulbs
   - platform: powercalc
     create_group: Second Floor Lights
     include:
-      group: light.second_floor_lights
+      group: light.second_floor_light_bulbs
