@@ -31,6 +31,18 @@
         {% else %}
           off
         {% endif %}
+    kallen_timer_remaining_minutes:
+      friendly_name: 'Kallen Timer Remaining Minutes'
+      value_template: >-
+        {% set f = state_attr('timer.kallen_timer','finishes_at') %}
+        {{ '00' if f == none else
+          (as_datetime(f) - now()).total_seconds() | timestamp_custom('%M', false) }}
+    kallen_timer_remaining_seconds:
+      friendly_name: 'Kallen Timer Remaining Seconds'
+      value_template: >-
+        {% set f = state_attr('timer.kallen_timer','finishes_at') %}
+        {{ '00' if f == none else
+          (as_datetime(f) - now()).total_seconds() | timestamp_custom('%S', false) }}
 
 - platform: time_date
   display_options:
