@@ -99,7 +99,7 @@ input_select:
       - None
       - Living Room
       - Master Bedroom
-      - Basement Studio
+      - Basement
       - All
     initial: None
     icon: mdi:television-play
