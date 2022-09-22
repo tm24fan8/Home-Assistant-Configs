@@ -1497,7 +1497,7 @@ automation:
         entity_id: input_boolean.lightning_warning
         state: 'off'
     action:
-      - service: script.text_notify_all
+      - service: script.text_alert
         data:
           title: "Lightning Detected!"
           message: >-
@@ -1518,7 +1518,7 @@ automation:
         entity_id: input_boolean.lightning_warning
         state: 'on'
     action:
-      - service: script.text_notify_all
+      - service: script.text_alert
         data:
           title: "Lightning Clear"
           message: "The lightning threat has passed. It is safe to resume normal activities."
@@ -1547,7 +1547,7 @@ automation:
         entity_id: binary_sensor.windows
         state: 'on'
     action:
-      - service: script.text_notify_all
+      - service: script.text_alert
         data:
           title: "WINDOWS ARE OPEN!"
           message: "It is raining and there are windows open in the house. Please close them!"
