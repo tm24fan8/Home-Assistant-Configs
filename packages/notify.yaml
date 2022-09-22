@@ -79,6 +79,36 @@ input_boolean:
   studio_quiet:
     name: Studio Quiet
     icon: mdi:twitch
+  send_text_to_phones:
+    name: Send Text to Phones
+    icon: mdi:cellphone-message
+  send_text_to_tvs:
+    name: Send Text to TVs
+    icon: mdi:television
+
+input_select:
+  select_phones:
+    name: Select Phones
+    options:
+      - None
+      - Tony
+      - Tina
+      - Kallen
+      - Parents
+      - Nerds
+      - All
+    initial: None
+    icon: mdi:cellphone-message
+  select_tvs:
+    name: Select TVs
+    options:
+      - None
+      - Living Room
+      - Master Bedroom
+      - Basement Studio
+      - All
+    initial: None
+    icon: mdi:television-play
 
 # Amazon Polly Sensors to see last message and location of audible notification
 mqtt:
