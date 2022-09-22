@@ -102,7 +102,7 @@ This is a new adventure so we'll see where it ends up going, but so far I am usi
 
 ## Themes/Icons
 
-- [Noctis](https://github.com/aFFekopp/noctis)
+- [Noctis](https://github.com/aFFekopp/noctis) - *edited for my specific needs*
 - [Hass Hue Icons](https://github.com/arallsopp/hass-hue-icons)
 - [Thermal Comfort Icons](https://github.com/rautesamtr/thermal_comfort_icons)
 - [BHA Icon Pack](https://github.com/hulkhaugen/hass-bha-icons)
