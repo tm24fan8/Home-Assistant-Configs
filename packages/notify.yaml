@@ -104,6 +104,12 @@ input_select:
     initial: None
     icon: mdi:television-play
 
+input_text:
+  text_notification:
+    name: Text Notification
+    icon: mdi:text
+    initial: Type your notification here
+
 # Amazon Polly Sensors to see last message and location of audible notification
 mqtt:
   sensor:
