@@ -328,6 +328,39 @@ script:
             title: '{{ title }}'
             message: '{{ message }}'
 
+  tv_notify:
+    sequence:
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ who == "living_room"}}'
+          sequence:
+          - service: notify.living_room_tv
+            data:
+              title: '{{ title }}'
+              message: '{{ message }}'
+        - conditions:
+          - condition: template
+            value_template: '{{ who == "master_bedroom"}}'
+          sequence:
+          - service: notify.master_bedroom_tv
+            data:
+              title: '{{ title }}'
+              message: '{{ message }}'
+        - conditions:
+          - condition: template
+            value_template: '{{ who == "basement"}}'
+          sequence:
+          - service: notify.basement_tv
+            data:
+              title: '{{ title }}'
+              message: '{{ message }}'
+        default:
+        - service: notify.tv_notifications
+          data:
+            title: '{{ title }}'
+            message: '{{ message }}'
+
   text_alert:
     sequence:
       - service: >
