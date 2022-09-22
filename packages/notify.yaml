@@ -109,6 +109,10 @@ input_text:
     name: Text Notification
     icon: mdi:text
     initial: Type your notification here
+  text_notification_title:
+    name: Text Notification Title
+    icon: mdi:text
+    initial: Type your title here
 
 # Amazon Polly Sensors to see last message and location of audible notification
 mqtt:
