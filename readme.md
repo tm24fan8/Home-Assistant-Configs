@@ -48,7 +48,6 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [WeatherAPI](https://github.com/iprak/weatherapi)
 - [Browser Mod](https://github.com/thomasloven/hass-browser_mod)
 - [Watchman](https://github.com/dummylabs/thewatchman)
-- [Theme Park Waiting Times](https://github.com/danielsmith-eu/home-assistant-themeparks-integration)
 
 ## HACS Lovelace Cards
 
