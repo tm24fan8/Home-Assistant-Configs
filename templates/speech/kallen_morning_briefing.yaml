@@ -85,6 +85,9 @@
         {% else %}
           'School is running on time. '
         {% endif %}
+        {% if is_state('input_boolean.kallen_band_practice','on') %}
+          'You have band practice this morning before school. '
+        {% endif %}
         <s>School today starts at {{ (state_attr('input_datetime.school_day_start','timestamp') | int | timestamp_custom('%I:%M %p' , False)) }}</s>
         <s>Pickup today will be at {{(state_attr('input_datetime.school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }}</s>
         {% if 'Early Release' in states('sensor.school_event') %}
