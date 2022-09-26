@@ -217,7 +217,7 @@ script:
         data_template:
           time: >
             {% if is_state('input_boolean.school_today','on') %}
-              07:30
+              {{ (state_attr('input_datetime.school_day_start','timestamp') - 5400) | timestamp_custom('%H:%M', false) }}
             {% else %}
               08:15
             {% endif %}
