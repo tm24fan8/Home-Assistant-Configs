@@ -15,6 +15,17 @@
         {%- set test=(as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) %}
         {% if states.calendar.kallen_school_days.attributes.start_time == test + " 09:00:00" %}
           on
+        {% elif states.calendar.kallen_school_days.attributes.start_time == test + " 08:00:00" %}
+          on
+        {% else %}
+          off
+        {% endif %}
+    band_tomorrow:
+      friendly_name: 'Band Tomorrow'
+      value_template: >-
+        {%- set test=(as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) %}
+        {% if states.calendar.kallen_school_days.attributes.start_time == test + " 08:00:00" %}
+          on
         {% else %}
           off
         {% endif %}
