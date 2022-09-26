@@ -242,6 +242,12 @@ script:
             value_template: >
               {{ 'Early Release' in states('sensor.school_event') }}
           sequence:
+          - service: input_datetime.set_datetime
+            target:
+              entity_id: input_datetime.school_day_start
+            data:
+              time: >
+                {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
           - service: input_boolean.turn_on
             entity_id: input_boolean.school_early_release
           - service: input_datetime.set_datetime
@@ -252,9 +258,16 @@ script:
         default:
         - service: input_datetime.set_datetime
           target:
+            entity_id: input_datetime.school_day_start
+          data:
+            time: >
+              {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
+        - service: input_datetime.set_datetime
+          target:
             entity_id: input_datetime.school_day_end
           data:
-            time: "15:20:00" 
+            time: >
+              {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','end_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
       - service: input_boolean.turn_on
         entity_id: 
           - input_boolean.school_today
