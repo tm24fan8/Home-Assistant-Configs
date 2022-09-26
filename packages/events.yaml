@@ -20,6 +20,9 @@ input_boolean:
   kallen_school_cancelled:
     name: Kallen School Cancelled
     icon: mdi:calendar-remove
+  kallen_band_practice:
+    name: Kallen Band Practice
+    icon: mdi:trumpet
 
 input_datetime:
   school_first_day:
@@ -236,18 +239,11 @@ automation:
 script:
   kallen_school_today:
     sequence:
-      - choose:
-        - conditions:
+      - if:
           - condition: template
             value_template: >
               {{ 'Early Release' in states('sensor.school_event') }}
-          sequence:
-          - service: input_datetime.set_datetime
-            target:
-              entity_id: input_datetime.school_day_start
-            data:
-              time: >
-                {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
+        then:
           - service: input_boolean.turn_on
             entity_id: input_boolean.school_early_release
           - service: input_datetime.set_datetime
@@ -255,25 +251,35 @@ script:
               entity_id: input_datetime.school_day_end
             data:
               time: "14:45:00"
-        default:
-        - service: input_datetime.set_datetime
-          target:
-            entity_id: input_datetime.school_day_start
-          data:
-            time: >
-              {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
-        - service: input_datetime.set_datetime
-          target:
-            entity_id: input_datetime.school_day_end
-          data:
-            time: >
-              {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','end_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
+        else:
+          - service: input_datetime.set_datetime
+            target:
+              entity_id: input_datetime.school_day_end
+            data:
+              time: >
+                {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','end_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.school_day_start
+        data:
+          time: >
+            {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
       - service: input_boolean.turn_on
         entity_id: 
           - input_boolean.school_today
           - input_boolean.school_today_extended
       - service: script.turn_on
         entity_id: script.school_in_session
+      - delay:
+          seconds: 1
+      - if:
+        - condition: template
+          value_template: >
+            {{ state_attr('input_datetime.school_day_start','timestamp') == 28800 }}
+        then:
+          - service: input_boolean.turn_on
+            entity_id: input_boolean.kallen_band_practice
+
 
   kallen_school_reset:
     sequence:
@@ -286,7 +292,9 @@ script:
   kallen_school_reset_late:
     sequence:
       - service: input_boolean.turn_off
-        entity_id: input_boolean.school_today_extended
+        entity_id: 
+          - input_boolean.school_today_extended
+          - input_boolean.kallen_band_practice
 
   tina_work_today:
     sequence:
