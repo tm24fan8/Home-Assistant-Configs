@@ -1,0 +1,15 @@
+time_testing:
+  name: Time Testing
+  has_date: false
+  has_time: true
+  icon: mdi:test-tube
+date_testing:
+  name: Date Testing
+  has_date: true
+  has_time: false
+  icon: mdi:test-tube
+datetime_testing:
+  name: Date and Time Testing
+  has_date: true
+  has_time: true
+  icon: mdi:test-tube
