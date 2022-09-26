@@ -15,7 +15,14 @@
         {{ [ 'Because you have school tomorrow. ',
           'Because you have to get up early tomorrow for school.',
           'Because you want to be ready for school tomorrow.'
-        ] | random }}   
+        ] | random }}
+        {% if is_state('sensor.band_tomorrow','on') %}
+          {{ [
+            'And you have band practice in the morning. ',
+            'And you have a date with a trombone first thing in the morning. ',
+            'And you want to be nice and energetic for blowing into a large brass tube first thing in the morning. '
+            ] | random }}
+        {% endif %}
       {% else %}
         {% set month=states("sensor.date").split('-')[1] | int %}
         {%- if is_state('input_boolean.school_in_session', 'off') -%}
