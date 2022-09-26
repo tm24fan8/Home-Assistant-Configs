@@ -17,6 +17,9 @@
       {% endif %}
 
       {% if is_state('input_boolean.school_today','on') %}
+        {% if is_state('input_boolean.kallen_band_practice','on') %}
+          "You have band practice this morning before school. "
+        {% endif %}
         "Your school day will start at {{ (state_attr('input_datetime.school_day_start','timestamp') | int | timestamp_custom('%I:%M %p' , False)) }}. "
         "Your school day will end at {{(state_attr('input_datetime.school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
       {% endif %}
