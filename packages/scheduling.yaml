@@ -288,7 +288,11 @@ script:
               {% if state_attr('input_datetime.tina_workday_start','timestamp') < state_attr('input_datetime.school_day_start','timestamp') %}
                 {{ (state_attr('input_datetime.school_day_start','timestamp') + 1800) | timestamp_custom('%H:%M', false) }}
               {% else %}
-                {{ (state_attr('input_datetime.tina_workday_start','timestamp') + 900) | timestamp_custom('%H:%M', false) }}
+                {% if (state_attr('input_datetime.tina_workday_start','timestamp') - state_attr('input_datetime.school_day_start','timestamp')) > 5400 %}
+                  {{ (state_attr('input_datetime.school_day_start','timestamp') + 1800) | timestamp_custom('%H:%M', false) }}
+                {% else %}
+                  {{ (state_attr('input_datetime.tina_workday_start','timestamp') + 900) | timestamp_custom('%H:%M', false) }}
+                {% endif %}
               {% endif %}
             {% else %}
               12:00
