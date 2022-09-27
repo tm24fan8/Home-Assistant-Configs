@@ -14,6 +14,9 @@ input_boolean:
   living_room_entertainment_control:
     name: Living Room Entertainment Control
     icon: mdi:television-ambient-light
+  delivery_mode:
+    name: Delivery Mode
+    icon: mdi:pizza
 
 input_select:
   living_room_scenes:
