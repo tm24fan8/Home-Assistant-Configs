@@ -103,7 +103,7 @@ automation:
       state: 'on'
     - condition: numeric_state
       entity_id: sensor.tonights_low_temp
-      above: 57
+      above: 55
     action:
     - service: fan.turn_on
       target:
