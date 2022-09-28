@@ -82,7 +82,7 @@ sensor:
             Grocery Store
           {% elif person in ['Rite Aid'] %}
             Pharmacy
-          {% elif person in ['Bob Evans'] and is_state('input_boolean.work_today','on') %}
+          {% elif person in ['Bob Evans','BobEvans'] and is_state('input_boolean.work_today','on') %}
             Work
           {% else %}
             {% if person in ['not_home','Stationary'] %}
