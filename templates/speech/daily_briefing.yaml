@@ -17,7 +17,7 @@
           </p>
         {% else %}
           <p>
-            It is {{ now().strftime("%I:%M %p") }}
+            It is {{ now().strftime("%I:%M %p") }}.
           </p>
         {% endif %}
       
@@ -156,6 +156,14 @@
           {% if states.sensor.anniversary_wedding_anniversary.state | int == 1 %}
             Tomorrow is Tony and Christina's wedding anniversary!
           {% endif %}
+
+          {% set tina = states.person.christina_stork.state %}
+          {% if tina in ['Bob Evans','BobEvans'] and is_state('input_boolean.work_today','on') %}
+            <s>Tina is at work right now. She will be done at approximately {{ (state_attr('input_datetime.tina_workday_end','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. </s>
+          {% elif is_state('input_boolean.work_today','on') %}
+            Tina has work today.
+          {% endif %}
+
         
         {% else %}
           {% if is_state('sensor.halloween_countdown','0') %}
@@ -268,7 +276,7 @@
 
             {% set tina = states.person.christina_stork.state %}
             {% if tina in ['Bob Evans','BobEvans'] and is_state('input_boolean.work_today','on') %}
-              <s>Tina is at work right now. She will be done at approximately {{ (state_attr('input_datetime.tina_workday_end','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}</s>
+              <s>Tina is at work right now. She will be done at approximately {{ (state_attr('input_datetime.tina_workday_end','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. </s>
             {% elif is_state('input_boolean.work_today','on') %}
               Tina has work today.
             {% endif %}
