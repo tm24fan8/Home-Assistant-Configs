@@ -263,70 +263,84 @@ script:
       - condition: state
         entity_id: input_boolean.text_notifications
         state: 'on'
-      - choose:
-        - conditions:
-          - condition: template
-            value_template: '{{ who == "tony"}}'
-          - condition: state
-            entity_id: input_boolean.text_notify_tony
-            state: 'on'
-          sequence:
-          - service: notify.ios_tony
-            data:
-              title: '{{ title }}'
-              message: '{{ message }}'
-        - conditions:
-          - condition: template
-            value_template: '{{ who == "tina"}}'
-          - condition: state
-            entity_id: input_boolean.text_notify_tina
-            state: 'on'
-          sequence:
-          - service: notify.ios_tina
-            data:
-              title: '{{ title }}'
-              message: '{{ message }}'
-        - conditions:
-          - condition: template
-            value_template: '{{ who == "kallen"}}'
-          - condition: state
-            entity_id: input_boolean.text_notify_kallen
-            state: 'on'
-          sequence:
-          - service: notify.ios_kallen
-            data:
-              title: '{{ title }}'
-              message: '{{ message }}'
-        - conditions:
-          - condition: template
-            value_template: '{{ who == "parents"}}'
-          - condition: state
-            entity_id: input_boolean.text_notify_parents
-            state: 'on'
-          sequence:
-          - service: notify.ios_parents
-            data:
-              title: '{{ title }}'
-              message: '{{ message }}'
-        - conditions:
-          - condition: template
-            value_template: '{{ who == "nerds"}}'
-          - condition: state
-            entity_id: input_boolean.text_notify_nerds
-            state: 'on'
-          sequence:
-          - service: notify.ios_nerds
-            data:
-              title: '{{ title }}'
-              message: '{{ message }}'
-        default:
-        - condition: state
-          entity_id: input_boolean.text_notify_all
-          state: 'on'
-        - service: notify.all_ios
-          data:
-            title: '{{ title }}'
-            message: '{{ message }}'
+      - if:
+        - condition: template
+          value_template: '{{ who == "tony"}}'
+        then:
+          - if:
+            - condition: state
+              entity_id: input_boolean.text_notify_tony
+              state: 'on'
+            then:
+            - service: notify.ios_tony
+              data:
+                title: '{{ title }}'
+                message: '{{ message }}'
+      - if:
+        - condition: template
+          value_template: '{{ who == "tina"}}'
+        then:
+          - if:
+            - condition: state
+              entity_id: input_boolean.text_notify_tina
+              state: 'on'
+            then:
+            - service: notify.ios_tina
+              data:
+                title: '{{ title }}'
+                message: '{{ message }}'
+      - if:
+        - condition: template
+          value_template: '{{ who == "kallen"}}'
+        then:
+          - if:
+            - condition: state
+              entity_id: input_boolean.text_notify_kallen
+              state: 'on'
+            then:
+            - service: notify.ios_kallen
+              data:
+                title: '{{ title }}'
+                message: '{{ message }}'
+      - if:
+        - condition: template
+          value_template: '{{ who == "parents"}}'
+        then:
+          - if:
+            - condition: state
+              entity_id: input_boolean.text_notify_parents
+              state: 'on'
+            then:
+            - service: notify.ios_parents
+              data:
+                title: '{{ title }}'
+                message: '{{ message }}'
+      - if:
+        - condition: template
+          value_template: '{{ who == "nerds"}}'
+        then:
+          - if:
+            - condition: state
+              entity_id: input_boolean.text_notify_nerds
+              state: 'on'
+            then:
+            - service: notify.ios_nerds
+              data:
+                title: '{{ title }}'
+                message: '{{ message }}'
+      - if:
+        - condition: template
+          value_template: '{{ who == "all"}}'
+        then:
+          - if:
+            - condition: state
+              entity_id: input_boolean.text_notify_all
+              state: 'on'
+            then:
+            - service: notify.all_ios
+              data:
+                title: '{{ title }}'
+                message: '{{ message }}'
 
   tv_notify:
     sequence:
