@@ -208,6 +208,9 @@ script:
 ###############################################################################
   text_notify_all:
     sequence:
+      - condition: state
+        entity_id: input_boolean.text_notify_all
+        state: 'on'
       - service: notify.all_ios
         data_template:
           title: '{{ title }}'
@@ -390,7 +393,7 @@ script:
               notify.ios_parents
             {% elif who == 'nerds' %}
               notify.ios_nerds
-            {% else %}
+            {% elif who == 'all' %}
               notify.all_ios
             {% endif %}
         data:
@@ -420,7 +423,7 @@ script:
               notify.ios_parents
             {% elif who == 'nerds' %}
               notify.ios_nerds
-            {% else %}
+            {% elif who == 'all' %}
               notify.all_ios
             {% endif %}
         data:
@@ -450,7 +453,7 @@ script:
             notify.ios_parents
           {% elif who == 'nerds' %}
             notify.ios_nerds
-          {% else %}
+          {% elif who == 'all' %}
             notify.all_ios
           {% endif %}
         data:
