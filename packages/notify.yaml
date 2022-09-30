@@ -790,7 +790,7 @@ script:
           {% endif %}
         volume_level: >-
             {% if states.input_boolean.audible_notifications.state == 'on' %}
-              1.0
+              0.9
             {% else %}
               0.3
             {% endif %}
