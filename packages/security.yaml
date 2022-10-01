@@ -208,9 +208,9 @@ script:
           data:
             who: common
             message: 'There are active security faults. Please close all doors and windows before arming.'
-        - service: script.text_notify
+        - service: script.text_urgent_alert
           data:
-            who: 'ios_parents'
+            who: 'parents'
             message: 'There are active security faults. Please close all doors and windows before arming.'
 
   security_arm_away:
@@ -234,9 +234,9 @@ script:
           data:
             who: common
             message: 'There are active security faults. Please close all doors and windows before arming.'
-        - service: script.text_notify
+        - service: script.text_urgent_alert
           data:
-            who: 'ios_parents'
+            who: 'parents'
             message: 'There are active security faults. Please close all doors and windows before arming.'
 
   security_disarm:
