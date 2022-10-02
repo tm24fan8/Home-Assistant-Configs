@@ -350,9 +350,10 @@
         - sensor.tony_s_iphone_battery_level
         - sensor.tony_s_ipad_battery_level
       actions:
-      - service: script.text_notify_all
+      - service: script.text_notify
         data:
-          title: Low Batteries in House
+          who: 'all'
+          title: 'Low Batteries in House'
           message: 'Low battery alert for: {{sensors}}'
 - id: '1655493590791'
   alias: NWS Announce Weather Alert for Tornado (CLEAR)
