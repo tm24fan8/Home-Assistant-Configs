@@ -314,7 +314,12 @@ script:
               entity_id: input_boolean.text_notify_parents
               state: 'on'
             then:
-            - service: notify.ios_parents
+            - service: >
+                {% if is_state('input_boolean.text_notify_tina','off') %}
+                  notify.ios_tony
+                {% else %}
+                  notify.ios_parents
+                {% endif %}
               data:
                 title: '{{ title }}'
                 message: '{{ message }}'
