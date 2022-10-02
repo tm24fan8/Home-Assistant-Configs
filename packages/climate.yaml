@@ -108,4 +108,9 @@ automation:
     - service: fan.turn_on
       target:
         entity_id: fan.nursery_air_conditioner
+    - service: script.text_notify
+      data:
+        who: parents
+        title: Nursery Climate Schedule
+        message: The air conditioner in the nursery has been activated.
     mode: restart
