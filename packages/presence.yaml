@@ -274,7 +274,6 @@ script:
         - dining_room
         - downstairs_bathroom
         - upstairs_bathroom
-      data: {}
     - service: fan.turn_off
       target:
         area_id:
@@ -282,11 +281,9 @@ script:
         - kallen_bedroom
         - master_bedroom
         - nursery
-      data: {}
     - service: media_player.turn_off
       target:
         entity_id: media_player.living_room_tv
-      data: {}
     - service: script.security_arm_away
     mode: single
     icon: mdi:shield-lock
@@ -296,7 +293,6 @@ script:
     - service: switch.turn_off
       target:
         entity_id: switch.presence_simulation
-      data: {}
     - service: script.security_disarm
     - service: switch.turn_off
       target:
@@ -304,7 +300,6 @@ script:
         - switch.basement_echo_dot_do_not_disturb_switch
         - switch.living_room_echo_dot_do_not_disturb_switch
         - switch.master_bedroom_echo_dot_do_not_disturb_switch
-      data: {}
     - service: light.turn_off
       target:
         area_id:
@@ -318,14 +313,12 @@ script:
         - upstairs_bathroom
         - dining_room
         - living_room
-      data: {}
     - if:
       - condition: sun
         after: sunset
         after_offset: -00:30
       then:
       - service: light.turn_on
-        data: {}
         target:
           area_id:
           - living_room
