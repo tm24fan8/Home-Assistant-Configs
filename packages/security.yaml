@@ -211,6 +211,7 @@ script:
         - service: script.text_urgent_alert
           data:
             who: 'parents'
+            title: 'Security Not Armed!'
             message: 'There are active security faults. Please close all doors and windows before arming.'
 
   security_arm_away:
@@ -237,6 +238,7 @@ script:
         - service: script.text_urgent_alert
           data:
             who: 'parents'
+            title: 'Security Not Armed!'
             message: 'There are active security faults. Please close all doors and windows before arming.'
 
   security_disarm:
