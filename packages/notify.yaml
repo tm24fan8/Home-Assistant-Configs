@@ -103,6 +103,14 @@ input_select:
       - All
     initial: None
     icon: mdi:television-play
+  text_notification_priority_level:
+    name: Notification Priority Level
+    options:
+      - Normal
+      - Alert
+      - Critical
+    initial: Normal
+    icon: mdi:alert
 
 input_text:
   text_notification:
