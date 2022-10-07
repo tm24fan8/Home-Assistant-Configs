@@ -147,9 +147,6 @@
           {{ state_attr('light.front_porch_light','color_temp') | int }}
         {% endif %}
 
-- platform: uptime
-  name: Last Boot
-
 - platform: history_stats
   name: Basement TV Time
   entity_id: media_player.basement_tv
