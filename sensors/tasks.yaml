@@ -9,7 +9,7 @@
   json_attributes:
     - project
     - items
-  scan_interval: 60
+  scan_interval: 30
 - platform: rest
   name: Home Tech
   method: GET
@@ -21,7 +21,7 @@
   json_attributes:
     - project
     - items
-  scan_interval: 60
+  scan_interval: 30
 - platform: template
   sensors:
     home_tech_bug_reports:
