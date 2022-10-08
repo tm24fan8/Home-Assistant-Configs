@@ -1,16 +1,4 @@
 - platform: rest
-  name: Household Tasks
-  method: GET
-  resource: 'https://api.todoist.com/sync/v9/projects/get_data'
-  params:
-    token: !secret todoist_api_token
-    project_id: 2285967928
-  value_template: '{{value_json[''project''][''id'']}}'
-  json_attributes:
-    - project
-    - items
-  scan_interval: 60
-- platform: rest
   name: Kallen Tasks
   method: GET
   resource: 'https://api.todoist.com/sync/v9/projects/get_data'
