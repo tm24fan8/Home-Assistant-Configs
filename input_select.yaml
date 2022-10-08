@@ -36,3 +36,13 @@ report_type:
     - New Idea
   initial: Bug Report
   icon: mdi:bug
+select_testing:
+  name: Select Testing
+  options:
+    - One
+    - Two
+    - Three
+    - Four
+    - Five
+  initial: One
+  icon: mdi:test-tube

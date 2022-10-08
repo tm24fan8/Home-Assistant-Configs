@@ -31,3 +31,6 @@ night_mode:
 early_night_mode:
   name: Early Night Mode
   icon: mdi:lightbulb-night-outline
+toggle_testing:
+  name: Toggle Testing
+  icon: mdi:test-tube

@@ -1,0 +1,14 @@
+number_box_test:
+  name: Number Box Test
+  min: -100
+  max: 100
+  step: 1
+  mode: box
+  icon: mdi:test-tube
+number_slider_test:
+  name: Number Slider Test
+  min: -100
+  max: 100
+  step: 1
+  mode: slider
+  icon: mdi:test-tube
