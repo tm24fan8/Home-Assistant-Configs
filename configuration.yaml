@@ -66,3 +66,6 @@ climate:
     id: !secret master_bedroom_ac_id
     token: !secret master_bedroom_ac_token
     k1: !secret master_bedroom_ac_key
+
+recorder:
+  db_url: !secret mariadb_url
