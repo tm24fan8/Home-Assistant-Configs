@@ -70,3 +70,19 @@ climate:
 recorder:
   db_url: !secret mariadb_url
   purge_keep_days: 30
+
+influxdb:
+  host: 192.168.1.26
+  port: 8086
+  database: homeassistant
+  username: homeassistant
+  password: !secret influxdb_pass
+  max_retries: 3
+  default_measurement: state
+  exclude:
+    domains:
+      - automation
+      - script
+      - zone
+    entity_globs:
+      - sensor.*battery*
