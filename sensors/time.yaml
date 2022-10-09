@@ -1,6 +1,3 @@
-- platform: season
-  type: astronomical
-  name: Current Season
 - platform: template
   sensors:
     today_is:
