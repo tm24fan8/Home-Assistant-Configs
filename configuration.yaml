@@ -86,3 +86,25 @@ influxdb:
       - zone
     entity_globs:
       - sensor.*battery*
+
+history:
+  exclude:
+    domains:
+      - automation
+      - updater
+    entities:
+      - sensor.last_boot
+      - sensor.date
+      - sensor.date_time
+      - sensor.time_date
+      - sensor.time
+      - sensor.time_utc
+
+logbook:
+  include:
+    domains:
+      - alarm_control_panel
+      - light
+    entity_globs:
+      - binary_sensor.*_motion
+      - binary_sensor.*_occupancy
