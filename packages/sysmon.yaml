@@ -46,21 +46,21 @@ sensor:
         column: "value"
         unit_of_measurement: MB
 
-  - platform: influxdb
-    host: 192.168.1.26
-    port: 8086
-    username: homeassistant
-    password: !secret influxdb_pass
-    scan_interval: 3600
-    queries:
-      - name: InfluxDB Database Size
-        unit_of_measurement: MB
-        value_template: "{{ (value | float(0) / 1024 /1024) | round(1) }}"
-        group_function: sum
-        measurement: '"monitor"."shard"'
-        database: _internal
-        where: '"database"=''homeassistant'' AND time > now() - 5m'
-        field: diskBytes
+  # - platform: influxdb
+  #   host: 192.168.1.26
+  #   port: 8086
+  #   username: homeassistant
+  #   password: !secret influxdb_pass
+  #   scan_interval: 3600
+  #   queries:
+  #     - name: InfluxDB Database Size
+  #       unit_of_measurement: MB
+  #       value_template: "{{ (value | float(0) / 1024 /1024) | round(1) }}"
+  #       group_function: sum
+  #       measurement: '"monitor"."shard"'
+  #       database: _internal
+  #       where: '"database"=''homeassistant'' AND time > now() - 5m'
+  #       field: diskBytes
 
 
 binary_sensor:
