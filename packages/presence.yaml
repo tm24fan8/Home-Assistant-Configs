@@ -300,23 +300,11 @@ script:
         - switch.basement_echo_dot_do_not_disturb_switch
         - switch.living_room_echo_dot_do_not_disturb_switch
         - switch.master_bedroom_echo_dot_do_not_disturb_switch
-    - service: light.turn_off
-      target:
-        area_id:
-        - furnace_room
-        - kallen_bedroom
-        - nursery
-        - master_bedroom
-        - upstairs_hallway
-        - basement_studio
-        - downstairs_bathroom
-        - upstairs_bathroom
-        - dining_room
-        - living_room
+    - service: script.welcome_home
     - if:
-      - condition: sun
-        after: sunset
-        after_offset: -00:30
+      - condition: state
+        entity_id: input_boolean.early_night_mode
+        state: 'on'
       then:
       - service: light.turn_on
         target:
@@ -327,7 +315,7 @@ script:
       - delay:
           hours: 0
           minutes: 0
-          seconds: 5
+          seconds: 3
           milliseconds: 0
       - service: input_select.select_option
         target:
@@ -359,6 +347,34 @@ script:
               - living_room
               - dining_room
               - mud_room
-    - service: script.welcome_home
+          - delay:
+              hours: 0
+              minutes: 0
+              seconds: 3
+              milliseconds: 0
+          - service: input_select.select_option
+            target:
+              entity_id:
+                - input_select.living_room_scenes
+                - input_select.tina_lamp_scenes
+                - input_select.mud_room_scenes
+            data:
+              option: Adaptive
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.dining_room_lamp_scenes
+            data:
+              option: Full
+    - service: light.turn_off
+      target:
+        area_id:
+        - furnace_room
+        - kallen_bedroom
+        - nursery
+        - master_bedroom
+        - upstairs_hallway
+        - basement_studio
+        - downstairs_bathroom
+        - upstairs_bathroom
     mode: single
     icon: mdi:home-account
