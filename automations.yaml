@@ -178,8 +178,17 @@
       entity_id: binary_sensor.internet
       state: 'off'
   action:
-  - service: script.family_is_home
-    data: {}
+  - if:
+    - condition: state
+      entity_id: input_boolean.early_night_mode
+      state: 'on'
+    then:
+    - service: script.family_is_home_night
+      data: {}
+    else:
+    - service: script.family_is_home_day
+      data: {}
+    alias: Check early night mode, choose which script to run
   mode: restart
 - id: '1641102018783'
   alias: Family Has Left
