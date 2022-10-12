@@ -107,7 +107,11 @@ automation:
         - service: script.speech_engine
           data:
             who: "{{ states('sensor.last_alexa') }}"
-            message: "Security is armed, guard dogs deployed, and lasers set from stun to kill!"
+            message: >
+              {{ [ "Security is armed, guard dogs deployed, and lasers set from stun to kill!",
+                "The security system is armed. Sentry turrets active, be careful out there!",
+                "Your security is our number one priority. Flamethrower turrets deployed!"
+              ] | random }}
       - if:
         - condition: trigger
           id: security-no
@@ -115,7 +119,11 @@ automation:
         - service: script.speech_engine
           data:
             who: "{{ states('sensor.last_alexa') }}"
-            message: "Security squadron is standing down, but always at your service!"
+            message: >
+              {{ [ "Security squadron is standing down, but always at your service!",
+                "Our security forces are currently twiddling their thumbs, awaiting some purpose in their life!",
+                "Security not armed. Hopefully the defense turrets do not become bored!"
+              ] | random }}
 
 
 
