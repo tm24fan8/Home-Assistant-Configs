@@ -293,6 +293,7 @@ script:
         - switch.adaptive_lighting_tina_lamp
         - switch.adaptive_lighting_mud_room
         - switch.adaptive_lighting_upstairs_hallway
+        - switch.adaptive_lighting_upstairs_bathroom
         - switch.adaptive_lighting_master_bedroom
         - switch.adaptive_lighting_kallen_bedroom
         - switch.adaptive_lighting_nursery
@@ -305,6 +306,7 @@ script:
         - input_text.mud_room_selected_scene
         - input_text.tina_lamp_selected_scene
         - input_text.upstairs_hallway_selected_scene
+        - input_text.upstairs_bathroom_selected_scene
         - input_text.master_bedroom_selected_scene
         - input_text.kallen_bedroom_selected_scene
         - input_text.nursery_selected_scene
