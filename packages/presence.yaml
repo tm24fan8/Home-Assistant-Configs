@@ -352,11 +352,6 @@ script:
             {% else %}
               false
             {% endif %}
-        - condition: not
-          conditions:
-          - condition: sun
-            after: sunset
-            after_offset: -00:30
         then:
           - service: light.turn_on
             target:
