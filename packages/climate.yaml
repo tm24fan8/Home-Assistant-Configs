@@ -67,6 +67,27 @@ input_boolean:
   master_bedroom_cooling_on:
     name: Master Bedroom Cooling On
 
+input_select:
+  scheduled_climate_mode_master_bedroom_aircon:
+    name: Scheduled Climate Mode - Master Bedroom Aircon
+    options:
+      - AC
+      - Fan
+      - None
+    icon: mdi:home-thermometer
+  scheduled_climate_mode_master_bedroom_fan:
+    name: Scheduled Climate Mode - Master Bedroom Fan
+    options:
+      - Fan
+      - None
+    icon: mdi:home-thermometer
+  scheduled_climate_mode_nursery_aircon:
+    name: Scheduled Climate Mode - Nursery Aircon
+    options:
+      - AC
+      - None
+    icon: mdi:home-thermometer
+
 input_number:
   master_bedroom_daytime_temp:
     name: Master Bedroom Daytime Temp
