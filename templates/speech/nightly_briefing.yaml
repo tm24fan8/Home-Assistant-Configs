@@ -31,6 +31,14 @@
       {% endif %}
     </p>
 
+    {% set dow = as_timestamp(now()) | timestamp_custom('%A') %}
+    {% if dow == 'Monday' %}
+      "I hope that by now you have remembered to take the garbage can to the curb. "
+    {% endif %}
+    {% if dow == 'Tuesday' %}
+      "At this point you should have already done this, but make sure the garbage can is brought back to the house! "
+    {% endif %}
+
     <p>
       "Bedroom climate scheduling will be as follows. "
         {% if is_state('input_boolean.master_bedroom_aircon_installed','on') %}
