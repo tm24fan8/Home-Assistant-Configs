@@ -44,6 +44,11 @@ input_datetime:
     has_date: false
     has_time: true
     icon: mdi:fan-off
+  tony_streaming_start_time:
+    name: Tony Streaming Start Time
+    has_date: false
+    has_time: true
+    icon: mdi:twitch
 
 
 automation:

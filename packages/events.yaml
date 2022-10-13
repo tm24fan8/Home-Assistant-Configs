@@ -23,6 +23,9 @@ input_boolean:
   kallen_band_practice:
     name: Kallen Band Practice
     icon: mdi:trumpet
+  tony_streaming_today:
+    name: Tony Streaming Today
+    icon: mdi:twitch
 
 input_datetime:
   school_first_day:
