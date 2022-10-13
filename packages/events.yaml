@@ -194,6 +194,21 @@ automation:
     action:
       - service: script.tina_work_today
 
+  - id: 77f33070-4405-41b6-84c4-05b4f3697199
+    alias: Tony Stream Today
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '08:00:00'
+    condition:
+    - condition: template
+      value_template: >
+        {%- if as_timestamp(strptime(state_attr('calendar.tony_s_twitch_schedule','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%Y-%m-%d") == now().strftime("%Y-%m-%d") %}
+          true
+        {%- endif -%}
+    action:
+      - service: script.tony_stream_today
+
   - id: b9028665-401c-4de3-8f13-1099160b011f
     alias: School Reset
     initial_state: true
@@ -224,6 +239,17 @@ automation:
         at: input_datetime.tina_workday_end
     action: 
       - service: script.tina_work_reset
+
+  - id: 465ec4be-8e6c-444b-bfe7-6d4796888be4
+    alias: Tony Stream Reset
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: sensor.twitch_ironnerd24
+        from: 'streaming'
+        to: 'offline'
+    action:
+      - service: script.tony_stream_reset
 
   - id: 05ee0f8d-5411-4486-8acf-9bfadad2b23a
     alias: End of School Year
@@ -320,6 +346,22 @@ script:
     sequence:
       - service: input_boolean.turn_off
         entity_id: input_boolean.work_today
+
+  tony_stream_today:
+    sequence:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.tony_streaming_start_time
+        data:
+          time: >
+            {{ as_timestamp(strptime(state_attr('calendar.tony_s_twitch_schedule','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.tony_streaming_today
+
+  tony_stream_reset:
+    sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.tony_streaming_today
 
   school_in_session:
     sequence:
