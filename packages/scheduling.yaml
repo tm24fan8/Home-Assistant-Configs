@@ -211,7 +211,16 @@ script:
             {% else %}
               21:40
             {% endif %}
-      - service: script.kallen_fan_scheduling
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.scheduled_climate_mode_kallen_fan
+        data:
+          option: >
+            {% if states('sensor.tonights_low_temp') >= states('input_number.kallen_fan_threshold') %}
+              Fan
+            {% else %}
+              White Noise
+            {% endif %}
 
   house_scheduling_morning:
     sequence:
@@ -298,6 +307,22 @@ script:
             {% else %}
               12:00
             {% endif %}
+      - if:
+        - condition: template
+          value_template: >
+            {% if state_attr('sensor.current_forecast','high_temp') >= states('input_number.hot_day_threshold') %}
+              true
+            {% else %}
+              false
+            {% endif %}
+        then:
+        - service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.hot_day
+        else:
+        - service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.hot_day
 
   house_scheduling_evening:
     sequence:
@@ -330,10 +355,9 @@ script:
         data_template:
           time: >
             {% set low = state_attr('sensor.current_forecast','overnight_low') | float %}
-            {% set high = state_attr('sensor.current_forecast','high_temp') | float %}
-            {% if high >= 85 and is_state('sensor.school_tomorrow','on') %}
+            {% if is_state('input_boolean.hot_day','on') and is_state('sensor.school_tomorrow','on') %}
               20:00
-            {% elif high >= 85 and is_state('sensor.school_tomorrow','off') %}
+            {% elif is_state('input_boolean.hot_day','on') and is_state('sensor.school_tomorrow','off') %}
               21:00
             {% elif low >= 56 and low <= 60 %}
               22:30
@@ -352,7 +376,30 @@ script:
             {% else %}
               00:00
             {% endif %}
-      - service: script.master_bedroom_climate_scheduling
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.scheduled_climate_mode_master_bedroom_aircon
+        data:
+          option: >
+            {% if states('sensor.tonights_low_temp') >= states('input_number.master_bedroom_aircon_run_threshold') %}
+              {% if states('sensor.tonights_low_temp') >= states('input_number.master_bedroom_aircon_mode_threshold') %}
+                AC
+              {% else %}
+                Fan
+              {% endif %}
+            {% else %}
+              None
+            {% endif %}
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.scheduled_climate_mode_master_bedroom_fan
+        data:
+          option: >
+            {% if states('sensor.tonights_low_temp') >= states('input_number.master_bedroom_fan_threshold') %}
+              Fan
+            {% else %}
+              None
+            {% endif %}
 
   nursery_scheduling:
     sequence:
@@ -362,11 +409,20 @@ script:
           time: >
             {% set high = state_attr('sensor.current_forecast','high_temp') | float %}
             {% set low = state_attr('sensor.current_forecast','overnight_low') | float %}
-            {% if high >= 85 %}
+            {% if is_state('input_boolean.hot_day','on') %}
               20:30
             {% elif high >= 80 or low >= 60 %}
               21:30
             {% else %}
               22:30
             {% endif %}
-      - service: script.nursery_climate_scheduling
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.scheduled_climate_mode_nursery_aircon
+        data:
+          option: >
+            {% if states('sensor.tonights_low_temp') >= states('input_number.nursery_aircon_threshold') %}
+              AC
+            {% else %}
+              White Noise
+            {% endif %}

@@ -66,6 +66,10 @@ input_boolean:
   # Used internally for automations to know if cooling time has passed or not
   master_bedroom_cooling_on:
     name: Master Bedroom Cooling On
+  # Activated if the day will be excessively hot. For use with automations for daytime climate control.
+  hot_day:
+    name: Hot Day
+    icon: mdi:heat-wave
 
 input_select:
   scheduled_climate_mode_master_bedroom_aircon:
@@ -160,6 +164,12 @@ input_number:
     step: 1
     unit_of_measurement: °F
     icon: mdi:thermometer
+  hot_day_threshold:
+    name: Hot Day Threshold
+    min: 70
+    max: 90
+    step: 1
+    unit_of_measurement: °F
 
 automation:
   - id: '1655415573165'
@@ -172,70 +182,18 @@ automation:
     - condition: state
       entity_id: input_boolean.nursery_aircon_installed
       state: 'on'
-    - condition: state
-      entity_id: input_select.scheduled_climate_mode_nursery_aircon
-      state: 'AC'
     action:
-    - service: fan.turn_on
-      target:
-        entity_id: fan.nursery_air_conditioner
-    - service: script.text_notify
-      data:
-        who: "parents"
-        title: "Nursery Climate Schedule"
-        message: "The air conditioner in the nursery has been activated."
-    mode: restart
-
-script:
-  master_bedroom_climate_scheduling:
-    sequence:
-    - service: input_select.select_option
-      target:
-        entity_id: input_select.scheduled_climate_mode_master_bedroom_aircon
-      data:
-        option: >
-          {% if states('sensor.tonights_low_temp') >= states('input_number.master_bedroom_aircon_run_threshold') %}
-            {% if states('sensor.tonights_low_temp') >= states('input_number.master_bedroom_aircon_mode_threshold') %}
-              AC
-            {% else %}
-              Fan
-            {% endif %}
-          {% else %}
-            None
-          {% endif %}
-    - service: input_select.select_option
-      target:
-        entity_id: input_select.scheduled_climate_mode_master_bedroom_fan
-      data:
-        option: >
-          {% if states('sensor.tonights_low_temp') >= states('input_number.master_bedroom_fan_threshold') %}
-            Fan
-          {% else %}
-            None
-          {% endif %}
-
-  nursery_climate_scheduling:
-    sequence:
-    - service: input_select.select_option
-      target:
+    - if:
+      - condition: state
         entity_id: input_select.scheduled_climate_mode_nursery_aircon
-      data:
-        option: >
-          {% if states('sensor.tonights_low_temp') >= states('input_number.nursery_aircon_threshold') %}
-            AC
-          {% else %}
-            White Noise
-          {% endif %}
-
-  kallen_fan_scheduling:
-    sequence:
-    - service: input_select.select_option
-      target:
-        entity_id: input_select.scheduled_climate_mode_kallen_fan
-      data:
-        option: >
-          {% if states('sensor.tonights_low_temp') >= states('input_number.kallen_fan_threshold') %}
-            Fan
-          {% else %}
-            White Noise
-          {% endif %}
+        state: 'AC'
+      then:
+      - service: fan.turn_on
+        target:
+          entity_id: fan.nursery_air_conditioner
+      - service: script.text_notify
+        data:
+          who: "parents"
+          title: "Nursery Climate Schedule"
+          message: "The air conditioner in the nursery has been activated."
+    mode: restart
