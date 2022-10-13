@@ -313,7 +313,7 @@ script:
           data:
             title: '{{ title }}'
             message: '{{ message }}'
-            data: '{{ data }}'
+            data: '{{ data if data is defined else "{}" }}'
       - if:
         - condition: template
           value_template: '{{ who == "master_bedroom"}}'
@@ -322,7 +322,7 @@ script:
           data:
             title: '{{ title }}'
             message: '{{ message }}'
-            data: '{{ data }}'
+            data: '{{ data if data is defined else "{}" }}'
       - if:
         - condition: template
           value_template: '{{ who == "basement"}}'
@@ -331,7 +331,7 @@ script:
           data:
             title: '{{ title }}'
             message: '{{ message }}'
-            data: '{{ data }}'
+            data: '{{ data if data is defined else "{}" }}'
       - if:
         - condition: template
           value_template: '{{ who == "all"}}'
@@ -340,7 +340,7 @@ script:
           data:
             title: '{{ title }}'
             message: '{{ message }}'
-            data: '{{ data }}'
+            data: '{{ data if data is defined else "{}" }}'
 
   text_alert:
     sequence:
