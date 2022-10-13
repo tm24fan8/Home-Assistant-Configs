@@ -7,16 +7,16 @@
 
     <p>
       {% if is_state('input_boolean.tony_streaming_today','on') %}
-        "Tony will be streaming tonight. The studio is scheduled to go live at {{ (state_attr('input_datetime.tony_streaming_start_time','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+        "Tony will be streaming tonight. The studio is scheduled to go online at {{ (state_attr('input_datetime.tony_streaming_start_time','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
       {% endif %}
       {% if is_state('sensor.school_tomorrow','on') %}
         {% if is_state('sensor.band_tomorrow','on') %}
-          "Kallen has school tomorrow, and there will be band practice in the morning at {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%I:%M %p") }}. "
+          "Colin has school tomorrow, and there will be band practice in the morning at {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%I:%M %p") }}. "
         {% else %}
-          "Kallen has school tomorrow at {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%I:%M %p") }}. "
+          "Colin has school tomorrow at {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%I:%M %p") }}. "
         {% endif %}
       {% else %}
-        "Kallen does not have school tomorrow. "
+        "Colin does not have school tomorrow. "
       {% endif %}
       {% if is_state('input_boolean.work_today','on') and states('person.christina_stork') in ['Bob Evans','BobEvans'] %}
         "Tina is at work right now, she will be done at approximately {{ (state_attr('input_datetime.tina_workday_end','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
@@ -51,14 +51,14 @@
         {% endif %}
         {% if is_state('input_boolean.kallen_overnight','off') %}
           {% if is_state('input_select.scheduled_climate_mode_kallen_fan','Fan') %}
-            "Colin's fan will activate at {{ (state_attr('input_datetime.kallen_bedtime','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+            "Colins fan will activate at {{ (state_attr('input_datetime.kallen_bedtime','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
           {% elif is_state('input_select.scheduled_climate_mode_kallen_fan','White Noise') %}
-            "Colin's white noise generator will activate at {{ (state_attr('input_datetime.kallen_bedtime','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+            "Colins white noise generator will activate at {{ (state_attr('input_datetime.kallen_bedtime','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
           {% elif is_state('input_select.scheduled_climate_mode_kallen_fan','None') %}
-            "Colin's room will have no devices activated tonight. "
+            "Colins room will have no devices activated tonight. "
           {% endif %}
         {% else %}
-          "Colin's room will be left alone, as he is spending the night elsewhere tonight. "
+          "Colins room will be left alone, as he is spending the night elsewhere tonight. "
         {% endif %}
         {% if is_state('input_boolean.nursery_aircon_installed','on') %}
           {% if is_state('input_select.scheduled_climate_mode_nursery_aircon','AC') %}
