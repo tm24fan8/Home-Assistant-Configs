@@ -332,6 +332,11 @@ script:
   house_scheduling_evening:
     sequence:
       - service: input_datetime.set_datetime
+        entity_id: input_datetime.nightly_report
+        data:
+          time: >
+            {{ (state_attr('input_datetime.kallen_bedtime','timestamp') - 3600) | timestamp_custom('%H:%M', false) }}
+      - service: input_datetime.set_datetime
         entity_id: input_datetime.audible_notification_off
         data_template:
           time: >

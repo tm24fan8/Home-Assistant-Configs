@@ -1,0 +1,79 @@
+>
+  {# Nightly Briefing #}
+  {%- macro getReport() -%}
+    <p>
+      "Good evening. It is {{ now().strftime("%I:%M %p") }}. As the day reaches its end, here are a few items to wrap things up. "
+    </p>
+
+    <p>
+      {% if is_state('input_boolean.tony_streaming_today','on') %}
+        "Tony will be streaming tonight. The studio is scheduled to go live at {{ (state_attr('input_datetime.tony_streaming_start_time','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+      {% endif %}
+      {% if is_state('sensor.school_tomorrow','on') %}
+        {% if is_state('sensor.band_tomorrow','on') %}
+          "Kallen has school tomorrow, and there will be band practice in the morning. "
+        {% else %}
+          "Kallen has school tomorrow. "
+        {% endif %}
+      {% endif %}
+        "I am currently unable to tell you whether Tina works tomorrow. Coming soon, I hope. "
+    </p>
+
+    <p>
+      "Bedroom climate scheduling will be as follows. "
+        {% if is_state('input_boolean.master_bedroom_aircon_installed','on') %}
+          {% if is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','AC') %}
+            "The master bedroom air conditioner will activate cooling mode at {{ (state_attr('input_datetime.master_bedroom_cooling','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+          {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','Fan') %}
+            "The master bedroom air conditioner will activate fan only mode at {{ (state_attr('input_datetime.master_bedroom_cooling','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+          {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','None') %}
+            "The master bedroom air conditioner will remain inactive tonight. "
+          {% endif %}
+        {% endif %}
+        {% if is_state('input_select.scheduled_climate_mode_master_bedroom_fan','Fan') %}
+          "The master bedroom fan will activate at {{ (state_attr('input_datetime.master_bedroom_fan','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+        {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_fan','None') %}
+          "The master bedroom fan will remain inactive tonight. "
+        {% endif %}
+        {% if is_state('input_boolean.kallen_overnight','off') %}
+          {% if is_state('input_select.scheduled_climate_mode_kallen_fan','Fan') %}
+            "Colin's fan will activate at {{ (state_attr('input_datetime.kallen_bedtime','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+          {% elif is_state('input_select.scheduled_climate_mode_kallen_fan','White Noise') %}
+            "Colin's white noise generator will activate at {{ (state_attr('input_datetime.kallen_bedtime','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+          {% elif is_state('input_select.scheduled_climate_mode_kallen_fan','None') %}
+            "Colin's room will have no devices activated tonight. "
+          {% endif %}
+        {% else %}
+          "Colin's room will be left alone, as he is spending the night elsewhere tonight. "
+        {% endif %}
+        {% if is_state('input_boolean.nursery_aircon_installed','on') %}
+          {% if is_state('input_select.scheduled_climate_mode_nursery_aircon','AC') %}
+            "Emma's air conditioner will be activated at {{ (state_attr('input_datetime.nursery_cooling','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+          {% elif is_state('input_select.scheduled_climate_mode_nursery_aircon','White Noise') %}
+            "Emma's white noise generator will activate at {{ (state_attr('input_datetime.nursery_cooling','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+          {% elif is_state('input_select.scheduled_climate_mode_nursery_aircon','None') %}
+            "Emma's room will have no devices activated tonight. "
+          {% endif %}
+        {% endif %}
+    </p>
+
+    <p>
+      "This briefing is a work in progress. Stay tuned in the coming days for more updates! "
+    </p>
+
+
+  {%- endmacro -%}
+
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+    {%- macro cleanup(data) -%}
+      {%- for item in data.split("\n")  if item | trim != "" -%}
+        {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+
+  {# a macro to call all macros :)  #}
+    {%- macro mother_of_all_macros() -%}
+      {{ getReport() }}
+    {%- endmacro -%}
+    
+    {# Call the macro  #}
+    {{- cleanup(mother_of_all_macros()) -}}
