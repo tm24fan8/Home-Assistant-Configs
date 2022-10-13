@@ -172,13 +172,9 @@ automation:
     - condition: state
       entity_id: input_boolean.nursery_aircon_installed
       state: 'on'
-    - condition: template
-      value_template: >
-        {% if states('sensor.tonights_low_temp') >= states('input_number.nursery_aircon_threshold') %}
-          true
-        {% else %}
-          false
-        {% endif %}
+    - condition: state
+      entity_id: input_select.scheduled_climate_mode_nursery_aircon
+      state: 'AC'
     action:
     - service: fan.turn_on
       target:
