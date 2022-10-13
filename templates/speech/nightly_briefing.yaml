@@ -24,6 +24,8 @@
     <p>
       "Bedroom climate scheduling will be as follows. "
         {% if is_state('input_boolean.master_bedroom_aircon_installed','on') %}
+          {% if is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','AC') and is_state('input_boolean.hot_day','on') %}
+            "Today was a hot day, so the master bedroom air conditioner will activate cooling mode a bit earlier tonight at {{ (state_attr('input_datetime.master_bedroom_cooling','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
           {% if is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','AC') %}
             "The master bedroom air conditioner will activate cooling mode at {{ (state_attr('input_datetime.master_bedroom_cooling','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
           {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','Fan') %}
