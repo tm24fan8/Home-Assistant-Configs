@@ -281,6 +281,10 @@
               Tina has work today.
             {% endif %}
 
+            {% if is_state('input_boolean.tony_streaming_today','on') %}
+              "Tony will be streaming today. The studio is scheduled to go online at {{ (state_attr('input_datetime.tony_streaming_start_time','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+            {% endif %}
+
             {% if is_state('input_boolean.school_today', 'on') %}
               {% if is_state('sensor.school_start_days2go', '0') %}
                 Today is the first day of school! There are {{ states('sensor.school_end_days2go') }} to go until the last day.
