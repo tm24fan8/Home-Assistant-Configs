@@ -85,6 +85,14 @@ input_select:
     name: Scheduled Climate Mode - Nursery Aircon
     options:
       - AC
+      - White Noise
+      - None
+    icon: mdi:home-thermometer
+  scheduled_climate_mode_kallen_fan:
+    name: Scheduled Climate Mode - Kallen Fan
+    options:
+      - Fan
+      - White Noise
       - None
     icon: mdi:home-thermometer
 
@@ -110,6 +118,48 @@ input_number:
     step: 1
     unit_of_measurement: °F
     icon: mdi:thermometer
+  master_bedroom_aircon_run_threshold:
+    name: Master Bedroom Aircon Run Threshold
+    min: 40
+    max: 70
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
+  master_bedroom_aircon_mode_threshold:
+    name: Master Bedroom Aircon Mode Threshold
+    min: 40
+    max: 70
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
+  master_bedroom_fan_threshold:
+    name: Master Bedroom Fan Threshold
+    min: 40
+    max: 70
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
+  master_bedroom_daytime_threshold:
+    name: Master Bedroom Daytime Threshold
+    min: 60
+    max: 90
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
+  nursery_aircon_threshold:
+    name: Nursery Aircon Threshold
+    min: 40
+    max: 70
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
+  kallen_fan_threshold:
+    name: Kallen Fan Threshold
+    min: 40
+    max: 70
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
 
 automation:
   - id: '1655415573165'
@@ -122,9 +172,13 @@ automation:
     - condition: state
       entity_id: input_boolean.nursery_aircon_installed
       state: 'on'
-    - condition: numeric_state
-      entity_id: sensor.tonights_low_temp
-      above: 55
+    - condition: template
+      value_template: >
+        {% if states('sensor.tonights_low_temp') >= states('input_number.nursery_aircon_threshold') %}
+          true
+        {% else %}
+          false
+        {% endif %}
     action:
     - service: fan.turn_on
       target:
@@ -135,3 +189,57 @@ automation:
         title: "Nursery Climate Schedule"
         message: "The air conditioner in the nursery has been activated."
     mode: restart
+
+script:
+  master_bedroom_climate_scheduling:
+    sequence:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.scheduled_climate_mode_master_bedroom_aircon
+      data:
+        option: >
+          {% if states('sensor.tonights_low_temp') >= states('input_number.master_bedroom_aircon_run_threshold') %}
+            {% if states('sensor.tonights_low_temp') >= states('input_number.master_bedroom_aircon_mode_threshold') %}
+              AC
+            {% else %}
+              Fan
+            {% endif %}
+          {% else %}
+            None
+          {% endif %}
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.scheduled_climate_mode_master_bedroom_fan
+      data:
+        option: >
+          {% if states('sensor.tonights_low_temp') >= states('input_number.master_bedroom_fan_threshold') %}
+            Fan
+          {% else %}
+            None
+          {% endif %}
+
+  nursery_climate_scheduling:
+    sequence:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.scheduled_climate_mode_nursery_aircon
+      data:
+        option: >
+          {% if states('sensor.tonights_low_temp') >= states('input_number.nursery_aircon_threshold') %}
+            AC
+          {% else %}
+            White Noise
+          {% endif %}
+
+  kallen_fan_scheduling:
+    sequence:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.scheduled_climate_mode_kallen_fan
+      data:
+        option: >
+          {% if states('sensor.tonights_low_temp') >= states('input_number.kallen_fan_threshold') %}
+            Fan
+          {% else %}
+            White Noise
+          {% endif %}

@@ -211,6 +211,7 @@ script:
             {% else %}
               21:40
             {% endif %}
+      - service: script.kallen_fan_scheduling
 
   house_scheduling_morning:
     sequence:
@@ -351,6 +352,7 @@ script:
             {% else %}
               00:00
             {% endif %}
+      - service: script.master_bedroom_climate_scheduling
 
   nursery_scheduling:
     sequence:
@@ -367,3 +369,4 @@ script:
             {% else %}
               22:30
             {% endif %}
+      - service: script.nursery_climate_scheduling
