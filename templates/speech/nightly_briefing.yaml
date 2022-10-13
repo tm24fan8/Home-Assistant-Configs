@@ -11,10 +11,12 @@
       {% endif %}
       {% if is_state('sensor.school_tomorrow','on') %}
         {% if is_state('sensor.band_tomorrow','on') %}
-          "Kallen has school tomorrow, and there will be band practice in the morning. "
+          "Kallen has school tomorrow, and there will be band practice in the morning at {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%I:%M %p") }}. "
         {% else %}
-          "Kallen has school tomorrow. "
+          "Kallen has school tomorrow at {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%I:%M %p") }}. "
         {% endif %}
+      {% else %}
+        "Kallen does not have school tomorrow. "
       {% endif %}
         "I am currently unable to tell you whether Tina works tomorrow. Coming soon, I hope. "
     </p>
