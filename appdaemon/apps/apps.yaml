@@ -59,3 +59,10 @@ white_noise_kallen_bedroom:
 #   media_player: master_bedroom_firetv
 #   input_boolean: white_noise_master_bedroom
 #   filename: !secret remote_url_thunderstorm
+
+white_noise_emma_bedroom:
+  module: whitenoise
+  class: WhiteNoise
+  media_player: emma_bedroom_speaker
+  input_boolean: white_noise_emma_bedroom
+  filename: !secret remote_url_whitenoise
