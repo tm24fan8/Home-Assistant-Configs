@@ -221,7 +221,9 @@ script:
           entity_id: input_select.scheduled_climate_mode_kallen_fan
         data:
           option: >
-            {% if states('sensor.tonights_low_temp') >= states('input_number.kallen_fan_threshold') %}
+            {% if is_state('input_boolean.kallen_overnight','on') %}
+              N/A
+            {% elif states('sensor.tonights_low_temp') >= states('input_number.kallen_fan_threshold') %}
               Fan
             {% else %}
               White Noise
@@ -431,8 +433,12 @@ script:
           entity_id: input_select.scheduled_climate_mode_nursery_aircon
         data:
           option: >
-            {% if states('sensor.tonights_low_temp') >= states('input_number.nursery_aircon_threshold') %}
-              AC
+            {% if is_state('input_boolean.nursery_aircon_installed','on') %}
+              {% if states('sensor.tonights_low_temp') >= states('input_number.nursery_aircon_threshold') %}
+                AC
+              {% else %}
+                White Noise
+              {% endif %}
             {% else %}
               White Noise
             {% endif %}
