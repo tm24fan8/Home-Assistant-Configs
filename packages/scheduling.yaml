@@ -393,7 +393,9 @@ script:
           entity_id: input_select.scheduled_climate_mode_master_bedroom_aircon
         data:
           option: >
-            {% if states('sensor.tonights_low_temp') >= states('input_number.master_bedroom_aircon_run_threshold') %}
+            {% if is_state('input_boolean.master_bedroom_aircon_installed','off') %}
+              N/A
+            {% elif states('sensor.tonights_low_temp') >= states('input_number.master_bedroom_aircon_run_threshold') %}
               {% if states('sensor.tonights_low_temp') >= states('input_number.master_bedroom_aircon_mode_threshold') %}
                 AC
               {% else %}
