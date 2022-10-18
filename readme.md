@@ -92,6 +92,8 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Slider Entity Row](https://github.com/thomasloven/lovelace-slider-entity-row)
 - [Room Card](https://github.com/marcokreeft87/room-card)
 - [Simple Thermostat Card](https://github.com/nervetattoo/simple-thermostat)
+- [Clock Weather Card](https://github.com/pkissling/clock-weather-card)
+- [Tabbed Card](https://github.com/kinghat/tabbed-card)
 
 ## AppDaemon Apps
 
