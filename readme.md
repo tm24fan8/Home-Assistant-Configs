@@ -81,7 +81,7 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row)
 - [State Switch](https://github.com/thomasloven/lovelace-state-switch)
 - [Multiple Entity Row](https://github.com/benct/lovelace-multiple-entity-row)
-- [Weather Card](https://github.com/benct/lovelace-multiple-entity-row)
+- [Weather Card](https://github.com/bramkragten/weather-card)
 - [Template Entity Row](https://github.com/thomasloven/lovelace-template-entity-row)
 - [Config Template Card](https://github.com/iantrich/config-template-card)
 - [Canvas Gauge Card](https://github.com/custom-cards/canvas-gauge-card)
