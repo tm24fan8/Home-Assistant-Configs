@@ -77,27 +77,27 @@ input_select:
     options:
       - AC
       - Fan
-      - None
+      - N/A
     icon: mdi:home-thermometer
   scheduled_climate_mode_master_bedroom_fan:
     name: Scheduled Climate Mode - Master Bedroom Fan
     options:
       - Fan
-      - None
+      - N/A
     icon: mdi:home-thermometer
   scheduled_climate_mode_nursery_aircon:
     name: Scheduled Climate Mode - Nursery Aircon
     options:
       - AC
       - White Noise
-      - None
+      - N/A
     icon: mdi:home-thermometer
   scheduled_climate_mode_kallen_fan:
     name: Scheduled Climate Mode - Kallen Fan
     options:
       - Fan
       - White Noise
-      - None
+      - N/A
     icon: mdi:home-thermometer
 
 input_number:

@@ -48,13 +48,13 @@
             "The master bedroom air conditioner will activate cooling mode at {{ (state_attr('input_datetime.master_bedroom_cooling','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
           {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','Fan') %}
             "The master bedroom air conditioner will activate fan only mode at {{ (state_attr('input_datetime.master_bedroom_cooling','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
-          {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','None') %}
+          {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','N/A') %}
             "The master bedroom air conditioner will remain inactive tonight. "
           {% endif %}
         {% endif %}
         {% if is_state('input_select.scheduled_climate_mode_master_bedroom_fan','Fan') %}
           "The master bedroom fan will activate at {{ (state_attr('input_datetime.master_bedroom_fan','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
-        {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_fan','None') %}
+        {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_fan','N/A') %}
           "The master bedroom fan will remain inactive tonight. "
         {% endif %}
         {% if is_state('input_boolean.kallen_overnight','off') %}
@@ -62,20 +62,18 @@
             "Colins fan will activate at {{ (state_attr('input_datetime.kallen_bedtime','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
           {% elif is_state('input_select.scheduled_climate_mode_kallen_fan','White Noise') %}
             "Colins white noise generator will activate at {{ (state_attr('input_datetime.kallen_bedtime','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
-          {% elif is_state('input_select.scheduled_climate_mode_kallen_fan','None') %}
+          {% elif is_state('input_select.scheduled_climate_mode_kallen_fan','N/A') %}
             "Colins room will have no devices activated tonight. "
           {% endif %}
         {% else %}
           "Colins room will be left alone, as he is spending the night elsewhere tonight. "
         {% endif %}
-        {% if is_state('input_boolean.nursery_aircon_installed','on') %}
-          {% if is_state('input_select.scheduled_climate_mode_nursery_aircon','AC') %}
-            "Emma's air conditioner will be activated at {{ (state_attr('input_datetime.nursery_cooling','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
-          {% elif is_state('input_select.scheduled_climate_mode_nursery_aircon','White Noise') %}
-            "Emma's white noise generator will activate at {{ (state_attr('input_datetime.nursery_cooling','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
-          {% elif is_state('input_select.scheduled_climate_mode_nursery_aircon','None') %}
-            "Emma's room will have no devices activated tonight. "
-          {% endif %}
+        {% if is_state('input_select.scheduled_climate_mode_nursery_aircon','AC') %}
+          "Emma's air conditioner will be activated at {{ (state_attr('input_datetime.nursery_cooling','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+        {% elif is_state('input_select.scheduled_climate_mode_nursery_aircon','White Noise') %}
+          "Emma's white noise generator will activate at {{ (state_attr('input_datetime.nursery_cooling','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+        {% elif is_state('input_select.scheduled_climate_mode_nursery_aircon','N/A') %}
+          "Emma's room will have no devices activated tonight. "
         {% endif %}
     </p>
 
