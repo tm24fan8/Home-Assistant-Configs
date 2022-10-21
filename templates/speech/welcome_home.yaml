@@ -148,6 +148,12 @@
       {% endif %}
     </p>
 
+    <p>
+      {% if is_state('input_boolean.briefing_extras','on') %}
+        "And now we have the following extra information to pass along. {{ states('input_text.briefing_extras') }} "
+      {% endif %}
+    </p>
+
   {%- endmacro -%}
 
   {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}

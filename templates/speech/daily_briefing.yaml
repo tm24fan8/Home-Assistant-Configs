@@ -323,11 +323,16 @@
               Today is the first day of Summer Break! 
             {%- endif %}
           {% endif %}
-
       </p>
 
       <p>
         Around the house, there are currently {{ states.sensor.current_lights_on.state }} lights on.
+      </p>
+
+      <p>
+        {% if is_state('input_boolean.briefing_extras','on') %}
+          "And now we have the following extra information to pass along. {{ states('input_text.briefing_extras') }} "
+        {% endif %}
       </p>
 
   {%- endmacro -%}

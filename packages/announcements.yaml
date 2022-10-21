@@ -52,6 +52,16 @@ input_select:
       - Common Areas
     icon: mdi:map-marker
 
+input_text:
+  briefing_extras:
+    name: Briefing Extras
+    icon: mdi:plus
+
+input_boolean:
+  briefing_extras:
+    name: Briefing Extras
+    icon: mdi:plus
+
 ################################
 # Announcment Automation - fires at the time of the above input_datetimes
 ################################

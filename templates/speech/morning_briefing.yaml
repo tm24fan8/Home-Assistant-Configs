@@ -120,6 +120,11 @@
             It appears no traffic reports are needed today. Enjoy your day off!
           {% endif %}
 
+      <p>
+        {% if is_state('input_boolean.briefing_extras','on') %}
+          "And now we have the following extra information to pass along. {{ states('input_text.briefing_extras') }} "
+        {% endif %}
+      </p>
 
       </p>
   {%- endmacro -%}
