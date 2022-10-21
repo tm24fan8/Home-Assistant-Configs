@@ -70,6 +70,13 @@
           'I will prepare your bedroom shortly.'
         ] | random }}
     </p>
+
+    <p>
+      {% if is_state('input_boolean.kallen_briefing_extras','on') %}
+        "And now we have the following extra information to pass along. {{ states('input_text.kallen_briefing_extras') }} "
+      {% endif %}
+    </p>
+
   {%- endmacro -%}
 
 

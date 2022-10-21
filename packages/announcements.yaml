@@ -56,10 +56,16 @@ input_text:
   briefing_extras:
     name: Briefing Extras
     icon: mdi:plus
+  kallen_briefing_extras:
+    name: Kallen Briefing Extras
+    icon: mdi:plus
 
 input_boolean:
   briefing_extras:
     name: Briefing Extras
+    icon: mdi:plus
+  kallen_briefing_extras:
+    name: Kallen Briefing Extras
     icon: mdi:plus
 
 ################################
