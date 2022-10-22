@@ -96,7 +96,9 @@
       <p>
         Let me check the sit rep for today.
 
-        {% if dow == 'Monday' %}
+        {% if is_state('sensor.garbage_collection_large_pickup','1') %}
+          'Tomorrow is the monthly unlimited garbage pickup. Make sure to take out all large garbage items tonight, and do not forget the trash can!'
+        {% elif is_state('sensor.garbage_collection','1') %}
           {{ [
           'Do not forget to take the trash bin to the curb, tomorrow is trash pickup day.',
           'Make sure to take the trash out. No, I do not mean Tony.',
@@ -104,13 +106,12 @@
           ] | random }}
         {% endif %}
 
-        {% if dow == 'Tuesday' %}
-          {% if is_state('binary_sensor.evening','on') %}
-            {{ [
-            'Do not forget to bring the trash can back from the curb.',
-            'The trash can will feel lonely if you leave it at the curb all night.'
-            ] | random }}
-          {% endif %}
+        {% set gc = state_attr('sensor.garbage_collection','days') %}
+        {% if gc == 7 %}
+          {{ [
+          'Do not forget to bring the trash can back from the curb.',
+          'The trash can will feel lonely if you leave it at the curb all night.'
+          ] | random }}
         {% endif %}
 
         {% if is_state('binary_sensor.evening','on') %}
