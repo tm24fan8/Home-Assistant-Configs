@@ -54,7 +54,11 @@
     <p>
       "Bedroom climate scheduling will be as follows. "
         {% if is_state('input_boolean.master_bedroom_aircon_installed','on') %}
-          {% if is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','AC') and is_state('input_boolean.hot_day','on') %}
+          {% if is_state('climate.master_bedroom_aircon','fan_only') %}
+            "The master bedroom air conditioner is already running in fan only mode. "
+          {% elif states('climate.master_bedroom_aircon') not in ['off','unknown','unavailable'] %}
+            "The master bedroom air conditioner is already running in {{ states('climate.master_bedroom_aircon') }} mode. "
+          {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','AC') and is_state('input_boolean.hot_day','on') %}
             "Today was a hot day, so the master bedroom air conditioner will activate cooling mode a bit earlier tonight at {{ (state_attr('input_datetime.master_bedroom_cooling','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
           {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','AC') %}
             "The master bedroom air conditioner will activate cooling mode at {{ (state_attr('input_datetime.master_bedroom_cooling','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
@@ -64,13 +68,19 @@
             "The master bedroom air conditioner will remain inactive tonight. "
           {% endif %}
         {% endif %}
-        {% if is_state('input_select.scheduled_climate_mode_master_bedroom_fan','Fan') %}
+        {% if is_state('fan.master_bedroom_fan_socket_1','on') %}
+          "The master bedroom fan is already running. "
+        {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_fan','Fan') %}
           "The master bedroom fan will activate at {{ (state_attr('input_datetime.master_bedroom_fan','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
         {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_fan','N/A') %}
           "The master bedroom fan will remain inactive tonight. "
         {% endif %}
         {% if is_state('input_boolean.kallen_overnight','off') %}
-          {% if is_state('input_select.scheduled_climate_mode_kallen_fan','Fan') %}
+          {% if is_state('fan.kallen_fan_socket_1','on') %}
+            "Colins fan is already running. "
+          {% elif is_state('input_boolean.white_noise_kallen_bedroom','on') %}
+            "Colins white noise generator is already running. "
+          {% elif is_state('input_select.scheduled_climate_mode_kallen_fan','Fan') %}
             "Colins fan will activate at {{ (state_attr('input_datetime.kallen_bedtime','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
           {% elif is_state('input_select.scheduled_climate_mode_kallen_fan','White Noise') %}
             "Colins white noise generator will activate at {{ (state_attr('input_datetime.kallen_bedtime','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
@@ -80,7 +90,11 @@
         {% else %}
           "Colins room will be left alone, as he is spending the night elsewhere tonight. "
         {% endif %}
-        {% if is_state('input_select.scheduled_climate_mode_nursery_aircon','AC') %}
+        {% if is_state('fan.nursery_air_conditioner','on') %}
+          "Emma's air conditioner is already running. "
+        {% elif is_state('input_boolean.white_noise_emma_bedroom','on') %}
+          "Emma's white noise generator is already running. "
+        {% elif is_state('input_select.scheduled_climate_mode_nursery_aircon','AC') %}
           "Emma's air conditioner will be activated at {{ (state_attr('input_datetime.nursery_cooling','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
         {% elif is_state('input_select.scheduled_climate_mode_nursery_aircon','White Noise') %}
           "Emma's white noise generator will activate at {{ (state_attr('input_datetime.nursery_cooling','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
