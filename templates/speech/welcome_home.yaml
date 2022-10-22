@@ -39,6 +39,7 @@
           'I hope you also enjoyed band practice this morning! ',
           'I hope the trombone treated you well this morning! ',
           'Band geeks are the best geeks! ',
+          'You did not achieve eighth position this morning, did you? ',
           ] | random }}
         {% endif %}
       {% elif is_state('input_boolean.kallen_school_cancelled','on') %}
