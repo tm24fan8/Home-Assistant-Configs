@@ -104,6 +104,23 @@
     </p>
 
     <p>
+      {% set windows = states('sensor.windows_open') %}
+      {% set doors = states('sensor.doors_open') %}
+      {% if states('sensor.total_faults') > '0' %}
+        {% if windows > '0' and doors > '0' %}
+          "There are currently {{ states('sensor.windows_open') }} {% if windows == '1' %}window {% else %}windows {% endif %}and {{ states('sensor.doors_open') }} {% if doors == '1' %}door {% else %}doors {% endif %}open. "
+        {% else %}
+          {% if windows > '0' %}
+            "There {% if windows == '1' %}is {% else %}are {% endif %}currently {{ states('sensor.windows_open') }} {% if windows == '1' %}window {% else %}windows {% endif %}open. "
+          {% endif %}
+          {% if doors > '0' %}
+            "There {% if doors == '1' %}is {% else %}are {% endif %}currently {{ states('sensor.doors_open') }} {% if doors == '1' %}door {% else %}doors {% endif %}open. "
+          {% endif %}
+        {% endif %}
+      {% endif %}
+    </p>
+
+    <p>
       {% if is_state('input_boolean.briefing_extras','on') %}
         "And now we have the following extra information to pass along. {{ states('input_text.briefing_extras') }} "
       {% endif %}
