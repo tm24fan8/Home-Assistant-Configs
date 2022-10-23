@@ -18,6 +18,15 @@ input_boolean:
     name: Delivery Mode
     icon: mdi:pizza
 
+input_number:
+  upstairs_bathroom_motion_off_delay:
+    name: Upstairs Bathroom Motion Off Delay
+    min: 0
+    max: 15
+    step: 1
+    unit_of_measurement: minutes
+    icon: mdi:timer
+
 input_select:
   living_room_scenes:
     name: Living Room Scenes
