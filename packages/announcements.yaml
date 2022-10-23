@@ -145,6 +145,27 @@ automation:
     - service: script.daily_briefing
       data:
         who: common
+    - if:
+      - condition: state
+        entity_id: sensor.garbage_collection_large_pickup
+        state: '1'
+      then:
+      - service: script.text_alert
+        data:
+          who: "all"
+          title: "Garbage Collection - Unlimited"
+          message: "Tomorrow is large trash pickup day. Please take out all large items, and don't forget the trash can!"
+      else:
+      - if:
+        - condition: state
+          entity_id: sensor.garbage_collection
+          state: '1'
+        then:
+        - service: script.text_alert
+          data:
+            who: "all"
+            title: "Garbage Collection - Regular"
+            message: "Tomorrow is regular trash pickup day. Make sure the trash can is taken to the curb!"
 
   - id: 5d06ba92-de10-4bf3-bc08-86f5be60c4a7
     alias: Morning Briefing
@@ -179,6 +200,17 @@ automation:
     - service: script.nightly_briefing
       data:
         who: common
+    - if:
+      - condition: state
+        entity_id: sensor.garbage_collection
+        attribute: days
+        state: '7'
+      then:
+      - service: script.text_alert
+        data:
+          who: "all"
+          title: "Retrieve Garbage Can"
+          message: "Garbage has been collected. Don't forget to move the trash can back to the house!"
 
   - id: d7641b5e-3cbb-4fb3-b6ed-5edf3157b88d
     alias: Kallen Briefing Location Change
