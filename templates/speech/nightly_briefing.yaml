@@ -117,6 +117,7 @@
             "There {% if doors == '1' %}is {% else %}are {% endif %}currently {{ states('sensor.doors_open') }} {% if doors == '1' %}door {% else %}doors {% endif %}open. "
           {% endif %}
         {% endif %}
+        "You will want to close these before the security system is armed for the night. "
       {% endif %}
     </p>
 
