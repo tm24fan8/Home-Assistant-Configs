@@ -109,3 +109,4 @@ This is a new adventure so we'll see where it ends up going, but so far I am usi
 - [Thermal Comfort Icons](https://github.com/rautesamtr/thermal_comfort_icons)
 - [BHA Icon Pack](https://github.com/hulkhaugen/hass-bha-icons)
 - [Custom Icons Library](https://github.com/Mariusthvdb/custom-icons)
+- [FontAwesome](https://github.com/thomasloven/hass-fontawesome)
