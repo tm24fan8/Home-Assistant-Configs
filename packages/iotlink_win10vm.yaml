@@ -1,0 +1,48 @@
+script:
+  win10vm_shutdown:
+    alias: "WIN10-VM - Shutdown"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/win10vm/commands/shutdown"
+          payload: ""
+
+  win10vm_suspend:
+    alias: "WIN10-VM - Suspend"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/win10vm/commands/suspend"
+          payload: ""
+
+  win10vm_reboot:
+    alias: "WIN10-VM - Reboot"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/win10vm/commands/reboot"
+          payload: ""
+
+  win10vm_lock:
+    alias: "WIN10-VM - Lock"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/win10vm/commands/lock"
+          payload: ""
+
+  win10vm_logoff:
+    alias: "WIN10-VM - Logoff"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/win10vm/commands/logoff"
+          payload: ""
+
+  win10vm_notify:
+    alias: "WIN10-VM - Notify"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/win10vm/commands/notify"
+          payload: '{ "title": "My Notification Title", "message": "This is an example of notification using IOT Link", "launchParams": "toast://open/https://iotlink.gitlab.io" }'
