@@ -127,11 +127,6 @@
       {% endif %}
     </p>
 
-    <p>
-      "This briefing is a work in progress. Stay tuned in the coming days for more updates! "
-    </p>
-
-
   {%- endmacro -%}
 
   {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
