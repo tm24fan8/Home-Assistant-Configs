@@ -193,9 +193,6 @@ notify:
       - service: living_room_tv
       - service: basement_tv
       - service: master_bedroom_tv
-  - name: "Tony Desktop HASS Agent"
-    platform: hass_agent_notifier
-    resource: http://192.168.1.2:5115/notify
   - name: alexa_everywhere
     platform: group
     services:
