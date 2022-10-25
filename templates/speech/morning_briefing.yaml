@@ -137,6 +137,11 @@
           'Do not forget to bring the trash can back from the curb.',
           'The trash can will feel lonely if you leave it at the curb all night.'
           ] | random }}
+        {% elif gc == 6 %}
+          {{ [
+          'If you have not already, please remember to bring the garbage can back from the sidewalk.',
+          'Just in case you forgot, it is time to bring the garbage can back to the house before it gets lonely.'
+          ] | random }}
         {% endif %}
       </p>
 
