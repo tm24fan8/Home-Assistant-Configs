@@ -1151,10 +1151,6 @@ script:
                 {{ iss() }}
               {% endif %}
 
-              {{ welcome_home }}  
-
-              {{ speech_message }}
-
               {% if call_snark_doorbell == 1 %}
                 {{ snark_doorbell() }}
               {% endif %}
