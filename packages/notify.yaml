@@ -79,6 +79,9 @@ input_boolean:
   studio_quiet:
     name: Studio Quiet
     icon: mdi:twitch
+  tv_notifications:
+    name: TV Notifications
+    icon: mdi:message
 
 input_select:
   select_phones:
@@ -302,6 +305,9 @@ script:
 
   tv_notify:
     sequence:
+      - condition: state
+        entity_id: input_boolean.tv_notifications
+        state: 'on'
       - if:
         - condition: template
           value_template: '{{ who == "living_room"}}'
