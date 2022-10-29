@@ -7,11 +7,6 @@
   channels:
     - ironnerd24
     - Xia_P988
-    - ManaSen
-    - STPeach
-    - BroteinGaming404
-    - NotoriosPenguin
-    - Fuzhpuzy
 - platform: plex_recently_added
   name: Recently Added on Plex
   token: !secret plex_token
