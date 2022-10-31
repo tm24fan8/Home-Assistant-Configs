@@ -251,7 +251,7 @@ script:
       data: 
         who: "{{ who }}"
         message: !include ../templates/speech/kallen_nightly_briefing.yaml
-        voice: Emma
+        voice: Joanna
     - service: script.text_notify
       data:
         who: "parents"
@@ -280,7 +280,7 @@ script:
               common
             {% endif %}
           message: !include ../templates/speech/kallen_morning_briefing.yaml
-          voice: Emma
+          voice: Joanna
       - service: script.text_notify
         data:
           who: "parents"
@@ -292,7 +292,7 @@ script:
         data:
           who: "{{ who }}"
           message: !include ../templates/speech/kallen_school_status.yaml
-          voice: Emma
+          voice: Joanna
 
   daily_briefing:
     sequence:
