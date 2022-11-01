@@ -67,9 +67,33 @@ climate:
     token: !secret master_bedroom_ac_token
     k1: !secret master_bedroom_ac_key
 
-# recorder:
-#   db_url: !secret mariadb_url
-#   purge_keep_days: 30
+recorder:
+  # db_url: !secret mariadb_url
+  purge_keep_days: 14
+  commit_interval: 30
+  exclude:
+    domains:
+      - media_player
+      - scan_store
+      - zone
+    entities:
+      - binary_sensor.internet
+      - sensor.avg_ping
+      - sensor.max_ping
+      - sensor.min_ping
+      - sensor.last_boot
+      - sensor.date
+      - sensor.date_time
+      - sensor.time_date
+      - sensor.time
+      - sensor.time_utc
+    entity_globs:
+      - sensor.basement_server_*
+
+logger:
+  default: critical
+  logs:
+    homeassistant.core: fatal
 
 # influxdb:
 #   host: 192.168.1.26
@@ -92,13 +116,6 @@ history:
     domains:
       - automation
       - updater
-    entities:
-      - sensor.last_boot
-      - sensor.date
-      - sensor.date_time
-      - sensor.time_date
-      - sensor.time
-      - sensor.time_utc
 
 logbook:
   include:
