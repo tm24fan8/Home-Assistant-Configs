@@ -278,6 +278,15 @@
       milliseconds: 0
   - service: script.watchman_audit
     data: {}
+    alias: Watchman Audit
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - service: watchman.report
+    data: {}
+    alias: Watchman Report
   mode: single
 - id: '1651787468337'
   alias: Reboot handling
