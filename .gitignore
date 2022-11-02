@@ -2,6 +2,7 @@
 /.storage
 /.cloud
 /.google.token
+/.ssh
 
 # ignore some directories.
 /icloud/
