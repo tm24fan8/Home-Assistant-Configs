@@ -362,8 +362,8 @@
       actions:
       - service: script.text_notify
         data:
-          who: 'all'
-          title: 'Low Batteries in House'
+          who: all
+          title: Low Batteries in House
           message: 'Low battery alert for: {{sensors}}'
 - id: '1655493590791'
   alias: NWS Announce Weather Alert for Tornado (CLEAR)

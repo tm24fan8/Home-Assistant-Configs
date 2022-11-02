@@ -50,17 +50,14 @@ give_me_darkness:
       - downstairs_bathroom
     data: {}
   - condition: template
-    value_template: >
-      {% if is_state('input_boolean.work_today','on') and state_attr('input_datetime.tina_workday_end','timestamp') > state_attr('input_datetime.kallen_bedtime','timestamp') %}
-        false
-      {% else %}
-        true
-      {% endif %}
+    value_template: "{% if is_state('input_boolean.work_today','on') and state_attr('input_datetime.tina_workday_end','timestamp')
+      > state_attr('input_datetime.kallen_bedtime','timestamp') %}\n  false\n{% else
+      %}\n  true\n{% endif %}\n"
   - service: script.activate_alexa_actionable_notification
     data_template:
-      text: 'Would you like me to arm the security system?'
-      event_id: 'actionable_notification_night_security_arm'
-      alexa_device: "{{ states('sensor.last_alexa') }}"
+      text: Would you like me to arm the security system?
+      event_id: actionable_notification_night_security_arm
+      alexa_device: '{{ states(''sensor.last_alexa'') }}'
   mode: single
   icon: mdi:weather-night
 start_youtube:
@@ -230,9 +227,9 @@ going_upstairs:
   - service: script.asus_laptop_shutdown
   - service: script.activate_alexa_actionable_notification
     data_template:
-      text: 'Would you like me to shut down your computer?'
-      event_id: 'actionable_notification_shutdown_computer'
-      alexa_device: 'media_player.basement_echo_dot'
+      text: Would you like me to shut down your computer?
+      event_id: actionable_notification_shutdown_computer
+      alexa_device: media_player.basement_echo_dot
   - wait_for_trigger:
     - platform: state
       entity_id:
@@ -261,9 +258,9 @@ basement_on:
       entity_id: media_player.basement_tv
   - service: script.activate_alexa_actionable_notification
     data_template:
-      text: 'Would you like me to turn on the computer for Colin?'
-      event_id: 'actionable_notification_kallen_computer_on'
-      alexa_device: "{{ states('sensor.last_alexa') }}"
+      text: Would you like me to turn on the computer for Colin?
+      event_id: actionable_notification_kallen_computer_on
+      alexa_device: '{{ states(''sensor.last_alexa'') }}'
   mode: single
   icon: hue:room-stairs
 start_youtube_basement:
