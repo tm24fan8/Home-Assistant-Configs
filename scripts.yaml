@@ -346,15 +346,6 @@ stop_spotify_basement:
       entity_id: media_player.basement_tv
   mode: single
   icon: mdi:spotify
-watchman_audit:
-  alias: Watchman Audit
-  sequence:
-  - event: ad.watchman.audit
-    event_data:
-      send_notification: true
-      notify_service: notify.ios_tony
-  mode: single
-  icon: mdi:magnify
 max_brightness_cleanup:
   alias: Max Brightness Cleanup
   sequence:
