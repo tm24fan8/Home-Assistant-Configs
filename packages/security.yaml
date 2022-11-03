@@ -177,7 +177,7 @@ automation:
         state: 'off'
       - condition: time
         after: '06:00'
-        before: '12:00'
+        before: '13:00'
       - condition: or
         conditions:
           - condition: state
