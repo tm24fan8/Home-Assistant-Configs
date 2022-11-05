@@ -62,49 +62,28 @@
     </p>
 
     <p>
-      {{ [
-        "As you are no doubt aware, ",
-        "Even though you just came in from out there, I feel compelled to inform you that ",
-        "In case you weren't paying attention, ",
-        "If you were wondering, ",
-        "In case you are suddenly immune to weather effects, "
-        ] | random }}
-        "the weather outside is {{ state_attr('weather.iron_nerd_weather_station','temperature') | round }} degrees"
-        {% if is_state('weather.iron_nerd_weather_station','rainy') %}
-          {{ [
-          'with rain.',
-          'with showers.'
-          ] | random }}
-        {% elif is_state('weather.iron_nerd_weather_station','cloudy') %}
-          {{ [
-          'with clouds.',
-          'with cloudy skies.'
-          ] | random }}
-        {% elif is_state('weather.iron_nerd_weather_station','partlycloudy') %}
-          {{ [
-          'with some clouds.',
-          'with partly cloudy skies.',
-          'with scattered clouds.'
-          ] | random }}
-        {% elif is_state('weather.iron_nerd_weather_station','sunny') %}
-          {% if is_state('sun.sun','above_horizon') %}
-            {{ [
-            'and sunny.',
-            'with sun.'
-            ] | random }}
-          {% else %}
-            {{ [
-            'and clear.',
-            'with clear skies.'
-            ] | random }}
+      {% if states('sensor.weatheralerts_active_alerts') > '0' %}
+        "Currently there are weather alerts active. The total number of alerts is {{ states('sensor.weatheralerts_active_alerts') }}. They are as follows. "
+          {% if is_state('sensor.weatheralerts_alert_1','on') %}
+            "{{ state_attr('sensor.weatheralerts_alert_1','alert_event') }}"
           {% endif %}
-        {% else %}
-          and {{ states.weather.iron_nerd_weather_station.state }}
-        {% endif %}
+          {% if is_state('sensor.weatheralerts_alert_2','on') %}
+            "{{ state_attr('sensor.weatheralerts_alert_2','alert_event') }}"
+          {% endif %}
+          {% if is_state('sensor.weatheralerts_alert_3','on') %}
+            "{{ state_attr('sensor.weatheralerts_alert_3','alert_event') }}"
+          {% endif %}
+          {% if is_state('sensor.weatheralerts_alert_4','on') %}
+            "{{ state_attr('sensor.weatheralerts_alert_4','alert_event') }}"
+          {% endif %}
+          {% if is_state('sensor.weatheralerts_alert_5','on') %}
+            "{{ state_attr('sensor.weatheralerts_alert_5','alert_event') }}"
+          {% endif %}
+      {% endif %}
     </p>
 
     <p>
-      "However, inside the house "
+      "The current climate control situation is as follows. "
         {% if is_state('input_boolean.master_bedroom_aircon_installed','on') %}
           "the master bedroom temperature is currently {{ state_attr('climate.master_bedroom_aircon','current_temperature') }} degrees. "
             {% if is_state('climate.master_bedroom_aircon','cool') %}

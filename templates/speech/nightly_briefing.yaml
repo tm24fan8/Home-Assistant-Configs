@@ -32,6 +32,27 @@
     </p>
 
     <p>
+      {% if states('sensor.weatheralerts_active_alerts') > '0' %}
+        "Currently there are weather alerts active. The total number of alerts is {{ states('sensor.weatheralerts_active_alerts') }}. They are as follows. "
+          {% if is_state('sensor.weatheralerts_alert_1','on') %}
+            "{{ state_attr('sensor.weatheralerts_alert_1','alert_event') }}"
+          {% endif %}
+          {% if is_state('sensor.weatheralerts_alert_2','on') %}
+            "{{ state_attr('sensor.weatheralerts_alert_2','alert_event') }}"
+          {% endif %}
+          {% if is_state('sensor.weatheralerts_alert_3','on') %}
+            "{{ state_attr('sensor.weatheralerts_alert_3','alert_event') }}"
+          {% endif %}
+          {% if is_state('sensor.weatheralerts_alert_4','on') %}
+            "{{ state_attr('sensor.weatheralerts_alert_4','alert_event') }}"
+          {% endif %}
+          {% if is_state('sensor.weatheralerts_alert_5','on') %}
+            "{{ state_attr('sensor.weatheralerts_alert_5','alert_event') }}"
+          {% endif %}
+      {% endif %}
+    </p>
+
+    <p>
       {% if is_state('sensor.garbage_collection_large_pickup','1') %}
         'Tomorrow is the monthly unlimited garbage pickup. Make sure to take out all large garbage items tonight, and do not forget the trash can!'
       {% elif is_state('sensor.garbage_collection','1') %}
