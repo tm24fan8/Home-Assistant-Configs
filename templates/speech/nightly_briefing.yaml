@@ -22,9 +22,9 @@
         "Tina is at work right now, she will be done at approximately {{ (state_attr('input_datetime.tina_workday_end','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
       {% elif is_state('input_boolean.work_today','on') %}
         "Tina has work today at {{ (state_attr('input_datetime.tina_workday_start','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
-      {% elif is_state('input_boolean.work_today','off') and is_state('sensor.work_tomorrow','on') %}
+      {% elif is_state('input_boolean.work_today','off') and is_state('binary_sensor.tina_work_tomorrow','on') %}
         "Tina has work tomorrow at {{ as_timestamp(strptime(state_attr('calendar.family_tinawork','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%I:%M %p") }}. "
-      {% elif is_state('input_boolean.work_today','off') and is_state('sensor.work_tomorrow','off') %}
+      {% elif is_state('input_boolean.work_today','off') and is_state('binary_sensor.tina_work_tomorrow','off') %}
         "Tina appears to have tomorrow off from work. "
       {% else %}
         "Tony is an idiot and appears to have broken my awareness of Tina's schedule. Boo this man. "

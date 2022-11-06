@@ -26,15 +26,6 @@
         {% else %}
           off
         {% endif %}
-    work_tomorrow:
-      friendly_name: 'Work Tomorrow'
-      value_template: >-
-        {%- set test=(as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) %}
-        {% if states.calendar.family_tinawork.attributes.start_time >= test + " 05:00:00" %}
-          on
-        {% else %}
-          off
-        {% endif %}
     kallen_timer_remaining_minutes:
       friendly_name: 'Kallen Timer Remaining Minutes'
       value_template: >-
