@@ -68,6 +68,7 @@
 **production_auth.json
 **.log*
 **alexa_auth
+**.corrupt*
 
 # exceptions
 !/appdaemon/apps/
