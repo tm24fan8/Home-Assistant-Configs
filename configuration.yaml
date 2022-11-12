@@ -77,7 +77,6 @@ recorder:
       - scan_store
       - zone
     entities:
-      - binary_sensor.internet
       - sensor.avg_ping
       - sensor.max_ping
       - sensor.min_ping
@@ -87,8 +86,11 @@ recorder:
       - sensor.time_date
       - sensor.time
       - sensor.time_utc
-    entity_globs:
-      - sensor.basement_server_*
+  include:
+    entities:
+      - media_player.living_room_tv
+      - media_player.basement_tv
+      - media_player.master_bedroom_firetv
 
 logger:
   default: critical
