@@ -259,16 +259,6 @@ script:
 
   kallen_morning_briefing:
     sequence:
-      - choose:
-        - conditions: 
-          - condition: state
-            entity_id: input_boolean.school_today
-            state: 'on'
-          sequence:
-          - service: light.turn_on
-            target:
-              entity_id: light.kallen_bedroom_lights
-        default: []
       - service: script.speech_engine
         data:
           who: >
