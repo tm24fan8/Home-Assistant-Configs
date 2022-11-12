@@ -48,6 +48,7 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [WeatherAPI](https://github.com/iprak/weatherapi)
 - [Browser Mod](https://github.com/thomasloven/hass-browser_mod)
 - [Watchman](https://github.com/dummylabs/thewatchman)
+- [HA Team Tracker](https://github.com/vasqued2/ha-teamtracker)
 
 ## HACS Lovelace Cards
 
@@ -94,6 +95,7 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Simple Thermostat Card](https://github.com/nervetattoo/simple-thermostat)
 - [Clock Weather Card](https://github.com/pkissling/clock-weather-card)
 - [Tabbed Card](https://github.com/kinghat/tabbed-card)
+- [HA Team Tracker Card](https://github.com/vasqued2/ha-teamtracker-card)
 
 ## AppDaemon Apps
 
