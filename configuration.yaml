@@ -68,8 +68,8 @@ climate:
     k1: !secret master_bedroom_ac_key
 
 recorder:
-  # db_url: !secret mariadb_url
-  purge_keep_days: 14
+  db_url: !secret mariadb_url
+  purge_keep_days: 30
   commit_interval: 30
   exclude:
     domains:
