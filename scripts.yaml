@@ -436,12 +436,12 @@ freeze_cleanup:
     - service: input_boolean.turn_on
       data: {}
       target:
-        entity_id: input_boolean.stream_online
+        entity_id: input_boolean.studio_quiet
     else:
     - service: input_boolean.turn_off
       data: {}
       target:
-        entity_id: input_boolean.stream_online
+        entity_id: input_boolean.studio_quiet
   - if:
     - condition: state
       entity_id: calendar.family_tinawork
