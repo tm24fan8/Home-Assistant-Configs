@@ -161,6 +161,72 @@
       </p>
 
       <p>
+        {% if is_state('sensor.michigan_wolverines','PRE') %}
+          {% set date = state_attr('sensor.michigan_wolverines','date') | as_timestamp | timestamp_custom('%m-%d',false) %}
+          {% if date == now().strftime('%m-%d') %}
+            "The Michigan Wolverines will be playing today against the {{ state_attr('sensor.michigan_wolverines','opponent_name') }} at {{ state_attr('sensor.michigan_wolverines','venue') }}. "
+            "Kickoff will be at {{ state_attr('sensor.michigan_wolverines','date') | as_timestamp | timestamp_custom('%I:%M %p') }}. "
+          {% endif %}
+        {% endif %}
+        {% if is_state('sensor.ohio_state_buckeyes','PRE') %}
+          {% set date = state_attr('sensor.ohio_state_buckeyes','date') | as_timestamp | timestamp_custom('%m-%d',false) %}
+          {% if date == now().strftime('%m-%d') %}
+            "The Ohio State Buckeyes will be playing today against the {{ state_attr('sensor.ohio_state_buckeyes','opponent_name') }} at {{ state_attr('sensor.ohio_state_buckeyes','venue') }}. "
+            "Kickoff will be at {{ state_attr('sensor.ohio_state_buckeyes','date') | as_timestamp | timestamp_custom('%I:%M %p') }}. "
+          {% endif %}
+        {% endif %}
+        {% if is_state('sensor.toledo_rockets','PRE') %}
+          {% set date = state_attr('sensor.toledo_rockets','date') | as_timestamp | timestamp_custom('%m-%d',false) %}
+          {% if date == now().strftime('%m-%d') %}
+            "The Toledo Rockets will be playing today against the {{ state_attr('sensor.toledo_rockets','opponent_name') }} at {{ state_attr('sensor.toledo_rockets','venue') }}. "
+            "Kickoff will be at {{ state_attr('sensor.toledo_rockets','date') | as_timestamp | timestamp_custom('%I:%M %p') }}. "
+          {% endif %}
+        {% endif %}
+        {% if is_state('sensor.minnesota_vikings','PRE') %}
+          {% set date = state_attr('sensor.minnesota_vikings','date') | as_timestamp | timestamp_custom('%m-%d',false) %}
+          {% if date == now().strftime('%m-%d') %}
+            "The Minnesota Vikings will be playing today against the {{ state_attr('sensor.minnesota_vikings','opponent_name') }} at {{ state_attr('sensor.minnesota_vikings','venue') }}. "
+            "Kickoff will be at {{ state_attr('sensor.minnesota_vikings','date') | as_timestamp | timestamp_custom('%I:%M %p') }}. "
+          {% endif %}
+        {% endif %}
+        {% if is_state('sensor.san_francisco_49ers','PRE') %}
+          {% set date = state_attr('sensor.san_francisco_49ers','date') | as_timestamp | timestamp_custom('%m-%d',false) %}
+          {% if date == now().strftime('%m-%d') %}
+            "The San Francisco 49ers will be playing today against the {{ state_attr('sensor.san_francisco_49ers','opponent_name') }} at {{ state_attr('sensor.san_francisco_49ers','venue') }}. "
+            "Kickoff will be at {{ state_attr('sensor.san_francisco_49ers','date') | as_timestamp | timestamp_custom('%I:%M %p') }}. "
+          {% endif %}
+        {% endif %}
+        {% if is_state('sensor.cleveland_guardians','PRE') %}
+          {% set date = state_attr('sensor.cleveland_guardians','date') | as_timestamp | timestamp_custom('%m-%d',false) %}
+          {% if date == now().strftime('%m-%d') %}
+            "The Cleveland Guardians will be playing today against the {{ state_attr('sensor.cleveland_guardians','opponent_name') }} at {{ state_attr('sensor.cleveland_guardians','venue') }}. "
+            "Kickoff will be at {{ state_attr('sensor.cleveland_guardians','date') | as_timestamp | timestamp_custom('%I:%M %p') }}. "
+          {% endif %}
+        {% endif %}
+        {% if is_state('sensor.minnesota_twins','PRE') %}
+          {% set date = state_attr('sensor.minnesota_twins','date') | as_timestamp | timestamp_custom('%m-%d',false) %}
+          {% if date == now().strftime('%m-%d') %}
+            "The Minnesota Twins will be playing today against the {{ state_attr('sensor.minnesota_twins','opponent_name') }} at {{ state_attr('sensor.minnesota_twins','venue') }}. "
+            "Kickoff will be at {{ state_attr('sensor.minnesota_twins','date') | as_timestamp | timestamp_custom('%I:%M %p') }}. "
+          {% endif %}
+        {% endif %}
+        {% if is_state('sensor.minnesota_twins','PRE') %}
+          {% set date = state_attr('sensor.minnesota_twins','date') | as_timestamp | timestamp_custom('%m-%d',false) %}
+          {% if date == now().strftime('%m-%d') %}
+            "The Minnesota Twins will be playing today against the {{ state_attr('sensor.minnesota_twins','opponent_name') }} at {{ state_attr('sensor.minnesota_twins','venue') }}. "
+            "Kickoff will be at {{ state_attr('sensor.minnesota_twins','date') | as_timestamp | timestamp_custom('%I:%M %p') }}. "
+          {% endif %}
+        {% endif %}
+        {% if is_state('sensor.los_angeles_dodgers','PRE') %}
+          {% set date = state_attr('sensor.los_angeles_dodgers','date') | as_timestamp | timestamp_custom('%m-%d',false) %}
+          {% if date == now().strftime('%m-%d') %}
+            "The Los Angeles Dodgers will be playing today against the {{ state_attr('sensor.los_angeles_dodgers','opponent_name') }} at {{ state_attr('sensor.los_angeles_dodgers','venue') }}. "
+            "Kickoff will be at {{ state_attr('sensor.los_angeles_dodgers','date') | as_timestamp | timestamp_custom('%I:%M %p') }}. "
+          {% endif %}
+        {% endif %}
+      </p>
+
+      <p>
         {% if is_state('input_boolean.briefing_extras','on') %}
           "And now we have the following extra information to pass along. {{ states('input_text.briefing_extras') }} "
         {% endif %}
