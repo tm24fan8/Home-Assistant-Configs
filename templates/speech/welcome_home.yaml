@@ -136,9 +136,9 @@
     <p>
       {% if is_state('light.living_room_lights','on') %}
         {% if is_state('input_boolean.early_night_mode','on') %}
-          "Because it is getting dark, I have turned on the lights for you in the living room, dining room, and mud room. This makes for a total of {{ states.sensor.current_lights_on.state }} lights on. "
+          "Because it is getting dark, I have turned on some lights for your convenience. "
         {% else %}
-          "Due to less than optimal sunlight, I have turned on the lights for you in the living room, dining room, and mud room. This makes for a total of {{ states.sensor.current_lights_on.state }} lights on. "
+          "Due to less than optimal sunlight, I have turned on some lights for your convenience. "
         {% endif %}
       {% endif %}
     </p>
