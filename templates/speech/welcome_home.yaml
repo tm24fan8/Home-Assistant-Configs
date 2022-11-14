@@ -83,24 +83,26 @@
     </p>
 
     <p>
-      "The current climate control situation is as follows. "
-        {% if is_state('input_boolean.master_bedroom_aircon_installed','on') %}
-          "the master bedroom temperature is currently {{ state_attr('climate.master_bedroom_aircon','current_temperature') }} degrees. "
-            {% if is_state('climate.master_bedroom_aircon','cool') %}
-              "and the master bedroom air conditioner is currently set for cooling to {{ state_attr('climate.master_bedroom_aircon','temperature') }} degrees. "
-            {% elif is_state('climate.master_bedroom_aircon','fan_only') %}
-              "and the master bedroom air conditioner is currently in fan only mode. "
-            {% elif is_state('climate.master_bedroom_aircon','dry') %}
-              "and the master bedroom air conditioner is currently moonlighting as a dehumidifier. "
-            {% elif is_state('climate.master_bedroom_aircon','off') %}
-              "and the master bedroom air conditioner is currently not running. "
-            {% elif is_state('climate.master_bedroom_aircon','auto') %}
-              "and the master bedroom air conditioner is making its own decisions. Be afraid, be very afraid. "
-            {% else %}
-              "and the master bedroom air conditioner is currently not speaking to me. Was it something I said? "
-            {% endif %}
-        {% else %}
-          "There is no air conditioner or temperature sensor currently installed in the master bedroom. "
+      {% if (states('sensor.climate_devices_installed') | int) > 0 %}
+        "The current climate control situation is as follows. "
+          {% if is_state('input_boolean.master_bedroom_aircon_installed','on') %}
+            "the master bedroom temperature is currently {{ state_attr('climate.master_bedroom_aircon','current_temperature') }} degrees. "
+              {% if is_state('climate.master_bedroom_aircon','cool') %}
+                "and the master bedroom air conditioner is currently set for cooling to {{ state_attr('climate.master_bedroom_aircon','temperature') }} degrees. "
+              {% elif is_state('climate.master_bedroom_aircon','fan_only') %}
+                "and the master bedroom air conditioner is currently in fan only mode. "
+              {% elif is_state('climate.master_bedroom_aircon','dry') %}
+                "and the master bedroom air conditioner is currently moonlighting as a dehumidifier. "
+              {% elif is_state('climate.master_bedroom_aircon','off') %}
+                "and the master bedroom air conditioner is currently not running. "
+              {% elif is_state('climate.master_bedroom_aircon','auto') %}
+                "and the master bedroom air conditioner is making its own decisions. Be afraid, be very afraid. "
+              {% else %}
+                "and the master bedroom air conditioner is currently not speaking to me. Was it something I said? "
+              {% endif %}
+          {% else %}
+            "There is no air conditioner or temperature sensor currently installed in the master bedroom. "
+          {% endif %}
         {% endif %}
     </p>
 

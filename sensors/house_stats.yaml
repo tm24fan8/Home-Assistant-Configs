@@ -137,6 +137,15 @@
           states.light.front_porch_light
         ] %}
         {{ lights | selectattr('state','eq','on') | list | count }}
+    climate_devices_installed:
+      friendly_name: Climate Devices Installed
+      unit_of_measurement: 'installed'
+      value_template: >-
+        {% set devices = [
+          states.input_boolean.master_bedroom_aircon_installed,
+          states.input_boolean.nursery_aircon_installed
+        ] %}
+        {{ devices | selectattr('state','eq','on') | list | count }}
     front_porch_color_temp:
       friendly_name: Front Porch Color Temp
       unit_of_measurement: 'mireds'
