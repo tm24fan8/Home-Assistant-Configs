@@ -361,7 +361,7 @@ automation:
               option: Adaptive
           - service: input_select.select_option
             target:
-              entity_id: input_select.dining_room_lamp_modes
+              entity_id: input_select.dining_room_lamp_scenes
             data:
               option: Full
       - if:
