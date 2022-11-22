@@ -813,10 +813,10 @@ sensor:
         friendly_name: "Current Visibility"
         value_template: "{{ ((state_attr('weather.iron_nerd_weather_station','visibility') | int) * 0.621371) | round }}"
 
-      current_inside_humidity:
-        friendly_name: "Current Inside Humidity"
-        unit_of_measurement: '%'
-        value_template: "{{ state_attr('climate.home','current_humidity') }}"
+      # current_inside_humidity:
+      #   friendly_name: "Current Inside Humidity"
+      #   unit_of_measurement: '%'
+      #   value_template: "{{ state_attr('climate.home','current_humidity') }}"
       # lighting_stike_count:
       #   friendly_name: "Lightning Strike Count"
       #   value_template: "{{ states('sensor.acurite_6045m_3078_strcnt') }}"
