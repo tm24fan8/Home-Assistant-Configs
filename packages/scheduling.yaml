@@ -355,7 +355,11 @@ script:
         data_template:
           time: >
             {% if is_state('input_boolean.school_today','on') %}
-              13:45
+              {% if is_state('input_boolean.school_early_release','on') %}
+                13:00
+              {% else %}
+                13:45
+              {% endif %}
             {% else %}
               13:00
             {% endif %}
