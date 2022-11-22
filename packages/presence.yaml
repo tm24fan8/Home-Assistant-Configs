@@ -152,11 +152,12 @@ sensor:
         friendly_name: "People"
         unit_of_measurement: 'away'
         value_template: >-
-          {% set adults = [
+          {% set people = [
             states.person.tony_stork,
             states.person.christina_stork,
+            states.person.kallen_stork,
             ] %}
-          {{ adults | selectattr('state','ne','home') | list | count }}
+          {{ people | selectattr('state','ne','home') | list | count }}
 
 mqtt:
   sensor:
