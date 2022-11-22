@@ -94,8 +94,8 @@ input_select:
       - Wall Nightlight
     initial: Select
     icon: mdi:bunk-bed
-  nursery_scenes:
-    name: Nursery Scenes
+  emma_bedroom_scenes:
+    name: Emma Bedroom Scenes
     options:
       - Select
       - Adaptive
@@ -191,8 +191,8 @@ input_text:
     name: Upstairs Hallway Selected Scene
   kallen_bedroom_selected_scene:
     name: Kallen Bedroom Selected Scene
-  nursery_selected_scene:
-    name: Nursery Selected Scene
+  emma_bedroom_selected_scene:
+    name: Emma Bedroom Selected Scene
   basement_studio_selected_scene:
     name: Basement Studio Selected Scene
   master_bedroom_selected_scene:

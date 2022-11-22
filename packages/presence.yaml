@@ -270,7 +270,7 @@ script:
         - living_room
         - master_bedroom
         - mud_room
-        - nursery
+        - emma_bedroom
         - upstairs_hallway
         - dining_room
         - downstairs_bathroom
@@ -281,7 +281,7 @@ script:
         - basement_studio
         - kallen_bedroom
         - master_bedroom
-        - nursery
+        - emma_bedroom
     - delay:
         seconds: 5
     - service: switch.turn_on
@@ -297,7 +297,7 @@ script:
         - switch.adaptive_lighting_upstairs_bathroom
         - switch.adaptive_lighting_master_bedroom
         - switch.adaptive_lighting_kallen_bedroom
-        - switch.adaptive_lighting_nursery
+        - switch.adaptive_lighting_emma_bedroom
     - service: input_text.set_value
       target:
         entity_id:
@@ -310,7 +310,7 @@ script:
         - input_text.upstairs_bathroom_selected_scene
         - input_text.master_bedroom_selected_scene
         - input_text.kallen_bedroom_selected_scene
-        - input_text.nursery_selected_scene
+        - input_text.emma_bedroom_selected_scene
       data:
         value: Adaptive
     - service: input_text.set_value
@@ -376,7 +376,7 @@ script:
         area_id:
         - furnace_room
         - kallen_bedroom
-        - nursery
+        - emma_bedroom
         - master_bedroom
         - upstairs_hallway
         - basement_studio
@@ -427,7 +427,7 @@ script:
         area_id:
         - furnace_room
         - kallen_bedroom
-        - nursery
+        - emma_bedroom
         - master_bedroom
         - upstairs_hallway
         - basement_studio

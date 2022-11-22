@@ -46,7 +46,7 @@ give_me_darkness:
       - kallen_bedroom
       - master_bedroom
       - living_room
-      - nursery
+      - emma_bedroom
       - downstairs_bathroom
     data: {}
   - condition: template
@@ -172,7 +172,7 @@ max_brightness:
       - switch.adaptive_lighting_living_room
       - switch.adaptive_lighting_master_bedroom
       - switch.adaptive_lighting_mud_room
-      - switch.adaptive_lighting_nursery
+      - switch.adaptive_lighting_emma_bedroom
       - switch.adaptive_lighting_upstairs_hallway
       - switch.adaptive_lighting_dining_room
       - switch.adaptive_lighting_upstairs_bathroom
@@ -366,7 +366,7 @@ max_brightness_cleanup:
       - switch.adaptive_lighting_living_room
       - switch.adaptive_lighting_master_bedroom
       - switch.adaptive_lighting_mud_room
-      - switch.adaptive_lighting_nursery
+      - switch.adaptive_lighting_emma_bedroom
       - switch.adaptive_lighting_upstairs_hallway
       - switch.adaptive_lighting_dining_room
       - switch.adaptive_lighting_upstairs_bathroom
@@ -383,7 +383,7 @@ max_brightness_cleanup:
       - input_text.living_room_selected_scene
       - input_text.master_bedroom_selected_scene
       - input_text.mud_room_selected_scene
-      - input_text.nursery_selected_scene
+      - input_text.emma_bedroom_selected_scene
       - input_text.tina_lamp_selected_scene
       - input_text.upstairs_hallway_selected_scene
   mode: single
@@ -509,7 +509,7 @@ freeze_cleanup:
       - switch.adaptive_lighting_master_bedroom
       - switch.adaptive_lighting_mud_room
       - switch.adaptive_lighting_tina_lamp
-      - switch.adaptive_lighting_nursery
+      - switch.adaptive_lighting_emma_bedroom
       - switch.adaptive_lighting_upstairs_bathroom
       - switch.adaptive_lighting_upstairs_hallway
   - service: input_text.set_value
@@ -524,7 +524,7 @@ freeze_cleanup:
       - input_text.living_room_selected_scene
       - input_text.master_bedroom_selected_scene
       - input_text.mud_room_selected_scene
-      - input_text.nursery_selected_scene
+      - input_text.emma_bedroom_selected_scene
       - input_text.tina_lamp_selected_scene
       - input_text.upstairs_bathroom_selected_scene
       - input_text.upstairs_hallway_selected_scene

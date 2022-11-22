@@ -71,7 +71,6 @@
       - living_room
       - master_bedroom
       - mud_room
-      - nursery
       - upstairs_hallway
   - service: switch.turn_off
     target:
@@ -81,7 +80,6 @@
       - switch.adaptive_lighting_living_room
       - switch.adaptive_lighting_master_bedroom
       - switch.adaptive_lighting_mud_room
-      - switch.adaptive_lighting_nursery
       - switch.adaptive_lighting_upstairs_hallway
   - service: notify.alexa_media
     data:
@@ -105,7 +103,6 @@
       - light.master_bedroom_front
       - light.master_bedroom_side
       - light.mud_room_overhead
-      - light.nursery_light
     data:
       flash: long
   - delay:
@@ -122,7 +119,6 @@
       - living_room
       - master_bedroom
       - mud_room
-      - nursery
       - upstairs_hallway
   - delay:
       hours: 0
@@ -137,7 +133,6 @@
       - switch.adaptive_lighting_living_room
       - switch.adaptive_lighting_master_bedroom
       - switch.adaptive_lighting_mud_room
-      - switch.adaptive_lighting_nursery
       - switch.adaptive_lighting_upstairs_hallway
   - delay:
       hours: 0

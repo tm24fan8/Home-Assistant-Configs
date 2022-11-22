@@ -34,13 +34,13 @@ input_datetime:
     has_date: false
     has_time: true
     icon: mdi:fan-off
-  nursery_cooling:
-    name: Nursery Cooling
+  emma_bedtime:
+    name: Emma Bedtime
     has_date: false
     has_time: true
     icon: mdi:fan-auto
-  nursery_wakeup:
-    name: Nursery Wakeup
+  emma_wakeup:
+    name: Emma Wakeup
     has_date: false
     has_time: true
     icon: mdi:fan-off
@@ -116,12 +116,12 @@ automation:
           - service: script.master_bedroom_scheduling_evening
 
   - id: a69d3d36-09d6-4ef3-a245-c564c7cb577c
-    alias: Nursery Scheduling
+    alias: Emma Bedroom Scheduling
     trigger:
       - platform: time
         at: '06:06:00'
     action:
-      - service: script.nursery_scheduling
+      - service: script.emma_bedroom_scheduling
 
 script:
   kallen_scheduling_morning:
@@ -419,10 +419,10 @@ script:
               N/A
             {% endif %}
 
-  nursery_scheduling:
+  emma_bedroom_scheduling:
     sequence:
       - service: input_datetime.set_datetime
-        entity_id: input_datetime.nursery_cooling
+        entity_id: input_datetime.emma_bedtime
         data_template:
           time: >
             {% set high = state_attr('sensor.current_forecast','high_temp') | float %}
@@ -436,11 +436,11 @@ script:
             {% endif %}
       - service: input_select.select_option
         target:
-          entity_id: input_select.scheduled_climate_mode_nursery_aircon
+          entity_id: input_select.scheduled_climate_mode_emma_aircon
         data:
           option: >
-            {% if is_state('input_boolean.nursery_aircon_installed','on') %}
-              {% if states('sensor.tonights_low_temp') >= states('input_number.nursery_aircon_threshold') %}
+            {% if is_state('input_boolean.emma_bedroom_aircon_installed','on') %}
+              {% if states('sensor.tonights_low_temp') >= states('input_number.emma_aircon_threshold') %}
                 AC
               {% else %}
                 White Noise

@@ -59,9 +59,9 @@ input_boolean:
   master_bedroom_aircon_installed:
     name: Master Bedroom Aircon Installed
     icon: mdi:tools
-  # Same thing, but for the nursery air conditioner
-  nursery_aircon_installed:
-    name: Nursery Aircon Installed
+  # Same thing, but for Emma's bedroom air conditioner
+  emma_bedroom_aircon_installed:
+    name: Emma Bedroom Aircon Installed
     icon: mdi:tools
   # Used internally for automations to know if cooling time has passed or not
   master_bedroom_cooling_on:
@@ -85,8 +85,8 @@ input_select:
       - Fan
       - N/A
     icon: mdi:home-thermometer
-  scheduled_climate_mode_nursery_aircon:
-    name: Scheduled Climate Mode - Nursery Aircon
+  scheduled_climate_mode_emma_aircon:
+    name: Scheduled Climate Mode - Emma Aircon
     options:
       - AC
       - White Noise
@@ -150,8 +150,8 @@ input_number:
     step: 1
     unit_of_measurement: °F
     icon: mdi:thermometer
-  nursery_aircon_threshold:
-    name: Nursery Aircon Threshold
+  emma_aircon_threshold:
+    name: Emma Aircon Threshold
     min: 40
     max: 70
     step: 1
@@ -173,28 +173,28 @@ input_number:
 
 automation:
   - id: '1655415573165'
-    alias: Nursery Cooling
+    alias: Emma Bedroom Cooling
     description: For keeping the baby’s room at a safe temperature
     trigger:
     - platform: time
-      at: input_datetime.nursery_cooling
+      at: input_datetime.emma_bedtime
     action:
     - if:
       - condition: state
-        entity_id: input_select.scheduled_climate_mode_nursery_aircon
+        entity_id: input_select.scheduled_climate_mode_emma_aircon
         state: 'AC'
       then:
       - service: fan.turn_on
         target:
-          entity_id: fan.nursery_air_conditioner
+          entity_id: fan.emma_air_conditioner
       - service: script.text_notify
         data:
           who: "parents"
-          title: "Nursery Climate Schedule"
-          message: "The air conditioner in the nursery has been activated."
+          title: "Emma Climate Schedule"
+          message: "The air conditioner in Emma's Bedroom has been activated."
     - if:
       - condition: state
-        entity_id: input_select.scheduled_climate_mode_nursery_aircon
+        entity_id: input_select.scheduled_climate_mode_emma_aircon
         state: 'White Noise'
       then:
       - service: input_boolean.turn_on
@@ -203,6 +203,6 @@ automation:
       - service: script.text_notify
         data:
           who: "parents"
-          title: "Nursery Climate Schedule"
-          message: "White noise has been activated in the nursery."
+          title: "Emma Climate Schedule"
+          message: "White noise has been activated in Emma's Bedroom."
     mode: restart
