@@ -13,6 +13,14 @@
     </p>
 
     <p>
+      {% if is_state('sensor.outside_frostrisk','high') %}
+        "There is currently a high chance of frost outside. Plan accordingly! "
+      {% elif is_state('sensor.outside_frostrisk','probable') %}
+        "The possibility of frost exists currently. Be prepared. "
+      {% endif %}
+    </p>
+
+    <p>
       {% if states('sensor.weatheralerts_active_alerts') > '0' %}
         "Currently there are weather alerts active. The total number of alerts is {{ states('sensor.weatheralerts_active_alerts') }}. They are as follows. "
           {% if is_state('sensor.weatheralerts_alert_1','on') %}
