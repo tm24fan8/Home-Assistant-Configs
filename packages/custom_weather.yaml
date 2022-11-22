@@ -463,7 +463,7 @@ sensor:
               {{ [
               'with some clouds. ',
               'with partly cloudy skies. ',
-              'with scatterd clouds '
+              'with scattered clouds. '
               ] | random }}
             {% elif is_state('weather.iron_nerd_weather_station', 'sunny') %}
               {% if is_state('sun.sun', 'above_horizon') %}
