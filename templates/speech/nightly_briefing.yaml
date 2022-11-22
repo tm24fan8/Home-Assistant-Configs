@@ -313,7 +313,7 @@
         {% elif is_state('input_select.scheduled_climate_mode_emma_aircon','AC') %}
           "Emma's air conditioner will be activated at {{ (state_attr('input_datetime.emma_bedtime','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
         {% elif is_state('input_select.scheduled_climate_mode_emma_aircon','White Noise') %}
-          "Emma's white noise generator will activate at {{ (state_attr('input_datetime.emma_bedroom','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+          "Emma's white noise generator will activate at {{ (state_attr('input_datetime.emma_bedtime','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
         {% elif is_state('input_select.scheduled_climate_mode_emma_aircon','N/A') %}
           "Emma's room will have no devices activated tonight. "
         {% endif %}
