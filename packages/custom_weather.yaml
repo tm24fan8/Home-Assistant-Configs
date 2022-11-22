@@ -855,16 +855,16 @@ input_boolean:
     name: Raining
 
 automation:
-  - alias: 'record previous day rainfall'
-    trigger:
-      - platform: time
-        at: '23:58:00'
-    action:
-      service: mqtt.publish
-      data_template:
-        topic: 'house/rain/yesterday_total'
-        retain: true
-        payload: "{{ states('sensor.todays_rainfall') }}"
+  # - alias: 'record previous day rainfall'
+  #   trigger:
+  #     - platform: time
+  #       at: '23:58:00'
+  #   action:
+  #     service: mqtt.publish
+  #     data_template:
+  #       topic: 'house/rain/yesterday_total'
+  #       retain: true
+  #       payload: "{{ states('sensor.todays_rainfall') }}"
 
   - alias: Forecast Low Near Freezing
     trigger:
@@ -901,20 +901,20 @@ automation:
 
 script:
 
-  refresh_weather_alert_sensors:
-    sequence:
-      - service: homeassistant.update_entity
-        entity_id: sensor.tornado_warning
-      - service: homeassistant.update_entity
-        entity_id: sensor.tornado_watch
-      - service: homeassistant.update_entity
-        entity_id: sensor.tstorm_warning
-      - service: homeassistant.update_entity
-        entity_id: sensor.tstorm_watch
-      - service: homeassistant.update_entity
-        entity_id: sensor.flood_warning
-      - service: homeassistant.update_entity
-        entity_id: sensor.flood_watch
+  # refresh_weather_alert_sensors:
+  #   sequence:
+  #     - service: homeassistant.update_entity
+  #       entity_id: sensor.tornado_warning
+  #     - service: homeassistant.update_entity
+  #       entity_id: sensor.tornado_watch
+  #     - service: homeassistant.update_entity
+  #       entity_id: sensor.tstorm_warning
+  #     - service: homeassistant.update_entity
+  #       entity_id: sensor.tstorm_watch
+  #     - service: homeassistant.update_entity
+  #       entity_id: sensor.flood_warning
+  #     - service: homeassistant.update_entity
+  #       entity_id: sensor.flood_watch
 
   weather_briefing:
     sequence:
