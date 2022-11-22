@@ -178,10 +178,6 @@ automation:
     trigger:
     - platform: time
       at: input_datetime.nursery_cooling
-    condition:
-    - condition: state
-      entity_id: input_boolean.nursery_aircon_installed
-      state: 'on'
     action:
     - if:
       - condition: state
