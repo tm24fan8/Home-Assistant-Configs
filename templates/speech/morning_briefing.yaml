@@ -169,10 +169,12 @@
           {% endif %}
         {% endif %}
         {% if is_state('sensor.ohio_state_buckeyes','PRE') %}
-          {% set date = state_attr('sensor.ohio_state_buckeyes','date') | as_timestamp | timestamp_custom('%m-%d') %}
-          {% if date == now().strftime('%m-%d') %}
-            "The Ohio State Buckeyes will be playing today against the {{ state_attr('sensor.ohio_state_buckeyes','opponent_name') }} at {{ state_attr('sensor.ohio_state_buckeyes','venue') }}. "
-            "Kickoff will be at {{ state_attr('sensor.ohio_state_buckeyes','date') | as_timestamp | timestamp_custom('%I:%M %p') }}. "
+          {% if state_attr('sensor.ohio_state_buckeyes','opponent_abbr') not in ['MICH'] %}
+            {% set date = state_attr('sensor.ohio_state_buckeyes','date') | as_timestamp | timestamp_custom('%m-%d') %}
+            {% if date == now().strftime('%m-%d') %}
+              "The Ohio State Buckeyes will be playing today against the {{ state_attr('sensor.ohio_state_buckeyes','opponent_name') }} at {{ state_attr('sensor.ohio_state_buckeyes','venue') }}. "
+              "Kickoff will be at {{ state_attr('sensor.ohio_state_buckeyes','date') | as_timestamp | timestamp_custom('%I:%M %p') }}. "
+            {% endif %}
           {% endif %}
         {% endif %}
         {% if is_state('sensor.toledo_rockets','PRE') %}

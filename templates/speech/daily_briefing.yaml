@@ -359,10 +359,12 @@
           {% endif %}
         {% endif %}
         {% if is_state('sensor.ohio_state_buckeyes','PRE') %}
-          {% set date = state_attr('sensor.ohio_state_buckeyes','date') | as_timestamp | timestamp_custom('%m-%d') %}
-          {% if date == now().strftime('%m-%d') %}
-            "The Ohio State Buckeyes will be playing today against the {{ state_attr('sensor.ohio_state_buckeyes','opponent_name') }} at {{ state_attr('sensor.ohio_state_buckeyes','venue') }}. "
-            "Kickoff will be at {{ state_attr('sensor.ohio_state_buckeyes','date') | as_timestamp | timestamp_custom('%I:%M %p') }}. "
+          {% if state_attr('sensor.ohio_state_buckeyes','opponent_attr') not in ['MICH'] %}
+            {% set date = state_attr('sensor.ohio_state_buckeyes','date') | as_timestamp | timestamp_custom('%m-%d') %}
+            {% if date == now().strftime('%m-%d') %}
+              "The Ohio State Buckeyes will be playing today against the {{ state_attr('sensor.ohio_state_buckeyes','opponent_name') }} at {{ state_attr('sensor.ohio_state_buckeyes','venue') }}. "
+              "Kickoff will be at {{ state_attr('sensor.ohio_state_buckeyes','date') | as_timestamp | timestamp_custom('%I:%M %p') }}. "
+            {% endif %}
           {% endif %}
         {% endif %}
         {% if is_state('sensor.toledo_rockets','PRE') %}
@@ -435,20 +437,24 @@
           {% endif %}
         {% endif %}
         {% if is_state('sensor.ohio_state_buckeyes','POST') %}
-          {% set date = state_attr('sensor.ohio_state_buckeyes','date') | as_timestamp | timestamp_custom('%m-%d') %}
-          {% if date == now().strftime('%m-%d') %}
-            {% if state_attr('sensor.ohio_state_buckeyes','team_score') > state_attr('sensor.ohio_state_buckeyes','opponent_score') %}
-              "The Ohio State Buckeyes won their game today against the {{ state_attr('sensor.ohio_state_buckeyes','opponent_name') }} by a score of {{ state_attr('sensor.ohio_state_buckeyes','team_score') }} to {{ state_attr('sensor.ohio_state_buckeyes','opponent_score') }}. "
-            {% else %}
-              "The Ohio State Buckeyes lost their game today against the {{ state_attr('sensor.ohio_state_buckeyes','opponent_name') }} by a score of {{ state_attr('sensor.ohio_state_buckeyes','opponent_score') }} to {{ state_attr('sensor.ohio_state_buckeyes','team_score') }}. "
+          {% if state_attr('sensor.ohio_state_buckeyes','opponent_abbr') not in ['MICH'] %}
+            {% set date = state_attr('sensor.ohio_state_buckeyes','date') | as_timestamp | timestamp_custom('%m-%d') %}
+            {% if date == now().strftime('%m-%d') %}
+              {% if state_attr('sensor.ohio_state_buckeyes','team_score') > state_attr('sensor.ohio_state_buckeyes','opponent_score') %}
+                "The Ohio State Buckeyes won their game today against the {{ state_attr('sensor.ohio_state_buckeyes','opponent_name') }} by a score of {{ state_attr('sensor.ohio_state_buckeyes','team_score') }} to {{ state_attr('sensor.ohio_state_buckeyes','opponent_score') }}. "
+              {% else %}
+                "The Ohio State Buckeyes lost their game today against the {{ state_attr('sensor.ohio_state_buckeyes','opponent_name') }} by a score of {{ state_attr('sensor.ohio_state_buckeyes','opponent_score') }} to {{ state_attr('sensor.ohio_state_buckeyes','team_score') }}. "
+              {% endif %}
+                "This brings their record to {{ state_attr('sensor.ohio_state_buckeyes','team_record') | replace("-"," and ") }} on the season. "
             {% endif %}
-              "This brings their record to {{ state_attr('sensor.ohio_state_buckeyes','team_record') | replace("-"," and ") }} on the season. "
           {% endif %}
         {% elif is_state('sensor.ohio_state_buckeyes','IN') %}
-          {% if state_attr('sensor.ohio_state_buckeyes','team_score') > state_attr('sensor.ohio_state_buckeyes','opponent_score') %}
-            "The Ohio State Buckeyes are currently winning their game against the {{ state_attr('sensor.ohio_state_buckeyes','opponent_name') }} with a score of {{ state_attr('sensor.ohio_state_buckeyes','team_score') }} to {{ state_attr('sensor.ohio_state_buckeyes','opponent_score') }}. "
-          {% else %}
-            "The Ohio State Buckeyes are currently losing their game against the {{ state_attr('sensor.ohio_state_buckeyes','opponent_name') }} with a score of {{ state_attr('sensor.ohio_state_buckeyes','opponent_score') }} to {{ state_attr('sensor.ohio_state_buckeyes','team_score') }}. "
+          {% if state_attr('sensor.ohio_state_buckeyes','opponent_abbr') not in ['MICH'] %}
+            {% if state_attr('sensor.ohio_state_buckeyes','team_score') > state_attr('sensor.ohio_state_buckeyes','opponent_score') %}
+              "The Ohio State Buckeyes are currently winning their game against the {{ state_attr('sensor.ohio_state_buckeyes','opponent_name') }} with a score of {{ state_attr('sensor.ohio_state_buckeyes','team_score') }} to {{ state_attr('sensor.ohio_state_buckeyes','opponent_score') }}. "
+            {% else %}
+              "The Ohio State Buckeyes are currently losing their game against the {{ state_attr('sensor.ohio_state_buckeyes','opponent_name') }} with a score of {{ state_attr('sensor.ohio_state_buckeyes','opponent_score') }} to {{ state_attr('sensor.ohio_state_buckeyes','team_score') }}. "
+            {% endif %}
           {% endif %}
         {% endif %}
         {% if is_state('sensor.toledo_rockets','POST') %}
