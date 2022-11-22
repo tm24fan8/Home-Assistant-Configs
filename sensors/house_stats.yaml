@@ -69,7 +69,7 @@
           states.light.master_bedroom_closet,
           states.light.kallen_bedroom_wall,
           states.light.kallen_bedroom_overhead,
-          states.light.nursery_light
+          states.light.emma_bedroom_light
         ] %}
         {{ lights | selectattr('state','eq','on') | list | count }}
     first_floor_lights_on:
@@ -104,7 +104,7 @@
           states.light.master_bedroom_closet,
           states.light.kallen_bedroom_wall,
           states.light.kallen_bedroom_overhead,
-          states.light.nursery_light
+          states.light.emma_bedroom_light
         ] %}
         {{ lights | selectattr('state','eq','on') | list | count }}
     basement_lights_on:
@@ -126,7 +126,7 @@
           states.fan.basement_fan,
           states.fan.kallen_fan_socket_1,
           states.fan.master_bedroom_fan_socket_1,
-          states.fan.nursery_air_conditioner
+          states.fan.emma_air_conditioner
         ] %}
         {{ fans | selectattr('state','eq','on') | list | count }}
     current_outdoor_lights_on:
@@ -143,7 +143,7 @@
       value_template: >-
         {% set devices = [
           states.input_boolean.master_bedroom_aircon_installed,
-          states.input_boolean.nursery_aircon_installed
+          states.input_boolean.emma_bedroom_aircon_installed
         ] %}
         {{ devices | selectattr('state','eq','on') | list | count }}
     front_porch_color_temp:
