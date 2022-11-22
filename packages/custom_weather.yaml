@@ -820,12 +820,12 @@ sensor:
       # lighting_stike_count:
       #   friendly_name: "Lightning Strike Count"
       #   value_template: "{{ states('sensor.acurite_6045m_3078_strcnt') }}"
-      yesterday_rainfall_in:
-        friendly_name: "Yesterday Rainfall"
-        value_template: "{{ state_attr('sensor.daily_rainfall_in', 'last_period') }}"
-      previous_rainfall:
-        friendly_name: "Past 48h Rainfall"
-        value_template: "{{ states('sensor.daily_rainfall_in') | float  + state_attr('sensor.daily_rainfall_in', 'last_period') | float  }}"
+      # yesterday_rainfall_in:
+      #   friendly_name: "Yesterday Rainfall"
+      #   value_template: "{{ state_attr('sensor.daily_rainfall_in', 'last_period') }}"
+      # previous_rainfall:
+      #   friendly_name: "Past 48h Rainfall"
+      #   value_template: "{{ states('sensor.daily_rainfall_in') | float  + state_attr('sensor.daily_rainfall_in', 'last_period') | float  }}"
       lightning_warning:
         friendly_name: "Lightning Warning"
         value_template: >-
