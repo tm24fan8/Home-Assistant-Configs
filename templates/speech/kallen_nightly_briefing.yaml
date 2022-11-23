@@ -52,6 +52,30 @@
       {% elif states.sensor.school_start_days2go.state | int == 0 -%}
         Tomorrow is the first day of school. Are you ready? 
       {%- endif %}
+      {% if states.sensor.thanksgiving_break_days2go.state | int <= 14 and states.sensor.thanksgiving_break_days2go.state | int > 0 %}
+          {{ [ 'Oh, and look at that.',
+          'For those trying to keep count. ',
+          'In case you were wondering.',
+          'Also, did you know.'
+        ] | random }}
+          There are only {{ states.sensor.thanksgiving_break_days2go.state }} days until Thanksgiving Break!
+      {% endif %}
+      {% if states.sensor.christmas_break_days2go.state | int <= 14 and states.sensor.christmas_break_days2go.state | int > 0 %}
+          {{ [ 'Oh, and look at that.',
+          'For those trying to keep count. ',
+          'In case you were wondering.',
+          'Also, did you know.'
+        ] | random }}
+          There are only {{ states.sensor.christmas_break_days2go.state }} days until Christmas Break!
+      {% endif %}
+      {% if states.sensor.spring_break_days2go.state | int <= 14 and states.sensor.spring_break_days2go.state | int > 0 %}
+          {{ [ 'Oh, and look at that.',
+          'For those trying to keep count. ',
+          'In case you were wondering.',
+          'Also, did you know.'
+        ] | random }}
+          There are only {{ states.sensor.spring_break_days2go.state }} days until Spring Break!
+      {% endif %}
       {% if states.sensor.school_end_days2go.state | int < 15 and states.sensor.school_end_days2go.state | int > 0 -%}
       {{ [ 'School is almost over for the year.',
           'You have made it to the end of the school year.',
