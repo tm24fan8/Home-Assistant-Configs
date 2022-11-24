@@ -135,7 +135,6 @@ influxdb:
       - climate
       - fan
       - person
-      - device_tracker
     entity_globs:
       - sensor.*energy_sensor
       - sensor.*power_sensor
@@ -158,6 +157,10 @@ influxdb:
       - binary_sensor.*motion*
       - binary_sensor.*door*
       - binary_sensor.*window*
+      - device_tracker.*iphone*
+      - device_tracker.*ipad*
+      - device_tracker.*watch*
+      - device_tracker.*airpod*
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
