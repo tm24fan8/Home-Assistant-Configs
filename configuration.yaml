@@ -132,6 +132,8 @@ influxdb:
       - light
       - climate
       - fan
+      - person
+      - device_tracker
     entity_globs:
       - sensor.*energy_sensor
       - sensor.*power_sensor
