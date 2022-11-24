@@ -97,21 +97,34 @@ logger:
   logs:
     homeassistant.core: fatal
 
-# influxdb:
-#   host: 192.168.1.26
-#   port: 8086
-#   database: homeassistant
-#   username: homeassistant
-#   password: !secret influxdb_pass
-#   max_retries: 3
-#   default_measurement: state
-#   exclude:
-#     domains:
-#       - automation
-#       - script
-#       - zone
-#     entity_globs:
-#       - sensor.*battery*
+influxdb:
+  api_version: 2
+  host: 192.168.1.4
+  port: 8086
+  max_retries: 3
+  ssl: false
+  organization: !secret influxdb_org
+  token: !secret influxdb_token
+  bucket: home_assistant
+  default_measurement: state
+  tags:
+    source: HA
+  tags_attributes:
+    - friendly_name
+  exclude:
+    domains:
+      - automation
+      - script
+      - zone
+      - persistent_notification
+      - person
+    entity_globs:
+      - sensor.*battery*
+  include:
+    domains:
+      - sensor
+      - binary_sensor
+      - sun
 
 history:
   exclude:
