@@ -111,6 +111,8 @@ influxdb:
     source: HA
   tags_attributes:
     - friendly_name
+  ignore_attributes:
+    - icon
   exclude:
     entity_globs:
       - binary_sensor.*tamper*
