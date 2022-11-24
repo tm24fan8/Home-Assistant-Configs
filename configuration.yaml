@@ -112,17 +112,6 @@ influxdb:
   tags_attributes:
     - friendly_name
   exclude:
-    domains:
-      - automation
-      - script
-      - zone
-      - persistent_notification
-      - person
-      - media_player
-      - scan_store
-      - sensor
-      - binary_sensor
-      - weather
     entity_globs:
       - binary_sensor.*tamper*
     entities:
