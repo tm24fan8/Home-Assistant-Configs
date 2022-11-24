@@ -114,6 +114,7 @@ influxdb:
   exclude:
     entity_globs:
       - binary_sensor.*tamper*
+      - light.*screen*
     entities:
       - sensor.last_boot
       - sensor.date
@@ -123,6 +124,8 @@ influxdb:
       - sensor.time_utc
       - sensor.xr500_gateway_kib_s_received
       - sensor.xr500_gateway_kib_s_sent
+      - light.all_lights
+      - fan.all_fans
   include:
     domains:
       - sun
