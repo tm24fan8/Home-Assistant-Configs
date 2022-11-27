@@ -48,6 +48,7 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [Browser Mod](https://github.com/thomasloven/hass-browser_mod)
 - [Watchman](https://github.com/dummylabs/thewatchman)
 - [HA Team Tracker](https://github.com/vasqued2/ha-teamtracker)
+- [PyScript](https://github.com/custom-components/pyscript)
 
 ## HACS Lovelace Cards
 
