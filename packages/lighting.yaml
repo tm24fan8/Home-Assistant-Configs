@@ -17,6 +17,9 @@ input_boolean:
   delivery_mode:
     name: Delivery Mode
     icon: mdi:pizza
+  holiday_mode:
+    name: Holiday Mode
+    icon: mdi:string-lights
 
 input_number:
   upstairs_bathroom_motion_off_delay:
@@ -179,6 +182,33 @@ input_select:
       - Nightlight
     initial: Select
     icon: hue:room-dining
+  color_swarm_area:
+    name: Color Swarm Area
+    options:
+      - Front Porch
+      - Living Room
+      - Tina Lamp
+      - Basement Studio
+    icon: mdi:palette
+  color_swarm_name:
+    name: Color Swarm Name
+    options:
+      - Christmas
+      - Bright Christmas
+      - Casino
+      - Dim arcade
+      - Neon sea
+      - Ocean city
+      - Murder
+      - Purple rain
+      - Grad party
+      - USA
+      - Northern lights
+      - Summer night
+      - Candlelight
+      - Velvet rose
+      - Halloween
+    icon: mdi:palette
 
 input_text:
   living_room_selected_scene:
