@@ -64,3 +64,7 @@ powercalc:
     - media_player
     - switch
     - fan
+
+pyscript:
+  allow_all_imports: true
+  hass_is_global: true
