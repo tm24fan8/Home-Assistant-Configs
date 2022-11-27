@@ -182,32 +182,12 @@ input_select:
       - Nightlight
     initial: Select
     icon: hue:room-dining
-  color_swarm_area:
-    name: Color Swarm Area
-    options:
-      - Front Porch
-      - Living Room
-      - Tina Lamp
-      - Basement Studio
-    icon: mdi:palette
-  color_swarm_name:
-    name: Color Swarm Name
+  holiday_animation:
+    name: Holiday Animation
     options:
       - Christmas
-      - Bright Christmas
-      - Casino
-      - Dim arcade
-      - Neon sea
-      - Ocean city
-      - Murder
-      - Purple rain
-      - Grad party
-      - USA
-      - Northern lights
-      - Summer night
-      - Candlelight
-      - Velvet rose
       - Halloween
+      - St Patricks Day
     icon: mdi:palette
 
 input_text:
@@ -235,6 +215,28 @@ input_text:
     name: Front Porch Selected Scene
   tina_lamp_selected_scene:
     name: Tina Lamp Selected Scene
+
+switch:
+  - platform: animated_scenes
+    name: Christmas
+    restore: False
+    restore_power: False
+    ignore_off: False
+    lights:
+      - light.front_porch_light
+    colors:
+      - color_type: rgb_color
+        color: [255,0,0]
+        brightness: 255
+      - color_type: rgb_color
+        color: [0,255,0]
+        brightness: 255
+    transition: 10
+    change_frequency: 60
+    change_amount: all
+    change_sequence: True
+    animate_brightness: True
+    animate_color: True
 
 automation:
   # The commented-out automations have been moved to Node-RED because they are easier to implement there.
