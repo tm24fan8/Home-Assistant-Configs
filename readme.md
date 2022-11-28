@@ -49,6 +49,7 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [Watchman](https://github.com/dummylabs/thewatchman)
 - [HA Team Tracker](https://github.com/vasqued2/ha-teamtracker)
 - [PyScript](https://github.com/custom-components/pyscript)
+- [Hass Animated Scenes](https://github.com/chazzu/hass-animated-scenes)
 
 ## HACS Lovelace Cards
 
