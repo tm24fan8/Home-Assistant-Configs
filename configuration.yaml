@@ -136,6 +136,8 @@ influxdb:
       - fan
       - person
     entity_globs:
+      - sensor.*power
+      - sensor.*energy
       - sensor.*energy_sensor
       - sensor.*power_sensor
       - sensor.*cpu*

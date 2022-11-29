@@ -69,7 +69,9 @@
           states.light.master_bedroom_closet,
           states.light.kallen_bedroom_wall,
           states.light.kallen_bedroom_overhead,
-          states.light.emma_bedroom_light
+          states.light.emma_bedroom_light,
+          states.light.front_porch_light,
+          states.light.front_window_christmas_lights
         ] %}
         {{ lights | selectattr('state','eq','on') | list | count }}
     first_floor_lights_on:
@@ -134,7 +136,8 @@
       unit_of_measurement: 'on'
       value_template: >-
         {% set lights = [
-          states.light.front_porch_light
+          states.light.front_porch_light,
+          states.light.front_window_christmas_lights
         ] %}
         {{ lights | selectattr('state','eq','on') | list | count }}
     climate_devices_installed:
