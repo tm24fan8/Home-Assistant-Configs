@@ -188,6 +188,7 @@ automation:
             state: 'on'
     action:
       - service: script.security_arm_home
+      - service: script.security_scheduling
 
 script:
   security_arm_home:
