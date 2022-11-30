@@ -88,6 +88,7 @@ automation:
           id: house-morning
         then:
           - service: script.house_scheduling_morning
+          - service: script.security_scheduling
       - if:
         - condition: trigger
           id: house-evening
@@ -276,44 +277,6 @@ script:
                 {{ (state_attr('input_datetime.tina_workday_end', 'timestamp') + 3600) | timestamp_custom('%H:%M', false) }}
               {% endif %}
             {% endif %}
-      - service: input_datetime.set_datetime
-        entity_id: input_datetime.morning_alarm_disarm
-        data_template:
-          time: >
-            {% if is_state('input_boolean.work_today','on') and is_state('input_boolean.school_today','on') %}
-              {% if state_attr('input_datetime.tina_workday_start','timestamp') < (state_attr('input_datetime.school_day_start','timestamp')) %}
-                {{ (state_attr('input_datetime.tina_workday_start','timestamp') - 1800) | timestamp_custom('%H:%M', false) }}
-              {% else %}
-                {{ (state_attr('input_datetime.school_day_start','timestamp') - 2700) | timestamp_custom('%H:%M', false) }}
-              {% endif %}
-            {% elif is_state('input_boolean.work_today','on') and is_state('input_boolean.school_today','off') %}
-              {{ (state_attr('input_datetime.tina_workday_start', 'timestamp') - 1800) | timestamp_custom('%H:%M', false) }}
-            {% elif is_state('input_boolean.school_today','on') %}
-              {{ (state_attr('input_datetime.school_day_start','timestamp') - 2700) | timestamp_custom('%H:%M', false) }}
-            {% else %}
-              11:00
-            {% endif %}
-      - service: input_datetime.set_datetime
-        entity_id: input_datetime.morning_alarm_rearm
-        data_template:
-          time: >
-            {% if is_state('input_boolean.work_today','on') and is_state('input_boolean.school_today','off') %}
-              {{ (state_attr('input_datetime.tina_workday_start','timestamp') + 900) | timestamp_custom('%H:%M', false) }}
-            {% elif is_state('input_boolean.school_today','on') and is_state('input_boolean.work_today','off') %}
-              {{ (state_attr('input_datetime.school_day_start','timestamp') + 3600) | timestamp_custom('%H:%M', false) }}
-            {% elif is_state('input_boolean.work_today','on') and is_state('input_boolean.school_today','on') %}
-              {% if state_attr('input_datetime.tina_workday_start','timestamp') < state_attr('input_datetime.school_day_start','timestamp') %}
-                {{ (state_attr('input_datetime.school_day_start','timestamp') + 1800) | timestamp_custom('%H:%M', false) }}
-              {% else %}
-                {% if (state_attr('input_datetime.tina_workday_start','timestamp') - state_attr('input_datetime.school_day_start','timestamp')) > 5400 %}
-                  {{ (state_attr('input_datetime.school_day_start','timestamp') + 1800) | timestamp_custom('%H:%M', false) }}
-                {% else %}
-                  {{ (state_attr('input_datetime.tina_workday_start','timestamp') + 900) | timestamp_custom('%H:%M', false) }}
-                {% endif %}
-              {% endif %}
-            {% else %}
-              12:00
-            {% endif %}
       - if:
         - condition: template
           value_template: >
@@ -447,4 +410,45 @@ script:
               {% endif %}
             {% else %}
               White Noise
+            {% endif %}
+
+  security_scheduling:
+    sequence:
+      - service: input_datetime.set_datetime
+        entity_id: input_datetime.morning_alarm_disarm
+        data_template:
+          time: >
+            {% if is_state('input_boolean.work_today','on') and is_state('input_boolean.school_today','on') %}
+              {% if state_attr('input_datetime.tina_workday_start','timestamp') < (state_attr('input_datetime.school_day_start','timestamp')) %}
+                {{ (state_attr('input_datetime.tina_workday_start','timestamp') - 1800) | timestamp_custom('%H:%M', false) }}
+              {% else %}
+                {{ (state_attr('input_datetime.school_day_start','timestamp') - 2700) | timestamp_custom('%H:%M', false) }}
+              {% endif %}
+            {% elif is_state('input_boolean.work_today','on') and is_state('input_boolean.school_today','off') %}
+              {{ (state_attr('input_datetime.tina_workday_start', 'timestamp') - 1800) | timestamp_custom('%H:%M', false) }}
+            {% elif is_state('input_boolean.school_today','on') %}
+              {{ (state_attr('input_datetime.school_day_start','timestamp') - 2700) | timestamp_custom('%H:%M', false) }}
+            {% else %}
+              11:00
+            {% endif %}
+      - service: input_datetime.set_datetime
+        entity_id: input_datetime.morning_alarm_rearm
+        data_template:
+          time: >
+            {% if is_state('input_boolean.work_today','on') and is_state('input_boolean.school_today','off') %}
+              {{ (state_attr('input_datetime.tina_workday_start','timestamp') + 900) | timestamp_custom('%H:%M', false) }}
+            {% elif is_state('input_boolean.school_today','on') and is_state('input_boolean.work_today','off') %}
+              {{ (state_attr('input_datetime.school_day_start','timestamp') + 3600) | timestamp_custom('%H:%M', false) }}
+            {% elif is_state('input_boolean.work_today','on') and is_state('input_boolean.school_today','on') %}
+              {% if state_attr('input_datetime.tina_workday_start','timestamp') < state_attr('input_datetime.school_day_start','timestamp') %}
+                {{ (state_attr('input_datetime.school_day_start','timestamp') + 1800) | timestamp_custom('%H:%M', false) }}
+              {% else %}
+                {% if (state_attr('input_datetime.tina_workday_start','timestamp') - state_attr('input_datetime.school_day_start','timestamp')) > 5400 %}
+                  {{ (state_attr('input_datetime.school_day_start','timestamp') + 1800) | timestamp_custom('%H:%M', false) }}
+                {% else %}
+                  {{ (state_attr('input_datetime.tina_workday_start','timestamp') + 900) | timestamp_custom('%H:%M', false) }}
+                {% endif %}
+              {% endif %}
+            {% else %}
+              12:00
             {% endif %}
