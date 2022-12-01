@@ -218,16 +218,26 @@ automation:
           seconds: 3
       - if:
         - condition: state
-          entity_id: binary_sensor.people_present
-          state: 'off'
+          entity_id: sensor.total_faults
+          state: '0'
         then:
-          - service: script.security_arm_away
+        - if:
+          - condition: state
+            entity_id: binary_sensor.people_present
+            state: 'off'
+          then:
+            - service: script.security_arm_away
+          else:
+            - service: script.security_arm_home
+            - service: script.status_annc
+              data_template:
+                who: common
+                call_security_armed: 1
         else:
-          - service: script.security_arm_home
-          - service: script.status_annc
-            data_template:
+          - service: script.speech_engine
+            data:
               who: common
-              call_security_armed: 1
+              message: 'I am unable to resolve the security issue, so I am giving up. Please report the issue to Tony if applicable.'
 
 script:
   security_arm_home:
