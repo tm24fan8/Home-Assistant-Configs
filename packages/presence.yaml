@@ -422,6 +422,11 @@ script:
         entity_id: input_select.dining_room_lamp_scenes
       data:
         option: Full
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.upstairs_bathroom_scenes
+      data:
+        option: Nightlight
     - service: light.turn_off
       target:
         area_id:
@@ -432,7 +437,6 @@ script:
         - upstairs_hallway
         - basement_studio
         - downstairs_bathroom
-        - upstairs_bathroom
     - service: script.welcome_home
     mode: single
     icon: mdi:home-account
