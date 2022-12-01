@@ -195,6 +195,35 @@ automation:
         then:
         - service: script.security_scheduling
 
+  - id: c7927c59-e0fe-48b9-b308-dd90fb774920
+    alias: Lockdown Issue
+    trigger: 
+      - platform: state
+        entity_id: input_boolean.lockdown_issue
+        from: "off"
+        to: "on"
+    action:
+      - service: script.status_annc
+        data_template:
+          who: common
+          call_interruption: 1
+          call_lockdown_issue: 1
+      - wait_template: "{{ is_state('sensor.total_faults','0') }}"
+        timeout:
+          minutes: 10
+      - if:
+        - condition: state
+          entity_id: binary_sensor.people_present
+          state: 'off'
+        then:
+          - service: script.security_arm_away
+        else:
+          - service: script.security_arm_home
+          - service: script.status_annc
+            data_template:
+              who: common
+              call_security_armed: 1
+
 script:
   security_arm_home:
     alias: Security Arm - Home
@@ -209,16 +238,18 @@ script:
             entity_id: alarm_control_panel.stratton_ave_alarm
           data:
             code: !secret ring_alarm_code
+        - service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.lockdown_issue
         else:
-        - service: script.speech_engine
-          data:
-            who: common
-            message: 'There are active security faults. Please close all doors and windows before arming.'
         - service: script.text_urgent_alert
           data:
             who: 'parents'
             title: 'Security Not Armed!'
             message: 'There are active security faults. Please close all doors and windows before arming.'
+        - service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.lockdown_issue
 
   security_arm_away:
     alias: Security Arm - Away
@@ -236,16 +267,18 @@ script:
         - service: alarm_control_panel.alarm_arm_away
           target:
             entity_id: alarm_control_panel.alexa_guard_9ee3b
+        - service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.lockdown_issue
         else:
-        - service: script.speech_engine
-          data:
-            who: common
-            message: 'There are active security faults. Please close all doors and windows before arming.'
         - service: script.text_urgent_alert
           data:
             who: 'parents'
             title: 'Security Not Armed!'
             message: 'There are active security faults. Please close all doors and windows before arming.'
+        - service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.lockdown_issue
 
   security_disarm:
     alias: Security Disarm
@@ -258,3 +291,6 @@ script:
       - service: alarm_control_panel.alarm_disarm
         target:
           entity_id: alarm_control_panel.alexa_guard_9ee3b
+      - service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.lockdown_issue

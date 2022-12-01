@@ -957,6 +957,35 @@ script:
               </p>
             {% endmacro %}
 
+            {% macro lockdown_issue() %}
+              <p>
+              {{ [
+                  'There are active security faults. Please close all doors and windows before arming.',
+                  'Have you ever tried to secure a piece of Swiss cheese? It does not work. Please close all doors and windows.',
+                  'I cannot guard an open window. Please close them, and check all doors as well.'
+                  'Do you want me to be attacked by the local gang of feral infants? Close the doors and windows!'
+                  ] | random }}
+              </p>
+            {% endmacro %}
+
+            {% macro security_armed() %}
+              <p>
+              {{ [ 'Security is armed, guard dogs deployed, and lasers set from stun to kill!',
+                'The security system is armed. Sentry turrets active, be careful out there!',
+                'Your security is our number one priority. Flamethrower turrets deployed!'
+                  ] | random }}
+              </p>
+            {% endmacro %}
+
+            {% macro security_not_armed() %}
+              <p>
+              {{ [ "Security squadron is standing down, but always at your service!",
+                "Our security forces are currently twiddling their thumbs, awaiting some purpose in their life!",
+                "Security not armed. Hopefully the defense turrets do not become bored!"
+                  ] | random }}
+              </p>
+            {% endmacro %}
+
             {% macro time_is() %}
               <p>
               It is {{ now().strftime("%I:%M %p") }}
@@ -1125,6 +1154,18 @@ script:
 
               {% if call_issue == 1 %}
                 {{ issue() }}
+              {% endif %}
+
+              {% if call_lockdown_issue == 1 %}
+                {{ lockdown_issue() }}
+              {% endif %}
+
+              {% if call_security_armed == 1 %}
+                {{ security_armed() }}
+              {% endif %}
+
+              {% if call_security_not_armed == 1 %}
+                {{ security_not_armed() }}
               {% endif %}
 
               {% if call_time_is == 1 %}
