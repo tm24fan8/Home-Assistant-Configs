@@ -211,6 +211,11 @@ automation:
       - wait_template: "{{ is_state('sensor.total_faults','0') }}"
         timeout:
           minutes: 10
+      - service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.lockdown_issue
+      - wait:
+          seconds: 3
       - if:
         - condition: state
           entity_id: binary_sensor.people_present
