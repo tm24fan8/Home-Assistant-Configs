@@ -214,7 +214,7 @@ automation:
       - service: input_boolean.turn_off
         target:
           entity_id: input_boolean.lockdown_issue
-      - wait:
+      - delay:
           seconds: 3
       - if:
         - condition: state
