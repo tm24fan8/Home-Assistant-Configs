@@ -183,6 +183,34 @@ automation:
         from: "off"
         to: "on"
     action:
+      - if:
+        - condition: state
+          entity_id: light.living_room_lights
+          state: 'on'
+        then:
+          - service: switch.turn_off
+            target:
+              entity_id: switch.adaptive_lighting_living_room
+          - service: light.turn_on
+            target:
+              entity_id: light.living_room_lights
+            data:
+              color_name: red
+              brightness_pct: 100
+      - if:
+        - condition: state
+          entity_id: light.tina_lamp
+          state: 'on'
+        then:
+          - service: switch.turn_off
+            target:
+              entity_id: switch.adaptive_lighting_tina_lamp
+          - service: light.turn_on
+            target:
+              entity_id: light.tina_lamp
+            data:
+              color_name: red
+              brightness_pct: 100
       - service: script.status_annc
         data_template:
           who: common
@@ -218,6 +246,26 @@ automation:
             data:
               who: common
               message: 'I am unable to resolve the security issue, so I am giving up. Please report the issue to Tony if applicable.'
+      - if:
+        - condition: state
+          entity_id: light.living_room_lights
+          state: 'on'
+        then:
+          service: input_select.select_option
+          target:
+            entity_id: input_select.living_room_scenes
+          data:
+            option: Adaptive
+      - if:
+        - condition: state
+          entity_id: light.tina_lamp
+          state: 'on'
+        then:
+          - service: input_select.select_option
+            target:
+              entity_id: input_text.tina_lamp_selected_scene
+            data:
+              option: Adaptive
 
 script:
   security_arm_home:
