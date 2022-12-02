@@ -98,32 +98,12 @@ sensor:
         friendly_name: Faults
         unit_of_measurement: 'open'
         value_template: >-
-          {% set windows = [
-            states.binary_sensor.front_window_near,
-            states.binary_sensor.kitchen_big_window,
-            states.binary_sensor.mud_room_window,
-            states.binary_sensor.stairway_window_lower,
-            ] %}
-          {% set doors = [
-            states.binary_sensor.front_door,
-            states.binary_sensor.back_door,
-            ] %}
-          {% set windows_open = windows | selectattr('state','eq','on') | list | count %}
-          {% set doors_open = doors | selectattr('state','eq','on') | list | count %}
+          {% set windows_open = states('sensor.windows_open') | int %}
+          {% set doors_open = states('sensor.doors_open') | int %}
           {{ doors_open + windows_open }}
         icon_template: >-
-          {% set windows = [
-            states.binary_sensor.front_window_near,
-            states.binary_sensor.kitchen_big_window,
-            states.binary_sensor.mud_room_window,
-            states.binary_sensor.stairway_window_lower,
-            ] %}
-          {% set doors = [
-            states.binary_sensor.front_door,
-            states.binary_sensor.back_door,
-            ] %}
-          {% set windows_open = windows | selectattr('state','eq','on') | list | count %}
-          {% set doors_open = doors | selectattr('state','eq','on') | list | count %}
+          {% set windows_open = states('sensor.windows_open') | int %}
+          {% set doors_open = states('sensor.doors_open') | int %}
           {% set faults = ( doors_open + windows_open ) %}
           {% if faults == 0 %}
             mdi:shield-home
