@@ -453,6 +453,8 @@
         {% elif is_state('sensor.michigan_wolverines','IN') %}
           {% if (state_attr('sensor.michigan_wolverines','team_score') | int) > (state_attr('sensor.michigan_wolverines','opponent_score') | int) %}
             "The Michigan Wolverines are currently winning their game against the {{ state_attr('sensor.michigan_wolverines','opponent_name') }} with a score of {{ state_attr('sensor.michigan_wolverines','team_score') }} to {{ state_attr('sensor.michigan_wolverines','opponent_score') }}. "
+          {% elif (state_attr('sensor.michigan_wolverines','team_score') | int) == (state_attr('sensor.michigan_wolverines','opponent_score') | int) %}
+            "The Michigan Wolverines are currently tied in their game against the {{ state_attr('sensor.michigan_wolverines','opponent_name') }} with a score of {{ state_attr('sensor.michigan_wolverines','team_score') }} to {{ state_attr('sensor.michigan_wolverines','opponent_score') }}. "
           {% else %}
             "The Michigan Wolverines are currently losing their game against the {{ state_attr('sensor.michigan_wolverines','opponent_name') }} with a score of {{ state_attr('sensor.michigan_wolverines','opponent_score') }} to {{ state_attr('sensor.michigan_wolverines','team_score') }}. "
           {% endif %}
@@ -473,6 +475,8 @@
           {% if state_attr('sensor.ohio_state_buckeyes','opponent_abbr') not in ['MICH'] %}
             {% if (state_attr('sensor.ohio_state_buckeyes','team_score') | int) > (state_attr('sensor.ohio_state_buckeyes','opponent_score') | int) %}
               "The Ohio State Buckeyes are currently winning their game against the {{ state_attr('sensor.ohio_state_buckeyes','opponent_name') }} with a score of {{ state_attr('sensor.ohio_state_buckeyes','team_score') }} to {{ state_attr('sensor.ohio_state_buckeyes','opponent_score') }}. "
+            {% elif (state_attr('sensor.ohio_state_buckeyes','team_score') | int) == (state_attr('sensor.ohio_state_buckeyes','opponent_score') | int) %}
+              "The Ohio State Buckeyes are currently tied in their game against the {{ state_attr('sensor.ohio_state_buckeyes','opponent_name') }} with a score of {{ state_attr('sensor.ohio_state_buckeyes','team_score') }} to {{ state_attr('sensor.ohio_state_buckeyes','opponent_score') }}. "
             {% else %}
               "The Ohio State Buckeyes are currently losing their game against the {{ state_attr('sensor.ohio_state_buckeyes','opponent_name') }} with a score of {{ state_attr('sensor.ohio_state_buckeyes','opponent_score') }} to {{ state_attr('sensor.ohio_state_buckeyes','team_score') }}. "
             {% endif %}
@@ -491,6 +495,8 @@
         {% elif is_state('sensor.toledo_rockets','IN') %}
           {% if (state_attr('sensor.toledo_rockets','team_score') | int) > (state_attr('sensor.toledo_rockets','opponent_score') | int) %}
             "The Toledo Rockets are currently winning their game against the {{ state_attr('sensor.toledo_rockets','opponent_name') }} with a score of {{ state_attr('sensor.toledo_rockets','team_score') }} to {{ state_attr('sensor.toledo_rockets','opponent_score') }}. "
+          {% elif (state_attr('sensor.toledo_rockets','team_score') | int) == (state_attr('sensor.toledo_rockets','opponent_score') | int) %}
+            "The Toledo Rockets are currently tied in their game against the {{ state_attr('sensor.toledo_rockets','opponent_name') }} with a score of {{ state_attr('sensor.toledo_rockets','team_score') }} to {{ state_attr('sensor.toledo_rockets','opponent_score') }}. "
           {% else %}
             "The Toledo Rockets are currently losing their game against the {{ state_attr('sensor.toledo_rockets','opponent_name') }} with a score of {{ state_attr('sensor.toledo_rockets','opponent_score') }} to {{ state_attr('sensor.toledo_rockets','team_score') }}. "
           {% endif %}
@@ -500,6 +506,8 @@
           {% if date == now().strftime('%m-%d') %}
             {% if (state_attr('sensor.minnesota_vikings','team_score') | int) > (state_attr('sensor.minnesota_vikings','opponent_score') | int) %}
               "The Minnesota Vikings won their game today against the {{ state_attr('sensor.minnesota_vikings','opponent_name') }} by a score of {{ state_attr('sensor.minnesota_vikings','team_score') }} to {{ state_attr('sensor.minnesota_vikings','opponent_score') }}. "
+            {% elif (state_attr('sensor.minnesota_vikings','team_score') | int) == state_attr('sensor.minnesota_vikings','opponent_score') | int %}
+              "The Minnesota Vikings tied in their game today against the {{ state_attr('sensor.minnesota_vikings','opponent_name') }} by a score of {{ state_attr('sensor.minnesota_vikings','team_score') }} to {{ state_attr('sensor.minnesota_vikings','opponent_score') }}. "
             {% else %}
               "The Minnesota Vikings lost their game today against the {{ state_attr('sensor.minnesota_vikings','opponent_name') }} by a score of {{ state_attr('sensor.minnesota_vikings','opponent_score') }} to {{ state_attr('sensor.minnesota_vikings','team_score') }}. "
             {% endif %}
@@ -508,6 +516,8 @@
         {% elif is_state('sensor.minnesota_vikings','IN') %}
           {% if (state_attr('sensor.minnesota_vikings','team_score') | int) > (state_attr('sensor.minnesota_vikings','opponent_score') | int) %}
             "The Minnesota Vikings are currently winning their game against the {{ state_attr('sensor.minnesota_vikings','opponent_name') }} with a score of {{ state_attr('sensor.minnesota_vikings','team_score') }} to {{ state_attr('sensor.minnesota_vikings','opponent_score') }}. "
+          {% elif (state_attr('sensor.minnesota_vikings','team_score') | int) == (state_attr('sensor.minnesota_vikings','opponent_score') | int) %}
+            "The Minnesota Vikings are currently tied in their game against the {{ state_attr('sensor.minnesota_vikings','opponent_name') }} with a score of {{ state_attr('sensor.minnesota_vikings','team_score') }} to {{ state_attr('sensor.minnesota_vikings','opponent_score') }}. "
           {% else %}
             "The Minnesota Vikings are currently losing their game against the {{ state_attr('sensor.minnesota_vikings','opponent_name') }} with a score of {{ state_attr('sensor.minnesota_vikings','opponent_score') }} to {{ state_attr('sensor.minnesota_vikings','team_score') }}. "
           {% endif %}
@@ -517,6 +527,8 @@
           {% if date == now().strftime('%m-%d') %}
             {% if (state_attr('sensor.san_francisco_49ers','team_score') | int) > (state_attr('sensor.san_francisco_49ers','opponent_score') | int) %}
               "The San Francisco 49ers won their game today against the {{ state_attr('sensor.san_francisco_49ers','opponent_name') }} by a score of {{ state_attr('sensor.san_francisco_49ers','team_score') }} to {{ state_attr('sensor.san_francisco_49ers','opponent_score') }}. "
+            {% elif (state_attr('sensor.san_francisco_49ers','team_score') | int) == state_attr('sensor.san_francisco_49ers','opponent_score') | int %}
+              "The San Francisco 49ers tied in their game today against the {{ state_attr('sensor.san_francisco_49ers','opponent_name') }} by a score of {{ state_attr('sensor.san_francisco_49ers','team_score') }} to {{ state_attr('sensor.san_francisco_49ers','opponent_score') }}. "
             {% else %}
               "The San Francisco 49ers lost their game today against the {{ state_attr('sensor.san_francisco_49ers','opponent_name') }} by a score of {{ state_attr('sensor.san_francisco_49ers','opponent_score') }} to {{ state_attr('sensor.san_francisco_49ers','team_score') }}. "
             {% endif %}
@@ -525,6 +537,8 @@
         {% elif is_state('sensor.san_francisco_49ers','IN') %}
           {% if (state_attr('sensor.san_francisco_49ers','team_score') | int) > (state_attr('sensor.san_francisco_49ers','opponent_score') | int) %}
             "The San Francisco 49ers are currently winning their game against the {{ state_attr('sensor.san_francisco_49ers','opponent_name') }} with a score of {{ state_attr('sensor.san_francisco_49ers','team_score') }} to {{ state_attr('sensor.san_francisco_49ers','opponent_score') }}. "
+          {% elif (state_attr('sensor.san_francisco_49ers','team_score') | int) == (state_attr('sensor.san_francisco_49ers','opponent_score') | int) %}
+            "The San Francisco 49ers are currently tied in their game against the {{ state_attr('sensor.san_francisco_49ers','opponent_name') }} with a score of {{ state_attr('sensor.san_francisco_49ers','team_score') }} to {{ state_attr('sensor.san_francisco_49ers','opponent_score') }}. "
           {% else %}
             "The San Francisco 49ers are currently losing their game against the {{ state_attr('sensor.san_francisco_49ers','opponent_name') }} with a score of {{ state_attr('sensor.san_francisco_49ers','opponent_score') }} to {{ state_attr('sensor.san_francisco_49ers','team_score') }}. "
           {% endif %}
@@ -542,6 +556,8 @@
         {% elif is_state('sensor.cleveland_guardians','IN') %}
           {% if (state_attr('sensor.cleveland_guardians','team_score') | int) > (state_attr('sensor.cleveland_guardians','opponent_score') | int) %}
             "The Cleveland Guardians are currently winning their game against the {{ state_attr('sensor.cleveland_guardians','opponent_name') }} with a score of {{ state_attr('sensor.cleveland_guardians','team_score') }} to {{ state_attr('sensor.cleveland_guardians','opponent_score') }}. "
+          {% elif (state_attr('sensor.cleveland_guardians','team_score') | int) == (state_attr('sensor.cleveland_guardians','opponent_score') | int) %}
+            "The Cleveland Guardians are currently tied in their game against the {{ state_attr('sensor.cleveland_guardians','opponent_name') }} with a score of {{ state_attr('sensor.cleveland_guardians','team_score') }} to {{ state_attr('sensor.cleveland_guardians','opponent_score') }}. "
           {% else %}
             "The Cleveland Guardians are currently losing their game against the {{ state_attr('sensor.cleveland_guardians','opponent_name') }} with a score of {{ state_attr('sensor.cleveland_guardians','opponent_score') }} to {{ state_attr('sensor.cleveland_guardians','team_score') }}. "
           {% endif %}
@@ -559,6 +575,8 @@
         {% elif is_state('sensor.minnesota_twins','IN') %}
           {% if (state_attr('sensor.minnesota_twins','team_score') | int) > (state_attr('sensor.minnesota_twins','opponent_score') | int) %}
             "The Minnesota Twins are currently winning their game against the {{ state_attr('sensor.minnesota_twins','opponent_name') }} with a score of {{ state_attr('sensor.minnesota_twins','team_score') }} to {{ state_attr('sensor.minnesota_twins','opponent_score') }}. "
+          {% elif (state_attr('sensor.minnesota_twins','team_score') | int) == (state_attr('sensor.minnesota_twins','opponent_score') | int) %}
+            "The Minnesota Twins are currently tied in their game against the {{ state_attr('sensor.minnesota_twins','opponent_name') }} with a score of {{ state_attr('sensor.minnesota_twins','team_score') }} to {{ state_attr('sensor.minnesota_twins','opponent_score') }}. "
           {% else %}
             "The Minnesota Twins are currently losing their game against the {{ state_attr('sensor.minnesota_twins','opponent_name') }} with a score of {{ state_attr('sensor.minnesota_twins','opponent_score') }} to {{ state_attr('sensor.minnesota_twins','team_score') }}. "
           {% endif %}
@@ -576,6 +594,8 @@
         {% elif is_state('sensor.los_angeles_dodgers','IN') %}
           {% if (state_attr('sensor.los_angeles_dodgers','team_score') | int) > (state_attr('sensor.los_angeles_dodgers','opponent_score') | int) %}
             "The Los Angeles Dodgers are currently winning their game against the {{ state_attr('sensor.los_angeles_dodgers','opponent_name') }} with a score of {{ state_attr('sensor.los_angeles_dodgers','team_score') }} to {{ state_attr('sensor.los_angeles_dodgers','opponent_score') }}. "
+          {% elif (state_attr('sensor.los_angeles_dodgers','team_score') | int) == (state_attr('sensor.los_angeles_dodgers','opponent_score') | int) %}
+            "The Los Angeles Dodgers are currently tied in their game against the {{ state_attr('sensor.los_angeles_dodgers','opponent_name') }} with a score of {{ state_attr('sensor.los_angeles_dodgers','team_score') }} to {{ state_attr('sensor.los_angeles_dodgers','opponent_score') }}. "
           {% else %}
             "The Los Angeles Dodgers are currently losing their game against the {{ state_attr('sensor.los_angeles_dodgers','opponent_name') }} with a score of {{ state_attr('sensor.los_angeles_dodgers','opponent_score') }} to {{ state_attr('sensor.los_angeles_dodgers','team_score') }}. "
           {% endif %}
