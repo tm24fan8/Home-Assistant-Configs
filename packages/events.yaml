@@ -178,7 +178,7 @@ automation:
     initial_state: true
     trigger:
     - platform: time
-      at: '04:50:00'
+      at: '04:05:00'
     condition:
     - condition: template
       value_template: >
@@ -193,7 +193,7 @@ automation:
     initial_state: true
     trigger:
     - platform: time
-      at: '04:45:00'
+      at: '04:00:00'
     condition:
     - condition: template
       value_template: >
