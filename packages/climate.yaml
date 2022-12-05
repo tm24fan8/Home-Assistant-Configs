@@ -31,6 +31,12 @@ sensor:
           {% else %}
             mdi:home-lightning-bolt-outline
           {% endif %}
+        availability_template: >-
+          {% if is_state('input_boolean.master_bedroom_aircon_installed','on') %}
+            true
+          {% else %}
+            false
+          {% endif %}
       master_bedroom_aircon_fan_mode:
         friendly_name: "Master Bedroom Aircon Fan Mode"
         value_template: >
