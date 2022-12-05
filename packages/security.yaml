@@ -183,40 +183,36 @@ automation:
         from: "off"
         to: "on"
     action:
-      - if:
-        - condition: state
-          entity_id: light.living_room_lights
-          state: 'on'
-        then:
-          - service: switch.turn_off
-            target:
-              entity_id: switch.adaptive_lighting_living_room
-          - service: light.turn_on
-            target:
-              entity_id: light.living_room_lights
-            data:
-              color_name: red
-              brightness_pct: 100
-      - if:
-        - condition: state
-          entity_id: light.tina_lamp
-          state: 'on'
-        then:
-          - service: switch.turn_off
-            target:
-              entity_id: switch.adaptive_lighting_tina_lamp
-          - service: light.turn_on
-            target:
-              entity_id: light.tina_lamp
-            data:
-              color_name: red
-              brightness_pct: 100
+      - service: scene.create
+        data:
+          scene_id: light_state_before_lockdown_issue
+          snapshot_entities:
+            - light.living_room_color_1
+            - light.living_room_color_2
+            - light.living_room_color_3
+            - light.tina_lamp_side
+            - light.tina_lamp_top
+      - delay:
+          seconds: 1
+      - service: switch.turn_off
+        target:
+          entity_id:
+            - switch.adaptive_lighting_living_room
+            - switch.adaptive_lighting_tina_lamp
+      - service: light.turn_on
+        target:
+          entity_id:
+            - light.living_room_lights
+            - light.tina_lamp
+        data:
+          color_name: red
+          brightness_pct: 100
       - service: script.status_annc
         data_template:
           who: common
           call_interruption: 1
           call_lockdown_issue: 1
-      - wait_template: "{{ is_state('sensor.total_faults','0') }}"
+      - wait_template: "{{ is_state('binary_sensor.security_faults','off') }}"
         timeout:
           minutes: 10
       - service: input_boolean.turn_off
@@ -226,8 +222,8 @@ automation:
           seconds: 3
       - if:
         - condition: state
-          entity_id: sensor.total_faults
-          state: '0'
+          entity_id: binary_sensor.security_faults
+          state: 'off'
         then:
         - if:
           - condition: state
@@ -246,26 +242,16 @@ automation:
             data:
               who: common
               message: 'I am unable to resolve the security issue, so I am giving up. Please report the issue to Tony if applicable.'
-      - if:
-        - condition: state
-          entity_id: light.living_room_lights
-          state: 'on'
-        then:
-          service: input_select.select_option
-          target:
-            entity_id: input_select.living_room_scenes
-          data:
-            option: Adaptive
-      - if:
-        - condition: state
-          entity_id: light.tina_lamp
-          state: 'on'
-        then:
-          - service: input_select.select_option
-            target:
-              entity_id: input_text.tina_lamp_selected_scene
-            data:
-              option: Adaptive
+      - service: scene.turn_on
+        target:
+          entity_id: scene.light_state_before_lockdown_issue
+      - delay:
+          seconds: 3
+      - service: switch.turn_on
+        target:
+          entity_id:
+            - switch.adaptive_lighting_living_room
+            - switch.adaptive_lighting_tina_lamp
 
 script:
   security_arm_home:
@@ -273,8 +259,8 @@ script:
     sequence:
       - if:
         - condition: state
-          entity_id: sensor.total_faults
-          state: '0'
+          entity_id: binary_sensor.security_faults
+          state: 'off'
         then:
         - service: alarm_control_panel.alarm_arm_home
           target:
@@ -299,8 +285,8 @@ script:
     sequence:
       - if:
         - condition: state
-          entity_id: sensor.total_faults
-          state: '0'
+          entity_id: binary_sensor.security_faults
+          state: 'off'
         then:
         - service: alarm_control_panel.alarm_arm_away
           target:
