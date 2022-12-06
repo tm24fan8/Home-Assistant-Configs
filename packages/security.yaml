@@ -212,7 +212,7 @@ automation:
           who: common
           call_interruption: 1
           call_lockdown_issue: 1
-      - wait_template: "{{ is_state('binary_sensor.security_faults','off') }}"
+      - wait_template: "{{ is_state('binary_sensor.security_faults','off') or is_state('input_boolean.lockdown_issue','off') }}"
         timeout:
           minutes: 10
       - service: input_boolean.turn_off
