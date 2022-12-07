@@ -408,6 +408,8 @@ scene:
   - name: Adaptive in Living Room
     icon: mdi:palette
     entities:
+      light.living_room_lights:
+        state: "on"
       input_select.living_room_scenes:
         state: "Adaptive"
   - name: Bright in Living Room
@@ -463,6 +465,8 @@ scene:
   - name: Adaptive in Downstairs Bathroom
     icon: mdi:palette
     entities:
+      light.downstairs_bathroom_lights:
+        state: "on"
       input_select.downstairs_bathroom_scenes:
         state: "Adaptive"
   - name: Bright in Downstairs Bathroom
@@ -493,6 +497,8 @@ scene:
   - name: Adaptive in Tina Lamp
     icon: mdi:palette
     entities:
+      light.tina_lamp:
+        state: "on"
       input_select.tina_lamp_scenes:
         state: "Adaptive"
   - name: Energize in Tina Lamp
@@ -513,6 +519,8 @@ scene:
   - name: Adaptive in Mud Room
     icon: mdi:palette
     entities:
+      light.mud_room_overhead:
+        state: "on"
       input_select.mud_room_scenes:
         state: "Adaptive"
   - name: Bright in Mud Room
@@ -533,6 +541,8 @@ scene:
   - name: Adaptive in Upstairs Hallway
     icon: mdi:palette
     entities:
+      light.hallway_overhead:
+        state: "on"
       input_select.upstairs_hallway_scenes:
         state: "Adaptive"
   - name: Bright in Upstairs Hallway
@@ -553,6 +563,8 @@ scene:
   - name: Adaptive in Upstairs Bathroom
     icon: mdi:palette
     entities:
+      light.upstairs_bathroom_lights:
+        state: "on"
       input_select.upstairs_bathroom_scenes:
         state: "Adaptive"
   - name: Bright in Upstairs Bathroom
@@ -578,6 +590,8 @@ scene:
   - name: Adaptive in Master Bedroom
     icon: mdi:palette
     entities:
+      light.master_bedroom_lights:
+        state: "on"
       input_select.master_bedroom_scenes:
         state: "Adaptive"
   - name: Bright in Master Bedroom
@@ -608,6 +622,8 @@ scene:
   - name: Adaptive in Kallen Bedroom
     icon: mdi:palette
     entities:
+      light.kallen_bedroom_lights:
+        state: "on"
       input_select.kallen_bedroom_scenes:
         state: "Adaptive"
   - name: Bright in Kallen Bedroom
@@ -638,6 +654,8 @@ scene:
   - name: Adaptive in Emma Bedroom
     icon: mdi:palette
     entities:
+      light.emma_bedroom_light:
+        state: "on"
       input_select.emma_bedroom_scenes:
         state: "Adaptive"
   - name: Bright in Emma Bedroom
@@ -658,6 +676,8 @@ scene:
   - name: Adaptive in Basement Studio
     icon: mdi:palette
     entities:
+      light.basement_studio_lights:
+        state: "on"
       input_select.basement_studio_scenes:
         state: "Adaptive"
   - name: Energize in Basement Studio
