@@ -2,6 +2,7 @@ homeassistant:
     packages: !include_dir_named packages
     external_url: !secret remote_url
     internal_url: !secret local_url
+    country: US
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
