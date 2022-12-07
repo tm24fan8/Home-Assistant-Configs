@@ -403,3 +403,315 @@ automation:
           - service: light.turn_off
             target:
               entity_id: light.first_floor_lights
+
+scene:
+  - name: Adaptive in Living Room
+    icon: mdi:palette
+    entities:
+      input_select.living_room_scenes:
+        state: "Adaptive"
+  - name: Bright in Living Room
+    icon: mdi:palette
+    entities:
+      input_select.living_room_scenes:
+        state: "Bright"
+  - name: Dimmed in Living Room
+    icon: mdi:palette
+    entities:
+      input_select.living_room_scenes:
+        state: "Dimmed"
+  - name: Nightlight in Living Room
+    icon: mdi:palette
+    entities:
+      input_select.living_room_scenes:
+        state: "Nightlight"
+  - name: Energize in Living Room
+    icon: mdi:palette
+    entities:
+      input_select.living_room_scenes:
+        state: "Energize"
+  - name: Concentrate in Living Room
+    icon: mdi:palette
+    entities:
+      input_select.living_room_scenes:
+        state: "Concentrate"
+  - name: Savanna Sunset in Living Room
+    icon: mdi:palette
+    entities:
+      input_select.living_room_scenes:
+        state: "Savanna Sunset"
+  - name: Tropical Twilight in Living Room
+    icon: mdi:palette
+    entities:
+      input_select.living_room_scenes:
+        state: "Tropical Twilight"
+  - name: Tokyo in Living Room
+    icon: mdi:palette
+    entities:
+      input_select.living_room_scenes:
+        state: "Tokyo"
+  - name: Forest Adventure in Living Room
+    icon: mdi:palette
+    entities:
+      input_select.living_room_scenes:
+        state: "Forest Adventure"
+  - name: Painted Sky in Living Room
+    icon: mdi:palette
+    entities:
+      input_select.living_room_scenes:
+        state: "Painted Sky"
+  - name: Adaptive in Downstairs Bathroom
+    icon: mdi:palette
+    entities:
+      input_select.downstairs_bathroom_scenes:
+        state: "Adaptive"
+  - name: Bright in Downstairs Bathroom
+    icon: mdi:palette
+    entities:
+      input_select.downstairs_bathroom_scenes:
+        state: "Bright"
+  - name: Dimmed in Downstairs Bathroom
+    icon: mdi:palette
+    entities:
+      input_select.downstairs_bathroom_scenes:
+        state: "Dimmed"
+  - name: Nightlight in Downstairs Bathroom
+    icon: mdi:palette
+    entities:
+      input_select.downstairs_bathroom_scenes:
+        state: "Nightlight"
+  - name: Full in Dining Room Lamp
+    icon: mdi:palette
+    entities:
+      input_select.dining_room_lamp_scenes:
+        state: "Full"
+  - name: Nightlight in Dining Room Lamp
+    icon: mdi:palette
+    entities:
+      input_select.dining_room_lamp_scenes:
+        state: "Nightlight"
+  - name: Adaptive in Tina Lamp
+    icon: mdi:palette
+    entities:
+      input_select.tina_lamp_scenes:
+        state: "Adaptive"
+  - name: Energize in Tina Lamp
+    icon: mdi:palette
+    entities:
+      input_select.tina_lamp_scenes:
+        state: "Energize"
+  - name: Bright in Tina Lamp
+    icon: mdi:palette
+    entities:
+      input_select.tina_lamp_scenes:
+        state: "Bright"
+  - name: Nightlight in Tina Lamp
+    icon: mdi:palette
+    entities:
+      input_select.tina_lamp_scenes:
+        state: "Nightlight"
+  - name: Adaptive in Mud Room
+    icon: mdi:palette
+    entities:
+      input_select.mud_room_scenes:
+        state: "Adaptive"
+  - name: Bright in Mud Room
+    icon: mdi:palette
+    entities:
+      input_select.mud_room_scenes:
+        state: "Bright"
+  - name: Dimmed in Mud Room
+    icon: mdi:palette
+    entities:
+      input_select.mud_room_scenes:
+        state: "Dimmed"
+  - name: Nightlight in Mud Room
+    icon: mdi:palette
+    entities:
+      input_select.mud_room_scenes:
+        state: "Nightlight"
+  - name: Adaptive in Upstairs Hallway
+    icon: mdi:palette
+    entities:
+      input_select.upstairs_hallway_scenes:
+        state: "Adaptive"
+  - name: Bright in Upstairs Hallway
+    icon: mdi:palette
+    entities:
+      input_select.upstairs_hallway_scenes:
+        state: "Bright"
+  - name: Dimmed in Upstairs Hallway
+    icon: mdi:palette
+    entities:
+      input_select.upstairs_hallway_scenes:
+        state: "Dimmed"
+  - name: Nightlight in Upstairs Hallway
+    icon: mdi:palette
+    entities:
+      input_select.upstairs_hallway_scenes:
+        state: "Nightlight"
+  - name: Adaptive in Upstairs Bathroom
+    icon: mdi:palette
+    entities:
+      input_select.upstairs_bathroom_scenes:
+        state: "Adaptive"
+  - name: Bright in Upstairs Bathroom
+    icon: mdi:palette
+    entities:
+      input_select.upstairs_bathroom_scenes:
+        state: "Bright"
+  - name: Dimmed in Upstairs Bathroom
+    icon: mdi:palette
+    entities:
+      input_select.upstairs_bathroom_scenes:
+        state: "Dimmed"
+  - name: Nightlight in Upstairs Bathroom
+    icon: mdi:palette
+    entities:
+      input_select.upstairs_bathroom_scenes:
+        state: "Nightlight"
+  - name: Single Nightlight in Upstairs Bathroom
+    icon: mdi:palette
+    entities:
+      input_select.upstairs_bathroom_scenes:
+        state: "Single Nightlight"
+  - name: Adaptive in Master Bedroom
+    icon: mdi:palette
+    entities:
+      input_select.master_bedroom_scenes:
+        state: "Adaptive"
+  - name: Bright in Master Bedroom
+    icon: mdi:palette
+    entities:
+      input_select.master_bedroom_scenes:
+        state: "Bright"
+  - name: Dimmed in Master Bedroom
+    icon: mdi:palette
+    entities:
+      input_select.master_bedroom_scenes:
+        state: "Dimmed"
+  - name: Nightlight in Master Bedroom
+    icon: mdi:palette
+    entities:
+      input_select.master_bedroom_scenes:
+        state: "Nightlight"
+  - name: Front Nightlight in Master Bedroom
+    icon: mdi:palette
+    entities:
+      input_select.master_bedroom_scenes:
+        state: "Front Nightlight"
+  - name: Side Nightlight in Master Bedroom
+    icon: mdi:palette
+    entities:
+      input_select.master_bedroom_scenes:
+        state: "Side Nightlight"
+  - name: Adaptive in Kallen Bedroom
+    icon: mdi:palette
+    entities:
+      input_select.kallen_bedroom_scenes:
+        state: "Adaptive"
+  - name: Bright in Kallen Bedroom
+    icon: mdi:palette
+    entities:
+      input_select.kallen_bedroom_scenes:
+        state: "Bright"
+  - name: Dimmed in Kallen Bedroom
+    icon: mdi:palette
+    entities:
+      input_select.kallen_bedroom_scenes:
+        state: "Dimmed"
+  - name: Nightlight in Kallen Bedroom
+    icon: mdi:palette
+    entities:
+      input_select.kallen_bedroom_scenes:
+        state: "Nightlight"
+  - name: Overhead Nightlight in Kallen Bedroom
+    icon: mdi:palette
+    entities:
+      input_select.kallen_bedroom_scenes:
+        state: "Overhead Nightlight"
+  - name: Wall Nightlight in Kallen Bedroom
+    icon: mdi:palette
+    entities:
+      input_select.kallen_bedroom_scenes:
+        state: "Wall Nightlight"
+  - name: Adaptive in Emma Bedroom
+    icon: mdi:palette
+    entities:
+      input_select.emma_bedroom_scenes:
+        state: "Adaptive"
+  - name: Bright in Emma Bedroom
+    icon: mdi:palette
+    entities:
+      input_select.emma_bedroom_scenes:
+        state: "Bright"
+  - name: Dimmed in Emma Bedroom
+    icon: mdi:palette
+    entities:
+      input_select.emma_bedroom_scenes:
+        state: "Dimmed"
+  - name: Nightlight in Emma Bedroom
+    icon: mdi:palette
+    entities:
+      input_select.emma_bedroom_scenes:
+        state: "Nightlight"
+  - name: Adaptive in Basement Studio
+    icon: mdi:palette
+    entities:
+      input_select.basement_studio_scenes:
+        state: "Adaptive"
+  - name: Energize in Basement Studio
+    icon: mdi:palette
+    entities:
+      input_select.basement_studio_scenes:
+        state: "Energize"
+  - name: Concentrate in Basement Studio
+    icon: mdi:palette
+    entities:
+      input_select.basement_studio_scenes:
+        state: "Concentrate"
+  - name: Bright in Basement Studio
+    icon: mdi:palette
+    entities:
+      input_select.basement_studio_scenes:
+        state: "Bright"
+  - name: Dimmed in Basement Studio
+    icon: mdi:palette
+    entities:
+      input_select.basement_studio_scenes:
+        state: "Dimmed"
+  - name: Nightlight in Basement Studio
+    icon: mdi:palette
+    entities:
+      input_select.basement_studio_scenes:
+        state: "Nightlight"
+  - name: Relax in Basement Studio
+    icon: mdi:palette
+    entities:
+      input_select.basement_studio_scenes:
+        state: "Relax"
+  - name: Purple in Basement Studio
+    icon: mdi:palette
+    entities:
+      input_select.basement_studio_scenes:
+        state: "Purple"
+  - name: Pink in Basement Studio
+    icon: mdi:palette
+    entities:
+      input_select.basement_studio_scenes:
+        state: "Pink"
+  - name: Kallen Reading in Basement Studio
+    icon: mdi:palette
+    entities:
+      input_select.basement_studio_scenes:
+        state: "Kallen Reading"
+  - name: Baby Is Napping in Basement Studio
+    icon: mdi:palette
+    entities:
+      input_select.basement_studio_scenes:
+        state: "Baby Is Napping"
+  - name: Stairwell in Basement Studio
+    icon: mdi:palette
+    entities:
+      input_select.basement_studio_scenes:
+        state: "Stairwell"
