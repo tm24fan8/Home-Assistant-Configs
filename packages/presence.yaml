@@ -254,6 +254,55 @@ automation:
       - service: input_boolean.turn_off
         entity_id: input_boolean.kallen_awake
 
+  - id: 395ebb76-83e4-4a7c-913e-2598fef3d5c1
+    alias: Doorbell Alert
+    trigger:
+      - alias: "Doorbell Rings"
+        platform: state
+        entity_id: binary_sensor.front_doorbell_ding_mqtt
+        from: "off"
+        to: "on"
+    condition:
+      - alias: "Are we home?"
+        condition: state
+        entity_id: group.family
+        state: "home"
+    action:
+      - alias: "Save Current Light State"
+        service: scene.create
+        data:
+          scene_id: doorbell_lights_restore
+          snapshot_entities:
+            - light.living_room_color_1
+            - light.living_room_color_2
+            - light.living_room_color_3
+            - light.tina_lamp_top
+            - light.tina_lamp_side
+      - alias: "Turn Lights On"
+        service: light.turn_on
+        target:
+          entity_id:
+            - light.living_room_lights
+            - light.tina_lamp
+        data:
+          color_name: green
+      - alias: "Flash Lights"
+        service: light.turn_on
+        target:
+          entity_id:
+            - light.living_room_lights
+            - light.tina_lamp
+        data:
+          flash: long
+      - alias: "End early if door opened"
+        wait_template: "{{ is_state('binary_sensor.front_door','on') }}"
+        timeout:
+          seconds: 15
+      - alias: "Return lights to previous state"
+        service: scene.turn_on
+        target:
+          entity_id: scene.doorbell_lights_restore
+
 script:
   family_is_away:
     alias: Family Is Away
