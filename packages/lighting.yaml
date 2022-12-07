@@ -715,3 +715,29 @@ scene:
     entities:
       input_select.basement_studio_scenes:
         state: "Stairwell"
+  - name: Adaptive on First Floor
+    icon: mdi:palette
+    entities:
+      input_select.living_room_scenes:
+        state: "Adaptive"
+      input_select.dining_room_lamp_scenes:
+        state: "Full"
+      input_select.tina_lamp_scenes:
+        state: "Adaptive"
+      input_select.downstairs_bathroom_scenes:
+        state: "Adaptive"
+      input_select.mud_room_scenes:
+        state: "Adaptive"
+  - name: Adaptive on Second Floor
+    icon: mdi:palette
+    entities:
+      input_select.upstairs_hallway_scenes:
+        state: "Adaptive"
+      input_select.upstairs_bathroom_scenes:
+        state: "Adaptive"
+      input_select.master_bedroom_scenes:
+        state: "Adaptive"
+      input_select.kallen_bedroom_scenes:
+        state: "Adaptive"
+      input_select.emma_bedroom_scenes:
+        state: "Adaptive"
