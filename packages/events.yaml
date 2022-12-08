@@ -278,9 +278,9 @@ script:
   kallen_school_today:
     sequence:
       - if:
-          - condition: template
-            value_template: >
-              {{ 'Early Release' in states('sensor.school_event') }}
+          - condition: state
+            entity_id: calendar.kallen_early_release
+            state: "on"
         then:
           - service: input_boolean.turn_on
             entity_id: input_boolean.school_early_release
