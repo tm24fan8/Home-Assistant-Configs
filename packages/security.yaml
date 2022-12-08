@@ -183,6 +183,30 @@ automation:
         from: "off"
         to: "on"
     action:
+      - service: persistent_notification.create
+        data:
+          title: Lockdown Issue
+          notification_id: lockdown_issue
+          message: >-
+            A lockdown issue has been caused by the following sensors:
+            {% if is_state('binary_sensor.exterior_doors','on') %}
+              {{ expand('binary_sensor.exterior_doors') | selectattr('state','eq','on') | map(attribute='name') | list | join(', ') }}
+            {% endif %}
+            {% if is_state('binary_sensor.windows','on') %}
+              {{ expand('binary_sensor.windows') | selectattr('state','eq','on') | map(attribute='name') | list | join(', ') }}
+            {% endif %}
+      - service: script.text_urgent_alert
+        data:
+          who: 'parents'
+          title: 'Security Not Armed!'
+          message: >-
+            A lockdown issue has been caused by the following sensors:
+            {% if is_state('binary_sensor.exterior_doors','on') %}
+              {{ expand('binary_sensor.exterior_doors') | selectattr('state','eq','on') | map(attribute='name') | list | join(', ') }}
+            {% endif %}
+            {% if is_state('binary_sensor.windows','on') %}
+              {{ expand('binary_sensor.windows') | selectattr('state','eq','on') | map(attribute='name') | list | join(', ') }}
+            {% endif %}
       - service: scene.create
         data:
           scene_id: light_state_before_lockdown_issue
@@ -242,6 +266,9 @@ automation:
             data:
               who: common
               message: 'I am unable to resolve the security issue, so I am giving up. Please report the issue to Tony if applicable.'
+      - service: persistent_notification.dismiss
+        data:
+          notification_id: lockdown_issue
       - service: scene.turn_on
         target:
           entity_id: scene.light_state_before_lockdown_issue
@@ -271,11 +298,6 @@ script:
           target:
             entity_id: input_boolean.lockdown_issue
         else:
-        - service: script.text_urgent_alert
-          data:
-            who: 'parents'
-            title: 'Security Not Armed!'
-            message: 'There are active security faults. Please close all doors and windows before arming.'
         - service: input_boolean.turn_on
           target:
             entity_id: input_boolean.lockdown_issue
@@ -300,11 +322,6 @@ script:
           target:
             entity_id: input_boolean.lockdown_issue
         else:
-        - service: script.text_urgent_alert
-          data:
-            who: 'parents'
-            title: 'Security Not Armed!'
-            message: 'There are active security faults. Please close all doors and windows before arming.'
         - service: input_boolean.turn_on
           target:
             entity_id: input_boolean.lockdown_issue
