@@ -188,25 +188,23 @@ automation:
           title: Lockdown Issue
           notification_id: lockdown_issue
           message: >-
+            {% set extdoors = expand('binary_sensor.exterior_doors') | selectattr('state','eq','on') | map(attribute='name') | list | join(', ') %}
+            {% set windows = expand('binary_sensor.windows') | selectattr('state','eq','on') | map(attribute='name') | list | join(', ') %}
             A lockdown issue has been caused by the following sensors:
-            {% if is_state('binary_sensor.exterior_doors','on') %}
-              {{ expand('binary_sensor.exterior_doors') | selectattr('state','eq','on') | map(attribute='name') | list | join(', ') }}
-            {% endif %}
-            {% if is_state('binary_sensor.windows','on') %}
-              {{ expand('binary_sensor.windows') | selectattr('state','eq','on') | map(attribute='name') | list | join(', ') }}
-            {% endif %}
+            
+            Doors:{% if is_state('binary_sensor.exterior_doors','on') %} {{ extdoors }} {% else %} None {% endif %}
+            Windows:{% if is_state('binary_sensor.windows','on') %} {{ windows }} {% else %} None {% endif %}
       - service: script.text_urgent_alert
         data:
           who: 'parents'
           title: 'Security Not Armed!'
           message: >-
+            {% set extdoors = expand('binary_sensor.exterior_doors') | selectattr('state','eq','on') | map(attribute='name') | list | join(', ') %}
+            {% set windows = expand('binary_sensor.windows') | selectattr('state','eq','on') | map(attribute='name') | list | join(', ') %}
             A lockdown issue has been caused by the following sensors:
-            {% if is_state('binary_sensor.exterior_doors','on') %}
-              {{ expand('binary_sensor.exterior_doors') | selectattr('state','eq','on') | map(attribute='name') | list | join(', ') }}
-            {% endif %}
-            {% if is_state('binary_sensor.windows','on') %}
-              {{ expand('binary_sensor.windows') | selectattr('state','eq','on') | map(attribute='name') | list | join(', ') }}
-            {% endif %}
+            
+            Doors:{% if is_state('binary_sensor.exterior_doors','on') %} {{ extdoors }} {% else %} None {% endif %}
+            Windows:{% if is_state('binary_sensor.windows','on') %} {{ windows }} {% else %} None {% endif %}
       - service: scene.create
         data:
           scene_id: light_state_before_lockdown_issue
