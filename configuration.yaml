@@ -92,6 +92,12 @@ recorder:
       - media_player.living_room_tv
       - media_player.basement_tv
       - media_player.master_bedroom_firetv
+      - media_player.everywhere
+      - media_player.basement_echo_dot
+      - media_player.living_room_echo_dot
+      - media_player.master_bedroom_echo_dot
+      - media_player.kallen_bedroom_speaker
+      - media_player.emma_bedroom_speaker
 
 logger:
   default: critical
