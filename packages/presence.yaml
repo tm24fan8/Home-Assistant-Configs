@@ -162,6 +162,16 @@ sensor:
             states.person.kallen_stork,
             ] %}
           {{ people | selectattr('state','ne','home') | list | count }}
+      front_door_opened_today:
+        friendly_name: "Front Door Opened Today"
+        unit_of_measurement: 'times'
+        value_template: >-
+          {{ states('input_number.front_door_opened_today') | int }}
+      back_door_opened_today:
+        friendly_name: "Back Door Opened Today"
+        unit_of_measurement: 'times'
+        value_template: >-
+          {{ states('input_number.back_door_opened_today') | int }}
 
 mqtt:
   sensor:
