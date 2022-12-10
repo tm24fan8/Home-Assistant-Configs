@@ -317,6 +317,20 @@ automation:
         target:
           entity_id: scene.doorbell_lights_restore
 
+  - id: 11eee604-db2a-4ab2-a372-70026a4f1a6f
+    alias: Door Openings Reset
+    trigger:
+      - platform: time
+        at: 00:00
+    action:
+      - service: input_number.set_value
+        target:
+          entity_id:
+            - input_number.back_door_opened_today
+            - input_number.front_door_opened_today
+        data:
+          value: 0
+
 script:
   family_is_away:
     alias: Family Is Away
