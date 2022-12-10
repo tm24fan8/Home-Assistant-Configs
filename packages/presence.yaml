@@ -20,6 +20,22 @@ input_boolean:
     name: Kallen Awake
     icon: mdi:eye-check
 
+input_number:
+  front_door_opened_today:
+    name: Front Door Opened Today
+    min: 0
+    max: 200
+    step: 1
+    unit_of_measurement: times
+    icon: mdi:door-open
+  back_door_opened_today:
+    name: Back Door Opened Today
+    min: 0
+    max: 200
+    step: 1
+    unit_of_measurement: times
+    icon: mdi:door-open
+
 proximity:
   home_tony:
     devices:
