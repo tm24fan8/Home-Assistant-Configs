@@ -761,3 +761,33 @@ scene:
         state: "Adaptive"
       input_select.emma_bedroom_scenes:
         state: "Adaptive"
+  - name: Night Mode on First Floor
+    icon: mdi:palette
+    entities:
+      light.living_room_lights:
+        state: "off"
+      light.downstairs_bathroom_lights:
+        state: "off"
+      switch.adaptive_lighting_dining_room:
+        state: "off"
+      input_select.tina_lamp_scenes:
+        state: "Nightlight"
+      input_select.dining_room_lamp_scenes:
+        state: "Nightlight"
+      input_select.mud_room_scenes:
+        state: "Nightlight"
+  - name: Night Mode on Second Floor
+    icon: mdi:palette
+    entities:
+      light.master_bedroom_lights:
+        state: "off"
+      light.master_bedroom_closet:
+        state: "off"
+      light.kallen_bedroom_lights:
+        state: "off"
+      light.emma_bedroom_lights:
+        state: "off"
+      input_select.upstairs_hallway_scenes:
+        state: "Nightlight"
+      input_select.upstairs_bathroom_scenes:
+        state: "Nightlight"
