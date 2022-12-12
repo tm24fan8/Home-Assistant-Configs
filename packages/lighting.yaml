@@ -785,9 +785,22 @@ scene:
         state: "off"
       light.kallen_bedroom_lights:
         state: "off"
-      light.emma_bedroom_lights:
+      light.emma_bedroom_light:
         state: "off"
       input_select.upstairs_hallway_scenes:
         state: "Nightlight"
       input_select.upstairs_bathroom_scenes:
         state: "Nightlight"
+  - name: Emma Naptime
+    icon: mdi:palette
+    entities:
+      light.emma_bedroom_light:
+        state: "on"
+      input_select.emma_bedroom_scenes:
+        state: "Adaptive"
+      light.hallway_overhead:
+        state: "on"
+      input_select.upstairs_hallway_scenes:
+        state: "Adaptive"
+      input_boolean.white_noise_emma_bedroom:
+        state: "on"
