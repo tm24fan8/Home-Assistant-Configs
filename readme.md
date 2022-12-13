@@ -95,6 +95,7 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Clock Weather Card](https://github.com/pkissling/clock-weather-card)
 - [Tabbed Card](https://github.com/kinghat/tabbed-card)
 - [HA Team Tracker Card](https://github.com/vasqued2/ha-teamtracker-card)
+- [Banner Card](https://github.com/nervetattoo/banner-card)
 
 ## AppDaemon Apps
 
@@ -105,7 +106,7 @@ This is a new adventure so we'll see where it ends up going, but so far I am usi
 
 ## Themes/Icons
 
-- [Noctis](https://github.com/aFFekopp/noctis) - *edited for my specific needs*
+- [Noctis](https://github.com/tm24fan8/noctis) - *edited for my specific needs*
 - [Hass Hue Icons](https://github.com/arallsopp/hass-hue-icons)
 - [Thermal Comfort Icons](https://github.com/rautesamtr/thermal_comfort_icons)
 - [BHA Icon Pack](https://github.com/hulkhaugen/hass-bha-icons)
