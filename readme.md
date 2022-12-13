@@ -96,6 +96,7 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Tabbed Card](https://github.com/kinghat/tabbed-card)
 - [HA Team Tracker Card](https://github.com/vasqued2/ha-teamtracker-card)
 - [Banner Card](https://github.com/nervetattoo/banner-card)
+- [Lovelace Lock Card](https://github.com/CyrisXD/love-lock-card)
 
 ## AppDaemon Apps
 
