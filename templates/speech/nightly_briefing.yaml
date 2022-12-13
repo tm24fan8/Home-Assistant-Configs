@@ -18,7 +18,13 @@
       {% else %}
         "Colin does not have school tomorrow. "
       {% endif %}
-      "I am tired of the stupid fucking calendar for Tina's work schedule breaking, so fuck this. "
+      {% if is_state('input_boolean.work_today','on') %}
+        "Tina is still at work right now, she will be done at approximately {{ (state_attr('input_datetime.tina_workday_end','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+      {% elif is_state('binary_sensor.tina_work_tomorrow','on') %}
+        "Tina has work tomorrow. Check your calendar for the start time. "
+      {% else %}
+        "Tina appears to have tomorrow off. "
+      {% endif %}
     </p>
 
     <p>
