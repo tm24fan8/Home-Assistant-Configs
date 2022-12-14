@@ -1004,7 +1004,7 @@ script:
               </p>
             {% endmacro %}
 
-            {% macro we_are_leaving %}
+            {% macro we_are_leaving() %}
               <p>
               {{ [
                 'Everyone please convene on the first floor, we are preparing to leave the house.',
