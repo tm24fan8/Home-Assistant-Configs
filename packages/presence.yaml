@@ -292,6 +292,19 @@ automation:
             - light.living_room_color_3
             - light.tina_lamp_top
             - light.tina_lamp_side
+      - alias: "Save Current Adaptive State"
+        service: scene.create
+        data:
+          scene_id: doorbell_adaptive_restore
+          snapshot_entities:
+            - switch.adaptive_lighting_tina_lamp
+            - switch.adaptive_lighting_living_room
+      - alias: "Turn Adaptive Lighting off"
+        service: switch.turn_off
+        target:
+          entity_id:
+            - switch.adaptive_lighting_tina_lamp
+            - switch.adaptive_lighting_living_room
       - alias: "Turn Lights On"
         service: light.turn_on
         target:
@@ -311,11 +324,17 @@ automation:
       - alias: "End early if door opened"
         wait_template: "{{ is_state('binary_sensor.front_door','on') }}"
         timeout:
-          seconds: 15
+          seconds: 30
       - alias: "Return lights to previous state"
         service: scene.turn_on
         target:
           entity_id: scene.doorbell_lights_restore
+      - delay:
+          seconds: 3
+      - alias: "Return Adaptive Lighting to previous state"
+        service: scene.turn_on
+        target:
+          entity_id: scene.doorbell_adaptive_restore
 
   - id: 11eee604-db2a-4ab2-a372-70026a4f1a6f
     alias: Door Openings Reset
