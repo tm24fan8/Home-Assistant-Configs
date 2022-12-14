@@ -312,6 +312,13 @@ script:
         who: 'everywhere'
         call_dinner_is_ready: 1
 
+  we_are_leaving:
+    sequence:
+    - service: script.status_annc
+      data_template:
+        who: 'everywhere'
+        call_we_are_leaving: 1
+
   welcome_home:
     sequence:
       - condition: state

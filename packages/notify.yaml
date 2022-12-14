@@ -1004,6 +1004,16 @@ script:
               </p>
             {% endmacro %}
 
+            {% macro we_are_leaving %}
+              <p>
+              {{ [
+                'Everyone please convene on the first floor, we are preparing to leave the house.',
+                'If everyone could make their way to the first floor, that would be great. We have places to go!',
+                'Attention all family members. We have errands to run. Please meet on the first floor.'
+                ] | random }}
+              </p>
+            {% endmacro %}
+
             {% macro lightning_alert() %}
                 {{ [
                   'I have detected lightning within 20 miles of our house.',
@@ -1146,6 +1156,10 @@ script:
 
               {% if call_time_for_bed == 1 %}
                 {{ time_for_bed() }}
+              {% endif %}
+
+              {% if call_we_are_leaving == 1 %}
+                {{ we_are_leaving() }}
               {% endif %}
 
               {% if call_ha_started == 1 %}
