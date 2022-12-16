@@ -258,7 +258,7 @@ basement_on:
       entity_id: media_player.basement_tv
   - service: script.activate_alexa_actionable_notification
     data_template:
-      text: Would you like me to turn on the computer for Colin?
+      text: Would you like me to turn on the computer for Collin?
       event_id: actionable_notification_kallen_computer_on
       alexa_device: '{{ states(''sensor.last_alexa'') }}'
   mode: single

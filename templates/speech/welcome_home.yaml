@@ -26,7 +26,7 @@
       {% set endafter = state_attr('input_datetime.school_day_end','timestamp') + 3600 %}
       {% set current = ((now().hour * 60 + now().minute) * 60 ) %}
       {% if is_state('input_boolean.school_today_extended','on') and current > endbefore and current < endafter %}
-        "Welcome home Colin as well, "
+        "Welcome home Collin as well, "
         {{ [
         'I hope you had a great day at school! ',
         'I hope school was as boring, uh I mean exciting as ever! ',
@@ -43,7 +43,7 @@
           ] | random }}
         {% endif %}
       {% elif is_state('input_boolean.kallen_school_cancelled','on') %}
-        "I hope you are enjoying your free day off from school, Colin. "
+        "I hope you are enjoying your free day off from school, Collin. "
       {% endif %}
     </p>
     <p>
@@ -54,7 +54,7 @@
         Happy Birthday Tina!
       {% endif %}
       {% if is_state('sensor.anniversary_kallen_s_birthday','0') %}
-        Happy Birthday Colin!
+        Happy Birthday Collin!
       {% endif %}
       {% if is_state('sensor.anniversary_emmalynn_s_birthday','0') %}
         Happy Birthday Emmalynn!

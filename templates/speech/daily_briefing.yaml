@@ -142,7 +142,7 @@
             Hope you had a happy birthday Tina!
           {% endif %}
           {% if is_state('sensor.anniversary_kallen_s_birthday','0') %}
-            Hope you had a happy birthday Colin!
+            Hope you had a happy birthday Collin!
           {% endif %}
           {% if is_state('sensor.anniversary_emmalynn_s_birthday','0') %}
             Hope you had a happy birthday Emmalynn!
@@ -164,7 +164,7 @@
           {% elif states.sensor.christmas_countdown.state | int < 31 %}
             There are only {{states.sensor.christmas_countdown.state}} days until Christmas.
             {{ [ 'All I want for Christmas is a Hippopotamus.',
-            'Hey Colin, I know what you are getting for Christmas. But I am not telling.',
+            'Hey Collin, I know what you are getting for Christmas. But I am not telling.',
             'Do not forget to put something under the tree for your favorite <say-as interpret-as="characters">AI</say-as> this year!',
             'It is starting to smell a lot like Christmas. Or it could be that the christmas tree is on fire.',
             'I do not want to be a smarthome. I want to be a dentist.',
@@ -203,7 +203,7 @@
             Happy Birthday Tina!
           {% endif %}
           {% if is_state('sensor.anniversary_kallen_s_birthday','0') %}
-            Happy Birthday Colin!
+            Happy Birthday Collin!
           {% endif %}
           {% if is_state('sensor.anniversary_emmalynn_s_birthday','0') %}
             Happy Birthday Emmalynn!
@@ -311,7 +311,7 @@
                 Today is the first day of school! There are {{ states('sensor.school_end_days2go') }} to go until the last day.
               {% else %}
                 {{ [ 'Today is a school day.',
-                  'Colin has school today.',
+                  'Collin has school today.',
                   'It is a school day. '
                 ] | random }}
                 {% if is_state('input_boolean.kallen_two_hour_delay','on') %}

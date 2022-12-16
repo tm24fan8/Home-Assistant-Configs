@@ -2,7 +2,7 @@
   {# Kallen Morning Report #}
   {%- macro getReport() -%}
     <p>
-      Good morning, Colin.
+      Good morning, Collin.
 
       <s>It is {{ now().strftime("%I:%M %p") }}</s> 
 

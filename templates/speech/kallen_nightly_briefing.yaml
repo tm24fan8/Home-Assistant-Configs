@@ -2,7 +2,7 @@
   {# Kallen Nightly Report #}
   {%- macro getReport() -%}
     <p>
-      Good Evening, Colin, 
+      Good Evening, Collin, 
       {{ [ 'My sensors are detecting a strange smell. I am running diagnostics. But in the mean time, you should start a shower.',
           'It is a shower night, so you need to head upstairs and get on that.',
           'Did you ever hear the one about the kid who never took a shower? <break time="2s"/>Yeah, me either. So we should keep it that way. It is time to get ready for bed.',
