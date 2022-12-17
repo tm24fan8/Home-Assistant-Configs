@@ -106,27 +106,27 @@
 
           {% if is_state('input_boolean.school_today','on') and is_state('input_boolean.work_today','on') %}
             {%- if states.sensor.home_to_school.state|round > 12 %}
-              Traffic to the school appears heavier than normnal.
+              Traffic to the school appears heavier than normal.
             {% else %}
               Traffic to the school is normal.
             {% endif %}
             Currently it will take {{states.sensor.home_to_school.state|round}} minutes to get to the school.
             {%- if states.sensor.school_to_bob_evans.state|round > 15 %}
-              Traffic from the school to Bob Evans appears heavier than normnal.
+              Traffic from the school to Bob Evans appears heavier than normal.
             {% else %}
               Traffic from the school to Bob Evans is normal.
             {% endif %}
             Currently it will take {{states.sensor.school_to_bob_evans.state|round}} minutes to get to Bob Evans from the school.
           {% elif is_state('input_boolean.work_today','on') %}
             {%- if states.sensor.home_to_bob_evans.state|round > 8 %}
-              Traffic to Bob Evans appears heavier than normnal.
+              Traffic to Bob Evans appears heavier than normal.
             {% else %}
               Traffic to Bob Evans is normal.
             {% endif %}
             Currently it will take {{states.sensor.home_to_bob_evans.state|round}} minutes to get to Bob Evans.
           {% elif is_state('input_boolean.school_today','on') %}
             {%- if states.sensor.home_to_school.state|round > 12 %}
-              Traffic to the school appears heavier than normnal.
+              Traffic to the school appears heavier than normal.
             {% else %}
               Traffic to the school is normal.
             {% endif %}
