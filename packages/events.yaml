@@ -288,7 +288,7 @@ script:
             target:
               entity_id: input_datetime.school_day_end
             data:
-              time: "14:45:00"
+              time: "14:30:00"
         else:
           - service: input_datetime.set_datetime
             target:
