@@ -435,3 +435,26 @@
     target:
       entity_id: media_player.emma_bedroom_speaker
   mode: single
+- id: '1671584633378'
+  alias: Delivery Mode Cleanup
+  description: ''
+  trigger:
+  - platform: time
+    at: 00:00:00
+    alias: At midnight
+  condition:
+  - condition: state
+    entity_id: input_boolean.delivery_mode
+    state: 'on'
+    alias: If Delivery Mode is on
+    for:
+      hours: 1
+      minutes: 0
+      seconds: 0
+  action:
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.delivery_mode
+    alias: Turn off Delivery Mode
+  mode: single
