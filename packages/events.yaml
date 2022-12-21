@@ -333,6 +333,7 @@ script:
         entity_id: 
           - input_boolean.school_today_extended
           - input_boolean.kallen_band_practice
+          - input_boolean.school_early_release
 
   tina_work_today:
     sequence:
