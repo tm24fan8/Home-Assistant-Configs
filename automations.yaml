@@ -308,6 +308,26 @@
         entity_id:
         - switch.presence_simulation
       data: {}
+    - if:
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: input_boolean.holiday_mode
+          state: 'on'
+          alias: Is holiday mode on?
+        - condition: state
+          entity_id: input_boolean.early_night_mode
+          state: 'on'
+          alias: Is early night mode on?
+        alias: Test conditions
+      then:
+      - service: switch.turn_on
+        data: {}
+        target:
+          entity_id: switch.animated_scene_{{ states('input_select.holiday_animation')
+            | lower }}
+        alias: Turn on the appropriate animated holiday scene
+      alias: Turn on animated holiday scene if night time and holiday mode is on
     - service: script.tony_desktop_refresh
       data: {}
     - service: script.tina_desktop_refresh
