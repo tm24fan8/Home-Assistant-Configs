@@ -156,7 +156,6 @@
             'until Halloween. It might not be enough time.',
             'until you need a costume.'
             ] | random }}
-          {% else %}
           {% endif %}
 
           {% if states.sensor.christmas_countdown.state | int == 1 %}
@@ -599,6 +598,10 @@
             "The Los Angeles Dodgers are currently losing their game against the {{ state_attr('sensor.los_angeles_dodgers','opponent_name') }} with a score of {{ state_attr('sensor.los_angeles_dodgers','opponent_score') }} to {{ state_attr('sensor.los_angeles_dodgers','team_score') }}. "
           {% endif %}
         {% endif %}
+      </p>
+
+      <p>
+        Here is a random dad joke <break time="1s"/> {{ states('sensor.random_joke') }}
       </p>
 
       <p>

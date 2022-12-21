@@ -389,6 +389,10 @@
     </p>
 
     <p>
+      Here is a random dad joke <break time="1s"/> {{ states('sensor.random_joke') }}
+    </p>
+
+    <p>
       {% if is_state('input_boolean.briefing_extras','on') %}
         "And now we have the following extra information to pass along. {{ states('input_text.briefing_extras') }} "
       {% endif %}
