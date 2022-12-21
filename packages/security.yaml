@@ -167,13 +167,30 @@ automation:
             entity_id: input_boolean.school_today
             state: 'on'
     action:
-      - service: script.security_arm_home
       - if:
         - condition: state
           entity_id: input_boolean.work_today
           state: 'on'
         then:
         - service: script.security_scheduling
+      - if:
+        - condition: and
+          conditions:
+            - condition: time
+              before: "14:00:00"
+              after: "12:00:00"
+              weekday:
+                - mon
+                - tue
+                - wed
+                - thu
+                - fri
+            - condition: state
+              entity_id: input_boolean.school_early_release
+              state: "on"
+        then:
+          - stop: School early release
+      - service: script.security_arm_home
 
   - id: c7927c59-e0fe-48b9-b308-dd90fb774920
     alias: Lockdown Issue
