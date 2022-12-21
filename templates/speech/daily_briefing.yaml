@@ -171,7 +171,6 @@
             'Do not eat all the cookies.',
             'All I want for Christmas is for Mariah Carey to get off my radio.'
             ] | random }}
-          {% else %}
           {% endif %}
 
           {% if states.sensor.anniversary_wedding_anniversary.state | int == 1 %}
