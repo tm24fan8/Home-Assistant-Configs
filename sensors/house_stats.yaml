@@ -54,6 +54,7 @@
           states.light.downstairs_bathroom_right,
           states.light.tina_lamp_top,
           states.light.tina_lamp_side,
+          states.light.tina_desk_strip,
           states.light.basement_tall_lamp,
           states.light.basement_short_lamp,
           states.light.basement_stairwell,
@@ -89,6 +90,7 @@
           states.light.downstairs_bathroom_right,
           states.light.tina_lamp_top,
           states.light.tina_lamp_side,
+          states.light.tina_desk_strip,
           states.light.living_room_christmas_tree
         ] %}
         {{ lights | selectattr('state','eq','on') | list | count }}

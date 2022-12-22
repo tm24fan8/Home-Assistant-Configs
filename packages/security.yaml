@@ -231,6 +231,7 @@ automation:
             - light.living_room_color_3
             - light.tina_lamp_side
             - light.tina_lamp_top
+            - light.tina_desk_strip
       - delay:
           seconds: 1
       - service: switch.turn_off
@@ -243,6 +244,7 @@ automation:
           entity_id:
             - light.living_room_lights
             - light.tina_lamp
+            - light.tina_desk_strip
         data:
           color_name: red
           brightness_pct: 100

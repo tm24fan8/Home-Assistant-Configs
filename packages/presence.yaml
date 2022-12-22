@@ -292,6 +292,7 @@ automation:
             - light.living_room_color_3
             - light.tina_lamp_top
             - light.tina_lamp_side
+            - light.tina_desk_strip
       - alias: "Save Current Adaptive State"
         service: scene.create
         data:
@@ -311,6 +312,7 @@ automation:
           entity_id:
             - light.living_room_lights
             - light.tina_lamp
+            - light.tina_desk_strip
         data:
           color_name: green
       - alias: "Flash Lights"
@@ -319,6 +321,7 @@ automation:
           entity_id:
             - light.living_room_lights
             - light.tina_lamp
+            - light.tina_desk_strip
         data:
           flash: long
       - alias: "End early if door opened"
@@ -371,6 +374,7 @@ script:
         - dining_room
         - downstairs_bathroom
         - upstairs_bathroom
+        - tina_desk
     - service: fan.turn_off
       target:
         area_id:
@@ -449,6 +453,8 @@ script:
           - living_room
           - dining_room
           - mud_room
+          entity_id:
+          - light.tina_lamp
       - delay:
           hours: 0
           minutes: 0
@@ -458,10 +464,15 @@ script:
         target:
           entity_id:
             - input_select.living_room_scenes
-            - input_select.tina_lamp_scenes
             - input_select.mud_room_scenes
         data:
           option: Adaptive
+      - service: input_select.select_option
+        target:
+          entity_id:
+            - input_select.tina_desk_scenes
+        data:
+          option: Day Mode
       - service: input_select.select_option
         target:
           entity_id: input_select.dining_room_lamp_scenes
@@ -500,6 +511,7 @@ script:
         - living_room
         - dining_room
         - mud_room
+        - tina_desk
     - delay:
         hours: 0
         minutes: 0
@@ -509,10 +521,15 @@ script:
       target:
         entity_id:
           - input_select.living_room_scenes
-          - input_select.tina_lamp_scenes
           - input_select.mud_room_scenes
       data:
         option: Adaptive
+    - service: input_select.select_option
+      target:
+        entity_id:
+          - input_select.tina_desk_scenes
+      data:
+        option: Night Mode
     - service: input_select.select_option
       target:
         entity_id: input_select.dining_room_lamp_scenes

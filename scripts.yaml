@@ -32,12 +32,16 @@ give_me_darkness:
       - switch.adaptive_lighting_sleep_mode_dining_room
     data: {}
   - service: input_select.select_option
+    data:
+      option: Night Mode
+    target:
+      entity_id: input_select.tina_desk_scenes
+  - service: input_select.select_option
     target:
       entity_id:
       - input_select.upstairs_hallway_scenes
       - input_select.mud_room_scenes
       - input_select.upstairs_bathroom_scenes
-      - input_select.tina_lamp_scenes
     data:
       option: Nightlight
   - service: light.turn_off

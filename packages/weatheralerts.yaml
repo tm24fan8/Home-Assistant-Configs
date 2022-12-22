@@ -1581,6 +1581,7 @@ script:
             - light.living_room_color_3
             - light.tina_lamp_side
             - light.tina_lamp_top
+            - light.tina_desk_strip
       - service: light.turn_on
         target:
           entity_id:
@@ -1589,6 +1590,7 @@ script:
             - light.living_room_color_3
             - light.tina_lamp_side
             - light.tina_lamp_top
+            - light.tina_desk_strip
         data:
           color_name: red
       - service: script.status_annc

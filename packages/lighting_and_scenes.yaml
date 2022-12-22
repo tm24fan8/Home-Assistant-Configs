@@ -20,6 +20,9 @@ input_boolean:
   holiday_mode:
     name: Holiday Mode
     icon: mdi:string-lights
+  give_me_darkness:
+    name: Give Me Darkness
+    icon: mdi:weather-night
 
 input_number:
   upstairs_bathroom_motion_off_delay:
@@ -182,6 +185,15 @@ input_select:
       - Nightlight
     initial: Select
     icon: hue:room-dining
+  tina_desk_scenes:
+    name: Tina Desk Scenes
+    options:
+      - Select
+      - Day Mode
+      - Evening Mode
+      - Night Mode
+    initial: Select
+    icon: mdi:desk
   holiday_animation:
     name: Holiday Animation
     options:
@@ -215,6 +227,8 @@ input_text:
     name: Front Porch Selected Scene
   tina_lamp_selected_scene:
     name: Tina Lamp Selected Scene
+  tina_desk_selected_scene:
+    name: Tina Desk Selected Scene
 
 switch:
   - platform: animated_scenes
@@ -446,6 +460,60 @@ script:
         target:
           entity_id: input_boolean.white_noise_emma_bedroom
 
+  tina_desk_lights_handler:
+    alias: Tina Desk Lights Handler
+    mode: queued
+    max: 2
+    sequence:
+      - if:
+        - condition: state
+          entity_id: light.tina_desk_lights
+          state: 'off'
+        then:
+        - if:
+          - condition: state
+            entity_id: input_boolean.early_night_mode
+            state: 'off'
+          then:
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.tina_desk_scenes
+            data:
+              option: Day Mode
+        - if:
+          - condition: and
+            conditions:
+              - condition: state
+                entity_id: input_boolean.early_night_mode
+                state: 'on'
+              - condition: state
+                entity_id: input_boolean.give_me_darkness
+                state: 'off'
+          then:
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.tina_desk_scenes
+            data:
+              option: Evening Mode
+        - if:
+          - condition: state
+            entity_id: input_boolean.give_me_darkness
+            state: 'on'
+          then:
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.tina_desk_scenes
+            data:
+              option: Night Mode
+      - if:
+        - condition: state
+          entity_id: light.tina_desk_lights
+          state: 'on'
+        then:
+        - service: light.turn_off
+          target:
+            entity_id: light.tina_desk_lights
+
 scene:
   - name: Adaptive in Living Room
     icon: mdi:palette
@@ -536,6 +604,53 @@ scene:
     entities:
       input_select.dining_room_lamp_scenes:
         state: "Nightlight"
+  - name: Day Mode in Tina Desk
+    icon: mdi:palette
+    entities:
+      light.tina_lamp:
+        state: "on"
+      light.tina_desk_strip:
+        state: "on"
+        rgb_color:
+          - 0
+          - 255
+          - 255
+        brightness: 89
+      input_select.tina_lamp_scenes:
+        state: "Adaptive"
+  - name: Evening Mode in Tina Desk
+    icon: mdi:palette
+    entities:
+      light.tina_lamp:
+        state: "on"
+      input_select.tina_lamp_scenes:
+        state: "Adaptive"
+      light.tina_desk_strip:
+        state: "on"
+        rgb_color:
+          - 127
+          - 0
+          - 255
+        brightness: 128
+  - name: Night Mode in Tina Desk
+    icon: mdi:palette
+    entities:
+      switch.adaptive_lighting_tina_lamp:
+        state: "off"
+      light.tina_lamp:
+        state: "on"
+        rgb_color:
+          - 127
+          - 0
+          - 255
+        brightness: 51
+      light.tina_desk_strip:
+        state: "on"
+        rgb_color:
+          - 127
+          - 0
+          - 255
+        brightness: 128
   - name: Adaptive in Tina Lamp
     icon: mdi:palette
     entities:
