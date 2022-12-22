@@ -374,7 +374,9 @@ script:
         - dining_room
         - downstairs_bathroom
         - upstairs_bathroom
-        - tina_desk
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.tina_desk_lights
     - service: fan.turn_off
       target:
         area_id:
@@ -467,12 +469,9 @@ script:
             - input_select.mud_room_scenes
         data:
           option: Adaptive
-      - service: input_select.select_option
+      - service: input_boolean.turn_on
         target:
-          entity_id:
-            - input_select.tina_desk_scenes
-        data:
-          option: Day Mode
+          entity_id: input_boolean.tina_desk_lights
       - service: input_select.select_option
         target:
           entity_id: input_select.dining_room_lamp_scenes
@@ -511,7 +510,9 @@ script:
         - living_room
         - dining_room
         - mud_room
-        - tina_desk
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.tina_desk_scenes
     - delay:
         hours: 0
         minutes: 0
@@ -524,12 +525,6 @@ script:
           - input_select.mud_room_scenes
       data:
         option: Adaptive
-    - service: input_select.select_option
-      target:
-        entity_id:
-          - input_select.tina_desk_scenes
-      data:
-        option: Night Mode
     - service: input_select.select_option
       target:
         entity_id: input_select.dining_room_lamp_scenes
