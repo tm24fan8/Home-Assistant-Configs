@@ -163,6 +163,10 @@ global_off:
     data: {}
     target:
       entity_id: all
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.tina_desk_lights
   mode: single
   icon: mdi:earth-off
 global_on:
@@ -176,6 +180,9 @@ global_on:
   icon: mdi:earth
 max_brightness:
   sequence:
+  - service: input_boolean.turn_on
+    target:
+      entity_id: input_boolean.tina_desk_lights
   - service: switch.turn_off
     target:
       entity_id:
@@ -361,7 +368,9 @@ max_brightness_cleanup:
   - service: input_boolean.turn_off
     data: {}
     target:
-      entity_id: input_boolean.shower_mode
+      entity_id:
+        - input_boolean.shower_mode
+        - input_boolean.tina_desk_lights
   - service: input_boolean.turn_on
     data: {}
     target:
