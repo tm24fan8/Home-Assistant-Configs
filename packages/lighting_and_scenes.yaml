@@ -23,6 +23,9 @@ input_boolean:
   give_me_darkness:
     name: Give Me Darkness
     icon: mdi:weather-night
+  tina_desk_lights:
+    name: Tina Desk Lights
+    icon: mdi:desk
 
 input_number:
   upstairs_bathroom_motion_off_delay:
@@ -192,6 +195,7 @@ input_select:
       - Day Mode
       - Evening Mode
       - Night Mode
+      - Reset
     initial: Select
     icon: mdi:desk
   holiday_animation:
@@ -418,6 +422,77 @@ automation:
             target:
               entity_id: light.first_floor_lights
 
+  - id: b897d714-bbf2-44ce-afaf-63cf3694351c
+    alias: Tina Desk Lights Handler
+    description: Handles turning on the desk lights with smart scene selection and also turning them off
+    mode: restart
+    trigger:
+      - platform: state
+        entity_id: input_boolean.tina_desk_lights
+        from: 'off'
+        to: 'on'
+        id: toggle-on
+      - platform: state
+        entity_id: input_boolean.tina_desk_lights
+        from: 'on'
+        to: 'off'
+        id: toggle-off
+      - platform: state
+        entity_id: input_select.tina_desk_scenes
+        to: 'Reset'
+        id: reset
+    action:
+      - if:
+        - condition: or
+          conditions:
+          - condition: trigger
+            id: toggle-on
+          - condition: trigger
+            id: reset
+        then:
+        - if:
+          - condition: state
+            entity_id: input_boolean.early_night_mode
+            state: 'off'
+          then:
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.tina_desk_scenes
+            data:
+              option: Day Mode
+        - if:
+          - condition: and
+            conditions:
+              - condition: state
+                entity_id: input_boolean.early_night_mode
+                state: 'on'
+              - condition: state
+                entity_id: input_boolean.give_me_darkness
+                state: 'off'
+          then:
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.tina_desk_scenes
+            data:
+              option: Evening Mode
+        - if:
+          - condition: state
+            entity_id: input_boolean.give_me_darkness
+            state: 'on'
+          then:
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.tina_desk_scenes
+            data:
+              option: Night Mode
+      - if:
+        - condition: trigger
+          id: toggle-off
+        then:
+        - service: light.turn_off
+          target:
+            entity_id: light.tina_desk_lights
+
 script:
   emma_wakeup:
     alias: "Emma Wakeup"
@@ -459,60 +534,6 @@ script:
       - service: input_boolean.turn_off
         target:
           entity_id: input_boolean.white_noise_emma_bedroom
-
-  tina_desk_lights_handler:
-    alias: Tina Desk Lights Handler
-    mode: queued
-    max: 2
-    sequence:
-      - if:
-        - condition: state
-          entity_id: light.tina_desk_lights
-          state: 'off'
-        then:
-        - if:
-          - condition: state
-            entity_id: input_boolean.early_night_mode
-            state: 'off'
-          then:
-          - service: input_select.select_option
-            target:
-              entity_id: input_select.tina_desk_scenes
-            data:
-              option: Day Mode
-        - if:
-          - condition: and
-            conditions:
-              - condition: state
-                entity_id: input_boolean.early_night_mode
-                state: 'on'
-              - condition: state
-                entity_id: input_boolean.give_me_darkness
-                state: 'off'
-          then:
-          - service: input_select.select_option
-            target:
-              entity_id: input_select.tina_desk_scenes
-            data:
-              option: Evening Mode
-        - if:
-          - condition: state
-            entity_id: input_boolean.give_me_darkness
-            state: 'on'
-          then:
-          - service: input_select.select_option
-            target:
-              entity_id: input_select.tina_desk_scenes
-            data:
-              option: Night Mode
-      - if:
-        - condition: state
-          entity_id: light.tina_desk_lights
-          state: 'on'
-        then:
-        - service: light.turn_off
-          target:
-            entity_id: light.tina_desk_lights
 
 scene:
   - name: Adaptive in Living Room

@@ -21,6 +21,10 @@ stop_netflix:
 give_me_darkness:
   alias: Give Me Darkness
   sequence:
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.give_me_darkness
   - service: light.turn_on
     data: {}
     target:
@@ -31,11 +35,16 @@ give_me_darkness:
       entity_id:
       - switch.adaptive_lighting_sleep_mode_dining_room
     data: {}
-  - service: input_select.select_option
-    data:
-      option: Night Mode
-    target:
-      entity_id: input_select.tina_desk_scenes
+  - if:
+    - condition: state
+      entity_id: person.christina_stork
+      state: home
+    then:
+    - service: input_select.select_option
+      data:
+        option: Night Mode
+      target:
+        entity_id: input_select.tina_desk_scenes
   - service: input_select.select_option
     target:
       entity_id:
