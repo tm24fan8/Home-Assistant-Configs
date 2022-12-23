@@ -425,7 +425,7 @@ automation:
   - id: b897d714-bbf2-44ce-afaf-63cf3694351c
     alias: Tina Desk Lights Handler
     description: Handles turning on the desk lights with smart scene selection and also turning them off
-    mode: restart
+    mode: single
     trigger:
       - platform: state
         entity_id: input_boolean.tina_desk_lights
@@ -441,6 +441,16 @@ automation:
         entity_id: input_select.tina_desk_scenes
         to: 'Reset'
         id: reset
+      - platform: state
+        entity_id: light.tina_desk_lights
+        from: 'on'
+        to: 'off'
+        id: lights-off
+      - platform: state
+        entity_id: light.tina_desk_lights
+        from: 'off'
+        to: 'on'
+        id: lights-on
     action:
       - if:
         - condition: or
@@ -492,6 +502,33 @@ automation:
         - service: light.turn_off
           target:
             entity_id: light.tina_desk_lights
+      - if:
+        - condition: trigger
+          id: lights-off
+        then:
+        - if:
+          - condition: state
+            entity_id: input_boolean.tina_desk_lights
+            state: 'on'
+          then:
+          - service: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.tina_desk_lights
+      - if:
+        - condition: trigger
+          id: lights-on
+        then:
+        - if:
+          - condition: state
+            entity_id: input_boolean.tina_desk_lights
+            state: 'off'
+          then:
+          - service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.tina_desk_lights
+          - delay:
+              seconds: 2
+          # The delay is to prevent the boolean from re-running the automation if the lights were turned on manually
 
 script:
   emma_wakeup:
