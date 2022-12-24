@@ -292,6 +292,11 @@ going_upstairs:
 basement_on:
   alias: Basement On
   sequence:
+  - service: script.activate_alexa_actionable_notification
+    data_template:
+      text: Would you like me to turn on the computer for Collin?
+      event_id: actionable_notification_kallen_computer_on
+      alexa_device: '{{ states(''sensor.last_alexa'') }}'
   - service: light.turn_on
     data: {}
     target:
@@ -302,11 +307,6 @@ basement_on:
     data: {}
     target:
       entity_id: media_player.basement_tv
-  - service: script.activate_alexa_actionable_notification
-    data_template:
-      text: Would you like me to turn on the computer for Collin?
-      event_id: actionable_notification_kallen_computer_on
-      alexa_device: '{{ states(''sensor.last_alexa'') }}'
   mode: single
   icon: hue:room-stairs
 start_youtube_basement:
