@@ -184,6 +184,10 @@ automation:
     trigger:
     - platform: time
       at: input_datetime.emma_bedtime
+    conditions:
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'off'
     action:
     - if:
       - condition: state
