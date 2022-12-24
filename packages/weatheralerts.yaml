@@ -1504,7 +1504,8 @@ automation:
             {% set ltgdist = (states('sensor.blitzortung_lightning_distance') | int) / 1.609 | round %}
             "Lightning has been detected within 20 miles of the house. Nearest storm is {{ ltgdist }} miles away."
       - service: input_boolean.turn_on
-        entity_id: input_boolean.lightning_warning
+        target:
+          entity_id: input_boolean.lightning_warning
       - service: script.lightning_warning_audible
 
 
@@ -1551,15 +1552,10 @@ automation:
         data:
           title: "WINDOWS ARE OPEN!"
           message: "It is raining and there are windows open in the house. Please close them!"
-      - if:
-        - condition: state
-          entity_id: binary_sensor.people_present
-          state: 'on'
-        then:
-        - service: script.speech_engine
-          data:
-            who: everywhere
-            message: "It is raining and there are windows open in the house. Please close them!"
+      - service: script.speech_engine
+        data:
+          who: everywhere
+          message: "It is raining and there are windows open in the house. Please close them!"
 
 
 
@@ -1582,6 +1578,15 @@ script:
             - light.tina_lamp_side
             - light.tina_lamp_top
             - light.tina_desk_strip
+            - switch.adaptive_lighting_living_room
+            - switch.adaptive_lighting_tina_lamp
+      - service: switch.turn_off
+        target:
+          entity_id:
+            - switch.adaptive_lighting_living_room
+            - switch.adaptive_lighting_tina_lamp
+      - delay:
+        milliseconds: 500
       - service: light.turn_on
         target:
           entity_id:
