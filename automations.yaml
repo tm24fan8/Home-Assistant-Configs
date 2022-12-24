@@ -62,16 +62,39 @@
     at: 00:00:00
   condition: []
   action:
+  - service: scene.create
+    data:
+      scene_id: new_years_restore
+      snapshot_entities:
+      - light.living_room_color_1
+      - light.living_room_color_2
+      - light.living_room_color_3
+      - light.basement_short_lamp
+      - light.basement_stairwell
+      - light.basement_tall_lamp
+      - light.basement_led_strip_1
+      - light.mud_room_overhead
+      - light.dining_room_lamp
+      - switch.adaptive_lighting_basement_studio
+      - switch.adaptive_lighting_kallen_bedroom
+      - switch.adaptive_lighting_living_room
+      - switch.adaptive_lighting_master_bedroom
+      - switch.adaptive_lighting_mud_room
+      - switch.adaptive_lighting_upstairs_hallway
+      - switch.adaptive_lighting_tina_lamp
+      - switch.adaptive_lighting_dining_room
+    alias: Create scene to restore afterwards
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 0
+      milliseconds: 500
+    alias: Short pause
   - service: light.turn_off
+    data: {}
     target:
-      area_id:
-      - basement_studio
-      - furnace_room
-      - kallen_bedroom
-      - living_room
-      - master_bedroom
-      - mud_room
-      - upstairs_hallway
+      entity_id: light.dining_room_lamp
+    alias: Turn off dining room lamp
   - service: switch.turn_off
     target:
       entity_id:
@@ -81,18 +104,15 @@
       - switch.adaptive_lighting_master_bedroom
       - switch.adaptive_lighting_mud_room
       - switch.adaptive_lighting_upstairs_hallway
-  - service: notify.alexa_media
-    data:
-      target: Living Room Echo Dot
-      message: Happy new year! Here's to 2022!
-      data:
-        method: all
-        type: announce
+      - switch.adaptive_lighting_tina_lamp
+    data: {}
+    alias: Shut off adaptive lighting for affected areas
   - delay:
       hours: 0
       minutes: 0
-      seconds: 2
+      seconds: 1
       milliseconds: 0
+    alias: Delay to collect our bearings
   - service: light.turn_on
     target:
       entity_id:
@@ -100,50 +120,75 @@
       - light.kallen_bedroom_lights
       - light.living_room_color_1
       - light.living_room_color_2
+      - light.living_room_color_3
       - light.master_bedroom_front
       - light.master_bedroom_side
       - light.mud_room_overhead
+      - light.tina_desk_strip
+      - light.tina_lamp_top
+      - light.tina_lamp_side
+      - light.basement_led_strip_1
+      - light.basement_short_lamp
+      - light.basement_stairwell
+      - light.basement_tall_lamp
     data:
-      flash: long
+      color_name: red
+      brightness_pct: 100
+    alias: Turn on lights, change to red for capable bulbs
   - delay:
       hours: 0
       minutes: 0
-      seconds: 15
+      seconds: 2
       milliseconds: 0
-  - service: light.turn_off
-    target:
-      area_id:
-      - basement_studio
-      - furnace_room
-      - kallen_bedroom
-      - living_room
-      - master_bedroom
-      - mud_room
-      - upstairs_hallway
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 1
-      milliseconds: 500
-  - service: switch.turn_on
-    target:
-      entity_id:
-      - switch.adaptive_lighting_basement_studio
-      - switch.adaptive_lighting_kallen_bedroom
-      - switch.adaptive_lighting_living_room
-      - switch.adaptive_lighting_master_bedroom
-      - switch.adaptive_lighting_mud_room
-      - switch.adaptive_lighting_upstairs_hallway
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 1
-      milliseconds: 500
+    alias: Delay to wait for lights to turn on
   - service: light.turn_on
     target:
-      area_id:
-      - living_room
-      - mud_room
+      entity_id:
+      - light.hallway_overhead
+      - light.kallen_bedroom_lights
+      - light.living_room_color_1
+      - light.living_room_color_2
+      - light.living_room_color_3
+      - light.master_bedroom_front
+      - light.master_bedroom_side
+      - light.mud_room_overhead
+      - light.tina_desk_strip
+      - light.tina_lamp_top
+      - light.tina_lamp_side
+      - light.basement_led_strip_1
+      - light.basement_short_lamp
+      - light.basement_stairwell
+      - light.basement_tall_lamp
+    data:
+      flash: long
+    alias: Flash lights
+  - service: script.speech_engine
+    data:
+      who: common
+      message: Happy new year! Here's to 2023!
+    alias: Send TTS notification to the common areas
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 30
+      milliseconds: 0
+    alias: Let the things happen
+  - service: scene.turn_on
+    alias: Restore previous light state
+    data: {}
+    target:
+      entity_id: scene.new_years_restore
+  - service: scene.turn_on
+    data: {}
+    target:
+      entity_id: scene.night_mode_on_second_floor
+    alias: Return second floor to night mode
+  - service: input_select.select_option
+    data:
+      option: Reset
+    target:
+      entity_id: input_select.tina_desk_scenes
+    alias: Reset Tina desk scene
   mode: single
 - id: '1641101491581'
   alias: Family Has Arrived
