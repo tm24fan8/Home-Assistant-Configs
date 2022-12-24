@@ -84,20 +84,23 @@ automation:
   - id: d1edfcf7-2712-49f4-b8f1-17f5b184b5ce
     alias: Arm security on Give Me Darkness
     trigger:
-      - platform: event
+      - alias: 'Response is yes'
+        platform: event
         event_type: alexa_actionable_notification
         event_data:
           event_id: actionable_notification_night_security_arm
           event_response_type: ResponseYes
         id: security-yes
-      - platform: event
+      - alias: 'Response is no'
+        platform: event
         event_type: alexa_actionable_notification
         event_data:
           event_id: actionable_notification_night_security_arm
           event_response_type: ResponseNo
         id: security-no
     action:
-      - if:
+      - alias: 'If yes, set security to Armed - Home'
+        if:
         - condition: trigger
           id: security-yes
         then:
@@ -112,7 +115,8 @@ automation:
                 "The security system is armed. Sentry turrets active, be careful out there!",
                 "Your security is our number one priority. Flamethrower turrets deployed!"
               ] | random }}
-      - if:
+      - alias: 'If no, leave security alone and be a smartass about it'
+        if:
         - condition: trigger
           id: security-no
         then:
