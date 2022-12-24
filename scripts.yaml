@@ -30,6 +30,45 @@ give_me_darkness:
     target:
       area_id:
       - dining_room
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.guest_mode
+        state: 'off'
+      sequence:
+      - service: light.turn_off
+        target:
+          area_id:
+          - kallen_bedroom
+          - master_bedroom
+          - living_room
+          - emma_bedroom
+          - downstairs_bathroom
+        data: {}
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.guest_mode
+        state: 'on'
+      sequence:
+      - service: light.turn_off
+        target:
+          area_id:
+          - kallen_bedroom
+          - master_bedroom
+          - emma_bedroom
+          - downstairs_bathroom
+        data: {}
+        alias: Leave living room light on
+    alias: Turn off lights, leave living room light on if guest mode is on
+  - service: input_select.select_option
+    target:
+      entity_id:
+      - input_select.upstairs_hallway_scenes
+      - input_select.mud_room_scenes
+      - input_select.upstairs_bathroom_scenes
+    data:
+      option: Nightlight
+    alias: Set nightlights
   - service: switch.turn_on
     target:
       entity_id:
@@ -45,31 +84,19 @@ give_me_darkness:
         option: Night Mode
       target:
         entity_id: input_select.tina_desk_scenes
-  - service: input_select.select_option
-    target:
-      entity_id:
-      - input_select.upstairs_hallway_scenes
-      - input_select.mud_room_scenes
-      - input_select.upstairs_bathroom_scenes
-    data:
-      option: Nightlight
-  - service: light.turn_off
-    target:
-      area_id:
-      - kallen_bedroom
-      - master_bedroom
-      - living_room
-      - emma_bedroom
-      - downstairs_bathroom
-    data: {}
-  - condition: template
-    value_template: "{% if is_state('person.tony_stork','home') and is_state('person.christina_stork','home')
-      %}\n  true\n{% else %}\n  false\n{% endif %}"
-  - service: script.activate_alexa_actionable_notification
-    data_template:
-      text: Would you like me to arm the security system?
-      event_id: actionable_notification_night_security_arm
-      alexa_device: '{{ states(''sensor.last_alexa'') }}'
+  - if:
+    - condition: template
+      value_template: "{% if is_state('person.tony_stork','home') and is_state('person.christina_stork','home')
+        %}\n  true\n{% else %}\n  false\n{% endif %}"
+      alias: Both adults are home
+    then:
+    - service: script.activate_alexa_actionable_notification
+      data_template:
+        text: Would you like me to arm the security system?
+        event_id: actionable_notification_night_security_arm
+        alexa_device: '{{ states(''sensor.last_alexa'') }}'
+      alias: Ask to arm security
+    alias: Ask to arm security if both adults are home
   mode: single
   icon: mdi:weather-night
 start_youtube:
@@ -369,8 +396,8 @@ max_brightness_cleanup:
     data: {}
     target:
       entity_id:
-        - input_boolean.shower_mode
-        - input_boolean.tina_desk_lights
+      - input_boolean.shower_mode
+      - input_boolean.tina_desk_lights
   - service: input_boolean.turn_on
     data: {}
     target:
