@@ -429,6 +429,14 @@ script:
   family_is_home_day:
     alias: Family Is Home Day
     sequence:
+    - if:
+      - condition: state
+        entity_id: input_boolean.vacation_mode
+        state: 'on'
+      then:
+      - service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.vacation_mode
     - service: switch.turn_off
       target:
         entity_id: switch.presence_simulation
@@ -494,6 +502,14 @@ script:
   family_is_home_night:
     alias: Family Is Home Night
     sequence:
+    - if:
+      - condition: state
+        entity_id: input_boolean.vacation_mode
+        state: 'on'
+      then:
+      - service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.vacation_mode
     - service: switch.turn_off
       target:
         entity_id: switch.presence_simulation
