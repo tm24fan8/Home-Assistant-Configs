@@ -121,9 +121,6 @@ automation:
     - condition: state
       entity_id: input_boolean.kallen_overnight
       state: 'off'
-    - condition: state
-      entity_id: input_boolean.vacation_mode
-      state: 'off'
     action:
     - service: script.kallen_nightly_briefing
       data:
@@ -134,13 +131,6 @@ automation:
     trigger:
     - platform: time
       at: input_datetime.daily_report
-    condition:
-    - condition: state
-      entity_id: binary_sensor.people_present
-      state: 'on'
-    - condition: state
-      entity_id: input_boolean.vacation_mode
-      state: 'off'
     action:
     - service: script.daily_briefing
       data:
@@ -172,13 +162,6 @@ automation:
     trigger:
     - platform: time
       at: input_datetime.morning_report
-    condition:
-    - condition: state
-      entity_id: binary_sensor.people_present
-      state: 'on'
-    - condition: state
-      entity_id: input_boolean.vacation_mode
-      state: 'off'
     action:
     - service: script.morning_report
       data:
@@ -189,13 +172,6 @@ automation:
     trigger:
       platform: time
       at: input_datetime.nightly_report
-    condition:
-    - condition: state
-      entity_id: binary_sensor.people_present
-      state: 'on'
-    - condition: state
-      entity_id: input_boolean.vacation_mode
-      state: 'off'
     action:
     - service: script.nightly_briefing
       data:
@@ -324,9 +300,6 @@ script:
       - condition: state
         entity_id: input_boolean.welcome_home
         state: 'on'
-      - condition: state
-        entity_id: input_boolean.vacation_mode
-        state: 'off'
       - wait_template: "{{ is_state('binary_sensor.front_door','on') }}"
         timeout:
           minutes: 10
