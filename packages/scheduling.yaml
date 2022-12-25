@@ -224,7 +224,7 @@ script:
           option: >
             {% if is_state('input_boolean.kallen_overnight','on') %}
               N/A
-            {% elif states('sensor.tonights_low_temp') >= states('input_number.kallen_fan_threshold') %}
+            {% elif (states('sensor.tonights_low_temp') | int) >= (states('input_number.kallen_fan_threshold') | int) %}
               Fan
             {% else %}
               White Noise
@@ -366,8 +366,8 @@ script:
           option: >
             {% if is_state('input_boolean.master_bedroom_aircon_installed','off') %}
               N/A
-            {% elif states('sensor.tonights_low_temp') >= states('input_number.master_bedroom_aircon_run_threshold') %}
-              {% if states('sensor.tonights_low_temp') >= states('input_number.master_bedroom_aircon_mode_threshold') %}
+            {% elif (states('sensor.tonights_low_temp') | int) >= (states('input_number.master_bedroom_aircon_run_threshold') | int) %}
+              {% if (states('sensor.tonights_low_temp') | int) >= (states('input_number.master_bedroom_aircon_mode_threshold') | int) %}
                 AC
               {% else %}
                 Fan
@@ -380,7 +380,7 @@ script:
           entity_id: input_select.scheduled_climate_mode_master_bedroom_fan
         data:
           option: >
-            {% if states('sensor.tonights_low_temp') >= states('input_number.master_bedroom_fan_threshold') %}
+            {% if (states('sensor.tonights_low_temp') | int) >= (states('input_number.master_bedroom_fan_threshold') | int) %}
               Fan
             {% else %}
               N/A
@@ -407,7 +407,7 @@ script:
         data:
           option: >
             {% if is_state('input_boolean.emma_bedroom_aircon_installed','on') %}
-              {% if states('sensor.tonights_low_temp') >= states('input_number.emma_aircon_threshold') %}
+              {% if (states('sensor.tonights_low_temp') | int) >= (states('input_number.emma_aircon_threshold') | int) %}
                 AC
               {% else %}
                 White Noise
