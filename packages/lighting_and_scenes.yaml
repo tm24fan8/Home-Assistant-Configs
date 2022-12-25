@@ -26,6 +26,9 @@ input_boolean:
   tina_desk_lights:
     name: Tina Desk Lights
     icon: mdi:desk
+  holiday_mode_hold:
+    name: Holiday Mode Hold
+    icon: mdi:party-popper
 
 input_number:
   upstairs_bathroom_motion_off_delay:
