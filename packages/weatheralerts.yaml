@@ -1586,7 +1586,7 @@ script:
             - switch.adaptive_lighting_living_room
             - switch.adaptive_lighting_tina_lamp
       - delay:
-        milliseconds: 500
+          milliseconds: 500
       - service: light.turn_on
         target:
           entity_id:
