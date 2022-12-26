@@ -29,6 +29,9 @@ input_boolean:
   holiday_mode_hold:
     name: Holiday Mode Hold
     icon: mdi:party-popper
+  christmas_day_show:
+    name: Christmas Day Show
+    icon: mdi:pine-tree
 
 input_number:
   upstairs_bathroom_motion_off_delay:
@@ -256,6 +259,31 @@ switch:
     change_frequency: 60
     change_amount: all
     change_sequence: True
+    animate_brightness: True
+    animate_color: True
+  - platform: animated_scenes
+    name: Christmas Day
+    restore: False
+    restore_power: False
+    ignore_off: False
+    lights:
+      - light.living_room_color_1
+      - light.living_room_color_2
+      - light.living_room_color_3
+      - light.tina_lamp_top
+      - light.tina_lamp_side
+      - light.tina_desk_strip
+    colors:
+      - color_type: rgb_color
+        color: [255,0,0]
+        brightness: 255
+      - color_type: rgb_color
+        color: [0,255,0]
+        brightness: 255
+    transition: 1
+    change_frequency: 5
+    change_amount: 3
+    change_sequence: False
     animate_brightness: True
     animate_color: True
 

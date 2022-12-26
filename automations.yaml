@@ -523,3 +523,116 @@
       entity_id: input_boolean.delivery_mode
     alias: Turn off Delivery Mode
   mode: single
+- id: '1671946146837'
+  alias: Christmas Day Show
+  description: For that one special day a year, to make it just a little more magical
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.christmas_day_show
+    from: 'off'
+    to: 'on'
+    alias: Start Show
+    id: start-show
+  - platform: state
+    entity_id:
+    - input_boolean.christmas_day_show
+    from: 'on'
+    to: 'off'
+    alias: Stop Show
+    id: stop-show
+  condition: []
+  action:
+  - if:
+    - condition: trigger
+      id: start-show
+    then:
+    - service: switch.turn_off
+      data: {}
+      target:
+        entity_id:
+        - switch.adaptive_lighting_living_room
+        - switch.adaptive_lighting_tina_lamp
+      alias: Turn off adaptive lighting
+    - service: switch.turn_on
+      data: {}
+      target:
+        entity_id: switch.animated_scene_christmas_day
+      alias: Turn on Christmas Day scene
+    - service: script.speech_engine
+      data:
+        who: living_room
+        message: Merry Christmas everyone. And now, let us enjoy some awesome Christmas
+          music!
+      alias: TTS Announcement
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 5
+        milliseconds: 0
+      alias: Give TTS time to finish
+    - service: media_player.select_source
+      data:
+        source: Living Room TV
+      target:
+        entity_id: media_player.spotify_iron_nerd
+      alias: Set source to Living Room TV
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 2
+        milliseconds: 0
+      alias: Make sure that took effect
+    - service: media_player.play_media
+      data:
+        media_content_id: https://open.spotify.com/track/7LPOnS3OvbF6DGrt9fQ7x9?si=3c7e28d623324a80
+        media_content_type: music
+      target:
+        entity_id: media_player.spotify_iron_nerd
+      alias: Play my Christmas Music playlist
+    - service: media_player.media_play
+      data: {}
+      target:
+        entity_id: media_player.spotify_iron_nerd
+      alias: Actually play the music
+    alias: If starting show
+  - if:
+    - condition: trigger
+      id: stop-show
+    then:
+    - service: media_player.media_pause
+      data: {}
+      target:
+        entity_id: media_player.spotify_iron_nerd
+      alias: Stop the music
+    - service: switch.turn_off
+      data: {}
+      target:
+        entity_id: switch.animated_scene_christmas_day
+      alias: Turn off Christmas Day scene
+    - service: switch.turn_on
+      data: {}
+      target:
+        entity_id: switch.animated_scene_christmas
+      alias: Turn on Front Porch Christmas scene
+    - service: input_select.select_option
+      data:
+        option: Adaptive
+      target:
+        entity_id: input_select.living_room_scenes
+      alias: Set living room back to adaptive
+    - service: input_select.select_option
+      data:
+        option: Reset
+      target:
+        entity_id: input_select.tina_desk_scenes
+      alias: Reset Tina desk scene
+    - service: script.speech_engine
+      data:
+        who: living_room
+        message: Thats all folks, enjoy the rest of your Christmas Day! Eat lots of
+          food and have lots of fun! And hey, maybe you could bring me some cake?
+          I love cake!
+      alias: TTS Announcement
+    alias: If stopping show
+  mode: restart
