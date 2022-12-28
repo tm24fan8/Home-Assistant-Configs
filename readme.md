@@ -70,7 +70,6 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Mushroom](https://github.com/piitaya/lovelace-mushroom)
 - [Todoist Card](https://github.com/grinstantin/todoist-card)
 - [TV Remote Card](https://github.com/marrobHD/tv-card)
-- [FireTV Remote Card](https://github.com/marrobHD/firetv-card)
 - [Apexcharts Card](https://github.com/RomRider/apexcharts-card)
 - [Auto Entities Card](https://github.com/thomasloven/lovelace-auto-entities)
 - [Header Cards](https://github.com/gadgetchnnel/lovelace-header-cards)
@@ -105,6 +104,7 @@ This is a new adventure so we'll see where it ends up going, but so far I am usi
 
 - [White Noise](https://github.com/apop880/White-Noise)
 - [Follow Me](https://github.com/aneisch/follow_me_appdaemon)
+- [Alexa Door and Window Announcer](https://github.com/UbhiTS/ad-alexadoorwindowannounce)
 
 ## Themes/Icons
 
