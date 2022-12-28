@@ -66,3 +66,20 @@ white_noise_emma_bedroom:
   media_player: emma_bedroom_speaker
   input_boolean: white_noise_emma_bedroom
   filename: !secret remote_url_oceanwaves
+
+alexa_door_window_announce:
+  module: alexa_door_window_announce
+  class: AlexaDoorWindowAnnounce
+  alexas:
+    - media_player.living_room_echo_dot
+  doors_windows:
+    - binary_sensor.kitchen_big_window
+    - binary_sensor.front_window_near
+    - binary_sensor.stairway_window_lower
+    - binary_sensor.mud_room_window
+  announcements:
+    delay: "00:00:00"
+    close: True
+    start_time: "08:00:00"
+    end_time: "22:00:00"
+  debug: false
