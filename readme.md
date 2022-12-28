@@ -34,8 +34,6 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [Local Tuya](https://github.com/rospogrigio/localtuya)
 - [Pirate Weather](https://github.com/alexander0042/pirate-weather-ha)
 - [Holidays](https://github.com/bruxy70/Holidays)
-- [Plex Recently Added](https://github.com/NemesisRE/sensor.plex_recently_added)
-- [Plex Assistant](https://github.com/tm24fan8/plex_assistant)
 - [Thermal Comfort](https://github.com/dolezsa/thermal_comfort)
 - [HASS.Agent Notifier](https://github.com/LAB02-Research/HASS.Agent-Notifier)
 - [HASS.Agent Media Player](https://github.com/LAB02-Research/HASS.Agent-MediaPlayer)

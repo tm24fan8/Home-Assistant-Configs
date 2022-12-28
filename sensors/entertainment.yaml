@@ -7,11 +7,6 @@
   channels:
     - ironnerd24
     - Xia_P988
-- platform: plex_recently_added
-  name: Recently Added on Plex
-  token: !secret plex_token
-  host: 192.168.1.4
-  port: 32400
 - platform: template
   sensors:
     basement_tv_current_app:
