@@ -28,6 +28,6 @@ devices:
     iosapp_entity: device_tracker.tinas_ipad_app
   - device_name: tonys_airpods
     name: Tony's Airpods
-    iosapp_install: false
+    iosapp_installed: false
 
 waze_realtime: true
