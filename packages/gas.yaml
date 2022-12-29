@@ -1,76 +1,85 @@
-homeassistant:
-  customize:
-    sensor.south_side_shell:
-      icon: mdi:gas-station
-    sensor.circle_k:
-      icon: mdi:gas-station
-    sensor.kroger:
-      icon: mdi:gas-station
-    sensor.kecks:
-      icon: mdi:gas-station
-    sensor.the_barn:
-      icon: mdi:gas-station
-    sensor.the_big_fish:
-      icon: mdi:gas-station
-    sensor.marathon_cleveland_avenue:
-      icon: mdi:gas-station
-    sensor.speedway:
-      icon: mdi:gas-station
-    sensor.meijer:
-      icon: mdi:gas-station
-    sensor.east_side_shell:
-      icon: mdi:gas-station
-    sensor.shell_ottawa_avenue:
-      icon: mdi:gas-station
-    sensor.wash_n_fill:
-      icon: mdi:gas-station
-
 scrape:
   - resource: https://www.gasbuddy.com/station/59010
     sensor:
       - name: South Side Shell
         select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+        unit_of_measurement: USD
+        value_template: '{{ value | replace("$", "") | float }}'
+        icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/59007
     sensor:
       - name: Circle K
         select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+        unit_of_measurement: USD
+        value_template: '{{ value | replace("$", "") | float }}'
+        icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/123478
     sensor:
       - name: Kroger
         select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+        unit_of_measurement: USD
+        value_template: '{{ value | replace("$", "") | float }}'
+        icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/59014
     sensor:
       - name: Kecks
         select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+        unit_of_measurement: USD
+        value_template: '{{ value | replace("$", "") | float }}'
+        icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/59006
     sensor:
       - name: The Barn
         select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+        unit_of_measurement: USD
+        value_template: '{{ value | replace("$", "") | float }}'
+        icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/59016
     sensor:
       - name: The Big Fish
         select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+        unit_of_measurement: USD
+        value_template: '{{ value | replace("$", "") | float }}'
+        icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/107803
     sensor:
       - name: Marathon Cleveland Avenue
         select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+        unit_of_measurement: USD
+        value_template: '{{ value | replace("$", "") | float }}'
+        icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/59013
     sensor:
       - name: Speedway
         select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+        unit_of_measurement: USD
+        value_template: '{{ value | replace("$", "") | float }}'
+        icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/59009
     sensor:
       - name: Meijer
         select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+        unit_of_measurement: USD
+        value_template: '{{ value | replace("$", "") | float }}'
+        icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/59012
     sensor:
       - name: East Side Shell
         select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+        unit_of_measurement: USD
+        value_template: '{{ value | replace("$", "") | float }}'
+        icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/59011
     sensor:
       - name: Shell Ottawa Avenue
         select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+        unit_of_measurement: USD
+        value_template: '{{ value | replace("$", "") | float }}'
+        icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/71535
     sensor:
       - name: Wash N Fill
         select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+        unit_of_measurement: USD
+        value_template: '{{ value | replace("$", "") | float }}'
+        icon: mdi:gas-station
