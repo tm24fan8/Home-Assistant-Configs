@@ -1,76 +1,76 @@
-# homeassistant:
-#   customize:
-#     sensor.south_side_shell:
-#       icon: mdi:gas-station
-#     sensor.circle_k:
-#       icon: mdi:gas-station
-#     sensor.kroger:
-#       icon: mdi:gas-station
-#     sensor.kecks:
-#       icon: mdi:gas-station
-#     sensor.the_barn:
-#       icon: mdi:gas-station
-#     sensor.the_big_fish:
-#       icon: mdi:gas-station
-#     sensor.marathon_cleveland_avenue:
-#       icon: mdi:gas-station
-#     sensor.speedway:
-#       icon: mdi:gas-station
-#     sensor.meijer:
-#       icon: mdi:gas-station
-#     sensor.east_side_shell:
-#       icon: mdi:gas-station
-#     sensor.shell_ottawa_avenue:
-#       icon: mdi:gas-station
-#     sensor.wash_n_fill:
-#       icon: mdi:gas-station
+homeassistant:
+  customize:
+    sensor.south_side_shell:
+      icon: mdi:gas-station
+    sensor.circle_k:
+      icon: mdi:gas-station
+    sensor.kroger:
+      icon: mdi:gas-station
+    sensor.kecks:
+      icon: mdi:gas-station
+    sensor.the_barn:
+      icon: mdi:gas-station
+    sensor.the_big_fish:
+      icon: mdi:gas-station
+    sensor.marathon_cleveland_avenue:
+      icon: mdi:gas-station
+    sensor.speedway:
+      icon: mdi:gas-station
+    sensor.meijer:
+      icon: mdi:gas-station
+    sensor.east_side_shell:
+      icon: mdi:gas-station
+    sensor.shell_ottawa_avenue:
+      icon: mdi:gas-station
+    sensor.wash_n_fill:
+      icon: mdi:gas-station
 
-# sensor:
-#   - platform: scrape
-#     name: South Side Shell
-#     resource: https://www.gasbuddy.com/station/59010
-#     select: "#root > div > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div.panel__panel___3Q2zW.panel__white___19KTz.colors__bgWhite___1stjL.panel__bordered___1Xe-S.panel__rounded___2etNE.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
-#   - platform: scrape
-#     name: Circle K
-#     resource: https://www.gasbuddy.com/station/59007
-#     select: "#root > div > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div.panel__panel___3Q2zW.panel__white___19KTz.colors__bgWhite___1stjL.panel__bordered___1Xe-S.panel__rounded___2etNE.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
-#   - platform: scrape
-#     name: Kroger
-#     resource: https://www.gasbuddy.com/station/123478
-#     select: "#root > div > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div.panel__panel___3Q2zW.panel__white___19KTz.colors__bgWhite___1stjL.panel__bordered___1Xe-S.panel__rounded___2etNE.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
-#   - platform: scrape
-#     name: Kecks
-#     resource: https://www.gasbuddy.com/station/59014
-#     select: "#root > div > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div.panel__panel___3Q2zW.panel__white___19KTz.colors__bgWhite___1stjL.panel__bordered___1Xe-S.panel__rounded___2etNE.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
-#   - platform: scrape
-#     name: The Barn
-#     resource: https://www.gasbuddy.com/station/59006
-#     select: "#root > div > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div.panel__panel___3Q2zW.panel__white___19KTz.colors__bgWhite___1stjL.panel__bordered___1Xe-S.panel__rounded___2etNE.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
-#   - platform: scrape
-#     name: The Big Fish
-#     resource: https://www.gasbuddy.com/station/59016
-#     select: "#root > div > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div.panel__panel___3Q2zW.panel__white___19KTz.colors__bgWhite___1stjL.panel__bordered___1Xe-S.panel__rounded___2etNE.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
-#   - platform: scrape
-#     name: Marathon Cleveland Avenue
-#     resource: https://www.gasbuddy.com/station/107803
-#     select: "#root > div > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div.panel__panel___3Q2zW.panel__white___19KTz.colors__bgWhite___1stjL.panel__bordered___1Xe-S.panel__rounded___2etNE.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
-#   - platform: scrape
-#     name: Speedway
-#     resource: https://www.gasbuddy.com/station/59013
-#     select: "#root > div > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div.panel__panel___3Q2zW.panel__white___19KTz.colors__bgWhite___1stjL.panel__bordered___1Xe-S.panel__rounded___2etNE.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
-#   - platform: scrape
-#     name: Meijer
-#     resource: https://www.gasbuddy.com/station/59009
-#     select: "#root > div > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div.panel__panel___3Q2zW.panel__white___19KTz.colors__bgWhite___1stjL.panel__bordered___1Xe-S.panel__rounded___2etNE.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
-#   - platform: scrape
-#     name: East Side Shell
-#     resource: https://www.gasbuddy.com/station/59012
-#     select: "#root > div > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div.panel__panel___3Q2zW.panel__white___19KTz.colors__bgWhite___1stjL.panel__bordered___1Xe-S.panel__rounded___2etNE.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
-#   - platform: scrape
-#     name: Shell Ottawa Avenue
-#     resource: https://www.gasbuddy.com/station/59011
-#     select: "#root > div > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div.panel__panel___3Q2zW.panel__white___19KTz.colors__bgWhite___1stjL.panel__bordered___1Xe-S.panel__rounded___2etNE.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
-#   - platform: scrape
-#     name: Wash N Fill
-#     resource: https://www.gasbuddy.com/station/71535
-#     select: "#root > div > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div.panel__panel___3Q2zW.panel__white___19KTz.colors__bgWhite___1stjL.panel__bordered___1Xe-S.panel__rounded___2etNE.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+sensor:
+  - platform: scrape
+    name: South Side Shell
+    resource: https://www.gasbuddy.com/station/59010
+    select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+  - platform: scrape
+    name: Circle K
+    resource: https://www.gasbuddy.com/station/59007
+    select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+  - platform: scrape
+    name: Kroger
+    resource: https://www.gasbuddy.com/station/123478
+    select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+  - platform: scrape
+    name: Kecks
+    resource: https://www.gasbuddy.com/station/59014
+    select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+  - platform: scrape
+    name: The Barn
+    resource: https://www.gasbuddy.com/station/59006
+    select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+  - platform: scrape
+    name: The Big Fish
+    resource: https://www.gasbuddy.com/station/59016
+    select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+  - platform: scrape
+    name: Marathon Cleveland Avenue
+    resource: https://www.gasbuddy.com/station/107803
+    select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+  - platform: scrape
+    name: Speedway
+    resource: https://www.gasbuddy.com/station/59013
+    select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+  - platform: scrape
+    name: Meijer
+    resource: https://www.gasbuddy.com/station/59009
+    select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+  - platform: scrape
+    name: East Side Shell
+    resource: https://www.gasbuddy.com/station/59012
+    select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+  - platform: scrape
+    name: Shell Ottawa Avenue
+    resource: https://www.gasbuddy.com/station/59011
+    select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
+  - platform: scrape
+    name: Wash N Fill
+    resource: https://www.gasbuddy.com/station/71535
+    select: "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
