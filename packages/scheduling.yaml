@@ -73,7 +73,7 @@ automation:
     alias: Kallen Scheduling
     trigger:
       - platform: time
-        at: '04:20:00'
+        at: '04:01:00'
         id: kallen-morning
       - platform: time
         at: '16:00:00'
@@ -94,10 +94,10 @@ automation:
     alias: House Scheduling
     trigger:
       - platform: time
-        at: '04:25:00'
+        at: '04:01:10'
         id: house-morning
       - platform: time
-        at: '16:05:00'
+        at: '16:00:10'
         id: house-evening
     action:
       - if:
@@ -116,10 +116,10 @@ automation:
     alias: Master Bedroom Scheduling
     trigger:
       - platform: time
-        at: '06:07:00'
+        at: '04:02:10'
         id: mrbedroom-morning
       - platform: time
-        at: '16:30:00'
+        at: '16:00:20'
         id: mrbedroom-evening
     action:
       - if:
@@ -133,11 +133,16 @@ automation:
         then:
           - service: script.master_bedroom_scheduling_evening
 
+# Eventually will make this an actual morning/evening automation. For now, both triggers do the same thing.
   - id: a69d3d36-09d6-4ef3-a245-c564c7cb577c
     alias: Emma Bedroom Scheduling
     trigger:
       - platform: time
-        at: '06:06:00'
+        at: '04:02:00'
+        id: emma-morning
+      - platform: time
+        at: '16:00:30'
+        id: emma-evening
     action:
       - service: script.emma_bedroom_scheduling
 
