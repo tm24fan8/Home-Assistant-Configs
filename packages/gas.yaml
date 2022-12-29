@@ -83,3 +83,33 @@ scrape:
         unit_of_measurement: USD
         value_template: '{{ value | replace("$", "") | float }}'
         icon: mdi:gas-station
+
+# Possible alternate way to do things, may revisit later, keeping for reference
+
+# rest:
+#   - scan_interval: 3600
+#     resource: https://www.gasbuddy.com/graphql
+#     method: POST
+#     headers:
+#       Content-Type: application/json
+#     payload: |
+#       {
+#         "operationName": "LocationBySearchTerm",
+#         "variables": {
+#           "fuel": 1,
+#           "maxAge": 0,
+#           "search": "43512"
+#         },
+#         "query": "query LocationBySearchTerm($search: String) { locationBySearchTerm(search: $search) { trends { areaName country today todayLow } } }"
+#       }
+#     sensor:
+#       - unique_id: gasbuddy_lowest_gas_price
+#         name: Gasbuddy Lowest Gas Price
+#         icon: mdi:gas-station
+#         unit_of_measurement: USD
+#         value_template: "{{ value_json.data.locationBySearchTerm.trends.0.todayLow | float }}"
+#       - unique_id: gasbuddy_average_gas_price
+#         name: Gasbuddy Average Gas Price
+#         icon: mdi:gas-station
+#         unit_of_measurement: USD
+#         value_template: "{{ value_json.data.locationBySearchTerm.trends.0.today | float }}"
