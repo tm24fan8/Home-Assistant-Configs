@@ -66,7 +66,7 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Atomic Calendar Revive](https://github.com/totaldebug/atomic-calendar-revive)
 - [Plotly Graph Card](https://github.com/dbuezas/lovelace-plotly-graph-card)
 - [Mushroom](https://github.com/piitaya/lovelace-mushroom)
-- [Todoist Card](https://github.com/grinstantin/todoist-card)
+- [Todoist Card](https://github.com/tm24fan8/todoist-card)
 - [TV Remote Card](https://github.com/marrobHD/tv-card)
 - [Apexcharts Card](https://github.com/RomRider/apexcharts-card)
 - [Auto Entities Card](https://github.com/thomasloven/lovelace-auto-entities)
@@ -95,6 +95,7 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [HA Team Tracker Card](https://github.com/vasqued2/ha-teamtracker-card)
 - [Banner Card](https://github.com/nervetattoo/banner-card)
 - [Lovelace Lock Card](https://github.com/CyrisXD/love-lock-card)
+- [Card Templater](https://github.com/gadgetchnnel/lovelace-card-templater)
 
 ## AppDaemon Apps
 
