@@ -55,7 +55,9 @@ rest_command:
   todoist:
     method: post
     url: 'https://api.todoist.com/sync/v9/{{ url }}'
-    payload: !secret todoist_api_payload
+    payload: '{{ payload }}'
+    headers:
+      Authorization: !secret todoist_api_token
     content_type: 'application/x-www-form-urlencoded'
 
 downloader:

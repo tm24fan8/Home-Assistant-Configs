@@ -3,8 +3,9 @@
   method: GET
   resource: 'https://api.todoist.com/sync/v9/projects/get_data'
   params:
-    token: !secret todoist_api_token
     project_id: 2285969005
+  headers:
+    Authorization: !secret todoist_api_token
   value_template: '{{value_json[''project''][''id'']}}'
   json_attributes:
     - project
@@ -15,8 +16,9 @@
   method: GET
   resource: 'https://api.todoist.com/sync/v9/projects/get_data'
   params:
-    token: !secret todoist_api_token
     project_id: 2285967948
+  headers:
+    Authorization: !secret todoist_api_token
   value_template: '{{value_json[''project''][''id'']}}'
   json_attributes:
     - project
