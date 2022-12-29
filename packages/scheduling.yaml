@@ -50,6 +50,23 @@ input_datetime:
     has_time: true
     icon: mdi:twitch
 
+################################################
+# Current order of operations is as follows:   #
+#                                              #
+# Morning:                                     #
+# - Work Today                                 #
+# - School Today                               #
+# - Kallen Scheduling                          #
+# - House Scheduling                           #
+# - Emma Bedroom Scheduling                    #
+# - Master Bedroom Scheduling                  #
+#                                              #
+# Evening:                                     #
+# - Kallen Scheduling                          #
+# - House Scheduling                           #
+# - Master Bedroom Scheduling                  #
+# - Emma Bedroom Scheduling                    #
+################################################
 
 automation:
   - id: c772b54d-6448-4d74-a0c2-32998f49b17c
