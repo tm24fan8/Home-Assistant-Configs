@@ -192,6 +192,18 @@ influxdb:
       - binary_sensor.people_present
       - binary_sensor.precipitation
       - weather.iron_nerd_weather_station
+      - sensor.circle_k
+      - sensor.kroger
+      - sensor.kecks
+      - sensor.the_barn
+      - sensor.the_big_fish
+      - sensor.speedway
+      - sensor.meijer
+      - sensor.wash_n_fill
+      - sensor.marathon_cleveland_avenue
+      - sensor.south_side_shell
+      - sensor.east_side_shell
+      - sensor.shell_ottawa_avenue
 
 history:
   exclude:
