@@ -1,6 +1,3 @@
-# ATTENTION: The actual notify services are currently defined in configuration.yaml and NOT in this file. 
-# Just a note because I've already forgotten once ;)
-
 ###############################################################################
 # AWS Polly Options:
 # pause:
