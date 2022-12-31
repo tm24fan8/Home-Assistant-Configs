@@ -62,34 +62,6 @@
     at: 00:00:00
   condition: []
   action:
-  - service: scene.create
-    data:
-      scene_id: new_years_restore
-      snapshot_entities:
-      - light.living_room_color_1
-      - light.living_room_color_2
-      - light.living_room_color_3
-      - light.basement_short_lamp
-      - light.basement_stairwell
-      - light.basement_tall_lamp
-      - light.basement_led_strip_1
-      - light.mud_room_overhead
-      - light.dining_room_lamp
-      - switch.adaptive_lighting_basement_studio
-      - switch.adaptive_lighting_kallen_bedroom
-      - switch.adaptive_lighting_living_room
-      - switch.adaptive_lighting_master_bedroom
-      - switch.adaptive_lighting_mud_room
-      - switch.adaptive_lighting_upstairs_hallway
-      - switch.adaptive_lighting_tina_lamp
-      - switch.adaptive_lighting_dining_room
-    alias: Create scene to restore afterwards
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 0
-      milliseconds: 500
-    alias: Short pause
   - service: light.turn_off
     data: {}
     target:
@@ -105,14 +77,15 @@
       - switch.adaptive_lighting_mud_room
       - switch.adaptive_lighting_upstairs_hallway
       - switch.adaptive_lighting_tina_lamp
+      - switch.animated_scene_christmas
     data: {}
-    alias: Shut off adaptive lighting for affected areas
+    alias: Prepare affected lighting areas
   - delay:
       hours: 0
       minutes: 0
       seconds: 1
       milliseconds: 0
-    alias: Delay to collect our bearings
+    alias: Delay to make sure all switches turn off
   - service: light.turn_on
     target:
       entity_id:
@@ -131,6 +104,7 @@
       - light.basement_short_lamp
       - light.basement_stairwell
       - light.basement_tall_lamp
+      - light.front_porch_light
     data:
       color_name: red
       brightness_pct: 100
@@ -159,13 +133,14 @@
       - light.basement_short_lamp
       - light.basement_stairwell
       - light.basement_tall_lamp
+      - light.front_porch_light
     data:
       flash: long
     alias: Flash lights
   - service: script.speech_engine
     data:
       who: common
-      message: Happy new year! Here's to 2023!
+      message: Happy new year! Heres to 2023!
     alias: Send TTS notification to the common areas
   - delay:
       hours: 0
@@ -173,11 +148,27 @@
       seconds: 30
       milliseconds: 0
     alias: Let the things happen
+  - service: switch.turn_on
+    target:
+      entity_id:
+      - switch.adaptive_lighting_basement_studio
+      - switch.adaptive_lighting_kallen_bedroom
+      - switch.adaptive_lighting_master_bedroom
+      - switch.adaptive_lighting_upstairs_hallway
+      - switch.animated_scene_christmas
+    data: {}
+    alias: Restore previous functionality on second floor and front porch
   - service: scene.turn_on
-    alias: Restore previous light state
     data: {}
     target:
-      entity_id: scene.new_years_restore
+      entity_id: scene.adaptive_on_first_floor
+    alias: Return first floor to adaptive lighting
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 1
+      milliseconds: 0
+    alias: Delay because adaptive lighting is stupid sometimes
   - service: scene.turn_on
     data: {}
     target:
