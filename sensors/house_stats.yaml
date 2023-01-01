@@ -131,7 +131,7 @@
         {% set fans = [
           states.fan.basement_fan,
           states.fan.kallen_bedroom_fan,
-          states.fan.master_bedroom_fan_socket_1,
+          states.fan.master_bedroom_fan,
           states.fan.emma_air_conditioner
         ] %}
         {{ fans | selectattr('state','eq','on') | list | count }}

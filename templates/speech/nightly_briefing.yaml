@@ -387,7 +387,7 @@
             "The master bedroom air conditioner will remain inactive tonight. "
           {% endif %}
         {% endif %}
-        {% if is_state('fan.master_bedroom_fan_socket_1','on') %}
+        {% if is_state('fan.master_bedroom_fan','on') %}
           "The master bedroom fan is already running. "
         {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_fan','Fan') %}
           "The master bedroom fan will activate at {{ (state_attr('input_datetime.master_bedroom_fan','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "

@@ -14,7 +14,7 @@ sensor:
     entity_id: fan.kallen_bedroom_fan
     power_sensor_id: sensor.kallen_bedroom_fan_power
   - platform: powercalc
-    entity_id: fan.master_bedroom_fan_socket_1
+    entity_id: fan.master_bedroom_fan
     power_sensor_id: sensor.master_bedroom_fan_power
   - platform: powercalc
     entity_id: fan.basement_fan
