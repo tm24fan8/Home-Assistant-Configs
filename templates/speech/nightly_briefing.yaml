@@ -395,7 +395,7 @@
           "The master bedroom fan will remain inactive tonight. "
         {% endif %}
         {% if is_state('input_boolean.kallen_overnight','off') %}
-          {% if is_state('fan.kallen_fan_socket_1','on') %}
+          {% if is_state('fan.kallen_bedroom_fan','on') %}
             "Collin's fan is already running. "
           {% elif is_state('input_boolean.white_noise_kallen_bedroom','on') %}
             "Collin's white noise generator is already running. "

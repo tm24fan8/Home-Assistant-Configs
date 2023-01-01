@@ -130,7 +130,7 @@
       value_template: >-
         {% set fans = [
           states.fan.basement_fan,
-          states.fan.kallen_fan_socket_1,
+          states.fan.kallen_bedroom_fan,
           states.fan.master_bedroom_fan_socket_1,
           states.fan.emma_air_conditioner
         ] %}
