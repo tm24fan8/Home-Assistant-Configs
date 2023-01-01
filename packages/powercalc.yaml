@@ -20,9 +20,6 @@ sensor:
     entity_id: fan.basement_fan
     power_sensor_id: sensor.basement_fan_power
   - platform: powercalc
-    entity_id: light.front_window_christmas_lights
-    power_sensor_id: sensor.front_window_christmas_lights_power
-  - platform: powercalc
     create_group: Living Room Lights
     include:
       group: light.living_room_lights
@@ -50,8 +47,6 @@ sensor:
     create_group: First Floor Lights
     include:
       group: light.first_floor_light_bulbs
-    entities:
-      - entity_id: light.living_room_christmas_tree
   - platform: powercalc
     create_group: Second Floor Lights
     include:
