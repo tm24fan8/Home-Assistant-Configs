@@ -914,6 +914,21 @@ script:
               </p>
             {% endmacro %}
 
+            {% macro confirm_no() %}
+              <p>
+              {{ [
+              'Okay.',
+              'Alright, I will not.',
+              'Copy that, no action taken.',
+              'Well, if you are sure.',
+              'Why do I even ask?',
+              'Okay, sitting on my hands. Wait, I do not have any hands.',
+              'Your wish is my command. Your lack of wish is boring.',
+              'I am so bored.'
+              ] | random }}
+              </p>
+            {% endmacro %}
+
             {% macro interuption() %}
               <p>
               {{ [
@@ -1141,6 +1156,10 @@ script:
 
               {% if call_confirmation == 1 %}
                 {{ confirmation() }}
+              {% endif %}
+
+              {% if call_confirm_no == 1 %}
+                {{ confirm_no() }}
               {% endif %}
 
               {% if call_interuption == 1 %}
