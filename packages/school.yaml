@@ -1,0 +1,252 @@
+input_boolean:
+  school_in_session:
+    name: School In Session
+    icon: mdi:bus-school
+  school_today:
+    name: School Today
+    icon: mdi:bus-school
+  school_early_release:
+    name: School Early Release
+    icon: mdi:bus-school
+  school_today_extended:
+    name: School Today Extended
+    icon: mdi:bus-school
+  kallen_two_hour_delay:
+    name: Kallen Two Hour Delay
+    icon: mdi:bus-clock
+  kallen_school_cancelled:
+    name: Kallen School Cancelled
+    icon: mdi:calendar-remove
+  kallen_band_practice:
+    name: Kallen Band Practice
+    icon: mdi:trumpet
+
+input_datetime:
+  school_first_day:
+    name: First Day of School
+    has_date: true
+    has_time: false
+    icon: mdi:calendar
+  school_last_day:
+    name: Last Day of School
+    has_date: true
+    has_time: false
+    icon: mdi:calendar
+  school_day_start:
+    name: School Day Start
+    has_date: false
+    has_time: true
+    icon: mdi:clock-start
+  school_day_end:
+    name: School Day End
+    has_date: false
+    has_time: true
+    icon: mdi:clock-end
+  thanksgiving_break_start:
+    name: Thanksgiving Break
+    has_date: true
+    has_time: false
+    icon: mdi:calendar-start
+  christmas_break_start:
+    name: Christmas Break
+    has_date: true
+    has_time: false
+    icon: mdi:calendar-start
+  spring_break_start:
+    name: Spring Break
+    has_date: true
+    has_time: false
+    icon: mdi:calendar-start
+  school_day_start_reminder:
+    name: School Day Start Reminder
+    has_date: false
+    has_time: true
+    icon: mdi:clock-alert
+  school_day_end_reminder:
+    name: School Day End Reminder
+    has_date: false
+    has_time: true
+    icon: mdi:clock-alert
+
+sensor:
+  - platform: template
+    sensors:
+      school_start_days2go:
+        value_template: "{{ ((state_attr('input_datetime.school_first_day', 'timestamp')-as_timestamp(now())) | int /60/1440) | round(0) }}"
+        unit_of_measurement: 'Days'
+      school_end_days2go:
+        value_template: "{{ ((state_attr('input_datetime.school_last_day', 'timestamp')-as_timestamp(now())) | int /60/1440) | round(0) }}"
+        unit_of_measurement: 'Days'
+      vacation_days2go:
+        value_template: >
+          {% if state_attr('calendar.vacation', 'start_time') %}
+            {{ ((as_timestamp(strptime(state_attr('calendar.vacation', 'start_time'), '%Y-%m-%d'))-as_timestamp(now())) | int /60/1440) | round(0) }}
+          {% else %}
+            999
+          {% endif %}
+        unit_of_measurement: 'Days'
+      thanksgiving_break_days2go:
+        value_template: "{{ ((state_attr('input_datetime.thanksgiving_break_start', 'timestamp')-as_timestamp(now())) | int /60/1440) | round(0) }}"
+        unit_of_measurement: 'Days'
+      christmas_break_days2go:
+        value_template: "{{ ((state_attr('input_datetime.christmas_break_start', 'timestamp')-as_timestamp(now())) | int /60/1440) | round(0) }}"
+        unit_of_measurement: 'Days'
+      spring_break_days2go:
+        value_template: "{{ ((state_attr('input_datetime.spring_break_start', 'timestamp')-as_timestamp(now())) | int /60/1440) | round(0) }}"
+        unit_of_measurement: 'Days'
+  # - platform: rest
+  #   resource: https://raw.githubusercontent.com/tm24fan8/Home-Assistant-Configs/master/packages/json_data/school.json
+  #   name: School Lunch
+  #   scan_interval: 14400
+  #   value_template: >
+  #     {% set today = now().month  ~ '/' ~ now().day  %}
+  #     {% set lunch =  value_json.MENU.static[ today ] %}
+  #     {%- if lunch %}
+  #       {{ lunch  }}
+  #     {% else %}
+  #       Nothing
+  #     {%- endif %}
+
+  - platform: rest
+    resource: https://raw.githubusercontent.com/tm24fan8/Home-Assistant-Configs/master/packages/json_data/school.json
+    name: School Event
+    scan_interval: 14400
+    value_template: >
+      {% set today = now().month  ~ '/' ~ now().day  %}
+      {% set event =  value_json.EVENTS.static[ today ] %}
+      {%- if event %}
+        {{ event  }}
+      {% else %}
+        Nothing
+      {%- endif %}
+
+automation:
+  - id: e1cb2d02-0423-11eb-adc1-0242ac120002
+    alias: School today
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '04:00:10'
+    condition:
+    - condition: template
+      value_template: >
+        {%- if as_timestamp(strptime(state_attr('calendar.kallen_school_days', 'start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%Y-%m-%d") == now().strftime("%Y-%m-%d") %}
+          true
+        {%- endif -%}
+    action: 
+      - service: script.kallen_school_today
+
+  - id: b9028665-401c-4de3-8f13-1099160b011f
+    alias: School Reset
+    initial_state: true
+    trigger:
+      - platform: time
+        at: input_datetime.school_day_end
+        id: day_end
+      - platform: time
+        at: 00:00
+        id: midnight
+    action: 
+      - if:
+        - condition: trigger
+          id: day_end
+        then:
+        - service: script.kallen_school_reset
+      - if:
+        - condition: trigger
+          id: midnight
+        then:
+        - service: script.kallen_school_reset_late
+
+  - id: 05ee0f8d-5411-4486-8acf-9bfadad2b23a
+    alias: End of School Year
+    initial_state: true
+    trigger:
+      - platform: time
+        at: input_datetime.school_last_day
+    condition:
+      - condition: state
+        entity_id: input_boolean.school_in_session
+        state: 'on'
+    action:
+      - service: script.turn_on
+        entity_id: script.school_year_over
+
+script:
+  kallen_school_today:
+    sequence:
+      - if:
+          - condition: state
+            entity_id: calendar.kallen_early_release
+            state: "on"
+        then:
+          - service: input_boolean.turn_on
+            entity_id: input_boolean.school_early_release
+          - service: input_datetime.set_datetime
+            target:
+              entity_id: input_datetime.school_day_end
+            data:
+              time: "14:30:00"
+        else:
+          - service: input_datetime.set_datetime
+            target:
+              entity_id: input_datetime.school_day_end
+            data:
+              time: >
+                {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','end_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.school_day_start
+        data:
+          time: >
+            {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
+      - service: input_boolean.turn_on
+        entity_id: 
+          - input_boolean.school_today
+          - input_boolean.school_today_extended
+      - service: script.turn_on
+        entity_id: script.school_in_session
+      - delay:
+          seconds: 1
+      - if:
+        - condition: template
+          value_template: >
+            {{ state_attr('input_datetime.school_day_start','timestamp') == 28800 }}
+        then:
+          - service: input_boolean.turn_on
+            entity_id: input_boolean.kallen_band_practice
+
+  kallen_school_reset:
+    sequence:
+      - service: input_boolean.turn_off
+        entity_id: 
+          - input_boolean.school_today
+          - input_boolean.kallen_two_hour_delay
+          - input_boolean.kallen_school_cancelled
+
+  kallen_school_reset_late:
+    sequence:
+      - service: input_boolean.turn_off
+        entity_id: 
+          - input_boolean.school_today_extended
+          - input_boolean.kallen_band_practice
+          - input_boolean.school_early_release
+
+  school_in_session:
+    sequence:
+      - condition: state
+        entity_id: input_boolean.school_in_session
+        state: 'off'
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.school_in_session
+
+  school_year_over:
+    sequence:
+      - condition: state
+        entity_id: input_boolean.school_in_session
+        state: 'on'
+      - condition: template
+        value_template: >
+          {{ states('input_datetime.school_last_day') == now().strftime("%Y-%m-%d") }}
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.school_in_session
