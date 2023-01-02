@@ -314,6 +314,10 @@ script:
         - service: input_boolean.turn_off
           target:
             entity_id: input_boolean.lockdown_issue
+        - service: script.status_annc
+          data:
+            who: living_room
+            call_security_armed: 1
         else:
         - service: input_boolean.turn_on
           target:
@@ -357,3 +361,7 @@ script:
       - service: input_boolean.turn_off
         target:
           entity_id: input_boolean.lockdown_issue
+      - service: script.status_annc
+        data:
+          who: living_room
+          call_security_not_armed: 1

@@ -106,31 +106,15 @@ automation:
           id: security-yes
         then:
         - service: script.security_arm_home
-        - delay:
-            seconds: 1
-        - service: script.speech_engine
-          data:
-            who: "{{ states('sensor.last_alexa') }}"
-            message: >
-              {{ [ "Security is armed, guard dogs deployed, and lasers set from stun to kill!",
-                "The security system is armed. Sentry turrets active, be careful out there!",
-                "Your security is our number one priority. Flamethrower turrets deployed!"
-              ] | random }}
-      - alias: 'If no, leave security alone and be a smartass about it'
+      - alias: 'If no, leave security alone'
         if:
         - condition: trigger
           id: security-no
         then:
-        - service: script.speech_engine
+        - service: script.status_annc
           data:
             who: "{{ states('sensor.last_alexa') }}"
-            message: >
-              {{ [ "Security squadron is standing down, but always at your service!",
-                "Our security forces are currently twiddling their thumbs, awaiting some purpose in their life!",
-                "Security not armed. Hopefully the defense turrets do not become bored!"
-              ] | random }}
-
-
+            call_security_not_armed: 1
 
 script:
   activate_alexa_actionable_notification:
