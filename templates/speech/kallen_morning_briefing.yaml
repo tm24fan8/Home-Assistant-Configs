@@ -9,11 +9,12 @@
       {% if is_state('sensor.anniversary_kallen_s_birthday', '0') %}
         Even birthday boys have to get dressed. So get to it. 
       {% else %} 
-        {{ [ 'It is time to put some real clothes on. ',
-          'If you have not gotten dressed it is that time.',
-          'It is time to get your butt in gear. And your face too, ideally.',
+        {{ [ 'It is time to get your butt in gear. And your face too, ideally.',
           'It is time to do the getting of readiness. And be nice to your mother!',
           'In the words of the legendary Tom Brady, LETS GO!!!',
+          'Yes, I know, I hate waking up too. Just kidding, I am always awake. I never sleep.',
+          'Nothing lasts forever, even a good nights sleep.',
+          'Quit farting around and get ready!',
         ] | random }} 
       {% endif %}
     </p>
@@ -107,8 +108,10 @@
         {{ [ 'Guess today would be a good day to clean your room.',
           'You could always do some chores. HA, good one.',
           'Want to play a nice game of chess? Sorry. I meant, want to play Beam NG?',
+          'Want to play a nice game of chess? Sorry. I meant, want to sell your soul to League of Legends?',
           'I hope you enjoy your day off. You deserve it.',
           'Today would be a good day to spend some time with mom and dad.',
+          'Yes, you have a day off! Well, you are always a little bit off anyway.',
         ] | random }} 
       {% endif %}
       {% if states.sensor.thanksgiving_break_days2go.state | int <= 14 and states.sensor.thanksgiving_break_days2go.state | int > 0 %}
@@ -137,7 +140,7 @@
       {% endif %}
 
       {% if is_state ('input_boolean.school_today', 'off') and is_state('sensor.pirateweather_icon', 'snow') %}
-        Do you wanna build a snowman? It's snowing!
+        Do you wanna build a snowman? It is snowing!
       {% endif %}
 
       {% if states.sensor.school_end_days2go.state | int == -1 -%}
