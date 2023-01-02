@@ -85,7 +85,8 @@ give_me_darkness:
         then:
         - service: script.activate_alexa_actionable_notification
           data_template:
-            text: Would you like me to arm the security system?
+            text: <voice name='Brian'><prosody rate='150%'>Would you like me to arm
+              the security system?</prosody></voice>
             event_id: actionable_notification_night_security_arm
             alexa_device: '{{ states(''sensor.last_alexa'') }}'
           alias: Ask to arm security
@@ -279,11 +280,15 @@ going_upstairs:
   - service: media_player.turn_off
     target:
       entity_id: media_player.basement_tv
+    data: {}
   - service: script.kallen_desktop_shutdown
+    data: {}
   - service: script.asus_laptop_shutdown
+    data: {}
   - service: script.activate_alexa_actionable_notification
     data_template:
-      text: Would you like me to shut down your computer?
+      text: <voice name='Brian'><prosody rate='150%'>Would you like me to shut down
+        your computer?</prosody></voice>
       event_id: actionable_notification_shutdown_computer
       alexa_device: media_player.basement_echo_dot
   - wait_for_trigger:
@@ -304,7 +309,8 @@ basement_on:
   sequence:
   - service: script.activate_alexa_actionable_notification
     data_template:
-      text: Would you like me to turn on the computer for Collin?
+      text: <voice name='Brian'><prosody rate='150%'>Would you like me to turn on
+        the computer for Collin?</prosody></voice>
       event_id: actionable_notification_kallen_computer_on
       alexa_device: '{{ states(''sensor.last_alexa'') }}'
   - service: light.turn_on

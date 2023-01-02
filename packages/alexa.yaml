@@ -27,7 +27,8 @@ automation:
     action:
       - service: script.activate_alexa_actionable_notification
         data_template:
-          text: 'The furnace room light is on, should I turn it off?'
+          text: >-
+            <voice name='Brian'><prosody rate='150%'>The furnace room light is on, should I turn it off?</prosody></voice>
           event_id: 'actionable_notification_furnace_room_light_on'
           alexa_device: 'media_player.basement_echo_dot'
 
