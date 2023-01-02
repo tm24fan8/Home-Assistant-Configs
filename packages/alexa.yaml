@@ -35,14 +35,38 @@ automation:
   - id: 28a97594-eba9-4bcc-afa4-c161b87fa065
     alias: Turn off Furnace Room Light via Actionable Notification
     trigger:
-      platform: event
-      event_type: alexa_actionable_notification
-      event_data:
-        event_id: actionable_notification_furnace_room_light_on
-        event_response_type: ResponseYes
+      - platform: event
+        event_type: alexa_actionable_notification
+        event_data:
+          event_id: actionable_notification_furnace_room_light_on
+          event_response_type: ResponseYes
+        id: furnace-room-yes
+      - platform: event
+        event_type: alexa_actionable_notification
+        event_data:
+          event_id: actionable_notification_furnace_room_light_on
+          event_response_type: ResponseNo
+        id: furnace-room-no
     action:
-      - service: light.turn_off
-        entity_id: light.furnace_room_overhead
+      - if:
+        - condition: trigger
+          id: furnace-room-yes
+        then:
+          - service: light.turn_off
+            target:
+              entity_id: light.furnace_room_overhead
+          - service: script.status_annc
+            data:
+              who: basement
+              call_confirmation: 1
+      - if:
+        - condition: trigger
+          id: furnace-room-no
+        then:
+          - service: script.status_annc
+            data:
+              who: basement
+              call_confirm_no: 1
 
   - id: 922740c8-0c23-4e71-81a8-f88de8b2a8ae
     alias: Shut down computer at end of night
@@ -65,11 +89,19 @@ automation:
         id: shutdown-yes
       then:
         - service: script.tony_desktop_shutdown
+        - service: script.status_annc
+          data:
+            who: basement
+            call_confirmation: 1
     - if:
       - condition: trigger
         id: shutdown-no
       then:
         - service: script.tony_desktop_lock
+        - service: script.status_annc
+          data:
+            who: basement
+            call_confirm_no: 1
 
   - id: 21f6ee35-797e-4066-8f0e-cad964cb0f26
     alias: Boot up Kallen computer when basement on
@@ -79,8 +111,31 @@ automation:
         event_data:
           event_id: actionable_notification_kallen_computer_on
           event_response_type: ResponseYes
+        id: computer-yes
+      - platform: event
+        event_type: alexa_actionable_notification
+        event_data:
+          event_id: actionable_notification_kallen_computer_on
+          event_response_type: ResponseNo
+        id: computer-no
     action:
-      - service: script.kallen_desktop_wake
+      - if:
+        - condition: trigger
+          id: computer-yes
+        then:
+          - service: script.kallen_desktop_wake
+          - service: script.status_annc
+            data:
+              who: "{{ states('sensor.last_alexa') }}"
+              call_confirmation: 1
+      - if:
+        - condition: trigger
+          id: computer-no
+        then:
+          - service: script.status_annc
+            data:
+              who: "{{ states('sensor.last_alexa') }}"
+              call_confirm_no: 1
 
   - id: d1edfcf7-2712-49f4-b8f1-17f5b184b5ce
     alias: Arm security on Give Me Darkness
