@@ -139,7 +139,7 @@ sensor:
               {% elif dow == 'Tuesday' %}
                 Beef, taco salad, refried beans, spanish rice, peaches, and milk.
               {% elif dow == 'Wednesday' %}
-                Pulled Pork, steamed broccoli, carrots, apples, and milk.
+                Optionally, Papa Johns Pizza. Otherwise, pulled pork, steamed broccoli, carrots, apples, and milk.
               {% elif dow == 'Thursday' %}
                 Beef Stroganoff, steamed cauliflower, cucumbers, fresh fruit, and milk.
               {% elif dow == 'Friday' %}
@@ -151,7 +151,7 @@ sensor:
               {% elif dow == 'Tuesday' %}
                 Lasagna, garlic bread, celery, tomatoes, apple crisp, and milk.
               {% elif dow == 'Wednesday' %}
-                Hot ham and cheese, spinach salad, broccoli, fresh fruit, and milk.
+                Optionally, Papa Johns Pizza. Otherwise, hot ham and cheese, spinach salad, broccoli, fresh fruit, and milk.
               {% elif dow == 'Thursday' %}
                 Turkey and noodles, mashed potatoes, carrots, peaches, bread, and milk.
               {% elif down == 'Friday' %}
@@ -163,7 +163,7 @@ sensor:
               {% elif dow == 'Tuesday' %}
                 Toasted cheese, tomato soup, mixed vegetables, fresh fruit, treat, and milk.
               {% elif dow == 'Wednesday' %}
-                Popcorn chicken, mashed potatoes, carrots, apples, corn bread, and milk.
+                Optionally, Papa Johns Pizza. Otherwise, popcorn chicken, mashed potatoes, carrots, apples, corn bread, and milk.
               {% elif dow == 'Thursday' %}
                 Spaghetti, broccoli, green beans, fresh fruit, breadsticks, and milk.
               {% elif dow == 'Friday' %}
@@ -175,7 +175,7 @@ sensor:
               {% elif dow == 'Tuesday' %}
                 Omelet or french toast, sausage, hash browns, tomatoes, orange, and milk.
               {% elif dow == 'Wednesday' %}
-                Hamburger, green beans, cauliflower, apple crisp, and milk.
+                Optionally, Papa Johns Pizza. Otherwise, hamburger, green beans, cauliflower, apple crisp, and milk.
               {% elif dow == 'Thursday' %}
                 Mac and cheese, steamed broccoli, carrots, pears, bread, and milk.
               {% elif dow == 'Friday' %}
