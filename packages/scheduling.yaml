@@ -116,7 +116,7 @@ automation:
     alias: Master Bedroom Scheduling
     trigger:
       - platform: time
-        at: '04:02:10'
+        at: '04:02:00'
         id: mrbedroom-morning
       - platform: time
         at: '16:00:20'
@@ -133,18 +133,26 @@ automation:
         then:
           - service: script.master_bedroom_scheduling_evening
 
-# Eventually will make this an actual morning/evening automation. For now, both triggers do the same thing.
   - id: a69d3d36-09d6-4ef3-a245-c564c7cb577c
     alias: Emma Bedroom Scheduling
     trigger:
       - platform: time
-        at: '04:02:00'
+        at: '04:02:10'
         id: emma-morning
       - platform: time
         at: '16:00:30'
         id: emma-evening
     action:
-      - service: script.emma_bedroom_scheduling
+      - if:
+        - condition: trigger
+          id: emma-morning
+        then:
+          - service: script.emma_bedroom_scheduling_morning
+      - if:
+        - condition: trigger
+          id: emma-evening
+        then:
+          - service: script.emma_bedroom_scheduling_evening
 
 script:
   kallen_scheduling_morning:
@@ -408,7 +416,15 @@ script:
               N/A
             {% endif %}
 
-  emma_bedroom_scheduling:
+# For now, this just ties her wakeup time to the master bedroom wakeup time. In the future this will have more conditions and be independent of other rooms.
+  emma_bedroom_scheduling_morning:
+    sequence:
+      - service: input_datetime.set_datetime
+        entity_id: input_datetime.emma_bedtime
+        data_template:
+          time: "{{ states('input_datetime.master_bedroom_wakeup') }}"
+
+  emma_bedroom_scheduling_evening:
     sequence:
       - service: input_datetime.set_datetime
         entity_id: input_datetime.emma_bedtime
