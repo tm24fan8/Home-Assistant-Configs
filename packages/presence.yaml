@@ -19,6 +19,9 @@ input_boolean:
   kallen_awake:
     name: Kallen Awake
     icon: mdi:eye-check
+  away_mode_skipped:
+    name: Away Mode Skipped
+    icon: mdi:debug-step-over
 
 input_number:
   front_door_opened_today:
@@ -339,6 +342,23 @@ automation:
         target:
           entity_id: scene.doorbell_adaptive_restore
 
+  - id: 481e7756-9549-413f-9b41-5b0f8c5f5cba
+    alias: iOS Skip Away Mode
+    trigger:
+      - platform: event
+        event_type: ios.notification_action_fired
+        event_data:
+          actionName: 'SKIP_AWAY'
+    action:
+      - service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.away_mode_skipped
+      - delay:
+          seconds: 5
+      - service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.away_mode_skipped
+
   - id: 11eee604-db2a-4ab2-a372-70026a4f1a6f
     alias: Door Openings Reset
     trigger:
@@ -360,6 +380,25 @@ script:
     - condition: state
       entity_id: group.family
       state: not_home
+    - service: notify.all_ios
+      data:
+        title: "Everyone Left"
+        message: "Away mode arming in 1 minute"
+        data:
+          actions:
+            - action: "SKIP_AWAY"
+              title: Skip Away Mode
+              icon: mdi:debug-step-over
+    - wait_template: "{{ is_state('input_boolean.away_mode_skipped','on') }}"
+      continue_on_timeout: true
+      timeout:
+        minutes: 1
+    - if:
+      - condition: state
+        entity_id: input_boolean.away_mode_skipped
+        state: "on"
+      then:
+        - stop: Away Mode Skipped
     - service: light.turn_off
       target:
         area_id:
