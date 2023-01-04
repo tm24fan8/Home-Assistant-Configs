@@ -1,5 +1,21 @@
 ios:
   actions:
+    - name: 'mb-climate-manual-day'
+      background_color: '#00B9FF'
+      label:
+        text: "MB Day"
+        color: '#000000'
+      icon:
+        icon: mdi:weather-sunny
+        color: '#FFF000'
+    - name: 'mb-climate-manual-night'
+      background_color: '#003C81'
+      label:
+        text: "MB Night"
+        color: '#E0E0E0'
+      icon:
+        icon: mdi:lightbulb-night
+        color: '#E0E0E0'
     - name: 'Give Me Darkness'
       background_color: '#8600d3'
       label:
