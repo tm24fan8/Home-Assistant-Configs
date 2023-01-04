@@ -415,7 +415,9 @@ script:
         - upstairs_bathroom
     - service: input_boolean.turn_off
       target:
-        entity_id: input_boolean.tina_desk_lights
+        entity_id:
+        - input_boolean.tina_desk_lights
+        - input_boolean.white_noise_emma_bedroom
     - service: fan.turn_off
       target:
         area_id:
