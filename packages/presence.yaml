@@ -186,6 +186,10 @@ mqtt:
       state_topic: "house/family/arrived"
       payload_available: "online"
       payload_not_available: "offline"
+    - name: "Last Outdoor Presence Trigger"
+      state_topic: "house/presence/outdoor/last_trigger"
+      payload_available: "online"
+      payload_not_available: "offline"
 
 automation:
   - id: kallen_at_school
