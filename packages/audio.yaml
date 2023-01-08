@@ -157,7 +157,7 @@ automation:
           value: '{{ states(''sensor.room_audio'') }}'
       - service: mqtt.publish
         data:
-          topic: house/presence/current_room
+          topic: house/presence/indoor/current_room
           payload: '{{ states(''sensor.room_audio'') }}'
           retain: true
 
