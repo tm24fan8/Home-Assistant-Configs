@@ -420,7 +420,7 @@ script:
   emma_bedroom_scheduling_morning:
     sequence:
       - service: input_datetime.set_datetime
-        entity_id: input_datetime.emma_bedtime
+        entity_id: input_datetime.emma_wakeup
         data_template:
           time: "{{ states('input_datetime.master_bedroom_wakeup') }}"
 
