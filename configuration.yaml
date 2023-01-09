@@ -182,7 +182,7 @@ influxdb:
       - sensor.blitzortung_lightning_counter
       - sensor.lines_of_code
       - sensor.mariadb_database_size
-      - sensor.outside_absolutehumidity
+      - sensor.thermal_comfort_absolutehumidity
       - sensor.outside_lights
       - sensor.temperature_change_per_hour
       - sensor.tina_home

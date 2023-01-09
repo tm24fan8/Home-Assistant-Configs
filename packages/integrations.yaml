@@ -41,12 +41,13 @@ tts:
 
 conversation:
 
-thermal_comfort:
-  - custom_icons: true
-    sensor:
-      - name: Outside
-        temperature_sensor: sensor.pirateweather_temperature
-        humidity_sensor: sensor.pirateweather_humidity
+# Moving this to frontend, keeping here for reference
+# thermal_comfort:
+#   - custom_icons: true
+#     sensor:
+#       - name: Outside
+#         temperature_sensor: sensor.pirateweather_temperature
+#         humidity_sensor: sensor.pirateweather_humidity
 
 alexa:
 

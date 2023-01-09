@@ -728,21 +728,21 @@ sensor:
                 Warning, the heat index is {{ heatindex }} degrees right now, which is very high. So please make sure to stay hydrated!
               {% endif %}
             {% endif %}
-            {% if states('sensor.outside_simmerindex') in ['extremely_warm','danger_of_heatstroke','extreme_danger_of_heatstroke','circulatory_collapse_imminent'] %}
+            {% if states('sensor.thermal_comfort_simmerindex') in ['extremely_warm','danger_of_heatstroke','extreme_danger_of_heatstroke','circulatory_collapse_imminent'] %}
               "To reiterate, it is dangerously hot outside! "
             {% endif %}
-            {% if is_state('sensor.outside_perception','somewhat_uncomfortable') %}
+            {% if is_state('sensor.thermal_comfort_perception','somewhat_uncomfortable') %}
               "The humidity is somewhat uncomfortable outside."
-            {% elif is_state('sensor.outside_perception','quite_uncomfortable') %}
+            {% elif is_state('sensor.thermal_comfort_perception','quite_uncomfortable') %}
               "The humidity is very uncomfortable outside. "
-            {% elif is_state('sensor.outside_perception','extremely_uncomfortable') %}
+            {% elif is_state('sensor.thermal_comfort_perception','extremely_uncomfortable') %}
               "The humidity outside is extremely uncomfortable and oppresive. "
-            {% elif is_state('sensor.outside_perception','severely_high') %}
+            {% elif is_state('sensor.thermal_comfort_perception','severely_high') %}
               "The humidity outside is severely high, and could even be deadly for asthma related illnesses. "
             {% endif %}
-            {% if is_state('sensor.outside_frostrisk','high') %}
+            {% if is_state('sensor.thermal_comfort_frostrisk','high') %}
               "There is currently a high chance of frost outside. Plan accordingly! "
-            {% elif is_state('sensor.outside_frostrisk','probable') %}
+            {% elif is_state('sensor.thermal_comfort_frostrisk','probable') %}
               "The possibility of frost exists currently. Be prepared. "
             {% endif %}
           {%- endmacro -%}
