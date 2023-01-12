@@ -16,6 +16,14 @@ ios:
       icon:
         icon: mdi:lightbulb-night
         color: '#E0E0E0'
+    - name: 'Basement On'
+      background_color: '#8600d3'
+      label:
+        text: "Basement On"
+        color: '#FFFFFF'
+      icon:
+        icon: hue:room-stairs
+        color: '#FFFFFF'
     - name: 'Give Me Darkness'
       background_color: '#8600d3'
       label:
