@@ -508,8 +508,9 @@ script:
           - living_room
           - dining_room
           - mud_room
-          entity_id:
-          - light.tina_lamp
+      - service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.tina_desk_lights
       - delay:
           hours: 0
           minutes: 0
