@@ -245,7 +245,7 @@ script:
       - choose:
         - conditions:
           - condition: state
-            entity_id: input_boolean.early_night_mode
+            entity_id: binary_sensor.early_night_mode
             state: 'on'
           sequence:
           - service: input_select.select_option

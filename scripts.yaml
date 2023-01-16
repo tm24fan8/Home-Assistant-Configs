@@ -438,7 +438,6 @@ freeze_cleanup:
     data: {}
     target:
       entity_id:
-      - input_boolean.early_night_mode
       - input_boolean.night_mode
       - input_boolean.shower_mode
   - service: switch.turn_off

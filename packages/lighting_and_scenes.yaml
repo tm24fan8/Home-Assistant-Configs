@@ -386,7 +386,7 @@ automation:
         then:
         - if:
           - condition: state
-            entity_id: input_boolean.early_night_mode
+            entity_id: binary_sensor.early_night_mode
             state: 'off'
           then:
           - service: input_select.select_option
@@ -398,7 +398,7 @@ automation:
           - condition: and
             conditions:
               - condition: state
-                entity_id: input_boolean.early_night_mode
+                entity_id: binary_sensor.early_night_mode
                 state: 'on'
               - condition: state
                 entity_id: input_boolean.give_me_darkness

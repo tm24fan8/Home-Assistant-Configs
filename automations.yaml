@@ -211,7 +211,7 @@
   action:
   - if:
     - condition: state
-      entity_id: input_boolean.early_night_mode
+      entity_id: binary_sensor.early_night_mode
       state: 'on'
     then:
     - service: script.family_is_home_night
@@ -352,7 +352,7 @@
           state: 'on'
           alias: Is holiday mode on?
         - condition: state
-          entity_id: input_boolean.early_night_mode
+          entity_id: binary_sensor.early_night_mode
           state: 'on'
           alias: Is early night mode on?
         alias: Test conditions
