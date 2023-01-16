@@ -24,6 +24,11 @@
   before: '09:00'
 
 - platform: tod
+  name: Late Morning
+  after: '09:00'
+  before: '12:00'
+
+- platform: tod
   name: Midday
   after: '09:00'
   before: '17:00'
