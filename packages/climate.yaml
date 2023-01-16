@@ -76,6 +76,9 @@ input_boolean:
   hot_day:
     name: Hot Day
     icon: mdi:heat-wave
+  cold_day:
+    name: Cold Day
+    icon: mdi:snowflake
 
 input_select:
   scheduled_climate_mode_master_bedroom_aircon:
@@ -174,6 +177,12 @@ input_number:
     name: Hot Day Threshold
     min: 70
     max: 90
+    step: 1
+    unit_of_measurement: °F
+  cold_day_threshold:
+    name: Cold Day Threshold
+    min: 0
+    max: 40
     step: 1
     unit_of_measurement: °F
 

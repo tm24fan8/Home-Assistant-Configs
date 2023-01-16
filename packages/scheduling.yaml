@@ -327,6 +327,22 @@ script:
         - service: input_boolean.turn_off
           target:
             entity_id: input_boolean.hot_day
+      - if:
+        - condition: template
+          value_template: >
+            {% if state_attr('sensor.current_forecast','high_temp') >= states('input_number.cold_day_threshold') %}
+              true
+            {% else %}
+              false
+            {% endif %}
+        then:
+        - service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.cold_day
+        else:
+        - service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.cold_day
 
   house_scheduling_evening:
     sequence:
