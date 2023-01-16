@@ -176,15 +176,31 @@ input_number:
   hot_day_threshold:
     name: Hot Day Threshold
     min: 70
-    max: 90
+    max: 100
     step: 1
     unit_of_measurement: °F
+    icon: mdi:thermometer
+  heat_index_threshold:
+    name: Heat Index Threshold
+    min: 70
+    max: 100
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
   cold_day_threshold:
     name: Cold Day Threshold
     min: 0
     max: 40
     step: 1
     unit_of_measurement: °F
+    icon: mdi:thermometer
+  wind_chill_threshold:
+    name: Wind Chill Threshold
+    min: 0
+    max: 40
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
 
 automation:
   - id: '1655415573165'
