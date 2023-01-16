@@ -3,43 +3,43 @@
     sensor_count:
       friendly_name: 'Number of Sensors'
       value_template: >-
-        {{ states.sensor | rejectattr('state', 'eq', 'unavailable') | list | count }}
+        {{ states.sensor | rejectattr('state', 'eq', 'unavailable') | list | count | int}}
     automation_count:
       friendly_name: 'Number of Automations'
       value_template: >-
-        {{ states.automation| rejectattr('state', 'eq', 'unavailable') | list | count }}
+        {{ states.automation| rejectattr('state', 'eq', 'unavailable') | list | count | int }}
     script_count:
       friendly_name: 'Number of Scripts'
       value_template: >-
-        {{ states.script | rejectattr('state', 'eq', 'unavailable') | list | count }}
+        {{ states.script | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
     binary_sensor_count:
       friendly_name: 'Number of Binary Sensors'
       value_template: >-
-        {{ states.binary_sensor | rejectattr('state', 'eq', 'unavailable') | list | count }}
+        {{ states.binary_sensor | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
     tracker_count:
       friendly_name: 'Number of Devices'
       value_template: >-
-        {{ states.device_tracker| rejectattr('state', 'eq', 'unavailable') | list | count }}
+        {{ states.device_tracker| rejectattr('state', 'eq', 'unavailable') | list | count | int }}
     lights_count:
       friendly_name: 'Number of Lights'
       value_template: >-
-        {{ states.light | rejectattr('state', 'eq', 'unavailable') | list | count }}
+        {{ states.light | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
     switches_count:
       friendly_name: 'Number of Switches'
       value_template: >-
-        {{ states.switch | rejectattr('state', 'eq', 'unavailable') | list | count }}
+        {{ states.switch | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
     camera_count:
       friendly_name: 'Number of online Cameras'
       value_template: >-
-        {{ states.camera | rejectattr('state', 'eq', 'unavailable') | list | count }}
+        {{ states.camera | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
     entities_count:
       friendly_name: 'Number of Entities'
       value_template: >-
-        {{ states | rejectattr('state', 'eq', 'unavailable') | list | count}}
+        {{ states | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
     na_entities_count:
       friendly_name: 'Number of NA Entities'
       value_template: >-
-        {{ states | selectattr('state', 'eq', 'unavailable') | map(attribute='entity_id') | list | count }}
+        {{ states | selectattr('state', 'eq', 'unavailable') | map(attribute='entity_id') | list | count | int }}
     current_lights_on:
       friendly_name: Current Lights On
       unit_of_measurement: 'on'
@@ -73,7 +73,7 @@
           states.light.emma_bedroom_light,
           states.light.front_porch_light
         ] %}
-        {{ lights | selectattr('state','eq','on') | list | count }}
+        {{ lights | selectattr('state','eq','on') | list | count | int }}
     first_floor_lights_on:
       friendly_name: First Floor Lights On
       unit_of_measurement: 'on'
@@ -90,7 +90,7 @@
           states.light.tina_lamp_side,
           states.light.tina_desk_strip
         ] %}
-        {{ lights | selectattr('state','eq','on') | list | count }}
+        {{ lights | selectattr('state','eq','on') | list | count | int }}
     second_floor_lights_on:
       friendly_name: Second Floor Lights On
       unit_of_measurement: 'on'
@@ -109,7 +109,7 @@
           states.light.kallen_bedroom_overhead,
           states.light.emma_bedroom_light
         ] %}
-        {{ lights | selectattr('state','eq','on') | list | count }}
+        {{ lights | selectattr('state','eq','on') | list | count | int }}
     basement_lights_on:
       friendly_name: Basement Lights On
       unit_of_measurement: 'on'
@@ -120,7 +120,7 @@
           states.light.basement_short_lamp,
           states.light.basement_led_strip_1
         ] %}
-        {{ lights | selectattr('state','eq','on') | list | count }}
+        {{ lights | selectattr('state','eq','on') | list | count | int }}
     current_fans_on:
       friendly_name: Current Fans On
       unit_of_measurement: 'on'
@@ -131,7 +131,7 @@
           states.fan.master_bedroom_fan,
           states.fan.emma_air_conditioner
         ] %}
-        {{ fans | selectattr('state','eq','on') | list | count }}
+        {{ fans | selectattr('state','eq','on') | list | count | int }}
     current_outdoor_lights_on:
       friendly_name: Current Outdoor Lights On
       unit_of_measurement: 'on'
@@ -139,7 +139,7 @@
         {% set lights = [
           states.light.front_porch_light
         ] %}
-        {{ lights | selectattr('state','eq','on') | list | count }}
+        {{ lights | selectattr('state','eq','on') | list | count | int }}
     climate_devices_installed:
       friendly_name: Climate Devices Installed
       unit_of_measurement: 'installed'
@@ -148,7 +148,7 @@
           states.input_boolean.master_bedroom_aircon_installed,
           states.input_boolean.emma_bedroom_aircon_installed
         ] %}
-        {{ devices | selectattr('state','eq','on') | list | count }}
+        {{ devices | selectattr('state','eq','on') | list | count | int }}
     front_porch_color_temp:
       friendly_name: Front Porch Color Temp
       unit_of_measurement: 'mireds'
