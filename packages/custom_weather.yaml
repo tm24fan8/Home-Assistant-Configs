@@ -12,6 +12,23 @@ weather:
     attribution_template: "Weather data from Iron Nerd's custom weather station template"
     ozone_template: "{{ states('sensor.pirateweather_ozone') | float }}"
 
+template:
+  - binary_sensor:
+    - name: Heat Threshold
+      state: >
+        {% set high = states('sensor.pirateweather_temperature') | int %}
+        {% set threshold = states('input_number.hot_day_threshold') | int %}
+        {% if high >= threshold %}
+          true
+        {% else %}
+          false
+        {% endif %}
+      delay_off: '00:30:00'
+      device_class: heat
+      attributes:
+        current_temp: "{{ states('sensor.pirateweather_temperature') | int }}"
+        threshold: "{{ states('input_number.hot_day_threshold') | int }}"
+
 sensor:
   - platform: weatheralerts
     state: OH
