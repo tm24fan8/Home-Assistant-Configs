@@ -4,11 +4,6 @@
   workdays: [mon, tue, wed, thu, fri]
 
 - platform: tod
-  name: School
-  after: '09:00'
-  before: '15:30'
-
-- platform: tod
   name: Night
   after: sunset
   before: sunrise
