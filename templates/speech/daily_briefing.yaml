@@ -22,38 +22,7 @@
         {% endif %}
       
       <p>
-        The weather in Defiance is {{ state_attr('weather.iron_nerd_weather_station','temperature') | round }} degrees
-        {% if is_state('weather.iron_nerd_weather_station','rainy') %}
-          {{ [
-          'with rain.',
-          'with showers.'
-          ] | random }}
-        {% elif is_state('weather.iron_nerd_weather_station','cloudy') %}
-          {{ [
-          'with clouds.',
-          'with cloudy skies.'
-          ] | random }}
-        {% elif is_state('weather.iron_nerd_weather_station','partlycloudy') %}
-          {{ [
-          'with some clouds.',
-          'with partly cloudy skies.',
-          'with scattered clouds.'
-          ] | random }}
-        {% elif is_state('weather.iron_nerd_weather_station','sunny') %}
-          {% if is_state('sun.sun','above_horizon') %}
-            {{ [
-            'and sunny.',
-            'with sun.'
-            ] | random }}
-          {% else %}
-            {{ [
-            'and clear.',
-            'with clear skies.'
-            ] | random }}
-          {% endif %}
-        {% else %}
-          and {{ states.weather.iron_nerd_weather_station.state }}
-        {% endif %}
+        {{ states('sensor.current_conditions_detail') }}
 
         {% if states('sensor.weatheralerts_active_alerts') > '0' %}
           "Currently there are weather alerts active. The total number of alerts is {{ states('sensor.weatheralerts_active_alerts') }}. They are as follows. "
@@ -73,6 +42,24 @@
               "{{ state_attr('sensor.weatheralerts_alert_5','alert_event') }}"
             {% endif %}
         {% endif %}
+      </p>
+
+      <p>
+        {{ [
+          'The weather for the rest of today should be,',
+          'The forecast for the rest of the day is,',
+          'Through the rest of your day, the weather is expected to be,'
+          ] | random }}
+          {{ states.sensor.current_forecast.state }}
+      </p>
+
+      <p>
+        {{ [
+          'Just in case you were planning on going anywhere,',
+          'On the off chance that you planned to go outside,',
+          'If you were planning to go out and do something with your life,',
+          ] | random }}
+          {{ states('sensor.clothing_forecast_detail') }}
       </p>
 
       <p>

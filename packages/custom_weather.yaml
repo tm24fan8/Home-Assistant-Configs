@@ -28,6 +28,20 @@ template:
         current_temp: "{{ states('sensor.pirateweather_temperature') | int }}"
         threshold: "{{ states('input_number.hot_day_threshold') | int }}"
   - binary_sensor:
+    - name: Heat Index Threshold
+      state: >
+        {% set feelslike = states('sensor.pirateweather_apparent_temperature') | int %}
+        {% set threshold = states('input_number.heat_index_threshold') | int %}
+        {% if feelslike >= threshold %}
+          true
+        {% else %}
+          false
+        {% endif %}
+      device_class: heat
+      attributes:
+        current_temp: "{{ states('sensor.pirateweather_apparent_temperature') | int }}"
+        threshold: "{{ states('input_number.heat_index_threshold') | int }}"
+  - binary_sensor:
     - name: Cold Threshold
       state: >
         {% set temp = states('sensor.pirateweather_temperature') | int %}
@@ -41,6 +55,20 @@ template:
       attributes:
         current_temp: "{{ states('sensor.pirateweather_temperature') | int }}"
         threshold: "{{ states('input_number.cold_day_threshold') | int }}"
+  - binary_sensor:
+    - name: Wind Chill Threshold
+      state: >
+        {% set feelslike = states('sensor.pirateweather_apparent_temperature') | int %}
+        {% set threshold = states('input_number.wind_chill_threshold') | int %}
+        {% if feelslike <= threshold %}
+          true
+        {% else %}
+          false
+        {% endif %}
+      device_class: cold
+      attributes:
+        current_temp: "{{ states('sensor.pirateweather_temperature') | int }}"
+        threshold: "{{ states('input_number.wind_chill_threshold') | int }}"
 
 sensor:
   - platform: weatheralerts
@@ -492,8 +520,7 @@ sensor:
                   'Rainfall accumulations ',
                   'Total Rainfall amounts '
                   ] | random }}
-                  near {{ state_attr('sensor.current_forecast','precipitation') }} inches
-                  possible.
+                  near {{ state_attr('sensor.current_forecast','precipitation') }} inches possible.
               {%- elif states('sensor.current_forecast') == 'snowy' %}
                 {{ [
                   'with snow. ',
@@ -510,8 +537,7 @@ sensor:
                     'with mix preciptation possible. ',
                     'with snow and rain showers. '
                     ] | random }}
-                Total accumulation near {{ state_attr('sensor.current_forecast','precipitation') }} inches
-                  possible.
+                Total accumulation near {{ state_attr('sensor.current_forecast','precipitation') }} inches possible.
               {%- elif states('sensor.current_forecast') == 'windy' %}
                 {{ [
                   'and windy. ',
@@ -561,26 +587,26 @@ sensor:
                   'Overnight expect a low of '
                   ] | random }}
               {{ state_attr('sensor.current_forecast','overnight_low') }} degrees.
-          {%- else -%}
-            {{ [
-                  'Tonight expect a low of ',
-                  'Overnight expect a low of '
-                  ] | random }}
-              {{ state_attr('sensor.current_forecast','overnight_low') }} degrees.
-          {% endif %}
+            {%- else -%}
+              {{ [
+                    'Tonight expect a low of ',
+                    'Overnight expect a low of '
+                    ] | random }}
+                {{ state_attr('sensor.current_forecast','overnight_low') }} degrees.
+            {% endif %}
           {%- endmacro -%}
           {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
-            {%- macro cleanup(data) -%}
-              {%- for item in data.split("\n")  if item | trim != "" -%}
-                {{ item | trim }} {% endfor -%}
+          {%- macro cleanup(data) -%}
+            {%- for item in data.split("\n")  if item | trim != "" -%}
+              {{ item | trim }} {% endfor -%}
           {%- endmacro -%}
           {# a macro to call all macros :)  #}
-            {%- macro mother_of_all_macros() -%}
-              {{ getReport() }}
-            {%- endmacro -%}
+          {%- macro mother_of_all_macros() -%}
+            {{ getReport() }}
+          {%- endmacro -%}
 
-            {# Call the macro  #}
-            {{- cleanup(mother_of_all_macros()) -}}
+          {# Call the macro  #}
+          {{- cleanup(mother_of_all_macros()) -}}
       outside_pressure:
         friendly_name: 'Outside Pressure'
         value_template: '{{ state_attr(''weather.iron_nerd_weather_station'',''pressure'') }}'
@@ -690,9 +716,11 @@ sensor:
               {% else %}
                 It is going to be {{ states('sensor.clothing_forecast') }} today so I suggest wearing shorts.
               {% endif %}
-              {% set high = state_attr('sensor.current_forecast','high_temp') %}
-              {% if high > 85 %}
+              {% if is_state('input_boolean.hot_day','on') %}
                 Warning, today will be a very sweaty day, so please remember to stay hydrated!
+              {% endif %}
+              {% if is_state('input_boolean.cold_day','on') %}
+                Warning, today will be excessively cold, please make sure all exposed skin is covered to avoid frostbite!
               {% endif %}
             {% else %}
               Based on the current temperature,
@@ -753,13 +781,15 @@ sensor:
               {% else %}
                 It is {{ states('sensor.clothing_forecast') }} right now so I suggest wearing shorts.
               {% endif %}
-              {% set heatindex = states('sensor.pirateweather_apparent_temperature') | float | round %}
-              {% if heatindex > 90 %}
-                Warning, the heat index is {{ heatindex }} degrees right now, which is very high. So please make sure to stay hydrated!
+              {% if is_state('binary_sensor.heat_index_threshold','on') %}
+                Warning, the heat index is {{ states('sensor.pirateweather_apparent_temperature') | float | round }} degrees right now, which is very high. So please make sure to stay hydrated!
+              {% endif %}
+              {% if is_state('binary_sensor.wind_chill_threshold','on') %}
+                Warning, it currently feels like {{ states('sensor.pirateweather_apparent_temperature') | float | round }} degrees outside, so please make sure all exposed skin is covered to avoid frostbite!
               {% endif %}
             {% endif %}
             {% if states('sensor.thermal_comfort_simmerindex') in ['extremely_warm','danger_of_heatstroke','extreme_danger_of_heatstroke','circulatory_collapse_imminent'] %}
-              "To reiterate, it is dangerously hot outside! "
+              "To reiterate, the current weather is dangerously hot! "
             {% endif %}
             {% if is_state('sensor.thermal_comfort_perception','somewhat_uncomfortable') %}
               "The humidity is somewhat uncomfortable outside."
