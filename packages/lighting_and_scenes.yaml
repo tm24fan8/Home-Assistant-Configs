@@ -48,6 +48,13 @@ input_number:
     step: 1
     unit_of_measurement: minutes
     icon: mdi:timer
+  downstairs_bathroom_lights_off_delay:
+    name: Downstairs Bathroom Lights Off Delay
+    min: 0
+    max: 60
+    step: 1
+    unit_of_measurement: minutes
+    icon: mdi:timer
 
 input_select:
   living_room_scenes:
