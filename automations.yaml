@@ -372,6 +372,11 @@
       data: {}
     - service: script.kallen_desktop_refresh
       data: {}
+    - service: mqtt.publish
+      data:
+        topic: house/basement/server/glances
+        payload: restart
+      alias: Restart Glances via MQTT
     - if:
       - condition: state
         entity_id: input_boolean.studio_quiet
