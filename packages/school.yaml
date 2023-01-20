@@ -278,6 +278,7 @@ automation:
 
 script:
   kallen_school_today:
+    alias: 'Kallen School Today'
     sequence:
       - if:
           - condition: state
@@ -321,6 +322,7 @@ script:
             entity_id: input_boolean.kallen_band_practice
 
   kallen_school_reset:
+    alias: 'Kallen School Reset'
     sequence:
       - service: input_boolean.turn_off
         entity_id: 
@@ -329,6 +331,7 @@ script:
           - input_boolean.kallen_school_cancelled
 
   kallen_school_reset_late:
+    alias: 'Kallen School Reset Late'
     sequence:
       - service: input_boolean.turn_off
         entity_id: 
@@ -337,6 +340,7 @@ script:
           - input_boolean.school_early_release
 
   school_in_session:
+    alias: 'School In Session'
     sequence:
       - condition: state
         entity_id: input_boolean.school_in_session
@@ -345,6 +349,7 @@ script:
         entity_id: input_boolean.school_in_session
 
   school_year_over:
+    alias: 'School Year Over'
     sequence:
       - condition: state
         entity_id: input_boolean.school_in_session

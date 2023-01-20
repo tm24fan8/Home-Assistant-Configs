@@ -23,6 +23,7 @@ input_select:
 
 script:
   alexa_interjection:
+    alias: 'Alexa Interjection'
     sequence:
       - service: script.status_annc
         data:
@@ -30,6 +31,7 @@ script:
           call_confirmation: 1
 
   google_interjection:
+    alias: 'Google Interjection'
     sequence:
       - service: script.status_annc
         data:

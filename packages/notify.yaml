@@ -212,6 +212,7 @@ script:
 # Txt Notify
 ###############################################################################
   text_notify:
+    alias: 'Text Notify'
     sequence:
       - condition: state
         entity_id: input_boolean.text_notifications
@@ -301,6 +302,7 @@ script:
                 message: '{{ message }}'
 
   tv_notify:
+    alias: 'TV Notify'
     sequence:
       - condition: state
         entity_id: input_boolean.tv_notifications
@@ -343,6 +345,7 @@ script:
             data: '{{ data if data is defined else "{}" }}'
 
   text_alert:
+    alias: 'Text Alert'
     sequence:
       - service: >
             {% if who == 'tony' %}
@@ -373,6 +376,7 @@ script:
           #   entity_id: '{{ camera_entity }}'
 
   text_alert_image:
+    alias: 'Text Alert Image'
     sequence:
       - service: >
             {% if who == 'tony' %}
@@ -403,6 +407,7 @@ script:
           #   entity_id: '{{ camera_entity }}'
 
   text_urgent_alert:
+    alias: 'Text Urgent Alert'
     sequence:
       - service: >
           {% if who == 'tony' %}
@@ -436,6 +441,7 @@ script:
 #   => iOS 
 ###############################################################################
   alert_notify:
+    alias: 'Alert Notify'
     sequence:
       - condition: state
         entity_id: input_boolean.vacation_mode
@@ -447,6 +453,7 @@ script:
             {{ message }}
 
   jarvis_alert:
+    alias: 'Jarvis Alert'
     sequence:
     - service: mqtt.publish
       data_template:
@@ -518,6 +525,7 @@ script:
 ###############################################################################
 
   speech_engine:
+    alias: 'Speech Engine'
     variables:
       voice: "{{ states('input_select.jarvis_voice') }}"
     sequence:
@@ -639,6 +647,7 @@ script:
   #
   # 
   speech_engine_simplified:
+    alias: 'Speech Engine Simplified'
     sequence:
       - condition: state
         entity_id: input_boolean.audible_notifications
@@ -689,6 +698,7 @@ script:
   
   # Called wheh notification needs to play on echos
   alexa_voice:
+    alias: 'Alexa Voice'
     sequence:
     - service: notify.alexa_media
       data:
@@ -721,6 +731,7 @@ script:
 
   # Default audible notifications. Notifcations play on the google devices. 
   jarvis_voice:
+    alias: 'Jarvis Voice'
     sequence:
     - service: media_player.turn_on
       data_template:
@@ -777,6 +788,7 @@ script:
         cache: true
 
   nabu_voice:
+    alias: 'Nabu Voice'
     sequence:
     - service: media_player.turn_on
       data_template:
@@ -855,6 +867,7 @@ script:
   #         {{ states.input_number.old_volume.state }}    
 
   play_last_message:
+    alias: 'Play Last Message'
     sequence:
       - service: script.speech_engine_simplified
         data:
@@ -866,6 +879,7 @@ script:
           msg_summary: "recall"
 
   notify_mqtt:
+    alias: 'Notify MQTT'
     sequence:
       - service: mqtt.publish
         data:
@@ -874,6 +888,7 @@ script:
           retain: true
 
   status_annc:
+    alias: 'Status Announce'
     sequence:
       - service: script.speech_engine
         data:

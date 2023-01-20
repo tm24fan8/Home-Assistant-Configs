@@ -156,6 +156,7 @@ automation:
 
 script:
   kallen_scheduling_morning:
+    alias: 'Kallen Scheduling Morning'
     sequence:
       - service: input_datetime.set_datetime
         entity_id: input_datetime.school_day_start
@@ -228,6 +229,7 @@ script:
             {% endif %}
 
   kallen_scheduling_evening:
+    alias: 'Kallen Scheduling Evening'
     sequence:
       - service: input_datetime.set_datetime
         entity_id: input_datetime.kallen_bedtime
@@ -261,6 +263,7 @@ script:
             {% endif %}
 
   house_scheduling_morning:
+    alias: 'House Scheduling Morning'
     sequence:
       - service: input_datetime.set_datetime
         entity_id: input_datetime.audible_notification_on
@@ -345,6 +348,7 @@ script:
             entity_id: input_boolean.cold_day
 
   house_scheduling_evening:
+    alias: 'House Scheduling Evening'
     sequence:
       - service: input_datetime.set_datetime
         entity_id: input_datetime.nightly_report
@@ -362,6 +366,7 @@ script:
             {% endif %}
 
   master_bedroom_scheduling_morning:
+    alias: 'Master Bedroom Scheduling Morning'
     sequence:
       - service: input_datetime.set_datetime
         entity_id: input_datetime.master_bedroom_wakeup
@@ -378,6 +383,7 @@ script:
             {% endif %}
 
   master_bedroom_scheduling_evening:
+    alias: 'Master Bedroom Scheduling Evening'
     sequence:
       - service: input_datetime.set_datetime
         entity_id: input_datetime.master_bedroom_cooling
@@ -434,6 +440,7 @@ script:
 
 # For now, this just ties her wakeup time to the master bedroom wakeup time. In the future this will have more conditions and be independent of other rooms.
   emma_bedroom_scheduling_morning:
+    alias: 'Emma Bedroom Scheduling Morning'
     sequence:
       - service: input_datetime.set_datetime
         entity_id: input_datetime.emma_wakeup
@@ -441,6 +448,7 @@ script:
           time: "{{ states('input_datetime.master_bedroom_wakeup') }}"
 
   emma_bedroom_scheduling_evening:
+    alias: 'Emma Bedroom Scheduling Evening'
     sequence:
       - service: input_datetime.set_datetime
         entity_id: input_datetime.emma_bedtime
@@ -471,6 +479,7 @@ script:
             {% endif %}
 
   security_scheduling:
+    alias: Security Scheduling
     sequence:
       - service: input_datetime.set_datetime
         entity_id: input_datetime.morning_alarm_disarm

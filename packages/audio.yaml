@@ -46,6 +46,7 @@ script:
   #     media: /media/local_audio.mp3
   #
   local_audio:
+    alias: 'Local Audio'
     sequence:
     # Ensure that audible notifications are allowed. Comment out if not needed.
     - condition: state
@@ -93,6 +94,7 @@ script:
   #     media: https://www.youtube.com/watch?v=pVeX4C9B1Lk
   #
   youtube_audio:
+    alias: 'Youtube Audio'
     sequence:
     # Ensure that audible notifications are allowed. Comment out if not needed.
     - condition: state

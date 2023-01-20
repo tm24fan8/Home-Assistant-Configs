@@ -929,6 +929,7 @@ script:
   #       entity_id: sensor.flood_watch
 
   weather_briefing:
+    alias: 'Weather Briefing'
     sequence:
     - service: script.speech_engine
       data_template:

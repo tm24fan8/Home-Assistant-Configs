@@ -216,12 +216,14 @@ script:
         entity_id: input_boolean.good_morning_report
 
   morning_briefing:
+    alias: 'Morning Briefing'
     sequence:
       - service: button.press
         target:
           entity_id: button.good_morning
 
   kallen_nightly_briefing:
+    alias: 'Kallen Nightly Briefing'
     sequence:
     - service: script.speech_engine
       data: 
@@ -234,6 +236,7 @@ script:
         message: "I just gave Kallen's nightly briefing."
 
   kallen_morning_briefing:
+    alias: 'Kallen Morning Briefing'
     sequence:
       - service: script.speech_engine
         data:
@@ -253,6 +256,7 @@ script:
           message: "I just gave Kallen's morning briefing"
 
   kallen_school_status:
+    alias: 'Kallen School Status'
     sequence:
       - service: script.speech_engine
         data:
@@ -261,6 +265,7 @@ script:
           voice: Joanna
 
   daily_briefing:
+    alias: 'Daily Briefing'
     sequence:
     - service: script.speech_engine
       data_template:
@@ -268,6 +273,7 @@ script:
         message: !include ../templates/speech/daily_briefing.yaml
 
   nightly_briefing:
+    alias: 'Nightly Briefing'
     sequence:
       - service: script.speech_engine
         data_template:
@@ -275,6 +281,7 @@ script:
           message: !include ../templates/speech/nightly_briefing.yaml
 
   morning_report:
+    alias: 'Morning Report'
     sequence:
     - service: script.speech_engine
       data_template:
@@ -282,6 +289,7 @@ script:
         message: !include ../templates/speech/morning_briefing.yaml
 
   dinner_is_ready:
+    alias: 'Dinner Is Ready'
     sequence:
     - service: script.status_annc
       data_template:
@@ -289,6 +297,7 @@ script:
         call_dinner_is_ready: 1
 
   we_are_leaving:
+    alias: 'We Are Leaving'
     sequence:
     - service: script.status_annc
       data_template:
@@ -296,6 +305,7 @@ script:
         call_we_are_leaving: 1
 
   welcome_home:
+    alias: 'Welcome Home'
     sequence:
       - condition: state
         entity_id: input_boolean.welcome_home
