@@ -1502,17 +1502,7 @@ automation:
         entity_id: input_boolean.lightning_warning
         state: 'off'
     action:
-      - service: script.text_alert
-        data:
-          who: 'all'
-          title: "Lightning Detected!"
-          message: >-
-            {% set ltgdist = (states('sensor.blitzortung_lightning_distance') | int) / 1.609 | round %}
-            "Lightning has been detected within 20 miles of the house. Nearest storm is {{ ltgdist }} miles away."
-      - service: input_boolean.turn_on
-        target:
-          entity_id: input_boolean.lightning_warning
-      - service: script.lightning_warning_audible
+      - service: script.lightning_warning
 
 
   - id: df317cd2-b5c6-43a7-a587-844403a4a0ad
@@ -1526,14 +1516,7 @@ automation:
         entity_id: input_boolean.lightning_warning
         state: 'on'
     action:
-      - service: script.text_alert
-        data:
-          who: 'all'
-          title: "Lightning Clear"
-          message: "The lightning threat has passed. It is safe to resume normal activities."
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.lightning_warning
-      - service: script.lightning_clear_audible
+      - service: script.lightning_clear
 
 
   - id: 9e34264f-b3c8-4537-ba31-b5915f2fd326
@@ -1574,7 +1557,8 @@ automation:
 ## script ##
 
 script:
-  lightning_warning_audible:
+  lightning_warning:
+    alias: 'Lightning Warning'
     sequence: 
       - condition: state
         entity_id:  input_boolean.audible_notifications
@@ -1614,22 +1598,37 @@ script:
           who: 'common'
           call_interuption: 1
           call_lightning_alert: 1
+      - service: script.text_alert
+        data:
+          who: 'all'
+          title: "Lightning Detected!"
+          message: >-
+            {% set ltgdist = (states('sensor.blitzortung_lightning_distance') | int) / 1.609 | round %}
+            "Lightning has been detected within 20 miles of the house. Nearest storm is {{ ltgdist }} miles away."
+      - service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.lightning_warning
       - delay:
           seconds: 10
       - service: scene.turn_on
         target:
           entity_id: scene.lightning_alert_restore
   
-  lightning_clear_audible:
+  lightning_clear:
+    alias: 'Lightning Clear'
     sequence: 
-      - condition: state
-        entity_id:  input_boolean.audible_notifications
-        state: 'on'
       - service: script.status_annc
         data_template:
           who: 'common'
           call_interuption: 1
           call_lightning_clear: 1
+      - service: script.text_alert
+        data:
+          who: 'all'
+          title: "Lightning Clear"
+          message: "The lightning threat has passed. It is safe to resume normal activities."
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.lightning_warning
 
   ## Script creates UI notification and is called via automation defined above
   weatheralerts_popup_on_wx_alert:
