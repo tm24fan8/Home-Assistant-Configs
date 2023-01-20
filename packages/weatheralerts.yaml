@@ -1499,6 +1499,7 @@ automation:
     action:
       - service: script.text_alert
         data:
+          who: 'all'
           title: "Lightning Detected!"
           message: >-
             {% set ltgdist = (states('sensor.blitzortung_lightning_distance') | int) / 1.609 | round %}
@@ -1521,6 +1522,7 @@ automation:
     action:
       - service: script.text_alert
         data:
+          who: 'all'
           title: "Lightning Clear"
           message: "The lightning threat has passed. It is safe to resume normal activities."
       - service: input_boolean.turn_off
@@ -1550,6 +1552,7 @@ automation:
     action:
       - service: script.text_alert
         data:
+          who: 'all'
           title: "WINDOWS ARE OPEN!"
           message: "It is raining and there are windows open in the house. Please close them!"
       - service: script.speech_engine
