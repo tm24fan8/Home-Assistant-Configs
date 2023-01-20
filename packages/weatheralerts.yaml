@@ -1311,7 +1311,8 @@ input_text:
 automation:
   ## Automation to trigger a UI notification when there is an active weather alert.
   ## weatheralerts_alert_1 should always contain most recent alert.
-  - alias: Weather Alert UI Notification - 1
+  - id: fd0b5635-8079-49df-899e-49d1a5871c77
+    alias: Weather Alert UI Notification - 1
     initial_state: true
     trigger:
       - platform: state
@@ -1378,7 +1379,8 @@ automation:
 
     ## Automation to dismiss UI notification if there are no active alerts for 30 minutes
     ## Disable or remove this automation if you don't want notifications to auto-dismiss
-  - alias: Weather Alert UI Notification Auto-dismiss - 1
+  - id: a550cbf6-7745-405c-9548-5c2afdf52c34
+    alias: Weather Alert UI Notification Auto-dismiss - 1
     trigger:
       - platform: state
         entity_id: sensor.weatheralerts_alerts_are_active
@@ -1397,7 +1399,8 @@ automation:
 
   ## Automation to push alerts via Pushbullet service
   ## Disable or remove this automation if you don't use Pushbullet
-  - alias: Weather Alerts Notification - 1
+  - id: 5145b56e-6db9-4352-a25d-376cebb191ff
+    alias: Weather Alerts Notification - 1
     trigger:
       platform: state
       entity_id: sensor.weatheralerts_alert_1_last_changed
@@ -1462,7 +1465,8 @@ automation:
 
 
   # Announce Severe Weather
-  - alias: NWS Announce Weather Alert
+  - id: b1bdfbf9-d82e-436f-bc60-77c3abfb077b
+    alias: NWS Announce Weather Alert
     trigger:
       - platform: numeric_state
         entity_id: sensor.weatheralerts_active_alerts
@@ -1487,7 +1491,8 @@ automation:
           entity_id: input_text.weatheralerts_triggered_audible_alert_ids
           value: "{{ state_attr('sensor.weatheralerts_alert_1', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_2', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_3', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_4', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_5', 'alert_id') }}"
 
-  - alias: Lightning Detected
+  - id: 04b1119f-4e30-4ae3-ae50-632ac521c871
+    alias: Lightning Detected
     trigger:
       - platform: state
         entity_id: sensor.lightning_warning
@@ -1510,7 +1515,8 @@ automation:
       - service: script.lightning_warning_audible
 
 
-  - alias: Lightning Warning Off
+  - id: df317cd2-b5c6-43a7-a587-844403a4a0ad
+    alias: Lightning Warning Off
     trigger:
       - platform: state
         entity_id: sensor.lightning_warning
@@ -1530,7 +1536,8 @@ automation:
       - service: script.lightning_clear_audible
 
 
-  - alias: NWS Freeze Warning
+  - id: 9e34264f-b3c8-4537-ba31-b5915f2fd326
+    alias: NWS Freeze Warning
     trigger:
       - platform: numeric_state
         entity_id: sensor.weatheralerts_active_alerts
@@ -1540,7 +1547,8 @@ automation:
       - service: input_boolean.turn_on
         entity_id: input_boolean.freeze_warning
 
-  - alias: Rain Window Warning
+  - id: 288de6e1-ec3d-43fa-9be8-1b2e27e4ad85
+    alias: Rain Window Warning
     trigger:
       - platform: state
         entity_id: binary_sensor.precipitation

@@ -4,7 +4,8 @@ input_boolean:
     icon: mdi:spotify
 
 automation:
-  - alias: 'Spotify Page  - Everywhere Media Player idle or paused '
+  - id: beac4fed-5326-49ef-951e-6615d0cf1a7c
+    alias: 'Spotify Page  - Everywhere Media Player idle or paused '
     description: ''
     trigger:
       - platform: template

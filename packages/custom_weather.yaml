@@ -876,7 +876,8 @@ automation:
   #       retain: true
   #       payload: "{{ states('sensor.todays_rainfall') }}"
 
-  - alias: Forecast Low Near Freezing
+  - id: 14421478-a33c-471a-ae01-b48827f6121a
+    alias: Forecast Low Near Freezing
     trigger:
       - platform: numeric_state
         entity_id: sensor.tonights_low_temp
@@ -892,7 +893,8 @@ automation:
       - service: input_boolean.turn_on
         entity_id: input_boolean.freeze_warning
 
-  - alias: Forecast Low Above Freezing
+  - id: 088285ec-6435-435c-a8ce-800851fb15e2
+    alias: Forecast Low Above Freezing
     trigger:
       - platform: numeric_state
         entity_id: sensor.tonights_low_temp
