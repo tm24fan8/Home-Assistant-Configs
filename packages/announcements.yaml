@@ -100,93 +100,101 @@ automation:
     - service: input_boolean.turn_off
       entity_id: input_boolean.audible_notifications
 
-  - id: db50d96f-8e2a-4e48-8d7c-ce5968527b82
-    alias: Kallen Morning Briefing
+  - id: 842a1b9a-de3b-4f0a-9ecc-6cfacd92bf5d
+    alias: Kallen Briefings
     trigger:
     - platform: time
       at: input_datetime.kallen_morning_briefing
-    condition:
-    - condition: state
-      entity_id: input_boolean.kallen_overnight
-      state: 'off'
-    action:
-    - service: script.kallen_morning_briefing
-
-  - id: b8d21d04-c263-4d33-9590-9fb1e76b0de8
-    alias: Kallen Nightly Briefing
-    trigger:
+      id: kallen-morning
     - platform: time
       at: input_datetime.kallen_nightly_briefing
+      id: kallen-nightly
     condition:
     - condition: state
       entity_id: input_boolean.kallen_overnight
       state: 'off'
     action:
-    - service: script.kallen_nightly_briefing
-      data:
-        who: common
-
-  - id: c53d84ee-9e6d-4268-8d44-d427c722602a
-    alias: Daily Briefing
-    trigger:
-    - platform: time
-      at: input_datetime.daily_report
-    action:
-    - service: script.daily_briefing
-      data:
-        who: common
-    - if:
-      - condition: state
-        entity_id: sensor.garbage_collection_large_pickup
-        state: '1'
-      then:
-      - service: script.text_alert
-        data:
-          who: "all"
-          title: "Garbage Collection - Unlimited"
-          message: "Tomorrow is large trash pickup day. Please take out all large items, and don't forget the trash can!"
-      else:
-      - if:
-        - condition: state
-          entity_id: sensor.garbage_collection
-          state: '1'
-        then:
-        - service: script.text_alert
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: kallen-morning
+        sequence:
+        - service: script.kallen_morning_briefing
+      - conditions:
+        - condition: trigger
+          id: kallen-nightly
+        sequence:
+        - service: script.kallen_nightly_briefing
           data:
-            who: "all"
-            title: "Garbage Collection - Regular"
-            message: "Tomorrow is regular trash pickup day. Make sure the trash can is taken to the curb!"
+            who: common
 
-  - id: 5d06ba92-de10-4bf3-bc08-86f5be60c4a7
-    alias: Morning Briefing
+  - id: fa2b59f8-1ad6-4380-9347-cb7d53590e41
+    alias: House Briefings
     trigger:
     - platform: time
       at: input_datetime.morning_report
-    action:
-    - service: script.morning_report
-      data:
-        who: common
-
-  - id: 933acebd-c788-4640-babd-6c30093cd2ba
-    alias: Nightly Briefing
-    trigger:
-      platform: time
+      id: house-morning
+    - platform: time
+      at: input_datetime.daily_report
+      id: house-daily
+    - platform: time
       at: input_datetime.nightly_report
+      id: house-nightly
     action:
-    - service: script.nightly_briefing
-      data:
-        who: common
-    - if:
-      - condition: state
-        entity_id: sensor.garbage_collection
-        attribute: days
-        state: '7'
-      then:
-      - service: script.text_alert
-        data:
-          who: "all"
-          title: "Retrieve Garbage Can"
-          message: "Garbage has been collected. Don't forget to move the trash can back to the house!"
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: house-morning
+        sequence:
+        - service: script.morning_report
+          data:
+            who: common
+      - conditions:
+        - condition: trigger
+          id: house-daily
+        sequence:
+        - service: script.daily_briefing
+          data:
+            who: common
+        - if:
+          - condition: state
+            entity_id: sensor.garbage_collection_large_pickup
+            state: '1'
+          then:
+          - service: script.text_alert
+            data:
+              who: "all"
+              title: "Garbage Collection - Unlimited"
+              message: "Tomorrow is large trash pickup day. Please take out all large items, and don't forget the trash can!"
+          else:
+          - if:
+            - condition: state
+              entity_id: sensor.garbage_collection
+              state: '1'
+            then:
+            - service: script.text_alert
+              data:
+                who: "all"
+                title: "Garbage Collection - Regular"
+                message: "Tomorrow is regular trash pickup day. Make sure the trash can is taken to the curb!"
+      - conditions:
+        - condition: trigger
+          id: house-nightly
+        sequence:
+        - service: script.nightly_briefing
+          data:
+            who: common
+        - if:
+          - condition: state
+            entity_id: sensor.garbage_collection
+            attribute: days
+            state: '7'
+          then:
+          - service: script.text_alert
+            data:
+              who: "all"
+              title: "Retrieve Garbage Can"
+              message: "Garbage has been collected. Don't forget to move the trash can back to the house!"
 
   - id: d7641b5e-3cbb-4fb3-b6ed-5edf3157b88d
     alias: Kallen Briefing Location Change
