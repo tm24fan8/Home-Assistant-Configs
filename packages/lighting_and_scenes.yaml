@@ -254,22 +254,41 @@ sensor:
         friendly_name: "Basement Studio Lights - Brightness Actual"
         value_template: >
           {% set current = state_attr('light.basement_studio_lights','brightness') %}
-          {{ ((current / 255) * 100) | float | round(2) }}
+          {% if is_state('light.basement_studio_lights','on') %}
+            {{ ((current / 255) * 100) | float | round(2) }}
+          {% else %}
+            {{ 0 | float | round(2) }}
+          {% endif %}
         unit_of_measurement: '%'
         icon_template: mdi:brightness-percent
       basement_studio_lights_brightness_intended:
         friendly_name: "Basement Studio Lights - Brightness Intended"
-        value_template: "{{ state_attr('switch.adaptive_lighting_basement_studio','brightness_pct') | float | round(2) }}"
+        value_template: >
+          {% if is_state('switch.adaptive_lighting_basement_studio','on') %}
+            {{ state_attr('switch.adaptive_lighting_basement_studio','brightness_pct') | float | round(2) }}
+          {% else %}
+            {{ 0 | float | round(2) }}
+          {% endif %}
         unit_of_measurement: '%'
         icon_template: mdi:brightness-percent
       basement_studio_lights_colortemp_actual:
         friendly_name: "Basement Studio Lights - Colortemp Actual"
-        value_template: "{{ state_attr('light.basement_studio_lights','color_temp_kelvin') | int }}"
+        value_template: >
+          {% if is_state('light.basement_studio_lights','on') %}
+            {{ state_attr('light.basement_studio_lights','color_temp_kelvin') | int }}
+          {% else %}
+            {{ '0' | float | round(2) }}
+          {% endif %}
         unit_of_measurement: 'K'
         icon_template: mdi:thermometer-lines
       basement_studio_lights_colortemp_intended:
         friendly_name: "Basement Studio Lights - Colortemp Intended"
-        value_template: "{{ state_attr('switch.adaptive_lighting_basement_studio','color_temp_kelvin') | int }}"
+        value_template: >
+          {% if is_state('switch.adaptive_lighting_basement_studio','on') %}
+            {{ state_attr('switch.adaptive_lighting_basement_studio','color_temp_kelvin') | int }}
+          {% else %}
+            {{ 0 | float | round(2) }}
+          {% endif %}
         unit_of_measurement: 'K'
         icon_template: mdi:thermometer-lines
 
