@@ -291,6 +291,34 @@ sensor:
           {% endif %}
         unit_of_measurement: 'K'
         icon_template: mdi:thermometer-lines
+      basement_studio_lights_brightness_diff:
+        friendly_name: "Basement Studio Lights - Brightness Diff"
+        value_template: >
+          {% set current = states('sensor.basement_studio_lights_brightness_actual') | float %}
+          {% set intended = states('sensor.basement_studio_lights_brightness_intended') | float %}
+          {{ (current - intended) | float | round(2) }}
+        availability_template: >
+          {% if is_state('light.basement_studio_lights','on') and is_state('switch.adaptive_lighting_basement_studio','on') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        unit_of_measurement: '%'
+        icon_template: mdi:brightness-percent
+      basement_studio_lights_colortemp_diff:
+        friendly_name: "Basement Studio Lights - Colortemp Diff"
+        value_template: >
+          {% set current = states('sensor.basement_studio_lights_colortemp_actual') | float %}
+          {% set intended = states('sensor.basement_studio_lights_colortemp_intended') | float %}
+          {{ (current - intended) | float | round(2) }}
+        availability_template: >
+          {% if is_state('light.basement_studio_lights','on') and is_state('switch.adaptive_lighting_basement_studio','on') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        unit_of_measurement: 'K'
+        icon_template: mdi:thermometer-lines
 
 switch:
   - platform: animated_scenes
