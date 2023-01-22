@@ -321,6 +321,72 @@ script:
           - service: input_boolean.turn_on
             entity_id: input_boolean.kallen_band_practice
 
+  kallen_two_hour_delay:
+    alias: Kallen Two Hour Delay
+    sequence:
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.kallen_two_hour_delay
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.kallen_band_practice
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 2
+        milliseconds: 0
+    - service: script.kallen_scheduling_morning
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 2
+        milliseconds: 0
+    - service: script.house_scheduling_morning
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 2
+        milliseconds: 0
+    - service: script.master_bedroom_scheduling_morning
+    mode: single
+    icon: mdi:bus-clock
+
+  kallen_school_cancelled:
+    alias: Kallen School Cancelled
+    sequence:
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.kallen_school_cancelled
+    - service: input_boolean.turn_off
+      target:
+        entity_id:
+        - input_boolean.kallen_two_hour_delay
+        - input_boolean.school_today
+        - input_boolean.school_early_release
+        - input_boolean.school_today_extended
+        - input_boolean.kallen_school
+        - input_boolean.kallen_band_practice
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 2
+        milliseconds: 0
+    - service: script.kallen_scheduling_morning
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 2
+        milliseconds: 0
+    - service: script.house_scheduling_morning
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 2
+        milliseconds: 0
+    - service: script.master_bedroom_scheduling_morning
+    mode: single
+    icon: mdi:calendar-remove
+
   kallen_school_reset:
     alias: 'Kallen School Reset'
     sequence:
