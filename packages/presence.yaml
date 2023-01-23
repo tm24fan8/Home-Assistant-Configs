@@ -382,18 +382,23 @@ script:
         title: "Everyone Left"
         message: "Away mode arming in 1 minute"
         data:
+          tag: skip-away
           actions:
             - action: "SKIP_AWAY"
               title: Skip Away Mode
               icon: mdi:debug-step-over
-    - wait_template: "{{ is_state('input_boolean.away_mode_skipped','on') }}"
+    - wait_template: "{{ is_state('input_boolean.away_mode_skipped','on') or is_state('group.family','home') }}"
       continue_on_timeout: true
       timeout:
         minutes: 1
+    - service: notify.all_ios
+      data:
+        message: "clear_notification"
+        data:
+          tag: skip-away
     - if:
-      - condition: state
-        entity_id: input_boolean.away_mode_skipped
-        state: "on"
+      - condition: template
+        value_template: "{{ is_state('input_boolean.away_mode_skipped','on') or is_state('group.family','home') }}"
       then:
         - stop: Away Mode Skipped
     - service: light.turn_off
