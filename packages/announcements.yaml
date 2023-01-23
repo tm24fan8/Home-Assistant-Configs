@@ -125,8 +125,6 @@ automation:
           id: kallen-nightly
         sequence:
         - service: script.kallen_nightly_briefing
-          data:
-            who: common
 
   - id: fa2b59f8-1ad6-4380-9347-cb7d53590e41
     alias: House Briefings
@@ -147,15 +145,11 @@ automation:
           id: house-morning
         sequence:
         - service: script.morning_report
-          data:
-            who: common
       - conditions:
         - condition: trigger
           id: house-daily
         sequence:
         - service: script.daily_briefing
-          data:
-            who: common
         - if:
           - condition: state
             entity_id: sensor.garbage_collection_large_pickup
@@ -182,8 +176,6 @@ automation:
           id: house-nightly
         sequence:
         - service: script.nightly_briefing
-          data:
-            who: common
         - if:
           - condition: state
             entity_id: sensor.garbage_collection
@@ -235,7 +227,7 @@ script:
     sequence:
     - service: script.speech_engine
       data: 
-        who: "{{ who }}"
+        who: common
         message: !include ../templates/speech/kallen_nightly_briefing.yaml
         voice: Joanna
     - service: script.text_notify
@@ -276,24 +268,24 @@ script:
     alias: 'Daily Briefing'
     sequence:
     - service: script.speech_engine
-      data_template:
-        who: "{{ who }}"
+      data:
+        who: common
         message: !include ../templates/speech/daily_briefing.yaml
 
   nightly_briefing:
     alias: 'Nightly Briefing'
     sequence:
       - service: script.speech_engine
-        data_template:
-          who: "{{ who }}"
+        data:
+          who: common
           message: !include ../templates/speech/nightly_briefing.yaml
 
   morning_report:
     alias: 'Morning Report'
     sequence:
     - service: script.speech_engine
-      data_template:
-        who: "{{ who }}"
+      data:
+        who: common
         message: !include ../templates/speech/morning_briefing.yaml
 
   dinner_is_ready:
