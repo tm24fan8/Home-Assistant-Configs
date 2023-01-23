@@ -194,6 +194,13 @@ input_number:
     step: 1
     unit_of_measurement: °F
     icon: mdi:thermometer
+  overnight_low_threshold:
+    name: Overnight Low Threshold
+    min: -20
+    max: 20
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
   wind_chill_threshold:
     name: Wind Chill Threshold
     min: 0
