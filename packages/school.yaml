@@ -282,7 +282,8 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.kallen_two_hour_delay
-        state: 'on'
+        from: 'off'
+        to: 'on'
     action:
       - service: input_boolean.turn_off
         target:
@@ -306,7 +307,6 @@ automation:
           milliseconds: 0
       - service: script.master_bedroom_scheduling_morning
     mode: single
-    icon: mdi:bus-clock
 
   - id: f8ecfc73-cb78-42b6-9b21-e17ef1e72741
     alias: Kallen School Cancelled
@@ -314,7 +314,8 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.kallen_school_cancelled
-        state: 'on'
+        from: 'off'
+        to: 'on'
     action:
       - service: input_boolean.turn_off
         target:
@@ -344,7 +345,6 @@ automation:
           milliseconds: 0
       - service: script.master_bedroom_scheduling_morning
     mode: single
-    icon: mdi:calendar-remove
 
 script:
   kallen_school_today:
