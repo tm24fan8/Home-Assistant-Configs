@@ -423,6 +423,12 @@
     </p>
 
     <p>
+      {% if (states('sensor.tonights_low_temp') | int) <= (states('input_number.overnight_low_threshold') | int ) %}
+        "It will be very cold tonight, make sure to use extra blankets, wear more clothes, or whatever else will help you stay warm! Additionally, make sure Emma's heater is set high enough!"
+      {% endif %}
+    </p>
+
+    <p>
       {% set windows = states('sensor.windows_open') %}
       {% set doors = states('sensor.doors_open') %}
       {% if states('sensor.total_faults') > '0' %}
