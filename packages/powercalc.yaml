@@ -11,6 +11,9 @@ sensor:
     energy_sensor_naming: "{} Energy Sensor"
     mode: lut
   - platform: powercalc
+    entity_id: fan.emma_air_conditioner
+    power_sensor_id: sensor.emma_air_conditioner_power
+  - platform: powercalc
     entity_id: fan.kallen_bedroom_fan
     power_sensor_id: sensor.kallen_bedroom_fan_power
   - platform: powercalc
