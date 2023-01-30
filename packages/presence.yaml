@@ -182,7 +182,7 @@ template:
     - name: "Parents Home"
       state: >-
         {% if is_state('group.family','home') %}
-          {% if is_state('binary_sensor.tony_home','on') and is_state('binary_sensor.tina_home','on') %}
+          {% if is_state('binary_sensor.tony_home','on') or is_state('binary_sensor.tina_home','on') %}
             true
           {% else %}
             false
