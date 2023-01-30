@@ -132,26 +132,6 @@ sensor:
           {% else %}
             Unknown
           {%- endif %}
-      tony_home:
-        friendly_name: "Tony Home"
-        icon_template: >-
-          {% if is_state('device_tracker.tony_s_iphone', 'home') or is_state('device_tracker.life360_tony_stork','home') %}
-            mdi:home
-          {% else %}
-            mdi:car
-          {% endif %}
-        value_template: >-
-          {{ is_state('device_tracker.tony_s_iphone', 'home') or is_state('device_tracker.life360_tony_stork','home') }}
-      tina_home:
-        friendly_name: "Tina Home"
-        icon_template: >-
-          {% if is_state('device_tracker.tinas_iphone', 'home') or is_state('device_tracker.life360_christina_stork','home') %}
-            mdi:home
-          {% else %}
-            mdi:car
-          {% endif %}
-        value_template: >-
-          {{ is_state('device_tracker.tinas_iphone', 'home') or is_state('device_tracker.life360_christina_stork','home') }}
       people_home:
         friendly_name: "People"
         unit_of_measurement: 'home'
@@ -177,6 +157,24 @@ sensor:
         unit_of_measurement: 'times'
         value_template: >-
           {{ states('input_number.back_door_opened_today') | int }}
+
+template:
+  - binary_sensor:
+    - name: "Tony Home"
+      state: "{{ is_state('device_tracker.tony_s_iphone', 'home') or is_state('device_tracker.life360_tony_stork','home') }}"
+      device_class: presence
+  - binary_sensor:
+    - name: "Tina Home"
+      state: "{{ is_state('device_tracker.tinas_iphone', 'home') or is_state('device_tracker.life360_christina_stork','home') }}"
+      device_class: presence
+  - binary_sensor:
+    - name: "Nerds Home"
+      state: "{{ is_state('binary_sensor.tony_home','true') and is_state('device_tracker.kallen_iphone','home') }}"
+      device_class: presence
+  - binary_sensor:
+    - name: "Parents Home"
+      state: "{{ is_state('binary_sensor.tony_home','true') and is_state('binary_sensor.tina_home','true') }}"
+      device_class: presence
 
 mqtt:
   sensor:
