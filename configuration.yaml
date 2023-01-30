@@ -185,8 +185,8 @@ influxdb:
       - sensor.thermal_comfort_absolutehumidity
       - sensor.outside_lights
       - sensor.temperature_change_per_hour
-      - sensor.tina_home
-      - sensor.tony_home
+      - binary_sensor.tina_home
+      - binary_sensor.tony_home
       - sensor.tm24fan8_home_assistant_configs_issues
       - binary_sensor.internet
       - binary_sensor.people_present
