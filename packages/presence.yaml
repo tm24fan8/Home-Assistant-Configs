@@ -171,7 +171,7 @@ template:
     - name: "Nerds Home"
       state: >-
         {% if is_state('group.family','home') %}
-          {% if is_state('binary_sensor.tony_home','on') and is_state('device_tracker.kallen_iphone','home') %}
+          {% if is_state('binary_sensor.tony_home','on') or is_state('device_tracker.kallen_iphone','home') %}
             true
           {% else %}
             false
