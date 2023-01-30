@@ -225,15 +225,17 @@ script:
   kallen_nightly_briefing:
     alias: 'Kallen Nightly Briefing'
     sequence:
+    - service: script.text_notify
+      data:
+        who: "kallen"
+        message: "Heads up, here comes your nightly briefing!"
+    - delay:
+        seconds: 3
     - service: script.speech_engine
       data: 
         who: common
         message: !include ../templates/speech/kallen_nightly_briefing.yaml
         voice: Joanna
-    - service: script.text_notify
-      data:
-        who: "parents"
-        message: "I just gave Kallen's nightly briefing."
 
   kallen_morning_briefing:
     alias: 'Kallen Morning Briefing'
@@ -250,10 +252,6 @@ script:
             {% endif %}
           message: !include ../templates/speech/kallen_morning_briefing.yaml
           voice: Joanna
-      - service: script.text_notify
-        data:
-          who: "parents"
-          message: "I just gave Kallen's morning briefing"
 
   kallen_school_status:
     alias: 'Kallen School Status'
