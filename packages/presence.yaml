@@ -169,11 +169,11 @@ template:
       device_class: presence
   - binary_sensor:
     - name: "Nerds Home"
-      state: "{{ is_state('binary_sensor.tony_home','true') and is_state('device_tracker.kallen_iphone','home') }}"
+      state: "{{ is_state('binary_sensor.tony_home','on') and is_state('device_tracker.kallen_iphone','home') }}"
       device_class: presence
   - binary_sensor:
     - name: "Parents Home"
-      state: "{{ is_state('binary_sensor.tony_home','true') and is_state('binary_sensor.tina_home','true') }}"
+      state: "{{ is_state('binary_sensor.tony_home','on') and is_state('binary_sensor.tina_home','on') }}"
       device_class: presence
 
 mqtt:
