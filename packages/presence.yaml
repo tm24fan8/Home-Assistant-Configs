@@ -221,6 +221,9 @@ automation:
       - condition: state
         entity_id: input_boolean.kallen_school
         state: "off"
+      - condition: state
+        entity_id: input_boolean.school_today
+        state: "on"
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.kallen_school
