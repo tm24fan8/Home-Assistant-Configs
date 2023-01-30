@@ -230,6 +230,8 @@ automation:
         data:
           who: parents
           message: "Kallen has been dropped off at school."
+      - service: light.turn_off
+        entity_id: light.kallen_bedroom_lights
     initial_state: true
 
   - id: kallen_left_school
