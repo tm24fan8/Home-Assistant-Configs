@@ -169,11 +169,25 @@ template:
       device_class: presence
   - binary_sensor:
     - name: "Nerds Home"
-      state: "{{ is_state('binary_sensor.tony_home','on') and is_state('device_tracker.kallen_iphone','home') }}"
+      state: >-
+        {% if is_state('group.family','home') %}
+          {% if is_state('binary_sensor.tony_home','on') and is_state('device_tracker.kallen_iphone','home') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        {% endif %}
       device_class: presence
   - binary_sensor:
     - name: "Parents Home"
-      state: "{{ is_state('binary_sensor.tony_home','on') and is_state('binary_sensor.tina_home','on') }}"
+      state: >-
+        {% if is_state('group.family','home') %}
+          {% if is_state('binary_sensor.tony_home','on') and is_state('binary_sensor.tina_home','on') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        {% endif %}
       device_class: presence
 
 mqtt:
