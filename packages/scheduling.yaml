@@ -272,7 +272,7 @@ script:
             {% if is_state('input_boolean.school_today','on') %}
               {{ (state_attr('input_datetime.school_day_start','timestamp') - 5400) | timestamp_custom('%H:%M', false) }}
             {% else %}
-              08:15
+              09:00
             {% endif %}
       - service: input_datetime.set_datetime
         entity_id: input_datetime.morning_report
@@ -287,8 +287,8 @@ script:
             {% elif is_state('input_boolean.work_today','on') and is_state('input_boolean.school_today','off') %}
               {% if (state_attr('input_datetime.tina_workday_start','timestamp')) > 43200 %}
                 12:00
-              {% elif (state_attr('input_datetime.tina_workday_start','timestamp') - 1800 ) > (state_attr('input_datetime.audible_notification_on','timestamp')) %}
-                {{ (state_attr('input_datetime.tina_workday_start', 'timestamp') - 1800) | timestamp_custom('%H:%M', false) }}
+              {% elif (state_attr('input_datetime.tina_workday_start','timestamp') - 1500 ) > (state_attr('input_datetime.audible_notification_on','timestamp')) %}
+                {{ (state_attr('input_datetime.tina_workday_start', 'timestamp') - 1500) | timestamp_custom('%H:%M', false) }}
               {% else %}
                 10:00
               {% endif %}
