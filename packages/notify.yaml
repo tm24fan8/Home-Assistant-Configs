@@ -266,8 +266,10 @@ script:
               state: 'on'
             then:
             - service: >
-                {% if is_state('input_boolean.text_notify_tina','off') %}
+                {% if is_state('input_boolean.text_notify_tina','off') and is_state('input_boolean.text_notify_tony','on') %}
                   notify.ios_tony
+                {% elif is_state('input_boolean.text_notify_tina','on') and is_state('input_boolean.text_notify_tony','off') %}
+                  notify.ios_tina
                 {% else %}
                   notify.ios_parents
                 {% endif %}
