@@ -32,12 +32,12 @@
       attribute_templates:
         project: "{{ state_attr('sensor.home_tech', 'project') }}"
         items: "{{ state_attr('sensor.home_tech', 'items')|selectattr('section_id', 'eq', '94865633')|list|selectattr('parent_id','eq',none)|list }}"
-    home_tech_new_ideas:
-      friendly_name: 'New Ideas'
+    home_tech_improvements:
+      friendly_name: 'Improvements'
       value_template: "{{ states('sensor.home_tech') }}"
       attribute_templates:
         project: "{{ state_attr('sensor.home_tech', 'project') }}"
-        items: "{{ state_attr('sensor.home_tech', 'items')|selectattr('section_id', 'eq', '81234669')|list|selectattr('parent_id','eq',none)|list }}"
+        items: "{{ state_attr('sensor.home_tech', 'items')|selectattr('section_id', 'eq', '114199257')|list|selectattr('parent_id','eq',none)|list }}"
     home_tech_in_progress:
       friendly_name: 'In Progress'
       value_template: "{{ states('sensor.home_tech') }}"
