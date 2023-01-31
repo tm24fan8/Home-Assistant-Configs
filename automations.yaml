@@ -416,7 +416,7 @@
         - sensor.tony_s_iphone_battery_level
         - sensor.tony_s_ipad_battery_level
       actions:
-      - service: script.text_notify
+      - service: script.text_alert
         data:
           who: all
           title: Low Batteries in House
