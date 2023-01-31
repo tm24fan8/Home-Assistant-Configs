@@ -288,7 +288,7 @@ script:
                   notify.ios_tony
                 {% elif is_state('input_boolean.text_notify_tony','off') and is_state('input_boolean.text_notify_kallen','on') %}
                   notify.ios_kallen
-                {% elif is_state('input_boolean.text_notify_tony','on') and is_state('input_boolean.text_notify_kallen','on') %}
+                {% else %}
                   notify.ios_nerds
                 {% endif %}
               data:
