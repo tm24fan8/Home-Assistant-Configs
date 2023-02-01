@@ -66,3 +66,37 @@ script:
     sequence:
       - service: input_boolean.turn_off
         entity_id: input_boolean.work_today
+
+# This is in case her schedule changes after the regular 4:00AM scheduling scripts run
+  tina_schedule_change:
+    alias: 'Tina Schedule Change'
+    sequence:
+      - if:
+        - condition: template
+          value_template: >
+            {%- if as_timestamp(strptime(state_attr('calendar.family_tinawork','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%Y-%m-%d") == now().strftime("%Y-%m-%d") %}
+              true
+            {%- endif -%}
+        then:
+        - service: script.tina_work_today
+        else:
+        - service: script.tina_work_reset
+      - choose:
+        - conditions:
+          - condition: time
+            after: "04:00:00"
+            before: "16:00:00"
+          sequence:
+            - service: script.house_scheduling_morning
+            - service: script.emma_bedroom_scheduling_morning
+            - service: script.master_bedroom_scheduling_morning
+            - service: script.security_scheduling
+        - conditions:
+          - condition: time
+            after: "16:00:00"
+            before: "04:00:00"
+          sequence:
+            - service: script.house_scheduling_evening
+            - service: script.master_bedroom_scheduling_evening
+            - service: script.emma_bedroom_scheduling_evening
+            - service: script.security_scheduling
