@@ -32,16 +32,6 @@ input_datetime:
     has_date: true
     has_time: false
     icon: mdi:calendar
-  kallen_school_day_start:
-    name: School Day Start
-    has_date: false
-    has_time: true
-    icon: mdi:clock-start
-  kallen_school_day_end:
-    name: School Day End
-    has_date: false
-    has_time: true
-    icon: mdi:clock-end
   thanksgiving_break_start:
     name: Thanksgiving Break
     has_date: true
@@ -57,6 +47,16 @@ input_datetime:
     has_date: true
     has_time: false
     icon: mdi:calendar-start
+  kallen_school_day_start:
+    name: School Day Start
+    has_date: false
+    has_time: true
+    icon: mdi:clock-start
+  kallen_school_day_end:
+    name: School Day End
+    has_date: false
+    has_time: true
+    icon: mdi:clock-end
   kallen_school_day_start_reminder:
     name: School Day Start Reminder
     has_date: false
