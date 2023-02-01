@@ -324,7 +324,7 @@ automation:
           - input_boolean.school_today
           - input_boolean.school_early_release
           - input_boolean.school_today_extended
-          - input_boolean.kallen_school
+          - input_boolean.kallen_at_school
           - input_boolean.kallen_band_practice
       - delay:
           hours: 0

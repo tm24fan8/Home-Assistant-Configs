@@ -515,7 +515,7 @@ freeze_cleanup:
         entity_id:
         - input_boolean.school_today
         - input_boolean.school_today_extended
-        - input_boolean.kallen_school
+        - input_boolean.kallen_at_school
     else:
     - service: input_boolean.turn_off
       data: {}
@@ -523,7 +523,7 @@ freeze_cleanup:
         entity_id:
         - input_boolean.school_today
         - input_boolean.school_today_extended
-        - input_boolean.kallen_school
+        - input_boolean.kallen_at_school
   - if:
     - condition: time
       before: input_datetime.audible_notification_on

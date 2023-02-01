@@ -119,15 +119,15 @@ sensor:
         friendly_name: "Kallen"
         unit_of_measurement: ""
         value_template: >-
-          {% if is_state('input_boolean.kallen_school', 'on') %}
+          {% if is_state('input_boolean.kallen_at_school', 'on') %}
             School
           {% elif is_state('calendar.kallen_events', 'on') %}
                 {{ state_attr('calendar.kallen_events', 'message') }}
-          {%- elif is_state('person.tony_stork', 'home') and is_state('person.christina_stork', 'home') and is_state('input_boolean.kallen_school', 'off')%}
+          {%- elif is_state('person.tony_stork', 'home') and is_state('person.christina_stork', 'home') and is_state('input_boolean.kallen_at_school', 'off')%}
             Home
-          {%- elif is_state('person.tony_stork', 'Hospital') and is_state('input_boolean.kallen_school', 'off')%}
+          {%- elif is_state('person.tony_stork', 'Hospital') and is_state('input_boolean.kallen_at_school', 'off')%}
             {{ states('sensor.tina_location') }}
-          {%- elif is_state('person.christina_stork', 'Bob Evans') and is_state('input_boolean.kallen_school', 'off')%}
+          {%- elif is_state('person.christina_stork', 'Bob Evans') and is_state('input_boolean.kallen_at_school', 'off')%}
             {{ states('sensor.tony_location') }}
           {% else %}
             Unknown
@@ -231,14 +231,14 @@ automation:
           - thu
           - fri
       - condition: state
-        entity_id: input_boolean.kallen_school
+        entity_id: input_boolean.kallen_at_school
         state: "off"
       - condition: state
         entity_id: input_boolean.school_today
         state: "on"
     action:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.kallen_school
+        entity_id: input_boolean.kallen_at_school
       - service: input_boolean.turn_on
         entity_id: input_boolean.kallen_awake
       - service: script.text_alert
@@ -274,11 +274,11 @@ automation:
           - thu
           - fri
       - condition: state
-        entity_id: input_boolean.kallen_school
+        entity_id: input_boolean.kallen_at_school
         state: "on"
     action:
       - service: input_boolean.turn_off
-        entity_id: input_boolean.kallen_school
+        entity_id: input_boolean.kallen_at_school
       - service: script.text_alert
         data:
           who: parents
