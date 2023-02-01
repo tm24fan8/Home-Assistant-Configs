@@ -6,26 +6,6 @@
     month_is:
       friendly_name: 'Month is'
       value_template: "{{ ['January','February','March','April','May','June','August','September','October','November','December'][now().month-1] }}" 
-    school_tomorrow:
-      friendly_name: 'School Tomorrow'
-      value_template: >-
-        {%- set test=(as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) %}
-        {% if states.calendar.kallen_school_days.attributes.start_time == test + " 09:00:00" %}
-          on
-        {% elif states.calendar.kallen_school_days.attributes.start_time == test + " 08:00:00" %}
-          on
-        {% else %}
-          off
-        {% endif %}
-    band_tomorrow:
-      friendly_name: 'Band Tomorrow'
-      value_template: >-
-        {%- set test=(as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) %}
-        {% if states.calendar.kallen_school_days.attributes.start_time == test + " 08:00:00" %}
-          on
-        {% else %}
-          off
-        {% endif %}
     kallen_timer_remaining_minutes:
       friendly_name: 'Kallen Timer Remaining Minutes'
       value_template: >-

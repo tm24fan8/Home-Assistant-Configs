@@ -9,8 +9,8 @@
       {% if is_state('input_boolean.tony_streaming_today','on') %}
         "Tony will be streaming tonight. The studio is scheduled to go online at {{ (state_attr('input_datetime.tony_streaming_start_time','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
       {% endif %}
-      {% if is_state('sensor.school_tomorrow','on') %}
-        {% if is_state('sensor.band_tomorrow','on') %}
+      {% if is_state('sensor.kallen_school_tomorrow','on') %}
+        {% if is_state('sensor.kallen_band_tomorrow','on') %}
           "Collin has school tomorrow, and there will be band practice in the morning at {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%I:%M %p") }}. "
         {% else %}
           "Collin has school tomorrow at {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%I:%M %p") }}. "

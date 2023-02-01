@@ -94,6 +94,28 @@ sensor:
       spring_break_days2go:
         value_template: "{{ ((state_attr('input_datetime.spring_break_start', 'timestamp')-as_timestamp(now())) | int /60/1440) | round(0) }}"
         unit_of_measurement: 'Days'
+      kallen_school_tomorrow:
+        unique_id: 0a1b81bc-2080-4006-b0f1-270af904d411
+        friendly_name: 'Kallen School Tomorrow'
+        value_template: >-
+          {%- set test=(as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) %}
+          {% if states.calendar.kallen_school_days.attributes.start_time == test + " 09:00:00" %}
+            on
+          {% elif states.calendar.kallen_school_days.attributes.start_time == test + " 08:00:00" %}
+            on
+          {% else %}
+            off
+          {% endif %}
+      kallen_band_tomorrow:
+        unique_id: 2906baeb-98ec-4215-8043-e223f2759ed7
+        friendly_name: 'Kallen Band Tomorrow'
+        value_template: >-
+          {%- set test=(as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) %}
+          {% if states.calendar.kallen_school_days.attributes.start_time == test + " 08:00:00" %}
+            on
+          {% else %}
+            off
+          {% endif %}
       lunch_menu_week:
         friendly_name: Lunch Menu Week
         value_template: >

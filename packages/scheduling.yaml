@@ -235,7 +235,7 @@ script:
         entity_id: input_datetime.kallen_bedtime
         data_template:
           time: >
-            {% if is_state('sensor.school_tomorrow', 'on') %}
+            {% if is_state('sensor.kallen_school_tomorrow', 'on') %}
               21:00
             {% else %}
               22:00
@@ -244,7 +244,7 @@ script:
         entity_id: input_datetime.kallen_nightly_briefing
         data_template:
           time: >
-            {% if is_state('sensor.school_tomorrow', 'on') %}
+            {% if is_state('sensor.kallen_school_tomorrow', 'on') %}
               20:40
             {% else %}
               21:40
@@ -359,7 +359,7 @@ script:
         entity_id: input_datetime.audible_notification_off
         data_template:
           time: >
-            {% if is_state('sensor.school_tomorrow','on') %}
+            {% if is_state('sensor.kallen_school_tomorrow','on') %}
               22:00
             {% else %}
               23:00
@@ -390,9 +390,9 @@ script:
         data_template:
           time: >
             {% set low = state_attr('sensor.current_forecast','overnight_low') | float %}
-            {% if is_state('input_boolean.hot_day','on') and is_state('sensor.school_tomorrow','on') %}
+            {% if is_state('input_boolean.hot_day','on') and is_state('sensor.kallen_school_tomorrow','on') %}
               20:00
-            {% elif is_state('input_boolean.hot_day','on') and is_state('sensor.school_tomorrow','off') %}
+            {% elif is_state('input_boolean.hot_day','on') and is_state('sensor.kallen_school_tomorrow','off') %}
               21:00
             {% elif low >= 56 and low <= 60 %}
               22:30
