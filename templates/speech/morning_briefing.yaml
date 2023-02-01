@@ -107,8 +107,8 @@
         </p>
         <p>
 
-          {% if is_state('input_boolean.school_today','on') and is_state('input_boolean.work_today','on') %}
-            {% set diff = (state_attr('input_datetime.tina_workday_start','timestamp') - state_attr('input_datetime.school_day_start','timestamp')) %}
+          {% if is_state('input_boolean.kallen_school_today','on') and is_state('input_boolean.work_today','on') %}
+            {% set diff = (state_attr('input_datetime.tina_workday_start','timestamp') - state_attr('input_datetime.kallen_school_day_start','timestamp')) %}
             {%- if states.sensor.home_to_school.state|round > 12 %}
               Traffic to the school appears heavier than normal.
             {% else %}
@@ -130,7 +130,7 @@
               Traffic to Bob Evans is normal.
             {% endif %}
             Currently it will take {{states.sensor.home_to_bob_evans.state|round}} minutes to get to Bob Evans.
-          {% elif is_state('input_boolean.school_today','on') %}
+          {% elif is_state('input_boolean.kallen_school_today','on') %}
             {%- if states.sensor.home_to_school.state|round > 12 %}
               Traffic to the school appears heavier than normal.
             {% else %}

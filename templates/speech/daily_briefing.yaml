@@ -291,7 +291,7 @@
               "Tony will be streaming today. The studio is scheduled to go online at {{ (state_attr('input_datetime.tony_streaming_start_time','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
             {% endif %}
 
-            {% if is_state('input_boolean.school_today', 'on') %}
+            {% if is_state('input_boolean.kallen_school_today', 'on') %}
               {% if is_state('sensor.school_start_days2go', '0') %}
                 Today is the first day of school! There are {{ states('sensor.school_end_days2go') }} to go until the last day.
               {% else %}
@@ -303,7 +303,7 @@
                   'But there was a two hour delay. '
                 {% endif %}
               {% endif %}
-              <s>Pickup today will be at {{(state_attr('input_datetime.school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }}</s>
+              <s>Pickup today will be at {{(state_attr('input_datetime.kallen_school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }}</s>
               {% if 'Early Release' in states('sensor.school_event') %}
                 And It is early release!
               {% endif %}

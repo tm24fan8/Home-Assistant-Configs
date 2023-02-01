@@ -25,7 +25,7 @@
     </p>
 
     <p>
-      {% if is_state('input_boolean.school_today', 'on') %}
+      {% if is_state('input_boolean.kallen_school_today', 'on') %}
         {% if is_state('sensor.school_start_days2go', '0') %}
           Today is the first day of school! 
         {% else %}
@@ -41,8 +41,8 @@
         {% if is_state('input_boolean.kallen_band_practice','on') %}
           'You have band practice this morning before school. '
         {% endif %}
-        <s>School today starts at {{ (state_attr('input_datetime.school_day_start','timestamp') | int | timestamp_custom('%I:%M %p' , False)) }}</s>
-        <s>Pickup today will be at {{(state_attr('input_datetime.school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }}</s>
+        <s>School today starts at {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') | int | timestamp_custom('%I:%M %p' , False)) }}</s>
+        <s>Pickup today will be at {{(state_attr('input_datetime.kallen_school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }}</s>
         {% if 'Early Release' in states('sensor.school_event') %}
           And It is early dismissal today!
         {% endif %}
@@ -51,7 +51,7 @@
         {%- endif %}
         The lunch menu for today is {{ states('sensor.lunch_menu_items') }}
       {% endif %}
-      {% if is_state('input_boolean.school_today', 'off') %}
+      {% if is_state('input_boolean.kallen_school_today', 'off') %}
         {% if is_state('input_boolean.kallen_school_cancelled','on') %}
           "School is cancelled for today. "
         {% else %}
@@ -91,7 +91,7 @@
           There are only {{ states.sensor.spring_break_days2go.state }} days until Spring Break!
       {% endif %}
 
-      {% if is_state ('input_boolean.school_today', 'off') and is_state('sensor.pirateweather_icon', 'snow') %}
+      {% if is_state ('input_boolean.kallen_school_today', 'off') and is_state('sensor.pirateweather_icon', 'snow') %}
         Do you wanna build a snowman? It is snowing!
       {% endif %}
 

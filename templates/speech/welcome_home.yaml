@@ -22,10 +22,10 @@
     </p>
 
     <p>
-      {% set endbefore = state_attr('input_datetime.school_day_end','timestamp') - 3600 %}
-      {% set endafter = state_attr('input_datetime.school_day_end','timestamp') + 3600 %}
+      {% set endbefore = state_attr('input_datetime.kallen_school_day_end','timestamp') - 3600 %}
+      {% set endafter = state_attr('input_datetime.kallen_school_day_end','timestamp') + 3600 %}
       {% set current = ((now().hour * 60 + now().minute) * 60 ) %}
-      {% if is_state('input_boolean.school_today_extended','on') and current > endbefore and current < endafter %}
+      {% if is_state('input_boolean.kallen_school_today_extended','on') and current > endbefore and current < endafter %}
         "Welcome home Collin as well, "
         {{ [
         'I hope you had a great day at school! ',
@@ -151,8 +151,8 @@
         "Tina has work today. "
       {% endif %}
       {% if is_state('input_boolean.kallen_at_school','on') %}
-        "Kallen is at school right now. His pickup time will be at {{ (state_attr('input_datetime.school_day_end','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
-      {% elif is_state('input_boolean.school_today','on') %}
+        "Kallen is at school right now. His pickup time will be at {{ (state_attr('input_datetime.kallen_school_day_end','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+      {% elif is_state('input_boolean.kallen_school_today','on') %}
         "Kallen has school today. "
       {% endif %}
     </p>

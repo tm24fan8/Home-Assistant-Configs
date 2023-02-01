@@ -2,14 +2,14 @@ input_boolean:
   school_in_session:
     name: School In Session
     icon: mdi:bus-school
-  school_today:
-    name: School Today
+  kallen_school_today:
+    name: Kallen School Today
     icon: mdi:bus-school
-  school_early_release:
-    name: School Early Release
+  kallen_school_early_release:
+    name: Kallen School Early Release
     icon: mdi:bus-school
-  school_today_extended:
-    name: School Today Extended
+  kallen_school_today_extended:
+    name: Kallen School Today Extended
     icon: mdi:bus-school
   kallen_two_hour_delay:
     name: Kallen Two Hour Delay
@@ -32,12 +32,12 @@ input_datetime:
     has_date: true
     has_time: false
     icon: mdi:calendar
-  school_day_start:
+  kallen_school_day_start:
     name: School Day Start
     has_date: false
     has_time: true
     icon: mdi:clock-start
-  school_day_end:
+  kallen_school_day_end:
     name: School Day End
     has_date: false
     has_time: true
@@ -57,12 +57,12 @@ input_datetime:
     has_date: true
     has_time: false
     icon: mdi:calendar-start
-  school_day_start_reminder:
+  kallen_school_day_start_reminder:
     name: School Day Start Reminder
     has_date: false
     has_time: true
     icon: mdi:clock-alert
-  school_day_end_reminder:
+  kallen_school_day_end_reminder:
     name: School Day End Reminder
     has_date: false
     has_time: true
@@ -245,7 +245,7 @@ automation:
     initial_state: true
     trigger:
       - platform: time
-        at: input_datetime.school_day_end
+        at: input_datetime.kallen_school_day_end
         id: day_end
       - platform: time
         at: 00:00
@@ -321,9 +321,9 @@ automation:
         target:
           entity_id:
           - input_boolean.kallen_two_hour_delay
-          - input_boolean.school_today
-          - input_boolean.school_early_release
-          - input_boolean.school_today_extended
+          - input_boolean.kallen_school_today
+          - input_boolean.kallen_school_early_release
+          - input_boolean.kallen_school_today_extended
           - input_boolean.kallen_at_school
           - input_boolean.kallen_band_practice
       - delay:
@@ -356,29 +356,29 @@ script:
             state: "on"
         then:
           - service: input_boolean.turn_on
-            entity_id: input_boolean.school_early_release
+            entity_id: input_boolean.kallen_school_early_release
           - service: input_datetime.set_datetime
             target:
-              entity_id: input_datetime.school_day_end
+              entity_id: input_datetime.kallen_school_day_end
             data:
               time: "14:30:00"
         else:
           - service: input_datetime.set_datetime
             target:
-              entity_id: input_datetime.school_day_end
+              entity_id: input_datetime.kallen_school_day_end
             data:
               time: >
                 {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','end_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
       - service: input_datetime.set_datetime
         target:
-          entity_id: input_datetime.school_day_start
+          entity_id: input_datetime.kallen_school_day_start
         data:
           time: >
             {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
       - service: input_boolean.turn_on
         entity_id: 
-          - input_boolean.school_today
-          - input_boolean.school_today_extended
+          - input_boolean.kallen_school_today
+          - input_boolean.kallen_school_today_extended
       - service: script.turn_on
         entity_id: script.school_in_session
       - delay:
@@ -386,7 +386,7 @@ script:
       - if:
         - condition: template
           value_template: >
-            {{ state_attr('input_datetime.school_day_start','timestamp') == 28800 }}
+            {{ state_attr('input_datetime.kallen_school_day_start','timestamp') == 28800 }}
         then:
           - service: input_boolean.turn_on
             entity_id: input_boolean.kallen_band_practice
@@ -396,7 +396,7 @@ script:
     sequence:
       - service: input_boolean.turn_off
         entity_id: 
-          - input_boolean.school_today
+          - input_boolean.kallen_school_today
           - input_boolean.kallen_two_hour_delay
           - input_boolean.kallen_school_cancelled
 
@@ -405,9 +405,9 @@ script:
     sequence:
       - service: input_boolean.turn_off
         entity_id: 
-          - input_boolean.school_today_extended
+          - input_boolean.kallen_school_today_extended
           - input_boolean.kallen_band_practice
-          - input_boolean.school_early_release
+          - input_boolean.kallen_school_early_release
 
   school_in_session:
     alias: 'School In Session'

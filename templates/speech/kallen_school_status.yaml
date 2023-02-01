@@ -4,7 +4,7 @@
     <p>
       "Hello Collin, "
 
-      {% if is_state('input_boolean.school_today','on') %}
+      {% if is_state('input_boolean.kallen_school_today','on') %}
         {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
           "You have school today, but there is currently a two hour delay. "
         {% else %}
@@ -16,15 +16,15 @@
         "You do not have school today. Enjoy your day off! "
       {% endif %}
 
-      {% if is_state('input_boolean.school_today','on') %}
+      {% if is_state('input_boolean.kallen_school_today','on') %}
         {% if is_state('input_boolean.kallen_band_practice','on') %}
           "You have band practice this morning before school. "
         {% endif %}
-        "Your school day will start at {{ (state_attr('input_datetime.school_day_start','timestamp') | int | timestamp_custom('%I:%M %p' , False)) }}. "
-        {% if is_state('input_boolean.school_early_release','on') %}
+        "Your school day will start at {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') | int | timestamp_custom('%I:%M %p' , False)) }}. "
+        {% if is_state('input_boolean.kallen_school_early_release','on') %}
           "There will be early dismissal today. "
         {% endif %}
-        "Your school day will end at {{(state_attr('input_datetime.school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+        "Your school day will end at {{(state_attr('input_datetime.kallen_school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
       {% endif %}
     </p>
 

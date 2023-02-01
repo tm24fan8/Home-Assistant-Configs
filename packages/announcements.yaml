@@ -197,7 +197,7 @@ automation:
         to: 'on'
     condition:
       - condition: state
-        entity_id: input_boolean.school_today
+        entity_id: input_boolean.kallen_school_today
         state: 'on'
       - condition: state
         entity_id: input_boolean.kallen_overnight

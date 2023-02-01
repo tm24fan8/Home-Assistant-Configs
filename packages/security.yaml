@@ -135,7 +135,7 @@ automation:
             entity_id: input_boolean.work_today
             state: 'on'
           - condition: state
-            entity_id: input_boolean.school_today
+            entity_id: input_boolean.kallen_school_today
             state: 'on'
     action:
       - service: script.security_disarm
@@ -164,7 +164,7 @@ automation:
             entity_id: input_boolean.work_today
             state: 'on'
           - condition: state
-            entity_id: input_boolean.school_today
+            entity_id: input_boolean.kallen_school_today
             state: 'on'
     action:
       - if:
@@ -186,7 +186,7 @@ automation:
                 - thu
                 - fri
             - condition: state
-              entity_id: input_boolean.school_early_release
+              entity_id: input_boolean.kallen_school_early_release
               state: "on"
         then:
           - stop: School early release

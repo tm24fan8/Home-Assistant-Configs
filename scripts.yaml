@@ -506,23 +506,23 @@ freeze_cleanup:
       entity_id: calendar.kallen_school_days
       state: 'on'
     - condition: time
-      before: input_datetime.school_day_end
-      after: input_datetime.school_day_start
+      before: input_datetime.kallen_school_day_end
+      after: input_datetime.kallen_school_day_start
     then:
     - service: input_boolean.turn_on
       data: {}
       target:
         entity_id:
-        - input_boolean.school_today
-        - input_boolean.school_today_extended
+        - input_boolean.kallen_school_today
+        - input_boolean.kallen_school_today_extended
         - input_boolean.kallen_at_school
     else:
     - service: input_boolean.turn_off
       data: {}
       target:
         entity_id:
-        - input_boolean.school_today
-        - input_boolean.school_today_extended
+        - input_boolean.kallen_school_today
+        - input_boolean.kallen_school_today_extended
         - input_boolean.kallen_at_school
   - if:
     - condition: time
