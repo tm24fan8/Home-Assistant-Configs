@@ -1,0 +1,68 @@
+# This file is for entities/automations that are specific to Tina
+
+input_boolean:
+  work_today:
+    name: Work Today
+    icon: mdi:briefcase
+
+input_datetime:
+  tina_workday_start:
+    name: Tina Workday Start
+    has_date: false
+    has_time: true
+    icon: mdi:briefcase
+  tina_workday_end:
+    name: Tina Workday End
+    has_date: false
+    has_time: true
+    icon: mdi:briefcase-off
+
+automation:
+  - id: cd9f921f-71c7-4e29-9aee-7421ef19bdd3
+    alias: Work Today
+    initial_state: true
+    trigger:
+    - platform: time
+      at: '04:00:00'
+    condition:
+    - condition: template
+      value_template: >
+        {%- if as_timestamp(strptime(state_attr('calendar.family_tinawork','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%Y-%m-%d") == now().strftime("%Y-%m-%d") %}
+          true
+        {%- endif -%}
+    action:
+      - service: script.tina_work_today
+
+  - id: a6eeb075-d21b-436c-983f-39188ee9b016
+    alias: Work Reset
+    initial_state: true
+    trigger:
+      - platform: time
+        at: input_datetime.tina_workday_end
+    action: 
+      - service: script.tina_work_reset
+
+script:
+  tina_work_today:
+    alias: 'Tina Work Today'
+    sequence:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.tina_workday_start
+        data:
+          time: >
+            {{ as_timestamp(strptime(state_attr('calendar.family_tinawork','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.tina_workday_end
+        data:
+          time: >
+            {{ as_timestamp(strptime(state_attr('calendar.family_tinawork','end_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.work_today
+
+  tina_work_reset:
+    alias: 'Tina Work Reset'
+    sequence:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.work_today
