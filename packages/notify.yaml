@@ -149,6 +149,17 @@ group:
     entities:
       - media_player.living_room_echo_dot
       - media_player.master_bedroom_echo_dot
+  kids_bedrooms:
+    name: Kids Bedrooms
+    entities:
+      - media_player.kallen_bedroom_speaker
+      - media_player.emma_bedroom_speaker
+  all_bedrooms:
+    name: All Bedrooms
+    entities:
+      - media_player.kallen_bedroom_speaker
+      - media_player.emma_bedroom_speaker
+      - media_player.master_bedroom_echo_dot
 
 notify:
   - platform: ios
