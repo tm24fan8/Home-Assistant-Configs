@@ -539,6 +539,249 @@ automation:
               seconds: 2
           # The delay is to prevent the boolean from re-running the automation if the lights were turned on manually
 
+script:
+  adaptive_on_first_floor:
+    alias: Adaptive on First Floor
+    sequence:
+      - if:
+        - condition: state
+          entity_id: light.living_room_lights
+          state: 'on'
+        then:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.living_room_scenes
+          data:
+            option: Adaptive
+        else:
+        - service: switch.turn_on
+          target:
+            entity_id: switch.adaptive_lighting_living_room
+        - service: switch.turn_off
+          target:
+            entity_id: switch.adaptive_lighting_sleep_mode_living_room
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.living_room_selected_scene
+          data:
+            value: Adaptive
+      - if:
+        - condition: state
+          entity_id: light.dining_room_lamp
+          state: 'on'
+        then:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.dining_room_lamp_scenes
+          data:
+            option: Full
+        else:
+        - service: switch.turn_on
+          target:
+            entity_id: switch.adaptive_lighting_dining_room
+        - service: switch.turn_off
+          target:
+            entity_id: switch.adaptive_lighting_sleep_mode_dining_room
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.dining_room_lamp_selected_scene
+          data:
+            value: Full
+      - if:
+        - condition: or
+          conditions:
+            - condition: state
+              entity_id: light.tina_lamp
+              state: 'on'
+            - condition: state
+              entity_id: light.tina_desk_strip
+              state: 'on'
+        then:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.tina_desk_scenes
+          data:
+            option: Reset
+        else:
+        - service: switch.turn_on
+          target:
+            entity_id: switch.adaptive_lighting_tina_lamp
+        - service: switch.turn_off
+          target:
+            entity_id: switch.adaptive_lighting_sleep_mode_tina_lamp
+      - if:
+        - condition: state
+          entity_id: light.downstairs_bathroom_lights
+          state: 'on'
+        then:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.downstairs_bathroom_scenes
+          data:
+            option: Adaptive
+        else:
+        - service: switch.turn_on
+          target:
+            entity_id: switch.adaptive_lighting_downstairs_bathroom
+        - service: switch.turn_off
+          target:
+            entity_id: switch.adaptive_lighting_sleep_mode_downstairs_bathroom
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.downstairs_bathroom_selected_scene
+          data:
+            value: Adaptive
+      - if:
+        - condition: state
+          entity_id: light.mud_room_overhead
+          state: 'on'
+        then:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.mud_room_scenes
+          data:
+            option: Adaptive
+        else:
+        - service: switch.turn_on
+          target:
+            entity_id: switch.adaptive_lighting_mud_room
+        - service: switch.turn_off
+          target:
+            entity_id: switch.adaptive_lighting_sleep_mode_mud_room
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.mud_room_selected_scene
+          data:
+            value: Adaptive
+
+  adaptive_on_second_floor:
+    alias: 'Adaptive on Second Floor'
+    sequence:
+      - if:
+        - condition: state
+          entity_id: light.hallway_overhead
+          state: 'on'
+        then:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.upstairs_hallway_scenes
+          data:
+            option: Adaptive
+        else:
+        - service: switch.turn_on
+          target:
+            entity_id: switch.adaptive_lighting_upstairs_hallway
+        - service: switch.turn_off
+          target:
+            entity_id: switch.adaptive_lighting_sleep_mode_upstairs_hallway
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.upstairs_hallway_selected_scene
+          data:
+            value: Adaptive
+      # - if:
+      #   - condition: state
+      #     entity_id: binary_sensor.upstairs_bathroom_motion
+      #     state: 'on'
+      #   then:
+      #   - service: input_select.select_option
+      #     target:
+      #       entity_id: input_select.upstairs_bathroom_scenes
+      #     data:
+      #       option: Adaptive
+      #   else:
+      #     - if:
+      #       - condition: state
+      #         entity_id: binary_sensor.early_night_mode
+      #         state: 'on'
+      #       then:
+      #       - service: input_select.select_option
+      #         target:
+      #           entity_id: input_select.upstairs_bathroom_scenes
+      #         data:
+      #           option: Nightlight
+      #       else:
+      #       - service: light.turn_off
+      #         target:
+      #           entity_id: light.upstairs_bathroom_lights
+      #       - service: switch.turn_on
+      #         target:
+      #           entity_id: switch.adaptive_lighting_upstairs_bathroom
+      #       - service: switch.turn_off
+      #         target:
+      #           entity_id: switch.adaptive_lighting_sleep_mode_upstairs_bathroom
+      #       - service: input_text.set_value
+      #         target:
+      #           entity_id: input_text.upstairs_bathroom_selected_scene
+      #         data:
+      #           value: Adaptive
+      - if:
+        - condition: state
+          entity_id: light.master_bedroom_lights
+          state: 'on'
+        then:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.master_bedroom_scenes
+          data:
+            option: Adaptive
+        else:
+        - service: switch.turn_on
+          target:
+            entity_id: switch.adaptive_lighting_master_bedroom
+        - service: switch.turn_off
+          target:
+            entity_id: switch.adaptive_lighting_sleep_mode_master_bedroom
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.master_bedroom_selected_scene
+          data:
+            value: Adaptive
+      - if:
+        - condition: state
+          entity_id: light.kallen_bedroom_lights
+          state: 'on'
+        then:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.kallen_bedroom_scenes
+          data:
+            option: Adaptive
+        else:
+        - service: switch.turn_on
+          target:
+            entity_id: switch.adaptive_lighting_kallen_bedroom
+        - service: switch.turn_off
+          target:
+            entity_id: switch.adaptive_lighting_sleep_mode_kallen_bedroom
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.kallen_bedroom_selected_scene
+          data:
+            value: Adaptive
+      - if:
+        - condition: state
+          entity_id: light.emma_bedroom_light
+          state: 'on'
+        then:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.emma_bedroom_scenes
+          data:
+            option: Adaptive
+        else:
+        - service: switch.turn_on
+          target:
+            entity_id: switch.adaptive_lighting_emma_bedroom
+        - service: switch.turn_off
+          target:
+            entity_id: switch.adaptive_lighting_sleep_mode_emma_bedroom
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.emma_bedroom_selected_scene
+          data:
+            value: Adaptive
+
 scene:
   - name: Adaptive in Living Room
     icon: mdi:palette
@@ -919,32 +1162,6 @@ scene:
     entities:
       input_select.basement_studio_scenes:
         state: "Stairwell"
-  - name: Adaptive on First Floor
-    icon: mdi:palette
-    entities:
-      input_select.living_room_scenes:
-        state: "Adaptive"
-      input_select.dining_room_lamp_scenes:
-        state: "Full"
-      input_select.tina_lamp_scenes:
-        state: "Adaptive"
-      input_select.downstairs_bathroom_scenes:
-        state: "Adaptive"
-      input_select.mud_room_scenes:
-        state: "Adaptive"
-  - name: Adaptive on Second Floor
-    icon: mdi:palette
-    entities:
-      input_select.upstairs_hallway_scenes:
-        state: "Adaptive"
-      input_select.upstairs_bathroom_scenes:
-        state: "Adaptive"
-      input_select.master_bedroom_scenes:
-        state: "Adaptive"
-      input_select.kallen_bedroom_scenes:
-        state: "Adaptive"
-      input_select.emma_bedroom_scenes:
-        state: "Adaptive"
   - name: Night Mode on First Floor
     icon: mdi:palette
     entities:
