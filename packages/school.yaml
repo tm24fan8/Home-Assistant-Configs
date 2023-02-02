@@ -2,6 +2,9 @@ input_boolean:
   school_in_session:
     name: School In Session
     icon: mdi:bus-school
+  kallen_at_school:
+    name: Kallen at School
+    icon: mdi:school
   kallen_school_today:
     name: Kallen School Today
     icon: mdi:bus-school
