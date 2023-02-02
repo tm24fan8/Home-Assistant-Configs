@@ -49,7 +49,7 @@
         {% if states.sensor.school_end_days2go.state | int == 0 -%}
           But today is the last day of School! 
         {%- endif %}
-        The lunch menu for today is {{ states('sensor.lunch_menu_items') }}
+        The lunch menu for today is {{ states('sensor.kallen_lunch_menu_items') }}
       {% endif %}
       {% if is_state('input_boolean.kallen_school_today', 'off') %}
         {% if is_state('input_boolean.kallen_school_cancelled','on') %}

@@ -116,7 +116,7 @@ sensor:
           {% else %}
             off
           {% endif %}
-      lunch_menu_week:
+      kallen_lunch_menu_week:
         friendly_name: Lunch Menu Week
         value_template: >
           {% if is_state('calendar.elementary_school_lunch','on') %}
@@ -136,10 +136,10 @@ sensor:
           {% else %}
             mdi:calendar-end
           {% endif %}
-      lunch_menu_items:
+      kallen_lunch_menu_items:
         friendly_name: Lunch Menu Items
         icon_template: >
-          {% set week = states('sensor.lunch_menu_week') %}
+          {% set week = states('sensor.kallen_lunch_menu_week') %}
           {% if week == 'First Menu' %}
             mdi:numeric-1-circle
           {% elif week == 'Second Menu' %}
@@ -153,7 +153,7 @@ sensor:
           {% endif %}
         value_template: >
           {%- macro getReport() -%}
-            {% set week = states('sensor.lunch_menu_week') %}
+            {% set week = states('sensor.kallen_lunch_menu_week') %}
             {% set dow = now().strftime('%A') %}
             {% if week == 'First Menu' %}
               {% if dow == 'Monday' %}
@@ -248,7 +248,7 @@ sensor:
 
 automation:
   - id: e1cb2d02-0423-11eb-adc1-0242ac120002
-    alias: School today
+    alias: Kallen School today
     initial_state: true
     trigger:
     - platform: time
@@ -263,7 +263,7 @@ automation:
       - service: script.kallen_school_today
 
   - id: b9028665-401c-4de3-8f13-1099160b011f
-    alias: School Reset
+    alias: Kallen School Reset
     initial_state: true
     trigger:
       - platform: time
