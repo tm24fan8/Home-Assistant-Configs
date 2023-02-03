@@ -693,11 +693,11 @@ script:
           {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_speaker','Kallen Bedroom']  %}
             script.jarvis_voice
           {% elif who in ['emma_bedroom','Emma Bedroom'] %}
-            script.alexa_voice
+            script.jarvis_voice
           {% elif who in ['master_bedroom','master_bedroom_echo_dot','media_player.master_bedroom_echo_dot','Master Bedroom Echo Dot','Master Bedroom']  %}
             script.alexa_voice
           {% elif who in ['kids_bedrooms','Kids Bedrooms'] %}
-            script.alexa_voice
+            script.jarvis_voice
           {% elif who in ['all_bedrooms','All Bedrooms'] %}
             script.alexa_voice
           {% elif who in ['Basement','basement','basement_echo_dot','media_player.basement_echo_dot','Basement Echo Dot']  %}
