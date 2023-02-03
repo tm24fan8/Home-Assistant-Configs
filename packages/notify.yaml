@@ -233,16 +233,30 @@ script:
         description: 'Which phone, or group of phones, to send the notification to'
         example: 'tony, tina, kallen, parents, nerds, all'
         required: true
+        selector:
+          select:
+            options:
+              - tony
+              - tina
+              - kallen
+              - parents
+              - nerds
+              - all
       title:
         name: 'Title'
         description: 'The title of the notification'
         example: 'Greetings'
         required: true
+        selector:
+          text:
       message:
         name: 'Message'
         description: 'The body of the notification'
         example: 'I am notifying you that this is a notification'
         required: true
+        selector:
+          text:
+            multiline: true
     sequence:
       - condition: state
         entity_id: input_boolean.text_notifications
@@ -351,16 +365,28 @@ script:
         description: 'Which TV to send the notification to'
         example: 'living_room, basement, master_bedroom, all'
         required: true
+        selector:
+          select:
+            options:
+              - living_room
+              - basement
+              - master_bedroom
+              - all
       title:
         name: 'Title'
         description: 'The title of the notification'
         example: 'Greetings'
         required: true
+        selector:
+          text:
       message:
         name: 'Message'
         description: 'The body of the notification'
         example: 'I am notifying you that this is a notification'
         required: true
+        selector:
+          text:
+            multiline: true
       data:
         name: 'Data'
         description: 'This is where you can define other message parameters, these are platform-specific'
@@ -417,16 +443,30 @@ script:
         description: 'Which phone, or group of phones, to send the alert to'
         example: 'tony, tina, kallen, parents, nerds, all'
         required: true
+        selector:
+          select:
+            options:
+              - tony
+              - tina
+              - kallen
+              - parents
+              - nerds
+              - all
       title:
         name: 'Title'
         description: 'The title of the alert'
         example: 'Important Alert'
         required: true
+        selector:
+          text:
       message:
         name: 'Message'
         description: 'The body of the alert'
         example: 'I am alerting you to the possibility that this is an alert'
         required: true
+        selector:
+          text:
+            multiline: true
     sequence:
       - service: >
             {% if who == 'tony' %}
@@ -498,16 +538,30 @@ script:
         description: 'Which phone, or group of phones, to send the alert to'
         example: 'tony, tina, kallen, parents, nerds, all'
         required: true
+        selector:
+          select:
+            options:
+              - tony
+              - tina
+              - kallen
+              - parents
+              - nerds
+              - all
       title:
         name: 'Title'
         description: 'The title of the notification'
         example: 'Critical Alert'
         required: true
+        selector:
+          text:
       message:
         name: 'Message'
         description: 'The body of the notification'
         example: 'I am alerting you to a critical situation!'
         required: true
+        selector:
+          text:
+            multiline: true
     sequence:
       - service: >
           {% if who == 'tony' %}
@@ -635,16 +689,41 @@ script:
         description: 'This determines which speaker, or group of speakers, the message is sent to'
         required: true
         example: 'living_room, basement, common_areas, master_bedroom, kallen_bedroom, emma_bedroom, kids_bedrooms, all_bedrooms, everywhere'
+        selector:
+          select:
+            options:
+              - Living Room
+              - Basement
+              - Common Areas
+              - Master Bedroom
+              - Kallen Bedroom
+              - Emma Bedroom
+              - Kids Bedrooms
+              - All Bedrooms
+              - Everywhere
       message:
         name: 'Message'
         description: 'This is the message you want Jarvis to read.'
         required: true
         example: 'Type some text and I will read it out loud'
+        selector:
+          text:
+            multiline: true
       voice:
         name: 'Voice'
         description: 'Which voice you would like Jarvis to read in (optional, and only applicable on Alexa devices)'
         required: false
         example: 'Brian, Emma, Joanna, Amy, Justin, Matthew, Salli'
+        selector:
+          select:
+            options:
+              - Brian
+              - Emma
+              - Joanna
+              - Amy
+              - Justin
+              - Matthew
+              - Salli
     variables:
       voice: "{{ states('input_select.jarvis_voice') }}"
     sequence:
