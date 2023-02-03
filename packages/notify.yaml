@@ -225,6 +225,8 @@ script:
   text_notify:
     alias: 'Text Notify'
     description: 'Use this to send text notifications to phones, respecting presence'
+    mode: queued
+    max: 10
     fields:
       who:
         name: 'Who'
@@ -341,6 +343,8 @@ script:
   tv_notify:
     alias: 'TV Notify'
     description: 'Use this to send popup text notifications to TV screens in the house'
+    mode: queued
+    max: 10
     fields:
       who:
         name: 'Who'
@@ -405,6 +409,8 @@ script:
   text_alert:
     alias: 'Text Alert'
     description: 'Use this to send more important text alerts to phones, this will ignore presence'
+    mode: queued
+    max: 10
     fields:
       who:
         name: 'Who'
@@ -484,6 +490,8 @@ script:
   text_urgent_alert:
     alias: 'Text Urgent Alert'
     description: 'Use this to send CRITICAL text alerts to phones. This will ignore presence, make a loud annoying sound, and create a persistent notification, DO NOT USE UNLESS NECESSARY'
+    mode: queued
+    max: 10
     fields:
       who:
         name: 'Who'
@@ -619,6 +627,8 @@ script:
   speech_engine:
     alias: 'Speech Engine'
     description: 'This is the framework for Jarvis to speak on any/all speakers in the house'
+    mode: queued
+    max: 10
     fields:
       who:
         name: 'Who'
