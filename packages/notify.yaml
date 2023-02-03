@@ -868,7 +868,7 @@ script:
       data_template:
         entity_id: >-
           {% if who in ['Everywhere','everywhere'] %}
-            media_player.kallen_bedroom_speaker
+            group.kids_bedroom_speakers
           {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
             media_player.kallen_bedroom_speaker
           {% elif who in ['emma_bedroom','media_player.emma_bedroom_speaker'] %}
