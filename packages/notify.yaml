@@ -149,13 +149,13 @@ group:
     entities:
       - media_player.living_room_echo_dot
       - media_player.master_bedroom_echo_dot
-  kids_bedrooms:
-    name: Kids Bedrooms
+  kids_bedroom_speakers:
+    name: Kids Bedroom Speakers
     entities:
       - media_player.kallen_bedroom_speaker
       - media_player.emma_bedroom_speaker
-  all_bedrooms:
-    name: All Bedrooms
+  all_bedroom_speakers:
+    name: All Bedroom Speakers
     entities:
       - media_player.kallen_bedroom_speaker
       - media_player.emma_bedroom_speaker
@@ -593,7 +593,13 @@ script:
             script.alexa_voice
           {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_speaker','Kallen Bedroom']  %}
             script.jarvis_voice
+          {% elif who in ['emma_bedroom','Emma Bedroom'] %}
+            script.alexa_voice
           {% elif who in ['master_bedroom','master_bedroom_echo_dot','media_player.master_bedroom_echo_dot','Master Bedroom Echo Dot','Master Bedroom']  %}
+            script.alexa_voice
+          {% elif who in ['kids_bedrooms','Kids Bedrooms'] %}
+            script.alexa_voice
+          {% elif who in ['all_bedrooms','All Bedrooms'] %}
             script.alexa_voice
           {% elif who in ['Basement','basement','basement_echo_dot','media_player.basement_echo_dot','Basement Echo Dot']  %}
             script.alexa_voice
@@ -610,8 +616,14 @@ script:
               living_room
             {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_speaker','Kallen Bedroom']  %}
               kallen_bedroom
+            {% elif who in ['emma_bedroom','Emma Bedroom'] %}
+              emma_bedroom
             {% elif who in ['master_bedroom','master_bedroom_echo_dot','media_player.master_bedroom_echo_dot','Master Bedroom Echo Dot','Master Bedroom']  %}
               master_bedroom
+            {% elif who in ['kids_bedrooms','Kids Bedrooms'] %}
+              kids_bedrooms
+            {% elif who in ['all_bedrooms','All Bedrooms'] %}
+              all_bedrooms
             {% elif who in ['Basement','basement','basement_echo_dot','media_player.basement_echo_dot','Basement Echo Dot']  %}
               {% if is_state('input_boolean.studio_quiet','on') %}
                 living_room
@@ -642,7 +654,7 @@ script:
           voice: '{{ voice }}'
       - condition: template
         value_template: >
-          {% if who in ['Everywhere','everywhere'] %}
+          {% if who in ['Everywhere','everywhere','all_bedrooms','All Bedrooms','kids_bedrooms','Kids Bedrooms'] %}
             true
           {% else %}
             false
@@ -733,7 +745,7 @@ script:
         target: >
           {% if who in ['living_room_echo_dot', 'media_player.living_room_echo_dot','living_room'] %}
             media_player.living_room_echo_dot
-          {% elif who in ['master_bedroom','master_bedroom_echo_dot'] %}
+          {% elif who in ['master_bedroom','master_bedroom_echo_dot','all_bedrooms'] %}
             media_player.master_bedroom_echo_dot
           {% elif who in ['basement','basement_echo_dot'] %}
             media_player.basement_echo_dot
@@ -760,6 +772,10 @@ script:
             media_player.kallen_bedroom_speaker
           {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
             media_player.kallen_bedroom_speaker
+          {% elif who in ['emma_bedroom','media_player.emma_bedroom_speaker'] %}
+            media_player.emma_bedroom_speaker
+          {% elif who in ['kids_bedrooms','all_bedrooms'] %}
+            group.kids_bedroom_speakers
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
             media_player.living_room_tv
@@ -774,6 +790,10 @@ script:
             media_player.kallen_bedroom_speaker
           {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
             media_player.kallen_bedroom_speaker
+          {% elif who in ['emma_bedroom','media_player.emma_bedroom_speaker'] %}
+            media_player.emma_bedroom_speaker
+          {% elif who in ['kids_bedrooms','all_bedrooms'] %}
+            group.kids_bedroom_speakers
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
             media_player.living_room_tv
@@ -783,7 +803,7 @@ script:
           {% endif %}
         volume_level: >-
             {% if states.input_boolean.audible_notifications.state == 'on' %}
-              0.9
+              0.8
             {% else %}
               0.3
             {% endif %}
@@ -794,6 +814,10 @@ script:
             media_player.kallen_bedroom_speaker
           {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
             media_player.kallen_bedroom_speaker
+          {% elif who in ['emma_bedroom','media_player.emma_bedroom_speaker'] %}
+            media_player.emma_bedroom_speaker
+          {% elif who in ['kids_bedrooms','all_bedrooms'] %}
+            group.kids_bedroom_speakers
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
             media_player.living_room_tv
