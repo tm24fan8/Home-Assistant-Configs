@@ -1,5 +1,5 @@
 >
-  {# Kallen Morning Report #}
+  {# Kallen Morning Briefing #}
   {%- macro getReport() -%}
     <p>
       Good morning, Collin.

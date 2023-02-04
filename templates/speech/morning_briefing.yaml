@@ -1,5 +1,5 @@
 >
-  {# Morning Report #}
+  {# Morning Briefing #}
   {%- macro getReport() -%}
     <p>
       {% if now().strftime('%H')|int < 12 and now().strftime('%H')|int > 6 %}

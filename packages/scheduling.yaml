@@ -275,7 +275,7 @@ script:
               09:00
             {% endif %}
       - service: input_datetime.set_datetime
-        entity_id: input_datetime.morning_report
+        entity_id: input_datetime.morning_briefing
         data_template:
           time: >
             {% if is_state('input_boolean.kallen_school_today','on') %}
@@ -296,7 +296,7 @@ script:
               12:00
             {% endif %}
       - service: input_datetime.set_datetime
-        entity_id: input_datetime.daily_report
+        entity_id: input_datetime.daily_briefing
         data_template:
           time: >
             {% if is_state('input_boolean.kallen_school_today','on') %}
@@ -351,7 +351,7 @@ script:
     alias: 'House Scheduling Evening'
     sequence:
       - service: input_datetime.set_datetime
-        entity_id: input_datetime.nightly_report
+        entity_id: input_datetime.nightly_briefing
         data:
           time: >
             {{ (state_attr('input_datetime.kallen_bedtime','timestamp') - 3600) | timestamp_custom('%H:%M', false) }}

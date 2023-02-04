@@ -1,5 +1,5 @@
-good_morning_report:
-  name: Good Morning Report
+good_morning:
+  name: Good Morning
   icon: mdi:home-analytics
 weather_reports:
   name: Weather Info

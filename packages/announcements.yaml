@@ -3,18 +3,18 @@
 ###############################
 
 input_datetime:
-  morning_report:
-    name: Morning Report
+  morning_briefing:
+    name: Morning Briefing
     has_date: false
     has_time: true
     icon: mdi:home-analytics
-  nightly_report:
-    name: Nightly Report
+  nightly_briefing:
+    name: Nightly Briefing
     has_date: false
     has_time: true
     icon: mdi:home-analytics
-  daily_report:
-    name: Daily Report
+  daily_briefing:
+    name: Daily Briefing
     has_date: false
     has_time: true
     icon: mdi:home-analytics
@@ -130,13 +130,13 @@ automation:
     alias: House Briefings
     trigger:
     - platform: time
-      at: input_datetime.morning_report
+      at: input_datetime.morning_briefing
       id: house-morning
     - platform: time
-      at: input_datetime.daily_report
+      at: input_datetime.daily_briefing
       id: house-daily
     - platform: time
-      at: input_datetime.nightly_report
+      at: input_datetime.nightly_briefing
       id: house-nightly
     action:
     - choose:
@@ -144,7 +144,7 @@ automation:
         - condition: trigger
           id: house-morning
         sequence:
-        - service: script.morning_report
+        - service: script.morning_briefing
       - conditions:
         - condition: trigger
           id: house-daily
@@ -213,10 +213,10 @@ script:
   reset_annc_switches:
     sequence:
       - service: input_boolean.turn_off
-        entity_id: input_boolean.good_morning_report
+        entity_id: input_boolean.good_morning
 
-  morning_briefing:
-    alias: 'Morning Briefing'
+  morning_briefing_alexa:
+    alias: 'Morning Briefing Alexa'
     sequence:
       - service: button.press
         target:
@@ -278,8 +278,8 @@ script:
           who: common
           message: !include ../templates/speech/nightly_briefing.yaml
 
-  morning_report:
-    alias: 'Morning Report'
+  morning_briefing:
+    alias: 'Morning Briefing'
     sequence:
     - service: script.speech_engine
       data:
