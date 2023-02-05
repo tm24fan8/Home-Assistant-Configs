@@ -100,6 +100,11 @@ recorder:
       - media_player.master_bedroom_echo_dot
       - media_player.kallen_bedroom_speaker
       - media_player.emma_bedroom_speaker
+      - media_player.spotify_iron_nerd
+      - media_player.xia_desktop
+      - media_player.xia_desktop_2
+      - media_player.tony_asus
+      - media_player.kallen_desktop
 
 logger:
   default: critical
