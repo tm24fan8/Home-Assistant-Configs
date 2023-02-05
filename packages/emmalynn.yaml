@@ -31,16 +31,48 @@ automation:
           - condition: trigger
             id: sleep-on
           sequence:
-            - service: script.emma_naptime
+            - service: script.emma_sleep
         - conditions:
           - condition: trigger
             id: sleep-off
           sequence:
             - service: script.emma_wakeup
 
+  - id: '1655415573165'
+    alias: Emma Bedroom Handling
+    description: "For scheduled operations in Emma's bedroom"
+    trigger:
+    - platform: time
+      at: input_datetime.emma_wakeup
+      id: emma-wakeup
+    - platform: time
+      at: input_datetime.emma_bedtime
+      id: emma-bedtime
+    condition:
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'off'
+    action:
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: emma-wakeup
+        sequence:
+        - service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.emma_sleeping
+      - conditions:
+        - condition: trigger
+          id: emma-bedtime
+        sequence:
+        - service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.emma_sleeping
+    mode: restart
+
 script:
-  emma_naptime:
-    alias: 'Emma Naptime'
+  emma_sleep:
+    alias: 'Emma Sleep'
     icon: mdi:lightbulb-night
     mode: restart
     sequence:
@@ -50,29 +82,96 @@ script:
             entity_id: binary_sensor.early_night_mode
             state: 'on'
           sequence:
-          - service: light.turn_on
-            target:
-              entity_id:
-                - light.emma_bedroom_light
-                - light.hallway_overhead
-          - service: input_boolean.turn_on
-            target:
-              entity_id: input_boolean.white_noise_emma_bedroom
-          - service: input_select.select_option
-            target:
-              entity_id:
-                - input_select.emma_bedroom_scenes
-                - input_select.upstairs_hallway_scenes
-            data:
-              option: Adaptive
+          - if:
+            - condition: state
+              entity_id: input_boolean.give_me_darkness
+              state: 'on'
+            then:
+            - service: light.turn_on
+              target:
+                entity_id:
+                  - light.emma_bedroom_light
+            - delay:
+                seconds: 1
+            - service: input_select.select_option
+              target:
+                entity_id:
+                  - input_select.emma_bedroom_scenes
+              data:
+                option: Adaptive
+            else:
+            - service: light.turn_on
+              target:
+                entity_id:
+                  - light.emma_bedroom_light
+                  - light.hallway_overhead
+            - delay:
+                seconds: 1
+            - service: input_select.select_option
+              target:
+                entity_id:
+                  - input_select.emma_bedroom_scenes
+                  - input_select.upstairs_hallway_scenes
+              data:
+                option: Adaptive
+          - choose:
+            - conditions:
+              - condition: state
+                entity_id: input_select.scheduled_climate_mode_emma_aircon
+                state: AC
+              sequence:
+              - service: fan.turn_on
+                target:
+                  entity_id: fan.emma_air_conditioner
+              - service: script.text_notify
+                data:
+                  who: "parents"
+                  title: "Emma Climate Schedule"
+                  message: "The air conditioner in Emma's Bedroom has been activated."
+            - conditions:
+              - condition: state
+                entity_id: input_select.scheduled_climate_mode_emma_aircon
+                state: White Noise
+              sequence:
+              - service: input_boolean.turn_on
+                target:
+                  entity_id: input_boolean.white_noise_emma_bedroom
+              - service: script.text_notify
+                data:
+                  who: "parents"
+                  title: "Emma Climate Schedule"
+                  message: "White noise has been activated in Emma's Bedroom."
+            default:
+            - service: script.text_notify
+              data:
+                who: "parents"
+                title: "Emma Climate Schedule"
+                message: "No option selected for Emma's climate mode. No devices will be activated."
         - conditions:
           - condition: state
             entity_id: binary_sensor.early_night_mode
             state: 'off'
           sequence:
-          - service: input_boolean.turn_on
-            target:
-              entity_id: input_boolean.white_noise_emma_bedroom
+          - if:
+            - condition: template
+              value_template: >
+                {% if is_state('input_boolean.emma_bedroom_aircon_installed','on') %}
+                  {% if (states('sensor.pirateweather_temperature') | int) > (states('input_number.emma_aircon_threshold') | int) %}
+                    true
+                  {% else %}
+                    false
+                  {% endif %}
+                {% else %}
+                  false
+                {% endif %}
+            then:
+            - service: fan.turn_on
+              target:
+                entity_id: fan.emma_air_conditioner
+            else:
+            - service: input_boolean.turn_on
+              target:
+                entity_id: input_boolean.white_noise_emma_bedroom
 
   emma_wakeup:
     alias: 'Emma Wakeup'
