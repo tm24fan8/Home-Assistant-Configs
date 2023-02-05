@@ -12,7 +12,7 @@ With this change, the Node-RED flows are now in a new repo used as a submodule t
 
 I am fairly new to this, and while I'm learning to do a lot of it myself, I have definitely pulled ideas (in most cases modifying them for my needs) from other sources as well. Some of the most noteworthy are below.
 
-- [SlackerLabs](https://github.com/thejeffreystone/home-assistant-configuration) - This guy has a lot of EXCELLENT videos on [his YouTube channel](https://www.youtube.com/c/SlackerLabs) and is very good at explaining things in a way that someone new to all of this can understand.
+- [SlackerLabs](https://github.com/thejeffreystone/homeassistant-config) - This guy has a lot of EXCELLENT videos on [his YouTube channel](https://www.youtube.com/c/SlackerLabs) and is very good at explaining things in a way that someone new to all of this can understand. *His old repo where I got a lot of my ideas is [here](https://github.com/thejeffreystone/home-assistant-configuration).*
 - [Everything Smart Home](https://www.youtube.com/c/EverythingSmartHome) - I haven't used much code from him, because to my knowledge he doesn't publish it anywhere. But his videos ARE very informative and well-made, and I have learned a lot from watching them. Many ideas have been gained from this channel.
 
 ## HACS Components
@@ -98,8 +98,6 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Card Templater](https://github.com/gadgetchnnel/lovelace-card-templater)
 
 ## AppDaemon Apps
-
-This is a new adventure so we'll see where it ends up going, but so far I am using (or trying to use) the following
 
 - [White Noise](https://github.com/apop880/White-Noise)
 - [Follow Me](https://github.com/aneisch/follow_me_appdaemon)
