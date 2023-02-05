@@ -186,7 +186,7 @@
   description: Runs when family arrives at home
   trigger:
   - platform: state
-    entity_id: group.family
+    entity_id: group.adults
     from: not_home
     to: home
   - platform: event
@@ -226,7 +226,7 @@
   description: Runs when the family has left home
   trigger:
   - platform: state
-    entity_id: group.family
+    entity_id: group.adults
     from: home
     to: not_home
   - platform: event
@@ -260,7 +260,7 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: group.family
+    entity_id: group.adults
     to: not_home
     for:
       hours: 1

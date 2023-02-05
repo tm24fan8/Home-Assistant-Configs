@@ -70,7 +70,7 @@ sensor:
           {% set person = states.person.tony_stork.state %}
           {% if person in ['Home','home'] %}
             Home
-          {% elif person in ['WalMart','Kroger','Chief','Meijer','Dollar General - Clinton St','Aldi'] %}
+          {% elif person in ['WalMart','Wal-Mart','Kroger','Chief','Meijer','Dollar General - Clinton St','Aldi'] %}
             Grocery Store
           {% elif person in ['Rite Aid'] %}
             Pharmacy
@@ -95,7 +95,7 @@ sensor:
           {% set person = states.person.christina_stork.state %}
           {% if person in ['Home','home'] %}
             Home
-          {% elif person in ['WalMart','Kroger','Chief','Meijer','Dollar General - Clinton St','Aldi'] %}
+          {% elif person in ['WalMart','Wal-Mart','Kroger','Chief','Meijer','Dollar General - Clinton St','Aldi'] %}
             Grocery Store
           {% elif person in ['Rite Aid'] %}
             Pharmacy
@@ -119,19 +119,27 @@ sensor:
         friendly_name: "Kallen"
         unit_of_measurement: ""
         value_template: >-
-          {% if is_state('input_boolean.kallen_at_school', 'on') %}
-            School
-          {% elif is_state('calendar.kallen_events', 'on') %}
-                {{ state_attr('calendar.kallen_events', 'message') }}
-          {%- elif is_state('person.tony_stork', 'home') and is_state('person.christina_stork', 'home') and is_state('input_boolean.kallen_at_school', 'off')%}
+          {% set person = states.person.kallen_stork.state %}
+          {% if person in ['Home','home'] %}
             Home
-          {%- elif is_state('person.tony_stork', 'Hospital') and is_state('input_boolean.kallen_at_school', 'off')%}
-            {{ states('sensor.tina_location') }}
-          {%- elif is_state('person.christina_stork', 'Bob Evans') and is_state('input_boolean.kallen_at_school', 'off')%}
-            {{ states('sensor.tony_location') }}
+          {% elif person in ['WalMart','Wal-Mart','Kroger','Chief','Meijer','Dollar General - Clinton St','Aldi'] %}
+            Grocery Store
+          {% elif person in ['Rite Aid'] %}
+            Pharmacy
           {% else %}
-            Unknown
+            {% if person in ['not_home','Stationary'] %}
+              {{ state_attr('device_tracker.life360_kallen_stork','address') }} 
+            {% else %}
+              {{ states('person.kallen_stork') }}
+            {%- endif %}
           {%- endif %}
+        icon_template: >-
+          {% set person = states.person.kallen_stork.state %}
+          {% if person in ['Home','home'] %}
+            mdi:home
+          {% else %}
+            mdi:car
+          {% endif %}
       people_home:
         friendly_name: "People"
         unit_of_measurement: 'home'
@@ -168,25 +176,33 @@ template:
       state: "{{ is_state('device_tracker.tinas_iphone', 'home') or is_state('device_tracker.life360_christina_stork','home') }}"
       device_class: presence
   - binary_sensor:
+    - name: "Kallen Home"
+      state: "{{ is_state('device_tracker.kallen_iphone','home') or is_state('device_tracker.life360_kallen_stork','home') }}"
+      device_class: presence
+  - binary_sensor:
     - name: "Nerds Home"
       state: >-
         {% if is_state('group.family','home') %}
-          {% if is_state('binary_sensor.tony_home','on') or is_state('device_tracker.kallen_iphone','home') %}
+          {% if is_state('binary_sensor.tony_home','on') or is_state('binary_sensor.kallen_home','on') %}
             true
           {% else %}
             false
           {% endif %}
+        {% else %}
+          false
         {% endif %}
       device_class: presence
   - binary_sensor:
     - name: "Parents Home"
       state: >-
-        {% if is_state('group.family','home') %}
+        {% if is_state('group.adults','home') %}
           {% if is_state('binary_sensor.tony_home','on') or is_state('binary_sensor.tina_home','on') %}
             true
           {% else %}
             false
           {% endif %}
+        {% else %}
+          false
         {% endif %}
       device_class: presence
 
@@ -305,7 +321,7 @@ automation:
     condition:
       - alias: "Are we home?"
         condition: state
-        entity_id: group.family
+        entity_id: group.adults
         state: "home"
     action:
       - alias: "Save Current Light State"
@@ -392,7 +408,7 @@ script:
     alias: Family Is Away
     sequence:
     - condition: state
-      entity_id: group.family
+      entity_id: group.adults
       state: not_home
     - service: notify.all_ios
       data:
@@ -404,7 +420,7 @@ script:
             - action: "SKIP_AWAY"
               title: Skip Away Mode
               icon: mdi:debug-step-over
-    - wait_template: "{{ is_state('input_boolean.away_mode_skipped','on') or is_state('group.family','home') }}"
+    - wait_template: "{{ is_state('input_boolean.away_mode_skipped','on') or is_state('group.adults','home') }}"
       continue_on_timeout: true
       timeout:
         minutes: 1
@@ -415,7 +431,7 @@ script:
           tag: skip-away
     - if:
       - condition: template
-        value_template: "{{ is_state('input_boolean.away_mode_skipped','on') or is_state('group.family','home') }}"
+        value_template: "{{ is_state('input_boolean.away_mode_skipped','on') or is_state('group.adults','home') }}"
       then:
         - stop: Away Mode Skipped
     - service: light.turn_off

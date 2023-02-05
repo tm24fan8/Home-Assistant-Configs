@@ -3,7 +3,9 @@
   {%- macro getReport() -%}
     <p>
       "Welcome home, "
-        {% if is_state('person.tony_stork','home') and is_state('person.christina_stork','home') %}
+        {% if is_state('group.family','home') %}
+          "Stork family."
+        {% elif is_state('group.adults','home') %}
           "Stork family. "
         {% elif is_state('person.tony_stork','home') %}
           "Tony. "
@@ -25,7 +27,7 @@
       {% set endbefore = state_attr('input_datetime.kallen_school_day_end','timestamp') - 3600 %}
       {% set endafter = state_attr('input_datetime.kallen_school_day_end','timestamp') + 3600 %}
       {% set current = ((now().hour * 60 + now().minute) * 60 ) %}
-      {% if is_state('input_boolean.kallen_school_today_extended','on') and current > endbefore and current < endafter %}
+      {% if is_state('person.kallen_stork','home') and is_state('input_boolean.kallen_school_today_extended','on') and current > endbefore and current < endafter %}
         "Welcome home Collin as well, "
         {{ [
         'I hope you had a great day at school! ',
@@ -42,7 +44,7 @@
           'You did not achieve eighth position this morning, did you? ',
           ] | random }}
         {% endif %}
-      {% elif is_state('input_boolean.kallen_school_cancelled','on') %}
+      {% elif is_state('input_boolean.kallen_school_cancelled','on') and is_state('person.kallen_stork','home') %}
         "I hope you are enjoying your free day off from school, Collin. "
       {% endif %}
     </p>

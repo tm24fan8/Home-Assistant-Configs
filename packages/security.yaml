@@ -121,7 +121,7 @@ automation:
         at: input_datetime.master_bedroom_wakeup
     condition:
       - condition: state
-        entity_id: group.family
+        entity_id: group.adults
         state: 'home'
       - condition: state
         entity_id: input_boolean.vacation_mode
@@ -147,7 +147,7 @@ automation:
         at: input_datetime.morning_alarm_rearm
     condition:
       - condition: state
-        entity_id: group.family
+        entity_id: group.adults
         state: 'home'
       - condition: state
         entity_id: input_boolean.vacation_mode

@@ -1,6 +1,11 @@
 Family:
   - person.tony_stork
   - person.christina_stork
+  - person.kallen_stork
+
+Adults:
+  - person.tony_stork
+  - person.christina_stork
 
 Presence Simulation:
   - light.hallway_overhead

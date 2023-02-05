@@ -1,8 +1,7 @@
 binary_sensor:
   - name: People Present
     state: >
-      {{ is_state('person.tony_stork', 'home')
-          or is_state('person.christina_stork', 'home') }}
+      {{ is_state('person.tony_stork', 'home') or is_state('person.christina_stork', 'home') }}
 
   - name: Precipitation
     state: >-
