@@ -165,6 +165,7 @@ influxdb:
       - sensor.*iphone_storage
       - sensor.*_open
       - sensor.xr500*
+      - sensor.*gas_price
       - binary_sensor.*motion*
       - binary_sensor.*door*
       - binary_sensor.*window*
