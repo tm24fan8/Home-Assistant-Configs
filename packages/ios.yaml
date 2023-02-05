@@ -16,13 +16,21 @@ ios:
       icon:
         icon: mdi:lightbulb-night
         color: '#E0E0E0'
+    - name: 'Dinner Is Ready'
+      background_color: '#8600d3'
+      label:
+        text: "Dinner is Ready"
+        color: '#FFFFFF'
+      icon:
+        icon: mdi:food-turkey
+        color: '#FFFFFF'
     - name: 'Basement On'
       background_color: '#8600d3'
       label:
         text: "Basement On"
         color: '#FFFFFF'
       icon:
-        icon: hue:room-stairs
+        icon: mdi:stairs
         color: '#FFFFFF'
     - name: 'Give Me Darkness'
       background_color: '#8600d3'
