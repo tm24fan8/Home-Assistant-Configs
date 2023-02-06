@@ -8,8 +8,7 @@ input_boolean:
 automation:
   - id: 4f01dff7-be22-4850-a05e-1906e3151441
     alias: 'Emma Sleeping'
-    mode: queued
-    max: 10
+    mode: restart
     trigger:
       - platform: state
         entity_id: input_boolean.emma_sleeping
