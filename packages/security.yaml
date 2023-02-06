@@ -117,8 +117,10 @@ automation:
     trigger:
       - platform: time
         at: input_datetime.morning_alarm_disarm
+        id: morning
       - platform: time
         at: input_datetime.master_bedroom_wakeup
+        id: wakeup
     condition:
       - condition: state
         entity_id: group.adults
@@ -129,16 +131,26 @@ automation:
       - condition: state
         entity_id: input_boolean.guest_mode
         state: 'off'
-      - condition: or
-        conditions:
-          - condition: state
-            entity_id: input_boolean.work_today
-            state: 'on'
-          - condition: state
-            entity_id: input_boolean.kallen_school_today
-            state: 'on'
     action:
-      - service: script.security_disarm
+      - choose:
+        - conditions:
+          - condition: trigger
+            id: morning
+          sequence:
+          - condition: or
+            conditions:
+              - condition: state
+                entity_id: input_boolean.work_today
+                state: 'on'
+              - condition: state
+                entity_id: input_boolean.kallen_school_today
+                state: 'on'
+          - service: script.security_disarm
+        - conditions:
+          - condition: trigger
+            id: wakeup
+          sequence:
+          - service: script.security_disarm
 
   - id: f51eb02f-3f44-4b5d-a389-762b8ca88e2a
     alias: Scheduled Alarm Rearm
