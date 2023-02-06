@@ -319,6 +319,44 @@ automation:
             - switch.adaptive_lighting_living_room
             - switch.adaptive_lighting_tina_lamp
 
+  - id: 1061c626-17c1-4f0b-8f55-2afc60ef8a3a
+    alias: Vacation Mode
+    trigger:
+      - platform: template
+        value_template: >
+          {% set tony = states('sensor.tony_s_iphone_travel_time_min') | float %}
+          {% set tina = states('sensor.tinas_iphone_travel_time_min') | float %}
+          {% if (tony >= 90) and (tina >= 90) %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        id: leave-radius
+      - platform: state
+        entity_id: group.adults
+        state: 'home'
+        id: arrive-home
+    condition:
+      - condition: state
+        entity_id: input_boolean.guest_mode
+        state: 'off'
+    action:
+      - choose:
+        - conditions:
+          - condition: trigger
+            id: leave-radius
+          sequence:
+          - service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.vacation_mode
+        - conditions:
+          - condition: trigger
+            id: arrive-home
+          sequence:
+          - service: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.vacation_mode
+
 script:
   security_arm_home:
     alias: Security Arm - Home
