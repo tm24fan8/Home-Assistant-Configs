@@ -1,1 +1,6 @@
 # This file is for entities/automations that are specific to Kallen
+
+input_boolean:
+  kallen_sleeping:
+    name: Kallen Sleeping
+    icon: mdi:sleep

@@ -770,9 +770,17 @@ script:
           {% elif who in ['living_room_echo_dot', 'media_player.living_room_echo_dot','living_room','Living Room Echo Dot','Living Room']  %}
             script.alexa_voice
           {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_speaker','Kallen Bedroom']  %}
-            script.jarvis_voice
-          {% elif who in ['emma_bedroom','Emma Bedroom'] %}
-            script.jarvis_voice
+            {% if is_state('input_boolean.kallen_sleeping','on') %}
+              script.alexa_voice
+            {% else %}
+              script.jarvis_voice
+            {% endif %}
+          {% elif who in ['emma_bedroom','Emma Bedroom','media_player.emma_bedroom_speaker'] %}
+            {% if is_state('input_boolean.emma_sleeping','on') %}
+              script.alexa_voice
+            {% else %}
+              script.jarvis_voice
+            {% endif %}
           {% elif who in ['master_bedroom','master_bedroom_echo_dot','media_player.master_bedroom_echo_dot','Master Bedroom Echo Dot','Master Bedroom']  %}
             script.alexa_voice
           {% elif who in ['kids_bedrooms','Kids Bedrooms'] %}
@@ -793,9 +801,17 @@ script:
             {% if who in ['living_room_echo_dot', 'media_player.living_room_echo_dot','living_room','Living Room Echo Dot','Living Room']  %}
               living_room
             {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_speaker','Kallen Bedroom']  %}
-              kallen_bedroom
-            {% elif who in ['emma_bedroom','Emma Bedroom'] %}
-              emma_bedroom
+              {% if is_state('input_boolean.kallen_sleeping','on') %}
+                living_room
+              {% else %}
+                kallen_bedroom
+              {% endif %}
+            {% elif who in ['emma_bedroom','Emma Bedroom','media_player.emma_bedroom_speaker'] %}
+              {% if is_state('input_boolean.emma_sleeping','on') %}
+                living_room
+              {% else %}
+                emma_bedroom
+              {% endif %}
             {% elif who in ['master_bedroom','master_bedroom_echo_dot','media_player.master_bedroom_echo_dot','Master Bedroom Echo Dot','Master Bedroom']  %}
               master_bedroom
             {% elif who in ['kids_bedrooms','Kids Bedrooms'] %}
@@ -826,6 +842,10 @@ script:
           message: >
             {% if who in ['Basement','basement','basement_echo_dot','media_player.basement_echo_dot','Basement Echo Dot'] and is_state('input_boolean.studio_quiet','on') %}
               'I cannot play notifications in the basement right now, because quiet has been requested'
+            {% elif who in ['emma_bedroom','Emma Bedroom','media_player.emma_bedroom_speaker'] and is_state('input_boolean.emma_sleeping','on') %}
+              'I cannot play notifications in Emma Bedroom right now, because Emma is sleeping and you would not like what happens if I wake her up'
+            {% elif who in ['kallen_bedroom','Kallen Bedroom','media_player.kallen_bedroom_speaker'] and is_state('input_boolean.kallen_sleeping','on') %}
+              'I cannot play notifications in Collin Bedroom right now, because Collin is sleeping'
             {% else %}
               {{ message }}
             {% endif %}
@@ -943,17 +963,55 @@ script:
   jarvis_voice:
     alias: 'Jarvis Voice'
     sequence:
+    - if:
+      - condition: template
+        value_template: >
+          {% if who in ['emma_bedroom','Emma Bedroom','media_player.emma_bedroom_speaker'] and is_state('input_boolean.emma_sleeping','on') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+      then:
+        - stop: 'Emma is sleeping'
+    - if:
+      - condition: template
+        value_template: >
+          {% if who in ['kallen_bedroom','media_player.kallen_bedroom_speaker','Kallen Bedroom'] and is_state('input_boolean.kallen_sleeping','on') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+      then:
+        - stop: 'Kallen is sleeping'
+    - if:
+      - condition: template
+        value_template: >
+          {% if who in ['kids_bedrooms','all_bedrooms','everywhere','Everywhere','Kids Bedrooms','All Bedrooms'] %}
+            {% if is_state('input_boolean.kallen_sleeping','on') and is_state('input_boolean.emma_sleeping','on') %}
+              true
+            {% else %}
+              false
+            {% endif %}
+          {% else %}
+            false
+          {% endif %}
+      then:
+        - stop: 'Kids are sleeping'
     - service: media_player.turn_on
       data_template:
         entity_id: >-
-          {% if who in ['Everywhere','everywhere'] %}
-            group.kids_bedroom_speakers
+          {% if who in ['Everywhere','everywhere','kids_bedrooms','all_bedrooms'] %}
+            {% if is_state('input_boolean.emma_sleeping','on') and is_state('input_boolean.kallen_sleeping','off') %}
+              media_player.kallen_bedroom_speaker
+            {% elif is_state('input_boolean.kallen_sleeping','on') and is_state('input_boolean.emma_sleeping','off') %}
+              media_player.emma_bedroom_speaker
+            {% else %}
+              group.kids_bedroom_speakers
+            {% endif %}
           {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
             media_player.kallen_bedroom_speaker
           {% elif who in ['emma_bedroom','media_player.emma_bedroom_speaker'] %}
             media_player.emma_bedroom_speaker
-          {% elif who in ['kids_bedrooms','all_bedrooms'] %}
-            group.kids_bedroom_speakers
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
             media_player.living_room_tv
@@ -964,14 +1022,18 @@ script:
     - service: media_player.volume_set
       data_template:
         entity_id: >-
-          {% if who in ['Everywhere','everywhere'] %}
-            media_player.kallen_bedroom_speaker
+          {% if who in ['Everywhere','everywhere','kids_bedrooms','all_bedrooms'] %}
+            {% if is_state('input_boolean.emma_sleeping','on') and is_state('input_boolean.kallen_sleeping','off') %}
+              media_player.kallen_bedroom_speaker
+            {% elif is_state('input_boolean.kallen_sleeping','on') and is_state('input_boolean.emma_sleeping','off') %}
+              media_player.emma_bedroom_speaker
+            {% else %}
+              group.kids_bedroom_speakers
+            {% endif %}
           {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
             media_player.kallen_bedroom_speaker
           {% elif who in ['emma_bedroom','media_player.emma_bedroom_speaker'] %}
             media_player.emma_bedroom_speaker
-          {% elif who in ['kids_bedrooms','all_bedrooms'] %}
-            group.kids_bedroom_speakers
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
             media_player.living_room_tv
@@ -988,14 +1050,18 @@ script:
     - service: tts.amazon_polly_say
       data_template:
         entity_id: >-
-          {% if who in ['Everywhere','everywhere'] %}
-            media_player.kallen_bedroom_speaker
+          {% if who in ['Everywhere','everywhere','kids_bedrooms','all_bedrooms'] %}
+            {% if is_state('input_boolean.emma_sleeping','on') and is_state('input_boolean.kallen_sleeping','off') %}
+              media_player.kallen_bedroom_speaker
+            {% elif is_state('input_boolean.kallen_sleeping','on') and is_state('input_boolean.emma_sleeping','off') %}
+              media_player.emma_bedroom_speaker
+            {% else %}
+              group.kids_bedroom_speakers
+            {% endif %}
           {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
             media_player.kallen_bedroom_speaker
           {% elif who in ['emma_bedroom','media_player.emma_bedroom_speaker'] %}
             media_player.emma_bedroom_speaker
-          {% elif who in ['kids_bedrooms','all_bedrooms'] %}
-            group.kids_bedroom_speakers
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
             media_player.living_room_tv
