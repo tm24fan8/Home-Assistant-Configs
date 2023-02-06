@@ -166,6 +166,16 @@ automation:
           - condition: state
             entity_id: input_boolean.kallen_school_today
             state: 'on'
+      - condition: template
+        value_template: >
+          {% set rearm = state_attr('input_datetime.morning_alarm_rearm','timestamp') %}
+          {% set wake = state_attr('input_datetime.master_bedroom_wakeup','timestamp') %}
+          {% set diff = wake - rearm %}
+          {% if diff <= 1800 %}
+            false
+          {% else %}
+            true
+          {% endif %}
     action:
       - if:
         - condition: state
