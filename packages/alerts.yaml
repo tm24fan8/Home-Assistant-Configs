@@ -49,7 +49,9 @@ automation:
     alias: Door Open Alert
     trigger:
       - platform: state
-        entity_id: binary_sensor.front_door
+        entity_id:
+          - binary_sensor.front_door
+          - binary_sensor.back_door
         from: 'off'
         to: 'on'
         for:
