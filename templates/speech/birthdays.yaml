@@ -1,0 +1,43 @@
+>
+  {# Birthdays #}
+  {%- macro getReport() -%}
+    <p>
+      {{ [
+        'Attention household, I am told that there is a birthday among us!',
+        'Ladies and gentlemen, boys and girls, gather round as we celebrate a birthday!',
+        'Oh hey, look at this, my records show that there is a birthday today!',
+        'Well what do you know, my sensors are detecting a birthday!'
+      ] | random }}
+    </p>
+
+    <p>
+      {% if is_state('sensor.anniversary_tony_s_birthday','0') %}
+        Happy {{ states('sensor.tony_current_age') }}th birthday Tony!
+      {% elif is_state('sensor.anniversary_tina_s_birthday','0') %}
+        Happy {{ states('sensor.tina_current_age') }}th birthday Tina!
+      {% elif is_state('sensor.anniversary_kallen_s_birthday','0') %}
+        Happy {{ states('sensor.kallen_current_age') }}th birthday Collin!
+      {% elif is_state('sensor.anniversary_emmalynn_s_birthday','0') %}
+        Happy {{ states('sensor.emma_current_age') }}th birthday Emmalynn!
+      {% endif %}
+    </p>
+
+    <p>
+      From Jarvis, the Stork Family, and everyone at Nerd Home Incorporated, we hope you have a great year!
+    </p>
+
+  {%- endmacro -%}
+
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+    {%- macro cleanup(data) -%}
+      {%- for item in data.split("\n")  if item | trim != "" -%}
+        {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+
+  {# a macro to call all macros :)  #}
+    {%- macro mother_of_all_macros() -%}
+      {{ getReport() }}
+    {%- endmacro -%}
+    
+    {# Call the macro  #}
+    {{- cleanup(mother_of_all_macros()) -}}

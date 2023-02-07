@@ -319,3 +319,86 @@ script:
           who: living_room
           message: !include ../templates/speech/welcome_home.yaml
     mode: restart
+
+  birthday_announcement:
+    alias: 'Birthday Announcement'
+    sequence:
+      - alias: "Save current light states"
+        service: scene.create
+        data:
+          scene_id: before_birthday_announcement
+          snapshot_entities:
+            - light.living_room_color_1
+            - light.living_room_color_2
+            - light.living_room_color_3
+            - light.tina_desk_strip
+            - light.tina_lamp_side
+            - light.tina_lamp_top
+            - light.dining_room_lamp
+            - light.mud_room_overhead
+            - light.basement_led_strip_1
+            - light.basement_tall_lamp
+            - light.basement_short_lamp
+            - light.basement_stairwell
+      - alias: "Save current adaptive states"
+        service: scene.create
+        data:
+          scene_id: before_birthday_announcement_adaptive
+          snapshot_entities:
+            - switch.adaptive_lighting_living_room
+            - switch.adaptive_lighting_tina_lamp
+            - switch.adaptive_lighting_basement_studio
+      - alias: "Give it time to make sure it saves"
+        delay:
+          seconds: 2
+      - alias: "Turn off adaptive lighting"
+        service: switch.turn_off
+        target:
+          entity_id:
+            - switch.adaptive_lighting_living_room
+            - switch.adaptive_lighting_tina_lamp
+            - switch.adaptive_lighting_basement_studio
+      - alias: "Turn off non-color lights"
+        service: light.turn_off
+        target:
+          entity_id:
+            - light.dining_room_lamp
+            - light.mud_room_overhead
+      - alias: "Set color lights to purple"
+        service: light.turn_on
+        target:
+          entity_id:
+            - light.living_room_lights
+            - light.tina_lamp
+            - light.tina_desk_strip
+            - light.basement_studio_lights
+        data:
+          color_name: >
+            {% if is_state('sensor.anniversary_tony_s_birthday','0') %}
+              purple
+            {% elif is_state('sensor.anniversary_tina_s_birthday','0') %}
+              purple
+            {% elif is_state('sensor.anniversary_kallen_s_birthday','0') %}
+              red
+            {% elif is_state('sensor.anniversary_emmalynn_s_birthday','0') %}
+              pink
+            {% endif %}
+      - alias: "Read the announcement"
+        service: script.speech_engine
+        data:
+          who: everywhere
+          message: !include ../templates/speech/birthdays.yaml
+      - alias: "Give time for the announcement to complete"
+        delay:
+          seconds: 20
+      - alias: "Restore previous light states"
+        service: scene.turn_on
+        target:
+          entity_id: scene.before_birthday_announcement
+      - alias: "Let the lights come up"
+        delay:
+          seconds: 3
+      - alias: "Restore previous adaptive states"
+        service: scene.turn_on
+        target:
+          entity_id: scene.before_birthday_announcement_adaptive
