@@ -90,8 +90,6 @@ recorder:
       - sensor.time
       - sensor.time_utc
   include:
-    entity_globs:
-      - sensor.*gas_price
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
