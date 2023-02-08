@@ -158,6 +158,29 @@
         {% else %}
           {{ state_attr('light.front_porch_light','color_temp') | int }}
         {% endif %}
+    birthdays_today:
+      friendly_name: Birthdays Today
+      value_template: >
+        {% set birthdays = [
+          states.sensor.anniversary_tony_s_birthday,
+          states.sensor.anniversary_tina_s_birthday,
+          states.sensor.anniversary_kallen_s_birthday,
+          states.sensor.anniversary_emmalynn_s_birthday
+        ] %}
+        {{ birthdays | selectattr('state','eq','0') | list | count | int }}
+      icon_template: >
+        {% set birthdays = [
+          states.sensor.anniversary_tony_s_birthday,
+          states.sensor.anniversary_tina_s_birthday,
+          states.sensor.anniversary_kallen_s_birthday,
+          states.sensor.anniversary_emmalynn_s_birthday
+        ] %}
+        {% set status = birthdays | selectattr('state','eq','0') | list | count | int %}
+        {% if status > 0 %}
+          mdi:cake
+        {% else %}
+          mdi:eye
+        {% endif %}
 
 - platform: history_stats
   name: Basement TV Time
