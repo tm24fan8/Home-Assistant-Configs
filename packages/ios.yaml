@@ -24,6 +24,14 @@ ios:
       icon:
         icon: mdi:food-turkey
         color: '#FFFFFF'
+    - name: 'Prepare To Leave'
+      background_color: '8600d3'
+      label:
+        text: "Prepare To Leave"
+        color: '#FFFFFF'
+      icon:
+        icon: mdi:bullhorn
+        color: '#FFFFFF'
     - name: 'Basement On'
       background_color: '#8600d3'
       label:
