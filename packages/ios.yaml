@@ -56,19 +56,19 @@ ios:
       icon:
         icon: mdi:weather-night
         color: '#FFFFFF'
-    - name: We Are Home
-      background_color: '#00FF00'
-      label:
-        text: "We Are Home"
-        color: '#000000'
-      icon:
-        icon: mdi:home-account
-        color: '#000000'
-    - name: 'We Are Leaving'
-      background_color: '#FF0000'
-      label:
-        text: "We Are Leaving"
-        color: '#FFFFFF'
-      icon:
-        icon: mdi:shield
-        color: '#FFFFFF'
+    # - name: We Are Home
+    #   background_color: '#00FF00'
+    #   label:
+    #     text: "We Are Home"
+    #     color: '#000000'
+    #   icon:
+    #     icon: mdi:home-account
+    #     color: '#000000'
+    # - name: 'We Are Leaving'
+    #   background_color: '#FF0000'
+    #   label:
+    #     text: "We Are Leaving"
+    #     color: '#FFFFFF'
+    #   icon:
+    #     icon: mdi:shield
+    #     color: '#FFFFFF'

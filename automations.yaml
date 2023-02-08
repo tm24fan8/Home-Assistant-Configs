@@ -189,10 +189,6 @@
     entity_id: group.adults
     from: not_home
     to: home
-  - platform: event
-    event_type: ios.action_fired
-    event_data:
-      actionName: We Are Home
   condition:
   - condition: not
     conditions:
@@ -229,10 +225,6 @@
     entity_id: group.adults
     from: home
     to: not_home
-  - platform: event
-    event_type: ios.action_fired
-    event_data:
-      actionName: We Are Leaving
   condition:
   - condition: state
     entity_id: input_boolean.guest_mode
