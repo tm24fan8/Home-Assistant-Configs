@@ -8,6 +8,7 @@ input_boolean:
 automation:
   - id: 4f01dff7-be22-4850-a05e-1906e3151441
     alias: 'Emma Sleeping'
+    description: "Handles the response to the Emma Sleeping toggle"
     mode: restart
     trigger:
       - platform: state
@@ -40,6 +41,7 @@ automation:
   - id: '1655415573165'
     alias: Emma Bedroom Handling
     description: "For scheduled operations in Emma's bedroom"
+    mode: restart
     trigger:
     - platform: time
       at: input_datetime.emma_wakeup
@@ -67,7 +69,6 @@ automation:
         - service: input_boolean.turn_on
           target:
             entity_id: input_boolean.emma_sleeping
-    mode: restart
 
 script:
   emma_sleep:
