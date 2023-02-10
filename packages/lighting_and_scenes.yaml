@@ -1206,3 +1206,44 @@ scene:
         state: "Nightlight"
       input_select.upstairs_bathroom_scenes:
         state: "Nightlight"
+  - name: Bright on First Floor
+    icon: mdi:palette
+    entities:
+      input_select.living_room_scenes:
+        state: "Bright"
+      input_select.downstairs_bathroom_scenes:
+        state: "Bright"
+      light.dining_room_lamp:
+        state: "on"
+        brightness: 255
+      switch.adaptive_lighting_tina_lamp:
+        state: "off"
+      light.tina_lamp_top:
+        state: "on"
+        kelvin: 5000
+        brightness: 255
+      light.tina_lamp_side:
+        state: "on"
+        kelvin: 5000
+        brightness: 255
+      light.tina_desk_strip:
+        state: "on"
+        brightness: 255
+        hs_color:
+          - 15
+          - 0
+      input_select.mud_room_scenes:
+        state: "Bright"
+  - name: Bright on Second Floor
+    icon: mdi:palette
+    entities:
+      input_select.master_bedroom_scenes:
+        state: "Bright"
+      input_select.kallen_bedroom_scenes:
+        state: "Bright"
+      input_select.emma_bedroom_scenes:
+        state: "Bright"
+      input_select.upstairs_hallway_scenes:
+        state: "Bright"
+      input_select.upstairs_bathroom_scenes:
+        state: "Bright"
