@@ -11,6 +11,15 @@ sensor:
     energy_sensor_naming: "{} Energy Sensor"
     mode: lut
   - platform: powercalc
+    entity_id: switch.basement_server
+    power_sensor_id: sensor.basement_server_power
+  - platform: powercalc
+    entity_id: switch.tony_desktop
+    power_sensor_id: sensor.tony_desktop_power
+  - platform: powercalc
+    entity_id: switch.kallen_desktop
+    power_sensor_id: sensor.kallen_desktop_power
+  - platform: powercalc
     entity_id: fan.emma_air_conditioner
     power_sensor_id: sensor.emma_air_conditioner_power
   - platform: powercalc
