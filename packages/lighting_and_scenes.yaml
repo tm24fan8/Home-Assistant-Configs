@@ -796,6 +796,104 @@ script:
             data:
               value: Adaptive
 
+  bright_on_first_floor:
+    alias: 'Bright on First Floor'
+    sequence:
+      - service: light.turn_on
+        target:
+          entity_id:
+            - light.living_room_lights
+            - light.downstairs_bathroom_lights
+            - light.dining_room_lamp
+            - light.mud_room_overhead
+      - service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.tina_desk_lights
+      - delay:
+          seconds: 1
+      - service: input_select.select_option
+        target:
+          entity_id:
+            - input_select.living_room_scenes
+            - input_select.downstairs_bathroom_scenes
+            - input_select.mud_room_scenes
+        data:
+          option: Bright
+      - service: light.turn_on
+        target:
+          entity_id:
+            - light.tina_desk_strip
+            - light.tina_lamp
+        data:
+          color_temp_kelvin: 2700
+      - service: light.turn_on
+        target:
+          entity_id: 
+            - light.dining_room_lamp
+            - light.tina_lamp
+            - light.tina_desk_strip
+        data:
+          brightness: 255
+
+  bright_on_second_floor:
+    alias: 'Bright on Second Floor'
+    sequence:
+      - service: light.turn_on
+        target:
+          entity_id:
+            - light.hallway_overhead
+            - light.master_bedroom_lights
+            - light.upstairs_bathroom_lights
+      - if:
+        - condition: state
+          entity_id: input_boolean.kallen_sleeping
+          state: 'off'
+        then:
+        - service: light.turn_on
+          target:
+            entity_id: light.kallen_bedroom_lights
+      - if:
+        - condition: state
+          entity_id: input_boolean.emma_sleeping
+          state: 'off'
+        then:
+        - service: light.turn_on
+          target:
+            entity_id: light.emma_bedroom_light
+      - delay:
+          seconds: 1
+      - service: input_select.select_option
+        target:
+          entity_id:
+            - input_select.upstairs_hallway_scenes
+            - input_select.upstairs_bathroom_scenes
+            - input_select.master_bedroom_scenes
+        data:
+          option: Bright
+      - if:
+        - condition: state
+          entity_id: input_boolean.kallen_sleeping
+          state: 'off'
+        then:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.kallen_bedroom_scenes
+          data:
+            option: Bright
+      - if:
+        - condition: state
+          entity_id: input_boolean.emma_sleeping
+          state: 'off'
+        then:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.emma_bedroom_scenes
+          data:
+            option: Bright
+
+#! Unless there is a good reason, do not define multi-room scenes below.
+#! Use scripts instead, to avoid some straight-up haunted house bullshit...
+
 scene:
   - name: Adaptive in Living Room
     icon: mdi:palette
@@ -1206,44 +1304,3 @@ scene:
         state: "Nightlight"
       input_select.upstairs_bathroom_scenes:
         state: "Nightlight"
-  - name: Bright on First Floor
-    icon: mdi:palette
-    entities:
-      input_select.living_room_scenes:
-        state: "Bright"
-      input_select.downstairs_bathroom_scenes:
-        state: "Bright"
-      light.dining_room_lamp:
-        state: "on"
-        brightness: 255
-      switch.adaptive_lighting_tina_lamp:
-        state: "off"
-      light.tina_lamp_top:
-        state: "on"
-        kelvin: 5000
-        brightness: 255
-      light.tina_lamp_side:
-        state: "on"
-        kelvin: 5000
-        brightness: 255
-      light.tina_desk_strip:
-        state: "on"
-        brightness: 255
-        hs_color:
-          - 15
-          - 0
-      input_select.mud_room_scenes:
-        state: "Bright"
-  - name: Bright on Second Floor
-    icon: mdi:palette
-    entities:
-      input_select.master_bedroom_scenes:
-        state: "Bright"
-      input_select.kallen_bedroom_scenes:
-        state: "Bright"
-      input_select.emma_bedroom_scenes:
-        state: "Bright"
-      input_select.upstairs_hallway_scenes:
-        state: "Bright"
-      input_select.upstairs_bathroom_scenes:
-        state: "Bright"
