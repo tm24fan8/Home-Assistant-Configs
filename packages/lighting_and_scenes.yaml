@@ -871,9 +871,15 @@ script:
         data:
           option: Bright
       - if:
-        - condition: state
-          entity_id: input_boolean.kallen_sleeping
-          state: 'off'
+        - condition: template
+          value_template: >
+            {% if is_state('input_boolean.kallen_sleeping','off') %}
+              true
+            {% elif is_state('input_boolean.kallen_sleeping','on') and is_state('light.kallen_bedroom_lights','on') %}
+              true
+            {% else %}
+              false
+            {% endif %}
         then:
         - service: input_select.select_option
           target:
@@ -881,9 +887,15 @@ script:
           data:
             option: Bright
       - if:
-        - condition: state
-          entity_id: input_boolean.emma_sleeping
-          state: 'off'
+        - condition: template
+          value_template: >
+            {% if is_state('input_boolean.emma_sleeping','off') %}
+              true
+            {% elif is_state('input_boolean.emma_sleeping','on') and is_state('light.emma_bedroom_light','on') %}
+              true
+            {% else %}
+              false
+            {% endif %}
         then:
         - service: input_select.select_option
           target:
