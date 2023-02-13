@@ -903,6 +903,142 @@ script:
           data:
             option: Bright
 
+  evening_on_first_floor:
+    alias: 'Evening on First Floor'
+    sequence:
+      - choose:
+        - conditions:
+          - condition: state
+            entity_id: input_boolean.give_me_darkness
+            state: 'on'
+          sequence:
+          - service: light.turn_on
+            target:
+              area_id: dining_room
+          - service: input_select.select_option
+            target:
+              entity_id:
+                - input_select.mud_room_scenes
+            data:
+              option: Nightlight
+          - service: switch.turn_on
+            target:
+              entity_id:
+                - switch.adaptive_lighting_sleep_mode_dining_room
+          - if:
+            - condition: state
+              entity_id: person.christina_stork
+              state: home
+            then:
+            - service: input_select.select_option
+              target:
+                entity_id: input_select.tina_desk_scenes
+              data:
+                option: Night Mode
+          - choose:
+            - conditions:
+              - condition: state
+                entity_id: input_boolean.guest_mode
+                state: 'off'
+              sequence:
+              - service: light.turn_off
+                target:
+                  area_id:
+                  - living_room
+                  - downstairs_bathroom
+            - conditions:
+              - condition: state
+                entity_id: input_boolean.guest_mode
+                state: 'on'
+              sequence:
+              - service: light.turn_off
+                target:
+                  area_id:
+                  - downstairs_bathroom
+        - conditions:
+          - condition: state
+            entity_id: input_boolean.give_me_darkness
+            state: 'off'
+          sequence:
+          - service: light.turn_off
+            target:
+              entity_id:
+                - light.dining_room_lamp
+                - light.downstairs_bathroom_lights
+          - service: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.tina_desk_lights
+          - service: light.turn_on
+            target:
+              entity_id: 
+                - light.living_room_lights
+                - light.mud_room_overhead
+          - service: input_select.select_option
+            target:
+              entity_id:
+                - input_select.living_room_scenes
+                - input_select.mud_room_scenes
+            data:
+              option: Adaptive
+
+  evening_on_second_floor:
+    alias: 'Evening on Second Floor'
+    sequence:
+      - choose:
+        - conditions:
+          - condition: state
+            entity_id: input_boolean.give_me_darkness
+            state: 'on'
+          sequence:
+          - service: input_select.select_option
+            target:
+              entity_id:
+              - input_select.upstairs_hallway_scenes
+            data:
+              option: Nightlight
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.upstairs_bathroom_scenes
+            data:
+              option: >
+                {% if is_state('binary_sensor.upstairs_bathroom_motion','on') %}
+                  Adaptive
+                {% elif is_state('timer.upstairs_bathroom_motion_timer','active') %}
+                  Adaptive
+                {% else %}
+                  Nightlight
+                {% endif %}
+          - service: light.turn_off
+            target:
+              area_id:
+              - kallen_bedroom
+              - master_bedroom
+              - emma_bedroom
+        - conditions:
+          - condition: state
+            entity_id: input_boolean.give_me_darkness
+            state: 'off'
+          sequence:
+          - service: light.turn_off
+            target:
+              area_id:
+              - master_bedroom
+              - kallen_bedroom
+              - emma_bedroom
+              - upstairs_hallway
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.upstairs_bathroom_scenes
+            data:
+              option: >
+                {% if is_state('binary_sensor.upstairs_bathroom_motion','on') %}
+                  Adaptive
+                {% elif is_state('timer.upstairs_bathroom_motion_timer','active') %}
+                  Adaptive
+                {% else %}
+                  Nightlight
+                {% endif %}
+
 #! Unless there is a good reason, do not define multi-room scenes below.
 #! Use scripts instead, to avoid some straight-up haunted house bullshit...
 
