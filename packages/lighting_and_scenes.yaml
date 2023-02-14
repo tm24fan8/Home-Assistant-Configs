@@ -909,6 +909,12 @@ script:
       - choose:
         - conditions:
           - condition: state
+            entity_id: binary_sensor.early_night_mode
+            state: 'off'
+          sequence:
+          - stop: "This scene does nothing during daytime"
+        - conditions:
+          - condition: state
             entity_id: input_boolean.give_me_darkness
             state: 'on'
           sequence:
@@ -985,6 +991,12 @@ script:
     alias: 'Evening on Second Floor'
     sequence:
       - choose:
+        - conditions:
+          - condition: state
+            entity_id: binary_sensor.early_night_mode
+            state: 'off'
+          sequence:
+          - stop: "This scene does nothing during daytime"
         - conditions:
           - condition: state
             entity_id: input_boolean.give_me_darkness
