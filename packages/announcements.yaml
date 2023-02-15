@@ -215,13 +215,6 @@ script:
       - service: input_boolean.turn_off
         entity_id: input_boolean.good_morning
 
-  morning_briefing_alexa:
-    alias: 'Morning Briefing Alexa'
-    sequence:
-      - service: button.press
-        target:
-          entity_id: button.good_morning
-
   kallen_nightly_briefing:
     alias: 'Kallen Nightly Briefing'
     sequence:
