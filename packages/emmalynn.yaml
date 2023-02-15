@@ -88,7 +88,7 @@ script:
                 conditions:
                 - condition: template
                   value_template: "{{ states('sensor.time') < state_attr('input_datetime.emma_bedtime','timestamp') | timestamp_custom('%H:%M', false) }}"
-                - conition: state
+                - condition: state
                   entity_id: input_boolean.give_me_darkness
                   state: 'on'
               sequence:
@@ -109,7 +109,7 @@ script:
                 conditions:
                 - condition: template
                   value_template: "{{ states('sensor.time') < state_attr('input_datetime.emma_bedtime','timestamp') | timestamp_custom('%H:%M', false) }}"
-                - conition: state
+                - condition: state
                   entity_id: input_boolean.give_me_darkness
                   state: 'off'
               sequence:
