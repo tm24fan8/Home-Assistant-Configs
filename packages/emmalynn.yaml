@@ -82,38 +82,51 @@ script:
             entity_id: binary_sensor.early_night_mode
             state: 'on'
           sequence:
-          - if:
-            - condition: state
-              entity_id: input_boolean.give_me_darkness
-              state: 'on'
-            then:
-            - service: light.turn_on
-              target:
-                entity_id:
-                  - light.emma_bedroom_light
-            - delay:
-                seconds: 1
-            - service: input_select.select_option
-              target:
-                entity_id:
-                  - input_select.emma_bedroom_scenes
-              data:
-                option: Adaptive
-            else:
-            - service: light.turn_on
-              target:
-                entity_id:
-                  - light.emma_bedroom_light
-                  - light.hallway_overhead
-            - delay:
-                seconds: 1
-            - service: input_select.select_option
-              target:
-                entity_id:
-                  - input_select.emma_bedroom_scenes
-                  - input_select.upstairs_hallway_scenes
-              data:
-                option: Adaptive
+          - choose:
+            - conditions:
+              - condition: and
+                conditions:
+                - condition: template
+                  value_template: "{{ states('sensor.time') < state_attr('input_datetime.emma_bedtime','timestamp') | timestamp_custom('%H:%M', false) }}"
+                - conition: state
+                  entity_id: input_boolean.give_me_darkness
+                  state: 'on'
+              sequence:
+              - service: light.turn_on
+                target:
+                  entity_id:
+                    - light.emma_bedroom_light
+              - delay:
+                  seconds: 1
+              - service: input_select.select_option
+                target:
+                  entity_id:
+                    - input_select.emma_bedroom_scenes
+                data:
+                  option: Adaptive
+            - conditions:
+              - condition: and
+                conditions:
+                - condition: template
+                  value_template: "{{ states('sensor.time') < state_attr('input_datetime.emma_bedtime','timestamp') | timestamp_custom('%H:%M', false) }}"
+                - conition: state
+                  entity_id: input_boolean.give_me_darkness
+                  state: 'off'
+              sequence:
+              - service: light.turn_on
+                target:
+                  entity_id:
+                    - light.emma_bedroom_light
+                    - light.hallway_overhead
+              - delay:
+                  seconds: 1
+              - service: input_select.select_option
+                target:
+                  entity_id:
+                    - input_select.emma_bedroom_scenes
+                    - input_select.upstairs_hallway_scenes
+                data:
+                  option: Adaptive
           - choose:
             - conditions:
               - condition: state
@@ -123,11 +136,15 @@ script:
               - service: fan.turn_on
                 target:
                   entity_id: fan.emma_air_conditioner
-              - service: script.text_notify
-                data:
-                  who: "parents"
-                  title: "Emma Climate Schedule"
-                  message: "The air conditioner in Emma's Bedroom has been activated."
+              - if:
+                - condition: template
+                  value_template: "{{ states('sensor.time') >= state_attr('input_datetime.emma_bedtime','timestamp') | timestamp_custom('%H:%M', false) }}"
+                then:
+                - service: script.text_notify
+                  data:
+                    who: "parents"
+                    title: "Emma Climate Schedule"
+                    message: "The air conditioner in Emma's Bedroom has been activated."
             - conditions:
               - condition: state
                 entity_id: input_select.scheduled_climate_mode_emma_aircon
@@ -136,42 +153,50 @@ script:
               - service: input_boolean.turn_on
                 target:
                   entity_id: input_boolean.white_noise_emma_bedroom
+              - if:
+                - condition: template
+                  value_template: "{{ states('sensor.time') >= state_attr('input_datetime.emma_bedtime','timestamp') | timestamp_custom('%H:%M', false) }}"
+                then:
+                - service: script.text_notify
+                  data:
+                    who: "parents"
+                    title: "Emma Climate Schedule"
+                    message: "White noise has been activated in Emma's Bedroom."
+            default:
+            - if:
+              - condition: template
+                value_template: "{{ states('sensor.time') >= state_attr('input_datetime.emma_bedtime','timestamp') | timestamp_custom('%H:%M', false) }}"
+              then:
               - service: script.text_notify
                 data:
                   who: "parents"
                   title: "Emma Climate Schedule"
-                  message: "White noise has been activated in Emma's Bedroom."
-            default:
-            - service: script.text_notify
-              data:
-                who: "parents"
-                title: "Emma Climate Schedule"
-                message: "No option selected for Emma's climate mode. No devices will be activated."
+                  message: "No option selected for Emma's climate mode. No devices will be activated."
         - conditions:
           - condition: state
             entity_id: binary_sensor.early_night_mode
             state: 'off'
           sequence:
-          - if:
-            - condition: template
-              value_template: >
-                {% if is_state('input_boolean.emma_bedroom_aircon_installed','on') %}
-                  {% if (states('sensor.pirateweather_temperature') | int) > (states('input_number.emma_aircon_threshold') | int) %}
-                    true
-                  {% else %}
-                    false
-                  {% endif %}
-                {% else %}
-                  false
-                {% endif %}
-            then:
-            - service: fan.turn_on
-              target:
-                entity_id: fan.emma_air_conditioner
-            else:
-            - service: input_boolean.turn_on
-              target:
-                entity_id: input_boolean.white_noise_emma_bedroom
+          - service: script.emma_bedroom_scheduling_evening
+          - delay:
+              seconds: 2
+          - choose:
+            - conditions:
+              - condition: state
+                entity_id: input_select.scheduled_climate_mode_emma_aircon
+                state: 'AC'
+              sequence:
+              - service: fan.turn_on
+                target:
+                  entity_id: fan.emma_air_conditioner
+            - conditions:
+              - condition: state
+                entity_id: input_select.scheduled_climate_mode_emma_aircon
+                state: 'White Noise'
+              sequence:
+              - service: input_boolean.turn_on
+                target:
+                  entity_id: input_boolean.white_noise_emma_bedroom
 
   emma_wakeup:
     alias: 'Emma Wakeup'
