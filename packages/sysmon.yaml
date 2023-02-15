@@ -37,6 +37,32 @@ sensor:
           {% endif %}
         unit_of_measurement: "ms"
 
+template:
+  - binary_sensor:
+    - name: Tony Desktop On
+      state: "{{ states('sensor.tony_desktop_power') | int > 10 }}"
+      device_class: power
+      attributes:
+        power_usage: "{{ states('sensor.tony_desktop_power') }}"
+  - binary_sensor:
+    - name: Tina Desktop On
+      state: "{{ states('sensor.tina_desktop_power') | int > 10 }}"
+      device_class: power
+      attributes:
+        power_usage: "{{ states('sensor.tina_desktop_power') }}"
+  - binary_sensor:
+    - name: Kallen Desktop On
+      state: "{{ states('sensor.kallen_desktop_power') | int > 10 }}"
+      device_class: power
+      attributes:
+        power_usage: "{{ states('sensor.kallen_desktop_power') }}"
+  - binary_sensor:
+    - name: Basement Server On
+      state: "{{ states('sensor.basement_server_power') | int > 10 }}"
+      device_class: power
+      attributes:
+        power_usage: "{{ states('sensor.basement_server_power') }}"
+
   # - platform: influxdb
   #   host: 192.168.1.26
   #   port: 8086
