@@ -461,7 +461,7 @@ script:
             {% elif high >= 80 or low >= 60 %}
               23:00
             {% else %}
-              00:00
+              23:45
             {% endif %}
       - service: input_select.select_option
         target:
