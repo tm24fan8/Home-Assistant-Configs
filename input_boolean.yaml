@@ -1,6 +1,3 @@
-good_morning:
-  name: Good Morning
-  icon: mdi:home-analytics
 weather_reports:
   name: Weather Info
   icon: mdi:weather-cloudy-alert

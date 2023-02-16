@@ -67,6 +67,21 @@ input_boolean:
   kallen_briefing_extras:
     name: Kallen Briefing Extras
     icon: mdi:plus
+  good_morning:
+    name: Good Morning Ran
+    icon: mdi:home-analytics
+  daily_briefing:
+    name: Daily Briefing Ran
+    icon: mdi:home-analytics
+  nightly_briefing:
+    name: Nightly Briefing Ran
+    icon: mdi:home-analytics
+  kallen_morning_briefing:
+    name: Kallen Morning Briefing Ran
+    icon: mdi:home-analytics
+  kallen_nightly_briefing:
+    name: Kallen Nightly Briefing Ran
+    icon: mdi:home-analytics
 
 ################################
 # Announcment Automation - fires at the time of the above input_datetimes
@@ -99,6 +114,7 @@ automation:
     action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.audible_notifications
+    - service: script.reset_annc_switches
 
   - id: 842a1b9a-de3b-4f0a-9ecc-6cfacd92bf5d
     alias: Kallen Briefings
@@ -141,13 +157,23 @@ automation:
     action:
     - choose:
       - conditions:
-        - condition: trigger
-          id: house-morning
+        - condition: and
+          conditions:
+          - condition: trigger
+            id: house-morning
+          - condition: state
+            entity_id: input_boolean.good_morning
+            state: 'off'
         sequence:
         - service: script.morning_briefing
       - conditions:
-        - condition: trigger
-          id: house-daily
+        - condition: and
+          conditions:
+          - condition: trigger
+            id: house-daily
+          - condition: state
+            entity_id: input_boolean.daily_briefing
+            state: 'off'
         sequence:
         - service: script.daily_briefing
         - if:
@@ -172,8 +198,13 @@ automation:
                 title: "Garbage Collection - Regular"
                 message: "Tomorrow is regular trash pickup day. Make sure the trash can is taken to the curb!"
       - conditions:
-        - condition: trigger
-          id: house-nightly
+        - condition: and
+          conditions:
+          - condition: trigger
+            id: house-nightly
+          - condition: state
+            entity_id: input_boolean.nightly_briefing
+            state: 'off'
         sequence:
         - service: script.nightly_briefing
         - if:
@@ -213,7 +244,12 @@ script:
   reset_annc_switches:
     sequence:
       - service: input_boolean.turn_off
-        entity_id: input_boolean.good_morning
+        entity_id:
+          - input_boolean.good_morning
+          - input_boolean.daily_briefing
+          - input_boolean.nightly_briefing
+          - input_boolean.kallen_morning_briefing
+          - input_boolean.kallen_nightly_briefing
 
   kallen_nightly_briefing:
     alias: 'Kallen Nightly Briefing'
@@ -229,6 +265,9 @@ script:
         who: common
         message: !include ../templates/speech/kallen_nightly_briefing.yaml
         voice: Joanna
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.kallen_nightly_briefing
 
   kallen_morning_briefing:
     alias: 'Kallen Morning Briefing'
@@ -245,6 +284,9 @@ script:
             {% endif %}
           message: !include ../templates/speech/kallen_morning_briefing.yaml
           voice: Joanna
+      - service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.kallen_morning_briefing
 
   kallen_school_status:
     alias: 'Kallen School Status'
@@ -262,6 +304,9 @@ script:
       data:
         who: common
         message: !include ../templates/speech/daily_briefing.yaml
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.daily_briefing
 
   nightly_briefing:
     alias: 'Nightly Briefing'
@@ -270,6 +315,9 @@ script:
         data:
           who: common
           message: !include ../templates/speech/nightly_briefing.yaml
+      - service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.nightly_briefing
 
   morning_briefing:
     alias: 'Morning Briefing'
@@ -278,6 +326,9 @@ script:
       data:
         who: common
         message: !include ../templates/speech/morning_briefing.yaml
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.morning_briefing
 
   dinner_is_ready:
     alias: 'Dinner Is Ready'
