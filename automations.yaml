@@ -331,6 +331,8 @@
         entity_id:
         - automation.family_has_arrived
         - automation.family_has_left
+        - automation.scheduled_alarm_rearm
+        - automation.scheduled_alarm_disarm
     - service: switch.turn_off
       target:
         entity_id:
