@@ -329,15 +329,11 @@ automation:
         value_template: >
           {% set tony = states('sensor.tony_s_iphone_travel_time_min') | float %}
           {% set tina = states('sensor.tinas_iphone_travel_time_min') | float %}
-          {% if (tony >= 90) and (tina >= 90) %}
-            true
-          {% else %}
-            false
-          {% endif %}
+          {{ is_state('input_boolean.vacation_mode','off') and (tony >= 90) and (tina >= 90) }}
         id: leave-radius
       - platform: state
         entity_id: group.adults
-        state: 'home'
+        to: 'home'
         id: arrive-home
     condition:
       - condition: state
