@@ -107,7 +107,7 @@ recorder:
       - media_player.kallen_desktop
 
 logger:
-  default: critical
+  default: error
   logs:
     homeassistant.core: fatal
 
