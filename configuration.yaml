@@ -105,6 +105,7 @@ recorder:
       - media_player.xia_desktop_2
       - media_player.tony_asus
       - media_player.kallen_desktop
+      - media_player.basement_google_speaker
 
 logger:
   default: error

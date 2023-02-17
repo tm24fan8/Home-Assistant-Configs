@@ -3,6 +3,7 @@ tts_devices:
   options:
     - Living Room
     - Basement
+    - Basement Google
     - Common Areas
     - Master Bedroom
     - Kallen Bedroom

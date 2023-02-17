@@ -688,12 +688,13 @@ script:
         name: 'Who'
         description: 'This determines which speaker, or group of speakers, the message is sent to'
         required: true
-        example: 'living_room, basement, common_areas, master_bedroom, kallen_bedroom, emma_bedroom, kids_bedrooms, all_bedrooms, everywhere'
+        example: 'living_room, basement, basement_google, common_areas, master_bedroom, kallen_bedroom, emma_bedroom, kids_bedrooms, all_bedrooms, everywhere'
         selector:
           select:
             options:
               - Living Room
               - Basement
+              - Basement Google
               - Common Areas
               - Master Bedroom
               - Kallen Bedroom
@@ -789,6 +790,12 @@ script:
             script.alexa_voice
           {% elif who in ['Basement','basement','basement_echo_dot','media_player.basement_echo_dot','Basement Echo Dot']  %}
             script.alexa_voice
+          {% elif who in ['Basement Google','basement_google'] %}
+            {% if is_state('input_boolean.studio_quiet','on') %}
+              script.alexa_voice
+            {% else %}
+              script.jarvis_voice
+            {% endif %}
           {% elif who in ['Common Areas','common','common_areas'] %}
             script.alexa_voice
           {% elif who in ['Everywhere','everywhere'] %}
@@ -824,6 +831,12 @@ script:
               {% else %}
                 basement
               {% endif %}
+            {% elif who in ['Basement Google','basement_google'] %}
+              {% if is_state('input_boolean.studio_quiet','on') %}
+                living_room
+              {% else %}
+                basement_google
+              {% endif %}
             {% elif who in ['Common Areas','common','common_areas'] %}
               {% if is_state('input_boolean.studio_quiet','on') %}
                 living_room
@@ -840,7 +853,7 @@ script:
               living_room_echo_dot
             {% endif %}
           message: >
-            {% if who in ['Basement','basement','basement_echo_dot','media_player.basement_echo_dot','Basement Echo Dot'] and is_state('input_boolean.studio_quiet','on') %}
+            {% if who in ['Basement','basement','basement_echo_dot','media_player.basement_echo_dot','Basement Echo Dot','Basement Google','basement_google'] and is_state('input_boolean.studio_quiet','on') %}
               'I cannot play notifications in the basement right now, because quiet has been requested'
             {% elif who in ['emma_bedroom','Emma Bedroom','media_player.emma_bedroom_speaker'] and is_state('input_boolean.emma_sleeping','on') %}
               'I cannot play notifications in Emma Bedroom right now, because Emma is sleeping and you would not like what happens if I wake her up'
@@ -1012,6 +1025,8 @@ script:
             media_player.kallen_bedroom_speaker
           {% elif who in ['emma_bedroom','media_player.emma_bedroom_speaker'] %}
             media_player.emma_bedroom_speaker
+          {% elif who in ['Basement Google','basement_google'] %}
+            media_player.basement_google_speaker
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
             media_player.living_room_tv
@@ -1034,6 +1049,8 @@ script:
             media_player.kallen_bedroom_speaker
           {% elif who in ['emma_bedroom','media_player.emma_bedroom_speaker'] %}
             media_player.emma_bedroom_speaker
+          {% elif who in ['Basement Google','basement_google'] %}
+            media_player.basement_google_speaker
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
             media_player.living_room_tv
@@ -1062,6 +1079,8 @@ script:
             media_player.kallen_bedroom_speaker
           {% elif who in ['emma_bedroom','media_player.emma_bedroom_speaker'] %}
             media_player.emma_bedroom_speaker
+          {% elif who in ['Basement Google','basement_google'] %}
+            media_player.basement_google_speaker
           {% else %}
             {% if states.input_boolean.audible_notifications.state == 'on' %}
             media_player.living_room_tv
