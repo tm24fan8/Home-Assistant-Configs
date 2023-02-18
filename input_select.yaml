@@ -7,9 +7,9 @@ tts_devices:
     - Common Areas
     - Master Bedroom
     - Kallen Bedroom
-    - Emma Bedroom # This is a placeholder, not usable yet
-    - Kids Bedrooms # Same thing here
-    - All Bedrooms # Yep
+    - Emma Bedroom
+    - Kids Bedrooms
+    - All Bedrooms
     - Everywhere
   initial: Living Room
   icon: mdi:dots-horizontal-circle
