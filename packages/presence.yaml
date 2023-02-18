@@ -38,6 +38,20 @@ input_number:
     step: 1
     unit_of_measurement: times
     icon: mdi:door-open
+  basement_studio_door_opened_today:
+    name: Basement Studio Door Opened Today
+    min: 0
+    max: 200
+    step: 1
+    unit_of_measurement: times
+    icon: mdi:door-open
+  downstairs_bathroom_door_opened_today:
+    name: Downstairs Bathroom Door Opened Today
+    min: 0
+    max: 200
+    step: 1
+    unit_of_measurement: times
+    icon: mdi:door-open
 
 proximity:
   home_tony:
@@ -167,6 +181,16 @@ sensor:
         unit_of_measurement: 'times'
         value_template: >-
           {{ states('input_number.back_door_opened_today') | int }}
+      basement_studio_door_opened_today:
+        friendly_name: "Basement Studio Door Opened Today"
+        unit_of_measurement: 'times'
+        value_template: >-
+          {{ states('input_number.basement_studio_door_opened_today') | int }}
+      downstairs_bathroom_door_opened_today:
+        friendly_name: "Downstairs Bathroom Door Opened Today"
+        unit_of_measurement: 'times'
+        value_template: >-
+          {{ states('input_number.downstairs_bathroom_door_opened_today') | int }}
 
 template:
   - binary_sensor:
