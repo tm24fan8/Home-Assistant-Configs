@@ -35,7 +35,7 @@ media_lights_sync_basement:
 white_noise_basement:
   module: whitenoise
   class: WhiteNoise
-  media_player: basement_tv_chromecast
+  media_player: basement_google_speaker
   input_boolean: white_noise_basement
   filename: !secret remote_url_thunderstorm
 
