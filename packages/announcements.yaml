@@ -328,7 +328,7 @@ script:
         message: !include ../templates/speech/morning_briefing.yaml
     - service: input_boolean.turn_on
       target:
-        entity_id: input_boolean.morning_briefing
+        entity_id: input_boolean.good_morning
 
   dinner_is_ready:
     alias: 'Dinner Is Ready'
