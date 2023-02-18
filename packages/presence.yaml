@@ -176,21 +176,45 @@ sensor:
         unit_of_measurement: 'times'
         value_template: >-
           {{ states('input_number.front_door_opened_today') | int }}
+        icon_template: >-
+          {% if states('input_number.front_door_opened_today') | int > 0 %}
+            mdi:door-open
+          {% else %}
+            mdi:door-closed
+          {% endif %}
       back_door_opened_today:
         friendly_name: "Back Door Opened Today"
         unit_of_measurement: 'times'
         value_template: >-
           {{ states('input_number.back_door_opened_today') | int }}
+        icon_template: >-
+          {% if states('input_number.back_door_opened_today') | int > 0 %}
+            mdi:door-open
+          {% else %}
+            mdi:door-closed
+          {% endif %}
       basement_studio_door_opened_today:
         friendly_name: "Basement Studio Door Opened Today"
         unit_of_measurement: 'times'
         value_template: >-
           {{ states('input_number.basement_studio_door_opened_today') | int }}
+        icon_template: >-
+          {% if states('input_number.basement_studio_door_opened_today') | int > 0 %}
+            mdi:door-open
+          {% else %}
+            mdi:door-closed
+          {% endif %}
       downstairs_bathroom_door_opened_today:
         friendly_name: "Downstairs Bathroom Door Opened Today"
         unit_of_measurement: 'times'
         value_template: >-
           {{ states('input_number.downstairs_bathroom_door_opened_today') | int }}
+        icon_template: >-
+          {% if states('input_number.downstairs_bathroom_door_opened_today') | int > 0 %}
+            mdi:door-open
+          {% else %}
+            mdi:door-closed
+          {% endif %}
 
 template:
   - binary_sensor:
@@ -426,6 +450,8 @@ automation:
           entity_id:
             - input_number.back_door_opened_today
             - input_number.front_door_opened_today
+            - input_number.basement_studio_door_opened_today
+            - input_number.downstairs_bathroom_door_opened_today
         data:
           value: 0
 
