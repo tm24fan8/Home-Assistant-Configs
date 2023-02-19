@@ -223,6 +223,10 @@ going_upstairs:
       - input_select.living_room_scenes
   - service: input_boolean.turn_on
     entity_id: input_boolean.night_mode
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.studio_quiet
   - service: media_player.turn_off
     target:
       entity_id: media_player.basement_tv
