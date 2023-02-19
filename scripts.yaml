@@ -221,37 +221,77 @@ going_upstairs:
       - input_select.mud_room_scenes
       - input_select.upstairs_hallway_scenes
       - input_select.living_room_scenes
+    alias: Set scenes
   - service: input_boolean.turn_on
     entity_id: input_boolean.night_mode
+    alias: Turn on Night Mode
   - service: input_boolean.turn_off
     data: {}
     target:
       entity_id: input_boolean.studio_quiet
-  - service: media_player.turn_off
-    target:
-      entity_id: media_player.basement_tv
-    data: {}
+    alias: Turn off Studio Quiet
+  - if:
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: media_player.basement_tv
+        state: playing
+    then:
+    - service: media_player.turn_off
+      target:
+        entity_id: media_player.basement_tv
+      data: {}
+    alias: Turn basement TV off, unless something is playing
   - service: script.kallen_desktop_shutdown
     data: {}
+    alias: Shut down Kallen desktop
   - service: script.asus_laptop_shutdown
     data: {}
+    alias: Shut down laptop
   - service: script.activate_alexa_actionable_notification
     data_template:
       text: <voice name='Brian'><prosody rate='150%'>Would you like me to shut down
         your computer?</prosody></voice>
       event_id: actionable_notification_shutdown_computer
       alexa_device: media_player.basement_echo_dot
+    alias: Ask about shutting down main computer
+  - wait_for_trigger:
+    - platform: state
+      entity_id:
+      - binary_sensor.basement_studio_door
+      from: 'off'
+      to: 'on'
+    timeout:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+    alias: Wait until the door opens
+  - service: light.turn_off
+    data: {}
+    target:
+      entity_id: light.basement_studio_lights
+    alias: Turn off the lights
   - wait_for_trigger:
     - platform: state
       entity_id:
       - binary_sensor.upstairs_bathroom_motion
       to: 'on'
     timeout: 00:05:00
+    alias: Wait until I'm in the bathroom
   - service: input_select.select_option
     data:
       option: Side Nightlight
     target:
       entity_id: input_select.master_bedroom_scenes
+    alias: Turn on dim lighting in master bedroom
+  - service: mqtt.publish
+    data:
+      qos: '2'
+      retain: true
+      topic: homeassistant/time/nightmode
+      payload: 'on'
+    alias: Tell MQTT that it is night mode now
   mode: single
   icon: hue:room-stairs
 start_youtube_basement:
