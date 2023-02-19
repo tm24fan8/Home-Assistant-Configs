@@ -54,6 +54,12 @@ give_me_darkness:
     data: {}
   - service: script.evening_on_second_floor
     data: {}
+  - service: mqtt.publish
+    data:
+      qos: '2'
+      retain: true
+      topic: homeassistant/time/give_me_darkness
+      payload: 'on'
   mode: single
   icon: mdi:weather-night
 start_youtube:
