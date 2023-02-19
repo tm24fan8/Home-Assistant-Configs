@@ -469,7 +469,7 @@
       garbage_collection_entity: sensor.garbage_collection_large_pickup
       holiday_entity: calendar.holidays
 - id: '1667341156218'
-  alias: Emma White Noise Volume
+  alias: White Noise Volume
   description: ''
   trigger:
   - platform: state
@@ -477,19 +477,66 @@
     - input_boolean.white_noise_emma_bedroom
     to: 'on'
     from: 'off'
+    id: emma
+  - platform: state
+    entity_id:
+    - input_boolean.white_noise_basement
+    to: 'on'
+    from: 'off'
+    id: basement
+  - platform: state
+    entity_id:
+    - input_boolean.white_noise_kallen_bedroom
+    to: 'on'
+    from: 'off'
+    id: kallen
   condition: []
   action:
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 5
-      milliseconds: 0
-  - service: media_player.volume_set
-    data:
-      volume_level: 0.35
-    target:
-      entity_id: media_player.emma_bedroom_speaker
-  mode: single
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: emma
+      sequence:
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 5
+          milliseconds: 0
+      - service: media_player.volume_set
+        data:
+          volume_level: 0.35
+        target:
+          entity_id: media_player.emma_bedroom_speaker
+    - conditions:
+      - condition: trigger
+        id: basement
+      sequence:
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 5
+          milliseconds: 0
+      - service: media_player.volume_set
+        data:
+          volume_level: 0.5
+        target:
+          entity_id: media_player.basement_google_speaker
+    - conditions:
+      - condition: trigger
+        id: kallen
+      sequence:
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 5
+          milliseconds: 0
+      - service: media_player.volume_set
+        data:
+          volume_level: 0.3
+        target:
+          entity_id: media_player.kallen_bedroom_speaker
+  mode: parallel
+  max: 6
 - id: '1671584633378'
   alias: Delivery Mode Cleanup
   description: ''
