@@ -1,5 +1,25 @@
 mqtt:
   sensor:
+    - name: "Tina Desktop - GPU Temperature"
+      state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/gpu_nvidia/temperatures/gpu_core"
+      unit_of_measurement: 'C'
+      icon: mdi:thermometer
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/xia-desktop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "Tina Desktop - CPU Temperature"
+      state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/cpu/temperatures/core_(tctl/tdie)"
+      unit_of_measurement: 'C'
+      icon: mdi:thermometer
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/xia-desktop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
     - name: "Tina Desktop - Storage C Temperature"
       state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/storages/ct1000p1ssd8/temperatue"
       unit_of_measurement: 'C'
@@ -14,6 +34,136 @@ mqtt:
       state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/storages/san-disk_ssd_plus_240gb/temperatue"
       unit_of_measurement: 'C'
       icon: mdi:thermometer
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/xia-desktop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "Tina Desktop - Memory Usage"
+      state_topic: "iotlink/workgroup/xia_desktop/monitor/stats/memory/load/memory"
+      unit_of_measurement: '%'
+      icon: mdi:memory
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/xia_desktop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "Tina Desktop - Virtual Memory Usage"
+      state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/memory/load/virtual_memory"
+      unit_of_measurement: '%'
+      icon: mdi:memory
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/xia-desktop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "Tina Desktop - GPU Core Load"
+      state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/gpu_nvidia/load/gpu_core"
+      unit_of_measurement: '%'
+      icon: mdi:speedometer
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/xia-desktop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "Tina Desktop - GPU VRAM Usage"
+      state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/gpu_nvidia/load/gpu_memory"
+      unit_of_measurement: '%'
+      icon: mdi:memory
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/xia-desktop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "Tina Desktop - GPU Video Engine Load"
+      state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/gpu_nvidia/load/gpu_video_engine"
+      unit_of_measurement: '%'
+      icon: mdi:speedometer
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/xia-desktop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "Tina Desktop - GPU Memory Controller Load"
+      state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/gpu_nvidia/load/gpu_memory_controller"
+      unit_of_measurement: '%'
+      icon: mdi:speedometer
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/xia-desktop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "Tina Desktop - GPU Memory Total"
+      state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/gpu_nvidia/data/gpu_memory_total"
+      unit_of_measurement: 'MB'
+      icon: mdi:memory
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/xia-desktop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "Tina Desktop - GPU Memory Free"
+      state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/gpu_nvidia/data/gpu_memory_free"
+      unit_of_measurement: 'MB'
+      icon: mdi:memory
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/xia-desktop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "Tina Desktop - GPU Memory Used"
+      state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/gpu_nvidia/data/gpu_memory_used"
+      unit_of_measurement: 'MB'
+      icon: mdi:memory
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/xia-desktop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "Tina Desktop - Memory Used (GB)"
+      state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/memory/data/memory_used"
+      unit_of_measurement: 'GB'
+      icon: mdi:memory
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/xia-desktop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "Tina Desktop - Memory Available (GB)"
+      state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/memory/data/memory_available"
+      unit_of_measurement: 'GB'
+      icon: mdi:memory
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/xia-desktop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "Tina Desktop - Virtual Memory Used (GB)"
+      state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/memory/data/virtual_memory_used"
+      unit_of_measurement: 'GB'
+      icon: mdi:memory
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/xia-desktop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "Tina Desktop - Virtual Memory Available (GB)"
+      state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/memory/data/virtual_memory_available"
+      unit_of_measurement: 'GB'
+      icon: mdi:memory
       value_template: "{{ value }}"
       availability_topic: "iotlink/workgroup/xia-desktop/lwt"
       payload_available: "ON"
