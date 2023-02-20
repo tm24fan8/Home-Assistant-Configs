@@ -4,3 +4,6 @@ input_boolean:
   kallen_sleeping:
     name: Kallen Sleeping
     icon: mdi:sleep
+  kallen_computer_updates:
+    name: Kallen Computer Updates
+    icon: mdi:update

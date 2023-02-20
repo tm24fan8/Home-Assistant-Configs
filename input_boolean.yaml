@@ -25,3 +25,6 @@ night_mode:
 toggle_testing:
   name: Toggle Testing
   icon: mdi:test-tube
+goodnight:
+  name: Goodnight
+  icon: mdi:sleep
