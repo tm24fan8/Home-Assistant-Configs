@@ -183,7 +183,7 @@ max_brightness:
       - switch.adaptive_lighting_mud_room
       - switch.adaptive_lighting_emma_bedroom
       - switch.adaptive_lighting_upstairs_hallway
-      - switch.adaptive_lighting_dining_room
+      - switch.adaptive_lighting_dining_room_lamp
       - switch.adaptive_lighting_upstairs_bathroom
       - switch.adaptive_lighting_downstairs_bathroom
       - switch.adaptive_lighting_tina_lamp
@@ -415,7 +415,7 @@ max_brightness_cleanup:
       - switch.adaptive_lighting_mud_room
       - switch.adaptive_lighting_emma_bedroom
       - switch.adaptive_lighting_upstairs_hallway
-      - switch.adaptive_lighting_dining_room
+      - switch.adaptive_lighting_dining_room_lamp
       - switch.adaptive_lighting_upstairs_bathroom
       - switch.adaptive_lighting_downstairs_bathroom
       - switch.adaptive_lighting_tina_lamp
@@ -547,7 +547,7 @@ freeze_cleanup:
     target:
       entity_id:
       - switch.adaptive_lighting_basement_studio
-      - switch.adaptive_lighting_dining_room
+      - switch.adaptive_lighting_dining_room_lamp
       - switch.adaptive_lighting_downstairs_bathroom
       - switch.adaptive_lighting_front_porch
       - switch.adaptive_lighting_kallen_bedroom
@@ -574,11 +574,7 @@ freeze_cleanup:
       - input_text.tina_lamp_selected_scene
       - input_text.upstairs_bathroom_selected_scene
       - input_text.upstairs_hallway_selected_scene
-  - service: input_text.set_value
-    data:
-      value: Full
-    target:
-      entity_id: input_text.dining_room_lamp_selected_scene
+      - input_text.dining_room_lamp_selected_scene
   - service: media_player.volume_set
     data:
       volume_level: 0.6

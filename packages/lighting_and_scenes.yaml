@@ -88,9 +88,9 @@ input_select:
     name: Dining Room Lamp Scenes
     options:
       - Select
-      - Full
-      - Dining Room
-      - Wall
+      - Adaptive
+      - Bright
+      - Dimmed
       - Nightlight
     initial: Select
     icon: mdi:floor-lamp-dual
@@ -416,13 +416,9 @@ automation:
                 - input_select.tina_lamp_scenes
                 - input_select.mud_room_scenes
                 - input_select.downstairs_bathroom_scenes
+                - input_select.dining_room_lamp_scenes
             data:
               option: Adaptive
-          - service: input_select.select_option
-            target:
-              entity_id: input_select.dining_room_lamp_scenes
-            data:
-              option: Full
       - if:
         - condition: trigger
           id: motion-off
@@ -628,19 +624,19 @@ script:
           target:
             entity_id: input_select.dining_room_lamp_scenes
           data:
-            option: Full
+            option: Adaptive
         else:
         - service: switch.turn_on
           target:
-            entity_id: switch.adaptive_lighting_dining_room
+            entity_id: switch.adaptive_lighting_dining_room_lamp
         - service: switch.turn_off
           target:
-            entity_id: switch.adaptive_lighting_sleep_mode_dining_room
+            entity_id: switch.adaptive_lighting_sleep_mode_dining_room_lamp
         - service: input_text.set_value
           target:
             entity_id: input_text.dining_room_lamp_selected_scene
           data:
-            value: Full
+            value: Adaptive
       - if:
         - condition: or
           conditions:
@@ -871,6 +867,7 @@ script:
             - input_select.living_room_scenes
             - input_select.downstairs_bathroom_scenes
             - input_select.mud_room_scenes
+            - input_select.dining_room_lamp_scenes
         data:
           option: Bright
       - service: light.turn_on
@@ -883,7 +880,6 @@ script:
       - service: light.turn_on
         target:
           entity_id: 
-            - light.dining_room_lamp
             - light.tina_lamp
             - light.tina_desk_strip
         data:
@@ -984,7 +980,7 @@ script:
           - service: switch.turn_on
             target:
               entity_id:
-                - switch.adaptive_lighting_sleep_mode_dining_room
+                - switch.adaptive_lighting_sleep_mode_dining_room_lamp
           - if:
             - condition: state
               entity_id: person.christina_stork
@@ -1214,11 +1210,21 @@ scene:
     entities:
       input_select.downstairs_bathroom_scenes:
         state: "Nightlight"
-  - name: Full in Dining Room Lamp
+  - name: Adaptive in Dining Room Lamp
     icon: mdi:palette
     entities:
       input_select.dining_room_lamp_scenes:
-        state: "Full"
+        state: "Adaptive"
+  - name: Bright in Dining Room Lamp
+    icon: mdi:palette
+    entities:
+      input_select.dining_room_lamp_scenes:
+        state: "Bright"
+  - name: Dimmed in Dining Room Lamp
+    icon: mdi:palette
+    entities:
+      input_select.dining_room_lamp_scenes:
+        state: "Dimmed"
   - name: Nightlight in Dining Room Lamp
     icon: mdi:palette
     entities:
@@ -1514,33 +1520,3 @@ scene:
     entities:
       input_select.basement_studio_scenes:
         state: "Stairwell"
-  - name: Night Mode on First Floor
-    icon: mdi:palette
-    entities:
-      light.living_room_lights:
-        state: "off"
-      light.downstairs_bathroom_lights:
-        state: "off"
-      switch.adaptive_lighting_dining_room:
-        state: "off"
-      input_select.tina_lamp_scenes:
-        state: "Nightlight"
-      input_select.dining_room_lamp_scenes:
-        state: "Nightlight"
-      input_select.mud_room_scenes:
-        state: "Nightlight"
-  - name: Night Mode on Second Floor
-    icon: mdi:palette
-    entities:
-      light.master_bedroom_lights:
-        state: "off"
-      light.master_bedroom_closet:
-        state: "off"
-      light.kallen_bedroom_lights:
-        state: "off"
-      light.emma_bedroom_light:
-        state: "off"
-      input_select.upstairs_hallway_scenes:
-        state: "Nightlight"
-      input_select.upstairs_bathroom_scenes:
-        state: "Nightlight"

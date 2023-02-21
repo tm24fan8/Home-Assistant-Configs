@@ -1,185 +1,3 @@
-- id: '1644453456591'
-  name: Dining Room Lamp - Dining Room
-  entities:
-    light.dining_room_lamp_blue:
-      effect_list: []
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 255
-      friendly_name: Dining Room Lamp - Blue
-      supported_features: 5
-      state: 'on'
-    light.dining_room_lamp_green:
-      effect_list: []
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 255
-      friendly_name: Dining Room Lamp - Green
-      supported_features: 5
-      state: 'on'
-    light.dining_room_lamp_purple:
-      effect_list: []
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 255
-      friendly_name: Dining Room Lamp - Purple
-      supported_features: 5
-      state: 'on'
-    light.dining_room_lamp_red:
-      effect_list: []
-      supported_color_modes:
-      - brightness
-      friendly_name: Dining Room Lamp - Red
-      supported_features: 5
-      state: 'off'
-    light.dining_room_lamp_white:
-      effect_list: []
-      supported_color_modes:
-      - brightness
-      friendly_name: Dining Room Lamp - White
-      supported_features: 5
-      state: 'off'
-- id: '1644453738500'
-  name: Dining Room Lamp - Nightlight
-  entities:
-    light.dining_room_lamp_blue:
-      effect_list: []
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 3
-      friendly_name: Dining Room Lamp - Blue
-      supported_features: 5
-      state: 'on'
-    light.dining_room_lamp_green:
-      effect_list: []
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 3
-      friendly_name: Dining Room Lamp - Green
-      supported_features: 5
-      state: 'on'
-    light.dining_room_lamp_purple:
-      effect_list: []
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 3
-      friendly_name: Dining Room Lamp - Purple
-      supported_features: 5
-      state: 'on'
-    light.dining_room_lamp_red:
-      effect_list: []
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 3
-      friendly_name: Dining Room Lamp - Red
-      supported_features: 5
-      state: 'on'
-    light.dining_room_lamp_white:
-      effect_list: []
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 3
-      friendly_name: Dining Room Lamp - White
-      supported_features: 5
-      state: 'on'
-- id: '1644456456481'
-  name: Dining Room Lamp - Wall
-  entities:
-    light.dining_room_lamp_blue:
-      effect_list: []
-      supported_color_modes:
-      - brightness
-      friendly_name: Dining Room Lamp - Blue
-      supported_features: 5
-      state: 'off'
-    light.dining_room_lamp_green:
-      effect_list: []
-      supported_color_modes:
-      - brightness
-      friendly_name: Dining Room Lamp - Green
-      supported_features: 5
-      state: 'off'
-    light.dining_room_lamp_purple:
-      effect_list: []
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 255
-      friendly_name: Dining Room Lamp - Purple
-      supported_features: 5
-      state: 'on'
-    light.dining_room_lamp_red:
-      effect_list: []
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 255
-      friendly_name: Dining Room Lamp - Red
-      supported_features: 5
-      state: 'on'
-    light.dining_room_lamp_white:
-      effect_list: []
-      supported_color_modes:
-      - brightness
-      friendly_name: Dining Room Lamp - White
-      supported_features: 5
-      state: 'off'
-- id: '1644456690376'
-  name: Dining Room Lamp - Full
-  entities:
-    light.dining_room_lamp_blue:
-      effect_list: []
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 255
-      friendly_name: Dining Room Lamp - Blue
-      supported_features: 5
-      state: 'on'
-    light.dining_room_lamp_green:
-      effect_list: []
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 255
-      friendly_name: Dining Room Lamp - Green
-      supported_features: 5
-      state: 'on'
-    light.dining_room_lamp_purple:
-      effect_list: []
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 255
-      friendly_name: Dining Room Lamp - Purple
-      supported_features: 5
-      state: 'on'
-    light.dining_room_lamp_red:
-      effect_list: []
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 255
-      friendly_name: Dining Room Lamp - Red
-      supported_features: 5
-      state: 'on'
-    light.dining_room_lamp_white:
-      effect_list: []
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 255
-      friendly_name: Dining Room Lamp - White
-      supported_features: 5
-      state: 'on'
 - id: '1646251729325'
   name: Basement Studio - Energize
   entities:
@@ -1599,3 +1417,72 @@
       entity_only: false
     light.kallen_bedroom_overhead:
       entity_only: false
+- id: '1677005075590'
+  name: Dining Room Lamp Bright
+  entities:
+    light.dining_room_lamp:
+      effect_list: []
+      supported_color_modes:
+      - brightness
+      entity_id:
+      - light.dining_room_lamp_blue
+      - light.dining_room_lamp_green
+      - light.dining_room_lamp_purple
+      - light.dining_room_lamp_red
+      - light.dining_room_lamp_white
+      icon: mdi:lightbulb-group
+      friendly_name: Dining Room Lamp
+      supported_features: 4
+      color_mode: brightness
+      brightness: 255
+      state: 'on'
+  icon: mdi:palette
+  metadata:
+    light.dining_room_lamp:
+      entity_only: true
+- id: '1677005153043'
+  name: Dining Room Lamp Dimmed
+  entities:
+    light.dining_room_lamp:
+      effect_list: []
+      supported_color_modes:
+      - brightness
+      entity_id:
+      - light.dining_room_lamp_blue
+      - light.dining_room_lamp_green
+      - light.dining_room_lamp_purple
+      - light.dining_room_lamp_red
+      - light.dining_room_lamp_white
+      icon: mdi:lightbulb-group
+      friendly_name: Dining Room Lamp
+      supported_features: 4
+      color_mode: brightness
+      brightness: 83
+      state: 'on'
+  icon: mdi:palette
+  metadata:
+    light.dining_room_lamp:
+      entity_only: true
+- id: '1677005203818'
+  name: Dining Room Lamp Nightlight
+  entities:
+    light.dining_room_lamp:
+      effect_list: []
+      supported_color_modes:
+      - brightness
+      entity_id:
+      - light.dining_room_lamp_blue
+      - light.dining_room_lamp_green
+      - light.dining_room_lamp_purple
+      - light.dining_room_lamp_red
+      - light.dining_room_lamp_white
+      icon: mdi:lightbulb-group
+      friendly_name: Dining Room Lamp
+      supported_features: 4
+      color_mode: brightness
+      brightness: 3
+      state: 'on'
+  icon: mdi:palette
+  metadata:
+    light.dining_room_lamp:
+      entity_only: true

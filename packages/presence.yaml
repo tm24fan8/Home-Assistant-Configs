@@ -520,7 +520,7 @@ script:
         - switch.adaptive_lighting_basement_studio
         - switch.adaptive_lighting_living_room
         - switch.adaptive_lighting_downstairs_bathroom
-        - switch.adaptive_lighting_dining_room
+        - switch.adaptive_lighting_dining_room_lamp
         - switch.adaptive_lighting_tina_lamp
         - switch.adaptive_lighting_mud_room
         - switch.adaptive_lighting_upstairs_hallway
@@ -541,13 +541,9 @@ script:
         - input_text.master_bedroom_selected_scene
         - input_text.kallen_bedroom_selected_scene
         - input_text.emma_bedroom_selected_scene
+        - input_text.dining_room_lamp_selected_scene
       data:
         value: Adaptive
-    - service: input_text.set_value
-      target:
-        entity_id: input_text.dining_room_lamp_selected_scene
-      data:
-        value: Full
     - service: media_player.turn_off
       target:
         entity_id: media_player.living_room_tv
@@ -598,16 +594,9 @@ script:
           entity_id:
             - input_select.living_room_scenes
             - input_select.mud_room_scenes
+            - input_select.dining_room_scenes
         data:
           option: Adaptive
-      - service: input_boolean.turn_on
-        target:
-          entity_id: input_boolean.tina_desk_lights
-      - service: input_select.select_option
-        target:
-          entity_id: input_select.dining_room_lamp_scenes
-        data:
-          option: Full
     - service: light.turn_off
       target:
         area_id:
@@ -662,13 +651,9 @@ script:
         entity_id:
           - input_select.living_room_scenes
           - input_select.mud_room_scenes
+          - input_select.dining_room_lamp_scenes
       data:
         option: Adaptive
-    - service: input_select.select_option
-      target:
-        entity_id: input_select.dining_room_lamp_scenes
-      data:
-        option: Full
     - service: input_select.select_option
       target:
         entity_id: input_select.upstairs_bathroom_scenes
