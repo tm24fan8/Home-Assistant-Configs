@@ -1,0 +1,109 @@
+# Right now this is just to provide binary sensors to control the conditional cards on our dashboard.
+# These are needed in order to prevent cards showing for events that are several months in the future...
+
+template:
+  - binary_sensor:
+    - name: Michigan Wolverines Inhibit
+      state: >
+        {% if state_attr('sensor.michigan_wolverines','kickoff_in') %}
+          {% if 'months' in state_attr('sensor.michigan_wolverines','kickoff_in') %}
+            true
+          {% elif 'weeks' in state_attr('sensor.michigan_wolverines','kickoff_in') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        {% else %}
+          false
+        {% endif %}
+    - name: Ohio State Buckeyes Inhibit
+      state: >
+        {% if state_attr('sensor.ohio_state_buckeyes','kickoff_in') %}
+          {% if 'months' in state_attr('sensor.ohio_state_buckeyes','kickoff_in') %}
+            true
+          {% elif 'weeks' in state_attr('sensor.ohio_state_buckeyes','kickoff_in') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        {% else %}
+          false
+        {% endif %}
+    - name: Toledo Rockets Inhibit
+      state: >
+        {% if state_attr('sensor.toledo_rockets','kickoff_in') %}
+          {% if 'months' in state_attr('sensor.toledo_rockets','kickoff_in') %}
+            true
+          {% elif 'weeks' in state_attr('sensor.toledo_rockets','kickoff_in') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        {% else %}
+          false
+        {% endif %}
+    - name: Minnesota Vikings Inhibit
+      state: >
+        {% if state_attr('sensor.minnesota_vikings','kickoff_in') %}
+          {% if 'months' in state_attr('sensor.minnesota_vikings','kickoff_in') %}
+            true
+          {% elif 'weeks' in state_attr('sensor.minnesota_vikings','kickoff_in') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        {% else %}
+          false
+        {% endif %}
+    - name: San Francisco 49ers Inhibit
+      state: >
+        {% if state_attr('sensor.san_francisco_49ers','kickoff_in') %}
+          {% if 'months' in state_attr('sensor.san_francisco_49ers','kickoff_in') %}
+            true
+          {% elif 'weeks' in state_attr('sensor.san_francisco_49ers','kickoff_in') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        {% else %}
+          false
+        {% endif %}
+    - name: Cleveland Guardians Inhibit
+      state: >
+        {% if state_attr('sensor.cleveland_guardians','kickoff_in') %}
+          {% if 'months' in state_attr('sensor.cleveland_guardians','kickoff_in') %}
+            true
+          {% elif 'weeks' in state_attr('sensor.cleveland_guardians','kickoff_in') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        {% else %}
+          false
+        {% endif %}
+    - name: Minnesota Twins Inhibit
+      state: >
+        {% if state_attr('sensor.minnesota_twins','kickoff_in') %}
+          {% if 'months' in state_attr('sensor.minnesota_twins','kickoff_in') %}
+            true
+          {% elif 'weeks' in state_attr('sensor.minnesota_twins','kickoff_in') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        {% else %}
+          false
+        {% endif %}
+    - name: Los Angeles Dodgers Inhibit
+      state: >
+        {% if state_attr('sensor.los_angeles_dodgers','kickoff_in') %}
+          {% if 'months' in state_attr('sensor.los_angeles_dodgers','kickoff_in') %}
+            true
+          {% elif 'weeks' in state_attr('sensor.los_angeles_dodgers','kickoff_in') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        {% else %}
+          false
+        {% endif %}
