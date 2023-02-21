@@ -11,7 +11,7 @@ mqtt:
       qos: 1
 
     - name: "Kallen Desktop - CPU Temperature"
-      state_topic: "iotlink/workgroup/kallen-desktop/monitor/stats/cpu/temperatures/core_(tctl/tdie)"
+      state_topic: "iotlink/workgroup/kallen-desktop/monitor/stats/cpu/temperatures/cpu_package"
       unit_of_measurement: 'C'
       icon: mdi:thermometer
       value_template: "{{ value }}"
