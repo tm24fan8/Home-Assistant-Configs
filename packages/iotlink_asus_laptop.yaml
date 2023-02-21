@@ -1,3 +1,175 @@
+mqtt:
+  sensor:
+    - name: "ASUS Laptop - GPU Temperature"
+      state_topic: "iotlink/workgroup/asus-laptop/monitor/stats/gpu_nvidia/temperatures/gpu_core"
+      unit_of_measurement: 'C'
+      icon: mdi:thermometer
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/asus-laptop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "ASUS Laptop - CPU Temperature"
+      state_topic: "iotlink/workgroup/asus-laptop/monitor/stats/cpu/temperatures/cpu_package"
+      unit_of_measurement: 'C'
+      icon: mdi:thermometer
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/asus-laptop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "ASUS Laptop - Storage C Temperature"
+      state_topic: "iotlink/workgroup/asus-laptop/monitor/stats/storages/samsung_mznty128hdhp-00000/temperatue"
+      unit_of_measurement: 'C'
+      icon: mdi:thermometer
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/asus-laptop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "ASUS Laptop - Storage D Temperature"
+      state_topic: "iotlink/workgroup/asus-laptop/monitor/stats/storages/hgst_hts721010a9e630/temperatue"
+      unit_of_measurement: 'C'
+      icon: mdi:thermometer
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/asus-laptop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "ASUS Laptop - Memory Usage"
+      state_topic: "iotlink/workgroup/asus-laptop/monitor/stats/memory/load/memory"
+      unit_of_measurement: '%'
+      icon: mdi:memory
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/asus-laptop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "ASUS Laptop - Virtual Memory Usage"
+      state_topic: "iotlink/workgroup/asus-laptop/monitor/stats/memory/load/virtual_memory"
+      unit_of_measurement: '%'
+      icon: mdi:memory
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/asus-laptop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "ASUS Laptop - GPU Core Load"
+      state_topic: "iotlink/workgroup/asus-laptop/monitor/stats/gpu_nvidia/load/gpu_core"
+      unit_of_measurement: '%'
+      icon: mdi:speedometer
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/asus-laptop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "ASUS Laptop - GPU VRAM Usage"
+      state_topic: "iotlink/workgroup/asus-laptop/monitor/stats/gpu_nvidia/load/gpu_memory"
+      unit_of_measurement: '%'
+      icon: mdi:memory
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/asus-laptop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "ASUS Laptop - GPU Video Engine Load"
+      state_topic: "iotlink/workgroup/asus-laptop/monitor/stats/gpu_nvidia/load/gpu_video_engine"
+      unit_of_measurement: '%'
+      icon: mdi:speedometer
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/asus-laptop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "ASUS Laptop - GPU Memory Controller Load"
+      state_topic: "iotlink/workgroup/asus-laptop/monitor/stats/gpu_nvidia/load/gpu_memory_controller"
+      unit_of_measurement: '%'
+      icon: mdi:speedometer
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/asus-laptop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "ASUS Laptop - GPU Memory Total"
+      state_topic: "iotlink/workgroup/asus-laptop/monitor/stats/gpu_nvidia/data/gpu_memory_total"
+      unit_of_measurement: 'MB'
+      icon: mdi:memory
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/asus-laptop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "ASUS Laptop - GPU Memory Free"
+      state_topic: "iotlink/workgroup/asus-laptop/monitor/stats/gpu_nvidia/data/gpu_memory_free"
+      unit_of_measurement: 'MB'
+      icon: mdi:memory
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/asus-laptop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "ASUS Laptop - GPU Memory Used"
+      state_topic: "iotlink/workgroup/asus-laptop/monitor/stats/gpu_nvidia/data/gpu_memory_used"
+      unit_of_measurement: 'MB'
+      icon: mdi:memory
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/asus-laptop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "ASUS Laptop - Memory Used (GB)"
+      state_topic: "iotlink/workgroup/asus-laptop/monitor/stats/memory/data/memory_used"
+      unit_of_measurement: 'GB'
+      icon: mdi:memory
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/asus-laptop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "ASUS Laptop - Memory Available (GB)"
+      state_topic: "iotlink/workgroup/asus-laptop/monitor/stats/memory/data/memory_available"
+      unit_of_measurement: 'GB'
+      icon: mdi:memory
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/asus-laptop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "ASUS Laptop - Virtual Memory Used (GB)"
+      state_topic: "iotlink/workgroup/asus-laptop/monitor/stats/memory/data/virtual_memory_used"
+      unit_of_measurement: 'GB'
+      icon: mdi:memory
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/asus-laptop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
+    - name: "ASUS Laptop - Virtual Memory Available (GB)"
+      state_topic: "iotlink/workgroup/asus-laptop/monitor/stats/memory/data/virtual_memory_available"
+      unit_of_measurement: 'GB'
+      icon: mdi:memory
+      value_template: "{{ value }}"
+      availability_topic: "iotlink/workgroup/asus-laptop/lwt"
+      payload_available: "ON"
+      payload_not_available: "OFF"
+      qos: 1
+
 script:
 #   asus_laptop_wake:
 #     # To enable see https://www.home-assistant.io/components/wake_on_lan/
