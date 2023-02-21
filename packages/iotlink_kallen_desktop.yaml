@@ -21,7 +21,7 @@ mqtt:
       qos: 1
 
     - name: "Kallen Desktop - Storage C Temperature"
-      state_topic: "iotlink/workgroup/kallen-desktop/monitor/stats/storages/ct1000p1ssd8/temperatue"
+      state_topic: "iotlink/workgroup/kallen-desktop/monitor/stats/storages/wdc__wdbnce0010pnc/temperatue"
       unit_of_measurement: 'C'
       icon: mdi:thermometer
       value_template: "{{ value }}"
