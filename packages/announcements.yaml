@@ -103,6 +103,7 @@ automation:
         entity_id:
           - switch.basement_echo_dot_do_not_disturb_switch
           - switch.living_room_echo_dot_do_not_disturb_switch
+    - service: script.volume_reset
 
   # Turn off audible notifications if they have't been turned off yet. 
   - id: e0e9c774-6abe-42aa-bdab-32108bebb0e9
