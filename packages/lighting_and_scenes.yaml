@@ -1104,13 +1104,14 @@ script:
   morning_scene:
     alias: 'Morning Scene'
     sequence:
+      - service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.master_bedroom_sleeping
       - if:
-        - condition: template
-          value_template: "{{ states('weather.iron_nerd_weather_station') not in ['sunny','clear-night'] }}"
+        - condition: numeric_state
+          entity_id: sensor.pirateweather_cloud_coverage
+          above: 50
         then:
-        - service: light.turn_on
-          target:
-            entity_id: light.master_bedroom_lights
         - if:
           - condition: template
             value_template: "{{ is_state('input_boolean.kallen_sleeping','off') and is_state('person.kallen_stork','home') }}"
