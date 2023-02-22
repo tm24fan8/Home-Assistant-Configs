@@ -50,6 +50,8 @@ give_me_darkness:
     continue_on_timeout: true
     timeout:
       seconds: 5
+  - service: script.volume_reset
+    data: {}
   - service: script.evening_on_first_floor
     data: {}
   - service: script.evening_on_second_floor
@@ -435,15 +437,9 @@ max_brightness_cleanup:
       - input_text.upstairs_hallway_selected_scene
   mode: single
   icon: mdi:broom
-freeze_cleanup:
-  alias: Freeze Cleanup
+cleanup_crash:
+  alias: Cleanup Crash
   sequence:
-  - service: input_boolean.turn_off
-    data: {}
-    target:
-      entity_id:
-      - input_boolean.night_mode
-      - input_boolean.shower_mode
   - service: switch.turn_off
     data: {}
     target:
@@ -452,6 +448,7 @@ freeze_cleanup:
       - switch.basement_echo_dot_do_not_disturb_switch
       - switch.living_room_echo_dot_do_not_disturb_switch
       - switch.master_bedroom_echo_dot_do_not_disturb_switch
+    alias: Turn off switches
   - if:
     - condition: time
       after: input_datetime.master_bedroom_wakeup
@@ -474,6 +471,7 @@ freeze_cleanup:
       data: {}
       target:
         entity_id: button.master_bedroom_night_mode
+    alias: Set climate state
   - if:
     - condition: state
       entity_id: sensor.twitch_ironnerd24
@@ -488,6 +486,7 @@ freeze_cleanup:
       data: {}
       target:
         entity_id: input_boolean.studio_quiet
+    alias: Set studio quiet if Twitch stream is live
   - if:
     - condition: state
       entity_id: calendar.family_tinawork
@@ -505,6 +504,7 @@ freeze_cleanup:
       data: {}
       target:
         entity_id: input_boolean.work_today
+    alias: Set Tina Work booleans
   - if:
     - condition: state
       entity_id: calendar.kallen_school_days
@@ -528,6 +528,7 @@ freeze_cleanup:
         - input_boolean.kallen_school_today
         - input_boolean.kallen_school_today_extended
         - input_boolean.kallen_at_school
+    alias: Set Kallen School booleans
   - if:
     - condition: time
       before: input_datetime.audible_notification_on
@@ -542,6 +543,7 @@ freeze_cleanup:
       data: {}
       target:
         entity_id: input_boolean.audible_notifications
+    alias: Set audible notifications
   - service: switch.turn_on
     data: {}
     target:
@@ -558,6 +560,7 @@ freeze_cleanup:
       - switch.adaptive_lighting_emma_bedroom
       - switch.adaptive_lighting_upstairs_bathroom
       - switch.adaptive_lighting_upstairs_hallway
+    alias: Turn on all adaptive lighting
   - service: input_text.set_value
     data:
       value: Adaptive
@@ -575,21 +578,14 @@ freeze_cleanup:
       - input_text.upstairs_bathroom_selected_scene
       - input_text.upstairs_hallway_selected_scene
       - input_text.dining_room_lamp_selected_scene
-  - service: media_player.volume_set
-    data:
-      volume_level: 0.6
-    target:
-      entity_id:
-      - media_player.basement_echo_dot
-      - media_player.living_room_echo_dot
-  - service: media_player.volume_set
-    data:
-      volume_level: 0.5
-    target:
-      entity_id: media_player.master_bedroom_echo_dot
+    alias: Reset input texts to adaptive
+  - service: script.volume_reset
+    data: {}
+    alias: Reset all speaker volumes
   - service: button.press
     data: {}
     target:
       entity_id: button.cleanup
+    alias: Run Node-RED cleanup flow
   mode: single
   icon: mdi:truck-snowflake

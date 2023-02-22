@@ -122,6 +122,80 @@ input_text:
     icon: mdi:text
     initial: Type your title here
 
+input_number:
+  basement_echo_dot_day_volume:
+    name: Basement Echo Dot Day Volume
+    min: 0
+    max: 1.0
+    step: 0.01
+    icon: mdi:knob
+  basement_echo_dot_night_volume:
+    name: Basement Echo Dot Night Volume
+    min: 0
+    max: 1.0
+    step: 0.01
+    icon: mdi:knob
+  basement_google_speaker_day_volume:
+    name: Basement Google Speaker Day Volume
+    min: 0
+    max: 1.0
+    step: 0.01
+    icon: mdi:knob
+  basement_google_speaker_night_volume:
+    name: Basement Google Speaker Night Volume
+    min: 0
+    max: 1.0
+    step: 0.01
+    icon: mdi:knob
+  living_room_echo_dot_day_volume:
+    name: Living Room Echo Dot Day Volume
+    min: 0
+    max: 1.0
+    step: 0.01
+    icon: mdi:knob
+  living_room_echo_dot_night_volume:
+    name: Living Room Echo Dot Night Volume
+    min: 0
+    max: 1.0
+    step: 0.01
+    icon: mdi:knob
+  master_bedroom_echo_dot_day_volume:
+    name: Master Bedroom Echo Dot Day Volume
+    min: 0
+    max: 1.0
+    step: 0.01
+    icon: mdi:knob
+  master_bedroom_echo_dot_night_volume:
+    name: Master Bedroom Echo Dot Night Volume
+    min: 0
+    max: 1.0
+    step: 0.01
+    icon: mdi:knob
+  emma_bedroom_google_speaker_day_volume:
+    name: Emma Bedroom Google Speaker Day Volume
+    min: 0
+    max: 1.0
+    step: 0.01
+    icon: mdi:knob
+  emma_bedroom_google_speaker_night_volume:
+    name: Emma Bedroom Google Speaker Night Volume
+    min: 0
+    max: 1.0
+    step: 0.01
+    icon: mdi:knob
+  kallen_bedroom_google_speaker_day_volume:
+    name: Kallen Bedroom Google Speaker Day Volume
+    min: 0
+    max: 1.0
+    step: 0.01
+    icon: mdi:knob
+  kallen_bedroom_google_speaker_night_volume:
+    name: Kallen Bedroom Google Speaker Night Volume
+    min: 0
+    max: 1.0
+    step: 0.01
+    icon: mdi:knob
+
 # Amazon Polly Sensors to see last message and location of audible notification
 mqtt:
   sensor:
@@ -216,8 +290,369 @@ notify:
       - service: alexa_media_living_room_echo_dot
       - service: alexa_media_basement_echo_dot
 
-script:
+# The below was the initial attempt at day/night volume handling.
+# I am keeping it here in case I decide I want to use it, but for now I think I have a better solution.
 
+# automation:
+#   - id: a3bfc13c-b01f-4b85-8e47-b45cd173a774
+#     alias: 'Speaker Volume Handling'
+#     mode: parallel
+#     max: 12
+#     trigger:
+#     - platform: state
+#       entity_id: input_number.basement_echo_dot_day_volume
+#       for:
+#         seconds: 1
+#       id: basement-echo-day
+#     - platform: state
+#       entity_id: input_number.basement_echo_dot_night_volume
+#       for:
+#         seconds: 1
+#       id: basement-echo-night
+#     - platform: state
+#       entity_id: input_number.basement_google_speaker_day_volume
+#       for:
+#         seconds: 1
+#       id: basement-google-day
+#     - platform: state
+#       entity_id: input_number.basement_google_speaker_night_volume
+#       for:
+#         seconds: 1
+#       id: basement-google-night
+#     - platform: state
+#       entity_id: input_number.living_room_echo_dot_day_volume
+#       for:
+#         seconds: 1
+#       id: living-room-echo-day
+#     - platform: state
+#       entity_id: input_number.living_room_echo_dot_night_volume
+#       for:
+#         seconds: 1
+#       id: living-room-echo-night
+#     - platform: state
+#       entity_id: input_number.master_bedroom_echo_dot_day_volume
+#       for:
+#         seconds: 1
+#       id: master-bedroom-echo-day
+#     - platform: state
+#       entity_id: input_number.master_bedroom_echo_dot_night_volume
+#       for:
+#         seconds: 1
+#       id: master-bedroom-echo-night
+#     - platform: state
+#       entity_id: input_number.emma_bedroom_google_speaker_day_volume
+#       for:
+#         seconds: 1
+#       id: emma-bedroom-google-day
+#     - platform: state
+#       entity_id: input_number.emma_bedroom_google_speaker_night_volume
+#       for:
+#         seconds: 1
+#       id: emma-bedroom-google-night
+#     - platform: state
+#       entity_id: input_number.kallen_bedroom_google_speaker_day_volume
+#       for:
+#         seconds: 1
+#       id: kallen-bedroom-google-day
+#     - platform: state
+#       entity_id: input_number.kallen_bedroom_google_speaker_night_volume
+#       for:
+#         seconds: 1
+#       id: kallen-bedroom-google-night
+#     action:
+#     - choose:
+#       - conditions:
+#         - condition: trigger
+#           id: basement-echo-day
+#         sequence:
+#         - if:
+#           - condition: state
+#             entity_id: input_boolean.give_me_darkness
+#             state: 'off'
+#           then:
+#           - service: media_player.volume_set
+#             target:
+#               entity_id: media_player.basement_echo_dot
+#             data:
+#               volume_level: "{{ states('input_number.basement_echo_dot_day_volume') }}"
+#       - conditions:
+#         - condition: trigger
+#           id: basement-echo-night
+#         sequence:
+#         - if:
+#           - condition: state
+#             entity_id: input_boolean.give_me_darkness
+#             state: 'on'
+#           then:
+#           - service: media_player.volume_set
+#             target:
+#               entity_id: media_player.basement_echo_dot
+#             data:
+#               volume_level: "{{ states('input_numnber.basement_echo_dot_night_volume') }}"
+#       - conditions:
+#         - condition: trigger
+#           id: basement-google-day
+#         sequence:
+#         - if:
+#           - condition: state
+#             entity_id: input_boolean.give_me_darkness
+#             state: 'off'
+#           then:
+#           - service: media_player.volume_set
+#             target:
+#               entity_id: media_player.basement_google_speaker
+#             data:
+#               volume_level: "{{ states('input_number.basement_google_speaker_day_volume') }}"
+#       - conditions:
+#         - condition: trigger
+#           id: basement-google-night
+#         sequence:
+#         - if:
+#           - condition: state
+#             entity_id: input_boolean.give_me_darkness
+#             state: 'on'
+#           then:
+#           - service: media_player.volume_set
+#             target:
+#               entity_id: media_player.basement_google_speaker
+#             data:
+#               volume_level: "{{ states('input_number.basement_google_speaker_night_volume') }}"
+#       - conditions:
+#         - condition: trigger
+#           id: living-room-echo-day
+#         sequence:
+#         - if:
+#           - condition: state
+#             entity_id: input_boolean.give_me_darkness
+#             state: 'off'
+#           then:
+#           - service: media_player.volume_set
+#             target:
+#               entity_id: media_player.living_room_echo_dot
+#             data:
+#               volume_level: "{{ states('input_number.living_room_echo_dot_day_volume') }}"
+#       - conditions:
+#         - condition: trigger
+#           id: living-room-echo-night
+#         sequence:
+#         - if:
+#           - condition: state
+#             entity_id: input_boolean.give_me_darkness
+#             state: 'on'
+#           then:
+#           - service: media_player.volume_set
+#             target:
+#               entity_id: media_player.living_room_echo_dot
+#             data:
+#               volume_level: "{{ states('input_number.living_room_echo_dot_night_volume') }}"
+#       - conditions:
+#         - condition: trigger
+#           id: master-bedroom-echo-day
+#         sequence:
+#         - if:
+#           - condition: state
+#             entity_id: input_boolean.give_me_darkness
+#             state: 'off'
+#           then:
+#           - service: media_player.volume_set
+#             target:
+#               entity_id: media_player.master_bedroom_echo_dot
+#             data:
+#               volume_level: "{{ states('input_number.master_bedroom_echo_dot_day_volume') }}"
+#       - conditions:
+#         - condition: trigger
+#           id: master-bedroom-echo-night
+#         sequence:
+#         - if:
+#           - condition: state
+#             entity_id: input_boolean.give_me_darkness
+#             state: 'on'
+#           then:
+#           - service: media_player.volume_set
+#             target:
+#               entity_id: media_player.master_bedroom_echo_dot
+#             data:
+#               volume_level: "{{ states('input_number.master_bedroom_echo_dot_night_volume') }}"
+#       - conditions:
+#         - condition: trigger
+#           id: emma-bedroom-google-day
+#         sequence:
+#         - if:
+#           - condition: and
+#             conditions:
+#             - condition: state
+#               entity_id: input_boolean.give_me_darkness
+#               state: 'off'
+#             - condition: state
+#               entity_id: input_boolean.white_noise_emma_bedroom
+#               state: 'off'
+#             - condition: state
+#               entity_id: input_boolean.emma_sleeping
+#               state: 'off'
+#           then:
+#           - service: media_player.volume_set
+#             target:
+#               entity_id: media_player.emma_bedroom_speaker
+#             data:
+#               volume_level: "{{ states('input_number.emma_bedroom_google_speaker_day_volume') }}"
+#       - conditions:
+#         - condition: trigger
+#           id: emma-bedroom-google-night
+#         sequence:
+#         - if:
+#           - condition: and
+#             conditions:
+#             - condition: state
+#               entity_id: input_boolean.give_me_darkness
+#               state: 'on'
+#             - condition: state
+#               entity_id: input_boolean.white_noise_emma_bedroom
+#               state: 'off'
+#             - condition: state
+#               entity_id: input_boolean.emma_sleeping
+#               state: 'off'
+#           then:
+#           - service: media_player.volume_set
+#             target:
+#               entity_id: media_player.emma_bedroom_speaker
+#             data:
+#               volume_level: "{{ states('input_number.emma_bedroom_google_speaker_night_volume') }}"
+#       - conditions:
+#         - condition: trigger
+#           id: kallen-bedroom-google-day
+#         sequence:
+#         - if:
+#           - condition: and
+#             conditions:
+#             - condition: state
+#               entity_id: input_boolean.give_me_darkness
+#               state: 'off'
+#             - condition: state
+#               entity_id: input_boolean.white_noise_kallen_bedroom
+#               state: 'off'
+#             - condition: state
+#               entity_id: input_boolean.kallen_sleeping
+#               state: 'off'
+#           then:
+#           - service: media_player.volume_set
+#             target:
+#               entity_id: media_player.kallen_bedroom_speaker
+#             data:
+#               volume_level: "{{ states('input_number.kallen_bedroom_google_speaker_day_volume') }}"
+#       - conditions:
+#         - condition: trigger
+#           id: kallen-bedroom-google-night
+#         sequence:
+#         - if:
+#           - condition: and
+#             conditions:
+#             - condition: state
+#               entity_id: input_boolean.give_me_darkness
+#               state: 'on'
+#             - condition: state
+#               entity_id: input_boolean.white_noise_kallen_bedroom
+#               state: 'off'
+#             - condition: state
+#               entity_id: input_boolean.kallen_sleeping
+#               state: 'off'
+#           then:
+#           - service: media_player.volume_set
+#             target:
+#               entity_id: media_player.kallen_bedroom_speaker
+#             data:
+#               volume_level: "{{ states('input_number.kallen_bedroom_google_speaker_night_volume') }}"
+
+script:
+  volume_reset:
+    alias: 'Volume Reset'
+    description: 'Use this to reset volumes to day or night on each speaker, depending on the time of day'
+    mode: restart
+    sequence:
+    - service: media_player.volume_set
+      target:
+        entity_id: media_player.basement_echo_dot
+      data:
+        volume_level: >
+          {% if is_state('input_boolean.give_me_darkness','on') %}
+            {{ states('input_number.basement_echo_dot_night_volume') }}
+          {% else %}
+            {{ states('input_number.basement_echo_dot_day_volume') }}
+          {% endif %}
+    - service: media_player.volume_set
+      target:
+        entity_id: media_player.basement_google_speaker
+      data:
+        volume_level: >
+          {% if is_state('input_boolean.give_me_darkness','on') %}
+            {{ states('input_number.basement_google_speaker_night_volume') }}
+          {% else %}
+            {{ states('input_number.basement_google_speaker_day_volume') }}
+          {% endif %}
+    - service: media_player.volume_set
+      target:
+        entity_id: media_player.living_room_echo_dot
+      data:
+        volume_level: >
+          {% if is_state('input_boolean.give_me_darkness','on') %}
+            {{ states('input_number.living_room_echo_dot_night_volume') }}
+          {% else %}
+            {{ states('input_number.living_room_echo_dot_day_volume') }}
+          {% endif %}
+    - if:
+      - condition: state
+        entity_id: input_boolean.master_bedroom_sleeping
+        state: 'off'
+      then:
+      - service: media_player.volume_set
+        target:
+          entity_id: media_player.master_bedroom_echo_dot
+        data:
+          volume_level: >
+            {% if is_state('input_boolean.give_me_darkness','on') %}
+              {{ states('input_number.master_bedroom_echo_dot_night_volume') }}
+            {% else %}
+              {{ states('input_number.master_bedroom_echo_dot_day_volume') }}
+            {% endif %}
+    - if:
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: input_boolean.white_noise_kallen_bedroom
+          state: 'off'
+        - condition: state
+          entity_id: input_boolean.kallen_sleeping
+          state: 'off'
+      then:
+      - service: media_player.volume_set
+        target:
+          entity_id: media_player.kallen_bedroom_speaker
+        data:
+          volume_level: >
+            {% if is_state('input_boolean.give_me_darkness','on') %}
+              {{ states('input_number.kallen_bedroom_google_speaker_night_volume') }}
+            {% else %}
+              {{ states('input_number.kallen_bedroom_google_speaker_day_volume') }}
+            {% endif %}
+    - if:
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: input_boolean.white_noise_emma_bedroom
+          state: 'off'
+        - condition: state
+          entity_id: input_boolean.emma_sleeping
+          state: 'off'
+      then:
+      - service: media_player.volume_set
+        target:
+          entity_id: media_player.emma_bedroom_speaker
+        data:
+          volume_level: >
+            {% if is_state('input_boolean.give_me_darkness','on') %}
+              {{ states('input_number.emma_bedroom_google_speaker_night_volume') }}
+            {% else %}
+              {{ states('input_number.emma_bedroom_google_speaker_day_volume') }}
+            {% endif %}
 
 ###############################################################################
 # Txt Notify
@@ -725,6 +1160,17 @@ script:
               - Justin
               - Matthew
               - Salli
+      type:
+        name: 'Type'
+        description: 'What type of message is this? Can override some settings depending on the option selected. Alert bypasses time restrictions but respects volume settings. Critical also bypasses time restrictions, but also sets all volumes to max.'
+        required: false
+        example: 'normal, alert, critical'
+        selector:
+          select:
+            options:
+              - Normal
+              - Alert
+              - Critical
     variables:
       voice: "{{ states('input_select.jarvis_voice') }}"
     sequence:
@@ -756,9 +1202,18 @@ script:
           topic: 'house/polly/lastloc'
           payload: '{{ who }}'
           retain: true
-      - condition: state
-        entity_id: input_boolean.audible_notifications
-        state: 'on'
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: input_boolean.audible_notifications
+          state: 'on'
+        - condition: template
+          value_template: >
+            {% if type in ['critical','Critical','alert','Alert'] %}
+              true
+            {% else %}
+              false
+            {% endif %}
       - condition: state
         entity_id: group.adults
         state: 'home'
@@ -863,6 +1318,7 @@ script:
               {{ message }}
             {% endif %}
           voice: '{{ voice }}'
+          type: '{{ type }}'
       - condition: template
         value_template: >
           {% if who in ['Everywhere','everywhere','all_bedrooms','All Bedrooms','kids_bedrooms','Kids Bedrooms'] %}
@@ -875,6 +1331,7 @@ script:
           who: '{{ who }}'
           message: >
             {{ message }}
+          type: '{{ type }}'
 
 
 
@@ -943,6 +1400,25 @@ script:
   alexa_voice:
     alias: 'Alexa Voice'
     sequence:
+    - if:
+      - condition: template
+        value_template: >
+          {% if type in ['critical','Critical'] %}
+            true
+          {% else %}
+            false
+          {% endif %}
+      then:
+      - service: media_player.volume_set
+        target:
+          entity_id:
+            - media_player.living_room_echo_dot
+            - media_player.basement_echo_dot
+            - media_player.master_bedroom_echo_dot
+        data:
+          volume_level: 1.0
+      - delay:
+          seconds: 3
     - service: notify.alexa_media
       data:
         message: >
@@ -1051,19 +1527,57 @@ script:
             media_player.emma_bedroom_speaker
           {% elif who in ['Basement Google','basement_google'] %}
             media_player.basement_google_speaker
-          {% else %}
-            {% if states.input_boolean.audible_notifications.state == 'on' %}
-            media_player.living_room_tv
-            {% else %}
-            media_player.living_room_tv
-            {% endif %}
           {% endif %}
         volume_level: >-
-            {% if states.input_boolean.audible_notifications.state == 'on' %}
-              0.8
+          {% set numbers_night = [
+            states.input_number.emma_bedroom_google_speaker_night_volume.state,
+            states.input_number.kallen_bedroom_google_speaker_night_volume.state
+          ] %}
+          {% set numbers_day = [
+            states.input_number.emma_bedroom_google_speaker_day_volume.state,
+            states.input_number.kallen_bedroom_google_speaker_day_volume.state
+          ] %}
+          {% set kidsgroup_night = numbers_night | list | min | float %}
+          {% set kidsgroup_day = numbers_day | list | max | float %}
+          {% if type in ['critical'] %}
+            1.0
+          {% elif is_state('input_boolean.give_me_darkness','on') %}
+            {% if who in ['Everywhere','everywhere','kids_bedrooms','all_bedrooms'] %}
+              {% if is_state('input_boolean.emma_sleeping','on') and is_state('input_boolean.kallen_sleeping','off') %}
+                {{ states('input_number.kallen_bedroom_google_speaker_night_volume') }}
+              {% elif is_state('input_boolean.kallen_sleeping','on') and is_state('input_boolean.emma_sleeping','off') %}
+                {{ states('input_number.emma_bedroom_google_speaker_night_volume') }}
+              {% else %}
+                {{ kidsgroup_night }}
+              {% endif %}
+            {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
+              {{ states('input_number.kallen_bedroom_google_speaker_night_volume') }}
+            {% elif who in ['emma_bedroom','media_player.emma_bedroom_speaker'] %}
+              {{ states('input_number.emma_bedroom_google_speaker_night_volume') }}
+            {% elif who in ['Basement Google','basement_google'] %}
+              {{ states('input_number.basement_google_speaker_night_volume') }}
             {% else %}
               0.3
             {% endif %}
+          {% else %}
+            {% if who in ['Everywhere','everywhere','kids_bedrooms','all_bedrooms'] %}
+              {% if is_state('input_boolean.emma_sleeping','on') and is_state('input_boolean.kallen_sleeping','off') %}
+                {{ states('input_number.kallen_bedroom_google_speaker_day_volume') }}
+              {% elif is_state('input_boolean.kallen_sleeping','on') and is_state('input_boolean.emma_sleeping','off') %}
+                {{ states('input_number.emma_bedroom_google_speaker_day_volume') }}
+              {% else %}
+                {{ kidsgroup_day }}
+              {% endif %}
+            {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
+              {{ states('input_number.kallen_bedroom_google_speaker_day_volume') }}
+            {% elif who in ['emma_bedroom','media_player.emma_bedroom_speaker'] %}
+              {{ states('input_number.emma_bedroom_google_speaker_day_volume') }}
+            {% elif who in ['Basement Google','basement_google'] %}
+              {{ states('input_number.basement_google_speaker_day_volume') }}
+            {% else %}
+              0.6
+            {% endif %}
+          {% endif %}
     - service: tts.amazon_polly_say
       data_template:
         entity_id: >-
@@ -1081,12 +1595,6 @@ script:
             media_player.emma_bedroom_speaker
           {% elif who in ['Basement Google','basement_google'] %}
             media_player.basement_google_speaker
-          {% else %}
-            {% if states.input_boolean.audible_notifications.state == 'on' %}
-            media_player.living_room_tv
-            {% else %}
-            media_player.living_room_tv
-            {% endif %}
           {% endif %}
         message: >-
           <speak>

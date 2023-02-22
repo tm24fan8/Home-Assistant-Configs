@@ -11,28 +11,30 @@
     entity_id: input_boolean.vacation_mode
     state: 'off'
   action:
-  - service: input_boolean.turn_on
-    data: {}
-    target:
-      entity_id: input_boolean.audible_notifications
   - service: script.max_brightness
     data: {}
-  - service: notify.all_ios
+  - service: script.text_urgent_alert
     data:
+      who: all
       title: Tornado Warning - TAKE COVER!
       message: The National Weather Service has issued a Tornado Warning for our area.
         Take Cover NOW!!!!
-  - service: notify.tv_notifications
+    alias: CRITICAL PHONE ALERT
+  - service: script.tv_notify
     data:
+      who: all
       title: Tornado Warning - TAKE COVER!
       message: The National Weather Service has issued a Tornado Warning for our area.
         Take Cover NOW!!!!
+    alias: TV Alert
   - service: script.speech_engine
     data:
-      who: everywhere
+      who: Everywhere
       message: A tornado warning has been issued, please take cover immediately! A
         tornado warning has been issued, please take cover immediately! A tornado
         warning has been issued, please take cover immediately!
+      type: Alert
+    alias: Elevated TTS alert
   - delay:
       hours: 0
       minutes: 1
@@ -44,6 +46,21 @@
       message: A tornado warning has been issued, please take cover immediately! A
         tornado warning has been issued, please take cover immediately! A tornado
         warning has been issued, please take cover immediately!
+      type: critical
+    alias: CRITICAL TTS ALERT
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 0
+      milliseconds: 0
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id:
+      - input_boolean.white_noise_kallen_bedroom
+      - input_boolean.white_noise_basement
+      - input_boolean.white_noise_emma_bedroom
+    alias: Turn off white noise
   mode: single
 - id: '1640916845901'
   alias: Cast to Chromecast
@@ -370,7 +387,12 @@
       data:
         topic: house/basement/server/glances
         payload: restart
+        qos: 0
+        retain: false
       alias: Restart Glances via MQTT
+    - service: script.volume_reset
+      data: {}
+      alias: Reset all speaker volumes
     - if:
       - condition: state
         entity_id: input_boolean.studio_quiet
@@ -389,7 +411,8 @@
       alias: Shutdown
     then:
     - service: automation.turn_off
-      data: {}
+      data:
+        stop_actions: true
       target:
         entity_id:
         - automation.family_has_arrived
@@ -428,6 +451,8 @@
     entity_id: input_boolean.vacation_mode
     state: 'off'
   action:
+  - service: script.volume_reset
+    data: {}
   - service: script.max_brightness_cleanup
     data: {}
   - service: notify.all_ios
@@ -477,19 +502,49 @@
     - input_boolean.white_noise_emma_bedroom
     to: 'on'
     from: 'off'
-    id: emma
+    id: emma-on
   - platform: state
     entity_id:
     - input_boolean.white_noise_basement
     to: 'on'
     from: 'off'
-    id: basement
+    id: basement-on
   - platform: state
     entity_id:
     - input_boolean.white_noise_kallen_bedroom
     to: 'on'
     from: 'off'
-    id: kallen
+    id: kallen-on
+  - platform: state
+    entity_id:
+    - input_boolean.white_noise_emma_bedroom
+    from: 'on'
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    id: emma-off
+  - platform: state
+    entity_id:
+    - input_boolean.white_noise_basement
+    from: 'on'
+    to: 'off'
+    id: basement-off
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 5
+  - platform: state
+    entity_id:
+    - input_boolean.white_noise_kallen_bedroom
+    from: 'on'
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 15
+      seconds: 0
+    id: kallen-off
   condition: []
   action:
   - choose:
@@ -504,7 +559,8 @@
           milliseconds: 0
       - service: media_player.volume_set
         data:
-          volume_level: 0.35
+          volume_level: '{{ states(''input_number.emma_bedroom_google_speaker_night_volume'')
+            }}'
         target:
           entity_id: media_player.emma_bedroom_speaker
     - conditions:
@@ -518,7 +574,8 @@
           milliseconds: 0
       - service: media_player.volume_set
         data:
-          volume_level: 0.5
+          volume_level: '{{ states(''input_number.basement_google_speaker_night_volume'')
+            }}'
         target:
           entity_id: media_player.basement_google_speaker
     - conditions:
@@ -532,11 +589,63 @@
           milliseconds: 0
       - service: media_player.volume_set
         data:
-          volume_level: 0.3
+          volume_level: '{{ states(''input_number.kallen_bedroom_google_speaker_night_volume'')
+            }}'
         target:
           entity_id: media_player.kallen_bedroom_speaker
+    - conditions:
+      - condition: trigger
+        id: emma-off
+      sequence:
+      - if:
+        - condition: state
+          entity_id: input_boolean.emma_sleeping
+          state: 'off'
+        then:
+        - service: media_player.volume_set
+          data:
+            volume_level: "{% if is_state('input_boolean.give_me_darkness','on') %}\n
+              \ {{ states('input_number.emma_bedroom_google_speaker_night_volume')
+              }}\n{% else %}\n  {{ states('input_number.emma_bedroom_google_speaker_day_volume')
+              }}\n{% endif %}\n"
+          target:
+            entity_id: media_player.emma_bedroom_speaker
+    - conditions:
+      - condition: trigger
+        id: basement-off
+      sequence:
+      - service: media_player.volume_set
+        data:
+          volume_level: "{% if is_state('input_boolean.give_me_darkness','on') %}\n
+            {{ states('input_number.basement_google_speaker_night_volume') }}\n{%
+            else %}\n  {{ states('input_number.basement_google_speaker_day_volume')
+            }}\n{% endif %}\n"
+        target:
+          entity_id: media_player.basement_google_speaker
+    - conditions:
+      - condition: trigger
+        id: kallen-off
+      sequence:
+      - if:
+        - condition: and
+          conditions:
+          - condition: state
+            entity_id: input_boolean.kallen_sleeping
+            state: 'off'
+          - condition: state
+            entity_id: input_boolean.kallen_morning_briefing
+            state: 'off'
+        then:
+        - service: media_player.volume_set
+          data:
+            volume_level: "{% if is_state('input_boolean.give_me_darkness','on') %}\n
+              \ {{ states('input_number.kallen_bedroom_google_speaker_night_volume')
+              }}\n{% else %}\n  {{ states('input_number.kallen_bedroom_google_speaker_day_volume')
+              }}\n{% endif %}\n"
+          target:
+            entity_id: media_player.kallen_bedroom_speaker
   mode: parallel
-  max: 6
+  max: 10
 - id: '1671584633378'
   alias: Delivery Mode Cleanup
   description: ''
