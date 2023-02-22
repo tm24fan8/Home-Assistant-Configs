@@ -4,6 +4,9 @@ input_boolean:
   tony_streaming_today:
     name: Tony Streaming Today
     icon: mdi:twitch
+  master_bedroom_sleeping:
+    name: Master Bedroom Sleeping
+    icon: mdi:sleep
 
 automation:
   - id: 77f33070-4405-41b6-84c4-05b4f3697199
@@ -32,6 +35,50 @@ automation:
     action:
       - service: script.tony_stream_reset
 
+# TODO: Add actions when sleep mode is activated
+
+  - id: 09c3d481-11df-459c-9240-d002b9b2ef53
+    alias: 'Master Bedroom Handling'
+    description: "For scheduled operations in the Master Bedroom"
+    initial_state: true
+    mode: single
+    trigger:
+    - platform: time
+      at: input_datetime.master_bedroom_wakeup
+      id: wakeup
+    condition:
+    - condition: state
+      entity_id: group.adults
+      state: home
+    action:
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: wakeup
+        sequence:
+        - service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.master_bedroom_sleeping
+
+  - id: 7889ccf2-1fee-4819-8e59-5ad4e5879b0a
+    alias: 'Master Bedroom Sleeping'
+    description: 'Handles the response to the Master Bedroom Sleeping toggle'
+    initial_state: true
+    mode: restart
+    trigger:
+    - platform: state
+      entity_id: input_boolean.master_bedroom_sleeping
+      from: 'off'
+      to: 'on'
+      id: sleep-on
+    - platform: state
+      entity_id: input_boolean.master_bedroom_sleeping
+      from: 'on'
+      to: 'off'
+      id: sleep-off
+    action:
+    - service: script.master_bedroom_wakeup
+
 script:
   tony_stream_today:
     alias: 'Tony Stream Today'
@@ -50,3 +97,32 @@ script:
     sequence:
       - service: input_boolean.turn_off
         entity_id: input_boolean.tony_streaming_today
+
+  master_bedroom_wakeup:
+    alias: 'Master Bedroom Wakeup'
+    sequence:
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: sleep-off
+        sequence:
+        - service: media_player.volume_set
+          target:
+            entity_id: media_player.master_bedroom_echo_dot
+          data:
+            volume_level: >
+              {% if is_state('input_boolean.give_me_darkness','on') %}
+                {{ states('input_number.master_bedroom_echo_dot_night_volume') }}
+              {% else %}
+                {{ states('input_number.master_bedroom_echo_dot_day_volume') }}
+              {% endif %}
+        - if:
+          - condition: numeric_state
+            entity_id: sensor.pirateweather_cloud_coverage
+            above: 50
+          then:
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.master_bedroom_scenes
+            data:
+              option: Adaptive
