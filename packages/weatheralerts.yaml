@@ -1541,8 +1541,9 @@ automation:
         entity_id: binary_sensor.windows
         state: 'on'
     action:
-      - service: script.text_alert
+      - service: script.text_notify
         data:
+          type: alert
           who: 'all'
           title: "WINDOWS ARE OPEN!"
           message: "It is raining and there are windows open in the house. Please close them!"
@@ -1598,8 +1599,9 @@ script:
           who: 'common'
           call_interuption: 1
           call_lightning_alert: 1
-      - service: script.text_alert
+      - service: script.text_notify
         data:
+          type: alert
           who: 'all'
           title: "Lightning Detected!"
           message: >-
@@ -1622,8 +1624,9 @@ script:
           who: 'common'
           call_interuption: 1
           call_lightning_clear: 1
-      - service: script.text_alert
+      - service: script.text_notify
         data:
+          type: alert
           who: 'all'
           title: "Lightning Clear"
           message: "The lightning threat has passed. It is safe to resume normal activities."

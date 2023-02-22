@@ -182,8 +182,9 @@ automation:
             entity_id: sensor.garbage_collection_large_pickup
             state: '1'
           then:
-          - service: script.text_alert
+          - service: script.text_notify
             data:
+              type: alert
               who: "all"
               title: "Garbage Collection - Unlimited"
               message: "Tomorrow is large trash pickup day. Please take out all large items, and don't forget the trash can!"
@@ -193,8 +194,9 @@ automation:
               entity_id: sensor.garbage_collection
               state: '1'
             then:
-            - service: script.text_alert
+            - service: script.text_notify
               data:
+                type: alert
                 who: "all"
                 title: "Garbage Collection - Regular"
                 message: "Tomorrow is regular trash pickup day. Make sure the trash can is taken to the curb!"
@@ -214,8 +216,9 @@ automation:
             attribute: days
             state: '7'
           then:
-          - service: script.text_alert
+          - service: script.text_notify
             data:
+              type: alert
               who: "all"
               title: "Retrieve Garbage Can"
               message: "Garbage has been collected. Don't forget to move the trash can back to the house!"

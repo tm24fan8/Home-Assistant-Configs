@@ -692,102 +692,172 @@ script:
         selector:
           text:
             multiline: true
+      type:
+        name: 'Type'
+        description: 'The type of notification to send. Normal will respect whether a person/group is home. Alert will ignore home/away status. Critical will ignore home/away and send a persistant critical notification.'
+        example: 'normal, alert, critical'
+        required: false
+        selector:
+          select:
+            options:
+              - Normal
+              - Alert
+              - Critical
     sequence:
-      - condition: state
-        entity_id: input_boolean.text_notifications
-        state: 'on'
-      - if:
-        - condition: template
-          value_template: '{{ who == "tony"}}'
-        then:
-          - if:
-            - condition: state
-              entity_id: input_boolean.text_notify_tony
-              state: 'on'
-            then:
-            - service: notify.ios_tony
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: "{{ type in ['critical','Critical'] }}"
+          sequence:
+          - service: >
+              {% if who == 'tony' %}
+                notify.ios_tony
+              {% elif who == 'tina' %}
+                notify.ios_tina
+              {% elif who == 'kallen' %}
+                notify.ios_kallen
+              {% elif who == 'parents' %}
+                notify.ios_parents
+              {% elif who == 'nerds' %}
+                notify.ios_nerds
+              {% elif who == 'all' %}
+                notify.all_ios
+              {% endif %}
+            data:
+              title: "{{ title }}"
+              message: "{{ message }}"
               data:
-                title: '{{ title }}'
-                message: '{{ message }}'
-      - if:
-        - condition: template
-          value_template: '{{ who == "tina"}}'
-        then:
-          - if:
-            - condition: state
-              entity_id: input_boolean.text_notify_tina
-              state: 'on'
-            then:
-            - service: notify.ios_tina
-              data:
-                title: '{{ title }}'
-                message: '{{ message }}'
-      - if:
-        - condition: template
-          value_template: '{{ who == "kallen"}}'
-        then:
-          - if:
-            - condition: state
-              entity_id: input_boolean.text_notify_kallen
-              state: 'on'
-            then:
-            - service: notify.ios_kallen
-              data:
-                title: '{{ title }}'
-                message: '{{ message }}'
-      - if:
-        - condition: template
-          value_template: '{{ who == "parents"}}'
-        then:
-          - if:
-            - condition: state
-              entity_id: input_boolean.text_notify_parents
-              state: 'on'
-            then:
-            - service: >
-                {% if is_state('input_boolean.text_notify_tina','off') and is_state('input_boolean.text_notify_tony','on') %}
+                push:
+                  sound:
+                    name: default
+                    critical: 1
+        - conditions:
+          - condition: template
+            value_template: "{{ type in ['alert','Alert'] }}"
+          sequence:
+          - service: >
+                {% if who == 'tony' %}
                   notify.ios_tony
-                {% elif is_state('input_boolean.text_notify_tina','on') and is_state('input_boolean.text_notify_tony','off') %}
+                {% elif who == 'tina' %}
                   notify.ios_tina
-                {% else %}
-                  notify.ios_parents
-                {% endif %}
-              data:
-                title: '{{ title }}'
-                message: '{{ message }}'
-      - if:
-        - condition: template
-          value_template: '{{ who == "nerds"}}'
-        then:
-          - if:
-            - condition: state
-              entity_id: input_boolean.text_notify_nerds
-              state: 'on'
-            then:
-            - service: >
-                {% if is_state('input_boolean.text_notify_tony','on') and is_state('input_boolean.text_notify_kallen','off') %}
-                  notify.ios_tony
-                {% elif is_state('input_boolean.text_notify_tony','off') and is_state('input_boolean.text_notify_kallen','on') %}
+                {% elif who == 'kallen' %}
                   notify.ios_kallen
-                {% else %}
+                {% elif who == 'parents' %}
+                  notify.ios_parents
+                {% elif who == 'nerds' %}
                   notify.ios_nerds
+                {% elif who == 'all' %}
+                  notify.all_ios
                 {% endif %}
-              data:
-                title: '{{ title }}'
-                message: '{{ message }}'
-      - if:
-        - condition: template
-          value_template: '{{ who == "all"}}'
-        then:
-          - if:
-            - condition: state
-              entity_id: input_boolean.text_notify_all
-              state: 'on'
-            then:
-            - service: notify.all_ios
-              data:
-                title: '{{ title }}'
-                message: '{{ message }}'
+            data:
+              title: '{{ title }}'
+              message: '{{ message }}'
+              # data:
+              #   attachment:
+              #     url: '{{ url }}'
+              #     content-type: '{{ content_type }}'
+              #     hide-thumbnail: false
+              #  push:
+              #     sound: '{{ ios_sound }}'
+              #    badge: 0
+              #     category: '{{ ios_category }}'
+              #   entity_id: '{{ camera_entity }}'
+        default:
+        - condition: state
+          entity_id: input_boolean.text_notifications
+          state: 'on'
+        - if:
+          - condition: template
+            value_template: '{{ who == "tony"}}'
+          then:
+            - if:
+              - condition: state
+                entity_id: input_boolean.text_notify_tony
+                state: 'on'
+              then:
+              - service: notify.ios_tony
+                data:
+                  title: '{{ title }}'
+                  message: '{{ message }}'
+        - if:
+          - condition: template
+            value_template: '{{ who == "tina"}}'
+          then:
+            - if:
+              - condition: state
+                entity_id: input_boolean.text_notify_tina
+                state: 'on'
+              then:
+              - service: notify.ios_tina
+                data:
+                  title: '{{ title }}'
+                  message: '{{ message }}'
+        - if:
+          - condition: template
+            value_template: '{{ who == "kallen"}}'
+          then:
+            - if:
+              - condition: state
+                entity_id: input_boolean.text_notify_kallen
+                state: 'on'
+              then:
+              - service: notify.ios_kallen
+                data:
+                  title: '{{ title }}'
+                  message: '{{ message }}'
+        - if:
+          - condition: template
+            value_template: '{{ who == "parents"}}'
+          then:
+            - if:
+              - condition: state
+                entity_id: input_boolean.text_notify_parents
+                state: 'on'
+              then:
+              - service: >
+                  {% if is_state('input_boolean.text_notify_tina','off') and is_state('input_boolean.text_notify_tony','on') %}
+                    notify.ios_tony
+                  {% elif is_state('input_boolean.text_notify_tina','on') and is_state('input_boolean.text_notify_tony','off') %}
+                    notify.ios_tina
+                  {% else %}
+                    notify.ios_parents
+                  {% endif %}
+                data:
+                  title: '{{ title }}'
+                  message: '{{ message }}'
+        - if:
+          - condition: template
+            value_template: '{{ who == "nerds"}}'
+          then:
+            - if:
+              - condition: state
+                entity_id: input_boolean.text_notify_nerds
+                state: 'on'
+              then:
+              - service: >
+                  {% if is_state('input_boolean.text_notify_tony','on') and is_state('input_boolean.text_notify_kallen','off') %}
+                    notify.ios_tony
+                  {% elif is_state('input_boolean.text_notify_tony','off') and is_state('input_boolean.text_notify_kallen','on') %}
+                    notify.ios_kallen
+                  {% else %}
+                    notify.ios_nerds
+                  {% endif %}
+                data:
+                  title: '{{ title }}'
+                  message: '{{ message }}'
+        - if:
+          - condition: template
+            value_template: '{{ who == "all"}}'
+          then:
+            - if:
+              - condition: state
+                entity_id: input_boolean.text_notify_all
+                state: 'on'
+              then:
+              - service: notify.all_ios
+                data:
+                  title: '{{ title }}'
+                  message: '{{ message }}'
 
   tv_notify:
     alias: 'TV Notify'
@@ -867,70 +937,6 @@ script:
             message: '{{ message }}'
             data: '{{ data if data is defined else "{}" }}'
 
-  text_alert:
-    alias: 'Text Alert'
-    description: 'Use this to send more important text alerts to phones, this will ignore presence'
-    mode: queued
-    max: 10
-    fields:
-      who:
-        name: 'Who'
-        description: 'Which phone, or group of phones, to send the alert to'
-        example: 'tony, tina, kallen, parents, nerds, all'
-        required: true
-        selector:
-          select:
-            options:
-              - tony
-              - tina
-              - kallen
-              - parents
-              - nerds
-              - all
-      title:
-        name: 'Title'
-        description: 'The title of the alert'
-        example: 'Important Alert'
-        required: true
-        selector:
-          text:
-      message:
-        name: 'Message'
-        description: 'The body of the alert'
-        example: 'I am alerting you to the possibility that this is an alert'
-        required: true
-        selector:
-          text:
-            multiline: true
-    sequence:
-      - service: >
-            {% if who == 'tony' %}
-              notify.ios_tony
-            {% elif who == 'tina' %}
-              notify.ios_tina
-            {% elif who == 'kallen' %}
-              notify.ios_kallen
-            {% elif who == 'parents' %}
-              notify.ios_parents
-            {% elif who == 'nerds' %}
-              notify.ios_nerds
-            {% elif who == 'all' %}
-              notify.all_ios
-            {% endif %}
-        data:
-          title: '{{ title }}'
-          message: '{{ message }}'
-          # data:
-          #   attachment:
-          #     url: '{{ url }}'
-          #     content-type: '{{ content_type }}'
-          #     hide-thumbnail: false
-          #  push:
-          #     sound: '{{ ios_sound }}'
-          #    badge: 0
-          #     category: '{{ ios_category }}'
-          #   entity_id: '{{ camera_entity }}'
-
   text_alert_image:
     alias: 'Text Alert Image'
     sequence:
@@ -961,85 +967,6 @@ script:
           #    badge: 0
           #     category: '{{ ios_category }}'
           #   entity_id: '{{ camera_entity }}'
-
-  text_urgent_alert:
-    alias: 'Text Urgent Alert'
-    description: 'Use this to send CRITICAL text alerts to phones. This will ignore presence, make a loud annoying sound, and create a persistent notification, DO NOT USE UNLESS NECESSARY'
-    mode: queued
-    max: 10
-    fields:
-      who:
-        name: 'Who'
-        description: 'Which phone, or group of phones, to send the alert to'
-        example: 'tony, tina, kallen, parents, nerds, all'
-        required: true
-        selector:
-          select:
-            options:
-              - tony
-              - tina
-              - kallen
-              - parents
-              - nerds
-              - all
-      title:
-        name: 'Title'
-        description: 'The title of the notification'
-        example: 'Critical Alert'
-        required: true
-        selector:
-          text:
-      message:
-        name: 'Message'
-        description: 'The body of the notification'
-        example: 'I am alerting you to a critical situation!'
-        required: true
-        selector:
-          text:
-            multiline: true
-    sequence:
-      - service: >
-          {% if who == 'tony' %}
-            notify.ios_tony
-          {% elif who == 'tina' %}
-            notify.ios_tina
-          {% elif who == 'kallen' %}
-            notify.ios_kallen
-          {% elif who == 'parents' %}
-            notify.ios_parents
-          {% elif who == 'nerds' %}
-            notify.ios_nerds
-          {% elif who == 'all' %}
-            notify.all_ios
-          {% endif %}
-        data:
-          title: "{{ title }}"
-          message: "{{ message }}"
-          data:
-            push:
-              sound:
-                name: default
-                critical: 1
-
-###############################################################################
-# Alert Notify
-# Conditions:
-#   => Vacation mode should be off
-# Services:
-#   => Audible 
-#   => iOS 
-###############################################################################
-  alert_notify:
-    alias: 'Alert Notify'
-    sequence:
-      - condition: state
-        entity_id: input_boolean.vacation_mode
-        state: 'off'
-      - service: tts.google_say
-        data_template:
-          entity_id: media_player.living_room_tv
-          message: >
-            {{ message }}
 
   jarvis_alert:
     alias: 'Jarvis Alert'

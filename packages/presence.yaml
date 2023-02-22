@@ -307,8 +307,9 @@ automation:
         entity_id: input_boolean.kallen_at_school
       - service: input_boolean.turn_on
         entity_id: input_boolean.kallen_awake
-      - service: script.text_alert
+      - service: script.text_notify
         data:
+          type: alert
           who: parents
           message: "Kallen has been dropped off at school."
       - service: light.turn_off
@@ -345,8 +346,9 @@ automation:
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.kallen_at_school
-      - service: script.text_alert
+      - service: script.text_notify
         data:
+          type: alert
           who: parents
           message: "Kallen has been picked up from school."
     initial_state: true

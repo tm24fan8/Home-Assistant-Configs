@@ -261,8 +261,9 @@ automation:
             
             Doors:{% if is_state('binary_sensor.exterior_doors','on') %} {{ extdoors }} {% else %} None {% endif %}
             Windows:{% if is_state('binary_sensor.windows','on') %} {{ windows }} {% else %} None {% endif %}
-      - service: script.text_urgent_alert
+      - service: script.text_notify
         data:
+          type: critical
           who: 'parents'
           title: 'Security Not Armed!'
           message: >-

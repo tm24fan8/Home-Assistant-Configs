@@ -13,12 +13,13 @@
   action:
   - service: script.max_brightness
     data: {}
-  - service: script.text_urgent_alert
+  - service: script.text_notify
     data:
-      who: all
+      type: Critical
       title: Tornado Warning - TAKE COVER!
       message: The National Weather Service has issued a Tornado Warning for our area.
         Take Cover NOW!!!!
+      who: all
     alias: CRITICAL PHONE ALERT
   - service: script.tv_notify
     data:
@@ -433,8 +434,9 @@
         - sensor.tony_s_iphone_battery_level
         - sensor.tony_s_ipad_battery_level
       actions:
-      - service: script.text_alert
+      - service: script.text_notify
         data:
+          type: normal
           who: all
           title: Low Batteries in House
           message: 'Low battery alert for: {{sensors}}'
