@@ -1,6 +1,11 @@
 # Right now this is just to provide binary sensors to control the conditional cards on our dashboard.
 # These are needed in order to prevent cards showing for events that are several months in the future...
 
+input_boolean:
+  sports_updates:
+    name: Sports Updates
+    icon: mdi:strategy
+
 template:
   - binary_sensor:
     - name: Michigan Wolverines Inhibit
