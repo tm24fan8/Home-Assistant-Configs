@@ -60,7 +60,7 @@ give_me_darkness:
     data:
       qos: '2'
       retain: true
-      topic: homeassistant/time/give_me_darkness
+      topic: house/time/give_me_darkness
       payload: 'on'
   mode: single
   icon: mdi:weather-night
@@ -223,7 +223,7 @@ going_upstairs:
     data:
       qos: '2'
       retain: true
-      topic: homeassistant/time/nightmode
+      topic: house/time/night_mode
       payload: 'on'
     alias: Tell MQTT that it is night mode now
   - service: input_select.select_option
