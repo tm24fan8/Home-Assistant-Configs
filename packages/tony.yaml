@@ -32,8 +32,27 @@ automation:
         entity_id: sensor.twitch_ironnerd24
         from: 'streaming'
         to: 'offline'
+        id: offline
+      - platform: time
+        at: "07:55:00"
+        id: time
     action:
-      - service: script.tony_stream_reset
+      - choose:
+        - conditions:
+          - condition: trigger
+            id: offline
+          sequence:
+          - service: script.tony_stream_reset
+        - conditions:
+          - condition: trigger
+            id: time
+          sequence:
+          - if:
+            - condition: state
+              entity_id: sensor.twitch_ironnerd24
+              state: 'offline'
+            then:
+            - service: script.tony_stream_reset
 
 # TODO: Add actions when sleep mode is activated
 
