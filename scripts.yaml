@@ -175,6 +175,8 @@ max_brightness:
   - service: input_boolean.turn_on
     target:
       entity_id: input_boolean.tina_desk_lights
+    data: {}
+    alias: Turn on Tina Desk Lights
   - service: switch.turn_off
     target:
       entity_id:
@@ -190,6 +192,7 @@ max_brightness:
       - switch.adaptive_lighting_downstairs_bathroom
       - switch.adaptive_lighting_tina_lamp
     data: {}
+    alias: Turn off Adaptive Lighting
   - delay:
       hours: 0
       minutes: 0
@@ -199,20 +202,25 @@ max_brightness:
     data: {}
     target:
       entity_id: input_boolean.shower_mode
+    alias: Turn on Shower Mode
   - service: automation.turn_off
-    data: {}
+    data:
+      stop_actions: true
     target:
       entity_id: automation.living_room_night_lighting
+    alias: Turn off Living Room night automation
   - service: input_boolean.turn_off
     data: {}
     target:
       entity_id: input_boolean.front_porch_light_on
+    alias: Turn off Front Porch automation
   - service: light.turn_on
     data:
-      kelvin: 5500
+      kelvin: 5000
       brightness_pct: 100
     target:
       entity_id: all
+    alias: Turn on ALL LIGHTS to maximum brightness
   mode: single
   alias: Max Brightness
   icon: mdi:brightness-7
@@ -398,43 +406,21 @@ max_brightness_cleanup:
     target:
       entity_id:
       - input_boolean.shower_mode
-      - input_boolean.tina_desk_lights
+    alias: Turn off Shower Mode
   - service: input_boolean.turn_on
     data: {}
     target:
       entity_id: input_boolean.front_porch_light_on
+    alias: Turn on Front Porch automation
   - service: automation.turn_on
     data: {}
     target:
       entity_id: automation.living_room_night_lighting
-  - service: switch.turn_on
-    target:
-      entity_id:
-      - switch.adaptive_lighting_basement_studio
-      - switch.adaptive_lighting_kallen_bedroom
-      - switch.adaptive_lighting_living_room
-      - switch.adaptive_lighting_master_bedroom
-      - switch.adaptive_lighting_mud_room
-      - switch.adaptive_lighting_emma_bedroom
-      - switch.adaptive_lighting_upstairs_hallway
-      - switch.adaptive_lighting_dining_room_lamp
-      - switch.adaptive_lighting_upstairs_bathroom
-      - switch.adaptive_lighting_downstairs_bathroom
-      - switch.adaptive_lighting_tina_lamp
+    alias: Turn on Living Room night automation
+  - service: script.adaptive_on_first_floor
     data: {}
-  - service: input_text.set_value
+  - service: script.adaptive_on_second_floor
     data: {}
-    target:
-      entity_id:
-      - input_text.basement_studio_selected_scene
-      - input_text.downstairs_bathroom_selected_scene
-      - input_text.kallen_bedroom_selected_scene
-      - input_text.living_room_selected_scene
-      - input_text.master_bedroom_selected_scene
-      - input_text.mud_room_selected_scene
-      - input_text.emma_bedroom_selected_scene
-      - input_text.tina_lamp_selected_scene
-      - input_text.upstairs_hallway_selected_scene
   mode: single
   icon: mdi:broom
 cleanup_crash:
