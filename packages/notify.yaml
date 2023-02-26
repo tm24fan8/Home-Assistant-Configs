@@ -700,9 +700,9 @@ script:
         selector:
           select:
             options:
-              - Normal
-              - Alert
-              - Critical
+              - normal
+              - alert
+              - critical
     sequence:
       - choose:
         - conditions:
@@ -1054,16 +1054,16 @@ script:
         selector:
           select:
             options:
-              - Living Room
-              - Basement
-              - Basement Google
-              - Common Areas
-              - Master Bedroom
-              - Kallen Bedroom
-              - Emma Bedroom
-              - Kids Bedrooms
-              - All Bedrooms
-              - Everywhere
+              - living_room
+              - basement
+              - basement_google
+              - common_areas
+              - master_bedroom
+              - kallen_bedroom
+              - emma_bedroom
+              - kids_bedrooms
+              - all_bedrooms
+              - everywhere
       message:
         name: 'Message'
         description: 'This is the message you want Jarvis to read.'
@@ -1095,9 +1095,9 @@ script:
         selector:
           select:
             options:
-              - Normal
-              - Alert
-              - Critical
+              - normal
+              - alert
+              - critical
     variables:
       voice: "{{ states('input_select.jarvis_voice') }}"
     sequence:
