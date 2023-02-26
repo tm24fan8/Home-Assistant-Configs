@@ -11,6 +11,10 @@
     entity_id: input_boolean.vacation_mode
     state: 'off'
   action:
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.tornado_alarm
   - service: script.max_brightness
     data: {}
   - service: script.text_notify
@@ -453,6 +457,10 @@
     entity_id: input_boolean.vacation_mode
     state: 'off'
   action:
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.tornado_alarm
   - service: script.volume_reset
     data: {}
   - service: script.max_brightness_cleanup
