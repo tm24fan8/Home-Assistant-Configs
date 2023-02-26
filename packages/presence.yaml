@@ -464,7 +464,12 @@ script:
     - condition: state
       entity_id: group.adults
       state: not_home
-    - service: notify.all_ios
+    - service: >
+        {% if states('person.christina_stork') in ['Bob Evans','BobEvans'] %}
+          notify.ios_nerds
+        {% else %}
+          notify.all_ios
+        {% endif %}
       data:
         title: "Everyone Left"
         message: "Away mode arming in 1 minute"
