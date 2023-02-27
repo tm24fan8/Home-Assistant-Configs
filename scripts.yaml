@@ -38,7 +38,7 @@ give_me_darkness:
         alias: Both adults are home
       then:
       - service: script.activate_alexa_actionable_notification
-        data_template:
+        data:
           text: <voice name='Brian'><prosody rate='150%'>Would you like me to arm
             the security system?</prosody></voice>
           event_id: actionable_notification_night_security_arm
@@ -278,7 +278,7 @@ going_upstairs:
     data: {}
     alias: Shut down laptop
   - service: script.activate_alexa_actionable_notification
-    data_template:
+    data:
       text: <voice name='Brian'><prosody rate='150%'>Would you like me to shut down
         your computer?</prosody></voice>
       event_id: actionable_notification_shutdown_computer

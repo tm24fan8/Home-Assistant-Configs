@@ -154,7 +154,7 @@ automation:
         entity_id: sensor.room_audio
     action:
       - service: input_text.set_value
-        data_template:
+        data:
           entity_id: input_text.room_presence
           value: '{{ states(''sensor.room_audio'') }}'
       - service: mqtt.publish

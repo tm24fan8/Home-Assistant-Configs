@@ -1330,7 +1330,7 @@ automation:
             value_template: "{{ state_attr('sensor.weatheralerts_alert_1', 'alert_id') not in states('input_text.weatheralerts_triggered_ui_alert_ids') }}"
     action:
       - service: script.weatheralerts_popup_on_wx_alert
-        data_template:
+        data:
           title: >
             {% if (states('sensor.weatheralerts_alert_1') == 'on') and ((as_timestamp(now()) - as_timestamp(state_attr('sensor.weatheralerts_alert_1', 'alert_effective'))|float) <= 3600) %}
               {{ state_attr('sensor.weatheralerts_alert_1', 'display_title') }}
@@ -1373,7 +1373,7 @@ automation:
               <hr>Alert: <br>{{ state_attr('sensor.weatheralerts_alert_5', 'display_title') }}
             {% endif %}
       - service: input_text.set_value
-        data_template:
+        data:
           entity_id: input_text.weatheralerts_triggered_ui_alert_ids
           value: "{{ state_attr('sensor.weatheralerts_alert_1', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_2', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_3', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_4', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_5', 'alert_id') }}"
 
@@ -1415,7 +1415,7 @@ automation:
             value_template: "{{ state_attr('sensor.weatheralerts_alert_1', 'alert_id') not in states('input_text.weatheralerts_triggered_alert_ids') }}"
     action:
       - service: notify.notify
-        data_template:
+        data:
           message: >
             Current NWS Weather Alerts:
 
@@ -1442,7 +1442,7 @@ automation:
             {{ states.sensor.weatheralerts_alert_5.attributes.display_title }} for {{ state_attr('sensor.weatheralerts', 'friendly_name') }}
             {% endif %}
       - service: input_text.set_value
-        data_template:
+        data:
           entity_id: input_text.weatheralerts_triggered_alert_ids
           value: "{{ state_attr('sensor.weatheralerts_alert_1', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_2', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_3', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_4', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_5', 'alert_id') }}"
 
@@ -1458,7 +1458,7 @@ automation:
   #       above: 0
   #   action:
   #     - service: script.text_notify
-  #       data_template:
+  #       data:
   #         title: "Weather Alert for Anchorage House"
   #         message: >
   #           There are currently {{ state_attr('sensor.weatheralerts_active_alerts', 'warning_count') | int }} active warnings and {{ state_attr('sensor.weatheralerts_active_alerts', 'watch_count') | int }} watches for our area.
@@ -1487,7 +1487,7 @@ automation:
           who: everywhere
           message: Severe thunderstorm warning has been issued, it's about to get loud!
       - service: input_text.set_value
-        data_template:
+        data:
           entity_id: input_text.weatheralerts_triggered_audible_alert_ids
           value: "{{ state_attr('sensor.weatheralerts_alert_1', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_2', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_3', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_4', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_5', 'alert_id') }}"
 
@@ -1631,7 +1631,7 @@ script:
         data:
           color_name: red
       - service: script.status_annc
-        data_template:
+        data:
           who: 'common'
           call_interuption: 1
           call_lightning_alert: 1
@@ -1662,7 +1662,7 @@ script:
           data:
             tag: lightning-warning
       - service: script.status_annc
-        data_template:
+        data:
           who: 'common'
           call_interuption: 1
           call_lightning_clear: 1

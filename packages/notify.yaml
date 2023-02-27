@@ -1024,12 +1024,12 @@ script:
     alias: 'Jarvis Alert'
     sequence:
     - service: mqtt.publish
-      data_template:
+      data:
         topic: 'house/polly/lastmsg'
         payload: 'This message is from {{ now().strftime("%-I") }}:{{ now().strftime("%M") }} {{ now().strftime("%p") }}. {{ message | striptags | truncate(220)}}'
         retain: true
     - service: media_player.turn_on
-      data_template:
+      data:
         entity_id: >
           {% if who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
             media_player.kallen_bedroom_speaker
@@ -1041,7 +1041,7 @@ script:
             {% endif %}
           {% endif %}
     - service: media_player.volume_set
-      data_template:
+      data:
         entity_id: >
           {% if who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
             media_player.kallen_bedroom_speaker
@@ -1063,7 +1063,7 @@ script:
             {% endif %}
           {% endif %}
     - service: tts.amazon_polly_say
-      data_template:
+      data:
         entity_id: >
           {% if who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
             media_player.kallen_bedroom_speaker
@@ -1154,7 +1154,7 @@ script:
       voice: "{{ states('input_select.jarvis_voice') }}"
     sequence:
       - service: mqtt.publish
-        data_template:
+        data:
           topic: 'house/polly/lastmsg'
           payload: >
             {% if msg_summary == 'recall' %}
@@ -1171,13 +1171,13 @@ script:
             {% endif %}
           retain: true
       - service: mqtt.publish
-        data_template:
+        data:
           topic: 'house/polly/msgtime'
           payload: >
             {{ now().strftime("%-I") }}:{{ now().strftime("%M") }} {{ now().strftime("%p") }}
           retain: true
       - service: mqtt.publish
-        data_template:
+        data:
           topic: 'house/polly/lastloc'
           payload: '{{ who }}'
           retain: true
@@ -1338,7 +1338,7 @@ script:
         entity_id: input_boolean.vacation_mode
         state: 'off'
       - service: mqtt.publish
-        data_template:
+        data:
           topic: 'house/polly/lastmsg'
           payload: >
             {% if msg_summary == 'recall' %}
@@ -1355,18 +1355,18 @@ script:
             {% endif %}
           retain: true
       - service: mqtt.publish
-        data_template:
+        data:
           topic: 'house/polly/msgtime'
           payload: >
             {{ now().strftime("%-I") }}:{{ now().strftime("%M") }} {{ now().strftime("%p") }}
           retain: true
       - service: mqtt.publish
-        data_template:
+        data:
           topic: 'house/polly/lastloc'
           payload: '{{ who }}'
           retain: true
       - service: script.alexa_voice
-        data_template:
+        data:
           entity_id: >-
             {{ who }}
           message: >-
@@ -1466,7 +1466,7 @@ script:
       then:
         - stop: 'Kids are sleeping'
     - service: media_player.turn_on
-      data_template:
+      data:
         entity_id: >-
           {% if who in ['Everywhere','everywhere','kids_bedrooms','all_bedrooms'] %}
             {% if is_state('input_boolean.emma_sleeping','on') and is_state('input_boolean.kallen_sleeping','off') %}
@@ -1490,7 +1490,7 @@ script:
             {% endif %}
           {% endif %}
     - service: media_player.volume_set
-      data_template:
+      data:
         entity_id: >-
           {% if who in ['Everywhere','everywhere','kids_bedrooms','all_bedrooms'] %}
             {% if is_state('input_boolean.emma_sleeping','on') and is_state('input_boolean.kallen_sleeping','off') %}
@@ -1558,7 +1558,7 @@ script:
             {% endif %}
           {% endif %}
     - service: tts.amazon_polly_say
-      data_template:
+      data:
         entity_id: >-
           {% if who in ['Everywhere','everywhere','kids_bedrooms','all_bedrooms'] %}
             {% if is_state('input_boolean.emma_sleeping','on') and is_state('input_boolean.kallen_sleeping','off') %}
@@ -1585,7 +1585,7 @@ script:
     alias: 'Nabu Voice'
     sequence:
     - service: media_player.turn_on
-      data_template:
+      data:
         entity_id: >
           {% if who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
             media_player.kallen_bedroom_speaker
@@ -1597,7 +1597,7 @@ script:
             {% endif %}
           {% endif %}
     - service: media_player.volume_set
-      data_template:
+      data:
         entity_id: >
           {% if who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
             media_player.kallen_bedroom_speaker
@@ -1615,7 +1615,7 @@ script:
               .3
             {% endif %}
     - service: tts.cloud_say
-      data_template:
+      data:
         entity_id: >
           {% if who in ['kallen_bedroom','media_player.kallen_bedroom_speaker'] %}
             media_player.kallen_bedroom_speaker
@@ -1640,12 +1640,12 @@ script:
   #     entity_id: 'media_player.ha_blue'
   #     state: 'playing'
   #   - service: input_number.set_value
-  #     data_template:
+  #     data:
   #       entity_id: input_number.old_volume
   #       value: >
   #         {{ states.media_player.ha_blue.attributes.volume_level }}
   #   - service: media_player.volume_set
-  #     data_template:
+  #     data:
   #       entity_id: media_player.ha_blue
   #       volume_level: .2
   
@@ -1655,7 +1655,7 @@ script:
   #     entity_id: 'media_player.ha_blue'
   #     state: 'playing'
   #   - service: media_player.volume_set
-  #     data_template:
+  #     data:
   #       entity_id: media_player.ha_blue
   #       volume_level: >
   #         {{ states.input_number.old_volume.state }}    

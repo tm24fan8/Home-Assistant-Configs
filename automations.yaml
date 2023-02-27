@@ -405,7 +405,7 @@
         state: 'off'
       then:
       - service: script.status_annc
-        data_template:
+        data:
           who: basement
           call_ha_started: 1
       else:

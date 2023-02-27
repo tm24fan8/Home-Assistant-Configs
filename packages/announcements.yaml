@@ -344,7 +344,7 @@ script:
     alias: 'Dinner Is Ready'
     sequence:
     - service: script.status_annc
-      data_template:
+      data:
         who: 'everywhere'
         call_dinner_is_ready: 1
 
@@ -352,7 +352,7 @@ script:
     alias: 'We Are Leaving'
     sequence:
     - service: script.status_annc
-      data_template:
+      data:
         who: 'everywhere'
         call_we_are_leaving: 1
 
@@ -369,7 +369,7 @@ script:
       - delay:
           seconds: 5
       - service: script.speech_engine
-        data_template:
+        data:
           who: living_room
           message: !include ../templates/speech/welcome_home.yaml
     mode: restart

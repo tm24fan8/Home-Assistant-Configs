@@ -301,7 +301,7 @@ automation:
           color_name: red
           brightness_pct: 100
       - service: script.status_annc
-        data_template:
+        data:
           who: common
           call_interruption: 1
           call_lockdown_issue: 1

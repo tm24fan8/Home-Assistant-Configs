@@ -160,7 +160,7 @@ script:
     sequence:
       - service: input_datetime.set_datetime
         entity_id: input_datetime.kallen_school_day_start
-        data_template:
+        data:
           time: >
             {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
               11:00
@@ -171,7 +171,7 @@ script:
           seconds: 1
       - service: input_datetime.set_datetime
         entity_id: input_datetime.kallen_wakeup_time
-        data_template:
+        data:
           time: >
             {% if is_state('input_boolean.kallen_school_today', 'on') %}
               {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
@@ -185,7 +185,7 @@ script:
       - service: input_select.select_option
         target:
           entity_id: input_select.kallen_morning_briefing_location
-        data_template:
+        data:
           option: >
             {% if is_state('input_boolean.kallen_school_today','on') %}
               {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
@@ -198,7 +198,7 @@ script:
             {% endif %}
       - service: input_datetime.set_datetime
         entity_id: input_datetime.kallen_morning_briefing
-        data_template:
+        data:
           time: >
             {% if is_state('input_boolean.kallen_school_today', 'on') %}
               {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
@@ -211,7 +211,7 @@ script:
             {% endif %}
       - service: input_datetime.set_datetime
         entity_id: input_datetime.kallen_school_day_start_reminder
-        data_template:
+        data:
           time: >
             {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
               10:00
@@ -220,7 +220,7 @@ script:
             {% endif %}
       - service: input_datetime.set_datetime
         entity_id: input_datetime.kallen_school_day_end_reminder
-        data_template:
+        data:
           time: >
             {% if is_state('input_boolean.kallen_school_early_release','on') %}
               13:30
@@ -233,7 +233,7 @@ script:
     sequence:
       - service: input_datetime.set_datetime
         entity_id: input_datetime.kallen_bedtime
-        data_template:
+        data:
           time: >
             {% if is_state('sensor.kallen_school_tomorrow', 'on') %}
               21:00
@@ -242,7 +242,7 @@ script:
             {% endif %}
       - service: input_datetime.set_datetime
         entity_id: input_datetime.kallen_nightly_briefing
-        data_template:
+        data:
           time: >
             {% if is_state('sensor.kallen_school_tomorrow', 'on') %}
               20:40
@@ -267,7 +267,7 @@ script:
     sequence:
       - service: input_datetime.set_datetime
         entity_id: input_datetime.audible_notification_on
-        data_template:
+        data:
           time: >
             {% if is_state('input_boolean.kallen_school_today','on') %}
               {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 5400) | timestamp_custom('%H:%M', false) }}
@@ -276,7 +276,7 @@ script:
             {% endif %}
       - service: input_datetime.set_datetime
         entity_id: input_datetime.morning_briefing
-        data_template:
+        data:
           time: >
             {% if is_state('input_boolean.kallen_school_today','on') %}
               {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
@@ -297,7 +297,7 @@ script:
             {% endif %}
       - service: input_datetime.set_datetime
         entity_id: input_datetime.daily_briefing
-        data_template:
+        data:
           time: >
             {% if is_state('input_boolean.kallen_school_today','on') %}
               {% if is_state('input_boolean.kallen_school_early_release','on') %}
@@ -357,7 +357,7 @@ script:
             {{ (state_attr('input_datetime.kallen_bedtime','timestamp') - 3600) | timestamp_custom('%H:%M', false) }}
       - service: input_datetime.set_datetime
         entity_id: input_datetime.audible_notification_off
-        data_template:
+        data:
           time: >
             {% if is_state('sensor.kallen_school_tomorrow','on') %}
               22:00
@@ -370,7 +370,7 @@ script:
     sequence:
       - service: input_datetime.set_datetime
         entity_id: input_datetime.master_bedroom_wakeup
-        data_template:
+        data:
           time: >
             {% if is_state('input_boolean.kallen_school_today','on') %}
               {% if is_state('input_boolean.kallen_school_early_release','on') %}
@@ -387,7 +387,7 @@ script:
     sequence:
       - service: input_datetime.set_datetime
         entity_id: input_datetime.master_bedroom_cooling
-        data_template:
+        data:
           time: >
             {% set low = state_attr('sensor.current_forecast','overnight_low') | float %}
             {% if is_state('input_boolean.hot_day','on') and is_state('sensor.kallen_school_tomorrow','on') %}
@@ -403,7 +403,7 @@ script:
             {% endif %}
       - service: input_datetime.set_datetime
         entity_id: input_datetime.master_bedroom_fan
-        data_template:
+        data:
           time: >
             {% set low = state_attr('sensor.current_forecast','overnight_low') | float %}
             {% if low > 60 %}
@@ -444,7 +444,7 @@ script:
     sequence:
       - service: input_datetime.set_datetime
         entity_id: input_datetime.emma_wakeup
-        data_template:
+        data:
           time: "{{ states('input_datetime.master_bedroom_wakeup') }}"
 
   emma_bedroom_scheduling_evening:
@@ -452,7 +452,7 @@ script:
     sequence:
       - service: input_datetime.set_datetime
         entity_id: input_datetime.emma_bedtime
-        data_template:
+        data:
           time: >
             {% set high = state_attr('sensor.current_forecast','high_temp') | float %}
             {% set low = state_attr('sensor.current_forecast','overnight_low') | float %}
@@ -483,7 +483,7 @@ script:
     sequence:
       - service: input_datetime.set_datetime
         entity_id: input_datetime.morning_alarm_disarm
-        data_template:
+        data:
           time: >
             {% set ct = ((now().hour * 60 + now().minute) * 60 ) %}
             {% if is_state('input_boolean.work_today','on') and is_state('input_boolean.kallen_school_today','on') %}
@@ -505,7 +505,7 @@ script:
             {% endif %}
       - service: input_datetime.set_datetime
         entity_id: input_datetime.morning_alarm_rearm
-        data_template:
+        data:
           time: >
             {% set ct = ((now().hour * 60 + now().minute) * 60 ) %}
             {% if is_state('input_boolean.work_today','on') and is_state('input_boolean.kallen_school_today','off') %}

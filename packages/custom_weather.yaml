@@ -890,7 +890,7 @@ automation:
   #       at: '23:58:00'
   #   action:
   #     service: mqtt.publish
-  #     data_template:
+  #     data:
   #       topic: 'house/rain/yesterday_total'
   #       retain: true
   #       payload: "{{ states('sensor.todays_rainfall') }}"
@@ -951,6 +951,6 @@ script:
     alias: 'Weather Briefing'
     sequence:
     - service: script.speech_engine
-      data_template:
+      data:
         who: "{{ who }}"
         message: !include ../templates/speech/weather_briefing_full.yaml

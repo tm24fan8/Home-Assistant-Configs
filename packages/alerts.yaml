@@ -60,7 +60,7 @@ automation:
           seconds: 0
     action:
       - service: script.status_annc
-        data_template:
+        data:
           who: 'living_room'
           call_interuption: 1
           call_snark_door_open: 1
