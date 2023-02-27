@@ -605,7 +605,7 @@ script:
           entity_id:
             - input_select.living_room_scenes
             - input_select.mud_room_scenes
-            - input_select.dining_room_scenes
+            - input_select.dining_room_lamp_scenes
         data:
           option: Adaptive
     - service: light.turn_off

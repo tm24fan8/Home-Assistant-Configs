@@ -662,7 +662,7 @@
             {% endif %}
           {% endif %}
           {% if is_state('sensor.los_angeles_dodgers','POST') %}
-            {% if state_attr('sensor.los_angeles_dodgerts','opponent_abbr') not in ['MIN'] %}
+            {% if state_attr('sensor.los_angeles_dodgers','opponent_abbr') not in ['MIN'] %}
               {% set date = state_attr('sensor.los_angeles_dodgers','date') | as_timestamp | timestamp_custom('%m-%d') %}
               {% set yday = (as_timestamp(now()) - (24*3600)) | timestamp_custom('%m-%d') %}
               {% if date == now().strftime('%m-%d') %}
