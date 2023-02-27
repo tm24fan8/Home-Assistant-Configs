@@ -96,6 +96,7 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Banner Card](https://github.com/nervetattoo/banner-card)
 - [Lovelace Lock Card](https://github.com/CyrisXD/love-lock-card)
 - [Card Templater](https://github.com/gadgetchnnel/lovelace-card-templater)
+- [Energy Overview Card](https://github.com/Sese-Schneider/ha-energy-overview-card)
 
 ## AppDaemon Apps
 
