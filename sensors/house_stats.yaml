@@ -32,6 +32,11 @@
       friendly_name: 'Number of online Cameras'
       value_template: >-
         {{ states.camera | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
+    media_player_count:
+      friendly_name: 'Number of Media Players'
+      value_template: >-
+        {{ states.media_player | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
+      unit_of_measurement: ''
     entities_count:
       friendly_name: 'Number of Entities'
       value_template: >-
