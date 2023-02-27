@@ -1547,6 +1547,7 @@ automation:
           who: 'all'
           title: "WINDOWS ARE OPEN!"
           message: "It is raining and there are windows open in the house. Please close them!"
+          tag: rain-window-warning
       - service: script.speech_engine
         data:
           who: everywhere
@@ -1607,6 +1608,7 @@ script:
           message: >-
             {% set ltgdist = (states('sensor.blitzortung_lightning_distance') | int) / 1.609 | round %}
             "Lightning has been detected within 20 miles of the house. Nearest storm is {{ ltgdist }} miles away."
+          tag: lightning-warning
       - service: input_boolean.turn_on
         target:
           entity_id: input_boolean.lightning_warning
@@ -1619,6 +1621,11 @@ script:
   lightning_clear:
     alias: 'Lightning Clear'
     sequence: 
+      - service: notify.all_ios
+        data:
+          message: clear_notification
+          data:
+            tag: lightning-warning
       - service: script.status_annc
         data_template:
           who: 'common'

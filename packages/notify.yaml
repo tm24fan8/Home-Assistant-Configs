@@ -663,6 +663,17 @@ script:
     mode: queued
     max: 10
     fields:
+      type:
+        name: 'Type'
+        description: 'The type of notification to send. Normal will respect whether a person/group is home. Alert will ignore home/away status. Critical will ignore home/away and send a persistant critical notification.'
+        example: 'normal, alert, critical'
+        required: false
+        selector:
+          select:
+            options:
+              - normal
+              - alert
+              - critical
       who:
         name: 'Who'
         description: 'Which phone, or group of phones, to send the notification to'
@@ -692,17 +703,13 @@ script:
         selector:
           text:
             multiline: true
-      type:
-        name: 'Type'
-        description: 'The type of notification to send. Normal will respect whether a person/group is home. Alert will ignore home/away status. Critical will ignore home/away and send a persistant critical notification.'
-        example: 'normal, alert, critical'
+      tag:
+        name: 'Tag'
+        description: 'The tag for the notification. Used primarily for dismissing notifications via automation.'
+        example: 'test-notification'
         required: false
         selector:
-          select:
-            options:
-              - normal
-              - alert
-              - critical
+          text:
     sequence:
       - choose:
         - conditions:
@@ -727,6 +734,12 @@ script:
               title: "{{ title }}"
               message: "{{ message }}"
               data:
+                tag: >
+                  {% if tag is defined %}
+                    {{ tag }}
+                  {% else %}
+                    {}
+                  {% endif %}
                 push:
                   sound:
                     name: default
@@ -752,16 +765,13 @@ script:
             data:
               title: '{{ title }}'
               message: '{{ message }}'
-              # data:
-              #   attachment:
-              #     url: '{{ url }}'
-              #     content-type: '{{ content_type }}'
-              #     hide-thumbnail: false
-              #  push:
-              #     sound: '{{ ios_sound }}'
-              #    badge: 0
-              #     category: '{{ ios_category }}'
-              #   entity_id: '{{ camera_entity }}'
+              data:
+                tag: >
+                  {% if tag is defined %}
+                    {{ tag }}
+                  {% else %}
+                    {}
+                  {% endif %}
         default:
         - condition: state
           entity_id: input_boolean.text_notifications
@@ -779,6 +789,13 @@ script:
                 data:
                   title: '{{ title }}'
                   message: '{{ message }}'
+                  data:
+                    tag: >
+                      {% if tag is defined %}
+                        {{ tag }}
+                      {% else %}
+                        {}
+                      {% endif %}
         - if:
           - condition: template
             value_template: '{{ who == "tina"}}'
@@ -792,6 +809,13 @@ script:
                 data:
                   title: '{{ title }}'
                   message: '{{ message }}'
+                  data:
+                    tag: >
+                      {% if tag is defined %}
+                        {{ tag }}
+                      {% else %}
+                        {}
+                      {% endif %}
         - if:
           - condition: template
             value_template: '{{ who == "kallen"}}'
@@ -805,6 +829,13 @@ script:
                 data:
                   title: '{{ title }}'
                   message: '{{ message }}'
+                  data:
+                    tag: >
+                      {% if tag is defined %}
+                        {{ tag }}
+                      {% else %}
+                        {}
+                      {% endif %}
         - if:
           - condition: template
             value_template: '{{ who == "parents"}}'
@@ -825,6 +856,13 @@ script:
                 data:
                   title: '{{ title }}'
                   message: '{{ message }}'
+                  data:
+                    tag: >
+                      {% if tag is defined %}
+                        {{ tag }}
+                      {% else %}
+                        {}
+                      {% endif %}
         - if:
           - condition: template
             value_template: '{{ who == "nerds"}}'
@@ -845,6 +883,13 @@ script:
                 data:
                   title: '{{ title }}'
                   message: '{{ message }}'
+                  data:
+                    tag: >
+                      {% if tag is defined %}
+                        {{ tag }}
+                      {% else %}
+                        {}
+                      {% endif %}
         - if:
           - condition: template
             value_template: '{{ who == "all"}}'
@@ -858,6 +903,13 @@ script:
                 data:
                   title: '{{ title }}'
                   message: '{{ message }}'
+                  data:
+                    tag: >
+                      {% if tag is defined %}
+                        {{ tag }}
+                      {% else %}
+                        {}
+                      {% endif %}
 
   tv_notify:
     alias: 'TV Notify'

@@ -145,6 +145,8 @@ script:
                     who: "parents"
                     title: "Emma Climate Schedule"
                     message: "The air conditioner in Emma's Bedroom has been activated."
+                    type: normal
+                    tag: emma-climate
             - conditions:
               - condition: state
                 entity_id: input_select.scheduled_climate_mode_emma_aircon
@@ -162,6 +164,8 @@ script:
                     who: "parents"
                     title: "Emma Climate Schedule"
                     message: "White noise has been activated in Emma's Bedroom."
+                    type: normal
+                    tag: emma-climate
             default:
             - if:
               - condition: template
@@ -172,6 +176,8 @@ script:
                   who: "parents"
                   title: "Emma Climate Schedule"
                   message: "No option selected for Emma's climate mode. No devices will be activated."
+                  type: normal
+                  tag: emma-climate
         - conditions:
           - condition: state
             entity_id: binary_sensor.early_night_mode

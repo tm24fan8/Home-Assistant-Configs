@@ -188,6 +188,7 @@ automation:
               who: "all"
               title: "Garbage Collection - Unlimited"
               message: "Tomorrow is large trash pickup day. Please take out all large items, and don't forget the trash can!"
+              tag: garbage-unlimited
           else:
           - if:
             - condition: state
@@ -200,6 +201,7 @@ automation:
                 who: "all"
                 title: "Garbage Collection - Regular"
                 message: "Tomorrow is regular trash pickup day. Make sure the trash can is taken to the curb!"
+                tag: garbage-regular
       - conditions:
         - condition: and
           conditions:
@@ -222,6 +224,7 @@ automation:
               who: "all"
               title: "Retrieve Garbage Can"
               message: "Garbage has been collected. Don't forget to move the trash can back to the house!"
+              tag: garbage-retrieve
 
   - id: d7641b5e-3cbb-4fb3-b6ed-5edf3157b88d
     alias: Kallen Briefing Location Change
@@ -261,7 +264,10 @@ script:
     - service: script.text_notify
       data:
         who: "kallen"
+        title: "Yo Doofus"
         message: "Heads up, here comes your nightly briefing!"
+        type: normal
+        tag: kallen-nightly-briefing
     - delay:
         seconds: 3
     - service: script.speech_engine

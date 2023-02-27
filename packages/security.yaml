@@ -266,6 +266,7 @@ automation:
           type: critical
           who: 'parents'
           title: 'Security Not Armed!'
+          tag: lockdown-issue
           message: >-
             {% set extdoors = expand('binary_sensor.exterior_doors') | selectattr('state','eq','on') | map(attribute='name') | list | join(', ') %}
             {% set windows = expand('binary_sensor.windows') | selectattr('state','eq','on') | map(attribute='name') | list | join(', ') %}
@@ -317,6 +318,14 @@ automation:
           entity_id: binary_sensor.security_faults
           state: 'off'
         then:
+        - service: notify.all_ios
+          data:
+            message: clear_notification
+            data:
+              tag: lockdown-issue
+        - service: persistent_notification.dismiss
+          data:
+            notification_id: lockdown_issue
         - if:
           - condition: state
             entity_id: group.adults
@@ -330,9 +339,6 @@ automation:
             data:
               who: common
               message: 'I am unable to resolve the security issue, so I am giving up. Please report the issue to Tony if applicable.'
-      - service: persistent_notification.dismiss
-        data:
-          notification_id: lockdown_issue
       - service: scene.turn_on
         target:
           entity_id: scene.light_state_before_lockdown_issue

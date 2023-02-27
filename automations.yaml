@@ -24,6 +24,7 @@
       message: The National Weather Service has issued a Tornado Warning for our area.
         Take Cover NOW!!!!
       who: all
+      tag: tornado-warning
     alias: CRITICAL PHONE ALERT
   - service: script.tv_notify
     data:
@@ -444,6 +445,7 @@
           who: all
           title: Low Batteries in House
           message: 'Low battery alert for: {{sensors}}'
+          tag: battery-monitoring
 - id: '1655493590791'
   alias: NWS Announce Weather Alert for Tornado (CLEAR)
   description: ''
@@ -457,6 +459,12 @@
     entity_id: input_boolean.vacation_mode
     state: 'off'
   action:
+  - service: notify.all_ios
+    data:
+      message: clear_notification
+      data:
+        tag: tornado-warning
+    alias: Clear critical notification
   - service: input_boolean.turn_off
     data: {}
     target:
@@ -471,6 +479,7 @@
       message: Check your surroundings and make sure it is safe to leave cover
       who: all
       type: alert
+      tag: tornado-cleared
   - service: script.tv_notify
     data:
       title: Tornado Warning is cleared

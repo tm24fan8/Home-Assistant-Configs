@@ -312,6 +312,8 @@ automation:
           type: alert
           who: parents
           message: "Kallen has been dropped off at school."
+          title: "Kallen Location Alert"
+          tag: kallen-dropoff
       - service: light.turn_off
         entity_id: light.kallen_bedroom_lights
     initial_state: true
@@ -351,6 +353,8 @@ automation:
           type: alert
           who: parents
           message: "Kallen has been picked up from school."
+          title: "Kallen Location Alert"
+          tag: kallen-pickup
     initial_state: true
 
   - id: 94b57d79-efe0-4f34-b5e3-baeaa5eea9f4
