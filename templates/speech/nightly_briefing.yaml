@@ -339,13 +339,6 @@
               "The Cleveland Guardians lost their game today against the {{ state_attr('sensor.cleveland_guardians','opponent_name') }} by a score of {{ state_attr('sensor.cleveland_guardians','opponent_score') }} to {{ state_attr('sensor.cleveland_guardians','team_score') }}. "
             {% endif %}
               "This brings their record to {{ state_attr('sensor.cleveland_guardians','team_record') | replace("-"," and ") }} on the season. "
-          {% elif yday == date %}
-            {% if (state_attr('sensor.cleveland_guardians','team_score') | int) > (state_attr('sensor.cleveland_guardians','opponent_score') | int) %}
-              "The Cleveland Guardians won their game yesterday against the {{ state_attr('sensor.cleveland_guardians','opponent_name') }} by a score of {{ state_attr('sensor.cleveland_guardians','team_score') }} to {{ state_attr('sensor.cleveland_guardians','opponent_score') }}. "
-            {% else %}
-              "The Cleveland Guardians lost their game yesterday against the {{ state_attr('sensor.cleveland_guardians','opponent_name') }} by a score of {{ state_attr('sensor.cleveland_guardians','opponent_score') }} to {{ state_attr('sensor.cleveland_guardians','team_score') }}. "
-            {% endif %}
-              "This brings their record to {{ state_attr('sensor.cleveland_guardians','team_record') | replace("-"," and ") }} on the season. "
           {% endif %}
         {% elif is_state('sensor.cleveland_guardians','IN') %}
           {% if (state_attr('sensor.cleveland_guardians','team_score') | int) > (state_attr('sensor.cleveland_guardians','opponent_score') | int) %}
@@ -365,13 +358,6 @@
                 "The Minnesota Twins won their game today against the {{ state_attr('sensor.minnesota_twins','opponent_name') }} by a score of {{ state_attr('sensor.minnesota_twins','team_score') }} to {{ state_attr('sensor.minnesota_twins','opponent_score') }}. "
               {% else %}
                 "The Minnesota Twins lost their game today against the {{ state_attr('sensor.minnesota_twins','opponent_name') }} by a score of {{ state_attr('sensor.minnesota_twins','opponent_score') }} to {{ state_attr('sensor.minnesota_twins','team_score') }}. "
-              {% endif %}
-                "This brings their record to {{ state_attr('sensor.minnesota_twins','team_record') | replace("-"," and ") }} on the season. "
-            {% elif yday == date %}
-              {% if (state_attr('sensor.minnesota_twins','team_score') | int) > (state_attr('sensor.minnesota_twins','opponent_score') | int) %}
-                "The Minnesota Twins won their game yesterday against the {{ state_attr('sensor.minnesota_twins','opponent_name') }} by a score of {{ state_attr('sensor.minnesota_twins','team_score') }} to {{ state_attr('sensor.minnesota_twins','opponent_score') }}. "
-              {% else %}
-                "The Minnesota Twins lost their game yesterday against the {{ state_attr('sensor.minnesota_twins','opponent_name') }} by a score of {{ state_attr('sensor.minnesota_twins','opponent_score') }} to {{ state_attr('sensor.minnesota_twins','team_score') }}. "
               {% endif %}
                 "This brings their record to {{ state_attr('sensor.minnesota_twins','team_record') | replace("-"," and ") }} on the season. "
             {% endif %}
@@ -396,13 +382,6 @@
                 "The Los Angeles Dodgers won their game today against the {{ state_attr('sensor.los_angeles_dodgers','opponent_name') }} by a score of {{ state_attr('sensor.los_angeles_dodgers','team_score') }} to {{ state_attr('sensor.los_angeles_dodgers','opponent_score') }}. "
               {% else %}
                 "The Los Angeles Dodgers lost their game today against the {{ state_attr('sensor.los_angeles_dodgers','opponent_name') }} by a score of {{ state_attr('sensor.los_angeles_dodgers','opponent_score') }} to {{ state_attr('sensor.los_angeles_dodgers','team_score') }}. "
-              {% endif %}
-                "This brings their record to {{ state_attr('sensor.los_angeles_dodgers','team_record') | replace("-"," and ") }} on the season. "
-            {% elif yday == date %}
-              {% if (state_attr('sensor.los_angeles_dodgers','team_score') | int) > (state_attr('sensor.los_angeles_dodgers','opponent_score') | int) %}
-                "The Los Angeles Dodgers won their game yesterday against the {{ state_attr('sensor.los_angeles_dodgers','opponent_name') }} by a score of {{ state_attr('sensor.los_angeles_dodgers','team_score') }} to {{ state_attr('sensor.los_angeles_dodgers','opponent_score') }}. "
-              {% else %}
-                "The Los Angeles Dodgers lost their game yesterday against the {{ state_attr('sensor.los_angeles_dodgers','opponent_name') }} by a score of {{ state_attr('sensor.los_angeles_dodgers','opponent_score') }} to {{ state_attr('sensor.los_angeles_dodgers','team_score') }}. "
               {% endif %}
                 "This brings their record to {{ state_attr('sensor.los_angeles_dodgers','team_record') | replace("-"," and ") }} on the season. "
             {% endif %}
