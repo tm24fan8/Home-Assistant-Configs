@@ -1552,6 +1552,41 @@ automation:
         data:
           who: everywhere
           message: "It is raining and there are windows open in the house. Please close them!"
+      - wait_template: "{{ is_state('binary_sensor.windows','off') or is_state('binary_sensor.precipitation','off') }}"
+        timeout: "00:15:00"
+        continue_on_timeout: true
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: "{{ is_state('binary_sensor.windows','off') and is_state('binary_sensor.precipitation','on') }}"
+          sequence:
+          - service: notify.all_ios
+            data:
+              message: clear_notification
+              data:
+                tag: rain-window-warning
+          - service: script.speech_engine
+            data:
+              who: common
+              message: "Windows are now closed. Thank you, and enjoy your dry house."
+        - conditions:
+          - condition: template
+            value_template: "{{ is_state('binary_sensor.precipitation','off') }}"
+          sequence:
+          - service: notify.all_ios
+            data:
+              message: clear_notification
+              data:
+                tag: rain-window-warning
+          - service: script.speech_engine
+            data:
+              who: common
+              message: "Nevermind, it has stopped raining. Feel free to do whatever you'd like with the windows."
+        default:
+        - service: script.speech_engine
+          data:
+            who: common
+            message: "Well, I guess no one cares if the house floods. Suit yourself, but do not say I didn't warn you."
 
 
 
