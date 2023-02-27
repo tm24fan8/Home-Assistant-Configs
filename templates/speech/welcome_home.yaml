@@ -60,7 +60,19 @@
         Happy Birthday Emmalynn!
       {% endif %}
     </p>
-
+    <p>
+      {% if is_state('input_boolean.lightning_warning','on') %}
+        {% set ltgdist = (states('sensor.blitzortung_lightning_distance') | int) / 1.609 | round %}
+        {{ [
+          "There are reports of lightning in the area, please stay safe. ",
+          "My sensors detect the presence of lightning nearby, so you should prepare to take shelter if needed. ",
+          "A little birdy told me there is lightning nearby. His feathers were all sticking up, I have no idea why. ",
+          "Please exercise caution, as there is lightning in the area. ",
+          "That flashing in the sky is not interstellar warfare, it is simply lightning. But you should still be careful outside. ",
+        ] | random }}
+        "The nearest lightning strike is {{ ltgdist }} miles away. "
+      {% endif %}
+    </p>
     <p>
       {% if states('sensor.weatheralerts_active_alerts') > '0' %}
         "Currently there are weather alerts active. The total number of alerts is {{ states('sensor.weatheralerts_active_alerts') }}. They are as follows. "

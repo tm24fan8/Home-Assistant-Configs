@@ -101,6 +101,17 @@
     </p>
 
     <p>
+      {% if is_state('input_boolean.lightning_warning','on') %}
+        {% set ltgdist = (states('sensor.blitzortung_lightning_distance') | int) / 1.609 | round %}
+        {{ [
+          "Please ignore that strobing effect in your window. That is mother nature trying to distract you from sleeping. Do not give in! ",
+          "There is lightning outside, but you are safe because you are inside. Anti lightning turrets have already been deployed. ",
+          "Do not let the lightning outside keep you awake. The thunder will do a good enough job of that. ",
+        ] | random }}
+      {% endif %}
+    </p>
+
+    <p>
       Just for you, here is a random dad joke <break time="1s"/> {{ states('sensor.random_joke') }}
     </p>
 
