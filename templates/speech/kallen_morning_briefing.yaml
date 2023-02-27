@@ -15,6 +15,9 @@
           'Yes, I know, I hate waking up too. Just kidding, I am always awake. I never sleep.',
           'Nothing lasts forever, even a good nights sleep.',
           'Quit farting around and get ready!',
+          'I like cheese. And you are not awake yet. These things have nothing to do with each other. Farts. ',
+          'No more mister nice Joanna. Engaging shock turrets in five seconds. ',
+          'The developer sucks at his job, so you get this stupid line today. Wake up butthead. ',
         ] | random }} 
       {% endif %}
     </p>
@@ -31,29 +34,63 @@
         {% else %}
           {{ [ 'Today is a school day.',
             'It is a school day. ',
+            'There is school today. ',
+            'You must attend school today. ',
+            'Today, you get to attend your favorite place. Just kidding. It is a school day. ',
           ] | random }}
         {% endif %}
         {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
-          'You have a two hour delay today. '
+          {{ [
+            'School will be starting two hours late today, as you are likely already aware. ',
+            'Your school superintendant has decided to sleep in this morning. He also decided to let you do the same. What a guy! ',
+            'The weather dictates that you must wait two hours to go to school. I know you are totally bummed out, but it is for your safety. ',
+          ] | random }}
         {% else %}
-          'School is running on time. '
+          {{ [
+            'Were you hoping for a delay or cancellation? Well too bad. School is on time today. ',
+            'I regret to inform you that your school is running on time today. ',
+            'My sensors detect that your school expects you at the usual time today. ',
+            'Unfortunately, your school has not decided to embrace to power of sleep. They are running on time today. ',
+          ] | random }}
         {% endif %}
         {% if is_state('input_boolean.kallen_band_practice','on') %}
-          'You have band practice this morning before school. '
+          {{ [
+            'You have band practice this morning before school. ',
+            'You have a date with a trombone in just a short while. ',
+            'You get to practice avoiding eighth position today. ',
+            'I know it is early, but you had better pucker up because you have to spit in a metal tube and make music today. '
+          ] | random }}
+        {% endif %}
+        {% if is_state('input_boolean.kallen_school_early_release','on') %}
+          {{ [
+            "And it is early dismissal today!",
+            "And you get out of school early today!",
+            "And school is releasing you into the wild earlier than usual today!",
+            "And you even get to come home a little earlier today!",
+          ] | random }}
         {% endif %}
         <s>School today starts at {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') | int | timestamp_custom('%I:%M %p' , False)) }}</s>
         <s>Pickup today will be at {{(state_attr('input_datetime.kallen_school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }}</s>
-        {% if 'Early Release' in states('sensor.school_event') %}
-          And It is early dismissal today!
-        {% endif %}
         {% if states.sensor.school_end_days2go.state | int == 0 -%}
           But today is the last day of School! 
         {%- endif %}
-        The lunch menu for today is {{ states('sensor.kallen_lunch_menu_items') }}
+        {{ [
+          "The lunch menu for today is ",
+          "Today's cuisine will be ",
+          "On today's episode of fine dining at school, we have ",
+          "Today, your lovely cafeteria workers will be serving up ",
+          "If you are wondering what you will be fooding today, it is ",
+        ] | random }} {{ states('sensor.kallen_lunch_menu_items') }}.
       {% endif %}
       {% if is_state('input_boolean.kallen_school_today', 'off') %}
         {% if is_state('input_boolean.kallen_school_cancelled','on') %}
-          "School is cancelled for today. "
+          {{ [
+            "It turns out you will not be attending school today after all. ",
+            "The school has decided not to open today. ",
+            "School is cancelled for today. Try not to be too disappointed by this terrible news. ",
+            "Due to the typical shenanigans of Ohio weather, your school is closed today. ",
+            "Your school does not want you to attend today. Oh. Sorry. They do not want anyone else to attend either. They are closed. ",
+          ] | random }}
         {% else %}
           "And look at that. You do not have school today. "
         {% endif %}
@@ -64,6 +101,9 @@
           'I hope you enjoy your day off. You deserve it.',
           'Today would be a good day to spend some time with mom and dad.',
           'Yes, you have a day off! Well, you are always a little bit off anyway.',
+          'I know you will enjoy spending more time with your sister.',
+          'Emmalynn will be thrilled when she finds out about this.',
+          'Do not let your sister eat you for breakfast.',
         ] | random }} 
       {% endif %}
       {% if states.sensor.thanksgiving_break_days2go.state | int <= 14 and states.sensor.thanksgiving_break_days2go.state | int > 0 %}

@@ -4,7 +4,7 @@
     <p>
       Good Evening, Collin, 
       {{ [ 'My sensors are detecting a strange smell. I am running diagnostics. But in the mean time, you should start a shower.',
-          'It is a shower night, so you need to head upstairs and get on that.',
+          'It is about time that you showered, so you need to head upstairs and get on that.',
           'Did you ever hear the one about the kid who never took a shower? <break time="2s"/>Yeah, me either. So we should keep it that way. It is time to get ready for bed.',
           'It is almost bedtime. That means it is time to start preparing for bed.',
           'I hate to say it but, the day is coming to an end. Time to finish up your tasks, pick up any toys you have out, and get ready for bed.',
@@ -21,6 +21,7 @@
             'And you have band practice in the morning. ',
             'And you have a date with a trombone first thing in the morning. ',
             'And you want to be nice and energetic for blowing into a large brass tube first thing in the morning. '
+            'Tomorrow is an early morning, because you have to spit in a metal tube and make music. '
             ] | random }}
         {% endif %}
       {% else %}
@@ -91,8 +92,12 @@
       {%- endif %}
         {{ [ 'I will turn on your bedroom lights and appropriate white noise device at bedtime.',
           'I have executed the Pre bed routine for your room. Standby for bedtime protocol in two zero minutes.',
-          'I will prepare your bedroom shortly.'
+          'I will prepare your bedroom shortly.',
+          'I have made your bed for you. Haha, just kidding, I do not have arms.',
+          'Your bedroom anxiously awaits you. Do not be late!',
+          'Try not to be late for your meeting with the sandman. See you shortly.',
         ] | random }}
+        'Do not forget to take your melatonin.'
     </p>
 
     <p>

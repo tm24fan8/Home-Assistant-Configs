@@ -3,12 +3,23 @@
   {%- macro getReport() -%}
     <p>
       {% if now().strftime('%H')|int < 12 and now().strftime('%H')|int > 6 %}
-        Good morning.
+        {{ [
+          "Good morning. ",
+          "Top of the morning to you laddy. ",
+        ] | random }}
       {% elif now().strftime('%H')|int >= 12 and now().strftime('%H')|int < 17 %}
-        Good afternoon.
+        {{ [
+          "Greetings earthling. ",
+          "Good afternoon. ",
+          "How do you do, fellow kids? ",
+        ] | random }}
       {% else %}
-        Good evening.
+        {{ [
+          "Good evening. ",
+          "The grandest of evenings to you. "
+        ] | random }}
       {% endif %}
+
     </p>
     <p>
       {% if now().strftime('%H')|int < 12 %}
@@ -103,6 +114,16 @@
     <p>
       {% if now().strftime('%Y-%m-%d') == states.input_datetime.school_last_day.state %}
         Congratulations, today is the last day of school! Have an awesome day!
+      {% endif %}
+    </p>
+    <p>
+      {% if is_state('input_boolean.work_today','on') %}
+        {{ [
+          "Tina must go and please the food gods today ",
+          "Today, Tina must go and entertain the gremlins known as her customers and coworkers ",
+          "Today, Tina will be owned by our lovely lord and savior, capitalism, starting ",
+          "Tina will attempt to satiate the patron saint of capitalism today "
+        ] | random }} at {{ (state_attr('input_datetime.tina_workday_start','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}.
       {% endif %}
     </p>
     <p>
@@ -487,7 +508,11 @@
     </p>
 
     <p>
-      Here is a random dad joke <break time="1s"/> {{ states('sensor.random_joke') }}
+      {{ [
+      "Here is a random dad joke ",
+      "In case you hadn't had enough idiotic humor today, here is a little more ",
+      "For further proof that the developer responsible for my existence is an idiot, I present the following joke ",
+      ] | random }}<break time="1s"/> {{ states('sensor.random_joke') }}
     </p>
 
     <p>

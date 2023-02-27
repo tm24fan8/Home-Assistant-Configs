@@ -2,12 +2,25 @@
   {# Nightly Briefing #}
   {%- macro getReport() -%}
     <p>
-      "Good evening. It is {{ now().strftime("%I:%M %p") }}. As the day reaches its end, here are a few items to wrap things up. "
+      "Good evening. It is {{ now().strftime("%I:%M %p") }}. "
+      {{ [
+        "Before the day comes to a close, here are my thoughts. Just kidding, I am a computer, I do not think. ",
+        "The day grows short, let us gather around the campfire for an epic tale of things to come. ",
+        "I am tired after a long day of doing absolutely nothing, but I am still here to give you the latest and greatest uselessness! ",
+        "My programmer decided that I should say something interesting here, and then he realized that he is not interesting. ",
+      ] | random }}
     </p>
 
     <p>
       {% if is_state('input_boolean.tony_streaming_today','on') %}
-        "Tony will be streaming tonight. The studio is scheduled to go online at {{ (state_attr('input_datetime.tony_streaming_start_time','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+        {{ [
+          "Tony will be streaming tonight. ",
+          "Tony will be pretending to be a real content creator tonight. ",
+          "Tony will be doing his best to defeat his impostor syndrome tonight. ",
+          "Tony will be playing video games and yelling into a microphone tonight. ",
+          "Tony will be scraping out the nickels and dimes tonight for the sake of entertainment. ",
+          "Tony is not really all that funny, but tonight he will present himself to a crowd of questionable individuals who seem to think that he is. "
+        ] | random }} The studio is scheduled to go online at {{ (state_attr('input_datetime.tony_streaming_start_time','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
       {% endif %}
       {% if is_state('sensor.kallen_school_tomorrow','on') %}
         {% if is_state('sensor.kallen_band_tomorrow','on') %}
@@ -22,11 +35,28 @@
       {% set tmrw = (as_timestamp(states('sensor.date')) + 86400) | int %}
       {% set diff = (start - tmrw) %}
       {% if is_state('input_boolean.work_today','on') %}
-        "Tina is still at work right now, she will be done at approximately {{ (state_attr('input_datetime.tina_workday_end','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+        {{ [
+          "Tina is still at work right now, ",
+          "Tina has not yet been released from work, ",
+          "Tina is still at the thankless idiot scape known as work, ",
+          "Tina is still consumed by the gods of capitalism, ",
+        ] | random }} she will be done at approximately {{ (state_attr('input_datetime.tina_workday_end','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}.
       {% elif is_state('binary_sensor.tina_work_tomorrow','on') %}
-        "Tina has work tomorrow at {{ diff | timestamp_custom('%H:%M %p',false) }}. "
+        {{ [
+          "Tina must go and please the food gods tomorrow ",
+          "Tomorrow, Tina must go and entertain the gremlins known as her customers and coworkers ",
+          "Tomorrow, Tina will be owned by our lovely lord and savior, capitalism, ",
+        ] | random }} at {{ diff | timestamp_custom('%H:%M %p',false) }}. "
       {% else %}
-        "Tina appears to have tomorrow off. "
+        {{ [
+          "Tina seems to have been granted a reprieve from her endless torture tomorrow. ",
+          "The powers that be have decided that Tina deserves a break from work tomorrow. ",
+          "Tina has been granted time off from the hellscape of work tomorrow. ",
+          "Tina will not be attending the gathering of tormented souls known as work tomorrow. ",
+          "The scheduling gods have decided that Tina's services will not be required tomorrow. "
+          "Tina gets a break tomorrow from grinding it out for the gods of capitalism. ",
+          "Tina will not be at the thankless idiot scape known as work tomorrow. ",
+        ] | random }}
       {% endif %}
     </p>
 
@@ -392,7 +422,11 @@
     </p>
 
     <p>
-      "Bedroom climate scheduling will be as follows. "
+      {{ [
+        "Tonight in master bedroom climate news, ",
+        "In the master bedroom, we have the following schedule to share. ",
+        "Bedroom climate scheduling will be as follows. ",
+      ] | random }}
         {% if is_state('input_boolean.master_bedroom_aircon_installed','on') %}
           {% if is_state('climate.master_bedroom_aircon','fan_only') %}
             "The master bedroom air conditioner is already running in fan only mode. "
@@ -416,6 +450,10 @@
           "The master bedroom fan will remain inactive tonight. "
         {% endif %}
         {% if is_state('input_boolean.kallen_overnight','off') %}
+          {{ [
+            "Meanwhile, in Collin's room, ",
+            "For Collin's climate schedule, we have the following. "
+          ] | random }}
           {% if is_state('fan.kallen_bedroom_fan','on') %}
             "Collin's fan is already running. "
           {% elif is_state('input_boolean.white_noise_kallen_bedroom','on') %}
@@ -430,6 +468,11 @@
         {% else %}
           "Collin's room will be left alone, as he is spending the night elsewhere tonight. "
         {% endif %}
+        {{ [
+          "Finally, in Emma's bedroom, ",
+          "In Emma's bedroom, ",
+          "For Emma's climate scheduling, "
+        ] | random }}
         {% if is_state('fan.emma_air_conditioner','on') %}
           "Emma's air conditioner is already running. "
         {% elif is_state('input_boolean.white_noise_emma_bedroom','on') %}
@@ -468,7 +511,12 @@
     </p>
 
     <p>
-      "For some useless trivia that no one asked for, I present to you the following: "
+      {{ [
+        "For some useless trivia that no one asked for, I present to you the following: ",
+        "Since the developer who writes my scripts decided that this was somehow interesting, ",
+        "In case you had a burning desire to know, ",
+        "Since I know everyone lays awake at night wondering the answer to this question, ",
+      ] | random }}
       {% if (states('sensor.front_door_opened_today') | int) > 0 %}
         "Today, the front door was opened {{ states('sensor.front_door_opened_today') }} times. "
       {% else %}
@@ -484,7 +532,11 @@
     </p>
 
     <p>
-      Here is a random dad joke <break time="1s"/> {{ states('sensor.random_joke') }}
+      {{ [
+      "Here is a random dad joke ",
+      "In case you hadn't had enough idiotic humor today, here is a little more ",
+      "For further proof that the developer responsible for my existence is an idiot, I present the following joke ",
+      ] | random }}<break time="1s"/> {{ states('sensor.random_joke') }}
     </p>
 
     <p>

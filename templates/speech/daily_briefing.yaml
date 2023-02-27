@@ -3,11 +3,21 @@
   {%- macro getReport() -%}
       <p>
         {% if now().strftime('%H')|int < 12 %}
-          Good morning.
+          {{ [
+            "Good morning. ",
+            "Top of the morning to you laddy. ",
+          ] | random }}
         {% elif now().strftime('%H')|int >= 12 and now().strftime('%H')|int < 17 %}
-          Good afternoon.
+          {{ [
+            "Greetings earthling. ",
+            "Good afternoon. ",
+            "How do you do, fellow kids? ",
+          ] | random }}
         {% else %}
-          Good evening.
+          {{ [
+            "Good evening. ",
+            "The grandest of evenings to you. "
+          ] | random }}
         {% endif %}
       </p>
 
@@ -96,7 +106,13 @@
 
       {% set dow = as_timestamp(now()) | timestamp_custom('%A') %}
       <p>
-        Let me check the sit rep for today.
+        {{ [
+          "On today's agenda, we have the following. ",
+          "Today's announcements include the following. ",
+          "Given that you are well into your day, here is a bit of helpful information. ",
+          "You are past the point of no return and must finish your day, so I am here to help you out. ",
+          "The developer has informed me that I must inform you of the following informational information. ",
+        ] | random }}
 
         {% if is_state('sensor.garbage_collection_large_pickup','1') %}
           'Tomorrow is the monthly unlimited garbage pickup. Make sure to take out all large garbage items tonight, and do not forget the trash can!'
@@ -136,7 +152,7 @@
           {% endif %}
 
           {% if states.sensor.halloween_countdown.state | int == 1 %}
-            Tomorrow is Halloween. I hope you have picked out a costume. I will be going as Tony. I'm scared just thinking about it!
+            Tomorrow is Halloween. I hope you have picked out a costume. I will be going as Tony. I am scared just thinking about it!
           {% elif states.sensor.halloween_countdown.state | int < 30 %}
             There are only {{states.sensor.halloween_countdown.state}} days
             {{ [ 'until Halloween.',
@@ -243,7 +259,7 @@
                 {{ [
                 'Which reminds me. The front porch camera caught a Tee Rex last night. <break time="1s"/> April Fools!',
                 'Which reminds me. I won the lottery and I am moving out to go live with Siri. <break time="1s"/> April Fools!',
-                'Which reminds me. there was a time change last night. We have jumped 15 years into the future. <break time="1s"/> April Fools!'
+                'Which reminds me. there was a time change last night. We have jumped 15 years into the future. Great Scott! <break time="1s"/> April Fools!'
               ]|random }}
               {%- endif -%}
 
@@ -282,13 +298,30 @@
 
             {% set tina = states.person.christina_stork.state %}
             {% if tina in ['Bob Evans','BobEvans'] and is_state('input_boolean.work_today','on') %}
-              <s>Tina is at work right now. She will be done at approximately {{ (state_attr('input_datetime.tina_workday_end','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. </s>
+              {{ [
+                "Tina is still at work right now, ",
+                "Tina has not yet been released from work, ",
+                "Tina is still at the thankless idiot scape known as work, ",
+                "Tina is still consumed by the gods of capitalism, ",
+              ] | random }} she will be done at approximately {{ (state_attr('input_datetime.tina_workday_end','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}.
             {% elif is_state('input_boolean.work_today','on') %}
-              Tina has work today.
+              {{ [
+                "Tina must go and please the food gods today ",
+                "Today, Tina must go and entertain the gremlins known as her customers and coworkers ",
+                "Today, Tina will be owned by our lovely lord and savior, capitalism, starting ",
+                "Tina will attempt to satiate the patron saint of capitalism today "
+              ] | random }} at {{ (state_attr('input_datetime.tina_workday_start','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}.
             {% endif %}
 
             {% if is_state('input_boolean.tony_streaming_today','on') %}
-              "Tony will be streaming today. The studio is scheduled to go online at {{ (state_attr('input_datetime.tony_streaming_start_time','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+              {{ [
+                "Tony will be streaming tonight. ",
+                "Tony will be pretending to be a real content creator tonight. ",
+                "Tony will be doing his best to defeat his impostor syndrome tonight. ",
+                "Tony will be playing video games and yelling into a microphone tonight. ",
+                "Tony will be scraping out the nickels and dimes tonight for the sake of entertainment. ",
+                "Tony is not really all that funny, but tonight he will present himself to a crowd of questionable individuals who seem to think that he is. "
+              ] | random }} The studio is scheduled to go online at {{ (state_attr('input_datetime.tony_streaming_start_time','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
             {% endif %}
 
             {% if is_state('input_boolean.kallen_school_today', 'on') %}
@@ -304,7 +337,7 @@
                 {% endif %}
               {% endif %}
               <s>Pickup today will be at {{(state_attr('input_datetime.kallen_school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }}</s>
-              {% if 'Early Release' in states('sensor.school_event') %}
+              {% if is_state('input_boolean.kallen_school_early_release','on') %}
                 And It is early release!
               {% endif %}
             {% endif %}
@@ -677,7 +710,11 @@
       </p>
 
       <p>
-        Here is a random dad joke <break time="1s"/> {{ states('sensor.random_joke') }}
+        {{ [
+        "Here is a random dad joke ",
+        "In case you hadn't had enough idiotic humor today, here is a little more ",
+        "For further proof that the developer responsible for my existence is an idiot, I present the following joke ",
+        ] | random }}<break time="1s"/> {{ states('sensor.random_joke') }}
       </p>
 
       <p>
