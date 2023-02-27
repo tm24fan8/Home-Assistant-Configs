@@ -1597,44 +1597,6 @@ script:
   lightning_warning:
     alias: 'Lightning Warning'
     sequence: 
-      - condition: state
-        entity_id:  input_boolean.audible_notifications
-        state: 'on'
-      - service: scene.create
-        data:
-          scene_id: lightning_alert_restore
-          snapshot_entities:
-            - light.living_room_color_1
-            - light.living_room_color_2
-            - light.living_room_color_3
-            - light.tina_lamp_side
-            - light.tina_lamp_top
-            - light.tina_desk_strip
-            - switch.adaptive_lighting_living_room
-            - switch.adaptive_lighting_tina_lamp
-      - service: switch.turn_off
-        target:
-          entity_id:
-            - switch.adaptive_lighting_living_room
-            - switch.adaptive_lighting_tina_lamp
-      - delay:
-          milliseconds: 500
-      - service: light.turn_on
-        target:
-          entity_id:
-            - light.living_room_color_1
-            - light.living_room_color_2
-            - light.living_room_color_3
-            - light.tina_lamp_side
-            - light.tina_lamp_top
-            - light.tina_desk_strip
-        data:
-          color_name: red
-      - service: script.status_annc
-        data:
-          who: 'common'
-          call_interuption: 1
-          call_lightning_alert: 1
       - service: script.text_notify
         data:
           type: alert
@@ -1647,11 +1609,51 @@ script:
       - service: input_boolean.turn_on
         target:
           entity_id: input_boolean.lightning_warning
-      - delay:
-          seconds: 10
-      - service: scene.turn_on
-        target:
-          entity_id: scene.lightning_alert_restore
+      - if:
+        - condition: state
+          entity_id:  input_boolean.audible_notifications
+          state: 'on'
+        then:
+        - service: scene.create
+          data:
+            scene_id: lightning_alert_restore
+            snapshot_entities:
+              - light.living_room_color_1
+              - light.living_room_color_2
+              - light.living_room_color_3
+              - light.tina_lamp_side
+              - light.tina_lamp_top
+              - light.tina_desk_strip
+              - switch.adaptive_lighting_living_room
+              - switch.adaptive_lighting_tina_lamp
+        - service: switch.turn_off
+          target:
+            entity_id:
+              - switch.adaptive_lighting_living_room
+              - switch.adaptive_lighting_tina_lamp
+        - delay:
+            milliseconds: 500
+        - service: light.turn_on
+          target:
+            entity_id:
+              - light.living_room_color_1
+              - light.living_room_color_2
+              - light.living_room_color_3
+              - light.tina_lamp_side
+              - light.tina_lamp_top
+              - light.tina_desk_strip
+          data:
+            color_name: red
+        - service: script.status_annc
+          data:
+            who: 'common'
+            call_interuption: 1
+            call_lightning_alert: 1
+        - delay:
+            seconds: 10
+        - service: scene.turn_on
+          target:
+            entity_id: scene.lightning_alert_restore
   
   lightning_clear:
     alias: 'Lightning Clear'
