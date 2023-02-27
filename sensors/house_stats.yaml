@@ -3,35 +3,43 @@
     sensor_count:
       friendly_name: 'Number of Sensors'
       value_template: >-
-        {{ states.sensor | rejectattr('state', 'eq', 'unavailable') | list | count | int}}
+        {{ states.sensor | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
+      unit_of_measurement: ''
     automation_count:
       friendly_name: 'Number of Automations'
       value_template: >-
         {{ states.automation| rejectattr('state', 'eq', 'unavailable') | list | count | int }}
+      unit_of_measurement: ''
     script_count:
       friendly_name: 'Number of Scripts'
       value_template: >-
         {{ states.script | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
+      unit_of_measurement: ''
     binary_sensor_count:
       friendly_name: 'Number of Binary Sensors'
       value_template: >-
         {{ states.binary_sensor | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
+      unit_of_measurement: ''
     tracker_count:
       friendly_name: 'Number of Devices'
       value_template: >-
         {{ states.device_tracker| rejectattr('state', 'eq', 'unavailable') | list | count | int }}
+      unit_of_measurement: ''
     lights_count:
       friendly_name: 'Number of Lights'
       value_template: >-
         {{ states.light | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
+      unit_of_measurement: ''
     switches_count:
       friendly_name: 'Number of Switches'
       value_template: >-
         {{ states.switch | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
+      unit_of_measurement: ''
     camera_count:
       friendly_name: 'Number of online Cameras'
       value_template: >-
         {{ states.camera | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
+      unit_of_measurement: ''
     media_player_count:
       friendly_name: 'Number of Media Players'
       value_template: >-
@@ -41,13 +49,15 @@
       friendly_name: 'Number of Entities'
       value_template: >-
         {{ states | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
+      unit_of_measurement: ''
     na_entities_count:
       friendly_name: 'Number of NA Entities'
       value_template: >-
         {{ states | selectattr('state', 'eq', 'unavailable') | map(attribute='entity_id') | list | count | int }}
+      unit_of_measurement: ''
     current_lights_on:
       friendly_name: Current Lights On
-      unit_of_measurement: 'on'
+      unit_of_measurement: ''
       value_template: >-
         {% set lights = [
           states.light.living_room_color_1,
@@ -81,7 +91,7 @@
         {{ lights | selectattr('state','eq','on') | list | count | int }}
     first_floor_lights_on:
       friendly_name: First Floor Lights On
-      unit_of_measurement: 'on'
+      unit_of_measurement: ''
       value_template: >-
         {% set lights = [
           states.light.living_room_color_1,
@@ -98,7 +108,7 @@
         {{ lights | selectattr('state','eq','on') | list | count | int }}
     second_floor_lights_on:
       friendly_name: Second Floor Lights On
-      unit_of_measurement: 'on'
+      unit_of_measurement: ''
       value_template: >-
         {% set lights = [
           states.light.hallway_overhead,
@@ -117,7 +127,7 @@
         {{ lights | selectattr('state','eq','on') | list | count | int }}
     basement_lights_on:
       friendly_name: Basement Lights On
-      unit_of_measurement: 'on'
+      unit_of_measurement: ''
       value_template: >-
         {% set lights = [
           states.light.basement_stairwell,
@@ -128,7 +138,7 @@
         {{ lights | selectattr('state','eq','on') | list | count | int }}
     current_fans_on:
       friendly_name: Current Fans On
-      unit_of_measurement: 'on'
+      unit_of_measurement: ''
       value_template: >-
         {% set fans = [
           states.fan.basement_fan,
@@ -139,7 +149,7 @@
         {{ fans | selectattr('state','eq','on') | list | count | int }}
     current_outdoor_lights_on:
       friendly_name: Current Outdoor Lights On
-      unit_of_measurement: 'on'
+      unit_of_measurement: ''
       value_template: >-
         {% set lights = [
           states.light.front_porch_light
@@ -147,7 +157,7 @@
         {{ lights | selectattr('state','eq','on') | list | count | int }}
     climate_devices_installed:
       friendly_name: Climate Devices Installed
-      unit_of_measurement: 'installed'
+      unit_of_measurement: ''
       value_template: >-
         {% set devices = [
           states.input_boolean.master_bedroom_aircon_installed,
@@ -165,6 +175,7 @@
         {% endif %}
     birthdays_today:
       friendly_name: Birthdays Today
+      unit_of_measurement: ''
       value_template: >
         {% set birthdays = [
           states.sensor.anniversary_tony_s_birthday,
@@ -189,6 +200,7 @@
     # The sum of all the years of life in our household, because why not LOL
     total_age_years:
       friendly_name: Total Age Years
+      unit_of_measurement: ''
       value_template: >
         {% set tony = states('sensor.tony_current_age') | int %}
         {% set tina = states('sensor.tina_current_age') | int %}

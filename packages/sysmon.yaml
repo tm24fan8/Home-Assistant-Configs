@@ -3,6 +3,7 @@ sensor:
     name: Lines of Code
     command: "find /config -name '*.yaml' | xargs cat | wc -l"
     scan_interval: 20000
+    unit_of_measurement: ''
 
   - platform: template
     sensors:
