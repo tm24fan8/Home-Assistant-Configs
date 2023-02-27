@@ -124,29 +124,6 @@
           "The developer has informed me that I must inform you of the following informational information. ",
         ] | random }}
 
-        {% if is_state('sensor.garbage_collection_large_pickup','1') %}
-          'Tomorrow is the monthly unlimited garbage pickup. Make sure to take out all large garbage items tonight, and do not forget the trash can!'
-        {% elif is_state('sensor.garbage_collection','1') %}
-          {{ [
-          'Do not forget to take the trash bin to the curb, tomorrow is trash pickup day.',
-          'Make sure to take the trash out. No, I do not mean Tony.',
-          'Tomorrow is a big day for the garbage men. Make sure you do not let them down! Take the trash out!'
-          ] | random }}
-        {% endif %}
-
-        {% set gc = state_attr('sensor.garbage_collection','days') %}
-        {% if gc == 7 %}
-          {{ [
-          'Do not forget to bring the trash can back from the curb.',
-          'The trash can will feel lonely if you leave it at the curb all night.'
-          ] | random }}
-        {% elif gc == 6 %}
-          {{ [
-          'If you have not already, please remember to bring the garbage can back from the sidewalk.',
-          'Just in case you forgot, it is time to bring the garbage can back to the house before it gets lonely.'
-          ] | random }}
-        {% endif %}
-
         {% if is_state('binary_sensor.evening','on') %}
           {% if is_state('sensor.anniversary_tony_s_birthday','0') %}
             Hope you had a happy birthday Tony!
