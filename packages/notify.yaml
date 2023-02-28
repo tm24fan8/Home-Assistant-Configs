@@ -871,42 +871,20 @@ script:
       - condition: state
         entity_id: input_boolean.tv_notifications
         state: 'on'
-      - if:
-        - condition: template
-          value_template: '{{ who == "living_room"}}'
-        then:
-        - service: notify.living_room_tv
-          data:
-            title: '{{ title }}'
-            message: '{{ message }}'
-            data: '{{ data if data is defined else "{}" }}'
-      - if:
-        - condition: template
-          value_template: '{{ who == "master_bedroom"}}'
-        then:
-        - service: notify.master_bedroom_tv
-          data:
-            title: '{{ title }}'
-            message: '{{ message }}'
-            data: '{{ data if data is defined else "{}" }}'
-      - if:
-        - condition: template
-          value_template: '{{ who == "basement"}}'
-        then:
-        - service: notify.basement_tv
-          data:
-            title: '{{ title }}'
-            message: '{{ message }}'
-            data: '{{ data if data is defined else "{}" }}'
-      - if:
-        - condition: template
-          value_template: '{{ who == "all"}}'
-        then:
-        - service: notify.tv_notifications
-          data:
-            title: '{{ title }}'
-            message: '{{ message }}'
-            data: '{{ data if data is defined else "{}" }}'
+      - service: >
+          {% if who == "living_room" %}
+            notify.living_room_tv
+          {% elif who == "master_bedroom" %}
+            notify.master_bedroom_tv
+          {% elif who == "basement" %}
+            notify.basement_tv
+          {% elif who == "all" %}
+            notify.tv_notifications
+          {% endif %}
+        data:
+          title: '{{ title }}'
+          message: '{{ message }}'
+          data: '{{ data if data is defined else "{}" }}'
 
   text_alert_image:
     alias: 'Text Alert Image'
