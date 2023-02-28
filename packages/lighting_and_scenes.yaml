@@ -55,6 +55,13 @@ input_number:
     step: 1
     unit_of_measurement: minutes
     icon: mdi:timer
+  basement_studio_lights_off_delay:
+    name: Basement Studio Lights Off Delay
+    min: 0
+    max: 30
+    step: 1
+    unit_of_measurement: minutes
+    icon: mdi:timer
 
 input_select:
   living_room_scenes:
@@ -549,9 +556,19 @@ automation:
         entity_id: binary_sensor.basement_studio_door
         from: 'on'
         to: 'off'
-        for:
-          minutes: 10
         id: door-closed
+      - platform: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.basement_studio_door_timer
+        id: timer-finished
+      - platform: state
+        entity_id:
+          - binary_sensor.tony_desktop_on
+          - binary_sensor.kallen_desktop_on
+        from: 'off'
+        to: 'on'
+        id: computers-on
     condition:
       - condition: state
         entity_id: input_boolean.studio_quiet
@@ -570,6 +587,16 @@ automation:
           - service: light.turn_on
             target:
               entity_id: light.basement_studio_lights
+        - service: timer.cancel
+          target:
+            entity_id: timer.basement_studio_door_timer
+        - delay:
+            seconds: 1
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.basement_studio_scenes
+          data:
+            option: Adaptive
       - conditions:
         - condition: trigger
           id: door-closed
@@ -584,9 +611,25 @@ automation:
               entity_id: binary_sensor.kallen_desktop_on
               state: 'off'
           then:
-          - service: light.turn_off
+          - service: timer.start
             target:
-              entity_id: light.basement_studio_lights
+              entity_id: timer.basement_studio_door_timer
+            data:
+              duration: "{{ (states('input_number.basement_studio_lights_off_delay') | int ) * 60 }}"
+      - conditions:
+        - condition: trigger
+          id: computers-on
+        sequence:
+        - service: timer.cancel
+          target:
+            entity_id: timer.basement_studio_door_timer
+      - conditions:
+        - condition: trigger
+          id: timer-finished
+        sequence:
+        - service: light.turn_off
+          target:
+            entity_id: light.basement_studio_lights
 
 
 script:
