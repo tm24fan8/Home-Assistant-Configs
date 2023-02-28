@@ -26,7 +26,6 @@
     <p>
       {% if is_state('input_boolean.tony_streaming_today','on') %}
         {{ [
-          "Tony will be streaming tonight. ",
           "Tony will be pretending to be a real content creator tonight. ",
           "Tony will be doing his best to defeat his impostor syndrome tonight. ",
           "Tony will be playing video games and yelling into a microphone tonight. ",
