@@ -49,6 +49,7 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [PyScript](https://github.com/custom-components/pyscript)
 - [Hass Animated Scenes](https://github.com/chazzu/hass-animated-scenes)
 - [Jokes](https://github.com/LaggAt/ha-jokes)
+- [Google Photos](https://github.com/Daanoz/ha-google-photos)
 
 ## HACS Lovelace Cards
 
