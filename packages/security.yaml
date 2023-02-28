@@ -320,6 +320,8 @@ automation:
         then:
         - service: notify.all_ios
           data:
+            type: alert
+            who: all
             message: clear_notification
             data:
               tag: lockdown-issue

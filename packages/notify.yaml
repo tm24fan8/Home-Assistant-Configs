@@ -692,7 +692,7 @@ script:
         name: 'Title'
         description: 'The title of the notification'
         example: 'Greetings'
-        required: true
+        required: false
         selector:
           text:
       message:
@@ -778,138 +778,57 @@ script:
           state: 'on'
         - if:
           - condition: template
-            value_template: '{{ who == "tony"}}'
+            value_template: >
+              {% if who == 'tony' %}
+                {{ is_state('input_boolean.text_notify_tony','on') }}
+              {% elif who == 'tina' %}
+                {{ is_state('input_boolean.text_notify_tina','on') }}
+              {% elif who == 'kallen' %}
+                {{ is_state('input_boolean.text_notify_kallen','on') }}
+              {% elif who == 'parents' %}
+                {{ is_state('input_boolean.text_notify_parents','on') }}
+              {% elif who == 'nerds' %}
+                {{ is_state('input_boolean.text_notify_nerds','on') }}
+              {% elif who == 'all' %}
+                {{ is_state('input_boolean.text_notify_all','on') }}
+              {% endif %}
           then:
-            - if:
-              - condition: state
-                entity_id: input_boolean.text_notify_tony
-                state: 'on'
-              then:
-              - service: notify.ios_tony
-                data:
-                  title: '{{ title }}'
-                  message: '{{ message }}'
-                  data:
-                    tag: >
-                      {% if tag is defined %}
-                        {{ tag }}
-                      {% else %}
-                        {}
-                      {% endif %}
-        - if:
-          - condition: template
-            value_template: '{{ who == "tina"}}'
-          then:
-            - if:
-              - condition: state
-                entity_id: input_boolean.text_notify_tina
-                state: 'on'
-              then:
-              - service: notify.ios_tina
-                data:
-                  title: '{{ title }}'
-                  message: '{{ message }}'
-                  data:
-                    tag: >
-                      {% if tag is defined %}
-                        {{ tag }}
-                      {% else %}
-                        {}
-                      {% endif %}
-        - if:
-          - condition: template
-            value_template: '{{ who == "kallen"}}'
-          then:
-            - if:
-              - condition: state
-                entity_id: input_boolean.text_notify_kallen
-                state: 'on'
-              then:
-              - service: notify.ios_kallen
-                data:
-                  title: '{{ title }}'
-                  message: '{{ message }}'
-                  data:
-                    tag: >
-                      {% if tag is defined %}
-                        {{ tag }}
-                      {% else %}
-                        {}
-                      {% endif %}
-        - if:
-          - condition: template
-            value_template: '{{ who == "parents"}}'
-          then:
-            - if:
-              - condition: state
-                entity_id: input_boolean.text_notify_parents
-                state: 'on'
-              then:
-              - service: >
-                  {% if is_state('input_boolean.text_notify_tina','off') and is_state('input_boolean.text_notify_tony','on') %}
-                    notify.ios_tony
-                  {% elif is_state('input_boolean.text_notify_tina','on') and is_state('input_boolean.text_notify_tony','off') %}
-                    notify.ios_tina
+          - service: >
+              {% if who == 'tony' %}
+                notify.ios_tony
+              {% elif who == 'tina' %}
+                notify.ios_tina
+              {% elif who == 'kallen' %}
+                notify.ios_kallen
+              {% elif who == 'nerds' %}
+                {% if is_state('input_boolean.text_notify_tony','on') and is_state('input_boolean.text_notify_kallen','off') %}
+                  notify.ios_tony
+                {% elif is_state('input_boolean.text_notify_tony','off') and is_state('input_boolean.text_notify_kallen','on') %}
+                  notify.ios_kallen
+                {% else %}
+                  notify.ios_nerds
+                {% endif %}
+              {% elif who == 'parents' %}
+                {% if is_state('input_boolean.text_notify_tina','off') and is_state('input_boolean.text_notify_tony','on') %}
+                  notify.ios_tony
+                {% elif is_state('input_boolean.text_notify_tina','on') and is_state('input_boolean.text_notify_tony','off') %}
+                  notify.ios_tina
+                {% else %}
+                  notify.ios_parents
+                {% endif %}
+              {% elif who == 'all' %}
+                notify.all_ios
+              {% endif %}
+            data:
+              title: '{{ title }}'
+              message: '{{ message }}'
+              data:
+                tag: >
+                  {% if tag is defined %}
+                    {{ tag }}
                   {% else %}
-                    notify.ios_parents
+                    {}
                   {% endif %}
-                data:
-                  title: '{{ title }}'
-                  message: '{{ message }}'
-                  data:
-                    tag: >
-                      {% if tag is defined %}
-                        {{ tag }}
-                      {% else %}
-                        {}
-                      {% endif %}
-        - if:
-          - condition: template
-            value_template: '{{ who == "nerds"}}'
-          then:
-            - if:
-              - condition: state
-                entity_id: input_boolean.text_notify_nerds
-                state: 'on'
-              then:
-              - service: >
-                  {% if is_state('input_boolean.text_notify_tony','on') and is_state('input_boolean.text_notify_kallen','off') %}
-                    notify.ios_tony
-                  {% elif is_state('input_boolean.text_notify_tony','off') and is_state('input_boolean.text_notify_kallen','on') %}
-                    notify.ios_kallen
-                  {% else %}
-                    notify.ios_nerds
-                  {% endif %}
-                data:
-                  title: '{{ title }}'
-                  message: '{{ message }}'
-                  data:
-                    tag: >
-                      {% if tag is defined %}
-                        {{ tag }}
-                      {% else %}
-                        {}
-                      {% endif %}
-        - if:
-          - condition: template
-            value_template: '{{ who == "all"}}'
-          then:
-            - if:
-              - condition: state
-                entity_id: input_boolean.text_notify_all
-                state: 'on'
-              then:
-              - service: notify.all_ios
-                data:
-                  title: '{{ title }}'
-                  message: '{{ message }}'
-                  data:
-                    tag: >
-                      {% if tag is defined %}
-                        {{ tag }}
-                      {% else %}
-                        {}
-                      {% endif %}
 
   tv_notify:
     alias: 'TV Notify'

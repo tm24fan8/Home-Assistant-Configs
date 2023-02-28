@@ -459,8 +459,10 @@
     entity_id: input_boolean.vacation_mode
     state: 'off'
   action:
-  - service: notify.all_ios
+  - service: script.text_notify
     data:
+      type: alert
+      who: all
       message: clear_notification
       data:
         tag: tornado-warning

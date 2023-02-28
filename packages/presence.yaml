@@ -487,8 +487,10 @@ script:
       continue_on_timeout: true
       timeout:
         minutes: 1
-    - service: notify.all_ios
+    - service: script.text_notify
       data:
+        type: alert
+        who: all
         message: "clear_notification"
         data:
           tag: skip-away

@@ -1560,8 +1560,10 @@ automation:
           - condition: template
             value_template: "{{ is_state('binary_sensor.windows','off') and is_state('binary_sensor.precipitation','on') }}"
           sequence:
-          - service: notify.all_ios
+          - service: script.text_notify
             data:
+              type: alert
+              who: all
               message: clear_notification
               data:
                 tag: rain-window-warning
@@ -1573,8 +1575,10 @@ automation:
           - condition: template
             value_template: "{{ is_state('binary_sensor.precipitation','off') }}"
           sequence:
-          - service: notify.all_ios
+          - service: script.text_notify
             data:
+              type: alert
+              who: all
               message: clear_notification
               data:
                 tag: rain-window-warning
@@ -1658,8 +1662,10 @@ script:
   lightning_clear:
     alias: 'Lightning Clear'
     sequence: 
-      - service: notify.all_ios
+      - service: script.text_notify
         data:
+          type: alert
+          who: all
           message: clear_notification
           data:
             tag: lightning-warning
