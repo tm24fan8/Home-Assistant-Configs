@@ -590,13 +590,6 @@ automation:
         - service: timer.cancel
           target:
             entity_id: timer.basement_studio_door_timer
-        - delay:
-            seconds: 1
-        - service: input_select.select_option
-          target:
-            entity_id: input_select.basement_studio_scenes
-          data:
-            option: Adaptive
       - conditions:
         - condition: trigger
           id: door-closed
