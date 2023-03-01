@@ -717,6 +717,13 @@ script:
         required: false
         selector:
           text:
+      entity:
+        name: Entity
+        description: 'The entity_id of a camera entity. This will attach a live stream of the selected entity to the notification upon long-press.'
+        example: 'camera.front_porch_ring'
+        required: false
+        selector:
+          text:
     sequence:
       - choose:
         - conditions:
@@ -742,6 +749,7 @@ script:
               message: "{{ message }}"
               data:
                 tag: '{{ tag if tag is defined else "{}" }}'
+                entity_id: '{{ entity if entity is defined else "{}" }}'
                 push:
                   sound:
                     name: '{{ sound if sound is defined else "default" }}'
@@ -769,6 +777,7 @@ script:
               message: '{{ message }}'
               data:
                 tag: '{{ tag if tag is defined else "{}" }}'
+                entity_id: '{{ entity if entity is defined else "{}" }}'
                 push:
                   sound:
                     name: '{{ sound if sound is defined else "default" }}'
@@ -824,6 +833,7 @@ script:
               message: '{{ message }}'
               data:
                 tag: '{{ tag if tag is defined else "{}" }}'
+                entity_id: '{{ entity if entity is defined else "{}" }}'
                 push:
                   sound:
                     name: '{{ sound if sound is defined else "default" }}'
