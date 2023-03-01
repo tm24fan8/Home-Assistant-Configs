@@ -712,7 +712,7 @@ script:
           text:
       sound:
         name: 'Sound'
-        description: 'The sound you want the notification to make. Critical ignores this.'
+        description: 'The sound you want the notification to make.'
         example: 'US-EN-Morgan-Freeman-Wife-Is-Arriving.wav'
         required: false
         selector:
@@ -744,7 +744,7 @@ script:
                 tag: '{{ tag if tag is defined else "{}" }}'
                 push:
                   sound:
-                    name: default
+                    name: '{{ sound if sound is defined else "default" }}'
                     critical: 1
         - conditions:
           - condition: template
