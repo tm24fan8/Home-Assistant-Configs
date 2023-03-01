@@ -710,6 +710,13 @@ script:
         required: false
         selector:
           text:
+      sound:
+        name: 'Sound'
+        description: 'The sound you want the notification to make. Critical ignores this.'
+        example: 'US-EN-Morgan-Freeman-Wife-Is-Arriving.wav'
+        required: false
+        selector:
+          text:
     sequence:
       - choose:
         - conditions:
@@ -734,12 +741,7 @@ script:
               title: "{{ title }}"
               message: "{{ message }}"
               data:
-                tag: >
-                  {% if tag is defined %}
-                    {{ tag }}
-                  {% else %}
-                    {}
-                  {% endif %}
+                tag: '{{ tag if tag is defined else "{}" }}'
                 push:
                   sound:
                     name: default
@@ -766,12 +768,10 @@ script:
               title: '{{ title }}'
               message: '{{ message }}'
               data:
-                tag: >
-                  {% if tag is defined %}
-                    {{ tag }}
-                  {% else %}
-                    {}
-                  {% endif %}
+                tag: '{{ tag if tag is defined else "{}" }}'
+                push:
+                  sound:
+                    name: '{{ sound if sound is defined else "default" }}'
         default:
         - condition: state
           entity_id: input_boolean.text_notifications
@@ -823,12 +823,10 @@ script:
               title: '{{ title }}'
               message: '{{ message }}'
               data:
-                tag: >
-                  {% if tag is defined %}
-                    {{ tag }}
-                  {% else %}
-                    {}
-                  {% endif %}
+                tag: '{{ tag if tag is defined else "{}" }}'
+                push:
+                  sound:
+                    name: '{{ sound if sound is defined else "default" }}'
 
   tv_notify:
     alias: 'TV Notify'
