@@ -597,6 +597,7 @@ script:
       - service: light.turn_on
         target:
           area_id:
+          - front_porch
           - living_room
           - dining_room
           - mud_room
