@@ -155,6 +155,17 @@
           states.light.front_porch_light
         ] %}
         {{ lights | selectattr('state','eq','on') | list | count | int }}
+    current_computers_on:
+      friendly_name: Current Computers On
+      unit_of_measurement: ''
+      value_template: >-
+        {% set computers = [
+          states.binary_sensor.tony_desktop_on,
+          states.binary_sensor.tina_desktop_on,
+          states.binary_sensor.kallen_desktop_on,
+          states.binary_sensor.basement_server_on
+        ] %}
+        {{ computers | selectattr('state','eq','on') | list | count | int }}
     climate_devices_installed:
       friendly_name: Climate Devices Installed
       unit_of_measurement: ''
