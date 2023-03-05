@@ -53,6 +53,7 @@ automation:
 script:
   master_bedroom_wakeup:
     alias: 'Master Bedroom Wakeup'
+    mode: restart
     sequence:
     - choose:
       - conditions:
@@ -70,12 +71,20 @@ script:
                 {{ states('input_number.master_bedroom_echo_dot_day_volume') }}
               {% endif %}
         - if:
-          - condition: numeric_state
-            entity_id: sensor.pirateweather_cloud_coverage
-            above: 50
+          - condition: template
+            value_template: >
+              {% set weather = states('weather.iron_nerd_weather_station') %}
+              {% if weather in ['cloudy','partlycloudy','rainy','snowy','hail','lightning','lightning-rainy','pouring','snowy-rainy'] %}
+                true
+              {% elif (states('sensor.pirateweather_cloud_coverage') | int) > 50 %}
+                true
+              {% else %}
+                false
+              {% endif %}
           then:
           - service: input_select.select_option
             target:
               entity_id: input_select.master_bedroom_scenes
             data:
               option: Adaptive
+        - service: script.volume_reset
