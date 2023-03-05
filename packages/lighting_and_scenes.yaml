@@ -1106,6 +1106,20 @@ script:
               - kallen_bedroom
               - master_bedroom
               - emma_bedroom
+          - service: switch.turn_on
+            target:
+              entity_id:
+                - switch.adaptive_lighting_kallen_bedroom
+                - switch.adaptive_lighting_master_bedroom
+                - switch.adaptive_lighting_emma_bedroom
+          - service: input_text.set_value
+            target:
+              entity_id:
+                - input_text.kallen_bedroom_selected_scene
+                - input_text.master_bedroom_selected_scene
+                - input_text.emma_bedroom_selected_scene
+            data:
+              value: Adaptive
         - conditions:
           - condition: state
             entity_id: input_boolean.give_me_darkness
@@ -1130,6 +1144,22 @@ script:
                 {% else %}
                   Nightlight
                 {% endif %}
+          - service: switch.turn_on
+            target:
+              entity_id:
+                - switch.adaptive_lighting_kallen_bedroom
+                - switch.adaptive_lighting_master_bedroom
+                - switch.adaptive_lighting_emma_bedroom
+                - switch.adaptive_lighting_upstairs_hallway
+          - service: input_text.set_value
+            target:
+              entity_id:
+                - input_text.kallen_bedroom_selected_scene
+                - input_text.master_bedroom_selected_scene
+                - input_text.emma_bedroom_selected_scene
+                - input_text.upstairs_hallway_selected_scene
+            data:
+              value: Adaptive
 
   morning_scene:
     alias: 'Morning Scene'
