@@ -575,6 +575,11 @@ script:
       - service: input_boolean.turn_off
         target:
           entity_id: input_boolean.vacation_mode
+    - service: script.turn_on
+      target:
+        entity_id:
+          - script.welcome_home
+          - script.volume_reset
     - service: switch.turn_off
       target:
         entity_id: switch.presence_simulation
@@ -629,7 +634,6 @@ script:
         - basement_studio
         - downstairs_bathroom
         - upstairs_bathroom
-    - service: script.welcome_home
     mode: single
     icon: mdi:home-account
   family_is_home_night:
@@ -643,6 +647,11 @@ script:
       - service: input_boolean.turn_off
         target:
           entity_id: input_boolean.vacation_mode
+    - service: script.turn_on
+      target:
+        entity_id:
+          - script.welcome_home
+          - script.volume_reset
     - service: switch.turn_off
       target:
         entity_id: switch.presence_simulation
@@ -690,6 +699,5 @@ script:
         - upstairs_hallway
         - basement_studio
         - downstairs_bathroom
-    - service: script.welcome_home
     mode: single
     icon: mdi:home-account
