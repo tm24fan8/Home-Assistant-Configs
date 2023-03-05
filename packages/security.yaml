@@ -318,7 +318,7 @@ automation:
           entity_id: binary_sensor.security_faults
           state: 'off'
         then:
-        - service: notify.all_ios
+        - service: script.text_notify
           data:
             type: alert
             who: all
