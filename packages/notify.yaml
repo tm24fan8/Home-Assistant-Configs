@@ -243,19 +243,19 @@ notify:
       - service: mobile_app_tinas_iphone
       - service: mobile_app_tinas_ipad
       - service: mobile_app_tony_s_iphone
-      - service: mobile_app_tony_s_ipad_new
+      - service: mobile_app_tony_s_ipad
       - service: mobile_app_kallen_iphone
   - name: ios_parents
     platform: group
     services:
       - service: mobile_app_tinas_iphone
       - service: mobile_app_tinas_ipad
-      - service: mobile_app_tony_s_ipad_new
+      - service: mobile_app_tony_s_ipad
       - service: mobile_app_tony_s_iphone
   - name: ios_tony
     platform: group
     services:
-      - service: mobile_app_tony_s_ipad_new
+      - service: mobile_app_tony_s_ipad
       - service: mobile_app_tony_s_iphone
   - name: ios_tina
     platform: group
@@ -270,7 +270,7 @@ notify:
     platform: group
     services:
       - service: mobile_app_kallen_iphone
-      - service: mobile_app_tony_s_ipad_new
+      - service: mobile_app_tony_s_ipad
       - service: mobile_app_tony_s_iphone
   - name: tv_notifications
     platform: group
