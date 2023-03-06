@@ -876,6 +876,42 @@ sensor:
             {% else %}
               Safe
             {%- endif %}
+      weather_alert_string:
+        friendly_name: Weather Alert String
+        unique_id: 66b5f020-0b5e-48ed-92a2-740d2d708b30
+        value_template: >
+          {%- macro getReport() -%}
+            {% if states('sensor.weatheralerts_active_alerts') > '0' %}
+              {% if is_state('sensor.weatheralerts_alert_1','on') %}
+                {{ state_attr('sensor.weatheralerts_alert_1','alert_event') }},
+              {% endif %}
+              {% if is_state('sensor.weatheralerts_alert_2','on') %}
+                {{ state_attr('sensor.weatheralerts_alert_2','alert_event') }},
+              {% endif %}
+              {% if is_state('sensor.weatheralerts_alert_3','on') %}
+                {{ state_attr('sensor.weatheralerts_alert_3','alert_event') }},
+              {% endif %}
+              {% if is_state('sensor.weatheralerts_alert_4','on') %}
+                {{ state_attr('sensor.weatheralerts_alert_4','alert_event') }},
+              {% endif %}
+              {% if is_state('sensor.weatheralerts_alert_5','on') %}
+                {{ state_attr('sensor.weatheralerts_alert_5','alert_event') }}
+              {% endif %}
+            {% else %}
+              None
+            {% endif %}
+          {%- endmacro -%}
+          {%- macro cleanup(data) -%}
+            {%- for item in data.split("\n")  if item | trim != "" -%}
+              {{ item | trim }} {% endfor -%}
+          {%- endmacro -%}
+          {%- macro mother_of_all_macros() -%}
+            {{ getReport() }}
+          {%- endmacro -%}
+          {{- cleanup(mother_of_all_macros()) -}}
+        attribute_templates:
+          active_alerts: "{{ states('sensor.weatheralerts_active_alerts') }}"
+        icon_template: "{{ 'mdi.alert' if states('sensor.weatheralerts_active_alerts') | int > 0 else 'mdi:alert-remove' }}"
 
 input_boolean:
   freeze_warning:
