@@ -28,6 +28,8 @@ automation:
         - service: input_boolean.turn_off
           target:
             entity_id: input_boolean.master_bedroom_sleeping
+# Currently, input_boolean.master_bedroom_sleeping is turned on by the Goodnight flow in Node-RED whenever I go to bed.
+# That is why there is only one trigger here at the moment.
 
   - id: 7889ccf2-1fee-4819-8e59-5ad4e5879b0a
     alias: 'Master Bedroom Sleeping'
@@ -52,8 +54,11 @@ automation:
           id: sleep-off
         sequence:
         - service: script.master_bedroom_wakeup
-
-# TODO: Add actions when sleep mode is activated
+      - conditions:
+        - condition: trigger
+          id: sleep-on
+        sequence:
+        - service: script.master_bedroom_sleep
 
 script:
   master_bedroom_wakeup:
@@ -91,3 +96,25 @@ script:
         data:
           option: Adaptive
     - service: script.volume_reset
+
+  master_bedroom_sleep:
+    alias: 'Master Bedroom Sleep'
+    mode: restart
+    sequence:
+    - wait_template: "{{ is_state('light.master_bedroom_lights','off') }}"
+      timeout:
+        minutes: 1
+      continue_on_timeout: true
+    - service: switch.turn_on
+      target:
+        entity_id: switch.adaptive_lighting_master_bedroom
+    - service: switch.turn_off
+      target:
+        entity_id: switch.adaptive_lighting_sleep_mode_master_bedroom
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.master_bedroom_selected_scene
+      data:
+        value: Adaptive
+
+# TODO: Figure out which actions to move here, and which ones to keep in Node-RED
