@@ -1,6 +1,7 @@
 sensor:
   - platform: command_line
     name: Lines of Code
+    unique_id: 1bbf11f9-28d3-4575-83e8-f1a277687724
     command: "find /config -name '*.yaml' | xargs cat | wc -l"
     scan_interval: 20000
     unit_of_measurement: ''
@@ -9,6 +10,7 @@ sensor:
     sensors:
       min_ping:
         friendly_name: "Min Ping"
+        unique_id: ddcb9f6f-7c94-41fe-9453-2a2205b078e0
         value_template: "{{ state_attr('binary_sensor.internet','round_trip_time_min') }}"
         availability_template: >-
           {% if is_state('binary_sensor.internet','on') %}
@@ -19,6 +21,7 @@ sensor:
         unit_of_measurement: "ms"
       avg_ping:
         friendly_name: "Avg Ping"
+        unique_id: 79a13c64-7508-48de-8b44-2a23c59917c8
         value_template: "{{ state_attr('binary_sensor.internet','round_trip_time_avg') }}"
         availability_template: >-
           {% if is_state('binary_sensor.internet','on') %}
@@ -29,6 +32,7 @@ sensor:
         unit_of_measurement: "ms"
       max_ping:
         friendly_name: "Max Ping"
+        unique_id: c9c71ab6-c7fa-4425-a4ed-768d60e93781
         value_template: "{{ state_attr('binary_sensor.internet','round_trip_time_max') }}"
         availability_template: >-
           {% if is_state('binary_sensor.internet','on') %}
@@ -41,24 +45,28 @@ sensor:
 template:
   - binary_sensor:
     - name: Tony Desktop On
+      unique_id: 82ce673a-96ad-4af5-a8d1-be9ca9fa9c36
       state: "{{ states('sensor.tony_desktop_power') | int > 10 }}"
       device_class: power
       attributes:
         power_usage: "{{ states('sensor.tony_desktop_power') }}"
   - binary_sensor:
     - name: Tina Desktop On
+      unique_id: 8484dbd4-2fae-4368-a4bc-d1bdc09e003f
       state: "{{ states('sensor.tina_desktop_power') | int > 10 }}"
       device_class: power
       attributes:
         power_usage: "{{ states('sensor.tina_desktop_power') }}"
   - binary_sensor:
     - name: Kallen Desktop On
+      unique_id: ccc25d75-4915-449d-9b2e-09ad14ffac29
       state: "{{ states('sensor.kallen_desktop_power') | int > 10 }}"
       device_class: power
       attributes:
         power_usage: "{{ states('sensor.kallen_desktop_power') }}"
   - binary_sensor:
     - name: Basement Server On
+      unique_id: e6df7d98-d3ba-4e01-bae2-2ebafc8d78d6
       state: "{{ states('sensor.basement_server_power') | int > 10 }}"
       device_class: power
       attributes:
