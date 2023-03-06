@@ -317,7 +317,7 @@ script:
       - if:
         - condition: template
           value_template: >
-            {% if state_attr('sensor.current_forecast','high_temp') | int >= states('input_number.hot_day_threshold') | int %}
+            {% if states('sensor.todays_high_temp') | int >= states('input_number.hot_day_threshold') | int %}
               true
             {% else %}
               false
@@ -333,7 +333,7 @@ script:
       - if:
         - condition: template
           value_template: >
-            {% if state_attr('sensor.current_forecast','high_temp') | int <= states('input_number.cold_day_threshold') | int %}
+            {% if states('sensor.todays_high_temp') | int <= states('input_number.cold_day_threshold') | int %}
               true
             {% else %}
               false
@@ -389,7 +389,7 @@ script:
         entity_id: input_datetime.master_bedroom_cooling
         data:
           time: >
-            {% set low = state_attr('sensor.current_forecast','overnight_low') | float %}
+            {% set low = states('sensor.tonights_low_temp') | int %}
             {% if is_state('input_boolean.hot_day','on') and is_state('sensor.kallen_school_tomorrow','on') %}
               20:00
             {% elif is_state('input_boolean.hot_day','on') and is_state('sensor.kallen_school_tomorrow','off') %}
@@ -459,8 +459,8 @@ script:
         entity_id: input_datetime.emma_bedtime
         data:
           time: >
-            {% set high = state_attr('sensor.current_forecast','high_temp') | float %}
-            {% set low = state_attr('sensor.current_forecast','overnight_low') | float %}
+            {% set high = states('sensor.todays_high_temp') | int %}
+            {% set low = states('sensor.tonights_low_temp') | int %}
             {% if is_state('input_boolean.hot_day','on') %}
               22:00
             {% elif high >= 80 or low >= 60 %}
