@@ -135,6 +135,7 @@ sensor:
     sensors:
       current_forecast:
         friendly_name: Current Forecast
+        unique_id: c0faea33-2ac3-40f1-8558-584c3f5d6b16
         unit_of_measurement: ''
         icon_template: mdi:weather-sunny
         value_template: >-
@@ -158,6 +159,7 @@ sensor:
             {{ forecast.precipitation }}
       current_forecast_detail:
         friendly_name: Current Forecast Detail
+        unique_id: e5ae9864-70b5-402c-9d2f-c4d6a10085df
         unit_of_measurement: ''
         icon_template: mdi:weather-sunny
         value_template: >-
@@ -278,6 +280,7 @@ sensor:
             {{- cleanup(mother_of_all_macros()) -}}
       tomorrow_forecast:
         friendly_name: Tomorrows Forecast
+        unique_id: a8ae26b0-ed26-4568-bb2b-f7c72707b009
         unit_of_measurement: ''
         icon_template: mdi:weather-sunny
         value_template: >-
@@ -301,6 +304,7 @@ sensor:
             {{ forecast.precipitation }}
       tomorrow_forecast_detail:
         friendly_name: Tomorrow Forecast Detail
+        unique_id: 21374ed0-80d1-49ba-817d-3e93eb3865e4
         unit_of_measurement: ''
         icon_template: mdi:weather-sunny
         value_template: >-
@@ -410,6 +414,7 @@ sensor:
             {{- cleanup(mother_of_all_macros()) -}}
       current_conditions:
         friendly_name: Current Conditions
+        unique_id: 70db7e57-08db-48b2-919b-03b5face37b9
         unit_of_measurement: ''
         icon_template: mdi:weather-sunny
         value_template: >-
@@ -466,6 +471,7 @@ sensor:
             {{- cleanup(mother_of_all_macros()) -}}
       current_conditions_detail:
         friendly_name: Current Conditions Detail
+        unique_id: 2b3687d1-bdd5-4551-8c0a-05b1ff617543
         unit_of_measurement: ''
         icon_template: mdi:weather-sunny
         value_template: >-
@@ -628,10 +634,12 @@ sensor:
           {{- cleanup(mother_of_all_macros()) -}}
       outside_pressure:
         friendly_name: 'Outside Pressure'
+        unique_id: ac2944bb-e9d7-40a3-9707-ef477fd5f309
         value_template: '{{ state_attr(''weather.iron_nerd_weather_station'',''pressure'') }}'
         unit_of_measurement: ''
       todays_high_temp:
         friendly_name: "Today's High Temp"
+        unique_id: 532904af-940b-45cd-af8e-c69d1a9c4531
         unit_of_measurement: ''
         device_class: temperature
         value_template: >-
@@ -639,6 +647,7 @@ sensor:
           {{ forecast.temperature }}
       tonights_low_temp:
         friendly_name: "Tonight's Low Temp"
+        unique_id: 8ddc55b6-4728-4897-a32f-90be970f744b
         unit_of_measurement: ''
         device_class: temperature
         value_template: >-
@@ -646,6 +655,7 @@ sensor:
           {{ forecast.templow }}
       clothing_forecast:
         friendly_name: "Clothing Forecast"
+        unique_id: 8ed2684b-d0ad-402c-bc3c-340cb9b2437a
         unit_of_measurement: ''
         value_template: >-
             {% if is_state('binary_sensor.overnight', 'off') %}
@@ -674,6 +684,7 @@ sensor:
             {%- endif %}
       clothing_forecast_detail:
         friendly_name: "Clothing Forecast Detail"
+        unique_id: 13065f50-5eef-4afd-830e-2a2c87f47496
         unit_of_measurement: ''
         value_template: >-
           {%- macro getReport() -%}
@@ -840,6 +851,7 @@ sensor:
           {{- cleanup(mother_of_all_macros()) -}}
       nws_current_visibility:
         friendly_name: "Current Visibility"
+        unique_id: aa6e8dab-ac22-43f2-b541-b0996522f7f7
         value_template: "{{ ((state_attr('weather.iron_nerd_weather_station','visibility') | int) * 0.621371) | round }}"
 
       # current_inside_humidity:
@@ -857,6 +869,7 @@ sensor:
       #   value_template: "{{ states('sensor.daily_rainfall_in') | float  + state_attr('sensor.daily_rainfall_in', 'last_period') | float  }}"
       lightning_warning:
         friendly_name: "Lightning Warning"
+        unique_id: 72bd76a2-ec5b-49fd-982f-ed1ec225514e
         value_template: >-
             {%- if states('sensor.blitzortung_lightning_counter') | int > 0 %}
               Unsafe
