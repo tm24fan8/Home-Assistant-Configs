@@ -46,7 +46,12 @@ automation:
       to: 'off'
       id: sleep-off
     action:
-    - service: script.master_bedroom_wakeup
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: sleep-off
+        sequence:
+        - service: script.master_bedroom_wakeup
 
 # TODO: Add actions when sleep mode is activated
 
@@ -55,36 +60,34 @@ script:
     alias: 'Master Bedroom Wakeup'
     mode: restart
     sequence:
-    - choose:
-      - conditions:
-        - condition: trigger
-          id: sleep-off
-        sequence:
-        - service: media_player.volume_set
-          target:
-            entity_id: media_player.master_bedroom_echo_dot
-          data:
-            volume_level: >
-              {% if is_state('input_boolean.give_me_darkness','on') %}
-                {{ states('input_number.master_bedroom_echo_dot_night_volume') }}
-              {% else %}
-                {{ states('input_number.master_bedroom_echo_dot_day_volume') }}
-              {% endif %}
-        - if:
-          - condition: template
-            value_template: >
-              {% set weather = states('weather.iron_nerd_weather_station') %}
-              {% if weather in ['cloudy','partlycloudy','rainy','snowy','hail','lightning','lightning-rainy','pouring','snowy-rainy'] %}
-                true
-              {% elif (states('sensor.pirateweather_cloud_coverage') | int) > 50 %}
-                true
-              {% else %}
-                false
-              {% endif %}
-          then:
-          - service: input_select.select_option
-            target:
-              entity_id: input_select.master_bedroom_scenes
-            data:
-              option: Adaptive
-        - service: script.volume_reset
+    - service: switch.turn_off
+      target:
+        entity_id: switch.master_bedroom_echo_dot_do_not_disturb_switch
+    - service: media_player.volume_set
+      target:
+        entity_id: media_player.master_bedroom_echo_dot
+      data:
+        volume_level: >
+          {% if is_state('input_boolean.give_me_darkness','on') %}
+            {{ states('input_number.master_bedroom_echo_dot_night_volume') }}
+          {% else %}
+            {{ states('input_number.master_bedroom_echo_dot_day_volume') }}
+          {% endif %}
+    - if:
+      - condition: template
+        value_template: >
+          {% set weather = states('weather.iron_nerd_weather_station') %}
+          {% if weather in ['cloudy','partlycloudy','rainy','snowy','hail','lightning','lightning-rainy','pouring','snowy-rainy'] %}
+            true
+          {% elif (states('sensor.pirateweather_cloud_coverage') | int) > 50 %}
+            true
+          {% else %}
+            false
+          {% endif %}
+      then:
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.master_bedroom_scenes
+        data:
+          option: Adaptive
+    - service: script.volume_reset
