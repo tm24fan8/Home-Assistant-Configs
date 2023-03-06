@@ -898,7 +898,7 @@ sensor:
                 {{ state_attr('sensor.weatheralerts_alert_5','alert_event') }}
               {% endif %}
             {% else %}
-              None
+              'None'
             {% endif %}
           {%- endmacro -%}
           {%- macro cleanup(data) -%}
