@@ -169,7 +169,7 @@ sensor:
               'Later Today ',
               'For the rest of the day '
               ] | random }}
-            expect a high of {{ state_attr('sensor.current_forecast','high_temp') }}
+            expect a high of {{ states('sensor.todays_high_temp') }}
             {%- if states('sensor.current_forecast') == 'sunny' and is_state('binary_sensor.night','off')%}
               {{ [
                   'and sunny. ',
@@ -264,7 +264,7 @@ sensor:
                 'Later tonight expect a low of ',
                 'Overnight expect a low of '
                 ] | random }}
-            {{ state_attr('sensor.current_forecast','overnight_low') }} degrees.
+            {{ states('sensor.tonights_low_temp') }} degrees.
           {%- endmacro -%}
           {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
             {%- macro cleanup(data) -%}
@@ -518,7 +518,7 @@ sensor:
                 'Later Today ',
                 'For the rest of the day '
                 ] | random }}
-              expect a high of {{ state_attr('sensor.current_forecast','high_temp') }}
+              expect a high of {{ states('sensor.todays_high_temp') }}
               {%- if states('sensor.current_forecast') == 'sunny' and is_state('binary_sensor.night','off')%}
                 {{ [
                     'and sunny. ',
@@ -611,13 +611,13 @@ sensor:
                   'Later tonight expect a low of ',
                   'Overnight expect a low of '
                   ] | random }}
-              {{ state_attr('sensor.current_forecast','overnight_low') }} degrees.
+              {{ states('sensor.tonights_low_temp') }} degrees.
             {%- else -%}
               {{ [
                     'Tonight expect a low of ',
                     'Overnight expect a low of '
                     ] | random }}
-                {{ state_attr('sensor.current_forecast','overnight_low') }} degrees.
+                {{ states('sensor.tonights_low_temp') }} degrees.
             {% endif %}
           {%- endmacro -%}
           {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
