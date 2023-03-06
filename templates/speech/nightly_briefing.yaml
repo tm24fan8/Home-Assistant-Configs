@@ -73,7 +73,7 @@
 
     <p>
       {% if states('sensor.weatheralerts_active_alerts') > '0' %}
-        "Currently there are weather alerts active. The total number of alerts is {{ states('sensor.weatheralerts_active_alerts') }}. They are as follows. "
+        "Currently there are weather alerts active. The total number of alerts is {{ states('sensor.weather_alerts_active_corrected') }}. They are as follows. "
           {{ states('sensor.weather_alert_string') }}.
       {% endif %}
     </p>

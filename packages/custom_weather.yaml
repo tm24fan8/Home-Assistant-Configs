@@ -881,22 +881,21 @@ sensor:
         unique_id: 66b5f020-0b5e-48ed-92a2-740d2d708b30
         value_template: >
           {%- macro getReport() -%}
-            {% if states('sensor.weatheralerts_active_alerts') > '0' %}
-              {% if is_state('sensor.weatheralerts_alert_1','on') %}
-                {{ state_attr('sensor.weatheralerts_alert_1','alert_event') }},
-              {% endif %}
-              {% if is_state('sensor.weatheralerts_alert_2','on') %}
-                {{ state_attr('sensor.weatheralerts_alert_2','alert_event') }},
-              {% endif %}
-              {% if is_state('sensor.weatheralerts_alert_3','on') %}
-                {{ state_attr('sensor.weatheralerts_alert_3','alert_event') }},
-              {% endif %}
-              {% if is_state('sensor.weatheralerts_alert_4','on') %}
-                {{ state_attr('sensor.weatheralerts_alert_4','alert_event') }},
-              {% endif %}
-              {% if is_state('sensor.weatheralerts_alert_5','on') %}
-                {{ state_attr('sensor.weatheralerts_alert_5','alert_event') }}
-              {% endif %}
+            {% set alerts = [
+                states('sensor.weatheralerts_alert_1_most_recent_active_alert'),
+                states('sensor.weatheralerts_alert_2_most_recent_active_alert'),
+                states('sensor.weatheralerts_alert_3_most_recent_active_alert'),
+                states('sensor.weatheralerts_alert_4_most_recent_active_alert'),
+                states('sensor.weatheralerts_alert_5_most_recent_active_alert'),
+              ] %}
+            {% set main = alerts | reject('eq','unavailable') | select('ne','Flood Warning') | join(", ") | default('') %}
+            {% set flood = alerts | reject ('eq','unavailable') | select('eq','Flood Warning') | first | default('') %}
+            {% if flood not in [''] and main not in [''] %}
+              {{ main + ", " + flood }}
+            {% elif flood not in [''] and main in [''] %}
+              {{ flood }}
+            {% elif main not in [''] and flood in [''] %}
+              {{ main }}
             {% else %}
               'None'
             {% endif %}
@@ -911,7 +910,43 @@ sensor:
           {{- cleanup(mother_of_all_macros()) -}}
         attribute_templates:
           active_alerts: "{{ states('sensor.weatheralerts_active_alerts') }}"
-        icon_template: "{{ 'mdi.alert' if states('sensor.weatheralerts_active_alerts') | int > 0 else 'mdi:alert-remove' }}"
+        icon_template: >
+          {% if (states('sensor.weatheralerts_active_alerts') | int ) > 0 %}
+            mdi:alert
+          {% else %}
+            mdi:alert-remove
+          {% endif %}
+      weather_alerts_active_corrected:
+        friendly_name: 'Weather Alerts Active - Corrected'
+        unique_id: e2f51da4-2271-4719-8edf-a28f76ac1e3f
+        value_template: >
+          {%- macro getReport() -%}
+            {% set alerts = [
+                states('sensor.weatheralerts_alert_1_most_recent_active_alert'),
+                states('sensor.weatheralerts_alert_2_most_recent_active_alert'),
+                states('sensor.weatheralerts_alert_3_most_recent_active_alert'),
+                states('sensor.weatheralerts_alert_4_most_recent_active_alert'),
+                states('sensor.weatheralerts_alert_5_most_recent_active_alert'),
+              ] %}
+            {% set main = alerts | reject('eq','unavailable') | select('ne','Flood Warning') | list | count | int %}
+            {% set flood = alerts | reject ('eq','unavailable') | select('eq','Flood Warning') | list | count | int %}
+            {% set flood1 = 1 if (flood > 0) else 0 %}
+            {{ (main + flood1) | int }}
+          {%- endmacro -%}
+          {%- macro cleanup(data) -%}
+            {%- for item in data.split("\n")  if item | trim != "" -%}
+              {{ item | trim }} {% endfor -%}
+          {%- endmacro -%}
+          {%- macro mother_of_all_macros() -%}
+            {{ getReport() }}
+          {%- endmacro -%}
+          {{- cleanup(mother_of_all_macros()) -}}
+        icon_template: >
+          {% if (states('sensor.weatheralerts_active_alerts') | int ) > 0 %}
+            mdi:alert
+          {% else %}
+            mdi:alert-remove
+          {% endif %}
 
 input_boolean:
   freeze_warning:
