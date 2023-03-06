@@ -197,7 +197,7 @@ sensor:
                 'Total Rainfall amounts '
                 ] | random }}
                 near {{ state_attr('sensor.current_forecast','precipitation') }} inches
-                possible.
+                {{ 'possible. ' }}
             {%- elif states('sensor.current_forecast') == 'snowy' %}
               {{ [
                 'with snow. ',
@@ -208,14 +208,14 @@ sensor:
                 'Total snowfall amounts '
                 ] | random }}
                 near {{ state_attr('sensor.current_forecast','precipitation') }} inches
-                possible.
+                {{ 'possible. ' }}
             {%- elif states('sensor.current_forecast') == 'snowy-rainy' %}
               {{ [
                   'with mix preciptation possible. ',
                   'with snow and rain showers. '
                   ] | random }}
               Total accumulation near {{ state_attr('sensor.current_forecast','precipitation') }} inches
-                possible.
+                {{ 'possible. ' }}
             {%- elif states('sensor.current_forecast') == 'windy' %}
               {{ [
                 'and windy. ',
@@ -247,7 +247,7 @@ sensor:
                 'Total Rainfall amounts '
                 ] | random }}
                 near {{ state_attr('sensor.current_forecast','precipitation') }} inches
-                possible.
+                {{ 'possible. ' }}
             {%- elif states('sensor.current_forecast') == 'lightning' %}
               {{ [
                 'with thunderstorms possible. ',
@@ -258,7 +258,7 @@ sensor:
                 'Total Rainfall amounts '
                 ] | random }}
                 near {{ state_attr('sensor.current_forecast','precipitation') }} inches
-                possible.
+                {{ 'possible. ' }}
             {% endif -%}
             {{ [
                 'Later tonight expect a low of ',
@@ -332,7 +332,7 @@ sensor:
                 'Total Rainfall amounts '
                 ] | random }}
                 near {{ state_attr('sensor.tomorrow_forecast','precipitation') }} inches
-                possible.
+                {{ 'possible. ' }}
             {%- elif states('sensor.tomorrow_forecast') == 'snowy' %}
               {{ [
                 'with snow. ',
@@ -343,14 +343,14 @@ sensor:
                 'Total snowfall amounts '
                 ] | random }}
                 near {{ state_attr('sensor.tomorrow_forecast','precipitation') }} inches
-                possible.
+                {{ 'possible. ' }}
             {%- elif states('sensor.tomorrow_forecast') == 'snowy-rainy' %}
               {{ [
                   'with mix preciptation possible. ',
                   'with snow and rain showers. '
                   ] | random }}
               Total accumulation near {{ state_attr('sensor.tomorrow_forecast','precipitation') }} inches
-                possible.
+                {{ 'possible. ' }}
             {%- elif states('sensor.tomorrow_forecast') == 'windy' %}
               {{ [
                 'and windy. ',
@@ -382,7 +382,7 @@ sensor:
                 'Total Rainfall amounts '
                 ] | random }}
                 near {{ state_attr('sensor.current_forecast','precipitation') }} inches
-                possible.
+                {{ 'possible. ' }}
             {%- elif states('sensor.current_forecast') == 'lightning' %}
               {{ [
                 'with thunderstorms possible. ',
@@ -393,7 +393,7 @@ sensor:
                 'Total Rainfall amounts '
                 ] | random }}
                 near {{ state_attr('sensor.current_forecast','precipitation') }} inches
-                possible.
+                {{ 'possible. ' }}
             {% endif -%}
             {{ [
                 ' Tomorrow night expect a low of '
@@ -545,7 +545,7 @@ sensor:
                   'Rainfall accumulations ',
                   'Total Rainfall amounts '
                   ] | random }}
-                  near {{ state_attr('sensor.current_forecast','precipitation') }} inches possible.
+                  near {{ state_attr('sensor.current_forecast','precipitation') }} inches {{ 'possible. ' }}
               {%- elif states('sensor.current_forecast') == 'snowy' %}
                 {{ [
                   'with snow. ',
@@ -556,13 +556,13 @@ sensor:
                   'Total snowfall amounts '
                   ] | random }}
                   near {{ state_attr('sensor.current_forecast','precipitation') }} inches
-                  possible.
+                  {{ 'possible. ' }}
               {%- elif states('sensor.current_forecast') == 'snowy-rainy' %}
                 {{ [
                     'with mix preciptation possible. ',
                     'with snow and rain showers. '
                     ] | random }}
-                Total accumulation near {{ state_attr('sensor.current_forecast','precipitation') }} inches possible.
+                Total accumulation near {{ state_attr('sensor.current_forecast','precipitation') }} inches {{ 'possible. ' }}
               {%- elif states('sensor.current_forecast') == 'windy' %}
                 {{ [
                   'and windy. ',
@@ -594,7 +594,7 @@ sensor:
                   'Total Rainfall amounts '
                   ] | random }}
                   near {{ state_attr('sensor.current_forecast','precipitation') }} inches
-                  possible.
+                  {{ 'possible. ' }}
               {%- elif states('sensor.current_forecast') == 'lightning' %}
                 {{ [
                   'with thunderstorms possible. ',
@@ -605,7 +605,7 @@ sensor:
                   'Total Rainfall amounts '
                   ] | random }}
                   near {{ state_attr('sensor.current_forecast','precipitation') }} inches
-                  possible.
+                  {{ 'possible. ' }}
               {% endif -%}
               {{ [
                   'Later tonight expect a low of ',
