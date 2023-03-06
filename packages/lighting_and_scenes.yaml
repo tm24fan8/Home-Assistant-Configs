@@ -1106,12 +1106,20 @@ script:
               - kallen_bedroom
               - master_bedroom
               - emma_bedroom
+          - delay:
+              seconds: 1
           - service: switch.turn_on
             target:
               entity_id:
                 - switch.adaptive_lighting_kallen_bedroom
                 - switch.adaptive_lighting_master_bedroom
                 - switch.adaptive_lighting_emma_bedroom
+          - service: switch.turn_off
+            target:
+              entity_id:
+                - switch.adaptive_lighting_sleep_mode_kallen_bedroom
+                - switch.adaptive_lighting_sleep_mode_master_bedroom
+                - switch.adaptive_lighting_sleep_mode_emma_bedroom
           - service: input_text.set_value
             target:
               entity_id:
@@ -1144,6 +1152,8 @@ script:
                 {% else %}
                   Nightlight
                 {% endif %}
+          - delay:
+              seconds: 1
           - service: switch.turn_on
             target:
               entity_id:
@@ -1151,6 +1161,13 @@ script:
                 - switch.adaptive_lighting_master_bedroom
                 - switch.adaptive_lighting_emma_bedroom
                 - switch.adaptive_lighting_upstairs_hallway
+          - service: switch.turn_off
+            target:
+              entity_id:
+                - switch.adaptive_lighting_sleep_mode_kallen_bedroom
+                - switch.adaptive_lighting_sleep_mode_master_bedroom
+                - switch.adaptive_lighting_sleep_mode_emma_bedroom
+                - switch.adaptive_lighting_sleep_mode_upstairs_hallway
           - service: input_text.set_value
             target:
               entity_id:
