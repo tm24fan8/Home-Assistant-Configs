@@ -1,6 +1,7 @@
 mqtt:
   sensor:
     - name: "Tina Desktop - GPU Temperature"
+      unique_id: a6a45c56-3a73-46e4-b91c-4f97ba6f53b2
       state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/gpu_nvidia/temperatures/gpu_core"
       unit_of_measurement: 'C'
       icon: mdi:thermometer
@@ -11,6 +12,7 @@ mqtt:
       qos: 1
 
     - name: "Tina Desktop - CPU Temperature"
+      unique_id: ef715bde-0407-4873-b1e6-a9ef6505d054
       state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/cpu/temperatures/core_(tctl/tdie)"
       unit_of_measurement: 'C'
       icon: mdi:thermometer
@@ -21,6 +23,7 @@ mqtt:
       qos: 1
 
     - name: "Tina Desktop - Storage C Temperature"
+      unique_id: b8b4497b-659a-48d1-a13c-6eed0af69b51
       state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/storages/ct1000p1ssd8/temperatue"
       unit_of_measurement: 'C'
       icon: mdi:thermometer
@@ -31,6 +34,7 @@ mqtt:
       qos: 1
 
     - name: "Tina Desktop - Storage D Temperature"
+      unique_id: 6e9900a3-15fa-4d1b-93c1-567d10e1fe68
       state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/storages/san-disk_ssd_plus_240gb/temperatue"
       unit_of_measurement: 'C'
       icon: mdi:thermometer
@@ -41,6 +45,7 @@ mqtt:
       qos: 1
 
     - name: "Tina Desktop - Memory Usage"
+      unique_id: 8523c69f-9e11-44e6-91b1-9c87401f6fd4
       state_topic: "iotlink/workgroup/xia_desktop/monitor/stats/memory/load/memory"
       unit_of_measurement: '%'
       icon: mdi:memory
@@ -51,6 +56,7 @@ mqtt:
       qos: 1
 
     - name: "Tina Desktop - Virtual Memory Usage"
+      unique_id: 7e1c0e3f-1306-4290-a0c1-c4ddd362b601
       state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/memory/load/virtual_memory"
       unit_of_measurement: '%'
       icon: mdi:memory
@@ -61,6 +67,7 @@ mqtt:
       qos: 1
 
     - name: "Tina Desktop - GPU Core Load"
+      unique_id: 307a1daf-0a36-4c92-a3a2-2d95762cad8c
       state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/gpu_nvidia/load/gpu_core"
       unit_of_measurement: '%'
       icon: mdi:speedometer
@@ -71,6 +78,7 @@ mqtt:
       qos: 1
 
     - name: "Tina Desktop - GPU VRAM Usage"
+      unique_id: 2b05dac9-99e5-47ee-86b0-fa9d4536fbe3
       state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/gpu_nvidia/load/gpu_memory"
       unit_of_measurement: '%'
       icon: mdi:memory
@@ -81,6 +89,7 @@ mqtt:
       qos: 1
 
     - name: "Tina Desktop - GPU Video Engine Load"
+      unique_id: 029fa90b-26ba-45ea-93fd-d7d899f71e78
       state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/gpu_nvidia/load/gpu_video_engine"
       unit_of_measurement: '%'
       icon: mdi:speedometer
@@ -91,6 +100,7 @@ mqtt:
       qos: 1
 
     - name: "Tina Desktop - GPU Memory Controller Load"
+      unique_id: 26069885-0f51-453b-807d-c9cb0130dc05
       state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/gpu_nvidia/load/gpu_memory_controller"
       unit_of_measurement: '%'
       icon: mdi:speedometer
@@ -101,6 +111,7 @@ mqtt:
       qos: 1
 
     - name: "Tina Desktop - GPU Memory Total"
+      unique_id: 65393be1-797c-48d3-9287-e2f168acc2b5
       state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/gpu_nvidia/data/gpu_memory_total"
       unit_of_measurement: 'MB'
       icon: mdi:memory
@@ -111,6 +122,7 @@ mqtt:
       qos: 1
 
     - name: "Tina Desktop - GPU Memory Free"
+      unique_id: 88276fd1-02d2-4d4a-986e-f4f981761376
       state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/gpu_nvidia/data/gpu_memory_free"
       unit_of_measurement: 'MB'
       icon: mdi:memory
@@ -121,6 +133,7 @@ mqtt:
       qos: 1
 
     - name: "Tina Desktop - GPU Memory Used"
+      unique_id: 68436f32-782e-4e8a-85eb-2aa26bb2f877
       state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/gpu_nvidia/data/gpu_memory_used"
       unit_of_measurement: 'MB'
       icon: mdi:memory
@@ -131,6 +144,7 @@ mqtt:
       qos: 1
 
     - name: "Tina Desktop - Memory Used (GB)"
+      unique_id: f90defec-616f-4a09-9308-daf85e02b338
       state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/memory/data/memory_used"
       unit_of_measurement: 'GB'
       icon: mdi:memory
@@ -141,6 +155,7 @@ mqtt:
       qos: 1
 
     - name: "Tina Desktop - Memory Available (GB)"
+      unique_id: 25d240a0-efe4-4269-bf79-2775354cdbb9
       state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/memory/data/memory_available"
       unit_of_measurement: 'GB'
       icon: mdi:memory
@@ -151,6 +166,7 @@ mqtt:
       qos: 1
 
     - name: "Tina Desktop - Virtual Memory Used (GB)"
+      unique_id: be7d4104-b3f1-4244-89fe-29b720753481
       state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/memory/data/virtual_memory_used"
       unit_of_measurement: 'GB'
       icon: mdi:memory
@@ -161,6 +177,7 @@ mqtt:
       qos: 1
 
     - name: "Tina Desktop - Virtual Memory Available (GB)"
+      unique_id: 2f91de98-338c-4d21-b164-1d1970a4d220
       state_topic: "iotlink/workgroup/xia-desktop/monitor/stats/memory/data/virtual_memory_available"
       unit_of_measurement: 'GB'
       icon: mdi:memory

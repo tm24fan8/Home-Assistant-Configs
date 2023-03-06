@@ -1,6 +1,7 @@
 mqtt:
   sensor:
     - name: "Kallen Desktop - GPU Temperature"
+      unique_id: a8d42e20-cd47-488b-a073-419493ea5c11
       state_topic: "iotlink/workgroup/kallen-desktop/monitor/stats/gpu_nvidia/temperatures/gpu_core"
       unit_of_measurement: 'C'
       icon: mdi:thermometer
@@ -11,6 +12,7 @@ mqtt:
       qos: 1
 
     - name: "Kallen Desktop - CPU Temperature"
+      unique_id: 780eb1c4-9bb8-4476-8fe4-35b62e390f31
       state_topic: "iotlink/workgroup/kallen-desktop/monitor/stats/cpu/temperatures/cpu_package"
       unit_of_measurement: 'C'
       icon: mdi:thermometer
@@ -21,6 +23,7 @@ mqtt:
       qos: 1
 
     - name: "Kallen Desktop - Storage C Temperature"
+      unique_id: 4f2355d4-ef79-45c0-b6af-23441d9b19e3
       state_topic: "iotlink/workgroup/kallen-desktop/monitor/stats/storages/wdc__wdbnce0010pnc/temperatue"
       unit_of_measurement: 'C'
       icon: mdi:thermometer
@@ -31,6 +34,7 @@ mqtt:
       qos: 1
 
     - name: "Kallen Desktop - Memory Usage"
+      unique_id: d3cdc4c7-aa87-4ccf-9647-feb5c7f23844
       state_topic: "iotlink/workgroup/kallen-desktop/monitor/stats/memory/load/memory"
       unit_of_measurement: '%'
       icon: mdi:memory
@@ -41,6 +45,7 @@ mqtt:
       qos: 1
 
     - name: "Kallen Desktop - Virtual Memory Usage"
+      unique_id: c5537227-a7b4-4346-b7df-1b3ed81ee3d5
       state_topic: "iotlink/workgroup/kallen-desktop/monitor/stats/memory/load/virtual_memory"
       unit_of_measurement: '%'
       icon: mdi:memory
@@ -51,6 +56,7 @@ mqtt:
       qos: 1
 
     - name: "Kallen Desktop - GPU Core Load"
+      unique_id: d41ed639-589a-4efa-b81d-5c4828874078
       state_topic: "iotlink/workgroup/kallen-desktop/monitor/stats/gpu_nvidia/load/gpu_core"
       unit_of_measurement: '%'
       icon: mdi:speedometer
@@ -61,6 +67,7 @@ mqtt:
       qos: 1
 
     - name: "Kallen Desktop - GPU VRAM Usage"
+      unique_id: 530114ae-0a28-4ce2-9f32-d7ff954f3ede
       state_topic: "iotlink/workgroup/kallen-desktop/monitor/stats/gpu_nvidia/load/gpu_memory"
       unit_of_measurement: '%'
       icon: mdi:memory
@@ -71,6 +78,7 @@ mqtt:
       qos: 1
 
     - name: "Kallen Desktop - GPU Video Engine Load"
+      unique_id: 6e3f13a2-8682-4e1c-9132-ff0a12cdc5b1
       state_topic: "iotlink/workgroup/kallen-desktop/monitor/stats/gpu_nvidia/load/gpu_video_engine"
       unit_of_measurement: '%'
       icon: mdi:speedometer
@@ -81,6 +89,7 @@ mqtt:
       qos: 1
 
     - name: "Kallen Desktop - GPU Memory Controller Load"
+      unique_id: a88ce387-9d43-4c4b-af72-cf659828e155
       state_topic: "iotlink/workgroup/kallen-desktop/monitor/stats/gpu_nvidia/load/gpu_memory_controller"
       unit_of_measurement: '%'
       icon: mdi:speedometer
@@ -91,6 +100,7 @@ mqtt:
       qos: 1
 
     - name: "Kallen Desktop - GPU Memory Total"
+      unique_id: 95673381-51a9-4e0d-9e92-158d0377a7e0
       state_topic: "iotlink/workgroup/kallen-desktop/monitor/stats/gpu_nvidia/data/gpu_memory_total"
       unit_of_measurement: 'MB'
       icon: mdi:memory
@@ -101,6 +111,7 @@ mqtt:
       qos: 1
 
     - name: "Kallen Desktop - GPU Memory Free"
+      unique_id: 008598e5-6532-4154-b197-d6962a2deb77
       state_topic: "iotlink/workgroup/kallen-desktop/monitor/stats/gpu_nvidia/data/gpu_memory_free"
       unit_of_measurement: 'MB'
       icon: mdi:memory
@@ -111,6 +122,7 @@ mqtt:
       qos: 1
 
     - name: "Kallen Desktop - GPU Memory Used"
+      unique_id: 2d1fc35d-94c3-414f-81fe-0b2172aee990
       state_topic: "iotlink/workgroup/kallen-desktop/monitor/stats/gpu_nvidia/data/gpu_memory_used"
       unit_of_measurement: 'MB'
       icon: mdi:memory
@@ -121,6 +133,7 @@ mqtt:
       qos: 1
 
     - name: "Kallen Desktop - Memory Used (GB)"
+      unique_id: 55615e7d-c82b-446b-a512-094b3d630294
       state_topic: "iotlink/workgroup/kallen-desktop/monitor/stats/memory/data/memory_used"
       unit_of_measurement: 'GB'
       icon: mdi:memory
@@ -131,6 +144,7 @@ mqtt:
       qos: 1
 
     - name: "Kallen Desktop - Memory Available (GB)"
+      unique_id: 9758aee4-df70-4590-927f-a8b819dd3140
       state_topic: "iotlink/workgroup/kallen-desktop/monitor/stats/memory/data/memory_available"
       unit_of_measurement: 'GB'
       icon: mdi:memory
@@ -141,6 +155,7 @@ mqtt:
       qos: 1
 
     - name: "Kallen Desktop - Virtual Memory Used (GB)"
+      unique_id: 73b6fff5-25d5-4fc9-9719-617b721f029e
       state_topic: "iotlink/workgroup/kallen-desktop/monitor/stats/memory/data/virtual_memory_used"
       unit_of_measurement: 'GB'
       icon: mdi:memory
@@ -151,6 +166,7 @@ mqtt:
       qos: 1
 
     - name: "Kallen Desktop - Virtual Memory Available (GB)"
+      unique_id: ac6a4943-c110-424a-be66-3a59ccb0f19d
       state_topic: "iotlink/workgroup/kallen-desktop/monitor/stats/memory/data/virtual_memory_available"
       unit_of_measurement: 'GB'
       icon: mdi:memory

@@ -1,6 +1,7 @@
 mqtt:
   sensor:
     - name: "Tony Desktop - GPU Temperature"
+      unique_id: 8c91e08e-2b30-4700-b012-54722b931c8c
       state_topic: "iotlink/workgroup/tony-asus/monitor/stats/gpu_nvidia/temperatures/gpu_core"
       unit_of_measurement: 'C'
       icon: mdi:thermometer
@@ -11,6 +12,7 @@ mqtt:
       qos: 1
 
     - name: "Tony Desktop - CPU Temperature"
+      unique_id: 8d27e4d8-1986-4ed5-af48-6f88a8740c3c
       state_topic: "iotlink/workgroup/tony-asus/monitor/stats/cpu/temperatures/core_(tctl/tdie)"
       unit_of_measurement: 'C'
       icon: mdi:thermometer
@@ -21,6 +23,7 @@ mqtt:
       qos: 1
 
     - name: "Tony Desktop - Storage C Temperature"
+      unique_id: 26822d74-0fa9-46b7-865c-74a29baf8735
       state_topic: "iotlink/workgroup/tony-asus/monitor/stats/storages/ct1000p1ssd8/temperatue"
       unit_of_measurement: 'C'
       icon: mdi:thermometer
@@ -31,6 +34,7 @@ mqtt:
       qos: 1
 
     - name: "Tony Desktop - Storage S Temperature"
+      unique_id: cbaca0c0-6dcd-4e4c-b5ae-90b0a8d7a25b
       state_topic: "iotlink/workgroup/tony-asus/monitor/stats/storages/san-disk_sd8sb8u512g1002/temperatue"
       unit_of_measurement: 'C'
       icon: mdi:thermometer
@@ -41,6 +45,7 @@ mqtt:
       qos: 1
 
     - name: "Tony Desktop - Storage V Temperature"
+      unique_id: 6b425eb2-25f3-486c-818a-eb92c3e8fadf
       state_topic: "iotlink/workgroup/tony-asus/monitor/stats/storages/wdc__wdbnce0010pnc/temperatue"
       unit_of_measurement: 'C'
       icon: mdi:thermometer
@@ -51,6 +56,7 @@ mqtt:
       qos: 1
 
     - name: "Tony Desktop - Storage E Temperature"
+      unique_id: 723c308f-535f-4624-8e46-d7e4f344079c
       state_topic: "iotlink/workgroup/tony-asus/monitor/stats/storages/wdc_wd20earx-00pasb0/temperatue"
       unit_of_measurement: 'C'
       icon: mdi:thermometer
@@ -61,6 +67,7 @@ mqtt:
       qos: 1
 
     - name: "Tony Desktop - Memory Usage"
+      unique_id: f380ab55-7cde-4b8c-922f-ff113cdbff77
       state_topic: "iotlink/workgroup/tony-asus/monitor/stats/memory/load/memory"
       unit_of_measurement: '%'
       icon: mdi:memory
@@ -71,6 +78,7 @@ mqtt:
       qos: 1
 
     - name: "Tony Desktop - Virtual Memory Usage"
+      unique_id: b2ddd600-7963-4f47-9d1d-7f74a7cdc6fa
       state_topic: "iotlink/workgroup/tony-asus/monitor/stats/memory/load/virtual_memory"
       unit_of_measurement: '%'
       icon: mdi:memory
@@ -81,6 +89,7 @@ mqtt:
       qos: 1
 
     - name: "Tony Desktop - GPU Core Load"
+      unique_id: 6ead9e42-2ef0-440f-8e36-cc5f5f5c3776
       state_topic: "iotlink/workgroup/tony-asus/monitor/stats/gpu_nvidia/load/gpu_core"
       unit_of_measurement: '%'
       icon: mdi:speedometer
@@ -91,6 +100,7 @@ mqtt:
       qos: 1
 
     - name: "Tony Desktop - GPU VRAM Usage"
+      unique_id: 7fa952df-8a8d-44de-9393-d01ae648625e
       state_topic: "iotlink/workgroup/tony-asus/monitor/stats/gpu_nvidia/load/gpu_memory"
       unit_of_measurement: '%'
       icon: mdi:memory
@@ -101,6 +111,7 @@ mqtt:
       qos: 1
 
     - name: "Tony Desktop - GPU Video Engine Load"
+      unique_id: 01de9b74-f28d-4443-893c-6d0179fa831f
       state_topic: "iotlink/workgroup/tony-asus/monitor/stats/gpu_nvidia/load/gpu_video_engine"
       unit_of_measurement: '%'
       icon: mdi:speedometer
@@ -111,6 +122,7 @@ mqtt:
       qos: 1
 
     - name: "Tony Desktop - GPU Memory Controller Load"
+      unique_id: 96b6511b-95bf-4baf-a305-9b6f14dadde7
       state_topic: "iotlink/workgroup/tony-asus/monitor/stats/gpu_nvidia/load/gpu_memory_controller"
       unit_of_measurement: '%'
       icon: mdi:speedometer
@@ -121,6 +133,7 @@ mqtt:
       qos: 1
 
     - name: "Tony Desktop - GPU Memory Total"
+      unique_id: 8ec11ad0-e184-4f0d-886f-62e9eaf57bd4
       state_topic: "iotlink/workgroup/tony-asus/monitor/stats/gpu_nvidia/data/gpu_memory_total"
       unit_of_measurement: 'MB'
       icon: mdi:memory
@@ -131,6 +144,7 @@ mqtt:
       qos: 1
 
     - name: "Tony Desktop - GPU Memory Free"
+      unique_id: 3854f3e3-ec12-4226-b768-4fe25b41dda9
       state_topic: "iotlink/workgroup/tony-asus/monitor/stats/gpu_nvidia/data/gpu_memory_free"
       unit_of_measurement: 'MB'
       icon: mdi:memory
@@ -141,6 +155,7 @@ mqtt:
       qos: 1
 
     - name: "Tony Desktop - GPU Memory Used"
+      unique_id: 4c75e640-76ee-41f3-91ee-1406f275b7ac
       state_topic: "iotlink/workgroup/tony-asus/monitor/stats/gpu_nvidia/data/gpu_memory_used"
       unit_of_measurement: 'MB'
       icon: mdi:memory
@@ -151,6 +166,7 @@ mqtt:
       qos: 1
 
     - name: "Tony Desktop - Memory Used (GB)"
+      unique_id: 90123c89-2edc-4adc-840b-3704e7bd8b56
       state_topic: "iotlink/workgroup/tony-asus/monitor/stats/memory/data/memory_used"
       unit_of_measurement: 'GB'
       icon: mdi:memory
@@ -161,6 +177,7 @@ mqtt:
       qos: 1
 
     - name: "Tony Desktop - Memory Available (GB)"
+      unique_id: ef727165-0da8-47f5-a51e-dcdd2cabda60
       state_topic: "iotlink/workgroup/tony-asus/monitor/stats/memory/data/memory_available"
       unit_of_measurement: 'GB'
       icon: mdi:memory
@@ -171,6 +188,7 @@ mqtt:
       qos: 1
 
     - name: "Tony Desktop - Virtual Memory Used (GB)"
+      unique_id: 0e7dfe10-fe77-430b-8bc1-022e663b83d3
       state_topic: "iotlink/workgroup/tony-asus/monitor/stats/memory/data/virtual_memory_used"
       unit_of_measurement: 'GB'
       icon: mdi:memory
@@ -181,6 +199,7 @@ mqtt:
       qos: 1
 
     - name: "Tony Desktop - Virtual Memory Available (GB)"
+      unique_id: 3b812f43-7c03-4898-b407-b9edd558aec1
       state_topic: "iotlink/workgroup/tony-asus/monitor/stats/memory/data/virtual_memory_available"
       unit_of_measurement: 'GB'
       icon: mdi:memory
