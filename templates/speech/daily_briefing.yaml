@@ -32,7 +32,6 @@
         {% endif %}
       
       <p>
-        {{ states('sensor.current_conditions_detail') }}
         {% if is_state('input_boolean.tornado_alarm','on') %}
           "We are under a tornado warning. If you are not already in shelter, you should be. Get on it! "
         {% elif is_state('input_boolean.tornado_watch','on') %}
@@ -66,6 +65,7 @@
             "Be advised, it is very difficult to see outside right now. Drive safely. "
           ] | random }}
         {% endif %}
+        {{ states('sensor.current_conditions_detail') }}
       </p>
 
       <p>
