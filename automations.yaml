@@ -15,6 +15,14 @@
     data: {}
     target:
       entity_id: input_boolean.tornado_alarm
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id:
+      - input_boolean.white_noise_kallen_bedroom
+      - input_boolean.white_noise_basement
+      - input_boolean.white_noise_emma_bedroom
+    alias: Turn off white noise
   - service: script.max_brightness
     data: {}
   - service: script.text_notify
@@ -35,7 +43,7 @@
     alias: TV Alert
   - service: script.speech_engine
     data:
-      who: Everywhere
+      who: everywhere
       message: A tornado warning has been issued, please take cover immediately! A
         tornado warning has been issued, please take cover immediately! A tornado
         warning has been issued, please take cover immediately!
@@ -59,14 +67,6 @@
       minutes: 1
       seconds: 0
       milliseconds: 0
-  - service: input_boolean.turn_off
-    data: {}
-    target:
-      entity_id:
-      - input_boolean.white_noise_kallen_bedroom
-      - input_boolean.white_noise_basement
-      - input_boolean.white_noise_emma_bedroom
-    alias: Turn off white noise
   mode: single
 - id: '1640916845901'
   alias: Cast to Chromecast
