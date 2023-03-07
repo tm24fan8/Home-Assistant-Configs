@@ -53,6 +53,15 @@
         It is currently {{states.weather.iron_nerd_weather_station.state}} and {{states.sensor.pirateweather_temperature.state|round}} degrees in Defiance. 
     </p>
     <p>
+      {% if is_state('input_boolean.tornado_alarm','on') %}
+        "We are under a tornado warning. If you are not already in shelter, you should be. Get on it! "
+      {% elif is_state('input_boolean.tornado_watch','on') %}
+        {{ [
+          "There is currently a tornado watch active. Please keep an eye on the sky and your local weather reports. ",
+          "We are currently under a tornado watch. This means the possibility exists for a tornado to form. Be prepared, and be safe! ",
+          "The National Weather Service has issued a tornado watch for our area. Be prepared to take shelter if a warning is issued! ",
+        ] | random }}
+      {% endif %}
       {% if is_state('input_boolean.lightning_warning','on') %}
         {% set ltgdist = (states('sensor.blitzortung_lightning_distance') | int) / 1.609 | round %}
         {{ [

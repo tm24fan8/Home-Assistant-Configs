@@ -841,3 +841,41 @@
       alias: TTS Announcement
     alias: If stopping show
   mode: restart
+- id: '1678225060371'
+  alias: Tornado Watch Handling
+  description: Controls the input boolean for tornado watches, for use in briefings
+    or automations
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.weatheralerts_active_alerts
+    attribute: tornado_watch_count
+    above: 0
+    id: watch_issued
+    alias: Watch Issued
+  - platform: numeric_state
+    entity_id: sensor.weatheralerts_active_alerts
+    attribute: tornado_watch_count
+    below: 1
+    id: watch_cleared
+    alias: Watch Cleared
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: watch_issued
+      sequence:
+      - service: input_boolean.turn_on
+        data: {}
+        target:
+          entity_id: input_boolean.tornado_watch
+    - conditions:
+      - condition: trigger
+        id: watch_cleared
+      sequence:
+      - service: input_boolean.turn_off
+        data: {}
+        target:
+          entity_id: input_boolean.tornado_watch
+    alias: Control input boolean
+  mode: restart
