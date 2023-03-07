@@ -458,6 +458,9 @@
   - condition: state
     entity_id: input_boolean.vacation_mode
     state: 'off'
+  - condition: state
+    entity_id: input_boolean.tornado_alarm
+    state: 'on'
   action:
   - service: script.text_notify
     data:
