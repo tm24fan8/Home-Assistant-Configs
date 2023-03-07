@@ -19,6 +19,11 @@ input_datetime:
     has_date: false
     has_time: true
     icon: mdi:bell-alert
+  kallen_fan:
+    name: Kallen Fan
+    has_date: false
+    has_time: true
+    icon: mdi:fan-auto
   master_bedroom_cooling:
     name: Master Bedroom Cooling
     has_date: false
@@ -260,6 +265,18 @@ script:
               Fan
             {% else %}
               White Noise
+            {% endif %}
+      - delay:
+          seconds: 1
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.kallen_fan
+        data:
+          time: >
+            {% if is_state('input_boolean.hot_day','on') %}
+              {{ (state_attr('input_datetime.kallen_bedtime','timestamp') - 3600) | timestamp_custom('%H:%M', false) }}
+            {% else %}
+              {{ state_attr('input_datetime.kallen_bedtime','timestamp') | timestamp_custom('%H:%M', false) }}
             {% endif %}
 
   house_scheduling_morning:
