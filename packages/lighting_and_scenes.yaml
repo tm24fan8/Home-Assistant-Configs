@@ -1185,9 +1185,16 @@ script:
         target:
           entity_id: input_boolean.master_bedroom_sleeping
       - if:
-        - condition: numeric_state
-          entity_id: sensor.pirateweather_cloud_coverage
-          above: 50
+        - condition: template
+          value_template: >
+            {% set weather = states('weather.iron_nerd_weather_station') %}
+            {% if weather in ['cloudy','partlycloudy','rainy','snowy','hail','lightning','lightning-rainy','pouring','snowy-rainy'] %}
+              true
+            {% elif (states('sensor.pirateweather_cloud_coverage') | int) > 50 %}
+              true
+            {% else %}
+              false
+            {% endif %}
         then:
         - if:
           - condition: template
