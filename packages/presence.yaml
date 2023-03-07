@@ -575,14 +575,29 @@ script:
       - service: input_boolean.turn_off
         target:
           entity_id: input_boolean.vacation_mode
+    - service: switch.turn_off
+      target:
+        entity_id: switch.presence_simulation
+    - service: light.turn_off
+      target:
+        area_id:
+        - living_room
+        - dining_room
+        - tina_desk
+        - mud_room
+        - furnace_room
+        - kallen_bedroom
+        - emma_bedroom
+        - master_bedroom
+        - upstairs_hallway
+        - basement_studio
+        - downstairs_bathroom
+        - upstairs_bathroom
     - service: script.turn_on
       target:
         entity_id:
           - script.welcome_home
           - script.volume_reset
-    - service: switch.turn_off
-      target:
-        entity_id: switch.presence_simulation
     - service: script.security_disarm
     - service: switch.turn_off
       target:
@@ -623,17 +638,6 @@ script:
             - input_select.dining_room_lamp_scenes
         data:
           option: Adaptive
-    - service: light.turn_off
-      target:
-        area_id:
-        - furnace_room
-        - kallen_bedroom
-        - emma_bedroom
-        - master_bedroom
-        - upstairs_hallway
-        - basement_studio
-        - downstairs_bathroom
-        - upstairs_bathroom
     mode: single
     icon: mdi:home-account
   family_is_home_night:
