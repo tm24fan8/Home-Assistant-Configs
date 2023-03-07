@@ -411,7 +411,7 @@ script:
               22:30
             {% elif low <= 60 and low >= 50 %}
               23:30
-            {% elif low >= states('input_number.master_bedroom_fan_threshold') | int and high > 50 %}
+            {% elif low >= states('input_number.master_bedroom_fan_threshold') | int and high > 60 %}
               00:00
             {% else %}
               06:00
