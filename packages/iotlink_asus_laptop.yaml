@@ -283,6 +283,11 @@ script:
         data:
           topic: "iotlink/workgroup/asus-laptop/refresh"
           payload: ""
+      - service: button.press
+        target:
+          entity_id:
+          - button.asus_laptop_hassagent_user_refresh
+          - button.asus_laptop_hassagent_satellite_refresh
 
   asus_laptop_notify:
     alias: "Asus Laptop - Notify"

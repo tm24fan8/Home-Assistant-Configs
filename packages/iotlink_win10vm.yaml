@@ -46,3 +46,16 @@ script:
         data:
           topic: "iotlink/workgroup/win10vm/commands/notify"
           payload: '{ "title": "My Notification Title", "message": "This is an example of notification using IOT Link", "launchParams": "toast://open/https://iotlink.gitlab.io" }'
+
+  win10vm_refresh:
+    alias: "WIN10-VM - Refresh"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/win10-vm/refresh"
+          payload: ""
+      - service: button.press
+        target:
+          entity_id:
+          - button.win10_vm_hassagent_user_refresh
+          - button.win10_vm_hassagent_satellite_refresh

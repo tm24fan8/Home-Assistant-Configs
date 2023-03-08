@@ -272,6 +272,11 @@ script:
         data:
           topic: "iotlink/workgroup/kallen-desktop/refresh"
           payload: ""
+      - service: button.press
+        target:
+          entity_id:
+          - button.kallen_desktop_hassagent_user_refresh
+          - button.kallen_desktop_hassagent_satellite_refresh
 
   kallen_desktop_notify:
     alias: "Kallen Desktop - Notify"

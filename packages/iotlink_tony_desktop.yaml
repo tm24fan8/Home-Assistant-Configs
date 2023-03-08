@@ -305,6 +305,11 @@ script:
         data:
           topic: "iotlink/workgroup/tony-asus/refresh"
           payload: ""
+      - service: button.press
+        target:
+          entity_id:
+          - button.tony_asus_hassagent_user_refresh
+          - button.tony_asus_hassagent_satellite_refresh
 
   tony_desktop_notify:
     alias: "Tony Desktop - Notify"

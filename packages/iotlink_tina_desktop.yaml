@@ -283,6 +283,11 @@ script:
         data:
           topic: "iotlink/workgroup/xia-desktop/refresh"
           payload: ""
+      - service: button.press
+        target:
+          entity_id:
+          - button.xia_desktop_hassagent_user_refresh
+          - button.xia_desktop_hassagent_satellite_refresh
 
   tina_desktop_notify:
     alias: "Tina Desktop - Notify"
