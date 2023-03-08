@@ -31,7 +31,7 @@ automation:
         to: 'offline'
         id: offline
       - platform: time
-        at: "07:55:00"
+        at: "06:00:00"
         id: time
     action:
       - choose:
