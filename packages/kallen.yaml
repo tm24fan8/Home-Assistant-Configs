@@ -7,3 +7,193 @@ input_boolean:
   kallen_computer_updates:
     name: Kallen Computer Updates
     icon: mdi:update
+
+automation:
+  - id: 28609544-f768-4ef3-b859-50439e224e01
+    alias: Kallen Bedroom Handling
+    description: "For scheduled operations in Kallen's bedroom"
+    initial_state: true
+    mode: queued
+    max: 3
+    trigger:
+    - platform: time
+      at: input_datetime.kallen_bedtime
+      id: bedtime
+    - platform: time
+      at: input_datetime.kallen_wakeup_time
+      id: wakeup
+    - platform: time
+      at: input_datetime.kallen_fan
+      id: fan
+    conditions:
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'off'
+    - condition: state
+      entity_id: input_boolean.kallen_overnight
+      state: 'off'
+    - condition: state
+      entity_id: binary_sensor.kallen_home
+      state: 'on'
+    action:
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: bedtime
+        sequence:
+        - service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.kallen_sleeping
+      - conditions:
+        - condition: trigger
+          id: wakeup
+        sequence:
+        - service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.kallen_sleeping
+      - conditions:
+        - condition: trigger
+          id: fan
+        sequence:
+        - if:
+          - condition: template
+            value_template: "{{ states('input_datetime.kallen_fan') != states('input_datetime.kallen_bedtime') }}"
+          then:
+          - service: fan.turn_on
+            target:
+              entity_id: fan.kallen_bedroom_fan
+
+  - id: 4ae15672-31ea-4209-9079-3129423885a5
+    alias: "Kallen Sleeping"
+    description: "Handles the response to the Kallen Sleeping toggle"
+    initial_state: true
+    mode: restart
+    trigger:
+    - platform: state
+      entity_id: input_boolean.kallen_sleeping
+      from: 'off'
+      to: 'on'
+      id: sleep-on
+    - platform: state
+      entity_id: input_boolean.kallen_sleeping
+      from: 'on'
+      to: 'off'
+      id: sleep-off
+    action:
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: sleep-on
+        sequence:
+        - service: script.kallen_sleep
+      - conditions:
+        - condition: trigger
+          id: sleep-off
+        sequence:
+        - service: script.kallen_wakeup
+
+script:
+  kallen_sleep:
+    alias: 'Kallen Sleep'
+    icon: mdi:lightbulb-night
+    mode: restart
+    sequence:
+    - service: light.turn_on
+      target:
+        entity_id: light.kallen_bedroom_lights
+    - service: media_player.volume_set
+      target:
+        entity_id: media_player.kallen_bedroom_speaker
+      data:
+        volume_level: "{{ states('input_number.kallen_bedroom_google_speaker_night_volume') }}"
+    - choose:
+      - conditions:
+        - condition: state
+          entity_id: input_select.scheduled_climate_mode_kallen_fan
+          state: 'White Noise'
+        sequence:
+        - service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.white_noise_kallen_bedroom
+        - if:
+          - condition: template
+            value_template: >
+              {% set ct = ((now().hour * 60 + now().minute) * 60 ) %}
+              {{ ct >= state_attr('input_datetime.kallen_bedtime','timestamp') }}
+          then:
+          - service: script.speech_engine
+            data:
+              who: everywhere
+              type: normal
+              voice: Joanna
+              message: >
+                {{ [
+                  "No fan in Collin's room tonight. Too cold outside. Brr. Enjoy your white noise. ",
+                  "It is a little too cold for a fan tonight. I will play white noise for Collin. ",
+                  "Collin will not need any help staying cool tonight. I will play white noise instead. ",
+                  "My sources are telling me that it is not fan weather tonight. White noise it is. "
+                ] | random }} Goodnight!
+      - conditions:
+        - condition: state
+          entity_id: input_select.scheduled_climate_mode_kallen_fan
+          state: 'Fan'
+        sequence:
+        - service: fan.turn_on
+          target:
+            entity_id: fan.kallen_bedroom_fan
+        - if:
+          - condition: template
+            value_template: >
+              {% set ct = ((now().hour * 60 + now().minute) * 60 ) %}
+              {{ ct >= state_attr('input_datetime.kallen_bedtime','timestamp') }}
+          then:
+          - service: script.speech_engine
+            data:
+              who: everywhere
+              type: normal
+              voice: Joanna
+              message: >
+                {{ [
+                  "Collin's fan is now on. Stay cool! ",
+                  "It is rather warm outside, so I am turning on Collin's fan. ",
+                  "To prevent an ocean of sweat from drowning us all, I have enabled Collin's fan. ",
+                  "My sensors indicate that for optimal comfort, a cooling device is needed for Collin tonight. ",
+                  "I am a fan of Collin. So I have turned on a fan for Collin. "
+                ] | random }} Goodnight!
+      default:
+      - if:
+        - condition: template
+          value_template: >
+            {% set ct = ((now().hour * 60 + now().minute) * 60 ) %}
+            {{ ct >= state_attr('input_datetime.kallen_bedtime','timestamp') }}
+        then:
+        - service: script.speech_engine
+          data:
+            who: everywhere
+            type: normal
+            voice: Joanna
+            message: >
+              {{ [
+                "Lights are now on in Collin's bedroom. ",
+                "Collin, your bedroom lights are now on. "
+              ] | random }} Goodnight!
+
+  kallen_wakeup:
+    alias: 'Kallen Wakeup'
+    icon: mdi:weather-sunset-up
+    mode: restart
+    sequence:
+    - service: fan.turn_off
+      target:
+        entity_id: fan.kallen_bedroom_fan
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.white_noise_kallen_bedroom
+    - if:
+      - condition: state
+        entity_id: input_boolean.kallen_school_today
+        state: 'on'
+      then:
+      - service: light.turn_on
+        target:
+          entity_id: light.kallen_bedroom_lights
