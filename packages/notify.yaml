@@ -1016,7 +1016,7 @@ script:
         name: 'Who'
         description: 'This determines which speaker, or group of speakers, the message is sent to'
         required: true
-        example: 'living_room, basement, basement_google, common_areas, master_bedroom, kallen_bedroom, emma_bedroom, kids_bedrooms, all_bedrooms, everywhere'
+        example: 'living_room, basement, basement_google, common_areas, master_bedroom, kallen_bedroom, emma_bedroom, kids_bedrooms, all_bedrooms, alexa_everywhere, everywhere'
         selector:
           select:
             options:
@@ -1029,6 +1029,7 @@ script:
               - emma_bedroom
               - kids_bedrooms
               - all_bedrooms
+              - alexa_everywhere
               - everywhere
       message:
         name: 'Message'
@@ -1146,6 +1147,8 @@ script:
             {% endif %}
           {% elif who in ['Common Areas','common','common_areas'] %}
             script.alexa_voice
+          {% elif who in ['alexa_everywhere','Alexa Everywhere'] %}
+            script.alexa_voice
           {% elif who in ['Everywhere','everywhere'] %}
             script.alexa_voice
           {% else %}
@@ -1190,6 +1193,16 @@ script:
                 living_room
               {% else %}
                 common
+              {% endif %}
+            {% elif who in ['alexa_everywhere','Alexa Everywhere'] %}
+              {% if is_state('input_boolean.master_bedroom_sleeping','on') and is_state('input_boolean.studio_quiet','on') %}
+                living_room
+              {% elif is_state('input_boolean.master_bedroom_sleeping','on') %}
+                common
+              {% elif is_state('input_boolean.studio_quiet','on') %}
+                alexa_no_basement
+              {% else %}
+                alexa_everywhere
               {% endif %}
             {% elif who in ['Everywhere','everywhere'] %}
               {% if is_state('input_boolean.studio_quiet','on') %}
@@ -1331,7 +1344,7 @@ script:
             media_player.basement_echo_dot
           {% elif who in ['common','common_areas'] %}
             group.common_areas
-          {% elif who in ['Everywhere','everywhere'] %}
+          {% elif who in ['Everywhere','everywhere','alexa_everywhere','Alexa Everywhere'] %}
             group.alexa_everywhere
           {% elif who in ['alexa_no_basement'] %}
             group.alexa_no_basement

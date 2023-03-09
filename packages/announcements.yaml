@@ -274,7 +274,7 @@ script:
     sequence:
     - service: script.speech_engine
       data:
-        who: common
+        who: "{{ who if who is defined else 'common' }}"
         message: !include ../templates/speech/daily_briefing.yaml
     - service: input_boolean.turn_on
       target:
@@ -285,7 +285,7 @@ script:
     sequence:
       - service: script.speech_engine
         data:
-          who: common
+          who: "{{ who if who is defined else 'common' }}"
           message: !include ../templates/speech/nightly_briefing.yaml
       - service: input_boolean.turn_on
         target:
@@ -296,7 +296,7 @@ script:
     sequence:
     - service: script.speech_engine
       data:
-        who: common
+        who: "{{ who if who is defined else 'common' }}"
         message: !include ../templates/speech/morning_briefing.yaml
     - service: input_boolean.turn_on
       target:
@@ -307,7 +307,7 @@ script:
     sequence:
     - service: script.status_annc
       data:
-        who: 'everywhere'
+        who: "{{ who if who is defined else 'everywhere' }}"
         call_dinner_is_ready: 1
 
   we_are_leaving:
@@ -315,7 +315,7 @@ script:
     sequence:
     - service: script.status_annc
       data:
-        who: 'everywhere'
+        who: "{{ who if who is defined else 'everywhere' }}"
         call_we_are_leaving: 1
 
   welcome_home:
@@ -402,7 +402,7 @@ script:
       - alias: "Read the announcement"
         service: script.speech_engine
         data:
-          who: everywhere
+          who: "{{ who if who is defined else 'everywhere' }}"
           message: !include ../templates/speech/birthdays.yaml
       - alias: "Give time for the announcement to complete"
         delay:
