@@ -1565,8 +1565,7 @@ automation:
               type: alert
               who: all
               message: clear_notification
-              data:
-                tag: rain-window-warning
+              tag: rain-window-warning
           - service: script.speech_engine
             data:
               who: common
@@ -1580,8 +1579,7 @@ automation:
               type: alert
               who: all
               message: clear_notification
-              data:
-                tag: rain-window-warning
+              tag: rain-window-warning
           - service: script.speech_engine
             data:
               who: common
@@ -1667,8 +1665,7 @@ script:
           type: alert
           who: all
           message: clear_notification
-          data:
-            tag: lightning-warning
+          tag: lightning-warning
       - service: script.status_annc
         data:
           who: 'common'

@@ -323,8 +323,7 @@ automation:
             type: alert
             who: all
             message: clear_notification
-            data:
-              tag: lockdown-issue
+            tag: lockdown-issue
         - service: persistent_notification.dismiss
           data:
             notification_id: lockdown_issue

@@ -467,8 +467,7 @@
       type: alert
       who: all
       message: clear_notification
-      data:
-        tag: tornado-warning
+      tag: tornado-warning
     alias: Clear critical notification
   - service: input_boolean.turn_off
     data: {}

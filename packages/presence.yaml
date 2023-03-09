@@ -493,8 +493,7 @@ script:
         type: alert
         who: all
         message: "clear_notification"
-        data:
-          tag: skip-away
+        tag: skip-away
     - if:
       - condition: template
         value_template: "{{ is_state('input_boolean.away_mode_skipped','on') or is_state('group.adults','home') }}"
