@@ -609,13 +609,8 @@
   - choose:
     - conditions:
       - condition: trigger
-        id: emma
+        id: emma-on
       sequence:
-      - delay:
-          hours: 0
-          minutes: 0
-          seconds: 5
-          milliseconds: 0
       - service: media_player.volume_set
         data:
           volume_level: '{{ states(''input_number.emma_bedroom_google_speaker_night_volume'')
@@ -624,13 +619,8 @@
           entity_id: media_player.emma_bedroom_speaker
     - conditions:
       - condition: trigger
-        id: basement
+        id: basement-on
       sequence:
-      - delay:
-          hours: 0
-          minutes: 0
-          seconds: 5
-          milliseconds: 0
       - service: media_player.volume_set
         data:
           volume_level: '{{ states(''input_number.basement_google_speaker_night_volume'')
@@ -639,13 +629,8 @@
           entity_id: media_player.basement_google_speaker
     - conditions:
       - condition: trigger
-        id: kallen
+        id: kallen-on
       sequence:
-      - delay:
-          hours: 0
-          minutes: 0
-          seconds: 5
-          milliseconds: 0
       - service: media_player.volume_set
         data:
           volume_level: '{{ states(''input_number.kallen_bedroom_google_speaker_night_volume'')
