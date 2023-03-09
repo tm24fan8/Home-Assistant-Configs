@@ -4,7 +4,7 @@
     <p>
       "Welcome home, "
         {% if is_state('person.tony_stork','home') and is_state('person.christina_stork','home') %}
-          "Stork family."
+          "Stork family. "
         {% elif is_state('person.tony_stork','home') %}
           "Tony. "
         {% elif is_state('person.christina_stork','home') %}
@@ -13,12 +13,13 @@
           "Whoever you are, Tony must have broken me again. "
         {% endif %}
         {% if now().strftime('%H')|int < 12 %}
-          "I hope you're having a great morning!"
+          "I hope you're having a great morning! "
         {% elif now().strftime('%H')|int >= 12 and now().strftime('%H')|int < 17 %}
-          "I hope your afternoon has been a good one!"
+          "I hope your afternoon has been a good one! "
         {% else %}
-          "and good evening. I hope you had a good day!"
+          "and good evening. I hope you had a good day! "
         {% endif %}
+      "It is currently {{ now().strftime("%I:%M %p") }}."
     </p>
 
     <p>

@@ -22,22 +22,14 @@
 
     </p>
     <p>
-      {% if now().strftime('%H')|int < 12 %}
-        {% if now().strftime('%M')|int == 0 %}
-          It is {{ now().strftime('%H')|int }} AM.
-        {% else %}
-          It is {{ now().strftime('%H')|int }} {{ now().strftime('%M')|int }} AM.
-        {% endif %}
-
-      {% elif now().strftime('%H')|int > 12 %}
-        {% if now().strftime('%M')|int == 0 %}
-          It is {{ now().strftime('%H')|int }} PM.
-        {% else %}
-          It is {{ now().strftime('%H')|int }} {{ now().strftime('%M')|int }} PM.
-        {% endif %}
-      
+      {% if is_state('binary_sensor.morning','on') %}
+        <p>
+          Today is {{ states.sensor.today_is.state }}, {{ as_timestamp(now()) | timestamp_custom('%B %d %Y') }}.
+        </p>
       {% else %}
-
+        <p>
+          It is {{ now().strftime("%I:%M %p") }}.
+        </p>
       {% endif %}
     </p>
     <p>

@@ -4,7 +4,11 @@
     <p>
       Good morning, Collin.
 
-      <s>It is {{ now().strftime("%I:%M %p") }}</s> 
+      {% if is_state('binary_sensor.morning','on') %}
+        <s>Today is {{ states.sensor.today_is.state }}, {{ as_timestamp(now()) | timestamp_custom('%B %d %Y') }}.</s>
+      {% else %}
+        <s>It is {{ now().strftime("%I:%M %p") }}.</s>
+      {% endif %}
 
       {% if is_state('sensor.anniversary_kallen_s_birthday', '0') %}
         Even birthday boys have to get dressed. So get to it. 
