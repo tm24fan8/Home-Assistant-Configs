@@ -394,12 +394,13 @@
     </p>
 
     <p>
-      {{ [
-        "Tonight in master bedroom climate news, ",
-        "In the master bedroom, we have the following schedule to share. ",
-        "Bedroom climate scheduling will be as follows. ",
-      ] | random }}
-        {% if is_state('input_boolean.master_bedroom_aircon_installed','on') %}
+      {% if states('input_select.scheduled_climate_mode_master_bedroom_aircon') != 'N/A' or states('input_select.scheduled_climate_mode_master_bedroom_fan') != 'N/A' %}
+        {{ [
+          "Tonight in master bedroom climate news, ",
+          "In the master bedroom, we have the following schedule to share. ",
+          "Bedroom climate scheduling will be as follows. ",
+        ] | random }}
+        {% if states('input_select.scheduled_climate_mode_master_bedroom_aircon') != 'N/A' %}
           {% if is_state('climate.master_bedroom_aircon','fan_only') %}
             "The master bedroom air conditioner is already running in fan only mode. "
           {% elif states('climate.master_bedroom_aircon') not in ['off','unknown','unavailable'] %}
@@ -410,20 +411,20 @@
             "The master bedroom air conditioner will activate cooling mode at {{ (state_attr('input_datetime.master_bedroom_cooling','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
           {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','Fan') %}
             "The master bedroom air conditioner will activate fan only mode at {{ (state_attr('input_datetime.master_bedroom_cooling','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
-          {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','N/A') %}
-            "The master bedroom air conditioner will remain inactive tonight. "
           {% endif %}
         {% endif %}
-        {% if is_state('fan.master_bedroom_fan','on') %}
-          "The master bedroom fan is already running. "
-        {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_fan','Fan') %}
-          "The master bedroom fan will activate at {{ (state_attr('input_datetime.master_bedroom_fan','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
-        {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_fan','N/A') %}
-          "The master bedroom fan will remain inactive tonight. "
+        {% if states('input_select.scheduled_climate_mode_master_bedroom_fan') != 'N/A' %}
+          {% if is_state('fan.master_bedroom_fan','on') %}
+            "The master bedroom fan is already running. "
+          {% else %}
+            "The master bedroom fan will activate at {{ (state_attr('input_datetime.master_bedroom_fan','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+          {% endif %}
         {% endif %}
-        {% if is_state('input_boolean.kallen_overnight','off') %}
+      {% endif %}
+      {% if is_state('input_boolean.kallen_overnight','off') %}
+        {% if states('input_select.scheduled_climate_mode_kallen_fan') != 'N/A' %}
           {{ [
-            "Meanwhile, in Collin's room, ",
+            "In Collin's room, ",
             "For Collin's climate schedule, we have the following. "
           ] | random }}
           {% if is_state('fan.kallen_bedroom_fan','on') %}
@@ -434,14 +435,13 @@
             "Collin's fan will activate at {{ (state_attr('input_datetime.kallen_bedtime','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
           {% elif is_state('input_select.scheduled_climate_mode_kallen_fan','White Noise') %}
             "Collin's white noise generator will activate at {{ (state_attr('input_datetime.kallen_bedtime','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
-          {% elif is_state('input_select.scheduled_climate_mode_kallen_fan','N/A') %}
-            "Collin's room will have no devices activated tonight. "
           {% endif %}
-        {% else %}
-          "Collin's room will be left alone, as he is spending the night elsewhere tonight. "
         {% endif %}
+      {% else %}
+        "Collin's room will be left alone, as he is spending the night elsewhere tonight. "
+      {% endif %}
+      {% if states('input_select.scheduled_climate_mode_emma_aircon') != 'N/A' %}
         {{ [
-          "Finally, in Emma's bedroom, ",
           "In Emma's bedroom, ",
           "For Emma's climate scheduling, "
         ] | random }}
@@ -453,9 +453,8 @@
           "Emma's air conditioner will be activated at {{ (state_attr('input_datetime.emma_bedtime','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
         {% elif is_state('input_select.scheduled_climate_mode_emma_aircon','White Noise') %}
           "Emma's white noise generator will activate at {{ (state_attr('input_datetime.emma_bedtime','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
-        {% elif is_state('input_select.scheduled_climate_mode_emma_aircon','N/A') %}
-          "Emma's room will have no devices activated tonight. "
         {% endif %}
+      {% endif %}
     </p>
 
     <p>
