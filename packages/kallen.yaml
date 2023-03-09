@@ -25,7 +25,7 @@ automation:
     - platform: time
       at: input_datetime.kallen_fan
       id: fan
-    conditions:
+    condition:
     - condition: state
       entity_id: input_boolean.vacation_mode
       state: 'off'
