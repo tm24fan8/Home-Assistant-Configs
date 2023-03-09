@@ -55,7 +55,7 @@
             'Today, you get to attend your favorite place. Just kidding. It is a school day. ',
           ] | random }}
         {% endif %}
-        {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
+        {% if is_state('input_boolean.two_hour_delay','on') %}
           {{ [
             'School will be starting two hours late today, as you are likely already aware. ',
             'Your school superintendant has decided to sleep in this morning. He also decided to let you do the same. What a guy! ',
@@ -99,7 +99,7 @@
         ] | random }} {{ states('sensor.kallen_lunch_menu_items') }}.
       {% endif %}
       {% if is_state('input_boolean.kallen_school_today', 'off') %}
-        {% if is_state('input_boolean.kallen_school_cancelled','on') %}
+        {% if is_state('input_boolean.school_cancelled','on') %}
           {{ [
             "It turns out you will not be attending school today after all. ",
             "The school has decided not to open today. ",

@@ -167,7 +167,7 @@ script:
         entity_id: input_datetime.kallen_school_day_start
         data:
           time: >
-            {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
+            {% if is_state('input_boolean.two_hour_delay','on') %}
               11:00
             {% else %}
               {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
@@ -179,7 +179,7 @@ script:
         data:
           time: >
             {% if is_state('input_boolean.kallen_school_today', 'on') %}
-              {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
+              {% if is_state('input_boolean.two_hour_delay','on') %}
                 09:30
               {% else %}
                 {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 5400) | timestamp_custom('%H:%M', false) }}
@@ -193,7 +193,7 @@ script:
         data:
           option: >
             {% if is_state('input_boolean.kallen_school_today','on') %}
-              {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
+              {% if is_state('input_boolean.two_hour_delay','on') %}
                 Common Areas
               {% else %}
                 Kallen Bedroom
@@ -206,7 +206,7 @@ script:
         data:
           time: >
             {% if is_state('input_boolean.kallen_school_today', 'on') %}
-              {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
+              {% if is_state('input_boolean.two_hour_delay','on') %}
                 09:40
               {% else %}
                 {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 4800) | timestamp_custom('%H:%M', false) }}
@@ -218,7 +218,7 @@ script:
         entity_id: input_datetime.kallen_school_day_start_reminder
         data:
           time: >
-            {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
+            {% if is_state('input_boolean.two_hour_delay','on') %}
               10:00
             {% else %}
               {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 3600) | timestamp_custom('%H:%M', false) }}
@@ -296,7 +296,7 @@ script:
         data:
           time: >
             {% if is_state('input_boolean.kallen_school_today','on') %}
-              {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
+              {% if is_state('input_boolean.two_hour_delay','on') %}
                 10:20
               {% else %}
                 {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 2400) | timestamp_custom('%H:%M', false) }}

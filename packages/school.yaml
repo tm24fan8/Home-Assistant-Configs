@@ -14,10 +14,10 @@ input_boolean:
   kallen_school_today_extended:
     name: Kallen School Today Extended
     icon: mdi:bus-school
-  kallen_two_hour_delay:
+  two_hour_delay:
     name: Kallen Two Hour Delay
     icon: mdi:bus-clock
-  kallen_school_cancelled:
+  school_cancelled:
     name: Kallen School Cancelled
     icon: mdi:calendar-remove
   kallen_band_practice:
@@ -316,7 +316,7 @@ automation:
     initial_state: true
     trigger:
       - platform: state
-        entity_id: input_boolean.kallen_two_hour_delay
+        entity_id: input_boolean.two_hour_delay
         from: 'off'
         to: 'on'
     action:
@@ -348,14 +348,14 @@ automation:
     initial_state: true
     trigger:
       - platform: state
-        entity_id: input_boolean.kallen_school_cancelled
+        entity_id: input_boolean.school_cancelled
         from: 'off'
         to: 'on'
     action:
       - service: input_boolean.turn_off
         target:
           entity_id:
-          - input_boolean.kallen_two_hour_delay
+          - input_boolean.two_hour_delay
           - input_boolean.kallen_school_today
           - input_boolean.kallen_school_early_release
           - input_boolean.kallen_school_today_extended
@@ -432,8 +432,8 @@ script:
       - service: input_boolean.turn_off
         entity_id: 
           - input_boolean.kallen_school_today
-          - input_boolean.kallen_two_hour_delay
-          - input_boolean.kallen_school_cancelled
+          - input_boolean.two_hour_delay
+          - input_boolean.school_cancelled
 
   kallen_school_reset_late:
     alias: 'Kallen School Reset Late'

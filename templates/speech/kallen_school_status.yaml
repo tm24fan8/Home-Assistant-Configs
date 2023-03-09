@@ -5,12 +5,12 @@
       "Hello Collin, "
 
       {% if is_state('input_boolean.kallen_school_today','on') %}
-        {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
+        {% if is_state('input_boolean.two_hour_delay','on') %}
           "You have school today, but there is currently a two hour delay. "
         {% else %}
           "You have school today, and it is running on time. "
         {% endif %}
-      {% elif is_state('input_boolean.kallen_school_cancelled','on') %}
+      {% elif is_state('input_boolean.school_cancelled','on') %}
         "School has been cancelled for today! Enjoy the unexpected day off! "
       {% else %}
         "You do not have school today. Enjoy your day off! "

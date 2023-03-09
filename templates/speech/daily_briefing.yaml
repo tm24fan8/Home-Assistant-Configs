@@ -322,7 +322,7 @@
                   'Collin has school today.',
                   'It is a school day. '
                 ] | random }}
-                {% if is_state('input_boolean.kallen_two_hour_delay','on') %}
+                {% if is_state('input_boolean.two_hour_delay','on') %}
                   'But there was a two hour delay. '
                 {% endif %}
               {% endif %}
@@ -331,7 +331,7 @@
                 And It is early release!
               {% endif %}
             {% endif %}
-            {% if is_state('input_boolean.kallen_school_cancelled','on') %}
+            {% if is_state('input_boolean.school_cancelled','on') %}
               'School has been cancelled for today. '
             {% endif %}
             {% if states.sensor.thanksgiving_break_days2go.state | int <= 14 and states.sensor.thanksgiving_break_days2go.state | int > 0 %}
