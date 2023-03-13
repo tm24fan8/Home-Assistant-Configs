@@ -57,6 +57,15 @@ sensor:
           {% endif %}
         unit_of_measurement: "ms"
 
+mqtt:
+  sensor:
+    - name: "Uptime Kuma Status"
+      unique_id: 6f8256c6-d1b3-4f32-9ea1-8131cc2cc114
+      state_topic: "glances/basement-server/docker/uptime-kuma/status"
+      icon: mdi:monitor-dashboard
+      value_template: "{{ value }}"
+      qos: 1
+
 template:
   - binary_sensor:
     - name: Tony Desktop On
