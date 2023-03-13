@@ -12,6 +12,19 @@ input_select:
       - notset
     initial: error
     icon: mdi:bug
+  default_log_level:
+    name: Default Log Level
+    options:
+      - critical
+      - fatal
+      - error
+      - warning
+      - warn
+      - info
+      - debug
+      - notset
+    initial: error
+    icon: mdi:bug
 
 sensor:
   - platform: command_line
@@ -129,3 +142,13 @@ automation:
     - service: logger.set_level
       data:
         homeassistant.components: "{{ states('input_select.log_level') }}"
+
+  - id: e901db33-a6ab-4ee4-b13a-7b37991e0d85
+    alias: Default Log Level
+    trigger:
+    - platform: state
+      entity_id: input_select.default_log_level
+    action:
+    - service: logger.set_default_level
+      data:
+        level: "{{ states('input_select.default_log_level') }}"
