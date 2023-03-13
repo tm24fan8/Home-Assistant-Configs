@@ -389,6 +389,8 @@
       data: {}
     - service: script.kallen_desktop_refresh
       data: {}
+    - service: script.win10vm_refresh
+      data: {}
     - service: mqtt.publish
       data:
         topic: house/basement/server/glances
