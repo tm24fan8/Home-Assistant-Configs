@@ -318,6 +318,15 @@ script:
         who: "{{ who if who is defined else 'everywhere' }}"
         call_we_are_leaving: 1
 
+  server_maintenance_annc:
+    alias: Server Maintenance Announcement
+    sequence:
+    - service: script.status_annc
+      data:
+        who: "{{ who if who is defined else 'everywhere' }}"
+        call_interruption: 1
+        call_server_maintenance: 1
+
   welcome_home:
     alias: 'Welcome Home'
     sequence:

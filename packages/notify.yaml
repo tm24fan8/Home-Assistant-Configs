@@ -1873,6 +1873,15 @@ script:
               </p>
             {% endmacro %}
 
+            {% macro server_maintenance() %}
+              {{ [
+                'The server will be going down for maintenance shortly. Prepare to activate caveman mode!',
+                'We regret to inform you that Home Assistant will be unavailable for a short time. I will advise when it is back.',
+                'The server in which I live, in your basement, will be going down shortly. I will let you know when I am alive again.',
+                'The developer has decided that now is the time to perform surgery on my internals. Server going down. Godspeed, humans.'
+              ] | random }}
+            {% endmacro %}
+
 
             {# a macro that removes all newline characters, empty spaces, and returns formatted text. Also replaces all Underscores with Spaces  #}
             {%- macro cleanup(data) -%}
@@ -1976,6 +1985,10 @@ script:
 
               {% if call_kallen_dressed_reminder == 1 %}
                 {{ kallen_dressed_reminder() }}
+              {% endif %}
+
+              {% if call_server_maintenance == 1 %}
+                {{ server_maintenance() }}
               {% endif %}
               
             {%- endmacro -%}
