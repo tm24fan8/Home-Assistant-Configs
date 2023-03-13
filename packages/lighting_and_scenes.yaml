@@ -32,6 +32,9 @@ input_boolean:
   christmas_day_show:
     name: Christmas Day Show
     icon: mdi:pine-tree
+  recliner_mode:
+    name: Recliner Mode
+    icon: mdi:seat-recline-extra
 
 input_number:
   upstairs_bathroom_motion_off_delay:
@@ -624,6 +627,90 @@ automation:
           target:
             entity_id: light.basement_studio_lights
 
+  - id: 7c3ca098-d0bb-49bf-a323-fc471dcf81d2
+    alias: Recliner Mode
+    description: For naptime in the basement
+    mode: restart
+    trigger:
+      - platform: state
+        entity_id: input_boolean.recliner_mode
+        from: 'off'
+        to: 'on'
+        id: recliner-on
+      - platform: state
+        entity_id: input_boolean.recliner_mode
+        from: 'on'
+        to: 'off'
+        id: recliner-off
+    action:
+      - choose:
+        - conditions:
+          - condition: trigger
+            id: recliner-on
+          sequence:
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.basement_studio_scenes
+            data:
+              option: Stairwell
+          - service: input_boolean.turn_on
+            target:
+              entity_id:
+                - input_boolean.white_noise_basement
+                - input_boolean.studio_quiet
+          - service: script.turn_on
+            target:
+              entity_id: script.asus_laptop_displays_off
+          - if:
+            - condition: template
+              value_template: >
+                {% if is_state('media_player.basement_tv','playing') %}
+                  false
+                {% elif is_state('media_player.basement_tv','paused') or is_state('media_player.basement_tv','idle') %}
+                  {% if state_attr('media_player.basement_tv','app_name') in ['TV','Android TV Launcher'] %}
+                    true
+                  {% else %}
+                    false
+                  {% endif %}
+                {% else %}
+                  false
+                {% endif %}
+            then:
+            - service: media_player.turn_off
+              target:
+                entity_id: media_player.basement_tv
+          - if:
+            - condition: not
+              conditions:
+              - condition: state
+                entity_id: media_player.tony_asus
+                state: 'playing'
+            then:
+            - service: script.turn_on
+              target:
+                entity_id: script.tony_desktop_displays_off
+        - conditions:
+          - condition: trigger
+            id: recliner-off
+          sequence:
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.basement_studio_scenes
+            data:
+              option: Adaptive
+          - service: input_boolean.turn_off
+            target:
+              entity_id:
+                - input_boolean.white_noise_basement
+                - input_boolean.studio_quiet
+          - service: script.turn_on
+            target:
+              entity_id:
+                - script.tony_desktop_displays_on
+                - script.asus_laptop_displays_on
+          - service: media_player.turn_on
+            target:
+              entity_id: media_player.basement_tv
 
 script:
   adaptive_on_first_floor:
