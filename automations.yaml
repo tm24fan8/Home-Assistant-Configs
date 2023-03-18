@@ -865,3 +865,48 @@
           entity_id: input_boolean.tornado_watch
     alias: Control input boolean
   mode: restart
+- id: '1679104710155'
+  alias: Living Room Switch Handler
+  description: ''
+  use_blueprint:
+    path: codycodes/hue-remote-dimmer-december-2021.yaml
+    input:
+      dimmer_device: ccc672e3d924e72a952d801736ea59d3
+      on_short_action: []
+      on_long_action:
+      - service: input_select.select_option
+        data:
+          option: Adaptive
+        target:
+          entity_id: input_select.living_room_scenes
+      brightness_up_short_action:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.adaptive_lighting_living_room
+      brightness_down_short_action:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.adaptive_lighting_living_room
+      off_short_action:
+      - service: input_boolean.turn_on
+        data: {}
+        target:
+          entity_id: input_boolean.living_room_dynamic_scenes
+      - service: input_select.select_option
+        data:
+          option: Tokyo
+        target:
+          entity_id: input_select.living_room_scenes
+      brightness_up_long_action:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.adaptive_lighting_living_room
+      brightness_down_long_action:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.adaptive_lighting_living_room
+      off_long_action: []
