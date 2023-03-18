@@ -1114,20 +1114,47 @@ script:
                 entity_id: input_boolean.guest_mode
                 state: 'off'
               sequence:
-              - service: light.turn_off
-                target:
-                  area_id:
-                  - living_room
-                  - downstairs_bathroom
+              - if:
+                - condition: template
+                  value_template: "{{ give_me_darkness == 1 }}"
+                then:
+                - if:
+                  - condition: state
+                    entity_id: timer.downstairs_bathroom_lights_timer
+                    state: idle
+                  then:
+                  - service: light.turn_off
+                    target:
+                      entity_id:
+                      - light.downstairs_bathroom_lights
+                else:
+                - service: light.turn_off
+                  target:
+                    entity_id:
+                    - light.living_room_lights
+                - if:
+                  - condition: state
+                    entity_id: timer.downstairs_bathroom_lights_timer
+                    state: idle
+                  then:
+                  - service: light.turn_off
+                    target:
+                      entity_id:
+                      - light.downstairs_bathroom_lights
             - conditions:
               - condition: state
                 entity_id: input_boolean.guest_mode
                 state: 'on'
               sequence:
-              - service: light.turn_off
-                target:
-                  area_id:
-                  - downstairs_bathroom
+              - if:
+                - condition: state
+                  entity_id: timer.downstairs_bathroom_lights_timer
+                  state: idle
+                then:
+                - service: light.turn_off
+                  target:
+                    entity_id:
+                    - light.downstairs_bathroom_lights
         - conditions:
           - condition: state
             entity_id: input_boolean.give_me_darkness
@@ -1137,7 +1164,14 @@ script:
             target:
               entity_id:
                 - light.dining_room_lamp
-                - light.downstairs_bathroom_lights
+          - if:
+            - condition: state
+              entity_id: timer.downstairs_bathroom_lights_timer
+              state: idle
+            then:
+            - service: light.turn_off
+              target:
+                entity_id: light.downstairs_bathroom_lights
           - service: input_boolean.turn_off
             target:
               entity_id: input_boolean.tina_desk_lights

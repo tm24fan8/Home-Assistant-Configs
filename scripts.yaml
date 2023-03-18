@@ -53,7 +53,8 @@ give_me_darkness:
   - service: script.volume_reset
     data: {}
   - service: script.evening_on_first_floor
-    data: {}
+    data:
+      give_me_darkness: 1
   - service: script.evening_on_second_floor
     data: {}
   - service: mqtt.publish
