@@ -265,6 +265,20 @@ template:
           false
         {% endif %}
       device_class: presence
+    - name: "Basement Unoccupied"
+      unique_id: 20039c29-8b9d-436d-ba6c-8f2c2bda1db0
+      state: >
+        {% if is_state('binary_sensor.tony_desktop_on','off') and is_state('binary_sensor.kallen_desktop_on','off') %}
+          true
+        {% elif is_state('binary_sensor.tony_desktop_idle','on') and is_state('binary_sensor.kallen_desktop_idle','on') %}
+          true
+        {% elif is_state('binary_sensor.tony_desktop_idle','on') and is_state('binary_sensor.kallen_desktop_on','off') %}
+          true
+        {% elif is_state('binary_sensor.kallen_desktop_idle','on') and is_state('binary_sensor.tony_desktop_on','off') %}
+          true
+        {% else %}
+          false
+        {% endif %}
 
 mqtt:
   sensor:

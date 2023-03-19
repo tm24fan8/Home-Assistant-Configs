@@ -546,8 +546,8 @@ automation:
           # The delay is to prevent the boolean from re-running the automation if the lights were turned on manually
 
   - id: 47645bcf-a6ed-4c34-8ece-8daed4b10d9a
-    alias: Basement Door Handling
-    description: Turns on lights in basement when door is opened, if not already on
+    alias: Basement Lights Handling
+    description: Handles the presence-related automation of lights in the basement
     mode: restart
     trigger:
       - platform: state
@@ -566,12 +566,15 @@ automation:
           entity_id: timer.basement_studio_door_timer
         id: timer-finished
       - platform: state
-        entity_id:
-          - binary_sensor.tony_desktop_on
-          - binary_sensor.kallen_desktop_on
+        entity_id: binary_sensor.basement_unoccupied
+        from: 'on'
+        to: 'off'
+        id: basement-occupied
+      - platform: state
+        entity_id: binary_sensor.basement_unoccupied
         from: 'off'
         to: 'on'
-        id: computers-on
+        id: basement-unoccupied
     condition:
       - condition: state
         entity_id: input_boolean.studio_quiet
@@ -598,14 +601,9 @@ automation:
           id: door-closed
         sequence:
         - if:
-          - condition: and
-            conditions:
-            - condition: state
-              entity_id: binary_sensor.tony_desktop_on
-              state: 'off'
-            - condition: state
-              entity_id: binary_sensor.kallen_desktop_on
-              state: 'off'
+          - condition: state
+            entity_id: binary_sensor.basement_unoccupied
+            state: 'on'
           then:
           - service: timer.start
             target:
@@ -614,11 +612,20 @@ automation:
               duration: "{{ (states('input_number.basement_studio_lights_off_delay') | int ) * 60 }}"
       - conditions:
         - condition: trigger
-          id: computers-on
+          id: basement-occupied
         sequence:
         - service: timer.cancel
           target:
             entity_id: timer.basement_studio_door_timer
+      - conditions:
+        - condition: trigger
+          id: basement-unoccupied
+        sequence:
+        - service: timer.start
+          target:
+            entity_id: timer.basement_studio_door_timer
+          data:
+            duration: "{{ (states('input_number.basement_studio_lights_off_delay') | int ) * 60 }}"
       - conditions:
         - condition: trigger
           id: timer-finished
