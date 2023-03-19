@@ -335,6 +335,47 @@ sensor:
         unit_of_measurement: 'K'
         icon_template: mdi:thermometer-lines
 
+template:
+  - binary_sensor:
+    - name: Basement Lights Sync Issue
+      unique_id: 781d7a1e-ade3-44c3-b0f2-a15a5188107e
+      state: >
+        {% set colortemp = states('sensor.basement_studio_lights_colortemp_diff') | float %}
+        {% set brightness = states('sensor.basement_studio_lights_brightness_diff') | float %}
+        {% if is_state('light.basement_studio_lights','on') %}
+          {% if is_state('switch.adaptive_lighting_basement_studio','on') and is_state('switch.adaptive_lighting_sleep_mode_basement_studio','off') %}
+            {% if is_state('switch.adaptive_lighting_adapt_brightness_basement_studio','on') and is_state('switch.adaptive_lighting_adapt_color_basement_studio','on') %}
+              {% if colortemp > 100 or colortemp < -100 %}
+                true
+              {% elif brightness > 5 or brightness < -5 %}
+                true
+              {% else %}
+                false
+              {% endif %}
+            {% elif is_state('switch.adaptive_lighting_adapt_brightness_basement_studio','on') and is_state('switch.adaptive_lighting_adapt_color_basement_studio','off') %}
+              {% if brightness > 5 or brightness < -5 %}
+                true
+              {% else %}
+                false
+              {% endif %}
+            {% elif is_state('switch.adaptive_lighting_adapt_color_basement_studio','on') and is_state('switch.adaptive_lighting_adapt_brightness_basement_studio','off') %}
+              {% if colortemp > 100 or colortemp < -100 %}
+                true
+              {% else %}
+                false
+              {% endif %}
+            {% else %}
+              false
+            {% endif %}
+          {% else %}
+            false
+          {% endif %}
+        {% else %}
+          false
+        {% endif %}
+      device_class: problem
+      delay_on: "00:00:10"
+
 switch:
   - platform: animated_scenes
     name: Christmas
@@ -718,6 +759,28 @@ automation:
           - service: media_player.turn_on
             target:
               entity_id: media_player.basement_tv
+
+  - id: f4195b9a-3416-44b2-bef7-9826a126f0f2
+    alias: Basement Lights Adaptive Resync
+    description: Deals with situations where the basement lights should be adaptive but end up out of sync
+    mode: restart
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.basement_lights_sync_issue
+        from: 'off'
+        to: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.studio_quiet
+        state: 'off'
+      - condition: template
+        value_template: "{{ is_state_attr('light.basement_studio_lights','color_mode','color_temp') }}"
+    action:
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.basement_studio_scenes
+        data:
+          option: Adaptive
 
 script:
   adaptive_on_first_floor:
