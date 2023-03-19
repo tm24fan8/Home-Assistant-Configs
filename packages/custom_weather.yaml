@@ -32,7 +32,6 @@ template:
       attributes:
         current_temp: "{{ states('sensor.pirateweather_temperature') | int }}"
         threshold: "{{ states('input_number.hot_day_threshold') | int }}"
-  - binary_sensor:
     - name: Heat Index Threshold
       state: >
         {% set feelslike = states('sensor.pirateweather_apparent_temperature') | int %}
@@ -46,7 +45,6 @@ template:
       attributes:
         current_temp: "{{ states('sensor.pirateweather_apparent_temperature') | int }}"
         threshold: "{{ states('input_number.heat_index_threshold') | int }}"
-  - binary_sensor:
     - name: Cold Threshold
       state: >
         {% set temp = states('sensor.pirateweather_temperature') | int %}
@@ -60,7 +58,6 @@ template:
       attributes:
         current_temp: "{{ states('sensor.pirateweather_temperature') | int }}"
         threshold: "{{ states('input_number.cold_day_threshold') | int }}"
-  - binary_sensor:
     - name: Overnight Low Threshold
       state: >
         {% set temp = states('sensor.pirateweather_temperature') | int %}
@@ -74,7 +71,6 @@ template:
       attributes:
         current_temp: "{{ states('sensor.pirateweather_temperature') | int }}"
         threshold: "{{ states('input_number.overnight_low_threshold') | int }}"
-  - binary_sensor:
     - name: Wind Chill Threshold
       state: >
         {% set feelslike = states('sensor.pirateweather_apparent_temperature') | int %}
