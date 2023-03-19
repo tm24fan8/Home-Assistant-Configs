@@ -507,6 +507,11 @@ automation:
         from: 'off'
         to: 'on'
         id: lights-on
+      - platform: state
+        entity_id: binary_sensor.tina_desktop_on
+        from: 'off'
+        to: 'on'
+        id: computer-on
     action:
       - if:
         - condition: or
@@ -515,6 +520,8 @@ automation:
             id: toggle-on
           - condition: trigger
             id: reset
+          - condition: trigger
+            id: computer-on
         then:
         - if:
           - condition: state
