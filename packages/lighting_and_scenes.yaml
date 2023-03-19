@@ -1398,8 +1398,6 @@ script:
             {% set weather = states('weather.iron_nerd_weather_station') %}
             {% if weather in ['cloudy','partlycloudy','rainy','snowy','hail','lightning','lightning-rainy','pouring','snowy-rainy'] %}
               true
-            {% elif (states('sensor.pirateweather_cloud_coverage') | int) > 50 %}
-              true
             {% else %}
               false
             {% endif %}
