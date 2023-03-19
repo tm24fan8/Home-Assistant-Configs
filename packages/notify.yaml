@@ -906,12 +906,12 @@ script:
               title: "{{ title }}"
               message: "{{ message }}"
               data:
-                tag: '{{ tag if tag is defined else "{}" }}'
-                actions: '{{ actions if actions is defined else "{}" }}'
-                entity_id: '{{ entity if entity is defined else "{}" }}'
+                tag: '{{ tag|default("{}") }}'
+                actions: '{{ actions|default("{}") }}'
+                entity_id: '{{ entity|default("{}") }}'
                 push:
                   sound:
-                    name: '{{ sound if sound is defined else "default" }}'
+                    name: '{{ sound|default("default") }}'
                     critical: 1
         - conditions:
           - condition: template
@@ -935,12 +935,12 @@ script:
               title: '{{ title }}'
               message: '{{ message }}'
               data:
-                tag: '{{ tag if tag is defined else "{}" }}'
-                actions: '{{ actions if actions is defined else "{}" }}'
-                entity_id: '{{ entity if entity is defined else "{}" }}'
+                tag: '{{ tag|default("{}") }}'
+                actions: '{{ actions|default("{}") }}'
+                entity_id: '{{ entity|default("{}") }}'
                 push:
                   sound:
-                    name: '{{ sound if sound is defined else "default" }}'
+                    name: '{{ sound|default("default") }}'
         default:
         - condition: state
           entity_id: input_boolean.text_notifications
@@ -992,12 +992,12 @@ script:
               title: '{{ title }}'
               message: '{{ message }}'
               data:
-                tag: '{{ tag if tag is defined else "{}" }}'
-                actions: '{{ actions if actions is defined else "{}" }}'
-                entity_id: '{{ entity if entity is defined else "{}" }}'
+                tag: '{{ tag|default("{}") }}'
+                actions: '{{ actions|default("{}") }}'
+                entity_id: '{{ entity|default("{}") }}'
                 push:
                   sound:
-                    name: '{{ sound if sound is defined else "default" }}'
+                    name: '{{ sound|default("default") }}'
 
   tv_notify:
     alias: 'TV Notify'
@@ -1053,7 +1053,7 @@ script:
         data:
           title: '{{ title }}'
           message: '{{ message }}'
-          data: '{{ data if data is defined else "{}" }}'
+          data: '{{ data|default("{}") }}'
 
   text_alert_image:
     alias: 'Text Alert Image'
