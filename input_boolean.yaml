@@ -16,9 +16,6 @@ tornado_watch:
 vacation_mode:
   name: Vacation Mode
   icon: mdi:umbrella-beach
-kallen_overnight:
-  name: Kallen Overnight
-  icon: mdi:weather-night
 night_mode:
   name: Night Mode
   icon: mdi:lightbulb-night

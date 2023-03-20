@@ -7,6 +7,12 @@ input_boolean:
   kallen_computer_updates:
     name: Kallen Computer Updates
     icon: mdi:update
+  kallen_overnight:
+    name: Kallen Overnight
+    icon: mdi:weather-night
+  kallen_awake:
+    name: Kallen Awake
+    icon: mdi:eye-check
 
 automation:
   - id: 28609544-f768-4ef3-b859-50439e224e01

@@ -16,9 +16,6 @@ input_datetime:
     icon: mdi:binoculars
 
 input_boolean:
-  kallen_awake:
-    name: Kallen Awake
-    icon: mdi:eye-check
   away_mode_skipped:
     name: Away Mode Skipped
     icon: mdi:debug-step-over
