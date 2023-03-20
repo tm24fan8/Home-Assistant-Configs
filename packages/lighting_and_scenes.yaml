@@ -340,38 +340,18 @@ template:
     - name: Basement Lights Sync Issue
       unique_id: 781d7a1e-ade3-44c3-b0f2-a15a5188107e
       state: >
-        {% set colortemp = states('sensor.basement_studio_lights_colortemp_diff') | float %}
-        {% set brightness = states('sensor.basement_studio_lights_brightness_diff') | float %}
+        {% set colortemp = states('sensor.basement_studio_lights_colortemp_diff') | float(0) %}
+        {% set brightness = states('sensor.basement_studio_lights_brightness_diff') | float(0) %}
         {% if is_state('light.basement_studio_lights','on') %}
           {% if is_state('switch.adaptive_lighting_basement_studio','on') and is_state('switch.adaptive_lighting_sleep_mode_basement_studio','off') %}
             {% if is_state('switch.adaptive_lighting_adapt_brightness_basement_studio','on') and is_state('switch.adaptive_lighting_adapt_color_basement_studio','on') %}
-              {% if colortemp > 100 or colortemp < -100 %}
-                true
-              {% elif brightness > 5 or brightness < -5 %}
-                true
-              {% else %}
-                false
-              {% endif %}
+              {{ (colortemp > 100 or colortemp < -100) or (brightness > 5 or brightness < -5) }}
             {% elif is_state('switch.adaptive_lighting_adapt_brightness_basement_studio','on') and is_state('switch.adaptive_lighting_adapt_color_basement_studio','off') %}
-              {% if brightness > 5 or brightness < -5 %}
-                true
-              {% else %}
-                false
-              {% endif %}
+              {{ brightness > 5 or brightness < -5 }}
             {% elif is_state('switch.adaptive_lighting_adapt_color_basement_studio','on') and is_state('switch.adaptive_lighting_adapt_brightness_basement_studio','off') %}
-              {% if colortemp > 100 or colortemp < -100 %}
-                true
-              {% else %}
-                false
-              {% endif %}
-            {% else %}
-              false
+              {{ colortemp > 100 or colortemp < -100 }}
             {% endif %}
-          {% else %}
-            false
           {% endif %}
-        {% else %}
-          false
         {% endif %}
       device_class: problem
       delay_on: "00:00:10"
