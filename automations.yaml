@@ -909,4 +909,20 @@
         data: {}
         target:
           entity_id: switch.adaptive_lighting_living_room
-      off_long_action: []
+      off_long_action:
+      - service: light.turn_on
+        data: {}
+        target:
+          entity_id: light.dining_room_lamp
+      - service: input_select.select_option
+        data:
+          option: Reset
+        target:
+          entity_id: input_select.tina_desk_scenes
+      - service: input_select.select_option
+        data:
+          option: Adaptive
+        target:
+          entity_id:
+          - input_select.living_room_scenes
+          - input_select.dining_room_lamp_scenes
