@@ -13,6 +13,10 @@ input_boolean:
   kallen_awake:
     name: Kallen Awake
     icon: mdi:eye-check
+  kallen_late_bedtime:
+    name: Kallen Late Bedtime
+    icon: mdi:weather-night
+
 input_datetime:
   kallen_bedtime:
     name: Kallen Bedtime
@@ -113,6 +117,30 @@ automation:
           id: sleep-off
         sequence:
         - service: script.kallen_wakeup
+
+  - id: 1d552b1f-c0ed-4d80-b8ba-3c085d2c3d3a
+    alias: "Kallen Late Bedtime"
+    description: "For those nights we want to let Kallen stay up later for whatever reason"
+    mode: restart
+    trigger:
+    - platform: state
+      entity_id: input_boolean.kallen_late_bedtime
+      from: 'off'
+      to: 'on'
+      id: late-on
+    - platform: state
+      entity_id: input_boolean.kallen_late_bedtime
+      from: 'on'
+      to: 'off'
+      id: late-off
+    action:
+    - if:
+      - condition: state
+        entity_id: input_boolean.kallen_scheduling_evening_ran
+        state: 'on'
+      then:
+      - service: script.kallen_scheduling_evening
+      - service: script.house_scheduling_evening
 
 script:
   kallen_sleep:

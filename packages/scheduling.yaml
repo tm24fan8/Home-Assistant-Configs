@@ -9,51 +9,38 @@ input_datetime:
     has_date: false
     has_time: true
     icon: mdi:weather-night
-  kallen_bedtime:
-    name: Kallen Bedtime
-    has_date: false
-    has_time: true
-    icon: mdi:weather-night
-  kallen_wakeup_time:
-    name: Kallen Wake-up Time
-    has_date: false
-    has_time: true
-    icon: mdi:bell-alert
-  kallen_fan:
-    name: Kallen Fan
-    has_date: false
-    has_time: true
-    icon: mdi:fan-auto
-  master_bedroom_cooling:
-    name: Master Bedroom Cooling
-    has_date: false
-    has_time: true
-    icon: mdi:fan-auto
-  master_bedroom_fan:
-    name: Master Bedroom Fan
-    has_date: false
-    has_time: true
-    icon: mdi:fan-auto
-  master_bedroom_wakeup:
-    name: Master Bedroom Wakeup
-    has_date: false
-    has_time: true
-    icon: mdi:fan-off
-  emma_bedtime:
-    name: Emma Bedtime
-    has_date: false
-    has_time: true
-    icon: mdi:fan-auto
-  emma_wakeup:
-    name: Emma Wakeup
-    has_date: false
-    has_time: true
-    icon: mdi:fan-off
-  tony_streaming_start_time:
-    name: Tony Streaming Start Time
-    has_date: false
-    has_time: true
-    icon: mdi:twitch
+
+input_boolean:
+  work_today_ran:
+    name: Work Today Ran
+    icon: mdi:clock-outline
+  school_today_ran:
+    name: School Today Ran
+    icon: mdi:clock-outline
+  kallen_scheduling_morning_ran:
+    name: Kallen Scheduling Morning Ran
+    icon: mdi:clock-outline
+  kallen_scheduling_evening_ran:
+    name: Kallen Scheduling Evening Ran
+    icon: mdi:clock-outline
+  house_scheduling_morning_ran:
+    name: House Scheduling Morning Ran
+    icon: mdi:clock-outline
+  house_scheduling_evening_ran:
+    name: House Scheduling Evening Ran
+    icon: mdi:clock-outline
+  emma_scheduling_morning_ran:
+    name: Emma Scheduling Morning Ran
+    icon: mdi:clock-outline
+  emma_scheduling_evening_ran:
+    name: Emma Scheduling Evening Ran
+    icon: mdi:clock-outline
+  master_bedroom_scheduling_morning_ran:
+    name: Master Bedroom Scheduling Morning Ran
+    icon: mdi:clock-outline
+  master_bedroom_scheduling_evening_ran:
+    name: Master Bedroom Scheduling Evening Ran
+    icon: mdi:clock-outline
 
 ################################################
 # Current order of operations is as follows:   #
@@ -159,6 +146,15 @@ automation:
         then:
           - service: script.emma_bedroom_scheduling_evening
 
+  - id: 7350300d-94d3-4ea3-97bb-b0673eafd71f
+    alias: Scheduling Reset
+    description: "Reset all 'Briefing Ran' input booleans for the next day"
+    trigger:
+      - platform: time
+        at: "00:00:00"
+    action:
+      - service: script.scheduling_reset
+
 script:
   kallen_scheduling_morning:
     alias: 'Kallen Scheduling Morning'
@@ -232,6 +228,9 @@ script:
             {% else %}
               14:00
             {% endif %}
+      - service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.kallen_scheduling_morning_ran
 
   kallen_scheduling_evening:
     alias: 'Kallen Scheduling Evening'
@@ -241,19 +240,16 @@ script:
         data:
           time: >
             {% if is_state('sensor.kallen_school_tomorrow', 'on') %}
-              21:00
+                21:00
             {% else %}
-              22:00
+                22:00
             {% endif %}
+      - delay:
+          seconds: 1
       - service: input_datetime.set_datetime
         entity_id: input_datetime.kallen_nightly_briefing
         data:
-          time: >
-            {% if is_state('sensor.kallen_school_tomorrow', 'on') %}
-              20:40
-            {% else %}
-              21:40
-            {% endif %}
+          time: "{{ (state_attr('input_datetime.kallen_bedtime','timestamp') - 1200) | timestamp_custom('%H:%M', false) }}"
       - service: input_select.select_option
         target:
           entity_id: input_select.scheduled_climate_mode_kallen_fan
@@ -266,8 +262,6 @@ script:
             {% else %}
               White Noise
             {% endif %}
-      - delay:
-          seconds: 1
       - service: input_datetime.set_datetime
         target:
           entity_id: input_datetime.kallen_fan
@@ -278,6 +272,29 @@ script:
             {% else %}
               {{ state_attr('input_datetime.kallen_bedtime','timestamp') | timestamp_custom('%H:%M', false) }}
             {% endif %}
+      - if:
+        - condition: state
+          entity_id: input_boolean.kallen_late_bedtime
+          state: 'on'
+        then:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.kallen_bedtime
+          data:
+            time: "{{ (state_attr('input_datetime.kallen_bedtime','timestamp') + 3600) | timestamp_custom('%H:%M', false) }}"
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.kallen_nightly_briefing
+          data:
+            time: "{{ (state_attr('input_datetime.kallen_nightly_briefing','timestamp') + 3600) | timestamp_custom('%H:%M', false) }}"
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.kallen_fan
+          data:
+            time: "{{ (state_attr('input_datetime.kallen_fan','timestamp') + 3600) | timestamp_custom('%H:%M', false) }}"
+      - service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.kallen_scheduling_evening_ran
 
   house_scheduling_morning:
     alias: 'House Scheduling Morning'
@@ -363,6 +380,9 @@ script:
         - service: input_boolean.turn_off
           target:
             entity_id: input_boolean.cold_day
+      - service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.house_scheduling_morning_ran
 
   house_scheduling_evening:
     alias: 'House Scheduling Evening'
@@ -371,16 +391,23 @@ script:
         entity_id: input_datetime.nightly_briefing
         data:
           time: >
-            {{ (state_attr('input_datetime.kallen_bedtime','timestamp') - 3600) | timestamp_custom('%H:%M', false) }}
+            {% if is_state('input_boolean.kallen_late_bedtime','on') %}
+              {{ (state_attr('input_datetime.kallen_bedtime','timestamp') - 7200) | timestamp_custom('%H:%M', false) }}
+            {% else %}
+              {{ (state_attr('input_datetime.kallen_bedtime','timestamp') - 3600) | timestamp_custom('%H:%M', false) }}
+            {% endif %}
       - service: input_datetime.set_datetime
         entity_id: input_datetime.audible_notification_off
         data:
           time: >
             {% if is_state('sensor.kallen_school_tomorrow','on') %}
-              22:00
+              22:15
             {% else %}
-              23:00
+              23:15
             {% endif %}
+      - service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.house_scheduling_evening_ran
 
   master_bedroom_scheduling_morning:
     alias: 'Master Bedroom Scheduling Morning'
@@ -398,6 +425,9 @@ script:
             {% else %}
               13:00
             {% endif %}
+      - service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.master_bedroom_scheduling_morning_ran
 
   master_bedroom_scheduling_evening:
     alias: 'Master Bedroom Scheduling Evening'
@@ -459,6 +489,9 @@ script:
             {% else %}
               N/A
             {% endif %}
+      - service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.master_bedroom_scheduling_evening_ran
 
 # For now, this just ties her wakeup time to the master bedroom wakeup time. In the future this will have more conditions and be independent of other rooms.
   emma_bedroom_scheduling_morning:
@@ -468,6 +501,9 @@ script:
         entity_id: input_datetime.emma_wakeup
         data:
           time: "{{ states('input_datetime.master_bedroom_wakeup') }}"
+      - service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.emma_scheduling_morning_ran
 
   emma_bedroom_scheduling_evening:
     alias: 'Emma Bedroom Scheduling Evening'
@@ -499,6 +535,9 @@ script:
             {% else %}
               White Noise
             {% endif %}
+      - service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.emma_scheduling_evening_ran
 
   security_scheduling:
     alias: Security Scheduling
@@ -585,3 +624,20 @@ script:
       - delay:
           seconds: 1
       - service: script.security_scheduling
+
+  scheduling_reset:
+    alias: 'Scheduling Reset'
+    sequence:
+      - service: input_boolean.turn_off
+        target:
+          entity_id:
+            - input_boolean.work_today_ran
+            - input_boolean.school_today_ran
+            - input_boolean.kallen_scheduling_morning_ran
+            - input_boolean.kallen_scheduling_evening_ran
+            - input_boolean.house_scheduling_morning_ran
+            - input_boolean.house_scheduling_evening_ran
+            - input_boolean.master_bedroom_scheduling_morning_ran
+            - input_boolean.master_bedroom_scheduling_evening_ran
+            - input_boolean.emma_scheduling_morning_ran
+            - input_boolean.emma_scheduling_evening_ran
