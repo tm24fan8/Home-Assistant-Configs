@@ -5,6 +5,23 @@ input_boolean:
     name: Master Bedroom Sleeping
     icon: mdi:sleep
 
+input_datetime:
+  master_bedroom_cooling:
+    name: Master Bedroom Cooling
+    has_date: false
+    has_time: true
+    icon: mdi:fan-auto
+  master_bedroom_fan:
+    name: Master Bedroom Fan
+    has_date: false
+    has_time: true
+    icon: mdi:fan-auto
+  master_bedroom_wakeup:
+    name: Master Bedroom Wakeup
+    has_date: false
+    has_time: true
+    icon: mdi:fan-off
+
 automation:
   - id: 09c3d481-11df-459c-9240-d002b9b2ef53
     alias: 'Master Bedroom Handling'

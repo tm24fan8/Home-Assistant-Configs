@@ -5,6 +5,13 @@ input_boolean:
     name: Tony Streaming Today
     icon: mdi:twitch
 
+input_datetime:
+  tony_streaming_start_time:
+    name: Tony Streaming Start Time
+    has_date: false
+    has_time: true
+    icon: mdi:twitch
+
 automation:
   - id: 77f33070-4405-41b6-84c4-05b4f3697199
     alias: Tony Stream Today

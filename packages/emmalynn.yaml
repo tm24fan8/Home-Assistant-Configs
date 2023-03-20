@@ -5,6 +5,18 @@ input_boolean:
     name: Emma Sleeping
     icon: mdi:sleep
 
+input_datetime:
+  emma_bedtime:
+    name: Emma Bedtime
+    has_date: false
+    has_time: true
+    icon: mdi:fan-auto
+  emma_wakeup:
+    name: Emma Wakeup
+    has_date: false
+    has_time: true
+    icon: mdi:fan-off
+
 automation:
   - id: 4f01dff7-be22-4850-a05e-1906e3151441
     alias: 'Emma Sleeping'

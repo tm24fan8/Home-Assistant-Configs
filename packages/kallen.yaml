@@ -13,6 +13,22 @@ input_boolean:
   kallen_awake:
     name: Kallen Awake
     icon: mdi:eye-check
+input_datetime:
+  kallen_bedtime:
+    name: Kallen Bedtime
+    has_date: false
+    has_time: true
+    icon: mdi:weather-night
+  kallen_wakeup_time:
+    name: Kallen Wake-up Time
+    has_date: false
+    has_time: true
+    icon: mdi:bell-alert
+  kallen_fan:
+    name: Kallen Fan
+    has_date: false
+    has_time: true
+    icon: mdi:fan-auto
 
 automation:
   - id: 28609544-f768-4ef3-b859-50439e224e01
