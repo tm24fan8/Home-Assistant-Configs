@@ -133,6 +133,10 @@ automation:
       from: 'on'
       to: 'off'
       id: late-off
+    condition:
+    - condition: time
+      after: input_datetime.kallen_wakeup_time
+      before: input_datetime.kallen_bedtime
     action:
     - if:
       - condition: state

@@ -641,3 +641,4 @@ script:
             - input_boolean.master_bedroom_scheduling_evening_ran
             - input_boolean.emma_scheduling_morning_ran
             - input_boolean.emma_scheduling_evening_ran
+            - input_boolean.kallen_late_bedtime
