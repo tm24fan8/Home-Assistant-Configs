@@ -24,6 +24,10 @@ automation:
     trigger:
     - platform: time
       at: '04:00:00'
+    condition:
+    - condition: state
+      entity_id: input_boolean.tina_work_schedule_override
+      state: 'off'
     action:
     - if:
       - condition: template
