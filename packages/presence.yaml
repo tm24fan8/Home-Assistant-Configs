@@ -460,11 +460,6 @@ automation:
       - service: input_boolean.turn_on
         target:
           entity_id: input_boolean.away_mode_skipped
-      - delay:
-          seconds: 5
-      - service: input_boolean.turn_off
-        target:
-          entity_id: input_boolean.away_mode_skipped
 
   - id: 11eee604-db2a-4ab2-a372-70026a4f1a6f
     alias: Door Openings Reset
@@ -598,6 +593,15 @@ script:
     - service: switch.turn_off
       target:
         entity_id: switch.presence_simulation
+    - if:
+      - condition: state
+        entity_id: input_boolean.away_mode_skipped
+        state: 'on'
+      then:
+      - service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.away_mode_skipped
+      - stop: Away Mode was skipped
     - service: light.turn_off
       target:
         area_id:
@@ -671,14 +675,23 @@ script:
       - service: input_boolean.turn_off
         target:
           entity_id: input_boolean.vacation_mode
+    - service: switch.turn_off
+      target:
+        entity_id: switch.presence_simulation
+    - if:
+      - condition: state
+        entity_id: input_boolean.away_mode_skipped
+        state: 'on'
+      then:
+      - service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.away_mode_skipped
+      - stop: Away Mode was skipped
     - service: script.turn_on
       target:
         entity_id:
           - script.welcome_home
           - script.volume_reset
-    - service: switch.turn_off
-      target:
-        entity_id: switch.presence_simulation
     - service: script.security_disarm
     - service: switch.turn_off
       target:
