@@ -24,14 +24,18 @@ automation:
     trigger:
     - platform: time
       at: '04:00:00'
-    condition:
-    - condition: template
-      value_template: >
-        {%- if as_timestamp(strptime(state_attr('calendar.family_tinawork','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%Y-%m-%d") == now().strftime("%Y-%m-%d") %}
-          true
-        {%- endif -%}
     action:
+    - if:
+      - condition: template
+        value_template: >
+          {%- if as_timestamp(strptime(state_attr('calendar.family_tinawork','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%Y-%m-%d") == now().strftime("%Y-%m-%d") %}
+            true
+          {%- endif -%}
+      then:
       - service: script.tina_work_today
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.work_today_ran
 
   - id: a6eeb075-d21b-436c-983f-39188ee9b016
     alias: Work Reset
@@ -59,13 +63,15 @@ script:
           time: >
             {{ as_timestamp(strptime(state_attr('calendar.family_tinawork','end_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
       - service: input_boolean.turn_on
-        entity_id: input_boolean.work_today
+        target:
+          entity_id: input_boolean.work_today
 
   tina_work_reset:
     alias: 'Tina Work Reset'
     sequence:
       - service: input_boolean.turn_off
-        entity_id: input_boolean.work_today
+        target:
+          entity_id: input_boolean.work_today
 
 # This is in case her schedule changes after the regular 4:00AM scheduling scripts run
   tina_schedule_change:

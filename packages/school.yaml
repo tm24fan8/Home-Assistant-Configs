@@ -266,14 +266,18 @@ automation:
     trigger:
     - platform: time
       at: '04:00:10'
-    condition:
-    - condition: template
-      value_template: >
-        {%- if as_timestamp(strptime(state_attr('calendar.kallen_school_days', 'start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%Y-%m-%d") == now().strftime("%Y-%m-%d") %}
-          true
-        {%- endif -%}
     action: 
+    - if:
+      - condition: template
+        value_template: >
+          {%- if as_timestamp(strptime(state_attr('calendar.kallen_school_days', 'start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%Y-%m-%d") == now().strftime("%Y-%m-%d") %}
+            true
+          {%- endif -%}
+      then:
       - service: script.kallen_school_today
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.school_today_ran
 
   - id: b9028665-401c-4de3-8f13-1099160b011f
     alias: Kallen School Reset
