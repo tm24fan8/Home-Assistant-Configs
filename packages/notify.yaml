@@ -1208,7 +1208,7 @@ script:
               - Salli
       type:
         name: 'Type'
-        description: 'What type of message is this? Can override some settings depending on the option selected. Alert bypasses time restrictions but respects volume settings. Critical also bypasses time restrictions, but also sets all volumes to max.'
+        description: 'What type of message is this? Can override some settings depending on the option selected. Alert bypasses time restrictions but respects volume settings and sleep mode. Critical bypasses all restrictions, and sets all volumes to max.'
         required: false
         example: 'normal, alert, critical'
         selector:
@@ -1272,13 +1272,13 @@ script:
           {% elif who in ['living_room_echo_dot', 'media_player.living_room_echo_dot','living_room','Living Room Echo Dot','Living Room']  %}
             script.alexa_voice
           {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_speaker','Kallen Bedroom']  %}
-            {% if is_state('input_boolean.kallen_sleeping','on') %}
+            {% if is_state('input_boolean.kallen_sleeping','on') and type not in ['critical','Critical'] %}
               script.alexa_voice
             {% else %}
               script.jarvis_voice
             {% endif %}
           {% elif who in ['emma_bedroom','Emma Bedroom','media_player.emma_bedroom_speaker'] %}
-            {% if is_state('input_boolean.emma_sleeping','on') %}
+            {% if is_state('input_boolean.emma_sleeping','on') and type not in ['critical','Critical'] %}
               script.alexa_voice
             {% else %}
               script.jarvis_voice
@@ -1311,19 +1311,23 @@ script:
             {% if who in ['living_room_echo_dot', 'media_player.living_room_echo_dot','living_room','Living Room Echo Dot','Living Room']  %}
               living_room
             {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_speaker','Kallen Bedroom']  %}
-              {% if is_state('input_boolean.kallen_sleeping','on') %}
+              {% if is_state('input_boolean.kallen_sleeping','on') and type not in ['critical','Critical'] %}
                 living_room
               {% else %}
                 kallen_bedroom
               {% endif %}
             {% elif who in ['emma_bedroom','Emma Bedroom','media_player.emma_bedroom_speaker'] %}
-              {% if is_state('input_boolean.emma_sleeping','on') %}
+              {% if is_state('input_boolean.emma_sleeping','on') and type not in ['critical','Critical'] %}
                 living_room
               {% else %}
                 emma_bedroom
               {% endif %}
             {% elif who in ['master_bedroom','master_bedroom_echo_dot','media_player.master_bedroom_echo_dot','Master Bedroom Echo Dot','Master Bedroom']  %}
-              master_bedroom
+              {% if is_state('input_boolean.master_bedroom_sleeping','on') and type not in ['critical','Critical'] %}
+                living_room
+              {% else %}
+                master_bedroom
+              {% endif %}
             {% elif who in ['kids_bedrooms','Kids Bedrooms'] %}
               kids_bedrooms
             {% elif who in ['all_bedrooms','All Bedrooms'] %}
@@ -1357,39 +1361,34 @@ script:
                 alexa_everywhere
               {% endif %}
             {% elif who in ['Everywhere','everywhere'] %}
-              {% if is_state('input_boolean.studio_quiet','on') %}
-                alexa_no_basement
-              {% else %}
-                everywhere
-              {% endif %}
+              everywhere
             {% else %}
               living_room_echo_dot
             {% endif %}
           message: >
-            {% if who in ['Basement','basement','basement_echo_dot','media_player.basement_echo_dot','Basement Echo Dot','Basement Google','basement_google'] and is_state('input_boolean.studio_quiet','on') %}
+            {% if who in ['Basement','basement','basement_echo_dot','media_player.basement_echo_dot','Basement Echo Dot','Basement Google','basement_google'] and is_state('input_boolean.studio_quiet','on') and type not in ['critical','Critical'] %}
               'I cannot play notifications in the basement right now, because quiet has been requested'
-            {% elif who in ['emma_bedroom','Emma Bedroom','media_player.emma_bedroom_speaker'] and is_state('input_boolean.emma_sleeping','on') %}
+            {% elif who in ['emma_bedroom','Emma Bedroom','media_player.emma_bedroom_speaker'] and is_state('input_boolean.emma_sleeping','on') and type not in ['critical','Critical'] %}
               'I cannot play notifications in Emma Bedroom right now, because Emma is sleeping and you would not like what happens if I wake her up'
-            {% elif who in ['kallen_bedroom','Kallen Bedroom','media_player.kallen_bedroom_speaker'] and is_state('input_boolean.kallen_sleeping','on') %}
+            {% elif who in ['kallen_bedroom','Kallen Bedroom','media_player.kallen_bedroom_speaker'] and is_state('input_boolean.kallen_sleeping','on') and type not in ['critical','Critical'] %}
               'I cannot play notifications in Collin Bedroom right now, because Collin is sleeping'
+            {% elif who in ['master_bedroom','master_bedroom_echo_dot','media_player.master_bedroom_echo_dot','Master Bedroom Echo Dot','Master Bedroom'] and is_state('input_boolean.master_bedroom_sleeping','on') and type not in ['critical','Critical'] %}
+              'I cannot play notifications in Master Bedroom right now, because someone is sleeping and I do not want to wake them up'
             {% else %}
               {{ message }}
             {% endif %}
           voice: '{{ voice }}'
           type: '{{ type }}'
-      - condition: template
-        value_template: >
-          {% if who in ['Everywhere','everywhere','all_bedrooms','All Bedrooms','kids_bedrooms','Kids Bedrooms'] %}
-            true
-          {% else %}
-            false
-          {% endif %}
-      - service: script.jarvis_voice
-        data:
-          who: '{{ who }}'
-          message: >
-            {{ message }}
-          type: '{{ type }}'
+      - if:
+        - condition: template
+          value_template: "{{ who in ['Everywhere','everywhere','all_bedrooms','All Bedrooms','kids_bedrooms','Kids Bedrooms'] }}"
+        then:
+        - service: script.jarvis_voice
+          data:
+            who: '{{ who }}'
+            message: >
+              {{ message }}
+            type: '{{ type }}'
 
 
 
@@ -1497,7 +1496,11 @@ script:
           {% elif who in ['common','common_areas'] %}
             group.common_areas
           {% elif who in ['Everywhere','everywhere','alexa_everywhere','Alexa Everywhere'] %}
-            group.alexa_everywhere
+            {% if is_state('input_boolean.studio_quiet','on') and type not in ['critical','Critical'] %}
+              group.alexa_no_basement
+            {% else %}
+              group.alexa_everywhere
+            {% endif %}
           {% elif who in ['alexa_no_basement'] %}
             group.alexa_no_basement
           {% else %}
@@ -1512,35 +1515,19 @@ script:
     sequence:
     - if:
       - condition: template
-        value_template: >
-          {% if who in ['emma_bedroom','Emma Bedroom','media_player.emma_bedroom_speaker'] and is_state('input_boolean.emma_sleeping','on') %}
-            true
-          {% else %}
-            false
-          {% endif %}
+        value_template: "{{ who in ['emma_bedroom','Emma Bedroom','media_player.emma_bedroom_speaker'] and is_state('input_boolean.emma_sleeping','on') }}"
       then:
         - stop: 'Emma is sleeping'
     - if:
       - condition: template
-        value_template: >
-          {% if who in ['kallen_bedroom','media_player.kallen_bedroom_speaker','Kallen Bedroom'] and is_state('input_boolean.kallen_sleeping','on') %}
-            true
-          {% else %}
-            false
-          {% endif %}
+        value_template: "{{ who in ['kallen_bedroom','media_player.kallen_bedroom_speaker','Kallen Bedroom'] and is_state('input_boolean.kallen_sleeping','on') }}"
       then:
         - stop: 'Kallen is sleeping'
     - if:
       - condition: template
         value_template: >
           {% if who in ['kids_bedrooms','all_bedrooms','everywhere','Everywhere','Kids Bedrooms','All Bedrooms'] %}
-            {% if is_state('input_boolean.kallen_sleeping','on') and is_state('input_boolean.emma_sleeping','on') %}
-              true
-            {% else %}
-              false
-            {% endif %}
-          {% else %}
-            false
+            {{ is_state('input_boolean.kallen_sleeping','on') and is_state('input_boolean.emma_sleeping','on') }}
           {% endif %}
       then:
         - stop: 'Kids are sleeping'
