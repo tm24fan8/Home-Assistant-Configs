@@ -254,18 +254,18 @@ sensor:
   #       Nothing
   #     {%- endif %}
 
-  - platform: rest
-    resource: https://raw.githubusercontent.com/tm24fan8/Home-Assistant-Configs/master/packages/json_data/school.json
-    name: School Event
-    scan_interval: 14400
-    value_template: >
-      {% set today = now().month  ~ '/' ~ now().day  %}
-      {% set event =  value_json.EVENTS.static[ today ] %}
-      {%- if event %}
-        {{ event  }}
-      {% else %}
-        Nothing
-      {%- endif %}
+  # - platform: rest
+  #   resource: https://raw.githubusercontent.com/tm24fan8/Home-Assistant-Configs/master/packages/json_data/school.json
+  #   name: School Event
+  #   scan_interval: 14400
+  #   value_template: >
+  #     {% set today = now().month  ~ '/' ~ now().day  %}
+  #     {% set event =  value_json.EVENTS.static[ today ] %}
+  #     {%- if event %}
+  #       {{ event  }}
+  #     {% else %}
+  #       Nothing
+  #     {%- endif %}
 
 automation:
   - id: e1cb2d02-0423-11eb-adc1-0242ac120002
