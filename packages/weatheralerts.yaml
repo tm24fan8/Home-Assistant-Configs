@@ -54,6 +54,7 @@ sensor:
         ## You can add your county or city name to friendly_name for personalization
         ## For example: Weather Alerts for YourCountyName
         friendly_name: Weather Alerts
+        unique_id: 32371252-89ff-47b2-86e3-32ef92a05205
         unit_of_measurement: Alerts
         icon_template: mdi:alert-rhombus
         value_template: >-
@@ -229,6 +230,7 @@ sensor:
             {{ test.count }}
       weatheralerts_alert_1:
         friendly_name: Weather Alert 1
+        unique_id: 752fb9ae-a61f-41f8-8882-f8d025b892e3
         icon_template: mdi:alert-rhombus
         value_template: >-
           {% if (states('sensor.weatheralerts') != 'unavailable') and (state_attr('sensor.weatheralerts', 'alerts')[0] != null) or ((states('sensor.weatheralerts') == 'unavailable') and (as_timestamp(state_attr('sensor.weatheralerts', 'alerts')[0].endsExpires) - as_timestamp(now()) > 0)) %}
@@ -392,6 +394,7 @@ sensor:
             {% endif %}
       weatheralerts_alert_2:
         friendly_name: Weather Alert 2
+        unique_id: 4ecaa8ce-65ec-429f-956c-ac478f1c3d6f
         icon_template: mdi:alert-rhombus
         value_template: >-
           {% if (states('sensor.weatheralerts') != 'unavailable') and (state_attr('sensor.weatheralerts', 'alerts')[1] != null) or ((states('sensor.weatheralerts') == 'unavailable') and (as_timestamp(state_attr('sensor.weatheralerts', 'alerts')[1].endsExpires) - as_timestamp(now()) > 0)) %}
@@ -555,6 +558,7 @@ sensor:
             {% endif %}
       weatheralerts_alert_3:
         friendly_name: Weather Alert 3
+        unique_id: 0dcc3731-c90e-427a-abd9-dee29a5ed1e1
         icon_template: mdi:alert-rhombus
         value_template: >-
           {% if (states('sensor.weatheralerts') != 'unavailable') and (state_attr('sensor.weatheralerts', 'alerts')[2] != null) or ((states('sensor.weatheralerts') == 'unavailable') and (as_timestamp(state_attr('sensor.weatheralerts', 'alerts')[2].endsExpires) - as_timestamp(now()) > 0)) %}
@@ -718,6 +722,7 @@ sensor:
             {% endif %}
       weatheralerts_alert_4:
         friendly_name: Weather Alert 4
+        unique_id: 18f756d2-f3aa-476f-a1c0-12c70f173ead
         icon_template: mdi:alert-rhombus
         value_template: >-
           {% if (states('sensor.weatheralerts') != 'unavailable') and (state_attr('sensor.weatheralerts', 'alerts')[3] != null) or ((states('sensor.weatheralerts') == 'unavailable') and (as_timestamp(state_attr('sensor.weatheralerts', 'alerts')[3].endsExpires) - as_timestamp(now()) > 0)) %}
@@ -881,6 +886,7 @@ sensor:
             {% endif %}
       weatheralerts_alert_5:
         friendly_name: Weather Alert 5
+        unique_id: c9690a26-84e8-439d-9718-469b227c4d66
         icon_template: mdi:alert-rhombus
         value_template: >-
           {% if (states('sensor.weatheralerts') != 'unavailable') and (state_attr('sensor.weatheralerts', 'alerts')[4] != null) or ((states('sensor.weatheralerts') == 'unavailable') and (as_timestamp(state_attr('sensor.weatheralerts', 'alerts')[4].endsExpires) - as_timestamp(now()) > 0)) %}
@@ -1043,6 +1049,7 @@ sensor:
               None
             {% endif %}
       weatheralerts_alert_1_last_changed:
+        unique_id: 3db32f1f-a6d3-4321-9078-2577d403f314
         value_template: >-
           {% if states('sensor.weatheralerts_alert_1') == "on" %}
             {{ states.sensor.weatheralerts_alert_1.last_updated }}
@@ -1050,6 +1057,7 @@ sensor:
             None
           {% endif %}
       weatheralerts_alert_2_last_changed:
+        unique_id: 75e746a0-b776-4dbb-b018-1e808a204f65
         value_template: >-
           {% if states('sensor.weatheralerts_alert_2') == "on" %}
             {{ states.sensor.weatheralerts_alert_2.last_updated }}
@@ -1057,6 +1065,7 @@ sensor:
             None
           {% endif %}
       weatheralerts_alert_3_last_changed:
+        unique_id: 4382f9a3-32bf-42f9-809f-ae33f33140b7
         value_template: >-
           {% if states('sensor.weatheralerts_alert_3') == "on" %}
             {{ states.sensor.weatheralerts_alert_3.last_updated }}
@@ -1064,6 +1073,7 @@ sensor:
             None
           {% endif %}
       weatheralerts_alert_4_last_changed:
+        unique_id: 4fbf5547-eac4-4ebf-b5fc-b043fafc0026
         value_template: >-
           {% if states('sensor.weatheralerts_alert_4') == "on" %}
             {{ states.sensor.weatheralerts_alert_4.last_updated }}
@@ -1071,6 +1081,7 @@ sensor:
             None
           {% endif %}
       weatheralerts_alert_5_last_changed:
+        unique_id: d7b66a73-8431-433c-8cd1-d413d726cb0a
         value_template: >-
           {% if states('sensor.weatheralerts_alert_5') == "on" %}
             {{ states.sensor.weatheralerts_alert_5.last_updated }}
@@ -1078,6 +1089,7 @@ sensor:
             None
           {% endif %}
       weatheralerts_alert_1_most_recent_active_alert:
+        unique_id: 569944e9-b4cf-4ed2-9bed-40b2a0a9b898
         value_template: >-
           {% if states('sensor.weatheralerts_alert_1_most_recent_active_alert') == '' and states('sensor.weatheralerts_alert_1') != 'on' %}
             unavailable
@@ -1116,6 +1128,7 @@ sensor:
               {{ state_attr('sensor.weatheralerts_alert_1_most_recent_active_alert', 'alert_id') }}
             {% endif %}
       weatheralerts_alert_2_most_recent_active_alert:
+        unique_id: 8112afda-58b9-4161-809c-9186212f86d7
         value_template: >-
           {% if states('sensor.weatheralerts_alert_2_most_recent_active_alert') == '' and states('sensor.weatheralerts_alert_2') != 'on' %}
             unavailable
@@ -1154,6 +1167,7 @@ sensor:
               {{ state_attr('sensor.weatheralerts_alert_2_most_recent_active_alert', 'alert_id') }}
             {% endif %}
       weatheralerts_alert_3_most_recent_active_alert:
+        unique_id: f71f4ab7-0959-43e9-877a-22084b9642c3
         value_template: >-
           {% if states('sensor.weatheralerts_alert_3_most_recent_active_alert') == '' and states('sensor.weatheralerts_alert_3') != 'on' %}
             unavailable
@@ -1192,6 +1206,7 @@ sensor:
               {{ state_attr('sensor.weatheralerts_alert_3_most_recent_active_alert', 'alert_id') }}
             {% endif %}
       weatheralerts_alert_4_most_recent_active_alert:
+        unique_id: e663e42b-a6b2-4a55-a3d9-1932b10fb0ca
         value_template: >-
             {% if states('sensor.weatheralerts_alert_4_most_recent_active_alert') == '' and states('sensor.weatheralerts_alert_4') != 'on' %}
               unavailable
@@ -1230,6 +1245,7 @@ sensor:
               {{ state_attr('sensor.weatheralerts_alert_4_most_recent_active_alert', 'alert_id') }}
             {% endif %}
       weatheralerts_alert_5_most_recent_active_alert:
+        unique_id: 523d7026-1fdd-4621-91c0-87e0bd98f14d
         value_template: >-
           {% if states('sensor.weatheralerts_alert_5_most_recent_active_alert') == '' and states('sensor.weatheralerts_alert_5') != 'on' %}
             unavailable
@@ -1269,6 +1285,7 @@ sensor:
             {% endif %}
       weatheralerts_alerts_are_active:
         friendly_name: Weather Alerts Are Active
+        unique_id: 3f6ecba1-c102-4324-b56e-6d80ead0c829
         icon_template: mdi:alert-rhombus
         value_template: >
           {% if (states('sensor.weatheralerts') | int > 0) or ((states('sensor.weatheralerts') == 'unavailable') and (states('sensor.weatheralerts_alert_1') == 'on')) %}

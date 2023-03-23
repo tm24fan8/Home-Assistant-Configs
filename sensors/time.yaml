@@ -2,18 +2,22 @@
   sensors:
     today_is:
       friendly_name: 'Today is'
+      unique_id: 18e7d262-14f6-4f67-a291-8faf85d4104d
       value_template: "{{ ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'][now().weekday()] }}"
     month_is:
       friendly_name: 'Month is'
+      unique_id: fd7a9fe3-4a29-4235-8959-b26d79c6646c
       value_template: "{{ ['January','February','March','April','May','June','August','September','October','November','December'][now().month-1] }}" 
     kallen_timer_remaining_minutes:
       friendly_name: 'Kallen Timer Remaining Minutes'
+      unique_id: ca06c860-2bc7-4c16-810b-c338724459ca
       value_template: >-
         {% set f = state_attr('timer.kallen_timer','finishes_at') %}
         {{ '00' if f == none else
           (as_datetime(f) - now()).total_seconds() | timestamp_custom('%M', false) }}
     kallen_timer_remaining_seconds:
       friendly_name: 'Kallen Timer Remaining Seconds'
+      unique_id: d81d5726-1229-4c0c-846c-69aeeead7313
       value_template: >-
         {% set f = state_attr('timer.kallen_timer','finishes_at') %}
         {{ '00' if f == none else

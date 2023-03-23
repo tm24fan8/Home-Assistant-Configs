@@ -3,18 +3,22 @@ sensor:
     sensors:
       master_bedroom_current_temp:
         friendly_name: "Master Bedroom Current Temp"
+        unique_id: 40c6b591-09d3-45cd-8cab-9838517cc08a
         value_template: >
           {{ state_attr('climate.master_bedroom_aircon','current_temperature') | float }}
       master_bedroom_outdoor_temp:
         friendly_name: "Master Bedroom Outdoor Temp"
+        unique_id: 1a79ac59-0faf-4de5-b546-5d6d5e151dd6
         value_template: >
           {{ state_attr('climate.master_bedroom_aircon','outdoor_temperature') | float }}
       master_bedroom_target_temp:
         friendly_name: "Master Bedroom Target Temp"
+        unique_id: 2ce31844-b115-42b8-8213-feccf24e236c
         value_template: >
           {{ state_attr('climate.master_bedroom_aircon','temperature') | float }}
       master_bedroom_aircon_eco_mode:
         friendly_name: "Master Bedroom Eco Mode"
+        unique_id: edf36e23-adcf-4506-80eb-a14f4ea2fce0
         value_template: >-
           {% if is_state_attr('climate.master_bedroom_aircon','preset_mode','eco') %}
             On
@@ -34,6 +38,7 @@ sensor:
         availability_template: "{{ states('climate.master_bedroom_aircon') not in ['unavailable','unknown'] }}"
       master_bedroom_aircon_fan_mode:
         friendly_name: "Master Bedroom Aircon Fan Mode"
+        unique_id: c0e4f9ba-0c6c-4673-9a75-13f253f2f2e8
         value_template: >
           {{ state_attr('climate.master_bedroom_aircon','fan_mode') }}
         icon_template: >

@@ -9,6 +9,7 @@ input_boolean:
 template:
   - binary_sensor:
     - name: Michigan Wolverines Inhibit
+      unique_id: f361b30c-1771-41b3-85ff-ef1e0b6be59c
       state: >
         {% if state_attr('sensor.michigan_wolverines','kickoff_in') %}
           {% if 'months' in state_attr('sensor.michigan_wolverines','kickoff_in') %}
@@ -22,6 +23,7 @@ template:
           false
         {% endif %}
     - name: Ohio State Buckeyes Inhibit
+      unique_id: d5359cb4-427a-46f8-99d6-4313530fde81
       state: >
         {% if state_attr('sensor.ohio_state_buckeyes','kickoff_in') %}
           {% if 'months' in state_attr('sensor.ohio_state_buckeyes','kickoff_in') %}
@@ -35,6 +37,7 @@ template:
           false
         {% endif %}
     - name: Toledo Rockets Inhibit
+      unique_id: 1f84d3f3-a06e-4745-a593-c21fe3504072
       state: >
         {% if state_attr('sensor.toledo_rockets','kickoff_in') %}
           {% if 'months' in state_attr('sensor.toledo_rockets','kickoff_in') %}
@@ -48,6 +51,7 @@ template:
           false
         {% endif %}
     - name: Minnesota Vikings Inhibit
+      unique_id: ea60c987-a95b-4024-a9c7-1bc6975e07e2
       state: >
         {% if state_attr('sensor.minnesota_vikings','kickoff_in') %}
           {% if 'months' in state_attr('sensor.minnesota_vikings','kickoff_in') %}
@@ -61,6 +65,7 @@ template:
           false
         {% endif %}
     - name: San Francisco 49ers Inhibit
+      unique_id: ce2441fa-09d6-4afc-b350-fee3745cdb50
       state: >
         {% if state_attr('sensor.san_francisco_49ers','kickoff_in') %}
           {% if 'months' in state_attr('sensor.san_francisco_49ers','kickoff_in') %}
@@ -74,6 +79,7 @@ template:
           false
         {% endif %}
     - name: Cleveland Guardians Inhibit
+      unique_id: b0980d47-d762-4f23-97b1-9e88da729d8f
       state: >
         {% if state_attr('sensor.cleveland_guardians','kickoff_in') %}
           {% if 'months' in state_attr('sensor.cleveland_guardians','kickoff_in') %}
@@ -87,6 +93,7 @@ template:
           false
         {% endif %}
     - name: Minnesota Twins Inhibit
+      unique_id: 2987ae95-f55d-4994-b9dd-018278d2f5ad
       state: >
         {% if state_attr('sensor.minnesota_twins','kickoff_in') %}
           {% if 'months' in state_attr('sensor.minnesota_twins','kickoff_in') %}
@@ -100,6 +107,7 @@ template:
           false
         {% endif %}
     - name: Los Angeles Dodgers Inhibit
+      unique_id: 2c6aae6e-eff6-46e5-bee9-311f9bbc0c0e
       state: >
         {% if state_attr('sensor.los_angeles_dodgers','kickoff_in') %}
           {% if 'months' in state_attr('sensor.los_angeles_dodgers','kickoff_in') %}

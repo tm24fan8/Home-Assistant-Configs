@@ -2,61 +2,73 @@
   sensors:
     sensor_count:
       friendly_name: 'Number of Sensors'
+      unique_id: e068dac5-a6f8-438d-a5df-93fa2c4eee2e
       value_template: >-
         {{ states.sensor | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
       unit_of_measurement: ''
     automation_count:
       friendly_name: 'Number of Automations'
+      unique_id: ff75e7c9-1eac-4254-9a8d-4ed742a95233
       value_template: >-
         {{ states.automation| rejectattr('state', 'eq', 'unavailable') | list | count | int }}
       unit_of_measurement: ''
     script_count:
       friendly_name: 'Number of Scripts'
+      unique_id: 29827719-36a0-4dad-9527-6b60aba3c4aa
       value_template: >-
         {{ states.script | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
       unit_of_measurement: ''
     binary_sensor_count:
       friendly_name: 'Number of Binary Sensors'
+      unique_id: ffee9622-84f6-40df-b870-b8f79aa01943
       value_template: >-
         {{ states.binary_sensor | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
       unit_of_measurement: ''
     tracker_count:
       friendly_name: 'Number of Devices'
+      unique_id: bc5c5934-084d-4bcb-930b-d48347ba1b3c
       value_template: >-
         {{ states.device_tracker| rejectattr('state', 'eq', 'unavailable') | list | count | int }}
       unit_of_measurement: ''
     lights_count:
       friendly_name: 'Number of Lights'
+      unique_id: 71b7d157-4701-49dd-9145-41c5c93e22b4
       value_template: >-
         {{ states.light | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
       unit_of_measurement: ''
     switches_count:
       friendly_name: 'Number of Switches'
+      unique_id: d2d60031-818c-475f-8243-c0101616847d
       value_template: >-
         {{ states.switch | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
       unit_of_measurement: ''
     camera_count:
       friendly_name: 'Number of online Cameras'
+      unique_id: 46cefd93-b7d5-4fbf-b6d4-2fe94a053122
       value_template: >-
         {{ states.camera | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
       unit_of_measurement: ''
     media_player_count:
       friendly_name: 'Number of Media Players'
+      unique_id: 295c724c-2044-4d06-8272-d92b086ff76f
       value_template: >-
         {{ states.media_player | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
       unit_of_measurement: ''
     entities_count:
       friendly_name: 'Number of Entities'
+      unique_id: f2b17937-59ca-4a84-9a1b-a666bfb0566b
       value_template: >-
         {{ states | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
       unit_of_measurement: ''
     na_entities_count:
       friendly_name: 'Number of NA Entities'
+      unique_id: cf2e5f8c-7f82-40c6-ae76-b587b7945c41
       value_template: >-
         {{ states | selectattr('state', 'eq', 'unavailable') | map(attribute='entity_id') | list | count | int }}
       unit_of_measurement: ''
     current_lights_on:
       friendly_name: Current Lights On
+      unique_id: ea4afe4a-d0ac-4fce-968f-b181e50f4dc8
       unit_of_measurement: ''
       value_template: >-
         {% set lights = [
@@ -91,6 +103,7 @@
         {{ lights | selectattr('state','eq','on') | list | count | int }}
     first_floor_lights_on:
       friendly_name: First Floor Lights On
+      unique_id: fca1468d-4e0c-40ff-8c7f-251f99ee1b5b
       unit_of_measurement: ''
       value_template: >-
         {% set lights = [
@@ -108,6 +121,7 @@
         {{ lights | selectattr('state','eq','on') | list | count | int }}
     second_floor_lights_on:
       friendly_name: Second Floor Lights On
+      unique_id: 517a73c0-67a0-44f9-99f3-5dfec784da18
       unit_of_measurement: ''
       value_template: >-
         {% set lights = [
@@ -127,6 +141,7 @@
         {{ lights | selectattr('state','eq','on') | list | count | int }}
     basement_lights_on:
       friendly_name: Basement Lights On
+      unique_id: 1a9e13d1-c2bd-44e4-82b2-b975ca61eed3
       unit_of_measurement: ''
       value_template: >-
         {% set lights = [
@@ -138,6 +153,7 @@
         {{ lights | selectattr('state','eq','on') | list | count | int }}
     current_fans_on:
       friendly_name: Current Fans On
+      unique_id: 41171a78-ab1c-43bf-81c3-26b960e30b86
       unit_of_measurement: ''
       value_template: >-
         {% set fans = [
@@ -149,6 +165,7 @@
         {{ fans | selectattr('state','eq','on') | list | count | int }}
     current_outdoor_lights_on:
       friendly_name: Current Outdoor Lights On
+      unique_id: 252981eb-e7bf-464a-9bfb-ab14dec4eb70
       unit_of_measurement: ''
       value_template: >-
         {% set lights = [
@@ -157,6 +174,7 @@
         {{ lights | selectattr('state','eq','on') | list | count | int }}
     current_computers_on:
       friendly_name: Current Computers On
+      unique_id: fb3f14f3-d0c9-4880-88c6-143d56248f13
       unit_of_measurement: ''
       value_template: >-
         {% set computers = [
@@ -168,6 +186,7 @@
         {{ computers | selectattr('state','eq','on') | list | count | int }}
     climate_devices_installed:
       friendly_name: Climate Devices Installed
+      unique_id: e227272d-a10b-4641-ad27-39dc88a1ac2a
       unit_of_measurement: ''
       value_template: >-
         {% set devices = [
@@ -177,6 +196,7 @@
         {{ devices | selectattr('state','eq','on') | list | count | int }}
     front_porch_color_temp:
       friendly_name: Front Porch Color Temp
+      unique_id: 21a01514-d382-4c57-9add-3d500464b22b
       unit_of_measurement: 'mireds'
       value_template: >
         {% if is_state('light.front_porch_light','off') %}
@@ -186,6 +206,7 @@
         {% endif %}
     birthdays_today:
       friendly_name: Birthdays Today
+      unique_id: ec61c919-60a0-47a2-978c-aa2453267d3d
       unit_of_measurement: ''
       value_template: >
         {% set birthdays = [
@@ -211,6 +232,7 @@
     # The sum of all the years of life in our household, because why not LOL
     total_age_years:
       friendly_name: Total Age Years
+      unique_id: c1380627-b3a5-43ce-811d-3fb856c062a1
       unit_of_measurement: ''
       value_template: >
         {% set tony = states('sensor.tony_current_age') | int %}

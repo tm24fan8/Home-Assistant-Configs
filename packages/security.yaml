@@ -57,6 +57,7 @@ sensor:
     sensors:
       windows_open:
         friendly_name: "Windows"
+        unique_id: 780770d2-8b5a-4c96-aee4-459281cc3471
         unit_of_measurement: 'open'
         value_template: >-
           {% set windows = [
@@ -82,6 +83,7 @@ sensor:
           {% endif %}
       doors_open: #! This sensor is only for exterior doors, and interior doors that are NOT excluded from security protocols
         friendly_name: "Doors"
+        unique_id: 61b1a98a-51a4-4faa-947d-7883de2430c0
         unit_of_measurement: 'open'
         value_template: >-
           {% set doors = [
@@ -103,6 +105,7 @@ sensor:
           {% endif %}
       interior_doors_open: # This sensor is not used for security purposes, only for information
         friendly_name: "Interior Doors"
+        unique_id: 772aa056-881a-4778-ba5b-19e46afc107a
         unit_of_measurement: 'open'
         value_template: >-
           {% set doors = [
@@ -124,6 +127,7 @@ sensor:
           {% endif %}
       total_faults:
         friendly_name: Faults
+        unique_id: 1629a83a-a46c-4041-9e49-8e54c5195388
         unit_of_measurement: 'open'
         value_template: >-
           {% set windows_open = states('sensor.windows_open') | int %}

@@ -4,41 +4,49 @@
   workdays: [mon, tue, wed, thu, fri]
 
 - platform: tod
+  unique_id: bd5fb9bd-4cd6-4f50-af01-0c59be740757
   name: Night
   after: sunset
   before: sunrise
 
 - platform: tod
+  unique_id: f6cba6c9-6de9-48c6-9bb0-d3e052f3d3f8
   name: Day
   after: sunrise
   before: sunset
 
 - platform: tod
+  unique_id: 869b77f3-3ea7-4de6-b201-2aa9e4661075
   name: Quiet time
   after: '21:00'
   before: '07:00'
 
 - platform: tod
+  unique_id: 0aa45991-5828-4cf6-b6a4-38189517a265
   name: Morning
   after: '06:30'
   before: '09:00'
 
 - platform: tod
+  unique_id: 251c62a9-8da4-437f-8a4c-92e407d1afde
   name: Late Morning
   after: '09:00'
   before: '12:00'
 
 - platform: tod
+  unique_id: cd0e6ba6-86ee-419c-a926-5f1aa125648a
   name: Midday
   after: '09:00'
   before: '17:00'
 
 - platform: tod
+  unique_id: 51e388e1-3b50-48d7-8f6e-aa6ae7b846e5
   name: Evening
   after: '17:00'
   before: '21:00'
 
 - platform: tod
+  unique_id: deb55666-14f4-460e-8e74-94c8d7ba5d4a
   name: Overnight
   after: '20:00'
   before: '06:30'

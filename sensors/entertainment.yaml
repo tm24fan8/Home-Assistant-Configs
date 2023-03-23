@@ -11,6 +11,7 @@
   sensors:
     basement_tv_current_app:
       friendly_name: 'Basement TV Current App'
+      unique_id: 838c2320-24b6-4555-959e-0546580ae8b2
       value_template: >-
         {% if is_state('media_player.basement_tv','off') %}
           Off
@@ -19,6 +20,7 @@
         {% endif %}
     living_room_tv_current_app:
       friendly_name: 'Living Room TV Current App'
+      unique_id: b03de99d-b7fa-4f4c-8cdf-758c906dffe4
       value_template: >-
         {% if is_state('media_player.living_room_tv','off') %}
           Off
@@ -27,6 +29,7 @@
         {% endif %}
     master_bedroom_tv_current_app:
       friendly_name: 'Master Bedroom TV Current App'
+      unique_id: 4bf4bef3-fc81-4259-a75c-6693ceba0926
       value_template: >-
         {% if is_state('media_player.master_bedroom_firetv','off') %}
           Off

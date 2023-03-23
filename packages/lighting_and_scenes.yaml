@@ -262,6 +262,7 @@ sensor:
     sensors:
       basement_studio_lights_brightness_actual:
         friendly_name: "Basement Studio Lights - Brightness Actual"
+        unique_id: dee4dc84-a6a0-4150-903e-5b8bd436d962
         value_template: >
           {% set current = state_attr('light.basement_studio_lights','brightness') %}
           {{ ((current / 255) * 100) | float | round(2) }}
@@ -275,6 +276,7 @@ sensor:
         icon_template: mdi:brightness-percent
       basement_studio_lights_brightness_intended:
         friendly_name: "Basement Studio Lights - Brightness Intended"
+        unique_id: 3542077f-24c6-460c-a73f-fe7bc8413b81
         value_template: "{{ state_attr('switch.adaptive_lighting_basement_studio','brightness_pct') | float | round(2) }}"
         availability_template: >
           {% if is_state('switch.adaptive_lighting_basement_studio','on') %}
@@ -286,6 +288,7 @@ sensor:
         icon_template: mdi:brightness-percent
       basement_studio_lights_colortemp_actual:
         friendly_name: "Basement Studio Lights - Colortemp Actual"
+        unique_id: 93cb2a2f-c8a7-44bf-813f-26ce349a072f
         value_template: "{{ state_attr('light.basement_studio_lights','color_temp_kelvin') | int }}"
         availability_template: >
           {% if is_state('light.basement_studio_lights','on') %}
@@ -297,6 +300,7 @@ sensor:
         icon_template: mdi:thermometer-lines
       basement_studio_lights_colortemp_intended:
         friendly_name: "Basement Studio Lights - Colortemp Intended"
+        unique_id: 85d4b063-bae8-43c2-9fea-35820b13f26f
         value_template: "{{ state_attr('switch.adaptive_lighting_basement_studio','color_temp_kelvin') | int }}"
         availability_template: >
           {% if is_state('switch.adaptive_lighting_basement_studio','on') %}
@@ -308,6 +312,7 @@ sensor:
         icon_template: mdi:thermometer-lines
       basement_studio_lights_brightness_diff:
         friendly_name: "Basement Studio Lights - Brightness Diff"
+        unique_id: ab24a44c-6c6b-4ae9-b256-52592b0503bb
         value_template: >
           {% set current = states('sensor.basement_studio_lights_brightness_actual') | float %}
           {% set intended = states('sensor.basement_studio_lights_brightness_intended') | float %}
@@ -322,6 +327,7 @@ sensor:
         icon_template: mdi:brightness-percent
       basement_studio_lights_colortemp_diff:
         friendly_name: "Basement Studio Lights - Colortemp Diff"
+        unique_id: fecf7d42-9a5c-471e-9af3-e1a330a6ae3e
         value_template: >
           {% set current = states('sensor.basement_studio_lights_colortemp_actual') | float %}
           {% set intended = states('sensor.basement_studio_lights_colortemp_intended') | float %}

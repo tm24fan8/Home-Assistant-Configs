@@ -77,7 +77,6 @@ sensor:
       tony_location:
         friendly_name: "Tony"
         unique_id: 2620a9d0-01f0-4af4-8438-a0c860735aab
-        unit_of_measurement: ""
         value_template: >-
           {% set person = states.person.tony_stork.state %}
           {% if person in ['Home','home'] %}
@@ -103,7 +102,6 @@ sensor:
       tina_location:
         friendly_name: "Tina"
         unique_id: 5439165c-f73e-4870-826a-d12c99e35487
-        unit_of_measurement: ""
         value_template: >-
           {% set person = states.person.christina_stork.state %}
           {% if person in ['Home','home'] %}
@@ -131,7 +129,6 @@ sensor:
       kallen_location:
         friendly_name: "Kallen"
         unique_id: d4b4c324-52aa-41e4-b446-8ba0d6b45cd3
-        unit_of_measurement: ""
         value_template: >-
           {% set person = states.person.kallen_stork.state %}
           {% if person in ['Home','home'] %}
@@ -280,14 +277,17 @@ template:
 mqtt:
   sensor:
     - name: "Family Status"
+      unique_id: 47d0cef6-6c95-4e8e-bf89-6c657db6102c
       state_topic: "house/family/status"
       payload_available: "online"
       payload_not_available: "offline"
     - name: "Family Arrived"
+      unique_id: a6574daf-5345-43b9-90c8-5e99ce56df0b
       state_topic: "house/family/arrived"
       payload_available: "online"
       payload_not_available: "offline"
     - name: "Last Outdoor Presence Trigger"
+      unique_id: f16493e7-0344-4f2b-94b4-2c89ab0e3eb6
       state_topic: "house/presence/outdoor/last_trigger"
       payload_available: "online"
       payload_not_available: "offline"
