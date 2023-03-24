@@ -26,6 +26,22 @@ input_select:
     initial: error
     icon: mdi:bug
 
+input_number:
+  basement_computers_idle_time:
+    name: Basement Computers Idle Time
+    min: 0
+    max: 120
+    unit_of_measurement: m
+    step: 5
+    icon: mdi:timer
+  first_floor_computers_idle_time:
+    name: First Floor Computers Idle Time
+    min: 0
+    max: 120
+    unit_of_measurement: m
+    step: 5
+    icon: mdi:timer
+
 sensor:
   - platform: command_line
     name: Lines of Code
@@ -107,22 +123,22 @@ template:
         power_usage: "{{ states('sensor.basement_server_power') | int }}W"
     - name: Tony Desktop Idle
       unique_id: f0ace986-a874-4fb0-ad29-8f3ebf95d8cc
-      state: "{{ states('sensor.tony_asus_system_idle_time') | int > 3600 }}"
+      state: "{{ (states('sensor.tony_asus_system_idle_time') | int) > (states('input_number.basement_computers_idle_time') | int * 60) }}"
       attributes:
         idle_time: "{{ states('sensor.tony_asus_system_idle_time') | int }}s"
     - name: Tina Desktop Idle
       unique_id: 1933c638-c94b-468e-bb7a-c1c5b36c3651
-      state: "{{ states('sensor.xia_desktop_system_idle_time') | int > 3600 }}"
+      state: "{{ (states('sensor.xia_desktop_system_idle_time') | int) > (states('input_number.first_floor_computers_idle_time') | int * 60) }}"
       attributes:
         idle_time: "{{ states('sensor.xia_desktop_system_idle_time') | int }}s"
     - name: Kallen Desktop Idle
       unique_id: 680c6ae3-2ed2-451e-858b-2aee688af461
-      state: "{{ states('sensor.kallen_desktop_system_idle_time') | int > 3600 }}"
+      state: "{{ (states('sensor.kallen_desktop_system_idle_time') | int) > (states('input_number.basement_computers_idle_time') | int * 60) }}"
       attributes:
         idle_time: "{{ states('sensor.kallen_desktop_system_idle_time') | int }}s"
     - name: Asus Laptop Idle
       unique_id: 7d8eb80a-0a2e-48a9-84b3-33175304dd95
-      state: "{{ states('sensor.asus_laptop_system_idle_time') | int > 3600 }}"
+      state: "{{ states('sensor.asus_laptop_system_idle_time') | int > 1800 }}"
       attributes:
         idle_time: "{{ states('sensor.asus_laptop_system_idle_time') }}s"
 
