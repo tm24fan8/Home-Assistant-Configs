@@ -10,7 +10,7 @@ input_select:
       - info
       - debug
       - notset
-    initial: error
+    initial: fatal
     icon: mdi:bug
   default_log_level:
     name: Default Log Level
