@@ -991,56 +991,55 @@ script:
             entity_id: input_text.emma_bedroom_selected_scene
           data:
             value: Adaptive
-      - choose:
-        - conditions:
-          - condition: state
-            entity_id: input_boolean.shower_mode
-            state: 'on'
-          sequence:
-            - stop: "Shower mode is on"
-        - conditions:
-          - condition: state
-            entity_id: binary_sensor.upstairs_bathroom_motion
-            state: 'on'
-          sequence:
-          - service: input_select.select_option
-            target:
-              entity_id: input_select.upstairs_bathroom_scenes
-            data:
-              option: Adaptive
-        - conditions:
-          - condition: template
-            value_template: "{{ is_state('binary_sensor.upstairs_bathroom_motion','off') and is_state('timer.upstairs_bathroom_motion_timer','active') }}"
-          sequence:
-          - service: timer.finish
-            target:
-              entity_id: timer.upstairs_bathroom_motion_timer
-        default:
-        - if:
-          - condition: state
-            entity_id: binary_sensor.early_night_mode
-            state: 'on'
-          then:
-          - service: input_select.select_option
-            target:
-              entity_id: input_select.upstairs_bathroom_scenes
-            data:
-              option: Nightlight
-          else:
-          - service: light.turn_off
-            target:
-              entity_id: light.upstairs_bathroom_lights
-          - service: switch.turn_on
-            target:
-              entity_id: switch.adaptive_lighting_upstairs_bathroom
-          - service: switch.turn_off
-            target:
-              entity_id: switch.adaptive_lighting_sleep_mode_upstairs_bathroom
-          - service: input_text.set_value
-            target:
-              entity_id: input_text.upstairs_bathroom_selected_scene
-            data:
-              value: Adaptive
+      - if:
+        - condition: state
+          entity_id: input_boolean.shower_mode
+          state: 'off'
+        then:
+        - choose:
+          - conditions:
+            - condition: state
+              entity_id: binary_sensor.upstairs_bathroom_motion
+              state: 'on'
+            sequence:
+            - service: input_select.select_option
+              target:
+                entity_id: input_select.upstairs_bathroom_scenes
+              data:
+                option: Adaptive
+          - conditions:
+            - condition: template
+              value_template: "{{ is_state('binary_sensor.upstairs_bathroom_motion','off') and is_state('timer.upstairs_bathroom_motion_timer','active') }}"
+            sequence:
+            - service: timer.finish
+              target:
+                entity_id: timer.upstairs_bathroom_motion_timer
+          default:
+          - if:
+            - condition: state
+              entity_id: binary_sensor.early_night_mode
+              state: 'on'
+            then:
+            - service: input_select.select_option
+              target:
+                entity_id: input_select.upstairs_bathroom_scenes
+              data:
+                option: Nightlight
+            else:
+            - service: light.turn_off
+              target:
+                entity_id: light.upstairs_bathroom_lights
+            - service: switch.turn_on
+              target:
+                entity_id: switch.adaptive_lighting_upstairs_bathroom
+            - service: switch.turn_off
+              target:
+                entity_id: switch.adaptive_lighting_sleep_mode_upstairs_bathroom
+            - service: input_text.set_value
+              target:
+                entity_id: input_text.upstairs_bathroom_selected_scene
+              data:
+                value: Adaptive
 
   bright_on_first_floor:
     alias: 'Bright on First Floor'
@@ -1089,7 +1088,16 @@ script:
           entity_id:
             - light.hallway_overhead
             - light.master_bedroom_lights
-            - light.upstairs_bathroom_lights
+      - if:
+        - condition: state
+          entity_id: input_boolean.shower_mode
+          state: 'off'
+        then:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.upstairs_bathroom_scenes
+          data: 
+            option: Bright
       - if:
         - condition: state
           entity_id: input_boolean.kallen_sleeping
@@ -1112,10 +1120,19 @@ script:
         target:
           entity_id:
             - input_select.upstairs_hallway_scenes
-            - input_select.upstairs_bathroom_scenes
             - input_select.master_bedroom_scenes
         data:
           option: Bright
+      - if:
+        - condition: state
+          entity_id: input_boolean.shower_mode
+          state: 'off'
+        then:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.upstairs_bathroom_scenes
+          data:
+            option: Bright
       - if:
         - condition: template
           value_template: >
@@ -1282,18 +1299,23 @@ script:
               - input_select.upstairs_hallway_scenes
             data:
               option: Nightlight
-          - service: input_select.select_option
-            target:
-              entity_id: input_select.upstairs_bathroom_scenes
-            data:
-              option: >
-                {% if is_state('binary_sensor.upstairs_bathroom_motion','on') %}
-                  Adaptive
-                {% elif is_state('timer.upstairs_bathroom_motion_timer','active') %}
-                  Adaptive
-                {% else %}
-                  Nightlight
-                {% endif %}
+          - if:
+            - condition: state
+              entity_id: input_boolean.shower_mode
+              state: 'off'
+            then:
+            - service: input_select.select_option
+              target:
+                entity_id: input_select.upstairs_bathroom_scenes
+              data:
+                option: >
+                  {% if is_state('binary_sensor.upstairs_bathroom_motion','on') %}
+                    Adaptive
+                  {% elif is_state('timer.upstairs_bathroom_motion_timer','active') %}
+                    Adaptive
+                  {% else %}
+                    Nightlight
+                  {% endif %}
           - service: light.turn_off
             target:
               area_id:
@@ -1334,18 +1356,23 @@ script:
               - kallen_bedroom
               - emma_bedroom
               - upstairs_hallway
-          - service: input_select.select_option
-            target:
-              entity_id: input_select.upstairs_bathroom_scenes
-            data:
-              option: >
-                {% if is_state('binary_sensor.upstairs_bathroom_motion','on') %}
-                  Adaptive
-                {% elif is_state('timer.upstairs_bathroom_motion_timer','active') %}
-                  Adaptive
-                {% else %}
-                  Nightlight
-                {% endif %}
+          - if:
+            - condition: state
+              entity_id: input_boolean.shower_mode
+              state: 'off'
+            then:
+            - service: input_select.select_option
+              target:
+                entity_id: input_select.upstairs_bathroom_scenes
+              data:
+                option: >
+                  {% if is_state('binary_sensor.upstairs_bathroom_motion','on') %}
+                    Adaptive
+                  {% elif is_state('timer.upstairs_bathroom_motion_timer','active') %}
+                    Adaptive
+                  {% else %}
+                    Nightlight
+                  {% endif %}
           - delay:
               seconds: 1
           - service: switch.turn_on
