@@ -273,6 +273,9 @@ template:
         {% else %}
           false
         {% endif %}
+    - name: "Upstairs Bathroom Occupied"
+      unique_id: 7ec69a26-1013-4b0d-8662-a91ab9f040ca
+      state: "{{ is_state('timer.upstairs_bathroom_motion_timer','active') or is_state('binary_sensor.upstairs_bathroom_motion','on') or is_state('input_boolean.shower_mode','on') }}"
 
 mqtt:
   sensor:

@@ -996,25 +996,17 @@ script:
           entity_id: input_boolean.shower_mode
           state: 'off'
         then:
-        - choose:
-          - conditions:
-            - condition: state
-              entity_id: binary_sensor.upstairs_bathroom_motion
-              state: 'on'
-            sequence:
-            - service: input_select.select_option
-              target:
-                entity_id: input_select.upstairs_bathroom_scenes
-              data:
-                option: Adaptive
-          - conditions:
-            - condition: template
-              value_template: "{{ is_state('binary_sensor.upstairs_bathroom_motion','off') and is_state('timer.upstairs_bathroom_motion_timer','active') }}"
-            sequence:
-            - service: timer.finish
-              target:
-                entity_id: timer.upstairs_bathroom_motion_timer
-          default:
+        - if:
+          - condition: state
+            entity_id: binary_sensor.upstairs_bathroom_occupied
+            state: 'on'
+          then:
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.upstairs_bathroom_scenes
+            data:
+              option: Adaptive
+          else:
           - if:
             - condition: state
               entity_id: binary_sensor.early_night_mode
@@ -1309,9 +1301,7 @@ script:
                 entity_id: input_select.upstairs_bathroom_scenes
               data:
                 option: >
-                  {% if is_state('binary_sensor.upstairs_bathroom_motion','on') %}
-                    Adaptive
-                  {% elif is_state('timer.upstairs_bathroom_motion_timer','active') %}
+                  {% if is_state('binary_sensor.upstairs_bathroom_occupied','on') %}
                     Adaptive
                   {% else %}
                     Nightlight
@@ -1366,9 +1356,7 @@ script:
                 entity_id: input_select.upstairs_bathroom_scenes
               data:
                 option: >
-                  {% if is_state('binary_sensor.upstairs_bathroom_motion','on') %}
-                    Adaptive
-                  {% elif is_state('timer.upstairs_bathroom_motion_timer','active') %}
+                  {% if is_state('binary_sensor.upstairs_bathroom_occupied','on') %}
                     Adaptive
                   {% else %}
                     Nightlight
