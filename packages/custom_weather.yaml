@@ -24,11 +24,7 @@ template:
       state: >
         {% set temp = states('sensor.pirateweather_temperature') | int %}
         {% set threshold = states('input_number.hot_day_threshold') | int %}
-        {% if temp >= threshold %}
-          true
-        {% else %}
-          false
-        {% endif %}
+        {{ temp >= threshold }}
       device_class: heat
       attributes:
         current_temp: "{{ states('sensor.pirateweather_temperature') | int }}"
@@ -38,11 +34,7 @@ template:
       state: >
         {% set feelslike = states('sensor.pirateweather_apparent_temperature') | int %}
         {% set threshold = states('input_number.heat_index_threshold') | int %}
-        {% if feelslike >= threshold %}
-          true
-        {% else %}
-          false
-        {% endif %}
+        {{ feelslike >= threshold }}
       device_class: heat
       attributes:
         current_temp: "{{ states('sensor.pirateweather_apparent_temperature') | int }}"
@@ -52,11 +44,7 @@ template:
       state: >
         {% set temp = states('sensor.pirateweather_temperature') | int %}
         {% set threshold = states('input_number.cold_day_threshold') | int %}
-        {% if temp <= threshold %}
-          true
-        {% else %}
-          false
-        {% endif %}
+        {{ temp <= threshold }}
       device_class: cold
       attributes:
         current_temp: "{{ states('sensor.pirateweather_temperature') | int }}"
@@ -66,11 +54,7 @@ template:
       state: >
         {% set temp = states('sensor.pirateweather_temperature') | int %}
         {% set threshold = states('input_number.overnight_low_threshold') | int%}
-        {% if temp <= threshold %}
-          true
-        {% else %}
-          false
-        {% endif %}
+        {{ temp <= threshold }}
       device_class: cold
       attributes:
         current_temp: "{{ states('sensor.pirateweather_temperature') | int }}"
@@ -80,11 +64,7 @@ template:
       state: >
         {% set feelslike = states('sensor.pirateweather_apparent_temperature') | int %}
         {% set threshold = states('input_number.wind_chill_threshold') | int %}
-        {% if feelslike <= threshold %}
-          true
-        {% else %}
-          false
-        {% endif %}
+        {{ feelslike <= threshold }}
       device_class: cold
       attributes:
         current_temp: "{{ states('sensor.pirateweather_temperature') | int }}"
