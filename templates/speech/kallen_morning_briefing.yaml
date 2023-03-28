@@ -26,7 +26,7 @@
       {% endif %}
     </p>
     <p>
-      {% if is_state('input_boolean.lightning_warning','on') %}
+      {% if is_state('binary_sensor.lightning_warning','on') %}
         {% set ltgdist = (states('sensor.blitzortung_lightning_distance') | int) / 1.609 | round %}
         {{ [
           "There are reports of lightning in the area, please stay safe. ",

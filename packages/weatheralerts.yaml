@@ -1512,12 +1512,9 @@ automation:
     alias: Lightning Detected
     trigger:
       - platform: state
-        entity_id: sensor.lightning_warning
-        to: 'Unsafe'
-    condition:
-      - condition: state
-        entity_id: input_boolean.lightning_warning
-        state: 'off'
+        entity_id: binary_sensor.lightning_warning
+        from: 'off'
+        to: 'on'
     action:
       - service: script.lightning_warning
 
@@ -1526,12 +1523,9 @@ automation:
     alias: Lightning Warning Off
     trigger:
       - platform: state
-        entity_id: sensor.lightning_warning
-        to: 'Safe'
-    condition:
-      - condition: state
-        entity_id: input_boolean.lightning_warning
-        state: 'on'
+        entity_id: binary_sensor.lightning_warning
+        from: 'on'
+        to: 'off'
     action:
       - service: script.lightning_clear
 
@@ -1625,9 +1619,6 @@ script:
             {% set ltgdist = (states('sensor.blitzortung_lightning_distance') | int) / 1.609 | round %}
             "Lightning has been detected within 20 miles of the house. Nearest storm is {{ ltgdist }} miles away."
           tag: lightning-warning
-      - service: input_boolean.turn_on
-        target:
-          entity_id: input_boolean.lightning_warning
       - if:
         - condition: state
           entity_id:  input_boolean.audible_notifications
@@ -1694,8 +1685,6 @@ script:
           who: 'all'
           title: "Lightning Clear"
           message: "The lightning threat has passed. It is safe to resume normal activities."
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.lightning_warning
 
   ## Script creates UI notification and is called via automation defined above
   weatheralerts_popup_on_wx_alert:

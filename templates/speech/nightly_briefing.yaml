@@ -24,7 +24,7 @@
         "Currently there are weather alerts active. The total number of alerts is {{ states('sensor.weather_alerts_active_corrected') }}. They are as follows. "
           {{ states('sensor.weather_alert_string') }}.
       {% endif %}
-      {% if is_state('input_boolean.lightning_warning','on') %}
+      {% if is_state('binary_sensor.lightning_warning','on') %}
         {% set ltgdist = (states('sensor.blitzortung_lightning_distance') | int) / 1.609 | round %}
         {{ [
           "There are reports of lightning in the area, please stay safe. ",

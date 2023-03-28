@@ -69,6 +69,12 @@ template:
       attributes:
         current_temp: "{{ states('sensor.pirateweather_temperature') | int }}"
         threshold: "{{ states('input_number.wind_chill_threshold') | int }}"
+    - name: "Lightning Warning"
+      unique_id: edaddfc4-f7f0-4d75-aada-a2c588afe029
+      state: "{{ states('sensor.blitzortung_lightning_counter') | int > 0 }}"
+      device_class: safety
+      attributes:
+        current_strikes: "{{ states('sensor.blitzortung_lightning_counter') | int }}"
 
 sensor:
   - platform: weatheralerts
@@ -840,15 +846,6 @@ sensor:
       # previous_rainfall:
       #   friendly_name: "Past 48h Rainfall"
       #   value_template: "{{ states('sensor.daily_rainfall_in') | float  + state_attr('sensor.daily_rainfall_in', 'last_period') | float  }}"
-      lightning_warning:
-        friendly_name: "Lightning Warning"
-        unique_id: 72bd76a2-ec5b-49fd-982f-ed1ec225514e
-        value_template: >-
-            {%- if states('sensor.blitzortung_lightning_counter') | int > 0 %}
-              Unsafe
-            {% else %}
-              Safe
-            {%- endif %}
       weather_alert_string:
         friendly_name: Weather Alert String
         unique_id: 66b5f020-0b5e-48ed-92a2-740d2d708b30
@@ -928,9 +925,6 @@ input_boolean:
   weather_alert_texts:
     name: Weather Alert Texts
     icon: mdi:message-processing
-  lightning_warning:
-    name: Lightning Warning
-    icon: mdi:flash-alert
   tornado_alarm:
     name: Tornado Alarm
     icon: mdi:speaker-wireless
