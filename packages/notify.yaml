@@ -1731,7 +1731,7 @@ script:
     sequence:
       - service: script.speech_engine_simplified
         data:
-          who: '{{ states(''sensor.last_alexa'') }}'
+          who: '{{ states(''sensor.last_alexa_entity_id'') }}'
           message: >
             At {{ states('sensor.jarvis_last_msg_time') }}
             in the {{ states('sensor.jarvis_last_location') }}

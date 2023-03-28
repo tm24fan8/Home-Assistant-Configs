@@ -167,22 +167,3 @@ mqtt:
   sensor:
     - name: "Room Presence"
       state_topic: "house/presence/current_room"
-
-sensor:
-  - platform: template
-    sensors:
-      alexa_audio:
-        friendly_name: "Alexa Audio"
-        value_template: >-
-            {%- if is_state('sensor.last_alexa', 'media_player.living_room_echo_dot') %}
-              Living Room Echo Dot
-            {% elif is_state('sensor.last_alexa', 'media_player.basement_echo_dot') %}
-              Basement Echo Dot
-            {% elif is_state('sensor.last_alexa', 'media_player.master_bedroom_echo_dot') %}
-              Master Bedroom Echo Dot
-            {% else %}
-              Living Room Echo Dot
-            {%- endif %}
-      last_alexa:
-        value_template: >
-          {{ states.media_player | selectattr('attributes.last_called','eq',True) | map(attribute='entity_id') | first }}

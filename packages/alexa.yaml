@@ -126,7 +126,7 @@ automation:
           - service: script.kallen_desktop_wake
           - service: script.status_annc
             data:
-              who: "{{ states('sensor.last_alexa') }}"
+              who: "{{ states('sensor.last_alexa_entity_id') }}"
               call_confirmation: 1
       - if:
         - condition: trigger
@@ -134,7 +134,7 @@ automation:
         then:
           - service: script.status_annc
             data:
-              who: "{{ states('sensor.last_alexa') }}"
+              who: "{{ states('sensor.last_alexa_entity_id') }}"
               call_confirm_no: 1
 
   - id: d1edfcf7-2712-49f4-b8f1-17f5b184b5ce
@@ -168,7 +168,7 @@ automation:
         then:
         - service: script.status_annc
           data:
-            who: "{{ states('sensor.last_alexa') }}"
+            who: "{{ states('sensor.last_alexa_entity_id') }}"
             call_security_not_armed: 1
 
 script:

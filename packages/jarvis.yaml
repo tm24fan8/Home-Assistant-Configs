@@ -27,7 +27,7 @@ script:
     sequence:
       - service: script.status_annc
         data:
-          who: "{{ states('sensor.last_alexa')}}"
+          who: "{{ states('sensor.last_alexa_entity_id')}}"
           call_confirmation: 1
 
   google_interjection:

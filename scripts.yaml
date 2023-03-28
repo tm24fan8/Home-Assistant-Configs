@@ -42,7 +42,7 @@ give_me_darkness:
           text: <voice name='Brian'><prosody rate='150%'>Would you like me to arm
             the security system?</prosody></voice>
           event_id: actionable_notification_night_security_arm
-          alexa_device: '{{ states(''sensor.last_alexa'') }}'
+          alexa_device: '{{ states(''sensor.last_alexa_entity_id'') }}'
         alias: Ask to arm security
       alias: Ask to arm security if both adults are home
     alias: If guest mode is off
