@@ -4,34 +4,22 @@ sensor:
       master_bedroom_current_temp:
         friendly_name: "Master Bedroom Current Temp"
         unique_id: 40c6b591-09d3-45cd-8cab-9838517cc08a
-        value_template: >
-          {{ state_attr('climate.master_bedroom_aircon','current_temperature') | float }}
+        value_template: "{{ state_attr('climate.master_bedroom_aircon','current_temperature') | float }}"
       master_bedroom_outdoor_temp:
         friendly_name: "Master Bedroom Outdoor Temp"
         unique_id: 1a79ac59-0faf-4de5-b546-5d6d5e151dd6
-        value_template: >
-          {{ state_attr('climate.master_bedroom_aircon','outdoor_temperature') | float }}
+        value_template: "{{ state_attr('climate.master_bedroom_aircon','outdoor_temperature') | float }}"
       master_bedroom_target_temp:
         friendly_name: "Master Bedroom Target Temp"
         unique_id: 2ce31844-b115-42b8-8213-feccf24e236c
-        value_template: >
-          {{ state_attr('climate.master_bedroom_aircon','temperature') | float }}
+        value_template: "{{ state_attr('climate.master_bedroom_aircon','temperature') | float }}"
       master_bedroom_aircon_eco_mode:
         friendly_name: "Master Bedroom Eco Mode"
         unique_id: edf36e23-adcf-4506-80eb-a14f4ea2fce0
-        value_template: >-
-          {% if is_state_attr('climate.master_bedroom_aircon','preset_mode','eco') %}
-            On
-          {% elif is_state_attr('climate.master_bedroom_aircon','preset_mode','none') %}
-            Off
-          {% else %}
-            Off
-          {% endif %}
+        value_template: "{{ is_state_attr('climate.master_bedroom_aircon','preset_mode','eco') }}"
         icon_template: >-
           {% if is_state_attr('climate.master_bedroom_aircon','preset_mode','eco') %}
             mdi:home-lightning-bolt
-          {% elif is_state_attr('climate.master_bedroom_aircon','preset_mode','none') %}
-            mdi:home-lightning-bolt-outline
           {% else %}
             mdi:home-lightning-bolt-outline
           {% endif %}
@@ -39,8 +27,7 @@ sensor:
       master_bedroom_aircon_fan_mode:
         friendly_name: "Master Bedroom Aircon Fan Mode"
         unique_id: c0e4f9ba-0c6c-4673-9a75-13f253f2f2e8
-        value_template: >
-          {{ state_attr('climate.master_bedroom_aircon','fan_mode') }}
+        value_template: "{{ state_attr('climate.master_bedroom_aircon','fan_mode') }}"
         icon_template: >
           {% if is_state_attr('climate.master_bedroom_aircon','fan_mode','Auto') %}
             mdi:fan-auto
@@ -61,21 +48,28 @@ input_boolean:
   kallen_bedtime_protocol:
     name: Kallen Bedtime Protocol
     icon: mdi:lightbulb-night
+
   # Turn on when master bedroom air conditioner is installed, turn off in winter when we take it out, for smarter automations
   master_bedroom_aircon_installed:
     name: Master Bedroom Aircon Installed
     icon: mdi:tools
+
   # Same thing, but for Emma's bedroom air conditioner
   emma_bedroom_aircon_installed:
     name: Emma Bedroom Aircon Installed
     icon: mdi:tools
+
   # Used internally for automations to know if cooling time has passed or not
   master_bedroom_cooling_on:
     name: Master Bedroom Cooling On
+    icon: mdi:snowflake
+
   # Activated if the day will be excessively hot. For use with automations for daytime climate control.
   hot_day:
     name: Hot Day
     icon: mdi:heat-wave
+
+  # Activated if the day will be excessively cold. For use with automations for daytime climate control.
   cold_day:
     name: Cold Day
     icon: mdi:snowflake
