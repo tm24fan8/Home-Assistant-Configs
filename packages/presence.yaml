@@ -298,6 +298,7 @@ mqtt:
 automation:
   - id: kallen_at_school
     alias: Kallen is at School
+    mode: single
     trigger:
       - entity_id: person.tony_stork
         event: leave
@@ -328,9 +329,11 @@ automation:
         state: "on"
     action:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.kallen_at_school
+        target:
+          entity_id: input_boolean.kallen_at_school
       - service: input_boolean.turn_on
-        entity_id: input_boolean.kallen_awake
+        target:
+          entity_id: input_boolean.kallen_awake
       - service: script.text_notify
         data:
           type: alert
@@ -339,11 +342,21 @@ automation:
           title: "Kallen Location Alert"
           tag: kallen-dropoff
       - service: light.turn_off
-        entity_id: light.kallen_bedroom_lights
+        target:
+          entity_id: light.kallen_bedroom_lights
+      - if:
+        - condition: state
+          entity_id: input_boolean.master_bedroom_sleeping
+          state: 'on'
+        then:
+        - service: light.turn_off
+          target:
+            entity_id: light.living_room_lights
     initial_state: true
 
   - id: kallen_left_school
     alias: Kallen left School
+    mode: single
     trigger:
       - entity_id: person.tony_stork
         event: leave
