@@ -65,6 +65,13 @@ input_number:
     step: 1
     unit_of_measurement: minutes
     icon: mdi:timer
+  living_room_lights_off_delay:
+    name: Living Room Lights Off Delay
+    min: 0
+    max: 30
+    step: 1
+    unit_of_measurement: minutes
+    icon: mdi:timer
 
 input_select:
   living_room_scenes:
@@ -413,56 +420,78 @@ automation:
   - id: 477e6e8a-4e33-4268-8c2d-f39902c0d64f
     alias: Living Room Night Lighting
     description: Provide lighting in case anyone needs to go downstairs in the middle of the night.
+    mode: restart
     trigger:
-      - platform: state
-        entity_id: binary_sensor.living_room_motion
-        from: 'off'
-        to: 'on'
-        id: motion-on
-      - platform: state
-        entity_id: binary_sensor.living_room_motion
-        from: 'on'
-        to: 'off'
-        for:
-          hours: 0
-          minutes: 10
-          seconds: 0
-        id: motion-off
+    - platform: state
+      entity_id: binary_sensor.living_room_motion
+      from: 'off'
+      to: 'on'
+      id: motion-on
+    - platform: state
+      entity_id: binary_sensor.living_room_motion
+      from: 'on'
+      to: 'off'
+      id: motion-off
+    - platform: event
+      event_type: timer.finished
+      event_data:
+        entity_id: timer.living_room_motion_timer
+      id: timer-finished
     condition:
-      - condition: state
-        entity_id: binary_sensor.people_present
-        state: 'on'
-      - condition: state
-        entity_id: input_boolean.night_mode
-        state: 'on'
-      - condition: state
-        entity_id: input_boolean.vacation_mode
-        state: 'off'
+    - condition: state
+      entity_id: binary_sensor.people_present
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'off'
     action:
-      - if:
+    - choose:
+      - conditions:
+        - condition: and
+          conditions:
+          - condition: trigger
+            id: motion-on
+          - condition: state
+            entity_id: input_boolean.night_mode
+            state: 'on'
+        sequence:
+        - service: timer.cancel
+          target:
+            entity_id: timer.living_room_motion_timer
+        - service: light.turn_on
+          target:
+            entity_id: light.first_floor_lights
+        - service: input_select.select_option
+          target:
+            entity_id:
+              - input_select.living_room_scenes
+              - input_select.tina_lamp_scenes
+              - input_select.mud_room_scenes
+              - input_select.downstairs_bathroom_scenes
+              - input_select.dining_room_lamp_scenes
+          data:
+            option: Adaptive
+      - conditions:
+        - condition: and
+          conditions:
+          - condition: trigger
+            id: motion-off
+          - condition: state
+            entity_id: input_boolean.night_mode
+            state: 'on'
+        sequence:
+        - service: timer.start
+          target:
+            entity_id: timer.living_room_motion_timer
+          data:
+            duration: "{{ (states('input_number.living_room_lights_off_delay') | int ) * 60 }}"
+      - conditions:
         - condition: trigger
-          id: motion-on
-        then:
-          - service: light.turn_on
-            target:
-              entity_id: light.first_floor_lights
-          - service: input_select.select_option
-            target:
-              entity_id:
-                - input_select.living_room_scenes
-                - input_select.tina_lamp_scenes
-                - input_select.mud_room_scenes
-                - input_select.downstairs_bathroom_scenes
-                - input_select.dining_room_lamp_scenes
-            data:
-              option: Adaptive
-      - if:
-        - condition: trigger
-          id: motion-off
-        then:
-          - service: light.turn_off
-            target:
-              entity_id: light.first_floor_lights
+          id: timer-finished
+        sequence:
+        - service: light.turn_off
+          target:
+            entity_id: light.living_room_lights
 
   - id: b897d714-bbf2-44ce-afaf-63cf3694351c
     alias: Tina Desk Lights Handler
