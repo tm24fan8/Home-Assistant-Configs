@@ -112,105 +112,105 @@ logger:
   logs:
     homeassistant.core: fatal
 
-# influxdb:
-#   api_version: 2
-#   host: 192.168.1.4
-#   port: 8086
-#   max_retries: 3
-#   ssl: false
-#   organization: !secret influxdb_org
-#   token: !secret influxdb_token
-#   bucket: home_assistant
-#   default_measurement: state
-#   tags:
-#     source: HA
-#   tags_attributes:
-#     - friendly_name
-#   ignore_attributes:
-#     - icon
-#   exclude:
-#     entity_globs:
-#       - binary_sensor.*tamper*
-#       - light.*screen*
-#     entities:
-#       - sensor.last_boot
-#       - sensor.date
-#       - sensor.date_time
-#       - sensor.time_date
-#       - sensor.time
-#       - sensor.time_utc
-#       - sensor.xr500_gateway_kib_s_received
-#       - sensor.xr500_gateway_kib_s_sent
-#       - light.all_lights
-#       - fan.all_fans
-#   include:
-#     domains:
-#       - sun
-#       - light
-#       - climate
-#       - fan
-#       - person
-#     entity_globs:
-#       - sensor.*power
-#       - sensor.*energy
-#       - sensor.*energy_sensor
-#       - sensor.*power_sensor
-#       - sensor.*cpu*
-#       - sensor.*memory*
-#       - sensor.*ram_free*
-#       - sensor.*ram_used*
-#       - sensor.*available_free_space
-#       - sensor.*ping
-#       - sensor.*free_space*
-#       - sensor.*uptime*
-#       - sensor.*tv_time*
-#       - sensor.*_count
-#       - sensor.*pirateweather*
-#       - sensor.*temperature*
-#       - sensor.*ipad_storage
-#       - sensor.*iphone_storage
-#       - sensor.*_open
-#       - sensor.xr500*
-#       - sensor.*gas_price
-#       - binary_sensor.*motion*
-#       - binary_sensor.*door*
-#       - binary_sensor.*window*
-#       - device_tracker.*iphone*
-#       - device_tracker.*ipad*
-#       - device_tracker.*watch*
-#       - device_tracker.*airpod*
-#     entities:
-#       - media_player.living_room_tv
-#       - media_player.basement_tv
-#       - media_player.master_bedroom_firetv
-#       - sensor.doors_open
-#       - sensor.windows_open
-#       - sensor.total_faults
-#       - sensor.blitzortung_lightning_counter
-#       - sensor.lines_of_code
-#       - sensor.mariadb_database_size
-#       - sensor.thermal_comfort_absolutehumidity
-#       - sensor.outside_lights
-#       - sensor.temperature_change_per_hour
-#       - binary_sensor.tina_home
-#       - binary_sensor.tony_home
-#       - sensor.tm24fan8_home_assistant_configs_issues
-#       - binary_sensor.internet
-#       - binary_sensor.people_present
-#       - binary_sensor.precipitation
-#       - weather.iron_nerd_weather_station
-#       - sensor.circle_k
-#       - sensor.kroger
-#       - sensor.kecks
-#       - sensor.the_barn
-#       - sensor.the_big_fish
-#       - sensor.speedway
-#       - sensor.meijer
-#       - sensor.wash_n_fill
-#       - sensor.marathon_cleveland_avenue
-#       - sensor.south_side_shell
-#       - sensor.east_side_shell
-#       - sensor.shell_ottawa_avenue
+influxdb:
+  api_version: 2
+  host: 192.168.1.4
+  port: 8086
+  max_retries: 3
+  ssl: false
+  organization: !secret influxdb_org
+  token: !secret influxdb_token
+  bucket: home_assistant
+  default_measurement: state
+  tags:
+    source: HA
+  tags_attributes:
+    - friendly_name
+  ignore_attributes:
+    - icon
+  exclude:
+    entity_globs:
+      - binary_sensor.*tamper*
+      - light.*screen*
+    entities:
+      - sensor.last_boot
+      - sensor.date
+      - sensor.date_time
+      - sensor.time_date
+      - sensor.time
+      - sensor.time_utc
+      - sensor.xr500_gateway_kib_s_received
+      - sensor.xr500_gateway_kib_s_sent
+      - light.all_lights
+      - fan.all_fans
+  include:
+    domains:
+      - sun
+      - light
+      - climate
+      - fan
+      - person
+    entity_globs:
+      - sensor.*power
+      - sensor.*energy
+      - sensor.*energy_sensor
+      - sensor.*power_sensor
+      - sensor.*cpu*
+      - sensor.*memory*
+      - sensor.*ram_free*
+      - sensor.*ram_used*
+      - sensor.*available_free_space
+      - sensor.*ping
+      - sensor.*free_space*
+      - sensor.*uptime*
+      - sensor.*tv_time*
+      - sensor.*_count
+      - sensor.*pirateweather*
+      - sensor.*temperature*
+      - sensor.*ipad_storage
+      - sensor.*iphone_storage
+      - sensor.*_open
+      - sensor.xr500*
+      - sensor.*gas_price
+      - binary_sensor.*motion*
+      - binary_sensor.*door*
+      - binary_sensor.*window*
+      - device_tracker.*iphone*
+      - device_tracker.*ipad*
+      - device_tracker.*watch*
+      - device_tracker.*airpod*
+    entities:
+      - media_player.living_room_tv
+      - media_player.basement_tv
+      - media_player.master_bedroom_firetv
+      - sensor.doors_open
+      - sensor.windows_open
+      - sensor.total_faults
+      - sensor.blitzortung_lightning_counter
+      - sensor.lines_of_code
+      - sensor.mariadb_database_size
+      - sensor.thermal_comfort_absolutehumidity
+      - sensor.outside_lights
+      - sensor.temperature_change_per_hour
+      - binary_sensor.tina_home
+      - binary_sensor.tony_home
+      - sensor.tm24fan8_home_assistant_configs_issues
+      - binary_sensor.internet
+      - binary_sensor.people_present
+      - binary_sensor.precipitation
+      - weather.iron_nerd_weather_station
+      - sensor.circle_k
+      - sensor.kroger
+      - sensor.kecks
+      - sensor.the_barn
+      - sensor.the_big_fish
+      - sensor.speedway
+      - sensor.meijer
+      - sensor.wash_n_fill
+      - sensor.marathon_cleveland_avenue
+      - sensor.south_side_shell
+      - sensor.east_side_shell
+      - sensor.shell_ottawa_avenue
 
 history:
   exclude:
