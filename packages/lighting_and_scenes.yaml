@@ -347,6 +347,87 @@ sensor:
           {% endif %}
         unit_of_measurement: 'K'
         icon_template: mdi:thermometer-lines
+      living_room_lights_brightness_actual:
+        friendly_name: "Living Room Lights - Brightness Actual"
+        unique_id: e557022a-184f-4111-bb6a-6c0869cce42c
+        value_template: >
+          {% set current = state_attr('light.living_room_lights','brightness') %}
+          {{ ((current / 255) * 100) | float | round(2) }}
+        availability_template: >
+          {% if is_state('light.living_room_lights','on') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        unit_of_measurement: '%'
+        icon_template: mdi:brightness-percent
+      living_room_lights_brightness_intended:
+        friendly_name: "Living Room Lights - Brightness Intended"
+        unique_id: a758742f-6724-4920-a9d1-325fe4f02664
+        value_template: "{{ state_attr('switch.adaptive_lighting_living_room','brightness_pct') | float | round(2) }}"
+        availability_template: >
+          {% if is_state('switch.adaptive_lighting_living_room','on') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        unit_of_measurement: '%'
+        icon_template: mdi:brightness-percent
+      living_room_lights_colortemp_actual:
+        friendly_name: "Living Room Lights - Colortemp Actual"
+        unique_id: dbe08826-e113-4474-bbca-60d3c32a4b65
+        value_template: "{{ state_attr('light.living_room_lights','color_temp_kelvin') | int }}"
+        availability_template: >
+          {% if is_state('light.living_room_lights','on') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        unit_of_measurement: 'K'
+        icon_template: mdi:thermometer-lines
+      living_room_lights_colortemp_intended:
+        friendly_name: "Living Room Lights - Colortemp Intended"
+        unique_id: 8b974c03-ab5b-4b89-97bf-afee78fa1a40
+        value_template: "{{ state_attr('switch.adaptive_lighting_living_room','color_temp_kelvin') | int }}"
+        availability_template: >
+          {% if is_state('switch.adaptive_lighting_living_room','on') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        unit_of_measurement: 'K'
+        icon_template: mdi:thermometer-lines
+      living_room_lights_brightness_diff:
+        friendly_name: "Living Room Lights - Brightness Diff"
+        unique_id: 05f911d3-3b6a-4ca2-8181-5365707b2456
+        value_template: >
+          {% set current = states('sensor.living_room_lights_brightness_actual') | float %}
+          {% set intended = states('sensor.living_room_lights_brightness_intended') | float %}
+          {{ (current - intended) | float | round(2) }}
+        availability_template: >
+          {% if is_state('light.living_room_lights','on') and is_state('switch.adaptive_lighting_living_room','on') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        unit_of_measurement: '%'
+        icon_template: mdi:brightness-percent
+      living_room_lights_colortemp_diff:
+        friendly_name: "Living Room Lights - Colortemp Diff"
+        unique_id: d8fcaa26-d3dc-48d8-b4b9-9e701a1506a8
+        value_template: >
+          {% set current = states('sensor.living_room_lights_colortemp_actual') | float %}
+          {% set intended = states('sensor.living_room_lights_colortemp_intended') | float %}
+          {{ (current - intended) | float | round(2) }}
+        availability_template: >
+          {% if is_state('light.living_room_lights','on') and is_state('switch.adaptive_lighting_living_room','on') %}
+            true
+          {% else %}
+            false
+          {% endif %}
+        unit_of_measurement: 'K'
+        icon_template: mdi:thermometer-lines
+
 
 template:
   - binary_sensor:
@@ -399,6 +480,53 @@ template:
           {% endif %}
       device_class: problem
       delay_on: "00:00:10"
+    - name: Living Room Sync Issue
+      unique_id: 35b3ca4f-14fb-4564-ab0c-1bb6a829c202
+      state: >
+        {% set colortemp = states('sensor.living_room_lights_colortemp_diff') | float(0) %}
+        {% set brightness = states('sensor.living_room_lights_brightness_diff') | float(0) %}
+        {% if is_state('light.living_room_lights','on') %}
+          {% if is_state('switch.adaptive_lighting_living_room','on') and is_state('switch.adaptive_lighting_sleep_mode_living_room','off') %}
+            {% if is_state('switch.adaptive_lighting_adapt_brightness_living_room','on') and is_state('switch.adaptive_lighting_adapt_color_living_room','on') %}
+              {{ (colortemp > 100 or colortemp < -100) or (brightness > 5 or brightness < -5) }}
+            {% elif is_state('switch.adaptive_lighting_adapt_brightness_living_room','on') and is_state('switch.adaptive_lighting_adapt_color_living_room','off') %}
+              {{ brightness > 5 or brightness < -5 }}
+            {% elif is_state('switch.adaptive_lighting_adapt_color_living_room','on') and is_state('switch.adaptive_lighting_adapt_brightness_living_room','off') %}
+              {{ colortemp > 100 or colortemp < -100 }}
+            {% endif %}
+          {% endif %}
+        {% endif %}
+      attributes:
+        color_diff: >
+          {% set colortemp = states('sensor.living_room_lights_colortemp_diff') | float(0) %}
+          {% if is_state('light.living_room_lights','on') %}
+            {% if is_state('switch.adaptive_lighting_living_room','on') and is_state('switch.adaptive_lighting_sleep_mode_living_room','off') %}
+              {% if is_state('switch.adaptive_lighting_adapt_color_living_room','on') %}
+                {{ states('sensor.living_room_lights_colortemp_diff') }}
+              {% else %}
+                Color Off
+              {% endif %}
+            {% else %}
+              Adaptive Off
+            {% endif %}
+          {% else %}
+            Lights Off
+          {% endif %}
+        brightness_diff: >
+          {% set brightness = states('sensor.living_room_lights_brightness_diff') | float(0) %}
+          {% if is_state('light.living_room_lights','on') %}
+            {% if is_state('switch.adaptive_lighting_living_room','on') and is_state('switch.adaptive_lighting_sleep_mode_living_room','off') %}
+              {% if is_state('switch.adaptive_lighting_adapt_brightness_living_room','on') %}
+                {{ states('sensor.living_room_lights_brightness_diff') }}
+              {% else %}
+                Brightness Off
+              {% endif %}
+            {% else %}
+              Adaptive Off
+            {% endif %}
+          {% else %}
+            Lights Off
+          {% endif %}
       device_class: problem
       delay_on: "00:00:10"
 
@@ -844,6 +972,25 @@ automation:
       - service: input_select.select_option
         target:
           entity_id: input_select.basement_studio_scenes
+        data:
+          option: Adaptive
+
+  - id: 3f05cd0d-bd6e-42c7-884d-3d1cbfda46e0
+    alias: Living Room Lights Adaptive Resync
+    description: Deals with situations where the living room lights should be adaptive but end up out of sync
+    mode: restart
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.living_room_sync_issue
+        from: 'off'
+        to: 'on'
+    condition:
+      - condition: template
+        value_template: "{{ is_state_attr('light.living_room_lights','color_mode','color_temp') }}"
+    action:
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.living_room_scenes
         data:
           option: Adaptive
 
