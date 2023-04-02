@@ -933,6 +933,9 @@ input_boolean:
     icon: mdi:speaker-wireless
   raining:
     name: Raining
+  severe_weather_mode:
+    name: Severe Weather Mode
+    icon: mdi:weather-tornado
 
 automation:
   # - alias: 'record previous day rainfall'
