@@ -366,6 +366,39 @@ template:
             {% endif %}
           {% endif %}
         {% endif %}
+      attributes:
+        color_diff: >
+          {% set colortemp = states('sensor.basement_studio_lights_colortemp_diff') | float(0) %}
+          {% if is_state('light.basement_studio_lights','on') %}
+            {% if is_state('switch.adaptive_lighting_basement_studio','on') and is_state('switch.adaptive_lighting_sleep_mode_basement_studio','off') %}
+              {% if is_state('switch.adaptive_lighting_adapt_color_basement_studio','on') %}
+                {{ states('sensor.basement_studio_lights_colortemp_diff') }}
+              {% else %}
+                Color Off
+              {% endif %}
+            {% else %}
+              Adaptive Off
+            {% endif %}
+          {% else %}
+            Lights Off
+          {% endif %}
+        brightness_diff: >
+          {% set brightness = states('sensor.basement_studio_lights_brightness_diff') | float(0) %}
+          {% if is_state('light.basement_studio_lights','on') %}
+            {% if is_state('switch.adaptive_lighting_basement_studio','on') and is_state('switch.adaptive_lighting_sleep_mode_basement_studio','off') %}
+              {% if is_state('switch.adaptive_lighting_adapt_brightness_basement_studio','on') %}
+                {{ states('sensor.basement_studio_lights_brightness_diff') }}
+              {% else %}
+                Brightness Off
+              {% endif %}
+            {% else %}
+              Adaptive Off
+            {% endif %}
+          {% else %}
+            Lights Off
+          {% endif %}
+      device_class: problem
+      delay_on: "00:00:10"
       device_class: problem
       delay_on: "00:00:10"
 
