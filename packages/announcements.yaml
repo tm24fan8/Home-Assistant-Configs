@@ -133,13 +133,23 @@ automation:
     action:
     - choose:
       - conditions:
-        - condition: trigger
-          id: kallen-morning
+        - condition: and
+          conditions:
+          - condition: trigger
+            id: kallen-morning
+          - condition: state
+            entity_id: input_boolean.kallen_morning_briefing
+            state: 'off'
         sequence:
         - service: script.kallen_morning_briefing
       - conditions:
-        - condition: trigger
-          id: kallen-nightly
+        - condition: and
+          conditions:
+          - condition: trigger
+            id: kallen-nightly
+          - condition: state
+            entity_id: input_boolean.kallen_nightly_briefing
+            state: 'off'
         sequence:
         - service: script.kallen_nightly_briefing
 
