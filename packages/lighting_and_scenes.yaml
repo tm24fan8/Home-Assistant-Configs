@@ -1554,7 +1554,11 @@ script:
               - master_bedroom
               - kallen_bedroom
               - emma_bedroom
-              - upstairs_hallway
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.upstairs_hallway_scenes
+            data:
+              option: Nightlight
           - if:
             - condition: state
               entity_id: input_boolean.shower_mode
@@ -1578,21 +1582,18 @@ script:
                 - switch.adaptive_lighting_kallen_bedroom
                 - switch.adaptive_lighting_master_bedroom
                 - switch.adaptive_lighting_emma_bedroom
-                - switch.adaptive_lighting_upstairs_hallway
           - service: switch.turn_off
             target:
               entity_id:
                 - switch.adaptive_lighting_sleep_mode_kallen_bedroom
                 - switch.adaptive_lighting_sleep_mode_master_bedroom
                 - switch.adaptive_lighting_sleep_mode_emma_bedroom
-                - switch.adaptive_lighting_sleep_mode_upstairs_hallway
           - service: input_text.set_value
             target:
               entity_id:
                 - input_text.kallen_bedroom_selected_scene
                 - input_text.master_bedroom_selected_scene
                 - input_text.emma_bedroom_selected_scene
-                - input_text.upstairs_hallway_selected_scene
             data:
               value: Adaptive
 
