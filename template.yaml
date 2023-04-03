@@ -2,12 +2,3 @@ binary_sensor:
   - name: People Present
     state: >
       {{ is_state('person.tony_stork', 'home') or is_state('person.christina_stork', 'home') }}
-
-  - name: Precipitation
-    state: >-
-      {% if states.weather.iron_nerd_weather_station.state in ['rainy','thunderstorm','lightning','sleet','snow','snowy','hail'] %}
-        true
-      {% else %}
-        false
-      {% endif %}
-    icon: mdi:water
