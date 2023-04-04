@@ -11,12 +11,12 @@
           'The count down clock until bedtime has started. Time to get cleaned up, get your pajamas on, and head for your bedroom.',
           'Its the final countdown <break time="2s"/> until bedtime, silly. Time to get ready to head that way!'
         ] | random }}
-      {% if is_state('sensor.kallen_school_tomorrow', 'on') %} 
+      {% if is_state('binary_sensor.kallen_school_tomorrow', 'on') %} 
         {{ [ 'Because you have school tomorrow. ',
           'Because you have to get up early tomorrow for school.',
           'Because you want to be ready for school tomorrow.'
         ] | random }}
-        {% if is_state('sensor.kallen_band_tomorrow','on') %}
+        {% if is_state('binary_sensor.kallen_band_tomorrow','on') %}
           {{ [
             'And you have band practice in the morning. ',
             'And you have a date with a trombone first thing in the morning. ',

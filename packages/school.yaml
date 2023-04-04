@@ -71,6 +71,21 @@ input_datetime:
     has_time: true
     icon: mdi:clock-alert
 
+template:
+  - binary_sensor:
+    - name: Kallen School Tomorrow
+      unique_id: 73d91e2f-35b5-491c-9c8b-c6d89d67b53c
+      state: >-
+        {%- set test=(as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) %}
+        {{ state_attr('calendar.kallen_school_days','start_time') == test + (" 09:00:00" or " 08:00:00") }}
+      icon: mdi:school
+    - name: Kallen Band Tomorrow
+      unique_id: c57855eb-0499-4585-9081-9b2244ce6845
+      state: >-
+        {%- set test=(as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) %}
+        {{ state_attr('calendar.kallen_school_days','start_time') == test + " 08:00:00" }}
+      icon: mdi:trumpet
+
 sensor:
   - platform: template
     sensors:
@@ -113,28 +128,6 @@ sensor:
         attribute_templates:
           date: "{{ state_attr('input_datetime.spring_break_start','timestamp') | timestamp_custom('%B %d, %Y') }}"
         unit_of_measurement: 'Days'
-      kallen_school_tomorrow:
-        unique_id: 0a1b81bc-2080-4006-b0f1-270af904d411
-        friendly_name: 'Kallen School Tomorrow'
-        value_template: >-
-          {%- set test=(as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) %}
-          {% if states.calendar.kallen_school_days.attributes.start_time == test + " 09:00:00" %}
-            on
-          {% elif states.calendar.kallen_school_days.attributes.start_time == test + " 08:00:00" %}
-            on
-          {% else %}
-            off
-          {% endif %}
-      kallen_band_tomorrow:
-        unique_id: 2906baeb-98ec-4215-8043-e223f2759ed7
-        friendly_name: 'Kallen Band Tomorrow'
-        value_template: >-
-          {%- set test=(as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) %}
-          {% if states.calendar.kallen_school_days.attributes.start_time == test + " 08:00:00" %}
-            on
-          {% else %}
-            off
-          {% endif %}
       kallen_lunch_menu_week:
         friendly_name: Lunch Menu Week
         unique_id: 62ba9dcb-3cd3-4875-8e6f-86bebf542c37
