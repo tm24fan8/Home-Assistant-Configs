@@ -99,11 +99,7 @@ script:
       - condition: template
         value_template: >
           {% set weather = states('weather.iron_nerd_weather_station') %}
-          {% if weather in ['cloudy','partlycloudy','rainy','snowy','hail','lightning','lightning-rainy','pouring','snowy-rainy'] %}
-            true
-          {% else %}
-            false
-          {% endif %}
+          {{ weather in ['cloudy','partlycloudy','rainy','snowy','hail','lightning','lightning-rainy','pouring','snowy-rainy'] }}
       then:
       - service: input_select.select_option
         target:

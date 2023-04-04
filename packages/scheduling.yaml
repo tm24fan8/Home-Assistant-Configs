@@ -291,7 +291,7 @@ script:
           entity_id: input_datetime.kallen_bedtime
           data:
             time: >
-              {% if is_state('sensor.kallen_school_tomorrow', 'on') %}
+              {% if is_state('binary_sensor.kallen_school_tomorrow', 'on') %}
                   21:00
               {% else %}
                   22:00
@@ -422,12 +422,7 @@ script:
               {% endif %}
       - if:
         - condition: template
-          value_template: >
-            {% if states('sensor.todays_high_temp') | int >= states('input_number.hot_day_threshold') | int %}
-              true
-            {% else %}
-              false
-            {% endif %}
+          value_template: "{{ states('sensor.todays_high_temp') | int >= states('input_number.hot_day_threshold') | int }}"
         then:
         - service: input_boolean.turn_on
           target:
@@ -438,12 +433,7 @@ script:
             entity_id: input_boolean.hot_day
       - if:
         - condition: template
-          value_template: >
-            {% if states('sensor.todays_high_temp') | int <= states('input_number.cold_day_threshold') | int %}
-              true
-            {% else %}
-              false
-            {% endif %}
+          value_template: "{{ states('sensor.todays_high_temp') | int <= states('input_number.cold_day_threshold') | int }}"
         then:
         - service: input_boolean.turn_on
           target:
@@ -477,7 +467,7 @@ script:
         entity_id: input_datetime.audible_notification_off
         data:
           time: >
-            {% if is_state('sensor.kallen_school_tomorrow','on') %}
+            {% if is_state('binary_sensor.kallen_school_tomorrow','on') %}
               22:15
             {% else %}
               23:15
@@ -524,9 +514,9 @@ script:
           data:
             time: >
               {% set low = states('sensor.tonights_low_temp') | int %}
-              {% if is_state('input_boolean.hot_day','on') and is_state('sensor.kallen_school_tomorrow','on') %}
+              {% if is_state('input_boolean.hot_day','on') and is_state('binary_sensor.kallen_school_tomorrow','on') %}
                 20:00
-              {% elif is_state('input_boolean.hot_day','on') and is_state('sensor.kallen_school_tomorrow','off') %}
+              {% elif is_state('input_boolean.hot_day','on') and is_state('binary_sensor.kallen_school_tomorrow','off') %}
                 21:00
               {% elif low >= 56 and low <= 60 %}
                 22:30

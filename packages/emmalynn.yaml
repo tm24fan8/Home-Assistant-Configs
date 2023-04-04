@@ -274,11 +274,7 @@ script:
         - condition: template
           value_template: >-
             {% set ct = ((now().hour * 60 + now().minute) * 60 ) %}
-            {% if is_state('input_boolean.hot_day','off') and ct < state_attr('input_datetime.emma_bedtime','timestamp') and ct >= state_attr('input_datetime.emma_wakeup','timestamp') %}
-              true
-            {% else %}
-              false
-            {% endif %}
+            {{ is_state('input_boolean.hot_day','off') and ct < state_attr('input_datetime.emma_bedtime','timestamp') and ct >= state_attr('input_datetime.emma_wakeup','timestamp') }}
         then:
         - service: fan.turn_off
           target:

@@ -215,11 +215,7 @@ automation:
           {% set rearm = state_attr('input_datetime.morning_alarm_rearm','timestamp') %}
           {% set wake = state_attr('input_datetime.master_bedroom_wakeup','timestamp') %}
           {% set diff = wake - rearm %}
-          {% if diff <= 1800 %}
-            false
-          {% else %}
-            true
-          {% endif %}
+          {{ diff > 1800 }}
     action:
       - if:
         - condition: state
@@ -425,12 +421,7 @@ script:
             entity_id: input_boolean.security_armed_home
         - if:
           - condition: template
-            value_template: >
-              {% if silent == 1 %}
-                false
-              {% else %}
-                true
-              {% endif %}
+            value_template: "{{ silent != 1 }}"
           then:
           - service: script.status_annc
             data:
@@ -491,12 +482,7 @@ script:
             entity_id: input_boolean.security_armed_home
             state: 'on'
           - condition: template
-            value_template: >
-              {% if silent == 1 %}
-                false
-              {% else %}
-                true
-              {% endif %}
+            value_template: "{{ silent != 1 }}"
         then:
         - service: script.status_annc
           data:

@@ -235,29 +235,11 @@ template:
       device_class: presence
     - name: "Nerds Home"
       unique_id: 2672a6a2-4be4-495c-b479-ffc7c6df67d2
-      state: >-
-        {% if is_state('group.family','home') %}
-          {% if is_state('binary_sensor.tony_home','on') or is_state('binary_sensor.kallen_home','on') %}
-            true
-          {% else %}
-            false
-          {% endif %}
-        {% else %}
-          false
-        {% endif %}
+      state: "{{ is_state('group.family','home') and (is_state('binary_sensor.tony_home','on') or is_state('binary_sensor.kallen_home','on')) }}"
       device_class: presence
     - name: "Parents Home"
       unique_id: 8de02d19-60a6-436d-9187-1cfc70d6c297
-      state: >-
-        {% if is_state('group.adults','home') %}
-          {% if is_state('binary_sensor.tony_home','on') or is_state('binary_sensor.tina_home','on') %}
-            true
-          {% else %}
-            false
-          {% endif %}
-        {% else %}
-          false
-        {% endif %}
+      state: "{{ is_state('group.adults','home') and (is_state('binary_sensor.tony_home','on') or is_state('binary_sensor.tina_home','on')) }}"
       device_class: presence
     - name: "Basement Unoccupied"
       unique_id: 20039c29-8b9d-436d-ba6c-8f2c2bda1db0
@@ -649,11 +631,7 @@ script:
       - condition: template
         value_template: >
           {% set weather = states('weather.iron_nerd_weather_station') %}
-          {% if weather in ['cloudy','partlycloudy','rainy','snowy','hail','lightning','lightning-rainy','pouring','snowy-rainy'] %}
-            true
-          {% else %}
-            false
-          {% endif %}
+          {{ weather in ['cloudy','partlycloudy','rainy','snowy','hail','lightning','lightning-rainy','pouring','snowy-rainy'] }}
       then:
       - service: light.turn_on
         target:

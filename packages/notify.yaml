@@ -1254,12 +1254,7 @@ script:
           entity_id: input_boolean.audible_notifications
           state: 'on'
         - condition: template
-          value_template: >
-            {% if type in ['critical','Critical','alert','Alert'] %}
-              true
-            {% else %}
-              false
-            {% endif %}
+          value_template: "{{ type in ['critical','Critical','alert','Alert'] }}"
       - condition: state
         entity_id: group.adults
         state: 'home'
@@ -1459,12 +1454,7 @@ script:
     sequence:
     - if:
       - condition: template
-        value_template: >
-          {% if type in ['critical','Critical'] %}
-            true
-          {% else %}
-            false
-          {% endif %}
+        value_template: "{{ type in ['critical','Critical'] }}"
       then:
       - service: media_player.volume_set
         target:

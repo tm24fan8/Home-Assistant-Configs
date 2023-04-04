@@ -273,48 +273,28 @@ sensor:
         value_template: >
           {% set current = state_attr('light.basement_studio_lights','brightness') %}
           {{ ((current / 255) * 100) | float | round(2) }}
-        availability_template: >
-          {% if is_state('light.basement_studio_lights','on') %}
-            true
-          {% else %}
-            false
-          {% endif %}
+        availability_template: "{{ is_state('light.basement_studio_lights','on') }}"
         unit_of_measurement: '%'
         icon_template: mdi:brightness-percent
       basement_studio_lights_brightness_intended:
         friendly_name: "Basement Studio Lights - Brightness Intended"
         unique_id: 3542077f-24c6-460c-a73f-fe7bc8413b81
         value_template: "{{ state_attr('switch.adaptive_lighting_basement_studio','brightness_pct') | float | round(2) }}"
-        availability_template: >
-          {% if is_state('switch.adaptive_lighting_basement_studio','on') %}
-            true
-          {% else %}
-            false
-          {% endif %}
+        availability_template: "{{ is_state('switch.adaptive_lighting_basement_studio','on') }}"
         unit_of_measurement: '%'
         icon_template: mdi:brightness-percent
       basement_studio_lights_colortemp_actual:
         friendly_name: "Basement Studio Lights - Colortemp Actual"
         unique_id: 93cb2a2f-c8a7-44bf-813f-26ce349a072f
         value_template: "{{ state_attr('light.basement_studio_lights','color_temp_kelvin') | int }}"
-        availability_template: >
-          {% if is_state('light.basement_studio_lights','on') %}
-            true
-          {% else %}
-            false
-          {% endif %}
+        availability_template: "{{ is_state('light.basement_studio_lights','on') }}"
         unit_of_measurement: 'K'
         icon_template: mdi:thermometer-lines
       basement_studio_lights_colortemp_intended:
         friendly_name: "Basement Studio Lights - Colortemp Intended"
         unique_id: 85d4b063-bae8-43c2-9fea-35820b13f26f
         value_template: "{{ state_attr('switch.adaptive_lighting_basement_studio','color_temp_kelvin') | int }}"
-        availability_template: >
-          {% if is_state('switch.adaptive_lighting_basement_studio','on') %}
-            true
-          {% else %}
-            false
-          {% endif %}
+        availability_template: "{{ is_state('switch.adaptive_lighting_basement_studio','on') }}"
         unit_of_measurement: 'K'
         icon_template: mdi:thermometer-lines
       basement_studio_lights_brightness_diff:
@@ -324,12 +304,7 @@ sensor:
           {% set current = states('sensor.basement_studio_lights_brightness_actual') | float %}
           {% set intended = states('sensor.basement_studio_lights_brightness_intended') | float %}
           {{ (current - intended) | float | round(2) }}
-        availability_template: >
-          {% if is_state('light.basement_studio_lights','on') and is_state('switch.adaptive_lighting_basement_studio','on') %}
-            true
-          {% else %}
-            false
-          {% endif %}
+        availability_template: "{{ is_state('light.basement_studio_lights','on') and is_state('switch.adaptive_lighting_basement_studio','on') }}"
         unit_of_measurement: '%'
         icon_template: mdi:brightness-percent
       basement_studio_lights_colortemp_diff:
@@ -339,12 +314,7 @@ sensor:
           {% set current = states('sensor.basement_studio_lights_colortemp_actual') | float %}
           {% set intended = states('sensor.basement_studio_lights_colortemp_intended') | float %}
           {{ (current - intended) | float | round(2) }}
-        availability_template: >
-          {% if is_state('light.basement_studio_lights','on') and is_state('switch.adaptive_lighting_basement_studio','on') %}
-            true
-          {% else %}
-            false
-          {% endif %}
+        availability_template: "{{ is_state('light.basement_studio_lights','on') and is_state('switch.adaptive_lighting_basement_studio','on') }}"
         unit_of_measurement: 'K'
         icon_template: mdi:thermometer-lines
       living_room_lights_brightness_actual:
@@ -353,48 +323,28 @@ sensor:
         value_template: >
           {% set current = state_attr('light.living_room_lights','brightness') %}
           {{ ((current / 255) * 100) | float | round(2) }}
-        availability_template: >
-          {% if is_state('light.living_room_lights','on') %}
-            true
-          {% else %}
-            false
-          {% endif %}
+        availability_template: "{{ is_state('light.living_room_lights','on') }}"
         unit_of_measurement: '%'
         icon_template: mdi:brightness-percent
       living_room_lights_brightness_intended:
         friendly_name: "Living Room Lights - Brightness Intended"
         unique_id: a758742f-6724-4920-a9d1-325fe4f02664
         value_template: "{{ state_attr('switch.adaptive_lighting_living_room','brightness_pct') | float | round(2) }}"
-        availability_template: >
-          {% if is_state('switch.adaptive_lighting_living_room','on') %}
-            true
-          {% else %}
-            false
-          {% endif %}
+        availability_template: "{{ is_state('switch.adaptive_lighting_living_room','on') }}"
         unit_of_measurement: '%'
         icon_template: mdi:brightness-percent
       living_room_lights_colortemp_actual:
         friendly_name: "Living Room Lights - Colortemp Actual"
         unique_id: dbe08826-e113-4474-bbca-60d3c32a4b65
         value_template: "{{ state_attr('light.living_room_lights','color_temp_kelvin') | int }}"
-        availability_template: >
-          {% if is_state('light.living_room_lights','on') %}
-            true
-          {% else %}
-            false
-          {% endif %}
+        availability_template: "{{ is_state('light.living_room_lights','on') }}"
         unit_of_measurement: 'K'
         icon_template: mdi:thermometer-lines
       living_room_lights_colortemp_intended:
         friendly_name: "Living Room Lights - Colortemp Intended"
         unique_id: 8b974c03-ab5b-4b89-97bf-afee78fa1a40
         value_template: "{{ state_attr('switch.adaptive_lighting_living_room','color_temp_kelvin') | int }}"
-        availability_template: >
-          {% if is_state('switch.adaptive_lighting_living_room','on') %}
-            true
-          {% else %}
-            false
-          {% endif %}
+        availability_template: "{{ is_state('switch.adaptive_lighting_living_room','on') }}"
         unit_of_measurement: 'K'
         icon_template: mdi:thermometer-lines
       living_room_lights_brightness_diff:
@@ -404,12 +354,7 @@ sensor:
           {% set current = states('sensor.living_room_lights_brightness_actual') | float %}
           {% set intended = states('sensor.living_room_lights_brightness_intended') | float %}
           {{ (current - intended) | float | round(2) }}
-        availability_template: >
-          {% if is_state('light.living_room_lights','on') and is_state('switch.adaptive_lighting_living_room','on') %}
-            true
-          {% else %}
-            false
-          {% endif %}
+        availability_template: "{{ is_state('light.living_room_lights','on') and is_state('switch.adaptive_lighting_living_room','on') }}"
         unit_of_measurement: '%'
         icon_template: mdi:brightness-percent
       living_room_lights_colortemp_diff:
@@ -419,12 +364,7 @@ sensor:
           {% set current = states('sensor.living_room_lights_colortemp_actual') | float %}
           {% set intended = states('sensor.living_room_lights_colortemp_intended') | float %}
           {{ (current - intended) | float | round(2) }}
-        availability_template: >
-          {% if is_state('light.living_room_lights','on') and is_state('switch.adaptive_lighting_living_room','on') %}
-            true
-          {% else %}
-            false
-          {% endif %}
+        availability_template: "{{ is_state('light.living_room_lights','on') and is_state('switch.adaptive_lighting_living_room','on') }}"
         unit_of_measurement: 'K'
         icon_template: mdi:thermometer-lines
 
@@ -908,11 +848,7 @@ automation:
                 {% if is_state('media_player.basement_tv','playing') %}
                   false
                 {% elif is_state('media_player.basement_tv','paused') or is_state('media_player.basement_tv','idle') %}
-                  {% if state_attr('media_player.basement_tv','app_name') in ['TV','Android TV Launcher'] %}
-                    true
-                  {% else %}
-                    false
-                  {% endif %}
+                  {{ state_attr('media_player.basement_tv','app_name') in ['TV','Android TV Launcher'] }}
                 {% else %}
                   false
                 {% endif %}
@@ -1336,14 +1272,7 @@ script:
             option: Bright
       - if:
         - condition: template
-          value_template: >
-            {% if is_state('input_boolean.kallen_sleeping','off') %}
-              true
-            {% elif is_state('input_boolean.kallen_sleeping','on') and is_state('light.kallen_bedroom_lights','on') %}
-              true
-            {% else %}
-              false
-            {% endif %}
+          value_template: "{{ is_state('input_boolean.kallen_sleeping','off') or (is_state('input_boolean.kallen_sleeping','on') and is_state('light.kallen_bedroom_lights','on')) }}"
         then:
         - service: input_select.select_option
           target:
@@ -1352,14 +1281,7 @@ script:
             option: Bright
       - if:
         - condition: template
-          value_template: >
-            {% if is_state('input_boolean.emma_sleeping','off') %}
-              true
-            {% elif is_state('input_boolean.emma_sleeping','on') and is_state('light.emma_bedroom_light','on') %}
-              true
-            {% else %}
-              false
-            {% endif %}
+          value_template: "{{ is_state('input_boolean.emma_sleeping','off') or (is_state('input_boolean.emma_sleeping','on') and is_state('light.emma_bedroom_light','on')) }}"
         then:
         - service: input_select.select_option
           target:
@@ -1607,11 +1529,7 @@ script:
         - condition: template
           value_template: >
             {% set weather = states('weather.iron_nerd_weather_station') %}
-            {% if weather in ['cloudy','partlycloudy','rainy','snowy','hail','lightning','lightning-rainy','pouring','snowy-rainy'] %}
-              true
-            {% else %}
-              false
-            {% endif %}
+            {{ weather in ['cloudy','partlycloudy','rainy','snowy','hail','lightning','lightning-rainy','pouring','snowy-rainy'] }}
         then:
         - if:
           - condition: template
