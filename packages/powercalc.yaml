@@ -26,6 +26,9 @@ sensor:
     entity_id: fan.emma_air_conditioner
     power_sensor_id: sensor.emma_air_conditioner_power
   - platform: powercalc
+    entity_id: switch.master_bedroom_aircon
+    power_sensor_id: sensor.master_bedroom_aircon_power
+  - platform: powercalc
     entity_id: fan.kallen_bedroom_fan
     power_sensor_id: sensor.kallen_bedroom_fan_power
   - platform: powercalc
