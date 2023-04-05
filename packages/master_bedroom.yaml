@@ -82,6 +82,9 @@ script:
     alias: 'Master Bedroom Wakeup'
     mode: restart
     sequence:
+    - service: button.press
+      target:
+        entity_id: button.master_bedroom_day_mode
     - service: switch.turn_off
       target:
         entity_id: switch.master_bedroom_echo_dot_do_not_disturb_switch
@@ -112,6 +115,16 @@ script:
     alias: 'Master Bedroom Sleep'
     mode: restart
     sequence:
+    - if:
+      - condition: state
+        entity_id: climate.master_bedroom_aircon
+        state: 'cool'
+      then:
+      - service: climate.set_preset_mode
+        target:
+          entity_id: climate.master_bedroom_aircon
+        data:
+          preset_mode: 'none'
     - wait_template: "{{ is_state('light.master_bedroom_lights','off') }}"
       timeout:
         minutes: 1
