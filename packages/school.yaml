@@ -76,14 +76,24 @@ template:
     - name: Kallen School Tomorrow
       unique_id: 73d91e2f-35b5-491c-9c8b-c6d89d67b53c
       state: >-
-        {%- set test=(as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) %}
-        {{ state_attr('calendar.kallen_school_days','start_time') == test + (" 09:00:00" or " 08:00:00") }}
+          {%- set test=(as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) %}
+          {% if states.calendar.kallen_school_days.attributes.start_time == test + " 09:00:00" %}
+            on
+          {% elif states.calendar.kallen_school_days.attributes.start_time == test + " 08:00:00" %}
+            on
+          {% else %}
+            off
+          {% endif %}
       icon: mdi:school
     - name: Kallen Band Tomorrow
       unique_id: c57855eb-0499-4585-9081-9b2244ce6845
       state: >-
-        {%- set test=(as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) %}
-        {{ state_attr('calendar.kallen_school_days','start_time') == test + " 08:00:00" }}
+          {%- set test=(as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) %}
+          {% if states.calendar.kallen_school_days.attributes.start_time == test + " 08:00:00" %}
+            on
+          {% else %}
+            off
+          {% endif %}
       icon: mdi:trumpet
 
 sensor:
