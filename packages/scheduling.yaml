@@ -319,7 +319,7 @@ script:
             option: >
               {% if is_state('input_boolean.kallen_overnight','on') %}
                 N/A
-              {% elif (states('sensor.tonights_low_temp') | int) >= (states('input_number.kallen_fan_threshold') | int) %}
+              {% elif (states('sensor.overnight_lowest_temperature') | int) >= (states('input_number.kallen_fan_threshold') | int) %}
                 Fan
               {% else %}
                 White Noise
@@ -513,7 +513,7 @@ script:
           entity_id: input_datetime.master_bedroom_cooling
           data:
             time: >
-              {% set low = states('sensor.tonights_low_temp') | int %}
+              {% set low = states('sensor.overnight_lowest_temperature') | int %}
               {% if is_state('input_boolean.hot_day','on') and is_state('binary_sensor.kallen_school_tomorrow','on') %}
                 20:00
               {% elif is_state('input_boolean.hot_day','on') and is_state('binary_sensor.kallen_school_tomorrow','off') %}
@@ -529,7 +529,7 @@ script:
           entity_id: input_datetime.master_bedroom_fan
           data:
             time: >
-              {% set low = states('sensor.tonights_low_temp') | int %}
+              {% set low = states('sensor.overnight_lowest_temperature') | int %}
               {% set high = states('sensor.todays_high_temp') | int %}
               {% if low > 60 or is_state('input_boolean.hot_day','on') %}
                 22:30
@@ -547,8 +547,8 @@ script:
             option: >
               {% if is_state('input_boolean.master_bedroom_aircon_installed','off') %}
                 N/A
-              {% elif (states('sensor.tonights_low_temp') | int) >= (states('input_number.master_bedroom_aircon_run_threshold') | int) %}
-                {% if (states('sensor.tonights_low_temp') | int) >= (states('input_number.master_bedroom_aircon_mode_threshold') | int) %}
+              {% elif (states('sensor.overnight_lowest_temperature') | int) >= (states('input_number.master_bedroom_aircon_run_threshold') | int) %}
+                {% if (states('sensor.overnight_lowest_temperature') | int) >= (states('input_number.master_bedroom_aircon_mode_threshold') | int) %}
                   AC
                 {% else %}
                   Fan
@@ -561,7 +561,7 @@ script:
             entity_id: input_select.scheduled_climate_mode_master_bedroom_fan
           data:
             option: >
-              {% if (states('sensor.tonights_low_temp') | int) >= (states('input_number.master_bedroom_fan_threshold') | int) %}
+              {% if (states('sensor.overnight_lowest_temperature') | int) >= (states('input_number.master_bedroom_fan_threshold') | int) %}
                 Fan
               {% else %}
                 N/A
@@ -600,7 +600,7 @@ script:
           data:
             time: >
               {% set high = states('sensor.todays_high_temp') | int %}
-              {% set low = states('sensor.tonights_low_temp') | int %}
+              {% set low = states('sensor.overnight_lowest_temperature') | int %}
               {% if is_state('input_boolean.hot_day','on') %}
                 22:00
               {% elif high >= 80 or low >= 60 %}
@@ -619,7 +619,7 @@ script:
           data:
             option: >
               {% if is_state('input_boolean.emma_bedroom_aircon_installed','on') %}
-                {% if (states('sensor.tonights_low_temp') | int) >= (states('input_number.emma_aircon_threshold') | int) %}
+                {% if (states('sensor.overnight_lowest_temperature') | int) >= (states('input_number.emma_aircon_threshold') | int) %}
                   AC
                 {% else %}
                   White Noise

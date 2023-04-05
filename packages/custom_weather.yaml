@@ -13,7 +13,25 @@ weather:
     wind_bearing_template: "{{ states('sensor.pirateweather_wind_bearing') | float }}"
     visibility_template: "{{ states('sensor.kdfi_visibility') | float }}"
     visibility_unit: mi
-    attribution_template: "Weather data from Iron Nerd's custom weather station template"
+    attribution_template: "Daily weather data from Iron Nerd's custom weather station template"
+    ozone_template: "{{ states('sensor.pirateweather_ozone') | float }}"
+    precipitation_unit: in
+
+  - platform: template
+    name: "Iron Nerd Weather Station - Hourly"
+    condition_template: "{{ states('weather.iron_nerd_studios') }}"
+    temperature_template: "{{ states('sensor.pirateweather_temperature') | float }}"
+    temperature_unit: °F
+    humidity_template: "{{ states('sensor.pirateweather_humidity') | float }}"
+    forecast_template: "{{ state_attr('weather.kdfi_hourly', 'forecast') }}"
+    pressure_template: "{{ states('sensor.kdfi_barometric_pressure') | float }}"
+    pressure_unit: inHg
+    wind_speed_template: "{{ states('sensor.pirateweather_wind_speed') | float }}"
+    wind_speed_unit: mph
+    wind_bearing_template: "{{ states('sensor.pirateweather_wind_bearing') | float }}"
+    visibility_template: "{{ states('sensor.kdfi_visibility') | float }}"
+    visibility_unit: mi
+    attribution_template: "Hourly weather data from Iron Nerd's custom weather station template"
     ozone_template: "{{ states('sensor.pirateweather_ozone') | float }}"
     precipitation_unit: in
 
@@ -262,7 +280,7 @@ sensor:
                 'Later tonight expect a low of ',
                 'Overnight expect a low of '
                 ] | random }}
-            {{ states('sensor.tonights_low_temp') }} degrees.
+            {{ states('sensor.overnight_lowest_temperature') }} degrees.
           {%- endmacro -%}
           {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
             {%- macro cleanup(data) -%}
@@ -605,13 +623,13 @@ sensor:
                   'Later tonight expect a low of ',
                   'Overnight expect a low of '
                   ] | random }}
-              {{ states('sensor.tonights_low_temp') }} degrees.
+              {{ states('sensor.overnight_lowest_temperature') }} degrees.
             {%- else -%}
               {{ [
                     'Tonight expect a low of ',
                     'Overnight expect a low of '
                     ] | random }}
-                {{ states('sensor.tonights_low_temp') }} degrees.
+                {{ states('sensor.overnight_lowest_temperature') }} degrees.
             {% endif %}
           {%- endmacro -%}
           {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
@@ -931,6 +949,45 @@ sensor:
             mdi:alert-remove
           {% endif %}
 
+# Sensors to more accurately forecast the overnight temperatures
+      overnight_lowest_temperature:
+        friendly_name: 'Overnight Lowest Temperature'
+        unique_id: 70bdffbe-dc55-4913-af70-a37a6db2bcaa
+        unit_of_measurement: '°F'
+        value_template: >
+          {% set ns = namespace(temps=[]) %}
+          {% set x = state_attr('weather.iron_nerd_weather_station_hourly','forecast')  | count %}
+          {% set pd = state_attr('weather.iron_nerd_weather_station_hourly','forecast') %}
+          {% for i in range(0,x) %}
+            {% set hr = as_timestamp(as_local(as_datetime(pd[i].datetime))) | timestamp_custom('%H') | int %}
+            {% if hr in range(21,24) or hr in range(0,8) %}
+              {% if as_local(as_datetime(pd[i].datetime)) == now().replace(hour=hr, minute=00, second=0, microsecond=0) + timedelta(days=0) or
+                    as_local(as_datetime(pd[i].datetime)) == now().replace(hour=hr, minute=00, second=0, microsecond=0) + timedelta(days=1) %}
+                {% set ns.temps = ns.temps + [pd[i].temperature] %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          {{ ns.temps | min | int }}
+        icon_template: mdi:thermometer
+
+input_number:
+  today_calculated_high_temp:
+    name: Today Calculated High Temp
+    min: -100
+    max: 150
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
+    mode: box
+  today_calculated_low_temp:
+    name: Today Calculated Low Temp
+    min: -100
+    max: 150
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
+    mode: box
+
 input_boolean:
   freeze_warning:
     name: Freeze Warning
@@ -966,7 +1023,7 @@ automation:
     alias: Forecast Low Near Freezing
     trigger:
       - platform: numeric_state
-        entity_id: sensor.tonights_low_temp
+        entity_id: sensor.overnight_lowest_temperature
         below: 35
       - platform: numeric_state
         entity_id: sensor.pirateweather_temperature
@@ -983,14 +1040,14 @@ automation:
     alias: Forecast Low Above Freezing
     trigger:
       - platform: numeric_state
-        entity_id: sensor.tonights_low_temp
+        entity_id: sensor.overnight_lowest_temperature
         above: 33
     condition:
       - condition: state
         entity_id: input_boolean.freeze_warning
         state: 'on'
       - condition: numeric_state
-        entity_id: sensor.tonights_low_temp
+        entity_id: sensor.overnight_lowest_temperature
         above: 35
     action:
       - service: input_boolean.turn_off
