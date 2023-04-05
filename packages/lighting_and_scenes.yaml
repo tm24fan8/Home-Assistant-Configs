@@ -905,11 +905,11 @@ automation:
       - condition: template
         value_template: "{{ is_state_attr('light.basement_studio_lights','color_mode','color_temp') }}"
     action:
-      - service: input_select.select_option
-        target:
-          entity_id: input_select.basement_studio_scenes
+      - service: adaptive_lighting.apply
         data:
-          option: Adaptive
+          entity_id: switch.adaptive_lighting_basement_studio
+          adapt_brightness: "{{ is_state('switch.adaptive_lighting_adapt_brightness_basement_studio','on') }}"
+          adapt_color: "{{ is_state('switch.adaptive_lighting_adapt_color_basement_studio','on') }}"
 
   - id: 3f05cd0d-bd6e-42c7-884d-3d1cbfda46e0
     alias: Living Room Lights Adaptive Resync
