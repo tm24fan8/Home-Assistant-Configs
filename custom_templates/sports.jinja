@@ -1,0 +1,49 @@
+{% macro sports_pregame(team) %}
+{% if is_state(team,'PRE') %}
+  {% set date = state_attr(team,'date') | as_timestamp | timestamp_custom('%m-%d') %}
+  {% if date == now().strftime('%m-%d') %}
+    "The {{ state_attr(team,'friendly_name') }} will be playing today against the {{ state_attr(team,'opponent_name') }} at {{ state_attr(team,'venue') }}. "
+    "Kickoff will be at {{ state_attr(team,'date') | as_timestamp | timestamp_custom('%I:%M %p') }}. "
+  {% endif %}
+{% endif %}
+{% endmacro %}
+
+{% macro sports_main(team) %}
+{% if is_state(team,'POST') %}
+  {% set date = state_attr(team,'date') | as_timestamp | timestamp_custom('%m-%d') %}
+  {% set yday = (as_timestamp(now()) - (24*3600)) | timestamp_custom('%m-%d') %}
+  {% if date == now().strftime('%m-%d') %}
+    {% if (state_attr(team,'team_score') | int) > (state_attr(team,'opponent_score') | int) %}
+      "The {{ state_attr(team,'friendly_name') }} won their game today against the {{ state_attr(team,'opponent_name') }} by a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}. "
+    {% elif (state_attr(team,'team_score') | int) == state_attr(team,'opponent_score') | int %}
+      "The {{ state_attr(team,'friendly_name') }} tied in their game today against the {{ state_attr(team,'opponent_name') }} by a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}. "
+    {% else %}
+      "The {{ state_attr(team,'friendly_name') }} lost their game today against the {{ state_attr(team,'opponent_name') }} by a score of {{ state_attr(team,'opponent_score') }} to {{ state_attr(team,'team_score') }}. "
+    {% endif %}
+      "This brings their record to {{ state_attr(team,'team_record') | replace("-"," and ") }} on the season. "
+  {% elif yday == date %}
+    {% if (state_attr(team,'team_score') | int) > (state_attr(team,'opponent_score') | int) %}
+      "The {{ state_attr(team,'friendly_name') }} won their game yesterday against the {{ state_attr(team,'opponent_name') }} by a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}. "
+    {% elif (state_attr(team,'team_score') | int) == state_attr(team,'opponent_score') | int %}
+      "The {{ state_attr(team,'friendly_name') }} tied in their game yesterday against the {{ state_attr(team,'opponent_name') }} by a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}. "
+    {% else %}
+      "The {{ state_attr(team,'friendly_name') }} lost their game yesterday against the {{ state_attr(team,'opponent_name') }} by a score of {{ state_attr(team,'opponent_score') }} to {{ state_attr(team,'team_score') }}. "
+    {% endif %}
+      "This brings their record to {{ state_attr(team,'team_record') | replace("-"," and ") }} on the season. "
+  {% endif %}
+{% elif is_state(team,'IN') %}
+  {% if (state_attr(team,'team_score') | int) > (state_attr(team,'opponent_score') | int) %}
+    "The {{ state_attr(team,'friendly_name') }} are currently winning their game against the {{ state_attr(team,'opponent_name') }} with a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}. "
+  {% elif (state_attr(team,'team_score') | int) == (state_attr(team,'opponent_score') | int) %}
+    "The {{ state_attr(team,'friendly_name') }} are currently tied in their game against the {{ state_attr(team,'opponent_name') }} with a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}. "
+  {% else %}
+    "The {{ state_attr(team,'friendly_name') }} are currently losing their game against the {{ state_attr(team,'opponent_name') }} with a score of {{ state_attr(team,'opponent_score') }} to {{ state_attr(team,'team_score') }}. "
+  {% endif %}
+{% endif %}
+{% endmacro %}
+
+{% macro sports_inhibit(team) %}
+{% if state_attr(team,'kickoff_in') %}
+  {{ ('months' or 'weeks') in state_attr(team,'kickoff_in') }}
+{% endif %}
+{% endmacro %}
