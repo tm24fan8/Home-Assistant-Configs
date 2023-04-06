@@ -1,0 +1,4 @@
+{% macro get_brightness_pct(entity_id) %}
+{% set current = state_attr(entity_id,'brightness') %}
+{{ ((current / 255) * 100) | float | round(2) }}
+{% endmacro %}

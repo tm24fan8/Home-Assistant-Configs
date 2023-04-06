@@ -271,8 +271,8 @@ sensor:
         friendly_name: "Basement Studio Lights - Brightness Actual"
         unique_id: dee4dc84-a6a0-4150-903e-5b8bd436d962
         value_template: >
-          {% set current = state_attr('light.basement_studio_lights','brightness') %}
-          {{ ((current / 255) * 100) | float | round(2) }}
+          {% from 'lighting.jinja' import get_brightness_pct %}
+          {{ get_brightness_pct('light.basement_studio_lights') }}
         availability_template: "{{ is_state('light.basement_studio_lights','on') }}"
         unit_of_measurement: '%'
         icon_template: mdi:brightness-percent
@@ -321,8 +321,8 @@ sensor:
         friendly_name: "Living Room Lights - Brightness Actual"
         unique_id: e557022a-184f-4111-bb6a-6c0869cce42c
         value_template: >
-          {% set current = state_attr('light.living_room_lights','brightness') %}
-          {{ ((current / 255) * 100) | float | round(2) }}
+          {% from 'lighting.jinja' import get_brightness_pct %}
+          {{ get_brightness_pct('light.living_room_lights') }}
         availability_template: "{{ is_state('light.living_room_lights','on') }}"
         unit_of_measurement: '%'
         icon_template: mdi:brightness-percent
@@ -585,7 +585,9 @@ automation:
           target:
             entity_id: timer.living_room_motion_timer
           data:
-            duration: "{{ (states('input_number.living_room_lights_off_delay') | int ) * 60 }}"
+            duration: >
+              {% from 'time.jinja' import timer_duration %}
+              {{ timer_duration('input_number.living_room_lights_off_delay') }}
       - conditions:
         - condition: trigger
           id: timer-finished
@@ -773,7 +775,9 @@ automation:
             target:
               entity_id: timer.basement_studio_door_timer
             data:
-              duration: "{{ (states('input_number.basement_studio_lights_off_delay') | int ) * 60 }}"
+              duration: >
+                {% from 'time.jinja' import timer_duration %}
+                {{ timer_duration('input_number.basement_studio_lights_off_delay') }}
       - conditions:
         - condition: trigger
           id: basement-occupied
@@ -799,7 +803,9 @@ automation:
               target:
                 entity_id: timer.basement_studio_door_timer
               data:
-                duration: "{{ (states('input_number.basement_studio_lights_off_delay') | int ) * 60 }}"
+                duration: >
+                  {% from 'time.jinja' import timer_duration %}
+                  {{ timer_duration('input_number.basement_studio_lights_off_delay') }}
       - conditions:
         - condition: trigger
           id: timer-finished

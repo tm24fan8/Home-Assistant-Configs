@@ -32,9 +32,8 @@ automation:
     - if:
       - condition: template
         value_template: >
-          {%- if as_timestamp(strptime(state_attr('calendar.family_tinawork','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%Y-%m-%d") == now().strftime("%Y-%m-%d") %}
-            true
-          {%- endif -%}
+          {% from 'time.jinja' import calendar_event_today %}
+          {{ calendar_event_today('calendar.family_tinawork') }}
       then:
       - service: script.tina_work_today
     - service: input_boolean.turn_on
@@ -59,13 +58,15 @@ script:
           entity_id: input_datetime.tina_workday_start
         data:
           time: >
-            {{ as_timestamp(strptime(state_attr('calendar.family_tinawork','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
+            {% from 'time.jinja' import set_time_from_calendar %}
+            {{ set_time_from_calendar('calendar.family_tinawork','start_time') }}
       - service: input_datetime.set_datetime
         target:
           entity_id: input_datetime.tina_workday_end
         data:
           time: >
-            {{ as_timestamp(strptime(state_attr('calendar.family_tinawork','end_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
+            {% from 'time.jinja' import set_time_from_calendar %}
+            {{ set_time_from_calendar('calendar.family_tinawork','end_time') }}
       - service: input_boolean.turn_on
         target:
           entity_id: input_boolean.work_today
@@ -84,9 +85,8 @@ script:
       - if:
         - condition: template
           value_template: >
-            {%- if as_timestamp(strptime(state_attr('calendar.family_tinawork','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%Y-%m-%d") == now().strftime("%Y-%m-%d") %}
-              true
-            {%- endif -%}
+            {% from 'time.jinja' import calendar_event_today %}
+            {{ calendar_event_today('calendar.family_tinawork') }}
         then:
         - service: script.tina_work_today
         else:

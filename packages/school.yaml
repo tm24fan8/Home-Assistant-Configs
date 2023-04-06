@@ -281,9 +281,8 @@ automation:
     - if:
       - condition: template
         value_template: >
-          {%- if as_timestamp(strptime(state_attr('calendar.kallen_school_days', 'start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%Y-%m-%d") == now().strftime("%Y-%m-%d") %}
-            true
-          {%- endif -%}
+          {% from 'time.jinja' import calendar_event_today %}
+          {{ calendar_event_today('calendar.kallen_school_days') }}
       then:
       - service: script.kallen_school_today
     - service: input_boolean.turn_on
@@ -418,13 +417,15 @@ script:
               entity_id: input_datetime.kallen_school_day_end
             data:
               time: >
-                {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','end_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
+                {% from 'time.jinja' import set_time_from_calendar %}
+                {{ set_time_from_calendar('calendar.kallen_school_days','end_time') }}
       - service: input_datetime.set_datetime
         target:
           entity_id: input_datetime.kallen_school_day_start
         data:
           time: >
-            {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
+            {% from 'time.jinja' import set_time_from_calendar %}
+            {{ set_time_from_calendar('calendar.kallen_school_days','start_time') }}
       - service: input_boolean.turn_on
         entity_id: 
           - input_boolean.kallen_school_today

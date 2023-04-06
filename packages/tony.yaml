@@ -22,9 +22,8 @@ automation:
     condition:
     - condition: template
       value_template: >
-        {%- if as_timestamp(strptime(state_attr('calendar.tony_s_twitch_schedule','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%Y-%m-%d") == now().strftime("%Y-%m-%d") %}
-          true
-        {%- endif -%}
+        {% from 'time.jinja' import calendar_event_today %}
+        {{ calendar_event_today('calendar.tony_s_twitch_schedule') }}
     action:
       - service: script.tony_stream_today
 
@@ -67,7 +66,8 @@ script:
           entity_id: input_datetime.tony_streaming_start_time
         data:
           time: >
-            {{ as_timestamp(strptime(state_attr('calendar.tony_s_twitch_schedule','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
+            {% from 'time.jinja' import set_time_from_calendar %}
+            {{ set_time_from_calendar('calendar.tony_s_twitch_schedule','start_time') }}
       - service: input_boolean.turn_on
         entity_id: input_boolean.tony_streaming_today
 

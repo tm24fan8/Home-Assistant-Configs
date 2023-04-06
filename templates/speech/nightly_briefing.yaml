@@ -1,8 +1,11 @@
 >
   {# Nightly Briefing #}
   {%- macro getReport() -%}
+  {% from 'speech.jinja' import greeting %}
     <p>
-      "Good evening. It is {{ now().strftime("%I:%M %p") }}. "
+      {{ greeting() }}
+    </p>
+    <p>
       {{ [
         "Before the day comes to a close, here are my thoughts. Just kidding, I am a computer, I do not think. ",
         "The day grows short, let us gather around the campfire for an epic tale of things to come. ",

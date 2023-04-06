@@ -1,13 +1,14 @@
 >
   {# Kallen Morning Briefing #}
   {%- macro getReport() -%}
+  {% from 'time.jinja' import current_time_12hr, current_date_readout %}
     <p>
       Good morning, Collin.
 
       {% if is_state('binary_sensor.morning','on') %}
-        <s>Today is {{ states.sensor.today_is.state }}, {{ as_timestamp(now()) | timestamp_custom('%B %d %Y') }}.</s>
+        <s>Today is {{ current_date_readout() }}.</s>
       {% else %}
-        <s>It is {{ now().strftime("%I:%M %p") }}.</s>
+        <s>It is {{ current_time_12hr() }}.</s>
       {% endif %}
 
       {% if is_state('sensor.anniversary_kallen_s_birthday', '0') %}

@@ -1,35 +1,10 @@
 >
   {# Daily Briefing #}
   {%- macro getReport() -%}
+  {% from 'speech.jinja' import greeting %}
       <p>
-        {% if now().strftime('%H')|int < 12 %}
-          {{ [
-            "Good morning. ",
-            "Top of the morning to you laddy. ",
-          ] | random }}
-        {% elif now().strftime('%H')|int >= 12 and now().strftime('%H')|int < 17 %}
-          {{ [
-            "Greetings earthling. ",
-            "Good afternoon. ",
-            "How do you do, fellow kids? ",
-          ] | random }}
-        {% else %}
-          {{ [
-            "Good evening. ",
-            "The grandest of evenings to you. "
-          ] | random }}
-        {% endif %}
+        {{ greeting() }}
       </p>
-
-        {% if is_state('binary_sensor.morning','on') %}
-          <p>
-            Today is {{ states.sensor.today_is.state }}, {{ as_timestamp(now()) | timestamp_custom('%B %d %Y') }}.
-          </p>
-        {% else %}
-          <p>
-            It is {{ now().strftime("%I:%M %p") }}.
-          </p>
-        {% endif %}
       
       <p>
         {% if is_state('input_boolean.tornado_alarm','on') %}

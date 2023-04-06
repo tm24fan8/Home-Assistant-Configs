@@ -1,0 +1,19 @@
+{% macro timer_duration(input_number) %}
+{{ (states(input_number)) | int * 60 }}
+{% endmacro %}
+
+{% macro current_time_12hr() %}
+{{ now().strftime("%I:%M %p") }}
+{% endmacro %}
+
+{% macro current_date_readout() %}
+{{ states('sensor.today_is') }}, {{ as_timestamp(now()) | timestamp_custom('%B %d %Y') }}
+{% endmacro %}
+
+{% macro calendar_event_today(calendar) %}
+{{ as_timestamp(strptime(state_attr(calendar,'start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%Y-%m-%d") == now().strftime("%Y-%m-%d") }}
+{% endmacro %}
+
+{% macro set_time_from_calendar(calendar,start_or_end) %}
+{{ as_timestamp(strptime(state_attr(calendar,start_or_end), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
+{% endmacro %}
