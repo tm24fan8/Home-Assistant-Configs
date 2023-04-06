@@ -230,22 +230,6 @@
           mdi:eye
         {% endif %}
     # The sum of all the years of life in our household, because why not LOL
-    total_age_years:
-      friendly_name: Total Age Years
-      unique_id: c1380627-b3a5-43ce-811d-3fb856c062a1
-      unit_of_measurement: ''
-      value_template: >
-        {% set tony = states('sensor.tony_current_age') | int %}
-        {% set tina = states('sensor.tina_current_age') | int %}
-        {% set kallen = states('sensor.kallen_current_age') | int %}
-        {% set emmalynn = states('sensor.emma_current_age') | int %}
-        {{ tony + tina + kallen + emmalynn }}
-      icon_template: >
-        {% if (states('sensor.birthdays_today') | int) > 0 %}
-          mdi:cake
-        {% else %}
-          mdi:eye
-        {% endif %}
 
 - platform: history_stats
   name: Basement TV Time

@@ -69,7 +69,7 @@
 **.log*
 **alexa_auth
 **.corrupt*
-**ages.yaml
+**ages_old.yaml
 
 # exceptions
 !/appdaemon/apps/

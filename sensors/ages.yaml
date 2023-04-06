@@ -1,0 +1,60 @@
+- platform: template
+  sensors:
+    tony_current_age:
+      friendly_name: 'Tony Current Age'
+      unique_id: a9178c12-6bc6-435d-9055-5e8adf31e2ff
+      value_template: "{{ state_attr('sensor.anniversary_tony_s_birthday','current_years') }}"
+      icon_template: >
+        {% if is_state('sensor.anniversary_tony_s_birthday','0') %}
+          mdi:cake
+        {% else %}
+          mdi:eye
+        {% endif %}
+    tina_current_age:
+      friendly_name: 'Tina Current Age'
+      unique_id: 56453052-150c-47bf-a351-2f8ce0d43378
+      value_template: "{{ state_attr('sensor.anniversary_tina_s_birthday','current_years') }}"
+      icon_template: >
+        {% if is_state('sensor.anniversary_tina_s_birthday','0') %}
+          mdi:cake
+        {% else %}
+          mdi:eye
+        {% endif %}
+    kallen_current_age:
+      friendly_name: 'Kallen Current Age'
+      unique_id: f601002c-e6f0-4a19-bf13-1193ba1910d0
+      value_template: "{{ state_attr('sensor.anniversary_kallen_s_birthday','current_years') }}"
+      icon_template: >
+        {% if is_state('sensor.anniversary_kallen_s_birthday','0') %}
+          mdi:cake
+        {% else %}
+          mdi:eye
+        {% endif %}
+    emma_current_age:
+      friendly_name: 'Emma Current Age'
+      unique_id: a9af85ab-ea43-4541-8e97-2d596dab5e69
+      value_template: "{{ state_attr('sensor.anniversary_emmalynn_s_birthday','current_years') }}"
+      icon_template: >
+        {% if is_state('sensor.anniversary_emmalynn_s_birthday','0') %}
+          mdi:cake
+        {% else %}
+          mdi:eye
+        {% endif %}
+
+    # The sum of all the years of life in our household, because why not LOL
+    total_age_years:
+      friendly_name: Total Age Years
+      unique_id: c1380627-b3a5-43ce-811d-3fb856c062a1
+      unit_of_measurement: ''
+      value_template: >
+        {% set tony = states('sensor.tony_current_age') | int %}
+        {% set tina = states('sensor.tina_current_age') | int %}
+        {% set kallen = states('sensor.kallen_current_age') | int %}
+        {% set emmalynn = states('sensor.emma_current_age') | int %}
+        {{ tony + tina + kallen + emmalynn }}
+      icon_template: >
+        {% if (states('sensor.birthdays_today') | int) > 0 %}
+          mdi:cake
+        {% else %}
+          mdi:eye
+        {% endif %}
