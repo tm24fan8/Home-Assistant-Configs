@@ -53,12 +53,12 @@ These aren't all the ones I have installed...just the ones I am actively **using
 
 ## HACS Lovelace Cards
 
-Again, mostly just the ones I'm **using** or **will use soon**
+Again, mostly just the ones I'm **using** or **will use soon**...also a few that I'm putting in here so that I don't forget about them later.
 
 - [Card Tools](https://github.com/thomasloven/lovelace-card-tools) (required for various other cards)
 - [Layout Card](https://github.com/thomasloven/lovelace-layout-card)
 - [Scheduler Card](https://github.com/nielsfaber/scheduler-card) (required for Scheduler component)
-- [Sun Card](https://github.com/AitorDB/home-assistant-sun-card)
+- [Sun Card](https://github.com/tm24fan8/home-assistant-sun-card)
 - [Lovelace Home Feed Card](https://github.com/gadgetchnnel/lovelace-home-feed-card)
 - [Mini Graph Card](https://github.com/kalkih/mini-graph-card)
 - [Battery State Card](https://github.com/maxwroc/battery-state-card)
@@ -75,6 +75,7 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Plex Meets Home Assistant](https://github.com/JurajNyiri/PlexMeetsHomeAssistant)
 - [Slider Button Card](https://github.com/custom-cards/slider-button-card)
 - [Weather Radar Card](https://github.com/Makin-Things/weather-radar-card)
+- [Platinum Weather Card](https://github.com/Makin-Things/platinum-weather-card) (Not currently in use, but VERY nicely done)
 - [Stack In Card](https://github.com/custom-cards/stack-in-card)
 - [Canary](https://github.com/jcwillox/lovelace-canary)
 - [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row)
@@ -87,7 +88,6 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Datetime Card](https://github.com/a-p-z/datetime-card)
 - [Waze Travel Time](https://github.com/r-renato/ha-card-waze-travel-time)
 - [Fold Entity Row](https://github.com/thomasloven/lovelace-fold-entity-row)
-- [Mini Climate Card](https://github.com/artem-sedykh/mini-climate-card)
 - [Slider Entity Row](https://github.com/thomasloven/lovelace-slider-entity-row)
 - [Room Card](https://github.com/marcokreeft87/room-card)
 - [Simple Thermostat Card](https://github.com/nervetattoo/simple-thermostat)
@@ -98,6 +98,17 @@ Again, mostly just the ones I'm **using** or **will use soon**
 - [Lovelace Lock Card](https://github.com/CyrisXD/love-lock-card)
 - [Card Templater](https://github.com/gadgetchnnel/lovelace-card-templater)
 - [Energy Overview Card](https://github.com/Sese-Schneider/ha-energy-overview-card)
+- [Button Card](https://github.com/custom-cards/button-card)
+- [Surveillance Card](https://github.com/custom-cards/surveillance-card)
+- [Number Box Card](https://github.com/htmltiger/numberbox-card)
+- [Restriction Card](https://github.com/iantrich/restriction-card)
+- [Steam Card](https://github.com/Kibibit/kb-steam-card)
+- [Timer Bar Card](https://github.com/rianadon/timer-bar-card)
+- [History Explorer Card](https://github.com/alexarch21/history-explorer-card)
+- [Minimalistic Area Card](https://github.com/junalmeida/homeassistant-minimalistic-area-card)
+- [Sankey Chart Card](https://github.com/MindFreeze/ha-sankey-chart)
+- [Hourly Weather Card](https://github.com/decompil3d/lovelace-hourly-weather)
+- [Formula One Card](https://github.com/marcokreeft87/formulaone-card)
 
 ## AppDaemon Apps
 
