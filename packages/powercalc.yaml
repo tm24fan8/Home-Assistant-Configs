@@ -23,9 +23,6 @@ sensor:
     entity_id: switch.tina_desktop
     power_sensor_id: sensor.tina_desktop_power
   - platform: powercalc
-    entity_id: switch.living_room_tv
-    power_sensor_id: sensor.living_room_tv_power
-  - platform: powercalc
     entity_id: fan.emma_air_conditioner
     power_sensor_id: sensor.emma_air_conditioner_power
   - platform: powercalc
