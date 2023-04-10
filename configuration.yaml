@@ -114,7 +114,7 @@ logger:
 
 influxdb:
   api_version: 2
-  host: 192.168.1.4
+  host: 192.168.1.254
   port: 8086
   max_retries: 3
   ssl: false
