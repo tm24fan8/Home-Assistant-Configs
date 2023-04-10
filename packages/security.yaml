@@ -397,6 +397,21 @@ automation:
             - automation.scheduled_alarm_rearm
             - automation.scheduled_alarm_disarm
 
+  - id: 8ae8384f-1540-4b6e-bd08-e81807ff0bcd
+    alias: Security Boolean Handling
+    description: Handle the toggles that provide context for the current security mode
+    trigger:
+      - platform: state
+        entity_id: alarm_control_panel.stratton_ave_alarm
+        from: armed_home
+        to: disarmed
+    action:
+      - service: input_boolean.turn_off
+        target:
+          entity_id:
+            - input_boolean.security_armed_home
+            - input_boolean.security_armed_away
+
 script:
   security_arm_home:
     alias: Security Arm - Home
