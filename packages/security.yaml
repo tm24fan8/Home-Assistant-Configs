@@ -163,6 +163,8 @@ automation:
       - condition: state
         entity_id: input_boolean.guest_mode
         state: 'off'
+      - condition: template
+        value_template: "{{ states('alarm_control_panel.stratton_ave_alarm') not in ['disarmed','unavailable','unknown'] }}"
     action:
       - choose:
         - conditions:
@@ -216,6 +218,9 @@ automation:
           {% set wake = state_attr('input_datetime.master_bedroom_wakeup','timestamp') %}
           {% set diff = wake - rearm %}
           {{ diff > 1800 }}
+      - condition: state
+        entity_id: alarm_control_panel.stratton_ave_alarm
+        state: disarmed
     action:
       - if:
         - condition: state
