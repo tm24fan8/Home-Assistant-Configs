@@ -295,3 +295,35 @@
   end: '{{ now() }}'
   duration:
     hours: 24
+- platform: history_stats
+  name: Emma A/C Compressor Time
+  entity_id: binary_sensor.emma_aircon_compressor
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Emma A/C Fan Time
+  entity_id: binary_sensor.emma_aircon_fan
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Master Bedroom A/C Compressor Time
+  entity_id: binary_sensor.master_bedroom_aircon_compressor
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Master Bedroom A/C Fan Time
+  entity_id: binary_sensor.master_bedroom_aircon_fan
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24

@@ -45,6 +45,25 @@ sensor:
           {% endif %}
         availability_template: "{{ states('climate.master_bedroom_aircon') not in ['unavailable','unknown'] }}"
 
+template:
+  - binary_sensor:
+    - name: Emma Aircon - Compressor
+      unique_id: 21bcbb62-823c-43ff-8c2c-26e940324ee6
+      state: "{{ states('sensor.emma_air_conditioner_power') | int > 150 }}"
+      device_class: running
+    - name: Emma Aircon - Fan
+      unique_id: 9e3054cf-8f7e-4fef-9da4-5b2f2bc99c9d
+      state: "{{ states('sensor.emma_air_conditioner_power') | int > 20 }}"
+      device_class: running
+    - name: Master Bedroom Aircon - Compressor
+      unique_id: 87051957-1dbc-4d65-b138-e8469728f58f
+      state: "{{ states('sensor.master_bedroom_aircon_power') | int > 150 }}"
+      device_class: running
+    - name: Master Bedroom Aircon - Fan
+      unique_id: ae893dd6-129c-4886-a966-a89b958d9f08
+      state: "{{ states('sensor.master_bedroom_aircon_power') | int > 20 }}"
+      device_class: running
+
 input_boolean:
   master_bedroom_nighttime_protocol:
     name: Master Bedroom Nighttime Protocol
