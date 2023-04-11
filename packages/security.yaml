@@ -218,9 +218,6 @@ automation:
           {% set wake = state_attr('input_datetime.master_bedroom_wakeup','timestamp') %}
           {% set diff = wake - rearm %}
           {{ diff > 1800 }}
-      - condition: state
-        entity_id: alarm_control_panel.stratton_ave_alarm
-        state: disarmed
     action:
       - if:
         - condition: state
@@ -245,7 +242,12 @@ automation:
               state: "on"
         then:
           - stop: School early release
-      - service: script.security_arm_home
+      - if:
+        - condition: state
+          entity_id: alarm_control_panel.stratton_ave_alarm
+          state: disarmed
+        then:
+        - service: script.security_arm_home
 
   - id: c7927c59-e0fe-48b9-b308-dd90fb774920
     alias: Lockdown Issue
