@@ -274,8 +274,23 @@ script:
         - condition: template
           value_template: >-
             {% set ct = ((now().hour * 60 + now().minute) * 60 ) %}
-            {{ is_state('input_boolean.hot_day','off') and ct < state_attr('input_datetime.emma_bedtime','timestamp') and ct >= state_attr('input_datetime.emma_wakeup','timestamp') }}
+            {{ is_state('fan.emma_air_conditioner','on') and is_state('input_boolean.hot_day','off') and ct < state_attr('input_datetime.emma_bedtime','timestamp') and ct >= state_attr('input_datetime.emma_wakeup','timestamp') }}
         then:
-        - service: fan.turn_off
+        - service: script.turn_on
           target:
-            entity_id: fan.emma_air_conditioner
+            entity_id: script.emma_aircon_shutoff
+
+  emma_aircon_shutoff:
+    alias: 'Emma Air Conditioner Shutoff'
+    mode: restart
+    description: 'Attempt to shut off air conditioner after compressor stops running'
+    sequence:
+    - wait_template: "{{ is_state('binary_sensor.emma_aircon_compressor','off') }}"
+      timeout:
+        minutes: 10
+      continue_on_timeout: true
+    - delay:
+        seconds: 5
+    - service: fan.turn_off
+      target:
+        entity_id: fan.emma_air_conditioner
