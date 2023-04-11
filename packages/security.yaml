@@ -271,7 +271,12 @@ automation:
       - service: script.text_notify
         data:
           type: critical
-          who: 'parents'
+          who: >-
+            {% if states('person.christina_stork') in ['Bob Evans','BobEvans'] %}
+              tony
+            {% else %}
+              parents
+            {% endif %}
           title: 'Security Not Armed!'
           tag: lockdown-issue
           message: >-
