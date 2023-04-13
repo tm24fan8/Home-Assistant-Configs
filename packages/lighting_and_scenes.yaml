@@ -1379,33 +1379,50 @@ script:
             entity_id: input_boolean.give_me_darkness
             state: 'off'
           sequence:
-          - service: light.turn_off
-            target:
-              entity_id:
-                - light.dining_room_lamp
           - if:
-            - condition: state
-              entity_id: timer.downstairs_bathroom_lights_timer
-              state: idle
+            - condition: template
+              value_template: "{{ sunset_lights == 1 }}"
             then:
+            - service: light.turn_on
+              target:
+                entity_id:
+                  - light.living_room_lights
+                  - light.mud_room_overhead
+            - service: input_select.select_option
+              target:
+                entity_id:
+                  - input_select.living_room_scenes
+                  - input_select.mud_room_scenes
+              data:
+                option: Adaptive
+            else:
             - service: light.turn_off
               target:
-                entity_id: light.downstairs_bathroom_lights
-          - service: input_boolean.turn_off
-            target:
-              entity_id: input_boolean.tina_desk_lights
-          - service: light.turn_on
-            target:
-              entity_id: 
-                - light.living_room_lights
-                - light.mud_room_overhead
-          - service: input_select.select_option
-            target:
-              entity_id:
-                - input_select.living_room_scenes
-                - input_select.mud_room_scenes
-            data:
-              option: Adaptive
+                entity_id:
+                  - light.dining_room_lamp
+            - if:
+              - condition: state
+                entity_id: timer.downstairs_bathroom_lights_timer
+                state: idle
+              then:
+              - service: light.turn_off
+                target:
+                  entity_id: light.downstairs_bathroom_lights
+            - service: input_boolean.turn_off
+              target:
+                entity_id: input_boolean.tina_desk_lights
+            - service: light.turn_on
+              target:
+                entity_id: 
+                  - light.living_room_lights
+                  - light.mud_room_overhead
+            - service: input_select.select_option
+              target:
+                entity_id:
+                  - input_select.living_room_scenes
+                  - input_select.mud_room_scenes
+              data:
+                option: Adaptive
 
   evening_on_second_floor:
     alias: 'Evening on Second Floor'
@@ -1476,12 +1493,6 @@ script:
             entity_id: input_boolean.give_me_darkness
             state: 'off'
           sequence:
-          - service: light.turn_off
-            target:
-              area_id:
-              - master_bedroom
-              - kallen_bedroom
-              - emma_bedroom
           - service: input_select.select_option
             target:
               entity_id: input_select.upstairs_hallway_scenes
@@ -1502,28 +1513,40 @@ script:
                   {% else %}
                     Nightlight
                   {% endif %}
-          - delay:
-              seconds: 1
-          - service: switch.turn_on
-            target:
-              entity_id:
-                - switch.adaptive_lighting_kallen_bedroom
-                - switch.adaptive_lighting_master_bedroom
-                - switch.adaptive_lighting_emma_bedroom
-          - service: switch.turn_off
-            target:
-              entity_id:
-                - switch.adaptive_lighting_sleep_mode_kallen_bedroom
-                - switch.adaptive_lighting_sleep_mode_master_bedroom
-                - switch.adaptive_lighting_sleep_mode_emma_bedroom
-          - service: input_text.set_value
-            target:
-              entity_id:
-                - input_text.kallen_bedroom_selected_scene
-                - input_text.master_bedroom_selected_scene
-                - input_text.emma_bedroom_selected_scene
-            data:
-              value: Adaptive
+          - if:
+            - condition: template
+              value_template: "{{ sunset_lights == 1 }}"
+            then:
+            - stop: "Sunset lights don't mess with bedroom light states before bedtime"
+            else:
+            - service: light.turn_off
+              target:
+                area_id:
+                - master_bedroom
+                - kallen_bedroom
+                - emma_bedroom
+            - delay:
+                seconds: 1
+            - service: switch.turn_on
+              target:
+                entity_id:
+                  - switch.adaptive_lighting_kallen_bedroom
+                  - switch.adaptive_lighting_master_bedroom
+                  - switch.adaptive_lighting_emma_bedroom
+            - service: switch.turn_off
+              target:
+                entity_id:
+                  - switch.adaptive_lighting_sleep_mode_kallen_bedroom
+                  - switch.adaptive_lighting_sleep_mode_master_bedroom
+                  - switch.adaptive_lighting_sleep_mode_emma_bedroom
+            - service: input_text.set_value
+              target:
+                entity_id:
+                  - input_text.kallen_bedroom_selected_scene
+                  - input_text.master_bedroom_selected_scene
+                  - input_text.emma_bedroom_selected_scene
+              data:
+                value: Adaptive
 
   morning_scene:
     alias: 'Morning Scene'
