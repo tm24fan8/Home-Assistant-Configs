@@ -82,6 +82,35 @@ automation:
           target:
             entity_id: input_boolean.emma_sleeping
 
+  - id: e44c2ab8-00cd-40ab-9b42-824511ac20aa
+    alias: Emma Naptime Climate
+    description: Sets the climate mode for when Emma goes down for nap
+    mode: restart
+    trigger:
+    - platform: state
+      entity_id: sensor.pirateweather_temperature
+    - platform: state
+      entity_id: input_number.emma_naptime_aircon_threshold
+    - platform: state
+      entity_id: input_boolean.hot_day
+    condition:
+    - condition: state
+      entity_id: input_boolean.emma_sleeping
+      state: 'off'
+    action:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.naptime_climate_mode_emma_aircon
+      data:
+        option: >
+          {% set temp = states('sensor.pirateweather_temperature') | int %}
+          {% set threshold = states('input_number.emma_naptime_aircon_threshold') | int %}
+          {% if (temp >= threshold) or is_state('input_boolean.hot_day','on') %}
+            AC
+          {% else %}
+            White Noise
+          {% endif %}
+
 script:
   emma_sleep:
     alias: 'Emma Sleep'
@@ -139,57 +168,6 @@ script:
                     - input_select.upstairs_hallway_scenes
                 data:
                   option: Adaptive
-          - choose:
-            - conditions:
-              - condition: state
-                entity_id: input_select.scheduled_climate_mode_emma_aircon
-                state: AC
-              sequence:
-              - service: fan.turn_on
-                target:
-                  entity_id: fan.emma_air_conditioner
-              - if:
-                - condition: template
-                  value_template: "{{ states('sensor.time') >= state_attr('input_datetime.emma_bedtime','timestamp') | timestamp_custom('%H:%M', false) }}"
-                then:
-                - service: script.text_notify
-                  data:
-                    who: "parents"
-                    title: "Emma Climate Schedule"
-                    message: "The air conditioner in Emma's Bedroom has been activated."
-                    type: normal
-                    tag: emma-climate
-            - conditions:
-              - condition: state
-                entity_id: input_select.scheduled_climate_mode_emma_aircon
-                state: White Noise
-              sequence:
-              - service: input_boolean.turn_on
-                target:
-                  entity_id: input_boolean.white_noise_emma_bedroom
-              - if:
-                - condition: template
-                  value_template: "{{ states('sensor.time') >= state_attr('input_datetime.emma_bedtime','timestamp') | timestamp_custom('%H:%M', false) }}"
-                then:
-                - service: script.text_notify
-                  data:
-                    who: "parents"
-                    title: "Emma Climate Schedule"
-                    message: "White noise has been activated in Emma's Bedroom."
-                    type: normal
-                    tag: emma-climate
-            default:
-            - if:
-              - condition: template
-                value_template: "{{ states('sensor.time') >= state_attr('input_datetime.emma_bedtime','timestamp') | timestamp_custom('%H:%M', false) }}"
-              then:
-              - service: script.text_notify
-                data:
-                  who: "parents"
-                  title: "Emma Climate Schedule"
-                  message: "No option selected for Emma's climate mode. No devices will be activated."
-                  type: normal
-                  tag: emma-climate
         - conditions:
           - condition: state
             entity_id: binary_sensor.early_night_mode
@@ -199,21 +177,75 @@ script:
             target:
               entity_id: light.emma_bedroom_light
           - service: script.emma_bedroom_scheduling_evening
-          - delay:
-              seconds: 2
+      - delay:
+          seconds: 2
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: >
+              {% set time = states('sensor.time') %}
+              {% set bedtime = state_attr('input_datetime.emma_bedtime','timestamp') | timestamp_custom('%H:%M', false) %}
+              {{ time >= bedtime }}
+          sequence:
           - choose:
             - conditions:
               - condition: state
                 entity_id: input_select.scheduled_climate_mode_emma_aircon
-                state: 'AC'
+                state: AC
+              sequence:
+              - service: fan.turn_on
+                target:
+                  entity_id: fan.emma_air_conditioner
+              - service: script.text_notify
+                data:
+                  who: "parents"
+                  title: "Emma Climate Schedule"
+                  message: "The air conditioner in Emma's Bedroom has been activated."
+                  type: normal
+                  tag: emma-climate
+            - conditions:
+              - condition: state
+                entity_id: input_select.scheduled_climate_mode_emma_aircon
+                state: White Noise
+              sequence:
+              - service: input_boolean.turn_on
+                target:
+                  entity_id: input_boolean.white_noise_emma_bedroom
+              - service: script.text_notify
+                data:
+                  who: "parents"
+                  title: "Emma Climate Schedule"
+                  message: "White noise has been activated in Emma's Bedroom."
+                  type: normal
+                  tag: emma-climate
+            default:
+            - service: script.text_notify
+              data:
+                who: "parents"
+                title: "Emma Climate Schedule"
+                message: "No option selected for Emma's climate mode. No devices will be activated."
+                type: normal
+                tag: emma-climate
+        - conditions:
+          - condition: template
+            value_template: >
+              {% set time = states('sensor.time') %}
+              {% set bedtime = state_attr('input_datetime.emma_bedtime','timestamp') | timestamp_custom('%H:%M', false) %}
+              {{ time < bedtime }}
+          sequence:
+          - choose:
+            - conditions:
+              - condition: state
+                entity_id: input_select.naptime_climate_mode_emma_aircon
+                state: AC
               sequence:
               - service: fan.turn_on
                 target:
                   entity_id: fan.emma_air_conditioner
             - conditions:
               - condition: state
-                entity_id: input_select.scheduled_climate_mode_emma_aircon
-                state: 'White Noise'
+                entity_id: input_select.naptime_climate_mode_emma_aircon
+                state: White Noise
               sequence:
               - service: input_boolean.turn_on
                 target:
