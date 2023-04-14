@@ -120,6 +120,9 @@ script:
     icon: mdi:lightbulb-night
     mode: restart
     sequence:
+      - variables:
+          time: "{{ states('sensor.time') }}"
+          bedtime: "{{ state_attr('input_datetime.emma_bedtime','timestamp') | timestamp_custom('%H:%M', false) }}"
       - choose:
         - conditions:
           - condition: state
@@ -131,7 +134,7 @@ script:
               - condition: and
                 conditions:
                 - condition: template
-                  value_template: "{{ states('sensor.time') < state_attr('input_datetime.emma_bedtime','timestamp') | timestamp_custom('%H:%M', false) }}"
+                  value_template: "{{ time < bedtime }}"
                 - condition: state
                   entity_id: input_boolean.give_me_darkness
                   state: 'on'
@@ -152,7 +155,7 @@ script:
               - condition: and
                 conditions:
                 - condition: template
-                  value_template: "{{ states('sensor.time') < state_attr('input_datetime.emma_bedtime','timestamp') | timestamp_custom('%H:%M', false) }}"
+                  value_template: "{{ time < bedtime }}"
                 - condition: state
                   entity_id: input_boolean.give_me_darkness
                   state: 'off'
@@ -185,10 +188,7 @@ script:
       - choose:
         - conditions:
           - condition: template
-            value_template: >
-              {% set time = states('sensor.time') %}
-              {% set bedtime = state_attr('input_datetime.emma_bedtime','timestamp') | timestamp_custom('%H:%M', false) %}
-              {{ time >= bedtime }}
+            value_template: "{{ time >= bedtime }}"
           sequence:
           - choose:
             - conditions:
@@ -231,10 +231,7 @@ script:
                 tag: emma-climate
         - conditions:
           - condition: template
-            value_template: >
-              {% set time = states('sensor.time') %}
-              {% set bedtime = state_attr('input_datetime.emma_bedtime','timestamp') | timestamp_custom('%H:%M', false) %}
-              {{ time < bedtime }}
+            value_template: "{{ time < bedtime }}"
           sequence:
           - choose:
             - conditions:
@@ -259,6 +256,13 @@ script:
     icon: mdi:weather-sunset-up
     mode: restart
     sequence:
+      - variables:
+          timestamp: "{{ ((now().hour * 60 + now().minute) * 60 ) }}"
+          wakeup: "{{ state_attr('input_datetime.emma_wakeup','timestamp') }}"
+          bedtime: "{{ state_attr('input_datetime.emma_bedtime','timestamp') }}"
+      - service: script.turn_on
+        target:
+          entity_id: script.emma_bedroom_scheduling_evening
       - choose:
         - conditions:
           - condition: state
@@ -308,8 +312,7 @@ script:
       - if:
         - condition: template
           value_template: >-
-            {% set ct = ((now().hour * 60 + now().minute) * 60 ) %}
-            {{ is_state('fan.emma_air_conditioner','on') and is_state('input_boolean.hot_day','off') and ct < state_attr('input_datetime.emma_bedtime','timestamp') and ct >= state_attr('input_datetime.emma_wakeup','timestamp') }}
+            {{ is_state('fan.emma_air_conditioner','on') and is_state('input_boolean.hot_day','off') and timestamp < bedtime }}
         then:
         - service: script.turn_on
           target:
