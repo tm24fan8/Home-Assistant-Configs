@@ -4,6 +4,9 @@ input_boolean:
   emma_sleeping:
     name: Emma Sleeping
     icon: mdi:sleep
+  emma_has_napped:
+    name: Emma Has Napped
+    icon: mdi:check
 
 input_datetime:
   emma_bedtime:
@@ -16,6 +19,16 @@ input_datetime:
     has_date: false
     has_time: true
     icon: mdi:fan-off
+  emma_down_for_nap:
+    name: Emma Down For Nap
+    has_date: true
+    has_time: true
+    icon: mdi:sleep
+  emma_up_from_nap:
+    name: Emma Up From Nap
+    has_date: true
+    has_time: true
+    icon: mdi:eye
 
 automation:
   - id: 4f01dff7-be22-4850-a05e-1906e3151441
@@ -43,11 +56,49 @@ automation:
           - condition: trigger
             id: sleep-on
           sequence:
+            - if:
+              - condition: and
+                conditions:
+                - condition: state
+                  entity_id: input_boolean.emma_has_napped
+                  state: 'off'
+                - condition: time
+                  before: "23:00:00"
+              then:
+              - service: input_datetime.set_datetime
+                target:
+                  entity_id: input_datetime.emma_down_for_nap
+                data:
+                  datetime: "{{ as_timestamp(now()) | timestamp_custom('%Y-%m-%d %H:%M:%S') }}"
             - service: script.emma_sleep
         - conditions:
           - condition: trigger
             id: sleep-off
           sequence:
+            - if:
+              - condition: and
+                conditions:
+                - condition: state
+                  entity_id: input_boolean.emma_has_napped
+                  state: 'off'
+                - condition: time
+                  before: "23:30:00"
+              then:
+              - service: input_datetime.set_datetime
+                target:
+                  entity_id: input_datetime.emma_up_from_nap
+                data:
+                  datetime: "{{ as_timestamp(now()) | timestamp_custom('%Y-%m-%d %H:%M:%S') }}"
+              - delay:
+                  milliseconds: 500
+              - service: input_datetime.set_datetime
+                target:
+                  entity_id: input_datetime.emma_bedtime
+                data:
+                  time: "{{ (state_attr('input_datetime.emma_up_from_nap','timestamp') + 10800) | timestamp_custom('%H:%M') }}"
+              - service: input_boolean.turn_on
+                target:
+                  entity_id: input_boolean.emma_has_napped
             - service: script.emma_wakeup
 
   - id: '1655415573165'
@@ -120,60 +171,32 @@ script:
     icon: mdi:lightbulb-night
     mode: restart
     sequence:
-      - variables:
-          time: "{{ states('sensor.time') }}"
-          bedtime: "{{ state_attr('input_datetime.emma_bedtime','timestamp') | timestamp_custom('%H:%M', false) }}"
+      - if:
+        - condition: time
+          before: '16:00:00'
+        then:
+        - service: script.emma_bedroom_scheduling_evening
+# Lighting
       - choose:
         - conditions:
           - condition: state
             entity_id: binary_sensor.early_night_mode
             state: 'on'
           sequence:
-          - choose:
-            - conditions:
-              - condition: and
-                conditions:
-                - condition: template
-                  value_template: "{{ time < bedtime }}"
-                - condition: state
-                  entity_id: input_boolean.give_me_darkness
-                  state: 'on'
-              sequence:
-              - service: light.turn_on
-                target:
-                  entity_id:
-                    - light.emma_bedroom_light
-              - delay:
-                  seconds: 1
-              - service: input_select.select_option
-                target:
-                  entity_id:
-                    - input_select.emma_bedroom_scenes
-                data:
-                  option: Adaptive
-            - conditions:
-              - condition: and
-                conditions:
-                - condition: template
-                  value_template: "{{ time < bedtime }}"
-                - condition: state
-                  entity_id: input_boolean.give_me_darkness
-                  state: 'off'
-              sequence:
-              - service: light.turn_on
-                target:
-                  entity_id:
-                    - light.emma_bedroom_light
-                    - light.hallway_overhead
-              - delay:
-                  seconds: 1
-              - service: input_select.select_option
-                target:
-                  entity_id:
-                    - input_select.emma_bedroom_scenes
-                    - input_select.upstairs_hallway_scenes
-                data:
-                  option: Adaptive
+          - service: light.turn_on
+            target:
+              entity_id:
+                - light.emma_bedroom_light
+                - light.hallway_overhead
+          - delay:
+              seconds: 1
+          - service: input_select.select_option
+            target:
+              entity_id:
+                - input_select.emma_bedroom_scenes
+                - input_select.upstairs_hallway_scenes
+            data:
+              option: Adaptive
         - conditions:
           - condition: state
             entity_id: binary_sensor.early_night_mode
@@ -182,13 +205,16 @@ script:
           - service: light.turn_on
             target:
               entity_id: light.emma_bedroom_light
-          - service: script.emma_bedroom_scheduling_evening
-      - delay:
-          seconds: 2
+# Climate
       - choose:
         - conditions:
-          - condition: template
-            value_template: "{{ time >= bedtime }}"
+          - condition: or
+            conditions:
+            - condition: state
+              entity_id: input_boolean.emma_has_napped
+              state: 'on'
+            - condition: time
+              after: "23:00:00"
           sequence:
           - choose:
             - conditions:
@@ -230,8 +256,13 @@ script:
                 type: normal
                 tag: emma-climate
         - conditions:
-          - condition: template
-            value_template: "{{ time < bedtime }}"
+          - condition: and
+            conditions:
+            - condition: state
+              entity_id: input_boolean.emma_has_napped
+              state: 'off'
+            - condition: time
+              before: "23:00:00"
           sequence:
           - choose:
             - conditions:
@@ -256,13 +287,7 @@ script:
     icon: mdi:weather-sunset-up
     mode: restart
     sequence:
-      - variables:
-          timestamp: "{{ ((now().hour * 60 + now().minute) * 60 ) }}"
-          wakeup: "{{ state_attr('input_datetime.emma_wakeup','timestamp') }}"
-          bedtime: "{{ state_attr('input_datetime.emma_bedtime','timestamp') }}"
-      - service: script.turn_on
-        target:
-          entity_id: script.emma_bedroom_scheduling_evening
+# Lighting
       - choose:
         - conditions:
           - condition: state
@@ -287,14 +312,9 @@ script:
             data:
               option: Adaptive
         - conditions:
-          - condition: or
-            conditions:
-            - condition: state
-              entity_id: binary_sensor.morning
-              state: 'on'
-            - condition: state
-              entity_id: binary_sensor.late_morning
-              state: 'on'
+          - condition: state
+            entity_id: binary_sensor.early_night_mode
+            state: 'off'
           sequence:
           - service: light.turn_on
             target:
@@ -304,6 +324,7 @@ script:
               entity_id: input_select.emma_bedroom_scenes
             data:
               option: Adaptive
+# Climate/White Noise
       - delay:
           minutes: 5
       - service: input_boolean.turn_off
@@ -312,7 +333,7 @@ script:
       - if:
         - condition: template
           value_template: >-
-            {{ is_state('fan.emma_air_conditioner','on') and is_state('input_boolean.hot_day','off') and timestamp < bedtime }}
+            {{ is_state('fan.emma_air_conditioner','on') and is_state('input_boolean.hot_day','off') }}
         then:
         - service: script.turn_on
           target:
@@ -325,7 +346,7 @@ script:
     sequence:
     - wait_template: "{{ is_state('binary_sensor.emma_aircon_compressor','off') }}"
       timeout:
-        minutes: 10
+        minutes: 15
       continue_on_timeout: true
     - delay:
         seconds: 5
