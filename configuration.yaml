@@ -71,7 +71,6 @@ climate:
     k1: !secret master_bedroom_ac_key
 
 recorder:
-  db_url: !secret mariadb_url
   purge_keep_days: 14
   commit_interval: 30
   exclude:
@@ -79,6 +78,15 @@ recorder:
       - media_player
       - scan_store
       - zone
+      - sun
+      - scene
+      - zone
+    entity_globs:
+      - sensor.xr500*
+      - sensor.*waze*
+      - sensor.*birthday
+      - sensor.*anniversary
+      - sensor.*uptime*
     entities:
       - sensor.avg_ping
       - sensor.max_ping
@@ -89,6 +97,7 @@ recorder:
       - sensor.time_date
       - sensor.time
       - sensor.time_utc
+      - sensor.hacs
   include:
     entities:
       - media_player.living_room_tv
