@@ -299,10 +299,6 @@ script:
               {% endif %}
       - delay:
           seconds: 1
-      - variables:
-          bedtime: "{{ state_attr('input_datetime.kallen_bedtime','timestamp') }}"
-          low: "{{ states('sensor.overnight_lowest_temperature') | int }}"
-          threshold: "{{ states('input_number.kallen_fan_threshold') | int }}"
       - if:
         - condition: state
           entity_id: input_boolean.kallen_briefing_times_override
@@ -311,7 +307,7 @@ script:
         - service: input_datetime.set_datetime
           entity_id: input_datetime.kallen_nightly_briefing
           data:
-            time: "{{ (bedtime - 1200) | timestamp_custom('%H:%M', false) }}"
+            time: "{{ (state_attr('input_datetime.kallen_bedtime','timestamp') - 1200) | timestamp_custom('%H:%M', false) }}"
       - if:
         - condition: state
           entity_id: input_boolean.kallen_bedroom_climate_override
@@ -324,7 +320,7 @@ script:
             option: >
               {% if is_state('input_boolean.kallen_overnight','on') %}
                 N/A
-              {% elif low >= threshold %}
+              {% elif (states('sensor.overnight_lowest_temperature') | int) >= (states('input_number.kallen_fan_threshold') | int) %}
                 Fan
               {% else %}
                 White Noise
@@ -335,9 +331,9 @@ script:
           data:
             time: >
               {% if is_state('input_boolean.hot_day','on') %}
-                {{ bedtime - 3600 | timestamp_custom('%H:%M', false) }}
+                {{ (state_attr('input_datetime.kallen_bedtime','timestamp') - 3600) | timestamp_custom('%H:%M', false) }}
               {% else %}
-                {{ bedtime | timestamp_custom('%H:%M', false) }}
+                {{ state_attr('input_datetime.kallen_bedtime','timestamp') | timestamp_custom('%H:%M', false) }}
               {% endif %}
       - if:
         - condition: state
@@ -348,7 +344,7 @@ script:
           target:
             entity_id: input_datetime.kallen_bedtime
           data:
-            time: "{{ bedtime + 3600 | timestamp_custom('%H:%M', false) }}"
+            time: "{{ (state_attr('input_datetime.kallen_bedtime','timestamp') + 3600) | timestamp_custom('%H:%M', false) }}"
         - service: input_datetime.set_datetime
           target:
             entity_id: input_datetime.kallen_nightly_briefing
@@ -371,22 +367,15 @@ script:
   house_scheduling_morning:
     alias: 'House Scheduling Morning'
     sequence:
-      - variables:
-          kallen_school_start: "{{ state_attr('input_datetime.kallen_school_day_start','timestamp') }}"
-          tina_work_start: "{{ state_attr('input_datetime.tina_workday_start','timestamp') }}"
-          tina_work_end: "{{ state_attr('input_datetime.tina_workday_end','timestamp') }}"
-          high: "{{ states('sensor.todays_high_temp') | int }}"
       - service: input_datetime.set_datetime
         entity_id: input_datetime.audible_notification_on
         data:
           time: >
             {% if is_state('input_boolean.kallen_school_today','on') %}
-              {{ kallen_school_start - 5400 | timestamp_custom('%H:%M', false) }}
+              {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 5400) | timestamp_custom('%H:%M', false) }}
             {% else %}
               09:00
             {% endif %}
-      - variables:
-          audible_on: "{{ state_attr('input_datetime.audible_notification_on','timestamp') }}"
       - if:
         - condition: state
           entity_id: input_boolean.house_briefing_times_override
@@ -400,13 +389,13 @@ script:
                 {% if is_state('input_boolean.two_hour_delay','on') %}
                   10:20
                 {% else %}
-                  {{ kallen_school_start - 2400 | timestamp_custom('%H:%M', false) }}
+                  {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 2400) | timestamp_custom('%H:%M', false) }}
                 {% endif %}
               {% elif is_state('input_boolean.work_today','on') and is_state('input_boolean.kallen_school_today','off') %}
-                {% if tina_work_start > 43200 %}
+                {% if (state_attr('input_datetime.tina_workday_start','timestamp')) > 43200 %}
                   12:00
-                {% elif (tina_work_start - 1500) > audible_on %}
-                  {{ tina_work_start - 1500 | timestamp_custom('%H:%M', false) }}
+                {% elif (state_attr('input_datetime.tina_workday_start','timestamp') - 1500 ) > (state_attr('input_datetime.audible_notification_on','timestamp')) %}
+                  {{ (state_attr('input_datetime.tina_workday_start', 'timestamp') - 1500) | timestamp_custom('%H:%M', false) }}
                 {% else %}
                   10:00
                 {% endif %}
@@ -426,15 +415,15 @@ script:
               {% elif is_state('input_boolean.kallen_school_today','off') and is_state('input_boolean.work_today','off') %}
                 15:00
               {% else %}
-                {% if tina_work_end > 61200 %}
+                {% if (state_attr('input_datetime.tina_workday_end','timestamp')) > 61200 %}
                   16:00
                 {% else %}
-                  {{ tina_work_end + 3600 | timestamp_custom('%H:%M', false) }}
+                  {{ (state_attr('input_datetime.tina_workday_end', 'timestamp') + 3600) | timestamp_custom('%H:%M', false) }}
                 {% endif %}
               {% endif %}
       - if:
         - condition: template
-          value_template: "{{ high >= states('input_number.hot_day_threshold') | int }}"
+          value_template: "{{ states('sensor.todays_high_temp') | int >= states('input_number.hot_day_threshold') | int }}"
         then:
         - service: input_boolean.turn_on
           target:
@@ -445,7 +434,7 @@ script:
             entity_id: input_boolean.hot_day
       - if:
         - condition: template
-          value_template: "{{ high <= states('input_number.cold_day_threshold') | int }}"
+          value_template: "{{ states('sensor.todays_high_temp') | int <= states('input_number.cold_day_threshold') | int }}"
         then:
         - service: input_boolean.turn_on
           target:
@@ -461,8 +450,6 @@ script:
   house_scheduling_evening:
     alias: 'House Scheduling Evening'
     sequence:
-      - variables:
-          kallen_bedtime: "{{ state_attr('input_datetime.kallen_bedtime','timestamp') }}"
       - if:
         - condition: state
           entity_id: input_boolean.house_briefing_times_override
@@ -473,9 +460,9 @@ script:
           data:
             time: >
               {% if is_state('input_boolean.kallen_late_bedtime','on') %}
-                {{ kallen_bedtime - 7200 | timestamp_custom('%H:%M', false) }}
+                {{ (state_attr('input_datetime.kallen_bedtime','timestamp') - 7200) | timestamp_custom('%H:%M', false) }}
               {% else %}
-                {{ kallen_bedtime - 3600 | timestamp_custom('%H:%M', false) }}
+                {{ (state_attr('input_datetime.kallen_bedtime','timestamp') - 3600) | timestamp_custom('%H:%M', false) }}
               {% endif %}
       - service: input_datetime.set_datetime
         entity_id: input_datetime.audible_notification_off
@@ -518,10 +505,7 @@ script:
   master_bedroom_scheduling_evening:
     alias: 'Master Bedroom Scheduling Evening'
     sequence:
-      - variables:
-          low: "{{ states('sensor.overnight_lowest_temperature') | int }}"
-          high: "{{ states('sensor.todays_high_temp') | int }}"
-      - if: 
+      - if:
         - condition: state
           entity_id: input_boolean.master_bedroom_climate_override
           state: 'off'
@@ -530,6 +514,7 @@ script:
           entity_id: input_datetime.master_bedroom_cooling
           data:
             time: >
+              {% set low = states('sensor.overnight_lowest_temperature') | int %}
               {% if is_state('input_boolean.hot_day','on') and is_state('binary_sensor.kallen_school_tomorrow','on') %}
                 20:00
               {% elif is_state('input_boolean.hot_day','on') and is_state('binary_sensor.kallen_school_tomorrow','off') %}
@@ -545,6 +530,8 @@ script:
           entity_id: input_datetime.master_bedroom_fan
           data:
             time: >
+              {% set low = states('sensor.overnight_lowest_temperature') | int %}
+              {% set high = states('sensor.todays_high_temp') | int %}
               {% if low > 60 or is_state('input_boolean.hot_day','on') %}
                 22:30
               {% elif low <= 60 and low >= 50 %}
@@ -588,8 +575,6 @@ script:
   emma_bedroom_scheduling_morning:
     alias: 'Emma Bedroom Scheduling Morning'
     sequence:
-      - variables:
-          master_bedroom_wakeup: "{{ states('input_datetime.master_bedroom_wakeup') }}"
       - if:
         - condition: state
           entity_id: input_boolean.emma_wakeup_override
@@ -598,10 +583,7 @@ script:
         - service: input_datetime.set_datetime
           entity_id: input_datetime.emma_wakeup
           data:
-            time: "{{ master_bedroom_wakeup }}"
-      - service: input_boolean.turn_off
-        target:
-          entity_id: input_boolean.emma_has_napped
+            time: "{{ states('input_datetime.master_bedroom_wakeup') }}"
       - service: input_boolean.turn_on
         target:
           entity_id: input_boolean.emma_scheduling_morning_ran
@@ -609,10 +591,6 @@ script:
   emma_bedroom_scheduling_evening:
     alias: 'Emma Bedroom Scheduling Evening'
     sequence:
-      - variables:
-          high: "{{ states('sensor.todays_high_temp') | int }}"
-          low: "{{ states('sensor.overnight_lowest_temperature') | int }}"
-          aircon: "{{ states('input_number.emma_aircon_threshold') | int }}"
       - if:
         - condition: state
           entity_id: input_boolean.emma_bedtime_override
@@ -622,6 +600,8 @@ script:
           entity_id: input_datetime.emma_bedtime
           data:
             time: >
+              {% set high = states('sensor.todays_high_temp') | int %}
+              {% set low = states('sensor.overnight_lowest_temperature') | int %}
               {% if is_state('input_boolean.hot_day','on') %}
                 22:00
               {% elif high >= 80 or low >= 60 %}
@@ -640,7 +620,7 @@ script:
           data:
             option: >
               {% if is_state('input_boolean.emma_bedroom_aircon_installed','on') %}
-                {% if low >= aircon %}
+                {% if (states('sensor.overnight_lowest_temperature') | int) >= (states('input_number.emma_aircon_threshold') | int) %}
                   AC
                 {% else %}
                   White Noise
@@ -655,31 +635,25 @@ script:
   security_scheduling:
     alias: Security Scheduling
     sequence:
-      - variables:
-          ct: "{{ ((now().hour * 60 + now().minute) * 60 ) }}"
-          kallen_school_start: "{{ state_attr('input_datetime.kallen_school_day_start','timestamp') }}"
-          # kallen_school_end:
-          # tina_work_start:
-          # tina_work_end:
-          #! IN PROGRESS
       - service: input_datetime.set_datetime
         entity_id: input_datetime.morning_alarm_disarm
         data:
           time: >
+            {% set ct = ((now().hour * 60 + now().minute) * 60 ) %}
             {% if is_state('input_boolean.work_today','on') and is_state('input_boolean.kallen_school_today','on') %}
-              {% if ct > kallen_school_start %}
+              {% if ct > state_attr('input_datetime.kallen_school_day_start','timestamp') %}
                 {{ (state_attr('input_datetime.tina_workday_start','timestamp') - 1800) | timestamp_custom('%H:%M', false) }}
-              {% elif ct > state_attr('input_datetime.tina_workday_start','timestamp') and ct < kallen_school_start %}
-                {{ kallen_school_start - 2700 | timestamp_custom('%H:%M', false) }}
-              {% elif state_attr('input_datetime.tina_workday_start','timestamp') < kallen_school_start %}
+              {% elif ct > state_attr('input_datetime.tina_workday_start','timestamp') and ct < state_attr('input_datetime.kallen_school_day_start','timestamp') %}
+                {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 2700) | timestamp_custom('%H:%M', false) }}
+              {% elif state_attr('input_datetime.tina_workday_start','timestamp') < (state_attr('input_datetime.kallen_school_day_start','timestamp')) %}
                 {{ (state_attr('input_datetime.tina_workday_start','timestamp') - 1800) | timestamp_custom('%H:%M', false) }}
               {% else %}
-                {{ kallen_school_start - 2700 | timestamp_custom('%H:%M', false) }}
+                {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 2700) | timestamp_custom('%H:%M', false) }}
               {% endif %}
             {% elif is_state('input_boolean.work_today','on') and is_state('input_boolean.kallen_school_today','off') %}
               {{ (state_attr('input_datetime.tina_workday_start', 'timestamp') - 1800) | timestamp_custom('%H:%M', false) }}
             {% elif is_state('input_boolean.kallen_school_today','on') %}
-              {{ kallen_school_start - 2700 | timestamp_custom('%H:%M', false) }}
+              {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 2700) | timestamp_custom('%H:%M', false) }}
             {% else %}
               11:00
             {% endif %}
@@ -687,20 +661,21 @@ script:
         entity_id: input_datetime.morning_alarm_rearm
         data:
           time: >
+            {% set ct = ((now().hour * 60 + now().minute) * 60 ) %}
             {% if is_state('input_boolean.work_today','on') and is_state('input_boolean.kallen_school_today','off') %}
               {{ (state_attr('input_datetime.tina_workday_start','timestamp') + 900) | timestamp_custom('%H:%M', false) }}
             {% elif is_state('input_boolean.kallen_school_today','on') and is_state('input_boolean.work_today','off') %}
-              {{ kallen_school_start + 3600 | timestamp_custom('%H:%M', false) }}
+              {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') + 3600) | timestamp_custom('%H:%M', false) }}
             {% elif is_state('input_boolean.work_today','on') and is_state('input_boolean.kallen_school_today','on') %}
-              {% if ct > kallen_school_start %}
+              {% if ct > state_attr('input_datetime.kallen_school_day_start','timestamp') %}
                 {{ (state_attr('input_datetime.tina_workday_start','timestamp') + 900) | timestamp_custom('%H:%M', false) }}
-              {% elif ct > state_attr('input_datetime.tina_workday_start','timestamp') and ct < kallen_school_start %}
-                {{ kallen_school_start - 2700 | timestamp_custom('%H:%M', false) }}
-              {% elif state_attr('input_datetime.tina_workday_start','timestamp') < kallen_school_start %}
-                {{ kallen_school_start + 1800 | timestamp_custom('%H:%M', false) }}
+              {% elif ct > state_attr('input_datetime.tina_workday_start','timestamp') and ct < state_attr('input_datetime.kallen_school_day_start','timestamp') %}
+                {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 2700) | timestamp_custom('%H:%M', false) }}
+              {% elif state_attr('input_datetime.tina_workday_start','timestamp') < state_attr('input_datetime.kallen_school_day_start','timestamp') %}
+                {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') + 1800) | timestamp_custom('%H:%M', false) }}
               {% else %}
-                {% if (state_attr('input_datetime.tina_workday_start','timestamp') - kallen_school_start) > 5400 %}
-                  {{ kallen_school_start + 1800 | timestamp_custom('%H:%M', false) }}
+                {% if (state_attr('input_datetime.tina_workday_start','timestamp') - state_attr('input_datetime.kallen_school_day_start','timestamp')) > 5400 %}
+                  {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') + 1800) | timestamp_custom('%H:%M', false) }}
                 {% else %}
                   {{ (state_attr('input_datetime.tina_workday_start','timestamp') + 900) | timestamp_custom('%H:%M', false) }}
                 {% endif %}
