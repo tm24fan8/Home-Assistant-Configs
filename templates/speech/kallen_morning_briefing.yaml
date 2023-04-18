@@ -2,6 +2,7 @@
   {# Kallen Morning Briefing #}
   {%- macro getReport() -%}
   {% from 'time.jinja' import current_time_12hr, current_date_readout %}
+  {% from 'speech.jinja' import dadjoke %}
     <p>
       Good morning, Collin.
 
@@ -156,6 +157,12 @@
         Today is the first day of Summer Break! 
       {%- endif %}
       
+      </p>
+
+      <p>
+        {% if is_state('input_boolean.kallen_school_today','off') %}
+          {{ dadjoke() }}
+        {% endif %}
       </p>
 
       <p>

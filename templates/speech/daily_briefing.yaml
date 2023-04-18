@@ -1,7 +1,7 @@
 >
   {# Daily Briefing #}
   {%- macro getReport() -%}
-  {% from 'speech.jinja' import greeting %}
+  {% from 'speech.jinja' import greeting, dadjoke %}
       <p>
         {{ greeting() }}
       </p>
@@ -432,11 +432,7 @@
       </p>
 
       <p>
-        {{ [
-        "Here is a random dad joke ",
-        "In case you hadn't had enough idiotic humor today, here is a little more ",
-        "For further proof that the developer responsible for my existence is an idiot, I present the following joke ",
-        ] | random }}<break time="1s"/> {{ states('sensor.random_joke') }}
+        {{ dadjoke() }}
       </p>
 
       <p>

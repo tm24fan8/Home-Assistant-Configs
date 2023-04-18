@@ -1,6 +1,7 @@
 >
   {# Kallen Nightly Briefing #}
   {%- macro getReport() -%}
+  {% from 'speech.jinja' import dadjoke %}
     <p>
       Good Evening, Collin, it is currently {{ now().strftime("%I:%M %p") }}.
       {{ [ 'My sensors are detecting a strange smell. I am running diagnostics. But in the mean time, you should start a shower.',
@@ -112,7 +113,7 @@
     </p>
 
     <p>
-      Just for you, here is a random dad joke <break time="1s"/> {{ states('sensor.random_joke') }}
+      {{ dadjoke() }}
     </p>
 
     <p>

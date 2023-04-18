@@ -1,6 +1,7 @@
 >
   {# Welcome Home #}
   {%- macro getReport() -%}
+  {% from 'speech.jinja' import dadjoke %}
     <p>
       "Welcome home, "
         {% if is_state('person.tony_stork','home') and is_state('person.christina_stork','home') %}
@@ -147,7 +148,7 @@
     </p>
 
     <p>
-      Here is a random dad joke <break time="1s"/> {{ states('sensor.random_joke') }}
+      {{ dadjoke() }}
     </p>
 
     <p>
