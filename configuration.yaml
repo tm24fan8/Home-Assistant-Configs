@@ -94,6 +94,12 @@ recorder:
       - sensor.*power_sensor
       - sensor.*voltage
       - sensor.*current
+      - sensor.*bps_sent
+      - sensor.*bps_received
+      - sensor.*bytes_sent
+      - sensor.*bytes_received
+      - binary_sensor.*server_on
+      - binary_sensor.*desktop_on
     entities:
       - sensor.avg_ping
       - sensor.max_ping
