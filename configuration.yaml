@@ -71,6 +71,7 @@ climate:
     k1: !secret master_bedroom_ac_key
 
 recorder:
+  db_url: !secret mariadb_url
   purge_keep_days: 14
   commit_interval: 30
   exclude:
@@ -87,6 +88,12 @@ recorder:
       - sensor.*birthday
       - sensor.*anniversary
       - sensor.*uptime*
+      - sensor.*power
+      - sensor.*energy*
+      - sensor.*energy_sensor*
+      - sensor.*power_sensor
+      - sensor.*voltage
+      - sensor.*current
     entities:
       - sensor.avg_ping
       - sensor.max_ping
@@ -98,6 +105,7 @@ recorder:
       - sensor.time
       - sensor.time_utc
       - sensor.hacs
+      - sensor.mariadb_database_size
   include:
     entities:
       - media_player.living_room_tv
@@ -164,6 +172,8 @@ influxdb:
       - sensor.*energy
       - sensor.*energy_sensor
       - sensor.*power_sensor
+      - sensor.*voltage
+      - sensor.*current
       - sensor.*cpu*
       - sensor.*memory*
       - sensor.*ram_free*
