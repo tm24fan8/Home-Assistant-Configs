@@ -385,6 +385,8 @@ script:
           entity_id: input_datetime.morning_briefing
           data:
             time: >
+              {% set kallenbriefing = state_attr('input_datetime.kallen_morning_briefing','timestamp') %}
+              {% set kallenloc = states('input_select.kallen_morning_briefing_location') %}
               {% if is_state('input_boolean.kallen_school_today','on') %}
                 {% if is_state('input_boolean.two_hour_delay','on') %}
                   10:20
@@ -393,14 +395,22 @@ script:
                 {% endif %}
               {% elif is_state('input_boolean.work_today','on') and is_state('input_boolean.kallen_school_today','off') %}
                 {% if (state_attr('input_datetime.tina_workday_start','timestamp')) > 43200 %}
-                  12:00
+                  {% if kallenloc == 'Common Areas' and kallenbriefing == 43200 %}
+                    12:05
+                  {% else %}
+                    12:00
+                  {% endif %}
                 {% elif (state_attr('input_datetime.tina_workday_start','timestamp') - 1500 ) > (state_attr('input_datetime.audible_notification_on','timestamp')) %}
                   {{ (state_attr('input_datetime.tina_workday_start', 'timestamp') - 1500) | timestamp_custom('%H:%M', false) }}
                 {% else %}
                   10:00
                 {% endif %}
               {% else %}
-                12:00
+                {% if kallenloc == 'Common Areas' and kallenbriefing == 43200 %}
+                  12:05
+                {% else %}
+                  12:00
+                {% endif %}
               {% endif %}
         - service: input_datetime.set_datetime
           entity_id: input_datetime.daily_briefing
