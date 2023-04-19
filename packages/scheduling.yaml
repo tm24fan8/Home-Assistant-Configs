@@ -714,10 +714,10 @@ script:
       - service: script.house_scheduling_morning
       - delay:
           seconds: 1
-      - service: script.emma_bedroom_scheduling_morning
+      - service: script.master_bedroom_scheduling_morning
       - delay:
           seconds: 1
-      - service: script.master_bedroom_scheduling_morning
+      - service: script.emma_bedroom_scheduling_morning
       - delay:
           seconds: 1
       - service: script.security_scheduling
