@@ -89,6 +89,9 @@
         {% endif %}
         <s>School today starts at {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') | int | timestamp_custom('%I:%M %p' , False)) }}</s>
         <s>Pickup today will be at {{(state_attr('input_datetime.kallen_school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False)) }}</s>
+        {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
+          Today, you will be picked up from school by {{ states('input_text.kallen_pickup') }}.
+        {% endif %}
         {% if states.sensor.school_end_days2go.state | int == 0 -%}
           But today is the last day of School! 
         {%- endif %}

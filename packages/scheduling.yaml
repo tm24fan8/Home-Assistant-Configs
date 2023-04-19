@@ -79,6 +79,11 @@ input_boolean:
     name: Emma Bedroom Climate Override
     icon: mdi:plus-circle-outline
 
+input_text:
+  kallen_pickup:
+    name: Kallen Pickup
+    icon: mdi:car
+
 ################################################
 # Current order of operations is as follows:   #
 #                                              #
@@ -417,7 +422,9 @@ script:
           data:
             time: >
               {% if is_state('input_boolean.kallen_school_today','on') %}
-                {% if is_state('input_boolean.kallen_school_early_release','on') %}
+                {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
+                  15:00
+                {% elif is_state('input_boolean.kallen_school_early_release','on') %}
                   13:15
                 {% else %}
                   14:15
@@ -500,7 +507,9 @@ script:
           data:
             time: >
               {% if is_state('input_boolean.kallen_school_today','on') %}
-                {% if is_state('input_boolean.kallen_school_early_release','on') %}
+                {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
+                  14:30
+                {% elif is_state('input_boolean.kallen_school_early_release','on') %}
                   12:30
                 {% else %}
                   13:30
@@ -581,10 +590,12 @@ script:
         target:
           entity_id: input_boolean.master_bedroom_scheduling_evening_ran
 
-# For now, this just ties her wakeup time to the master bedroom wakeup time. In the future this will have more conditions and be independent of other rooms.
   emma_bedroom_scheduling_morning:
     alias: 'Emma Bedroom Scheduling Morning'
     sequence:
+      - service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.emma_has_napped
       - if:
         - condition: state
           entity_id: input_boolean.emma_wakeup_override
