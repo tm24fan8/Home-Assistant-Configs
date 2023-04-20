@@ -3,7 +3,7 @@
   {% set date = state_attr(team,'date') | as_timestamp | timestamp_custom('%m-%d') %}
   {% if date == now().strftime('%m-%d') %}
     "The {{ state_attr(team,'friendly_name') }} will be playing today against the {{ state_attr(team,'opponent_name') }} at {{ state_attr(team,'venue') }}. "
-    "Kickoff will be at {{ state_attr(team,'date') | as_timestamp | timestamp_custom('%I:%M %p') }}. "
+    "Start time is at {{ state_attr(team,'date') | as_timestamp | timestamp_custom('%I:%M %p') }}. "
   {% endif %}
 {% endif %}
 {% endmacro %}
