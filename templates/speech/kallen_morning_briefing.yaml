@@ -1,8 +1,8 @@
 >
   {# Kallen Morning Briefing #}
   {%- macro getReport() -%}
-  {% from 'time.jinja' import current_time_12hr, current_date_readout, input_datetime_12hr%}
-  {% from 'speech.jinja' import dadjoke %}
+  {% from 'time.jinja' import current_time_12hr, current_date_readout, input_datetime_12hr %}
+  {% from 'speech.jinja' import dadjoke, inspirational_quote %}
     <p>
       Good morning, Collin.
 
@@ -176,6 +176,10 @@
         {% if is_state('input_boolean.kallen_briefing_extras','on') %}
           "And now we have the following extra information to pass along. {{ states('input_text.kallen_briefing_extras') }} "
         {% endif %}
+      </p>
+
+      <p>
+        And now, one more thing before I go. {{ inspirational_quote() }}
       </p>
 
   {%- endmacro -%}

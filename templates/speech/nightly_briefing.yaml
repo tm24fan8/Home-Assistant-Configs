@@ -2,7 +2,7 @@
   {# Nightly Briefing #}
   {%- macro getReport() -%}
   {% from 'speech.jinja' import greeting, dadjoke %}
-  {% from 'time.jinja' import input_datetime_12hr, read_time_from_calendar %}
+  {% from 'time.jinja' import input_datetime_12hr, read_time_from_calendar, inspirational_quote %}
     <p>
       {{ greeting() }}
     </p>
@@ -274,6 +274,10 @@
       {% if is_state('input_boolean.briefing_extras','on') %}
         "And now we have the following extra information to pass along. {{ states('input_text.briefing_extras') }} "
       {% endif %}
+    </p>
+
+    <p>
+      One last thing before I go. {{ inspirational_quote() }}
     </p>
 
   {%- endmacro -%}
