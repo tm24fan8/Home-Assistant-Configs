@@ -2,6 +2,7 @@
   {# Daily Briefing #}
   {%- macro getReport() -%}
   {% from 'speech.jinja' import greeting, dadjoke %}
+  {% from 'time.jinja' import input_datetime_12hr %}
       <p>
         {{ greeting() }}
       </p>
@@ -147,7 +148,7 @@
 
           {% set tina = states.person.christina_stork.state %}
           {% if tina in ['Bob Evans','BobEvans'] and is_state('input_boolean.work_today','on') %}
-            <s>Tina is at work right now. She will be done at approximately {{ (state_attr('input_datetime.tina_workday_end','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. </s>
+            <s>Tina is at work right now. She will be done at approximately {{ input_datetime_12hr('input_datetime.tina_workday_end') }}. </s>
           {% elif is_state('input_boolean.work_today','on') %}
             Tina has work today.
           {% endif %}
@@ -269,14 +270,14 @@
                 "Tina has not yet been released from work, ",
                 "Tina is still at the thankless idiot scape known as work, ",
                 "Tina is still consumed by the gods of capitalism, ",
-              ] | random }} she will be done at approximately {{ (state_attr('input_datetime.tina_workday_end','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}.
+              ] | random }} she will be done at approximately {{ input_datetime_12hr('input_datetime.tina_workday_end') }}.
             {% elif is_state('input_boolean.work_today','on') %}
               {{ [
                 "Tina must go and please the food gods today ",
                 "Today, Tina must go and entertain the gremlins known as her customers and coworkers ",
                 "Today, Tina will be owned by our lovely lord and savior, capitalism, starting ",
                 "Tina will attempt to satiate the patron saint of capitalism today "
-              ] | random }} at {{ (state_attr('input_datetime.tina_workday_start','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}.
+              ] | random }} at {{ input_datetime_12hr('input_datetime.tina_workday_start') }}.
             {% endif %}
 
             {% if is_state('input_boolean.tony_streaming_today','on') %}
@@ -286,7 +287,7 @@
                 "Tony will be playing video games and yelling into a microphone tonight. ",
                 "Tony will be scraping out the nickels and dimes tonight for the sake of entertainment. ",
                 "Tony is not really all that funny, but tonight he will present himself to a crowd of questionable individuals who seem to think that he is. "
-              ] | random }} The studio is scheduled to go online at {{ (state_attr('input_datetime.tony_streaming_start_time','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+              ] | random }} The studio is scheduled to go online at {{ input_datetime_12hr('input_datetime.tony_streaming_start_time') }}. "
             {% endif %}
 
             {% if is_state('input_boolean.kallen_school_today', 'on') %}
@@ -304,7 +305,7 @@
               {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
                 {{ states('input_text.kallen_pickup') }} will be picking Collin up from school today. 
               {% else %}
-                <s>Pickup today will be at {{ state_attr('input_datetime.kallen_school_day_end', 'timestamp') | int | timestamp_custom('%I:%M %p', False) }}</s>
+                <s>Pickup today will be at {{ input_datetime_12hr('input_datetime.kallen_school_day_end') }}</s>
                 {% if is_state('input_boolean.kallen_school_early_release','on') %}
                   And It is early release!
                 {% endif %}

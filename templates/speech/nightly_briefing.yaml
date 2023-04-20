@@ -2,6 +2,7 @@
   {# Nightly Briefing #}
   {%- macro getReport() -%}
   {% from 'speech.jinja' import greeting, dadjoke %}
+  {% from 'time.jinja' import input_datetime_12hr, read_time_from_calendar %}
     <p>
       {{ greeting() }}
     </p>
@@ -57,13 +58,13 @@
           "Tony will be playing video games and yelling into a microphone tonight. ",
           "Tony will be scraping out the nickels and dimes tonight for the sake of entertainment. ",
           "Tony is not really all that funny, but tonight he will present himself to a crowd of questionable individuals who seem to think that he is. "
-        ] | random }} The studio is scheduled to go online at {{ (state_attr('input_datetime.tony_streaming_start_time','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+        ] | random }} The studio is scheduled to go online at {{ input_datetime_12hr('input_datetime.tony_streaming_start_time') }}. "
       {% endif %}
       {% if is_state('binary_sensor.kallen_school_tomorrow','on') %}
         {% if is_state('binary_sensor.kallen_band_tomorrow','on') %}
-          "Collin has school tomorrow, and there will be band practice in the morning at {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%I:%M %p") }}. "
+          "Collin has school tomorrow, and there will be band practice in the morning at {{ read_time_from_calendar('calendar.kallen_school_days','start_time') }}. "
         {% else %}
-          "Collin has school tomorrow at {{ as_timestamp(strptime(state_attr('calendar.kallen_school_days','start_time'), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%I:%M %p") }}. "
+          "Collin has school tomorrow at {{ read_time_from_calendar('calendar.kallen_school_days','start_time') }}. "
         {% endif %}
       {% else %}
         "Collin does not have school tomorrow. "
@@ -77,7 +78,7 @@
           "Tina has not yet been released from work, ",
           "Tina is still at the thankless idiot scape known as work, ",
           "Tina is still consumed by the gods of capitalism, ",
-        ] | random }} she will be done at approximately {{ (state_attr('input_datetime.tina_workday_end','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}.
+        ] | random }} she will be done at approximately {{ input_datetime_12hr('input_datetime.tina_workday_end') }}.
       {% elif is_state('binary_sensor.tina_work_tomorrow','on') %}
         {{ [
           "Tina must go and please the food gods tomorrow ",
@@ -169,18 +170,18 @@
           {% elif states('climate.master_bedroom_aircon') not in ['off','unknown','unavailable'] %}
             "The master bedroom air conditioner is already running in {{ states('climate.master_bedroom_aircon') }} mode. "
           {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','AC') and is_state('input_boolean.hot_day','on') %}
-            "Today was a hot day, so the master bedroom air conditioner will activate cooling mode a bit earlier tonight at {{ (state_attr('input_datetime.master_bedroom_cooling','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+            "Today was a hot day, so the master bedroom air conditioner will activate cooling mode a bit earlier tonight at {{ input_datetime_12hr('input_datetime.master_bedroom_cooling') }}. "
           {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','AC') %}
-            "The master bedroom air conditioner will activate cooling mode at {{ (state_attr('input_datetime.master_bedroom_cooling','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+            "The master bedroom air conditioner will activate cooling mode at {{ input_datetime_12hr('input_datetime.master_bedroom_cooling') }}. "
           {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','Fan') %}
-            "The master bedroom air conditioner will activate fan only mode at {{ (state_attr('input_datetime.master_bedroom_cooling','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+            "The master bedroom air conditioner will activate fan only mode at {{ input_datetime_12hr('input_datetime.master_bedroom_cooling') }}. "
           {% endif %}
         {% endif %}
         {% if states('input_select.scheduled_climate_mode_master_bedroom_fan') != 'N/A' %}
           {% if is_state('fan.master_bedroom_fan','on') %}
             "The master bedroom fan is already running. "
           {% else %}
-            "The master bedroom fan will activate at {{ (state_attr('input_datetime.master_bedroom_fan','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+            "The master bedroom fan will activate at {{ input_datetime_12hr('input_datetime.master_bedroom_fan') }}. "
           {% endif %}
         {% endif %}
       {% endif %}
@@ -195,9 +196,9 @@
           {% elif is_state('input_boolean.white_noise_kallen_bedroom','on') %}
             "Collin's white noise generator is already running. "
           {% elif is_state('input_select.scheduled_climate_mode_kallen_fan','Fan') %}
-            "Collin's fan will activate at {{ (state_attr('input_datetime.kallen_bedtime','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+            "Collin's fan will activate at {{ input_datetime_12hr('input_datetime.kallen_fan') }}. "
           {% elif is_state('input_select.scheduled_climate_mode_kallen_fan','White Noise') %}
-            "Collin's white noise generator will activate at {{ (state_attr('input_datetime.kallen_bedtime','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+            "Collin's white noise generator will activate at {{ input_datetime_12hr('input_datetime.kallen_bedtime') }}. "
           {% endif %}
         {% endif %}
       {% else %}
@@ -208,14 +209,14 @@
           "In Emma's bedroom, ",
           "For Emma's climate scheduling, "
         ] | random }}
-        {% if is_state('fan.emma_air_conditioner','on') %}
+        {% if is_state('fan.emma_air_conditioner','on') and is_state('input_datetime.scheduled_climate_mode_emma_aircon','AC') %}
           "Emma's air conditioner is already running. "
-        {% elif is_state('input_boolean.white_noise_emma_bedroom','on') %}
+        {% elif is_state('input_boolean.white_noise_emma_bedroom','on') and is_state('input_datetime.scheduled_climate_mode_emma_aircon','White Noise') %}
           "Emma's white noise generator is already running. "
         {% elif is_state('input_select.scheduled_climate_mode_emma_aircon','AC') %}
-          "Emma's air conditioner will be activated at {{ (state_attr('input_datetime.emma_bedtime','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+          "Emma's air conditioner will be activated at {{ input_datetime_12hr('input_datetime.emma_bedtime') }}. "
         {% elif is_state('input_select.scheduled_climate_mode_emma_aircon','White Noise') %}
-          "Emma's white noise generator will activate at {{ (state_attr('input_datetime.emma_bedtime','timestamp') | int | timestamp_custom('%I:%M %p', False)) }}. "
+          "Emma's white noise generator will activate at {{ input_datetime_12hr('input_datetime.emma_bedtime') }}. "
         {% endif %}
       {% endif %}
     </p>
