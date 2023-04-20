@@ -197,6 +197,9 @@ influxdb:
       - sensor.*_open
       - sensor.xr500*
       - sensor.*gas_price
+      - sensor.speedtest*
+      - sensor.*fan_time
+      - sensor.*compressor_time
       - binary_sensor.*motion*
       - binary_sensor.*door*
       - binary_sensor.*window*
