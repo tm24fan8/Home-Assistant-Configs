@@ -327,3 +327,27 @@
   end: '{{ now() }}'
   duration:
     hours: 24
+- platform: history_stats
+  name: Master Bedroom Fan Time
+  entity_id: fan.master_bedroom_fan
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Kallen Fan Time
+  entity_id: fan.kallen_bedroom_fan
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Basement Fan Time
+  entity_id: fan.basement_fan
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
