@@ -279,7 +279,7 @@ automation:
     initial_state: true
     trigger:
     - platform: time
-      at: '04:00:10'
+      at: '03:55:00'
     action: 
     - if:
       - condition: template

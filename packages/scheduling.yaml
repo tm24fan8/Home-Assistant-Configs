@@ -103,90 +103,51 @@ input_text:
 ################################################
 
 automation:
-  - id: c772b54d-6448-4d74-a0c2-32998f49b17c
-    alias: Kallen Scheduling
+  - id: 82a3bfde-0c51-47cf-be17-aaf4fea47ee6
+    alias: Scheduler 
     trigger:
       - platform: time
-        at: '04:01:00'
-        id: kallen-morning
+        at: '04:00:00'
+        id: morning-scheduling
       - platform: time
         at: '16:00:00'
-        id: kallen-evening
+        id: evening-scheduling
     action:
-      - if:
-        - condition: trigger
-          id: kallen-morning
-        then:
-          - service: script.kallen_scheduling_morning
-      - if:
-        - condition: trigger
-          id: kallen-evening
-        then:
-          - service: script.kallen_scheduling_evening
-
-  - id: 1c9f7e4b-2d5a-4b95-bd80-d9aa2244a6db
-    alias: House Scheduling
-    trigger:
-      - platform: time
-        at: '04:01:10'
-        id: house-morning
-      - platform: time
-        at: '16:00:10'
-        id: house-evening
-    action:
-      - if:
-        - condition: trigger
-          id: house-morning
-        then:
-          - service: script.house_scheduling_morning
-          - service: script.security_scheduling
-      - if:
-        - condition: trigger
-          id: house-evening
-        then:
-          - service: script.house_scheduling_evening
-
-  - id: 89470712-f94d-4c01-8215-ed15b3bc799a
-    alias: Master Bedroom Scheduling
-    trigger:
-      - platform: time
-        at: '04:02:00'
-        id: mrbedroom-morning
-      - platform: time
-        at: '16:00:20'
-        id: mrbedroom-evening
-    action:
-      - if:
-        - condition: trigger
-          id: mrbedroom-morning
-        then:
-          - service: script.master_bedroom_scheduling_morning
-      - if:
-        - condition: trigger
-          id: mrbedroom-evening
-        then:
-          - service: script.master_bedroom_scheduling_evening
-
-  - id: a69d3d36-09d6-4ef3-a245-c564c7cb577c
-    alias: Emma Bedroom Scheduling
-    trigger:
-      - platform: time
-        at: '04:02:10'
-        id: emma-morning
-      - platform: time
-        at: '16:00:30'
-        id: emma-evening
-    action:
-      - if:
-        - condition: trigger
-          id: emma-morning
-        then:
-          - service: script.emma_bedroom_scheduling_morning
-      - if:
-        - condition: trigger
-          id: emma-evening
-        then:
-          - service: script.emma_bedroom_scheduling_evening
+      - choose:
+        - conditions:
+          - condition: trigger
+            id: morning-scheduling
+          sequence:
+            - service: script.kallen_scheduling_morning
+            - delay:
+                seconds: 1
+            - service: script.house_scheduling_morning
+            - delay:
+                seconds: 1
+            - service: script.master_bedroom_scheduling_morning
+            - delay:
+                seconds: 1
+            - service: script.emma_bedroom_scheduling_morning
+            - delay:
+                seconds: 1
+            - service: script.security_scheduling
+        - conditions:
+          - condition: trigger
+            id: evening-scheduling
+          sequence:
+            - service: script.kallen_scheduling_evening
+            - delay:
+                seconds: 1
+            - service: script.house_scheduling_evening
+            - delay:
+                seconds: 1
+            - service: script.master_bedroom_scheduling_evening
+            - delay:
+                seconds: 1
+            - service: script.emma_bedroom_scheduling_evening
+            - delay:
+                seconds: 1
+            - service: script.security_scheduling
 
   - id: 7350300d-94d3-4ea3-97bb-b0673eafd71f
     alias: Scheduling Reset

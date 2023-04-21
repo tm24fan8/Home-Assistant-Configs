@@ -23,7 +23,7 @@ automation:
     initial_state: true
     trigger:
     - platform: time
-      at: '04:00:00'
+      at: '03:55:00'
     condition:
     - condition: state
       entity_id: input_boolean.tina_work_schedule_override
