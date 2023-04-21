@@ -64,6 +64,7 @@ automation:
                   state: 'off'
                 - condition: time
                   before: "23:00:00"
+                  after: "04:00:00"
               then:
               - service: input_datetime.set_datetime
                 target:
@@ -83,8 +84,7 @@ automation:
                   state: 'off'
                 - condition: time
                   before: "23:30:00"
-                - condition: time
-                  after: "14:30:00"
+                  after: "15:00:00"
               then:
               - service: input_datetime.set_datetime
                 target:
@@ -175,6 +175,7 @@ script:
     sequence:
       - if:
         - condition: time
+          after: '04:00:00'
           before: '16:00:00'
         then:
         - service: script.emma_bedroom_scheduling_evening
@@ -217,6 +218,7 @@ script:
               state: 'on'
             - condition: time
               after: "23:00:00"
+              before: "04:00:00"
           sequence:
           - choose:
             - conditions:
@@ -265,6 +267,7 @@ script:
               state: 'off'
             - condition: time
               before: "23:00:00"
+              after: "04:00:00"
           sequence:
           - choose:
             - conditions:
