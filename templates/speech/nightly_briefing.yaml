@@ -209,9 +209,9 @@
           "In Emma's bedroom, ",
           "For Emma's climate scheduling, "
         ] | random }}
-        {% if is_state('fan.emma_air_conditioner','on') and is_state('input_datetime.scheduled_climate_mode_emma_aircon','AC') %}
+        {% if is_state('fan.emma_air_conditioner','on') and is_state('input_select.scheduled_climate_mode_emma_aircon','AC') %}
           "Emma's air conditioner is already running. "
-        {% elif is_state('input_boolean.white_noise_emma_bedroom','on') and is_state('input_datetime.scheduled_climate_mode_emma_aircon','White Noise') %}
+        {% elif is_state('input_boolean.white_noise_emma_bedroom','on') and is_state('input_select.scheduled_climate_mode_emma_aircon','White Noise') %}
           "Emma's white noise generator is already running. "
         {% elif is_state('input_select.scheduled_climate_mode_emma_aircon','AC') %}
           "Emma's air conditioner will be activated at {{ input_datetime_12hr('input_datetime.emma_bedtime') }}. "
