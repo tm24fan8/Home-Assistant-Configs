@@ -235,11 +235,11 @@ template:
       device_class: presence
     - name: "Nerds Home"
       unique_id: 2672a6a2-4be4-495c-b479-ffc7c6df67d2
-      state: "{{ is_state('group.family','home') and (is_state('binary_sensor.tony_home','on') or is_state('binary_sensor.kallen_home','on')) }}"
+      state: "{{ is_state('group.family','home') and (is_state('person.tony_stork','home') or is_state('person.kallen_stork','home')) }}"
       device_class: presence
     - name: "Parents Home"
       unique_id: 8de02d19-60a6-436d-9187-1cfc70d6c297
-      state: "{{ is_state('group.adults','home') and (is_state('binary_sensor.tony_home','on') or is_state('binary_sensor.tina_home','on')) }}"
+      state: "{{ is_state('group.adults','home') and (is_state('person.tony_stork','home') or is_state('person.christina_stork','home')) }}"
       device_class: presence
     - name: "Basement Unoccupied"
       unique_id: 20039c29-8b9d-436d-ba6c-8f2c2bda1db0

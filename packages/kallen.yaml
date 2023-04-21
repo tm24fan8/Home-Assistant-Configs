@@ -59,8 +59,8 @@ automation:
       entity_id: input_boolean.kallen_overnight
       state: 'off'
     - condition: state
-      entity_id: binary_sensor.kallen_home
-      state: 'on'
+      entity_id: person.kallen_stork
+      state: 'home'
     action:
     - choose:
       - conditions:
