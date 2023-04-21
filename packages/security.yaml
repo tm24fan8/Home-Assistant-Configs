@@ -374,6 +374,9 @@ automation:
         id: leave-radius
       - platform: state
         entity_id: group.adults
+        not_from:
+          - 'unknown'
+          - 'unavailable'
         to: 'home'
         id: arrive-home
     condition:
@@ -415,7 +418,6 @@ automation:
     trigger:
       - platform: state
         entity_id: alarm_control_panel.stratton_ave_alarm
-        from: armed_home
         to: disarmed
     action:
       - service: input_boolean.turn_off

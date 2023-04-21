@@ -210,7 +210,9 @@
   trigger:
   - platform: state
     entity_id: group.adults
-    from: not_home
+    not_from:
+      - unknown
+      - unavailable
     to: home
   condition:
   - condition: not
@@ -246,7 +248,9 @@
   trigger:
   - platform: state
     entity_id: group.adults
-    from: home
+    not_from:
+      - unknown
+      - unavailable
     to: not_home
   condition:
   - condition: state
