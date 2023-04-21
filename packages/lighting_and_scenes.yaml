@@ -741,6 +741,18 @@ automation:
         from: 'off'
         to: 'on'
         id: basement-unoccupied
+      - platform: state
+        entity_id:
+        - input_boolean.studio_quiet
+        - input_boolean.recliner_mode
+        from: 'off'
+        to: 'on'
+        id: studio-quiet
+      - platform: state
+        entity_id: sensor.twitch_ironnerd24
+        from: 'offline'
+        to: 'streaming'
+        id: stream-started
     condition:
       - condition: state
         entity_id: input_boolean.studio_quiet
@@ -780,7 +792,10 @@ automation:
                 {{ timer_duration('input_number.basement_studio_lights_off_delay') }}
       - conditions:
         - condition: trigger
-          id: basement-occupied
+          id:
+          - basement-occupied
+          - studio-quiet
+          - stream-started
         sequence:
         - service: timer.cancel
           target:
