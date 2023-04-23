@@ -1176,7 +1176,7 @@ script:
             {{ message }}
             </speak>
   
-  # Called wheh notification needs to play on echos
+  # Notifications that play on the Alexa devices
   alexa_voice:
     alias: 'Alexa Voice'
     sequence:
@@ -1194,6 +1194,11 @@ script:
           volume_level: 1.0
       - delay:
           seconds: 3
+    - if:
+      - condition: template
+        value_template: "{{ is_state('binary_sensor.people_sleeping','on') and who in ['master_bedroom','master_bedroom_echo_dot','all_bedrooms'] and type not in ['critical','Critical'] }}"
+      then:
+      - stop: People are sleeping and this message is not important
     - service: notify.alexa_media
       data:
         message: >
@@ -1227,28 +1232,31 @@ script:
         data:
           type: tts
 
-  # Default audible notifications. Notifcations play on the google devices. 
+  # Notifications that play on the Google devices. 
   jarvis_voice:
     alias: 'Jarvis Voice'
     sequence:
     - if:
       - condition: template
-        value_template: "{{ who in ['emma_bedroom','Emma Bedroom','media_player.emma_bedroom_speaker'] and is_state('input_boolean.emma_sleeping','on') }}"
-      then:
-        - stop: 'Emma is sleeping'
-    - if:
-      - condition: template
-        value_template: "{{ who in ['kallen_bedroom','media_player.kallen_bedroom_speaker','Kallen Bedroom'] and is_state('input_boolean.kallen_sleeping','on') }}"
-      then:
-        - stop: 'Kallen is sleeping'
-    - if:
-      - condition: template
         value_template: >
-          {% if who in ['kids_bedrooms','all_bedrooms','everywhere','Everywhere','Kids Bedrooms','All Bedrooms'] %}
-            {{ is_state('input_boolean.kallen_sleeping','on') and is_state('input_boolean.emma_sleeping','on') }}
+          {% from 'time.jinja' import ct %}
+          {% set ct = ct() | int %}
+          {% set kallen_wakeup = state_attr('input_datetime.kallen_wakeup_time','timestamp') %}
+          {% if type in ['critical','Critical'] %}
+            false
+          {% elif who in ['emma_bedroom','Emma Bedroom','media_player.emma_bedroom_speaker'] %}
+            {{ is_state('binary_sensor.people_sleeping','on') }}
+          {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_speaker','Kallen Bedroom'] %}
+            {% if (kallen_wakeup - 3600) < ct < (kallen_wakeup + 3600) %}
+              false
+            {% else %}
+              {{ is_state('binary_sensor.people_sleeping','on') }}
+            {% endif %}
+          {% elif who in ['kids_bedrooms','all_bedrooms','everywhere','Everywhere','Kids Bedrooms','All Bedrooms'] %}
+            {{ is_state('binary_sensor.people_sleeping','on') }}
           {% endif %}
       then:
-        - stop: 'Kids are sleeping'
+        - stop: 'People are sleeping'
     - service: media_player.turn_on
       data:
         entity_id: >-
@@ -1266,12 +1274,6 @@ script:
             media_player.emma_bedroom_speaker
           {% elif who in ['Basement Google','basement_google'] %}
             media_player.basement_google_speaker
-          {% else %}
-            {% if states.input_boolean.audible_notifications.state == 'on' %}
-            media_player.living_room_tv
-            {% else %}
-            media_player.living_room_tv
-            {% endif %}
           {% endif %}
     - service: media_player.volume_set
       data:
