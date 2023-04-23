@@ -93,11 +93,21 @@ automation:
                   datetime: "{{ as_timestamp(now()) | timestamp_custom('%Y-%m-%d %H:%M:%S') }}"
               - delay:
                   milliseconds: 500
-              - service: input_datetime.set_datetime
-                target:
-                  entity_id: input_datetime.emma_bedtime
-                data:
-                  time: "{{ (state_attr('input_datetime.emma_up_from_nap','timestamp') + 10800) | timestamp_custom('%H:%M') }}"
+              - if:
+                - condition: template
+                  value_template: >
+                    {% from 'time.jinja' import ct %}
+                    {% set ct = ct() | int %}
+                    {% set proposed = ct + 10800 %}
+                    {{ proposed < 82800 }}
+                then:
+                - service: script.emma_bedroom_scheduling_evening
+                else:
+                - service: input_datetime.set_datetime
+                  target:
+                    entity_id: input_datetime.emma_bedtime
+                  data:
+                    time: "{{ (state_attr('input_datetime.emma_up_from_nap','timestamp') + 10800) | timestamp_custom('%H:%M') }}"
               - service: input_boolean.turn_on
                 target:
                   entity_id: input_boolean.emma_has_napped
