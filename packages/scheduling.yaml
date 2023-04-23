@@ -499,7 +499,7 @@ script:
                 20:00
               {% elif is_state('input_boolean.hot_day','on') and is_state('binary_sensor.kallen_school_tomorrow','off') %}
                 21:00
-              {% elif low >= 56 and low <= 60 %}
+              {% elif 56 <= low <= 60 %}
                 22:30
               {% elif low > 60 %}
                 21:30
@@ -514,7 +514,7 @@ script:
               {% set high = states('sensor.todays_high_temp') | int %}
               {% if low > 60 or is_state('input_boolean.hot_day','on') %}
                 22:30
-              {% elif low <= 60 and low >= 50 %}
+              {% elif 50 <= low <= 60 %}
                 23:30
               {% elif low >= states('input_number.master_bedroom_fan_threshold') | int and high > 60 %}
                 00:00
