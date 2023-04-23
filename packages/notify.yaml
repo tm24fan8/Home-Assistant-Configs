@@ -1739,6 +1739,14 @@ script:
               ] | random }}
             {% endmacro %}
 
+            {% macro server_maintenance_done() %}
+              {{ [
+                'Home assistant has returned to service. Nerd Home Incorporated appreciates your patience.',
+                'All services are operational again. We appreciate your business.',
+                'Mischief managed. Server back online.',
+                ] | random }}
+            {% endmacro %}
+
 
             {# a macro that removes all newline characters, empty spaces, and returns formatted text. Also replaces all Underscores with Spaces  #}
             {%- macro cleanup(data) -%}
@@ -1846,6 +1854,10 @@ script:
 
               {% if call_server_maintenance == 1 %}
                 {{ server_maintenance() }}
+              {% endif %}
+
+              {% if call_server_maintenance_done == 1 %}
+                {{ server_maintenance_done() }}
               {% endif %}
               
             {%- endmacro -%}

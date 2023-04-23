@@ -337,6 +337,15 @@ script:
         call_interruption: 1
         call_server_maintenance: 1
 
+  server_maintenance_done_annc:
+    alias: Server Maintenance Done Announcement
+    sequence:
+    - service: script.status_annc
+      data:
+        who: "{{ who|default('everywhere') }}"
+        call_interruption: 1
+        call_server_maintenance_done: 1
+
   welcome_home:
     alias: 'Welcome Home'
     sequence:
