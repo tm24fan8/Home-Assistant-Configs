@@ -621,7 +621,8 @@ script:
         entity_id: input_datetime.morning_alarm_disarm
         data:
           time: >
-            {% set ct = ((now().hour * 60 + now().minute) * 60 ) %}
+            {% from 'time.jinja' import ct %}
+            {% set ct = ct() | int %}
             {% if is_state('input_boolean.work_today','on') and is_state('input_boolean.kallen_school_today','on') %}
               {% if ct > state_attr('input_datetime.kallen_school_day_start','timestamp') %}
                 {{ (state_attr('input_datetime.tina_workday_start','timestamp') - 1800) | timestamp_custom('%H:%M', false) }}
@@ -643,7 +644,8 @@ script:
         entity_id: input_datetime.morning_alarm_rearm
         data:
           time: >
-            {% set ct = ((now().hour * 60 + now().minute) * 60 ) %}
+            {% from 'time.jinja' import ct %}
+            {% set ct = ct() | int %}
             {% if is_state('input_boolean.work_today','on') and is_state('input_boolean.kallen_school_today','off') %}
               {{ (state_attr('input_datetime.tina_workday_start','timestamp') + 900) | timestamp_custom('%H:%M', false) }}
             {% elif is_state('input_boolean.kallen_school_today','on') and is_state('input_boolean.work_today','off') %}

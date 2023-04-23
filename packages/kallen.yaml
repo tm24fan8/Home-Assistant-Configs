@@ -183,7 +183,8 @@ script:
         - if:
           - condition: template
             value_template: >
-              {% set ct = ((now().hour * 60 + now().minute) * 60 ) %}
+              {% from 'time.jinja' import ct %}
+              {% set ct = ct() | int %}
               {{ ct >= state_attr('input_datetime.kallen_bedtime','timestamp') }}
           then:
           - service: script.speech_engine
@@ -209,7 +210,8 @@ script:
         - if:
           - condition: template
             value_template: >
-              {% set ct = ((now().hour * 60 + now().minute) * 60 ) %}
+              {% from 'time.jinja' import ct %}
+              {% set ct = ct() | int %}
               {{ ct >= state_attr('input_datetime.kallen_bedtime','timestamp') }}
           then:
           - service: script.speech_engine
@@ -229,7 +231,8 @@ script:
       - if:
         - condition: template
           value_template: >
-            {% set ct = ((now().hour * 60 + now().minute) * 60 ) %}
+            {% from 'time.jinja' import ct %}
+            {% set ct = ct() | int %}
             {{ ct >= state_attr('input_datetime.kallen_bedtime','timestamp') }}
         then:
         - service: script.speech_engine

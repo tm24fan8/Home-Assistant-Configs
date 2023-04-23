@@ -25,3 +25,7 @@
 {% macro read_time_from_calendar(calendar,start_or_end) %}
 {{ as_timestamp(strptime(state_attr(calendar,start_or_end), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%I:%M %p") }}
 {% endmacro %}
+
+{% macro ct() %}
+{{ ((now().hour * 60 + now().minute) * 60 ) }}
+{% endmacro %}
