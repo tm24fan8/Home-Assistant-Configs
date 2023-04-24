@@ -127,7 +127,7 @@ script:
           preset_mode: 'none'
     - wait_template: "{{ is_state('light.master_bedroom_lights','off') }}"
       timeout:
-        minutes: 1
+        minutes: 30
       continue_on_timeout: true
     - service: switch.turn_on
       target:
