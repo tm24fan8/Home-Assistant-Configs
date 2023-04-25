@@ -327,9 +327,6 @@ automation:
           message: "Kallen has been dropped off at school."
           title: "Kallen Location Alert"
           tag: kallen-dropoff
-      - service: light.turn_off
-        target:
-          entity_id: light.kallen_bedroom_lights
       - if:
         - condition: state
           entity_id: input_boolean.master_bedroom_sleeping
