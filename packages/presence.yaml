@@ -510,74 +510,74 @@ script:
         message: "clear_notification"
         tag: skip-away
     - if:
-      - condition: template
-        value_template: "{{ is_state('input_boolean.away_mode_skipped','on') or is_state('group.adults','home') }}"
+      - "{{ not wait.completed }}"
       then:
-        - stop: Away Mode Skipped
-    - service: light.turn_off
-      target:
-        area_id:
-        - basement_studio
-        - furnace_room
-        - kallen_bedroom
-        - living_room
-        - master_bedroom
-        - mud_room
-        - emma_bedroom
-        - upstairs_hallway
-        - dining_room
-        - downstairs_bathroom
-        - upstairs_bathroom
-    - service: input_boolean.turn_off
-      target:
-        entity_id:
-        - input_boolean.tina_desk_lights
-        - input_boolean.white_noise_emma_bedroom
-    - service: fan.turn_off
-      target:
-        area_id:
-        - basement_studio
-        - kallen_bedroom
-        - master_bedroom
-        - emma_bedroom
-    - delay:
-        seconds: 5
-    - service: switch.turn_on
-      target:
-        entity_id:
-        - switch.adaptive_lighting_basement_studio
-        - switch.adaptive_lighting_living_room
-        - switch.adaptive_lighting_downstairs_bathroom
-        - switch.adaptive_lighting_dining_room_lamp
-        - switch.adaptive_lighting_tina_lamp
-        - switch.adaptive_lighting_mud_room
-        - switch.adaptive_lighting_upstairs_hallway
-        - switch.adaptive_lighting_upstairs_bathroom
-        - switch.adaptive_lighting_master_bedroom
-        - switch.adaptive_lighting_kallen_bedroom
-        - switch.adaptive_lighting_emma_bedroom
-    - service: input_text.set_value
-      target:
-        entity_id:
-        - input_text.basement_studio_selected_scene
-        - input_text.living_room_selected_scene
-        - input_text.downstairs_bathroom_selected_scene
-        - input_text.mud_room_selected_scene
-        - input_text.tina_lamp_selected_scene
-        - input_text.upstairs_hallway_selected_scene
-        - input_text.upstairs_bathroom_selected_scene
-        - input_text.master_bedroom_selected_scene
-        - input_text.kallen_bedroom_selected_scene
-        - input_text.emma_bedroom_selected_scene
-        - input_text.dining_room_lamp_selected_scene
-      data:
-        value: Adaptive
-    - service: media_player.turn_off
-      target:
-        entity_id: media_player.living_room_tv
-    - service: script.security_arm_away
-    mode: single
-    icon: mdi:shield-lock
+      - service: light.turn_off
+        target:
+          area_id:
+          - basement_studio
+          - furnace_room
+          - kallen_bedroom
+          - living_room
+          - master_bedroom
+          - mud_room
+          - emma_bedroom
+          - upstairs_hallway
+          - dining_room
+          - downstairs_bathroom
+          - upstairs_bathroom
+      - service: input_boolean.turn_off
+        target:
+          entity_id:
+          - input_boolean.tina_desk_lights
+          - input_boolean.white_noise_emma_bedroom
+      - service: fan.turn_off
+        target:
+          area_id:
+          - basement_studio
+          - kallen_bedroom
+          - master_bedroom
+          - emma_bedroom
+      - delay:
+          seconds: 5
+      - service: switch.turn_on
+        target:
+          entity_id:
+          - switch.adaptive_lighting_basement_studio
+          - switch.adaptive_lighting_living_room
+          - switch.adaptive_lighting_downstairs_bathroom
+          - switch.adaptive_lighting_dining_room_lamp
+          - switch.adaptive_lighting_tina_lamp
+          - switch.adaptive_lighting_mud_room
+          - switch.adaptive_lighting_upstairs_hallway
+          - switch.adaptive_lighting_upstairs_bathroom
+          - switch.adaptive_lighting_master_bedroom
+          - switch.adaptive_lighting_kallen_bedroom
+          - switch.adaptive_lighting_emma_bedroom
+      - service: input_text.set_value
+        target:
+          entity_id:
+          - input_text.basement_studio_selected_scene
+          - input_text.living_room_selected_scene
+          - input_text.downstairs_bathroom_selected_scene
+          - input_text.mud_room_selected_scene
+          - input_text.tina_lamp_selected_scene
+          - input_text.upstairs_hallway_selected_scene
+          - input_text.upstairs_bathroom_selected_scene
+          - input_text.master_bedroom_selected_scene
+          - input_text.kallen_bedroom_selected_scene
+          - input_text.emma_bedroom_selected_scene
+          - input_text.dining_room_lamp_selected_scene
+        data:
+          value: Adaptive
+      - service: media_player.turn_off
+        target:
+          entity_id: media_player.living_room_tv
+      - service: script.security_arm_away
+      else:
+      - stop: Away Mode Skipped
+      mode: single
+      icon: mdi:shield-lock
   family_is_home_day:
     alias: Family Is Home Day
     sequence:

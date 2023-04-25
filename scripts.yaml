@@ -293,7 +293,7 @@ going_upstairs:
       to: 'on'
     timeout:
       hours: 0
-      minutes: 5
+      minutes: 20
       seconds: 0
       milliseconds: 0
     alias: Wait until the door opens
@@ -304,7 +304,7 @@ going_upstairs:
     alias: Turn off the lights
   - wait_template: '{{ is_state(''binary_sensor.upstairs_bathroom_occupied'',''on'')
       or is_state(''input_boolean.goodnight'',''on'') }}'
-    timeout: 00:10:00
+    timeout: '{{ wait.remaining }}'
     alias: Wait until I'm in the bathroom or in bed
   - if:
     - condition: state
