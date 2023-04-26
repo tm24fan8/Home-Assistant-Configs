@@ -903,15 +903,21 @@
       brightness_up_short_action: []
       brightness_down_short_action: []
       off_short_action:
-      - service: input_boolean.turn_on
-        data: {}
-        target:
-          entity_id: input_boolean.living_room_dynamic_scenes
-      - service: input_select.select_option
-        data:
-          option: Tokyo
-        target:
-          entity_id: input_select.living_room_scenes
+      - if:
+        - condition: state
+          entity_id: binary_sensor.early_night_mode
+          state: 'on'
+        then:
+        - service: script.evening_on_first_floor
+          data: {}
+        else:
+        - service: light.turn_off
+          data: {}
+          target:
+            entity_id:
+            - light.living_room_lights
+            - light.dining_room_lamp
+            - light.tina_desk_lights
       brightness_up_long_action: []
       brightness_down_long_action: []
       off_long_action:
