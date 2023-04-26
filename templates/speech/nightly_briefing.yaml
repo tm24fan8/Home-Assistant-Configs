@@ -1,8 +1,8 @@
 >
   {# Nightly Briefing #}
   {%- macro getReport() -%}
-  {% from 'speech.jinja' import greeting, dadjoke %}
-  {% from 'time.jinja' import input_datetime_12hr, read_time_from_calendar, inspirational_quote %}
+  {% from 'speech.jinja' import greeting, dadjoke, inspirational_quote %}
+  {% from 'time.jinja' import input_datetime_12hr, read_time_from_calendar %}
     <p>
       {{ greeting() }}
     </p>
