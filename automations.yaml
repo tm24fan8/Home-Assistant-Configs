@@ -211,8 +211,8 @@
   - platform: state
     entity_id: group.adults
     not_from:
-      - unknown
-      - unavailable
+    - unknown
+    - unavailable
     to: home
   condition:
   - condition: not
@@ -249,8 +249,8 @@
   - platform: state
     entity_id: group.adults
     not_from:
-      - unknown
-      - unavailable
+    - unknown
+    - unavailable
     to: not_home
   condition:
   - condition: state
