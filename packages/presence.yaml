@@ -576,8 +576,8 @@ script:
       - service: script.security_arm_away
       else:
       - stop: Away Mode Skipped
-      mode: single
-      icon: mdi:shield-lock
+    mode: single
+    icon: mdi:shield-lock
   family_is_home_day:
     alias: Family Is Home Day
     sequence:
