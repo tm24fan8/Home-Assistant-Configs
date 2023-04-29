@@ -957,3 +957,191 @@
         data: {}
         target:
           entity_id: switch.adaptive_lighting_adapt_brightness_living_room
+- id: '1682550106529'
+  alias: Master Bedroom Switch Handler
+  description: ''
+  use_blueprint:
+    path: codycodes/hue-remote-dimmer-december-2021.yaml
+    input:
+      dimmer_device: 47cce1f5af5137fcb398dec76adbd23e
+      on_long_action:
+      - service: input_select.select_option
+        data:
+          option: Adaptive
+        target:
+          entity_id: input_select.master_bedroom_scenes
+      brightness_up_short_action:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.adaptive_lighting_master_bedroom
+      brightness_up_long_action:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.adaptive_lighting_master_bedroom
+      brightness_down_short_action:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.adaptive_lighting_master_bedroom
+      brightness_down_long_action:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.adaptive_lighting_master_bedroom
+      off_long_action:
+      - service: input_select.select_option
+        data:
+          option: Side Nightlight
+        target:
+          entity_id: input_select.master_bedroom_scenes
+- id: '1682550357188'
+  alias: Emma Bedroom Switch Handler
+  description: ''
+  use_blueprint:
+    path: codycodes/hue-remote-dimmer-december-2021.yaml
+    input:
+      dimmer_device: 18dc2f03d3a1c0c5e8c93e365e94de21
+      on_long_action:
+      - service: input_select.select_option
+        data:
+          option: Adaptive
+        target:
+          entity_id: input_select.emma_bedroom_scenes
+      brightness_up_short_action:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.adaptive_lighting_emma_bedroom
+      brightness_up_long_action:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.adaptive_lighting_emma_bedroom
+      brightness_down_short_action:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.adaptive_lighting_emma_bedroom
+      brightness_down_long_action:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.adaptive_lighting_emma_bedroom
+      off_long_action:
+      - service: input_boolean.toggle
+        data: {}
+        target:
+          entity_id: input_boolean.emma_sleeping
+      off_short_action:
+      - service: script.turn_on
+        data: {}
+        target:
+          entity_id: script.evening_on_second_floor
+- id: '1682561310614'
+  alias: Kallen Bedroom Switch Handler
+  description: ''
+  use_blueprint:
+    path: codycodes/hue-remote-dimmer-december-2021.yaml
+    input:
+      dimmer_device: ca3ff98b83eff1b55a79955ba02df333
+      on_long_action:
+      - service: input_select.select_option
+        data:
+          option: Adaptive
+        target:
+          entity_id: input_select.kallen_bedroom_scenes
+      brightness_up_short_action:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.adaptive_lighting_kallen_bedroom
+      brightness_up_long_action:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.adaptive_lighting_kallen_bedroom
+      brightness_down_short_action:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.adaptive_lighting_kallen_bedroom
+      brightness_down_long_action:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.adaptive_lighting_kallen_bedroom
+      off_long_action:
+      - service: input_boolean.toggle
+        data: {}
+        target:
+          entity_id: input_boolean.kallen_sleeping
+      off_short_action:
+      - choose:
+        - conditions:
+          - condition: state
+            entity_id: light.kallen_bedroom_overhead
+            state: 'off'
+          sequence:
+          - service: input_select.select_option
+            data:
+              option: Overhead Nightlight
+            target:
+              entity_id: input_select.kallen_bedroom_scenes
+        - conditions:
+          - condition: state
+            entity_id: light.kallen_bedroom_overhead
+            state: 'on'
+          sequence:
+          - service: light.turn_off
+            data: {}
+            target:
+              entity_id: light.kallen_bedroom_overhead
+          - delay:
+              hours: 0
+              minutes: 0
+              seconds: 2
+              milliseconds: 0
+          - service: input_text.set_value
+            data:
+              value: Adaptive
+            target:
+              entity_id: input_text.kallen_bedroom_selected_scene
+          - service: switch.turn_off
+            data: {}
+            target:
+              entity_id: switch.adaptive_lighting_sleep_mode_kallen_bedroom
+          - service: switch.turn_on
+            data: {}
+            target:
+              entity_id: switch.adaptive_lighting_kallen_bedroom
+- id: '1682793072646'
+  alias: Tina Desk Switch Handler
+  description: ''
+  use_blueprint:
+    path: codycodes/hue-remote-dimmer-december-2021.yaml
+    input:
+      dimmer_device: 40c14ccfe958d21d75888a968bbbf908
+      on_short_action:
+      - service: light.toggle
+        data: {}
+        target:
+          entity_id: light.dining_room_lamp
+      on_long_action:
+      - service: input_select.select_option
+        data:
+          option: Adaptive
+        target:
+          entity_id: input_select.dining_room_lamp_scenes
+      off_short_action:
+      - service: input_boolean.toggle
+        data: {}
+        target:
+          entity_id: input_boolean.tina_desk_lights
+      off_long_action:
+      - service: input_select.select_option
+        data:
+          option: Reset
+        target:
+          entity_id: input_select.tina_desk_scenes

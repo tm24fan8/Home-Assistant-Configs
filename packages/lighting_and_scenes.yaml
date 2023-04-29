@@ -1735,7 +1735,7 @@ scene:
           - 127
           - 0
           - 255
-        brightness: 51
+        brightness: 128
       light.tina_desk_strip:
         state: "on"
         rgb_color:
