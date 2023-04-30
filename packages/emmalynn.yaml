@@ -303,22 +303,28 @@ script:
     mode: restart
     sequence:
 # Lighting
+      - variables:
+          brightness: "{{ state_attr('switch.adaptive_lighting_emma_bedroom','brightness_pct') }}"
       - choose:
         - conditions:
           - condition: state
             entity_id: binary_sensor.early_night_mode
             state: 'on'
           sequence:
-          - service: input_select.select_option
+          - service: switch.turn_off
             target:
-              entity_id: input_select.emma_bedroom_scenes
+              entity_id: switch.adaptive_lighting_emma_bedroom
+          - delay:
+              seconds: 1
+          - service: light.turn_on
+            target:
+              entity_id: light.emma_bedroom_light
             data:
-              option: Nightlight
+              brightness_pct: "{{ brightness }}"
+              transition: 300
           - service: light.turn_on
             target:
               entity_id: light.hallway_overhead
-          - delay:
-              seconds: 2
           - service: input_select.select_option
             target:
               entity_id:
@@ -331,14 +337,17 @@ script:
             entity_id: binary_sensor.early_night_mode
             state: 'off'
           sequence:
+          - service: switch.turn_off
+            target:
+              entity_id: switch.adaptive_lighting_emma_bedroom
+          - delay:
+              seconds: 1
           - service: light.turn_on
             target:
               entity_id: light.emma_bedroom_light
-          - service: input_select.select_option
-            target:
-              entity_id: input_select.emma_bedroom_scenes
             data:
-              option: Adaptive
+              brightness_pct: "{{ brightness }}"
+              transition: 60
 # Climate/White Noise
       - delay:
           minutes: 5
@@ -353,6 +362,11 @@ script:
         - service: script.turn_on
           target:
             entity_id: script.emma_aircon_shutoff
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.emma_bedroom_scenes
+        data:
+          option: Adaptive
 
   emma_aircon_shutoff:
     alias: 'Emma Air Conditioner Shutoff'
