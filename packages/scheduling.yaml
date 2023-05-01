@@ -476,7 +476,7 @@ script:
                   13:30
                 {% endif %}
               {% else %}
-                13:00
+                14:30
               {% endif %}
       - service: input_boolean.turn_on
         target:
