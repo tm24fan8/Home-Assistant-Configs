@@ -386,7 +386,7 @@ script:
             minutes: 5
         else:
         - delay:
-            minutes: "{{ states('input_boolean.wakeup_lights_fade_night') }}"
+            minutes: "{{ states('input_number.wakeup_lights_fade_night') }}"
       - service: input_boolean.turn_off
         target:
           entity_id: input_boolean.white_noise_emma_bedroom
