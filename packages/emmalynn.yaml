@@ -329,64 +329,76 @@ script:
 # Lighting
       - variables:
           brightness: "{{ state_attr('switch.adaptive_lighting_emma_bedroom','brightness_pct') }}"
-      - choose:
-        - conditions:
-          - condition: state
-            entity_id: binary_sensor.early_night_mode
-            state: 'on'
-          sequence:
-          - service: switch.turn_off
-            target:
-              entity_id: switch.adaptive_lighting_emma_bedroom
-          - delay:
-              seconds: 1
-          - service: light.turn_on
-            target:
-              entity_id: light.emma_bedroom_light
-            data:
-              brightness_pct: "{{ brightness }}"
-              transition: >
-                {% from 'time.jinja' import timer_duration %}
-                {{ timer_duration('input_number.wakeup_lights_fade_night') }}
-          - service: light.turn_on
-            target:
-              entity_id: light.hallway_overhead
-          - service: input_select.select_option
-            target:
-              entity_id:
-                - input_select.upstairs_hallway_scenes
-                - input_select.master_bedroom_scenes
-            data:
-              option: Adaptive
-        - conditions:
-          - condition: state
-            entity_id: binary_sensor.early_night_mode
-            state: 'off'
-          sequence:
-          - service: switch.turn_off
-            target:
-              entity_id: switch.adaptive_lighting_emma_bedroom
-          - delay:
-              seconds: 1
-          - service: light.turn_on
-            target:
-              entity_id: light.emma_bedroom_light
-            data:
-              brightness_pct: "{{ brightness }}"
-              transition: >
-                {% from 'time.jinja' import timer_duration %}
-                {{ timer_duration('input_number.wakeup_lights_fade_day') }}
-# Climate/White Noise
       - if:
         - condition: state
           entity_id: binary_sensor.early_night_mode
-          state: 'off'
+          state: 'on'
         then:
-        - delay:
-            minutes: 5
-        else:
-        - delay:
-            minutes: "{{ states('input_number.wakeup_lights_fade_night') }}"
+        - service: light.turn_on
+          target:
+            entity_id: light.hallway_overhead
+        - service: input_select.select_option
+          target:
+            entity_id:
+              - input_select.upstairs_hallway_scenes
+              - input_select.master_bedroom_scenes
+          data:
+            option: Adaptive
+      - service: switch.turn_off
+        target:
+          entity_id: switch.adaptive_lighting_emma_bedroom
+      - delay:
+          seconds: 1
+      - service: light.turn_on
+        target:
+          entity_id: light.emma_bedroom_light
+        data:
+          brightness_pct: "{{ brightness }}"
+          transition: >
+            {% from 'time.jinja' import timer_duration %}
+            {% if is_state('binary_sensor.early_night_mode','on') %}
+              {{ timer_duration('input_number.wakeup_lights_fade_night') }}
+            {% else %}
+              {{ timer_duration('input_number.wakeup_lights_fade_day') }}
+            {% endif %}
+      - wait_for_trigger:
+        - platform: state
+          entity_id: light.emma_bedroom_light
+          to: 'off'
+          id: lights-off
+        - platform: state
+          entity_id: input_select.emma_bedroom_scenes
+          to: 'Adaptive'
+          id: adaptive
+        timeout:
+          minutes: >
+            {% if is_state('binary_sensor.early_night_mode','on') %}
+              {{ states('input_number.wakeup_lights_fade_night') }}
+            {% else %}
+              5
+            {% endif %}
+      - choose:
+        - conditions: "{{ wait.trigger == none }}"
+          sequence:
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.emma_bedroom_scenes
+            data:
+              option: Adaptive
+        - conditions: "{{ wait.trigger.id == 'lights-off' }}"
+          sequence:
+          - service: switch.turn_on
+            target:
+              entity_id: switch.adaptive_lighting_emma_bedroom
+          - service: switch.turn_off
+            target:
+              entity_id: switch.adaptive_lighting_sleep_mode_emma_bedroom
+          - service: input_text.set_value
+            target:
+              entity_id: input_text.emma_bedroom_selected_scene
+            data:
+              value: Adaptive
+# Climate/White Noise
       - service: input_boolean.turn_off
         target:
           entity_id: input_boolean.white_noise_emma_bedroom
@@ -398,11 +410,6 @@ script:
         - service: script.turn_on
           target:
             entity_id: script.emma_aircon_shutoff
-      - service: input_select.select_option
-        target:
-          entity_id: input_select.emma_bedroom_scenes
-        data:
-          option: Adaptive
 
   emma_aircon_shutoff:
     alias: 'Emma Air Conditioner Shutoff'
