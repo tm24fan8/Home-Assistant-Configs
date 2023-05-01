@@ -746,14 +746,14 @@ automation:
           entity_id: timer.basement_studio_door_timer
         id: timer-finished
       - platform: state
-        entity_id: binary_sensor.basement_unoccupied
-        from: 'on'
-        to: 'off'
-        id: basement-occupied
-      - platform: state
-        entity_id: binary_sensor.basement_unoccupied
+        entity_id: binary_sensor.basement_occupied
         from: 'off'
         to: 'on'
+        id: basement-occupied
+      - platform: state
+        entity_id: binary_sensor.basement_occupied
+        from: 'on'
+        to: 'off'
         id: basement-unoccupied
       - platform: state
         entity_id:
@@ -794,8 +794,8 @@ automation:
         sequence:
         - if:
           - condition: state
-            entity_id: binary_sensor.basement_unoccupied
-            state: 'on'
+            entity_id: binary_sensor.basement_occupied
+            state: 'off'
           then:
           - service: timer.start
             target:

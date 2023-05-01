@@ -241,19 +241,19 @@ template:
       unique_id: 8de02d19-60a6-436d-9187-1cfc70d6c297
       state: "{{ is_state('group.adults','home') and (is_state('person.tony_stork','home') or is_state('person.christina_stork','home')) }}"
       device_class: presence
-    - name: "Basement Unoccupied"
+    - name: "Basement Occupied"
       unique_id: 20039c29-8b9d-436d-ba6c-8f2c2bda1db0
       state: >
         {% if is_state('binary_sensor.tony_desktop_on','off') and is_state('binary_sensor.kallen_desktop_on','off') %}
-          true
-        {% elif is_state('binary_sensor.tony_desktop_idle','on') and is_state('binary_sensor.kallen_desktop_idle','on') %}
-          true
-        {% elif is_state('binary_sensor.tony_desktop_idle','on') and is_state('binary_sensor.kallen_desktop_on','off') %}
-          true
-        {% elif is_state('binary_sensor.kallen_desktop_idle','on') and is_state('binary_sensor.tony_desktop_on','off') %}
-          true
-        {% else %}
           false
+        {% elif is_state('binary_sensor.tony_desktop_idle','on') and is_state('binary_sensor.kallen_desktop_idle','on') %}
+          false
+        {% elif is_state('binary_sensor.tony_desktop_idle','on') and is_state('binary_sensor.kallen_desktop_on','off') %}
+          false
+        {% elif is_state('binary_sensor.kallen_desktop_idle','on') and is_state('binary_sensor.tony_desktop_on','off') %}
+          false
+        {% else %}
+          true
         {% endif %}
     - name: "Upstairs Bathroom Occupied"
       unique_id: 7ec69a26-1013-4b0d-8662-a91ab9f040ca
