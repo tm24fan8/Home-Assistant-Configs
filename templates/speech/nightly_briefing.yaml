@@ -222,6 +222,10 @@
     </p>
 
     <p>
+      {{ states('sensor.emma_nap_info') }}
+    </p>
+
+    <p>
       {% if (states('sensor.overnight_lowest_temperature') | int) <= (states('input_number.overnight_low_threshold') | int ) %}
         "It will be very cold tonight, make sure to use extra blankets, wear more clothes, or whatever else will help you stay warm! Additionally, make sure Emma's heater is set high enough!"
       {% endif %}

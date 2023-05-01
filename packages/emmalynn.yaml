@@ -30,6 +30,30 @@ input_datetime:
     has_time: true
     icon: mdi:eye
 
+sensor:
+  - platform: template
+    sensors:
+      emma_nap_info:
+        friendly_name: Emma Nap Info
+        unique_id: 60664690-0eb6-400a-83d5-21e56f029910
+        value_template: >
+          {% set asleep = state_attr('input_datetime.emma_down_for_nap','timestamp') | int %}
+          {% set wakeup = state_attr('input_datetime.emma_up_from_nap','timestamp') | int %}
+          {% set diff = (wakeup - asleep) | int %}
+          {% set hour = diff | timestamp_custom('%H', false) | int %}
+          {% set minute = diff | timestamp_custom('%M', false) | int %}
+          {% set day = now().strftime("%-d") %}
+          {% set asleep_day = asleep | timestamp_custom("%-d") %}
+          {% set wakeup_day = wakeup | timestamp_custom("%-d") %}
+          {% if is_state('input_boolean.emma_has_napped','on') or ((asleep_day == day) and (wakeup_day == day)) %}
+            Emma napped today for {{ hour }} hours and {{ minute }} minutes.
+          {% elif is_state('input_boolean.emma_has_napped','off') and ((asleep_day == day) and (wakeup_day != day)) %}
+            Emma appears to be napping currently.
+          {% else %}
+            Emma does not appear to have napped yet today.
+          {% endif %}
+        icon_template: mdi:sleep
+
 automation:
   - id: 4f01dff7-be22-4850-a05e-1906e3151441
     alias: 'Emma Sleeping'

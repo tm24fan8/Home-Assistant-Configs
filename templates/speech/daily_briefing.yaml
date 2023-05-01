@@ -359,6 +359,10 @@
       </p>
 
       <p>
+        {{ states('sensor.emma_nap_info') }}
+      </p>
+
+      <p>
         'Around the house, there are currently {{ states('sensor.current_lights_on') }} lights on. '
         {% set windows = states('sensor.windows_open') %}
         {% set doors = states('sensor.doors_open') %}

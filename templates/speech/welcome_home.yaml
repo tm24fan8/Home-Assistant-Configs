@@ -149,6 +149,10 @@
     </p>
 
     <p>
+      {{ states('sensor.emma_nap_info') }}
+    </p>
+
+    <p>
       {{ dadjoke() }}
     </p>
 
