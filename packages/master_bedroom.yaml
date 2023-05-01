@@ -82,6 +82,8 @@ script:
     alias: 'Master Bedroom Wakeup'
     mode: restart
     sequence:
+    - variables:
+        brightness: "{{ state_attr('switch.adaptive_lighting_master_bedroom','brightness_pct') }}"
     - service: button.press
       target:
         entity_id: button.master_bedroom_day_mode
@@ -104,11 +106,57 @@ script:
           {% set weather = states('weather.iron_nerd_weather_station') %}
           {{ weather in ['cloudy','partlycloudy','rainy','snowy','hail','lightning','lightning-rainy','pouring','snowy-rainy'] }}
       then:
-      - service: input_select.select_option
-        target:
-          entity_id: input_select.master_bedroom_scenes
-        data:
-          option: Adaptive
+      - choose:
+        - conditions:
+          - condition: state
+            entity_id: binary_sensor.early_night_mode
+            state: 'on'
+          sequence:
+          - service: switch.turn_off
+            target:
+              entity_id: switch.adaptive_lighting_master_bedroom
+          - delay:
+              seconds: 1
+          - service: light.turn_on
+            target:
+              entity_id: light.master_bedroom_lights
+            data:
+              brightness_pct: "{{ brightness }}"
+              transition: >
+                {% from 'time.jinja' import timer_duration %}
+                {{ timer_duration('input_number.wakeup_lights_fade_night') }}
+          - delay:
+              minutes: "{{ states('input_number.wakeup_lights_fade_night') }}"
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.master_bedroom_scenes
+            data:
+              option: Adaptive
+        - conditions:
+          - condition: state
+            entity_id: binary_sensor.early_night_mode
+            state: 'off'
+          sequence:
+          - service: switch.turn_off
+            target:
+              entity_id: switch.adaptive_lighting_master_bedroom
+          - delay:
+              seconds: 1
+          - service: light.turn_on
+            target:
+              entity_id: light.master_bedroom_lights
+            data:
+              brightness_pct: "{{ brightness }}"
+              transition: >
+                {% from 'time.jinja' import timer_duration %}
+                {{ timer_duration('input_number.wakeup_lights_fade_day') }}
+          - delay:
+              minutes: "{{ states('input_number.wakeup_lights_fade_day') }}"
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.master_bedroom_scenes
+            data:
+              option: Adaptive
     - service: script.volume_reset
 
   master_bedroom_sleep:
