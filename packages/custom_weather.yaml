@@ -149,6 +149,16 @@ sensor:
   #   max_age:
   #     days: 7
 
+  - platform: openweathermaphistory
+    name: 'Rain Factor'
+    api_key: !secret openweathermap_api
+    day0sig: 1
+    day1sig: 0.5
+    day2sig: 0.25
+    day3sig: 0.12
+    day4sig: 0.06
+    watertarget: 0.5
+
   - platform: template
     sensors:
       current_forecast:
@@ -969,6 +979,12 @@ sensor:
           {% endfor %}
           {{ ns.temps | min | int }}
         icon_template: mdi:thermometer
+      rain_24hr:
+        friendly_name: 'Rain - 24 Hours'
+        unique_id: 26d2b945-f676-4c3c-8a4f-4b3b909d62dd
+        unit_of_measurement: 'in'
+        value_template: "{{ state_attr('sensor.rain_factor','day_0_rain') | float }}"
+        icon_template: mdi:weather-rainy
 
 input_number:
   today_calculated_high_temp:

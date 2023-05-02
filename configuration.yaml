@@ -226,7 +226,6 @@ influxdb:
       - sensor.tm24fan8_home_assistant_configs_issues
       - binary_sensor.internet
       - binary_sensor.people_present
-      - binary_sensor.precipitation
       - weather.iron_nerd_weather_station
       - sensor.circle_k
       - sensor.kroger
