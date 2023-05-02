@@ -1545,8 +1545,11 @@ automation:
     alias: Rain Window Warning
     trigger:
       - platform: state
-        entity_id: binary_sensor.precipitation
-        to: 'on'
+        entity_id: sensor.pirateweather_precip
+        from: 'none'
+        not_to:
+          - unavailable
+          - unknown
     condition:
       - condition: state
         entity_id: binary_sensor.windows
@@ -1563,13 +1566,13 @@ automation:
         data:
           who: everywhere
           message: "It is raining and there are windows open in the house. Please close them!"
-      - wait_template: "{{ is_state('binary_sensor.windows','off') or is_state('binary_sensor.precipitation','off') }}"
+      - wait_template: "{{ is_state('binary_sensor.windows','off') or is_state('sensor.pirateweather_precip','none') }}"
         timeout: "00:15:00"
         continue_on_timeout: true
       - choose:
         - conditions:
           - condition: template
-            value_template: "{{ is_state('binary_sensor.windows','off') and is_state('binary_sensor.precipitation','on') }}"
+            value_template: "{{ is_state('binary_sensor.windows','off') and states('sensor.pirateweather_precip') not in ['none'] }}"
           sequence:
           - service: script.text_notify
             data:
@@ -1583,7 +1586,7 @@ automation:
               message: "Windows are now closed. Thank you, and enjoy your dry house."
         - conditions:
           - condition: template
-            value_template: "{{ is_state('binary_sensor.precipitation','off') }}"
+            value_template: "{{ is_state('sensor.pirateweather_precip','none') }}"
           sequence:
           - service: script.text_notify
             data:

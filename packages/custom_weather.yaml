@@ -93,19 +93,6 @@ template:
       device_class: safety
       attributes:
         current_strikes: "{{ states('sensor.blitzortung_lightning_counter') | int }}"
-    - name: Precipitation
-      unique_id: 2423f8c6-f9ce-4063-a7f8-30dc260d1376
-      state: "{{ states('weather.iron_nerd_weather_station') in ['rainy','thunderstorm','lightning','sleet','snow','snowy','hail','tornado'] }}"
-      attributes:
-        type_of_precipitation: >
-          {% if states('weather.iron_nerd_weather_station') in ['rainy','thunderstorm','lightning','hail','tornado'] %}
-            Rain
-          {% elif states('weather.iron_nerd_weather_station') in ['sleet','snow','snowy'] %}
-            Snow
-          {% else %}
-            N/A
-          {% endif %}
-      icon: mdi:water
 
 sensor:
   - platform: weatheralerts
