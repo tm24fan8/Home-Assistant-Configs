@@ -176,6 +176,9 @@ automation:
     trigger:
     - platform: state
       entity_id: sensor.pirateweather_temperature
+      not_to:
+        - 'unavailable'
+        - 'unknown'
     - platform: state
       entity_id: input_number.emma_naptime_aircon_threshold
     - platform: state
