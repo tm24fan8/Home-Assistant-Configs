@@ -533,30 +533,6 @@
     else:
     - stop: Tornado alert re-activated
   mode: single
-- id: '1666474050350'
-  alias: Garbage Collection Update
-  description: ''
-  use_blueprint:
-    path: bruxy70/holiday_in_week.yaml
-    input:
-      garbage_collection_entity: sensor.garbage_collection
-      holiday_entity: calendar.holidays
-- id: '1666474068445'
-  alias: Holiday in week
-  description: ''
-  use_blueprint:
-    path: bruxy70/holiday_in_week.yaml
-    input:
-      garbage_collection_entity: sensor.garbage_collection_large_pickup
-      holiday_entity: calendar.holidays
-- id: '1666474091107'
-  alias: Large Garbage Collection Update
-  description: ''
-  use_blueprint:
-    path: bruxy70/holiday_in_week.yaml
-    input:
-      garbage_collection_entity: sensor.garbage_collection_large_pickup
-      holiday_entity: calendar.holidays
 - id: '1667341156218'
   alias: White Noise Volume
   description: ''
