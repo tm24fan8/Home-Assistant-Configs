@@ -38,7 +38,7 @@
 {% if is_state('input_boolean.emma_sleeping','off') and is_state('input_boolean.emma_has_napped','on') or ((asleep_day == day) and (wakeup_day == day)) %}
   Emma has awoken. She napped today for {{ hour }} hours and {{ minute }} minutes. She was retrieved from her room at {{ input_datetime_12hr_with_date('input_datetime.emma_up_from_nap') }}
 {% elif is_state('input_boolean.emma_has_napped','off') and is_state('input_boolean.emma_sleeping','off') and ((asleep_day != day) or (wakeup_day != day)) %}
-  Emma has awoken for the day at {{ current_time_12hr }}
+  Emma has awoken for the day at {{ current_time_12hr() }}
 {% elif is_state('input_boolean.emma_has_napped','off') and ((asleep_day == day) and (wakeup_day != day)) and is_state('input_boolean.emma_sleeping','on') %}
   Emma is being put down for nap. She was put down at {{ input_datetime_12hr_with_date('input_datetime.emma_down_for_nap') }}
 {% elif is_state('input_boolean.emma_sleeping','on') %}
