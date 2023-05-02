@@ -56,6 +56,7 @@ automation:
           - condition: trigger
             id: sleep-on
           sequence:
+            - service: script.emma_sleep
             - if:
               - condition: and
                 conditions:
@@ -71,7 +72,18 @@ automation:
                   entity_id: input_datetime.emma_down_for_nap
                 data:
                   datetime: "{{ as_timestamp(now()) | timestamp_custom('%Y-%m-%d %H:%M:%S') }}"
-            - service: script.emma_sleep
+            - delay:
+                seconds: 1
+            - service: script.text_notify
+              data:
+                who: parents
+                type: alert
+                title: Emma Sleeping
+                message: >
+                  {% from 'status.jinja' import emma_sleep_notification %}
+                  {% from 'formatting.jinja' import cleanup %}
+                  {{ cleanup(emma_sleep_notification()) }}
+                tag: emma-sleep
         - conditions:
           - condition: trigger
             id: sleep-off
@@ -111,6 +123,18 @@ automation:
               - service: input_boolean.turn_on
                 target:
                   entity_id: input_boolean.emma_has_napped
+            - delay:
+                seconds: 1
+            - service: script.text_notify
+              data:
+                who: parents
+                type: alert
+                title: Emma Awakens
+                message: >
+                  {% from 'status.jinja' import emma_sleep_notification %}
+                  {% from 'formatting.jinja' import cleanup %}
+                  {{ cleanup(emma_sleep_notification()) }}
+                tag: emma-wake
             - service: script.emma_wakeup
 
   - id: '1655415573165'
