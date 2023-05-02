@@ -1524,7 +1524,7 @@ script:
               </p>
             {% endmacro %}
 
-            {% macro interuption() %}
+            {% macro interruption() %}
               <p>
               {{ [
                   'Pardon me, ',
@@ -1626,7 +1626,7 @@ script:
                   'I have detected lightning within 20 miles of our house.',
                   'Did you see that flash? I did. Lightning is near.',
                   'If you didnt hear the thunder you will soon. '
-                ]|random }}
+                ] | random }}
                   If anyone is outside they should seek shelter inside. 
             {% endmacro %}
 
@@ -1635,7 +1635,7 @@ script:
                   'Lightning threat appears to be over.',
                   'No more lightning appears to be occurring.',
                   'Lightning is gone.'
-              ]|random }}
+              ] | random }}
                 It is safe to resume normal activities. 
             {% endmacro %}
 
@@ -1774,8 +1774,8 @@ script:
                 {{ confirm_no() }}
               {% endif %}
 
-              {% if call_interuption == 1 %}
-                {{ interuption() }}
+              {% if call_interruption == 1 %}
+                {{ interruption() }}
               {% endif %}
 
               {% if call_dinner_is_ready == 1 %}

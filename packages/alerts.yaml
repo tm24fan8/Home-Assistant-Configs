@@ -62,5 +62,5 @@ automation:
       - service: script.status_annc
         data:
           who: 'living_room'
-          call_interuption: 1
+          call_interruption: 1
           call_snark_door_open: 1

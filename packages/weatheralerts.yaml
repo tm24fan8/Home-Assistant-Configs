@@ -1660,7 +1660,7 @@ script:
         - service: script.status_annc
           data:
             who: 'common'
-            call_interuption: 1
+            call_interruption: 1
             call_lightning_alert: 1
         - delay:
             seconds: 10
@@ -1680,7 +1680,7 @@ script:
       - service: script.status_annc
         data:
           who: 'common'
-          call_interuption: 1
+          call_interruption: 1
           call_lightning_clear: 1
       - service: script.text_notify
         data:
