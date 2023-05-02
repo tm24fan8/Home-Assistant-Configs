@@ -3,6 +3,8 @@
   {%- macro getReport() -%}
   {% from 'speech.jinja' import greeting, dadjoke, inspirational_quote %}
   {% from 'time.jinja' import input_datetime_12hr, read_time_from_calendar %}
+  {% from 'status.jinja' import emma_sleep %}
+  {% from 'formatting.jinja' import cleanup %}
     <p>
       {{ greeting() }}
     </p>
@@ -222,7 +224,7 @@
     </p>
 
     <p>
-      {{ states('sensor.emma_nap_info') }}
+      {{ cleanup(emma_sleep()) }}
     </p>
 
     <p>

@@ -3,6 +3,8 @@
   {%- macro getReport() -%}
   {% from 'speech.jinja' import dadjoke %}
   {% from 'time.jinja' import input_datetime_12hr %}
+  {% from 'status.jinja' import emma_sleep %}
+  {% from 'formatting.jinja' import cleanup %}
     <p>
       "Welcome home, "
         {% if is_state('person.tony_stork','home') and is_state('person.christina_stork','home') %}
@@ -149,7 +151,7 @@
     </p>
 
     <p>
-      {{ states('sensor.emma_nap_info') }}
+      {{ cleanup(emma_sleep()) }}
     </p>
 
     <p>

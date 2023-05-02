@@ -1,0 +1,4 @@
+{%- macro cleanup(data) -%}
+  {%- for item in data.split("\n")  if item | trim != "" -%}
+    {{ item | trim }} {% endfor -%}
+{%- endmacro -%}
