@@ -1010,7 +1010,7 @@ input_boolean:
     name: Severe Weather Mode
     icon: mdi:weather-tornado
 
-automation:
+# automation:
   # - alias: 'record previous day rainfall'
   #   trigger:
   #     - platform: time
@@ -1022,39 +1022,39 @@ automation:
   #       retain: true
   #       payload: "{{ states('sensor.todays_rainfall') }}"
 
-  - id: 14421478-a33c-471a-ae01-b48827f6121a
-    alias: Forecast Low Near Freezing
-    trigger:
-      - platform: numeric_state
-        entity_id: sensor.overnight_lowest_temperature
-        below: 35
-      - platform: numeric_state
-        entity_id: sensor.pirateweather_temperature
-        below: 35
-    condition:
-      - condition: state
-        entity_id: input_boolean.freeze_warning
-        state: 'off'
-    action:
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.freeze_warning
+  # - id: 14421478-a33c-471a-ae01-b48827f6121a
+  #   alias: Forecast Low Near Freezing
+  #   trigger:
+  #     - platform: numeric_state
+  #       entity_id: sensor.overnight_lowest_temperature
+  #       below: 35
+  #     - platform: numeric_state
+  #       entity_id: sensor.pirateweather_temperature
+  #       below: 35
+  #   condition:
+  #     - condition: state
+  #       entity_id: input_boolean.freeze_warning
+  #       state: 'off'
+  #   action:
+  #     - service: input_boolean.turn_on
+  #       entity_id: input_boolean.freeze_warning
 
-  - id: 088285ec-6435-435c-a8ce-800851fb15e2
-    alias: Forecast Low Above Freezing
-    trigger:
-      - platform: numeric_state
-        entity_id: sensor.overnight_lowest_temperature
-        above: 33
-    condition:
-      - condition: state
-        entity_id: input_boolean.freeze_warning
-        state: 'on'
-      - condition: numeric_state
-        entity_id: sensor.overnight_lowest_temperature
-        above: 35
-    action:
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.freeze_warning
+  # - id: 088285ec-6435-435c-a8ce-800851fb15e2
+  #   alias: Forecast Low Above Freezing
+  #   trigger:
+  #     - platform: numeric_state
+  #       entity_id: sensor.overnight_lowest_temperature
+  #       above: 33
+  #   condition:
+  #     - condition: state
+  #       entity_id: input_boolean.freeze_warning
+  #       state: 'on'
+  #     - condition: numeric_state
+  #       entity_id: sensor.overnight_lowest_temperature
+  #       above: 35
+  #   action:
+  #     - service: input_boolean.turn_off
+  #       entity_id: input_boolean.freeze_warning
 
 
 script:

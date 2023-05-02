@@ -1638,14 +1638,33 @@ script:
               ] | random }}
                 It is safe to resume normal activities. 
             {% endmacro %}
+            
+            {% macro thunderstorm_warning() %}
+              {{ ['A severe thunderstorm warning has been issued, it is about to get loud!',
+                  'The national weather service has issued a severe thunderstorm warning for our area.'
+              ] | random }}
+                Make sure to secure any outdoor items and consider moving cars away from trees!
+            {% endmacro %}
+
+            {% macro tornado_watch() %}
+              {{ ['A tornado watch has been issued. Keep an eye on the skies and your local weather experts, and move the cars away from trees!',
+                  'The national weather service has issued a tornado watch. Keep your eyes peeled for rotating clouds, and move your cars away from trees!'
+              ] | random}}
+            {% endmacro %}
+
+            {% macro thunderstorm_watch() %}
+              {{ ['A severe thunderstorm watch has been issued.',
+                  'The national weather service has issued a severe thunderstorm watch.'
+              ] | random }}
+                Make sure to secure any outdoor items and consider moving cars away from trees!
+            {% endmacro %}
 
             {% macro freeze_warning() %}
-              {% if is_state('input_boolean.freeze_warning','on') %}
+              'There is a freeze warning in effect for tonight. '
               {{ [ 'It appears that it will be cold tonight. Like, the turn water solid kind of cold. Think of the poor plants.',
                 'I would say winter is coming. But, based on the weather forecast it appears to be here.',
                 'It will be freezing cold tonight. I would bring in the plants but I lack legs. And Arms. So I am forced to rely on you. Do not let me down.'
               ] | random }}
-              {% endif %}
             {% endmacro %}
 
             {% macro traffic_conditions() %}
@@ -1820,6 +1839,18 @@ script:
 
               {% if call_lightning_clear == 1 %}
                 {{ lightning_clear() }}
+              {% endif %}
+
+              {% if call_thunderstorm_warning == 1 %}
+                {{ thunderstorm_warning() }}
+              {% endif %}
+
+              {% if call_tornado_watch == 1 %}
+                {{ tornado_watch() }}
+              {% endif %}
+
+              {% if call_thunderstorm_watch == 1 %}
+                {{ thunderstorm_watch() }}
               {% endif %}
 
               {% if call_freeze_warning == 1 %}
