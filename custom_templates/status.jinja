@@ -16,7 +16,11 @@
 {% elif is_state('input_boolean.emma_has_napped','off') and ((asleep_day == day) and (wakeup_day != day)) and is_state('input_boolean.emma_sleeping','on') %}
   Emma is down for nap. She was put down at {{ input_datetime_12hr_with_date('input_datetime.emma_down_for_nap') }} approximately. She has been asleep for {{ nowHour }} hours and {{ nowMin }} minutes.
 {% elif is_state('input_boolean.emma_sleeping','on') %}
-  Emma is asleep for the night.
+  {% if is_state('binary_sensor.early_night_mode','on') %}
+    Emma is asleep for the night.
+  {% else %}
+    Emma has not yet awoken for the day.
+  {% endif %}
 {% else %}
   Emma is awake, and does not appear to have napped yet today.
 {% endif %}
@@ -42,7 +46,7 @@
 {% elif is_state('input_boolean.emma_has_napped','off') and ((asleep_day == day) and (wakeup_day != day)) and is_state('input_boolean.emma_sleeping','on') %}
   Emma is being put down for nap. She was put down at {{ input_datetime_12hr_with_date('input_datetime.emma_down_for_nap') }}
 {% elif is_state('input_boolean.emma_sleeping','on') %}
-  Emma is asleep for the night at {{ current_time_12hr() }}
+  Emma is asleep for the night (or at least, her sleep switch is active) at {{ current_time_12hr() }}
 {% else %}
   This notification is confused and should not be here. Blame Tony.
 {% endif %}
