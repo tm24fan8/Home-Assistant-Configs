@@ -69,7 +69,7 @@
           'In case you were wondering.',
           'Also, did you know.'
         ] | random }}
-          'Christmas break starts {{ speak_the_days('input_boolean.christmas_break_start') }}!'
+          'Christmas break starts {{ speak_the_days('input_datetime.christmas_break_start') }}!'
       {% endif %}
       {% if (count_the_days('input_datetime.spring_break_start') | int <= 14) and (count_the_days('input_datetime.spring_break_start') | int > 0) %}
           {{ [ 'Oh, and look at that.',
