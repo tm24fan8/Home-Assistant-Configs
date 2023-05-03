@@ -44,6 +44,6 @@
 {% elif is_state('input_boolean.emma_sleeping','on') %}
   Emma is asleep for the night at {{ current_time_12hr() }}
 {% else %}
-  Emma is awake, and does not appear to have napped yet today, and I am not sure why you are being notified of this.
+  This notification is confused and should not be here. Blame Tony.
 {% endif %}
 {% endmacro %}
