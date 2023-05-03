@@ -3,7 +3,15 @@
 {% endmacro %}
 
 {% macro current_time_12hr() %}
-{{ now().strftime("%-I:%M %p") }}
+{{ now().strftime('%-I:%M %p') }}
+{% endmacro %}
+
+{% macro current_time_24hr() %}
+{{ now().strftime('%H:%M') }}
+{% endmacro %}
+
+{% macro current_date_input() %}
+{{ now().strftime('%Y-%m-%d') }}
 {% endmacro %}
 
 {% macro input_datetime_12hr(entity) %}
@@ -28,6 +36,10 @@
 
 {% macro read_time_from_calendar(calendar,start_or_end) %}
 {{ as_timestamp(strptime(state_attr(calendar,start_or_end), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%I:%M %p") }}
+{% endmacro %}
+
+{% macro increment_datetime_from_now(hours) %}
+{{ (as_timestamp(now()) + ((hours* 60) * 60)) | int | timestamp_custom('%Y-%m-%d %H:%M:%S') }}
 {% endmacro %}
 
 {% macro ct() %}
