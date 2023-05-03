@@ -5,6 +5,7 @@
   {% from 'time.jinja' import input_datetime_12hr %}
   {% from 'status.jinja' import emma_sleep %}
   {% from 'formatting.jinja' import cleanup %}
+  {% from 'easy_time.jinja' import count_the_days, speak_the_days %}
       <p>
         {{ greeting() }}
       </p>
@@ -294,7 +295,7 @@
 
             {% if is_state('input_boolean.kallen_school_today', 'on') %}
               {% if is_state('sensor.school_start_days2go', '0') %}
-                Today is the first day of school! There are {{ states('sensor.school_end_days2go') }} to go until the last day.
+                Today is the first day of school! The last day is {{ speak_the_days('input_datetime.school_last_day') }}.
               {% else %}
                 {{ [ 'Today is a school day.',
                   'Collin has school today.',
@@ -319,42 +320,42 @@
             {% if is_state('input_boolean.school_cancelled','on') %}
               'School has been cancelled for today. '
             {% endif %}
-            {% if states.sensor.thanksgiving_break_days2go.state | int <= 14 and states.sensor.thanksgiving_break_days2go.state | int > 0 %}
+            {% if (count_the_days('input_datetime.thanksgiving_break_start') | int <= 14) and (count_the_days('input_datetime.thanksgiving_break_start') | int > 0) %}
                 {{ [ 'Oh, and look at that.',
                 'For those trying to keep count. ',
                 'In case you were wondering.',
                 'Also, did you know.'
               ] | random }}
-                There are only {{ states.sensor.thanksgiving_break_days2go.state }} days until Thanksgiving Break!
+                'Thanksgiving break starts {{ speak_the_days('input_datetime.thanksgiving_break_start') }}!'
             {% endif %}
-            {% if states.sensor.christmas_break_days2go.state | int <= 14 and states.sensor.christmas_break_days2go.state | int > 0 %}
+            {% if (count_the_days('input_datetime.christmas_break_start') | int <= 14) and (count_the_days('input_datetime.christmas_break_start') | int > 0) %}
                 {{ [ 'Oh, and look at that.',
                 'For those trying to keep count. ',
                 'In case you were wondering.',
                 'Also, did you know.'
               ] | random }}
-                There are only {{ states.sensor.christmas_break_days2go.state }} days until Christmas Break!
+                'Christmas break starts {{ speak_the_days('input_datetime.christmas_break_start') }}!'
             {% endif %}
-            {% if states.sensor.spring_break_days2go.state | int <= 14 and states.sensor.spring_break_days2go.state | int > 0 %}
+            {% if (count_the_days('input_datetime.spring_break_start') | int <= 14) and (count_the_days('input_datetime.spring_break_start') | int > 0) %}
                 {{ [ 'Oh, and look at that.',
                 'For those trying to keep count. ',
                 'In case you were wondering.',
                 'Also, did you know.'
               ] | random }}
-                There are only {{ states.sensor.spring_break_days2go.state }} days until Spring Break!
+                'Spring break starts {{ speak_the_days('input_datetime.spring_break_start') }}!'
             {% endif %}
-            {% if states.sensor.school_end_days2go.state | int <= 35 and states.sensor.school_end_days2go.state | int > 0  %}
+            {% if (count_the_days('input_datetime.school_last_day') | int <= 35) and (count_the_days('input_datetime.school_last_day') | int > 0)  %}
                 {{ [ 'Oh, and look at that.',
                 'For those trying to keep count. ',
                 'In case you were wondering.',
                 'Also, did you know.'
               ] | random }}
-                There are only {{ states.sensor.school_end_days2go.state }} days left in the school year!
+                The school year ends {{ speak_the_days('input_datetime.school_last_day') }}.
             {% endif %}
-            {% if now().strftime('%Y-%m-%d') == states.input_datetime.school_last_day.state %}
+            {% if count_the_days('input_datetime.school_last_day') | int == 0 %}
               Congratulations, today is the last day of school! Have an awesome day!
             {% endif %}
-            {% if states.sensor.school_end_days2go.state | int == -1 -%}
+            {% if count_the_days('input_datetime.school_last_day') | int == -1 -%}
               Today is the first day of Summer Break! 
             {%- endif %}
           {% endif %}

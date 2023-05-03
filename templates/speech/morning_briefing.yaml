@@ -3,6 +3,7 @@
   {%- macro getReport() -%}
   {% from 'speech.jinja' import greeting_nodate, dadjoke, inspirational_quote %}
   {% from 'time.jinja' import input_datetime_12hr %}
+  {% from 'easy_time.jinja' import count_the_days %}
     <p>
       {{ greeting_nodate() }}
     </p>
@@ -93,7 +94,7 @@
       {%- endif -%}
     </p>
     <p>
-      {% if now().strftime('%Y-%m-%d') == states.input_datetime.school_last_day.state %}
+      {% if count_the_days('input_datetime.school_last_day') | int == 0 %}
         Congratulations, today is the last day of school! Have an awesome day!
       {% endif %}
     </p>
