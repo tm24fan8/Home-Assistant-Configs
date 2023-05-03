@@ -1,8 +1,3 @@
-- platform: workday
-  country: US
-  province: OH
-  workdays: [mon, tue, wed, thu, fri]
-
 - platform: tod
   unique_id: bd5fb9bd-4cd6-4f50-af01-0c59be740757
   name: Night
