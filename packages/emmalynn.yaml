@@ -7,6 +7,15 @@ input_boolean:
   emma_has_napped:
     name: Emma Has Napped
     icon: mdi:check
+  emma_meds_active:
+    name: Emma Meds Active
+    icon: mdi:medical-bag
+  emma_ibuprofen:
+    name: Emma Ibuprofen
+    icon: mdi:medical-bag
+  emma_tylenol:
+    name: Emma Tylenol
+    icon: mdi:medical-bag
 
 input_datetime:
   emma_bedtime:
@@ -29,6 +38,17 @@ input_datetime:
     has_date: true
     has_time: true
     icon: mdi:eye
+# These are for use in remembering which medications she has had when she is sick, and when to safely give them again
+  emma_ibuprofen:
+    name: Emma Ibuprofen
+    has_date: true
+    has_time: true
+    icon: mdi:medical-bag
+  emma_tylenol:
+    name: Emma Tylenol
+    has_date: true
+    has_time: true
+    icon: mdi:medical-bag
 
 automation:
   - id: 4f01dff7-be22-4850-a05e-1906e3151441
@@ -204,7 +224,343 @@ automation:
             White Noise
           {% endif %}
 
+  - id: e59f638a-519f-4619-bf7d-b13251b3a374
+    alias: Emma Meds Handler
+    description: Handles reminders for Emma taking her meds when sick or teething
+    mode: parallel
+    max: 20
+    trigger:
+    - platform: state
+      entity_id: input_boolean.emma_meds_active
+      from: 'off'
+      to: 'on'
+      id: active
+    - platform: state
+      entity_id: input_boolean.emma_meds_active
+      from: 'on'
+      to: 'off'
+      id: inactive
+    - platform: time
+      at: input_datetime.emma_ibuprofen
+      id: ibuprofen
+    - platform: time
+      at: input_datetime.emma_tylenol
+      id: tylenol
+    - platform: state
+      entity_id: button.emma_meds_reset
+      id: reset
+    condition:
+    - condition: state
+      entity_id: input_boolean.emma_meds_active
+      state: 'on'
+    action:
+    - choose:
+      - conditions:
+        - condition: trigger
+          id:
+          - active
+          - reset
+        sequence:
+        - service: script.turn_on
+          target:
+            entity_id: script.emma_meds_active
+      - conditions:
+        - condition: trigger
+          id: ibuprofen
+        sequence:
+        - service: script.turn_on
+          target:
+            entity_id: script.emma_ibuprofen
+      - conditions:
+        - condition: trigger
+          id: tylenol
+        sequence:
+        - service: script.turn_on
+          target:
+            entity_id: script.emma_tylenol
+      - conditions:
+        - condition: trigger
+          id: inactive
+        sequence:
+        - service: input_boolean.turn_off
+          target:
+            entity_id:
+              - input_boolean.emma_ibuprofen
+              - input_boolean.emma_tylenol
+
 script:
+  emma_meds_active:
+    alias: Emma Meds Active
+    icon: mdi:medical-bag
+    mode: restart
+    sequence:
+    - service: input_boolean.turn_off
+      target:
+        entity_id:
+          - input_boolean.emma_ibuprofen
+          - input_coolean.emma_tylenol
+    - service: script.text_notify
+      data:
+        who: >
+          {% if states('person.christina_stork') in ['Bob Evans','BobEvans'] %}
+            tony
+          {% else %}
+            parents
+          {% endif %}
+        type: alert
+        title: Emma Meds Activated
+        message: Which meds are we starting with?
+        tag: emma-meds-active
+        actions:
+          - action: "EMMA_MEDS_START_IBUPROFEN"
+            title: Ibuprofen
+          - action: "EMMA_MEDS_START_TYLENOL"
+            title: Tylenol
+    - wait_for_trigger:
+      - platform: event
+        event_type: ios.action_fired
+        event_data:
+          actionName: "EMMA_MEDS_START_IBUPROFEN"
+        id: ibuprofen
+      - platform: event
+        event_type: ios.action_fired
+        event_data:
+          actionName: "EMMA_MEDS_START_TYLENOL"
+        id: tylenol
+      - platform: state
+        entity_id: input_boolean.emma_meds_active
+        to: 'off'
+        id: cancel
+      timeout:
+        minutes: 10
+      continue_on_timeout: true
+    - choose:
+      - conditions: "{{ wait.trigger.id == 'ibuprofen' }}"
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.emma_ibuprofen
+          data:
+            datetime: >
+              {% from 'time.jinja' import increment_datetime_from_now %}
+              {{ increment_datetime_from_now(8) }}
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.emma_tylenol
+          data:
+            datetime: >
+              {% from 'time.jinja' import increment_datetime_from_now %}
+              {{ increment_datetime_from_now(4) }}
+        - service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.emma_ibuprofen
+      - conditions: "{{ wait.trigger.id == 'tylenol' }}"
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.emma_tylenol
+          data:
+            datetime: >
+              {% from 'time.jinja' import increment_datetime_from_now %}
+              {{ increment_datetime_from_now(8) }}
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.emma_ibuprofen
+          data:
+            datetime: >
+              {% from 'time.jinja' import increment_datetime_from_now %}
+              {{ increment_datetime_from_now(4) }}
+        - service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.emma_tylenol
+      - conditions: "{{ wait.trigger.id == 'cancel' or wait.trigger == 'none' }}"
+        sequence:
+        - service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.emma_meds_active
+    - service: script.text_notify
+      data:
+        type: alert
+        who: parents
+        message: clear_notification
+        tag: emma-meds-active
+
+  emma_ibuprofen:
+    alias: Emma Ibuprofen
+    icon: mdi:medical-bag
+    mode: restart
+    sequence:
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.emma_ibuprofen
+    - service: script.text_notify
+      data:
+        who: >
+          {% if states('person.christina_stork') in ['Bob Evans','BobEvans'] %}
+            tony
+          {% else %}
+            parents
+          {% endif %}
+        type: alert
+        title: Emma Ibuprofen Time
+        message: It is time to give Emma her next dose of ibuprofen
+        tag: emma-ibuprofen
+        actions:
+          - action: "EMMA_IBUPROFEN_GIVEN"
+            name: Given
+          - action: "EMMA_IBUPROFEN_SKIPPED"
+            name: Skipped
+          - action: "EMMA_IBUPROFEN_ASK_LATER"
+            name: Ask Later
+    - wait_for_trigger:
+      - platform: event
+        event_type: ios.action_fired
+        event_data:
+          actionName: "EMMA_IBUPROFEN_GIVEN"
+        id: ibuprofen-given
+      - platform: event
+        event_type: ios.action_fired
+        event_data:
+          actionName: "EMMA_IBUPROFEN_SKIPPED"
+        id: ibuprofen-skipped
+      - platform: event
+        event_type: ios.action_fired
+        event_data:
+          actionName: "EMMA_IBUPROFEN_ASK_LATER"
+        id: ibuprofen-ask-later
+      - platform: state
+        entity_id: input_boolean.emma_meds_active
+        to: 'off'
+        id: cancel
+      timeout:
+        minutes: 30
+      continue_on_timeout: true
+    - choose:
+      - conditions: "{{ wait.trigger.id == 'ibuprofen-given' }}"
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.emma_ibuprofen
+          data:
+            datetime: >
+              {% from 'time.jinja' import increment_datetime_from_now %}
+              {{ increment_datetime_from_now(8) }}
+        - service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.emma_ibuprofen
+      - conditions: "{{ wait.trigger.id == 'ibuprofen-skipped' }}"
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.emma_ibuprofen
+          data:
+            datetime: >
+              {% from 'time.jinja' import increment_datetime_from_now %}
+              {{ increment_datetime_from_now(8) }}
+      - conditions: "{{ wait.trigger.id == 'ibuprofen-ask-later' or wait.trigger == 'none' }}"
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.emma_ibuprofen
+          data:
+            datetime: >
+              {% from 'time.jinja' import increment_datetime_from_now %}
+              {{ increment_datetime_from_now(0.5) }}
+    - service: script.text_notify
+      data:
+        who: parents
+        type: alert
+        message: clear_notification
+        tag: emma-ibuprofen
+
+  emma_tylenol:
+    alias: Emma Tylenol
+    icon: mdi:medical-bag
+    mode: restart
+    sequence:
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.emma_tylenol
+    - service: script.text_notify
+      data:
+        who: >
+          {% if states('person.christina_stork') in ['Bob Evans','BobEvans'] %}
+            tony
+          {% else %}
+            parents
+          {% endif %}
+        type: alert
+        title: Emma Tylenol Time
+        message: It is time to give Emma her next dose of tylenol
+        tag: emma-tylenol
+        actions:
+          - action: "EMMA_TYLENOL_GIVEN"
+            name: Given
+          - action: "EMMA_TYLENOL_SKIPPED"
+            name: Skipped
+          - action: "EMMA_TYLENOL_ASK_LATER"
+            name: Ask Later
+    - wait_for_trigger:
+      - platform: event
+        event_type: ios.action_fired
+        event_data:
+          actionName: "EMMA_TYLENOL_GIVEN"
+        id: tylenol-given
+      - platform: event
+        event_type: ios.action_fired
+        event_data:
+          actionName: "EMMA_TYLENOL_SKIPPED"
+        id: tylenol-skipped
+      - platform: event
+        event_type: ios.action_fired
+        event_data:
+          actionName: "EMMA_TYLENOL_ASK_LATER"
+        id: tylenol-ask-later
+      - platform: state
+        entity_id: input_boolean.emma_meds_active
+        to: 'off'
+        id: cancel
+      timeout:
+        minutes: 30
+      continue_on_timeout: true
+    - choose:
+      - conditions: "{{ wait.trigger.id == 'tylenol-given' }}"
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.emma_tylenol
+          data:
+            datetime: >
+              {% from 'time.jinja' import increment_datetime_from_now %}
+              {{ increment_datetime_from_now(8) }}
+        - service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.emma_tylenol
+      - conditions: "{{ wait.trigger.id == 'tylenol-skipped' }}"
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.emma_tylenol
+          data:
+            datetime: >
+              {% from 'time.jinja' import increment_datetime_from_now %}
+              {{ increment_datetime_from_now(8) }}
+      - conditions: "{{ wait.trigger.id == 'tylenol-ask-later' or wait.trigger == 'none' }}"
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.emma_tylenol
+          data:
+            datetime: >
+              {% from 'time.jinja' import increment_datetime_from_now %}
+              {{ increment_datetime_from_now(0.5) }}
+    - service: script.text_notify
+      data:
+        who: parents
+        type: alert
+        message: clear_notification
+        tag: emma-tylenol
+
   emma_sleep:
     alias: 'Emma Sleep'
     icon: mdi:lightbulb-night
