@@ -465,7 +465,7 @@ script:
           data:
             datetime: >
               {% from 'time.jinja' import increment_datetime_from_now %}
-              {{ increment_datetime_from_now(0.5) }}
+              {{ increment_datetime_from_now(0,30) }}
     - service: script.text_notify
       data:
         who: parents
@@ -553,7 +553,7 @@ script:
           data:
             datetime: >
               {% from 'time.jinja' import increment_datetime_from_now %}
-              {{ increment_datetime_from_now(0.5) }}
+              {{ increment_datetime_from_now(0,30) }}
     - service: script.text_notify
       data:
         who: parents

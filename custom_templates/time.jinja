@@ -38,8 +38,12 @@
 {{ as_timestamp(strptime(state_attr(calendar,start_or_end), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%I:%M %p") }}
 {% endmacro %}
 
-{% macro increment_datetime_from_now(hours) %}
+{% macro increment_datetime_from_now(hours,minutes) %}
+{% if minutes is defined %}
+{{ (as_timestamp(now()) + (((hours * 60) * 60) + (minutes * 60))) | int | timestamp_custom('%Y-%m-%d %H:%M:%S') }}
+{% else %}
 {{ (as_timestamp(now()) + ((hours* 60) * 60)) | int | timestamp_custom('%Y-%m-%d %H:%M:%S') }}
+{% endif %}
 {% endmacro %}
 
 {% macro ct() %}
