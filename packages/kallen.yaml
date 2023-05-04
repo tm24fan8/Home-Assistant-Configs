@@ -16,6 +16,12 @@ input_boolean:
   kallen_late_bedtime:
     name: Kallen Late Bedtime
     icon: mdi:weather-night
+  kallen_morning_meds_taken:
+    name: Kallen Morning Meds Taken
+    icon: mdi:medical-bag
+  kallen_night_meds_taken:
+    name: Kallen Night Meds Taken
+    icon: mdi:medical-bag
 
 input_datetime:
   kallen_bedtime:
@@ -33,8 +39,66 @@ input_datetime:
     has_date: false
     has_time: true
     icon: mdi:fan-auto
+  kallen_morning_meds_taken:
+    name: Kallen Morning Meds Taken
+    has_date: true
+    has_time: true
+    icon: mdi:medical-bag
+  kallen_night_meds_taken:
+    name: Kallen Night Meds Taken
+    has_date: true
+    has_time: true
+    icon: mdi:medical-bag
+  kallen_morning_meds_notify:
+    name: Kallen Morning Meds Notify
+    has_date: false
+    has_time: true
+    icon: mdi:medical-bag
+  kallen_night_meds_notify:
+    name: Kallen Night Meds Notify
+    has_date: false
+    has_time: true
+    icon: mdi:medical-bag
 
 automation:
+  - id: 67fbdb66-b94b-4351-86de-a388d601e93c
+    alias: Kallen Meds Handler
+    description: Make sure Kallen has taken his meds in the morning and at night
+    mode: restart
+    trigger:
+    - platform: time
+      at: input_datetime.kallen_morning_meds_notify
+      id: wakeup
+    - platform: time
+      at: input_datetime.kallen_night_meds_notify
+      id: sleep
+    action:
+    - choose:
+      - conditions:
+        - condition: and
+          conditions:
+          - condition: trigger
+            id: wakeup
+          - condition: state
+            entity_id: input_boolean.kallen_morning_meds_taken
+            state: 'off'
+        sequence:
+        - service: script.turn_on
+          target:
+            entity_id: script.kallen_morning_meds
+      - conditions:
+        - condition: and
+          conditions:
+          - condition: trigger
+            id: sleep
+          - condition: state
+            entity_id: input_boolean.kallen_night_meds_taken
+            state: 'off'
+        sequence:
+        - service: script.turn_on
+          target:
+            entity_id: script.kallen_night_meds
+
   - id: 28609544-f768-4ef3-b859-50439e224e01
     alias: Kallen Bedroom Handling
     description: "For scheduled operations in Kallen's bedroom"
@@ -158,6 +222,251 @@ automation:
       - service: script.house_scheduling_evening
 
 script:
+  kallen_morning_meds:
+    alias: 'Kallen Morning Meds'
+    icon: mdi:medical-bag
+    mode: restart
+    sequence:
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.kallen_morning_meds_taken
+    - service: script.text_notify
+      data:
+        who: kallen
+        type: alert
+        title: Morning Meds
+        message: You need to take your morning meds. Go to mom or dad to confirm.
+        tag: kallen-morning-meds-self
+    - service: script.text_notify
+      data:
+        who: parents
+        type: alert
+        title: Morning Meds
+        message: Kallen needs to take his morning meds
+        tag: kallen-morning-meds-parents
+        actions:
+          - action: "KALLEN_MORNING_MEDS_TAKEN"
+            title: Taken
+          - action: "KALLEN_MORNING_MEDS_SKIPPED"
+            title: Skip
+          - action: "KALLEN_MORNING_MEDS_ASK_LATER"
+            title: Ask Later
+    - wait_for_trigger:
+      - platform: event
+        event_type: ios.notification_action_fired
+        event_data:
+          actionName: "KALLEN_MORNING_MEDS_TAKEN"
+        id: taken
+      - platform: event
+        event_type: ios.notification_action_fired
+        event_data:
+          actionName: "KALLEN_MORNING_MEDS_SKIPPED"
+        id: skipped
+      - platform: event
+        event_type: ios.notification_action_fired
+        event_data:
+          actionName: "KALLEN_MORNING_MEDS_ASK_LATER"
+        id: ask-later
+      - platform: state
+        entity_id: person.kallen_stork
+        from: 'home'
+        id: left
+      - platform: state
+        entity_id: input_boolean.kallen_morning_meds_taken
+        to: 'on'
+        id: manual
+      timeout: "00:30:00"
+      continue_on_timeout: true
+    - choose:
+      - conditions: "{{ wait.trigger.id in ['taken','manual'] }}"
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.kallen_morning_meds_taken
+          data:
+            datetime: >
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime (0) }}
+        - service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.kallen_morning_meds_taken
+        - service: logbook.log
+          data:
+            name: Kallen Morning Meds
+            message: Taken
+            entity_id: input_boolean.kallen_morning_meds_taken
+            domain: input_boolean
+      - conditions: "{{ wait.trigger.id == 'skipped' }}"
+        sequence:
+        - service: logbook.log
+          data:
+            name: Kallen Morning Meds
+            message: Skipped
+            entity_id: input_boolean.kallen_morning_meds_taken
+            domain: input_boolean
+      - conditions: "{{ wait.trigger.id == 'ask-later' }}"
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.kallen_morning_meds_notify
+          data:
+            datetime: >
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(0,5) }}
+        - service: logbook.log
+          data:
+            name: Kallen Morning Meds
+            message: Delayed for 5 minutes
+            entity_id: input_boolean.kallen_morning_meds_taken
+            domain: input_boolean
+      - conditions: "{{ wait.trigger.id == 'left' or wait.trigger == 'none' }}"
+        sequence:
+        - if:
+          - condition: state
+            entity_id: person.kallen_stork
+            state: 'home'
+          then:
+          - service: input_datetime.set_datetime
+            target:
+              entity_id: input_datetime.kallen_morning_meds_notify
+            data:
+              datetime: >
+                {% from 'time.jinja' import set_datetime %}
+                {{ set_datetime(0,1) }}
+          - service: logbook.log
+            data:
+              name: Kallen Morning Meds
+              message: No response, delayed for 1 minute
+              entity_id: input_boolean.kallen_morning_meds_taken
+              domain: input_boolean
+          else:
+          - service: logbook.log
+            data:
+              name: Kallen Morning Meds
+              message: No response, Kallen has left home, cancelled.
+              entity_id: input_boolean.kallen_morning_meds_taken
+              domain: input_boolean
+    - service: script.text_notify
+      data:
+        type: alert
+        who: kallen
+        message: clear_notification
+        tag: kallen-morning-meds-parents
+    - service: script.text_notify
+      data:
+        type: alert
+        who: kallen
+        message: clear_notification
+        tag: kallen-morning-meds-self
+
+  kallen_night_meds:
+    alias: 'Kallen Night Meds'
+    icon: mdi:medical-bag
+    mode: restart
+    sequence:
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.kallen_night_meds_taken
+    - service: script.text_notify
+      data:
+        who: kallen
+        type: alert
+        title: Night Meds
+        message: You need to take your night meds (melatonin)
+        tag: kallen-night-meds
+        actions:
+          - action: "KALLEN_NIGHT_MEDS_TAKEN"
+            title: Taken
+          - action: "KALLEN_NIGHT_MEDS_SKIPPED"
+            title: Skip
+          - action: "KALLEN_NIGHT_MEDS_ASK_LATER"
+            title: Ask Later
+    - wait_for_trigger:
+      - platform: event
+        event_type: ios.notification_action_fired
+        event_data:
+          actionName: "KALLEN_NIGHT_MEDS_TAKEN"
+        id: taken
+      - platform: event
+        event_type: ios.notification_action_fired
+        event_data:
+          actionName: "KALLEN_NIGHT_MEDS_SKIPPED"
+        id: skipped
+      - platform: event
+        event_type: ios.notification_action_fired
+        event_data:
+          actionName: "KALLEN_NIGHT_MEDS_ASK_LATER"
+        id: ask-later
+      - platform: state
+        entity_id: input_boolean.kallen_night_meds_taken
+        to: 'on'
+        id: manual
+      timeout: "00:30:00"
+      continue_on_timeout: true
+    - choose:
+      - conditions: "{{ wait.trigger.id in ['taken','manual'] }}"
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.kallen_night_meds_taken
+          data:
+            datetime: >
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime (0) }}
+        - service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.kallen_night_meds_taken
+        - service: logbook.log
+          data:
+            name: Kallen Night Meds
+            message: have been taken
+            entity_id: input_boolean.kallen_night_meds_taken
+            domain: input_boolean
+      - conditions: "{{ wait.trigger.id == 'skipped' }}"
+        sequence:
+        - service: logbook.log
+          data:
+            name: Kallen Night Meds
+            message: have been skipped
+            entity_id: input_boolean.kallen_night_meds_taken
+            domain: input_boolean
+      - conditions: "{{ wait.trigger.id == 'ask-later' }}"
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.kallen_night_meds_notify
+          data:
+            datetime: >
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(0,15) }}
+        - service: logbook.log
+          data:
+            name: Kallen Night Meds
+            message: Delayed for 15 minutes
+            entity_id: input_boolean.kallen_night_meds_taken
+            domain: input_boolean
+      - conditions: "{{ wait.trigger == 'none' }}"
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.kallen_night_meds_notify
+          data:
+            datetime: >
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(0,1) }}
+        - service: logbook.log
+          data:
+            name: Kallen Night Meds
+            message: No response, delayed for 1 minute
+            entity_id: input_boolean.kallen_night_meds_taken
+            domain: input_boolean
+    - service: script.text_notify
+      data:
+        type: alert
+        who: kallen
+        message: clear_notification
+        tag: kallen-night-meds
+
   kallen_sleep:
     alias: 'Kallen Sleep'
     icon: mdi:lightbulb-night
