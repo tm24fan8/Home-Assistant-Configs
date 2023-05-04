@@ -162,6 +162,11 @@ script:
   kallen_scheduling_morning:
     alias: 'Kallen Scheduling Morning'
     sequence:
+      - service: input_boolean.turn_off
+        target:
+          entity_id:
+            - input_boolean.kallen_morning_meds_taken
+            - input_boolean.kallen_night_meds_taken
       - service: input_datetime.set_datetime
         entity_id: input_datetime.kallen_school_day_start
         data:
@@ -242,6 +247,16 @@ script:
             {% else %}
               14:00
             {% endif %}
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.kallen_morning_meds_notify
+        data:
+          time: >
+            {% if is_state('input_boolean.kallen_school_today','on') %}
+              {{ (state_attr('input_datetime.kallen_wakeup_time','timestamp') + 600) | timestamp_custom('%H:%M', false) }}
+            {% else %}
+              {{ states('input_datetime.kallen_wakeup_time') }}
+            {% endif %}
       - service: input_boolean.turn_on
         target:
           entity_id: input_boolean.kallen_scheduling_morning_ran
@@ -301,6 +316,11 @@ script:
               {% else %}
                 {{ state_attr('input_datetime.kallen_bedtime','timestamp') | timestamp_custom('%H:%M', false) }}
               {% endif %}
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.kallen_night_meds_notify
+          data:
+            time: "{{ (state_attr('input_datetime.kallen_bedtime','timestamp') - 600) | timestamp_custom('%H:%M', false) }}"
       - if:
         - condition: state
           entity_id: input_boolean.kallen_late_bedtime
@@ -326,6 +346,11 @@ script:
               entity_id: input_datetime.kallen_fan
             data:
               time: "{{ (state_attr('input_datetime.kallen_fan','timestamp') + 3600) | timestamp_custom('%H:%M', false) }}"
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.kallen_night_meds_notify
+          data:
+            time: "{{ (state_attr('input_datetime.kallen_night_meds_notify','timestamp') + 3600) | timestamp_custom('%H:%M', false) }}"
       - service: input_boolean.turn_on
         target:
           entity_id: input_boolean.kallen_scheduling_evening_ran
@@ -485,6 +510,9 @@ script:
           entity_id: input_datetime.tony_morning_meds_notify
         data:
           time: "{{ states('input_datetime.master_bedroom_wakeup') }}"
+      - service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.tony_morning_meds_taken
       - service: input_boolean.turn_on
         target:
           entity_id: input_boolean.master_bedroom_scheduling_morning_ran
@@ -554,6 +582,9 @@ script:
               {% else %}
                 N/A
               {% endif %}
+        - service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.tony_night_meds_taken
       - service: input_boolean.turn_on
         target:
           entity_id: input_boolean.master_bedroom_scheduling_evening_ran
