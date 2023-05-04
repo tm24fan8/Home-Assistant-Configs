@@ -318,12 +318,12 @@ script:
             title: Tylenol
     - wait_for_trigger:
       - platform: event
-        event_type: ios.action_fired
+        event_type: ios.notification_action_fired
         event_data:
           actionName: "EMMA_MEDS_START_IBUPROFEN"
         id: ibuprofen
       - platform: event
-        event_type: ios.action_fired
+        event_type: ios.notification_action_fired
         event_data:
           actionName: "EMMA_MEDS_START_TYLENOL"
         id: tylenol
@@ -331,8 +331,7 @@ script:
         entity_id: input_boolean.emma_meds_active
         to: 'off'
         id: cancel
-      timeout:
-        minutes: 10
+      timeout: "00:10:00"
       continue_on_timeout: true
     - choose:
       - conditions: "{{ wait.trigger.id == 'ibuprofen' }}"
@@ -342,15 +341,15 @@ script:
             entity_id: input_datetime.emma_ibuprofen
           data:
             datetime: >
-              {% from 'time.jinja' import increment_datetime_from_now %}
-              {{ increment_datetime_from_now(8) }}
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(8) }}
         - service: input_datetime.set_datetime
           target:
             entity_id: input_datetime.emma_tylenol
           data:
             datetime: >
-              {% from 'time.jinja' import increment_datetime_from_now %}
-              {{ increment_datetime_from_now(4) }}
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(4) }}
         - service: input_boolean.turn_on
           target:
             entity_id: input_boolean.emma_ibuprofen
@@ -361,15 +360,15 @@ script:
             entity_id: input_datetime.emma_tylenol
           data:
             datetime: >
-              {% from 'time.jinja' import increment_datetime_from_now %}
-              {{ increment_datetime_from_now(8) }}
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(8) }}
         - service: input_datetime.set_datetime
           target:
             entity_id: input_datetime.emma_ibuprofen
           data:
             datetime: >
-              {% from 'time.jinja' import increment_datetime_from_now %}
-              {{ increment_datetime_from_now(4) }}
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(4) }}
         - service: input_boolean.turn_on
           target:
             entity_id: input_boolean.emma_tylenol
@@ -414,17 +413,17 @@ script:
             name: Ask Later
     - wait_for_trigger:
       - platform: event
-        event_type: ios.action_fired
+        event_type: ios.notification_action_fired
         event_data:
           actionName: "EMMA_IBUPROFEN_GIVEN"
         id: ibuprofen-given
       - platform: event
-        event_type: ios.action_fired
+        event_type: ios.notification_action_fired
         event_data:
           actionName: "EMMA_IBUPROFEN_SKIPPED"
         id: ibuprofen-skipped
       - platform: event
-        event_type: ios.action_fired
+        event_type: ios.notification_action_fired
         event_data:
           actionName: "EMMA_IBUPROFEN_ASK_LATER"
         id: ibuprofen-ask-later
@@ -432,8 +431,7 @@ script:
         entity_id: input_boolean.emma_meds_active
         to: 'off'
         id: cancel
-      timeout:
-        minutes: 30
+      timeout: "00:30:00"
       continue_on_timeout: true
     - choose:
       - conditions: "{{ wait.trigger.id == 'ibuprofen-given' }}"
@@ -443,8 +441,8 @@ script:
             entity_id: input_datetime.emma_ibuprofen
           data:
             datetime: >
-              {% from 'time.jinja' import increment_datetime_from_now %}
-              {{ increment_datetime_from_now(8) }}
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(8) }}
         - service: input_boolean.turn_on
           target:
             entity_id: input_boolean.emma_ibuprofen
@@ -455,8 +453,8 @@ script:
             entity_id: input_datetime.emma_ibuprofen
           data:
             datetime: >
-              {% from 'time.jinja' import increment_datetime_from_now %}
-              {{ increment_datetime_from_now(8) }}
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(8) }}
       - conditions: "{{ wait.trigger.id == 'ibuprofen-ask-later' or wait.trigger == 'none' }}"
         sequence:
         - service: input_datetime.set_datetime
@@ -464,8 +462,8 @@ script:
             entity_id: input_datetime.emma_ibuprofen
           data:
             datetime: >
-              {% from 'time.jinja' import increment_datetime_from_now %}
-              {{ increment_datetime_from_now(0,30) }}
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(0,30) }}
     - service: script.text_notify
       data:
         who: parents
@@ -502,17 +500,17 @@ script:
             name: Ask Later
     - wait_for_trigger:
       - platform: event
-        event_type: ios.action_fired
+        event_type: ios.notification_action_fired
         event_data:
           actionName: "EMMA_TYLENOL_GIVEN"
         id: tylenol-given
       - platform: event
-        event_type: ios.action_fired
+        event_type: ios.notification_action_fired
         event_data:
           actionName: "EMMA_TYLENOL_SKIPPED"
         id: tylenol-skipped
       - platform: event
-        event_type: ios.action_fired
+        event_type: ios.notification_action_fired
         event_data:
           actionName: "EMMA_TYLENOL_ASK_LATER"
         id: tylenol-ask-later
@@ -520,8 +518,7 @@ script:
         entity_id: input_boolean.emma_meds_active
         to: 'off'
         id: cancel
-      timeout:
-        minutes: 30
+      timeout: "00:30:00"
       continue_on_timeout: true
     - choose:
       - conditions: "{{ wait.trigger.id == 'tylenol-given' }}"
@@ -531,8 +528,8 @@ script:
             entity_id: input_datetime.emma_tylenol
           data:
             datetime: >
-              {% from 'time.jinja' import increment_datetime_from_now %}
-              {{ increment_datetime_from_now(8) }}
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(8) }}
         - service: input_boolean.turn_on
           target:
             entity_id: input_boolean.emma_tylenol
@@ -543,8 +540,8 @@ script:
             entity_id: input_datetime.emma_tylenol
           data:
             datetime: >
-              {% from 'time.jinja' import increment_datetime_from_now %}
-              {{ increment_datetime_from_now(8) }}
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(8) }}
       - conditions: "{{ wait.trigger.id == 'tylenol-ask-later' or wait.trigger == 'none' }}"
         sequence:
         - service: input_datetime.set_datetime
@@ -552,8 +549,8 @@ script:
             entity_id: input_datetime.emma_tylenol
           data:
             datetime: >
-              {% from 'time.jinja' import increment_datetime_from_now %}
-              {{ increment_datetime_from_now(0,30) }}
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(0,30) }}
     - service: script.text_notify
       data:
         who: parents
