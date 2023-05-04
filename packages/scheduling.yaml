@@ -478,6 +478,13 @@ script:
               {% else %}
                 14:30
               {% endif %}
+      - delay:
+          milliseconds: 500
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.tony_morning_meds_notify
+        data:
+          time: "{{ states('input_datetime.master_bedroom_wakeup') }}"
       - service: input_boolean.turn_on
         target:
           entity_id: input_boolean.master_bedroom_scheduling_morning_ran

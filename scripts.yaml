@@ -302,6 +302,14 @@ going_upstairs:
     target:
       entity_id: light.basement_studio_lights
     alias: Turn off the lights
+  - service: input_datetime.set_datetime
+    data:
+      time: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,2) }}
+
+        '
+    target:
+      entity_id: input_datetime.tony_night_meds_notify
+    alias: Schedule the night meds notification
   - wait_template: '{{ is_state(''binary_sensor.upstairs_bathroom_occupied'',''on'')
       or is_state(''input_boolean.goodnight'',''on'') }}'
     timeout: '{{ wait.remaining }}'
