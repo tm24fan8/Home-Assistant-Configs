@@ -246,9 +246,6 @@ automation:
     - platform: time
       at: input_datetime.emma_tylenol
       id: tylenol
-    - platform: state
-      entity_id: button.emma_meds_reset
-      id: reset
     condition:
     - condition: state
       entity_id: input_boolean.emma_meds_active
