@@ -275,7 +275,7 @@ script:
         entity_id: input_boolean.kallen_morning_meds_taken
         to: 'on'
         id: manual
-      timeout: "00:30:00"
+      timeout: "00:10:00"
       continue_on_timeout: true
     - choose:
       - conditions: "{{ wait.trigger.id in ['taken','manual'] }}"
@@ -401,7 +401,7 @@ script:
         entity_id: input_boolean.kallen_night_meds_taken
         to: 'on'
         id: manual
-      timeout: "00:30:00"
+      timeout: "00:05:00"
       continue_on_timeout: true
     - choose:
       - conditions: "{{ wait.trigger.id in ['taken','manual'] }}"

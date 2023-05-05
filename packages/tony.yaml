@@ -346,11 +346,11 @@ script:
             data:
               datetime: >
                 {% from 'time.jinja' import set_datetime %}
-                {{ set_datetime(0,5) }}
+                {{ set_datetime(0,1) }}
           - service: logbook.log
             data:
               name: Tony Night Meds
-              message: No response, delayed for 5 minutes
+              message: No response, delayed for 1 minute
               entity_id: input_boolean.tony_night_meds_taken
               domain: input_boolean
           else:
