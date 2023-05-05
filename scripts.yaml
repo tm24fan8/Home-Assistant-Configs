@@ -304,7 +304,8 @@ going_upstairs:
     alias: Turn off the lights
   - service: input_datetime.set_datetime
     data:
-      time: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,2) }}
+      datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,2)
+        }}
 
         '
     target:

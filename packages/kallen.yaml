@@ -319,7 +319,7 @@ script:
             message: Delayed for 5 minutes
             entity_id: input_boolean.kallen_morning_meds_taken
             domain: input_boolean
-      - conditions: "{{ wait.trigger.id == 'left' or wait.trigger == 'none' }}"
+      - conditions: "{{ wait.trigger.id == 'left' or wait.trigger == 'none' or wait.trigger.idx is undefined }}"
         sequence:
         - if:
           - condition: state
@@ -445,7 +445,7 @@ script:
             message: Delayed for 15 minutes
             entity_id: input_boolean.kallen_night_meds_taken
             domain: input_boolean
-      - conditions: "{{ wait.trigger == 'none' }}"
+      - conditions: "{{ wait.trigger == 'none' or wait.trigger.idx is undefined }}"
         sequence:
         - service: input_datetime.set_datetime
           target:

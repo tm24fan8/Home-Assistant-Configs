@@ -369,7 +369,7 @@ script:
         - service: input_boolean.turn_on
           target:
             entity_id: input_boolean.emma_tylenol
-      - conditions: "{{ wait.trigger.id == 'cancel' or wait.trigger == 'none' }}"
+      - conditions: "{{ wait.trigger.id == 'cancel' or wait.trigger == 'none' or wait.trigger.idx is undefined }}"
         sequence:
         - service: input_boolean.turn_off
           target:
@@ -452,7 +452,7 @@ script:
             datetime: >
               {% from 'time.jinja' import set_datetime %}
               {{ set_datetime(8) }}
-      - conditions: "{{ wait.trigger.id == 'ibuprofen-ask-later' or wait.trigger == 'none' }}"
+      - conditions: "{{ wait.trigger.id == 'ibuprofen-ask-later' or wait.trigger == 'none' or wait.trigger.idx is undefined }}"
         sequence:
         - service: input_datetime.set_datetime
           target:
@@ -539,7 +539,7 @@ script:
             datetime: >
               {% from 'time.jinja' import set_datetime %}
               {{ set_datetime(8) }}
-      - conditions: "{{ wait.trigger.id == 'tylenol-ask-later' or wait.trigger == 'none' }}"
+      - conditions: "{{ wait.trigger.id == 'tylenol-ask-later' or wait.trigger == 'none' or wait.trigger.idx is undefined }}"
         sequence:
         - service: input_datetime.set_datetime
           target:
@@ -731,7 +731,7 @@ script:
               5
             {% endif %}
       - choose:
-        - conditions: "{{ wait.trigger == none }}"
+        - conditions: "{{ wait.trigger == 'none' or wait.trigger.idx is undefined }}"
           sequence:
           - service: input_select.select_option
             target:

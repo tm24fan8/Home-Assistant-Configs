@@ -220,7 +220,7 @@ script:
             type: critical
             title: HEY DUMBASS
             message: YOU FORGOT TO TAKE YOUR MORNING MEDS!!!!!
-      - conditions: "{{ wait.trigger == 'none' }}"
+      - conditions: "{{ wait.trigger == 'none' or wait.trigger.idx is undefined }}"
         sequence:
         - service: input_datetime.set_datetime
           target:
@@ -328,7 +328,7 @@ script:
             message: delayed for 30 minutes
             entity_id: input_boolean.tony_night_meds_taken
             domain: input_boolean
-      - conditions: "{{ wait.trigger == 'none' }}"
+      - conditions: "{{ wait.trigger == 'none' or wait.trigger.idx is undefined }}"
         sequence:
         - if:
           - condition: and

@@ -127,7 +127,7 @@ script:
             {{ states('input_number.wakeup_lights_fade_day') }}
           {% endif %}
     - choose:
-      - conditions: "{{ wait.trigger == none }}"
+      - conditions: "{{ wait.trigger == 'none' or wait.trigger.idx is undefined }}"
         sequence:
         - service: input_select.select_option
           target:
