@@ -49,3 +49,42 @@
   This notification is confused and should not be here. Blame Tony.
 {% endif %}
 {% endmacro %}
+
+{% macro tony_morning_meds() %}
+{% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct %}
+{% set ct = ct() | int %}
+{% if is_state('input_boolean.tony_morning_meds_taken','on') %}
+  Tony took his morning meds at {{ input_datetime_12hr_with_date('input_datetime.tony_morning_meds_taken') }} today.
+{% else %}
+  Tony has not taken his morning meds.
+  {% if ct < state_attr('input_datetime.tony_morning_meds_notify','timestamp') | int %}
+    {{ ['He has a reminder scheduled for',
+        'Rest assured that I will pester him mercilessly about this, starting at',
+        'This is absolutely essential, and I will remind him to do it at',
+        'Since nobody including Tony himself likes him without his meds, I will remind him at',
+      ] | random }} {{ input_datetime_12hr('input_datetime.tony_morning_meds_notify') }} today.
+  {% else %}
+    There are no further notifications scheduled for him today.
+  {% endif %}
+{% endif %}
+{% endmacro %}
+
+{% macro tony_night_meds() %}
+{% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct %}
+{% set ct = ct() | int %}
+{% if is_state('input_boolean.tony_night_meds_taken','on') %}
+  Tony took his night meds at {{ input_datetime_12hr_with_date('input_datetime.tony_morning_meds_taken') }} today.
+{% else %}
+  Tony has not taken his night meds.
+  {{ ['He will be reminded when he goes to bed.',
+      'I will make sure he is reminded when it is time.',
+      'This will be rectified whenever he drags his ass to bed.',
+      'All in due time, of course.'
+    ] | random }}
+{% endif %}
+{% endmacro %}
+
+{% macro medReportTony() %}
+{{ tony_morning_meds() }}
+{{ tony_night_meds() }}
+{% endmacro %}
