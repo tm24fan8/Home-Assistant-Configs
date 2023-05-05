@@ -40,11 +40,11 @@
 
 {% macro set_datetime(hours,minutes,seconds) %}
 {% if seconds is defined %}
-{{ (as_timestamp(now()) + ((((hours * 60) * 60) + (minutes * 60))) + seconds) | int | timestamp_custom('%Y-%m-%d %H:%M:%S') }}
+{{ (as_timestamp(now()) + (((hours * 60) * 60) + (minutes * 60)) + seconds) | int | timestamp_custom('%Y-%m-%d %H:%M:%S') }}
 {% elif minutes is defined %}
-{{ (as_timestamp(now()) + (((hours * 60) * 60) + (minutes * 60))) | int | timestamp_custom('%Y-%m-%d %H:%M:%S') }}
+{{ (as_timestamp(now()) + ((hours * 60) * 60) + (minutes * 60)) | int | timestamp_custom('%Y-%m-%d %H:%M:%S') }}
 {% else %}
-{{ (as_timestamp(now()) + ((hours* 60) * 60)) | int | timestamp_custom('%Y-%m-%d %H:%M:%S') }}
+{{ (as_timestamp(now()) + (hours* 60) * 60) | int | timestamp_custom('%Y-%m-%d %H:%M:%S') }}
 {% endif %}
 {% endmacro %}
 
