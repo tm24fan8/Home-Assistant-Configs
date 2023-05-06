@@ -240,12 +240,6 @@ influxdb:
       - sensor.east_side_shell
       - sensor.shell_ottawa_avenue
 
-history:
-  exclude:
-    domains:
-      - automation
-      - updater
-
 logbook:
   include:
     domains:
@@ -257,3 +251,8 @@ logbook:
     entity_globs:
       - binary_sensor.*_motion
       - binary_sensor.*_occupancy
+  exclude:
+    domains:
+      - media_player
+    entity_globs:
+      - light.*screen*
