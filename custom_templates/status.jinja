@@ -55,7 +55,7 @@
 {% set ct = ct() | int %}
 {% if is_state('input_boolean.tony_morning_meds_taken','on') %}
   Tony took his morning meds at {{ input_datetime_12hr_with_date('input_datetime.tony_morning_meds_taken') }} today.
-{% else %}
+{% elif is_state('input_boolean.tony_morning_meds_taken','off') and ct >= 21600 %}
   Tony has not taken his morning meds.
   {% if ct < state_attr('input_datetime.tony_morning_meds_notify','timestamp') | int %}
     {{ ['He has a reminder scheduled for',
@@ -72,9 +72,9 @@
 {% macro tony_night_meds() %}
 {% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct %}
 {% set ct = ct() | int %}
-{% if is_state('input_boolean.tony_night_meds_taken','on') %}
-  Tony took his night meds at {{ input_datetime_12hr_with_date('input_datetime.tony_morning_meds_taken') }} today.
-{% else %}
+{% if is_state('input_boolean.tony_night_meds_taken','on') and ct < 57600 %}
+  Tony took his night meds at {{ input_datetime_12hr_with_date('input_datetime.tony_night_meds_taken') }} today.
+{% elif is_state('input_boolean.tony_night_meds_taken','off') and (ct >= 82800 or ct <= 21600) %}
   Tony has not taken his night meds.
   {{ ['He will be reminded when he goes to bed.',
       'I will make sure he is reminded when it is time.',
