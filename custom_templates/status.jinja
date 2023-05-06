@@ -88,3 +88,44 @@
 {{ tony_morning_meds() }}
 {{ tony_night_meds() }}
 {% endmacro %}
+
+{% macro kallen_morning_meds() %}
+{% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct %}
+{% set ct = ct() | int %}
+{% if is_state('input_boolean.kallen_morning_meds_taken','on') %}
+  Kallen took his morning meds at {{ input_datetime_12hr_with_date('input_datetime.kallen_morning_meds_taken') }} today.
+{% else %}
+  Kallen has not taken his morning meds.
+  {% if ct < state_attr('input_datetime.kallen_morning_meds_notify','timestamp') | int %}
+    {{ ['He has a reminder scheduled for',
+        'Rest assured that I will pester him mercilessly about this, starting at',
+        'This is absolutely essential, and I will remind him to do it at',
+      ] | random }} {{ input_datetime_12hr('input_datetime.kallen_morning_meds_notify') }} today.
+  {% else %}
+    There are no further notifications scheduled for him today.
+  {% endif %}
+{% endif %}
+{% endmacro %}
+
+{% macro kallen_night_meds() %}
+{% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct %}
+{% set ct = ct() | int %}
+{% set diff = state_attr('input_datetime.kallen_bedtime','timestamp') | int - ct %}
+{% if is_state('input_boolean.kallen_night_meds_taken','on') %}
+  Kallen took his night meds at {{ input_datetime_12hr_with_date('input_datetime.kallen_night_meds_taken') }} today.
+{% else %}
+  {% if diff <= 3600 %}
+    Kallen has not taken his night meds.
+      {{ ['He will be reminded when he goes to bed.',
+          'I will make sure he is reminded when it is time.',
+          'All in due time, of course.'
+        ] | random }}
+  {% endif %}
+{% endif %}
+{% endmacro %}
+
+{% macro medReportKallen() %}
+{{ kallen_morning_meds() }}
+{{ kallen_night_meds() }}
+{% endmacro %}
+
