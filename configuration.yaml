@@ -256,3 +256,5 @@ logbook:
       - media_player
     entity_globs:
       - light.*screen*
+    entities:
+      - binary_sensor.living_room_motion
