@@ -221,6 +221,15 @@ automation:
       - service: script.kallen_scheduling_evening
       - service: script.house_scheduling_evening
 
+  - id: 94b57d79-efe0-4f34-b5e3-baeaa5eea9f4
+    alias: Kallen Asleep
+    trigger:
+      - platform: time
+        at: input_datetime.kallen_bedtime
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.kallen_awake
+
 script:
   kallen_morning_meds:
     alias: 'Kallen Morning Meds'

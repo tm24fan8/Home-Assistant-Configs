@@ -355,7 +355,7 @@ automation:
         zone: zone.elementary_school
     condition:
       - condition: time
-        after: "11:30:02"
+        after: "11:30:00"
         weekday:
           - mon
           - tue
@@ -376,15 +376,6 @@ automation:
           title: "Kallen Location Alert"
           tag: kallen-pickup
     initial_state: true
-
-  - id: 94b57d79-efe0-4f34-b5e3-baeaa5eea9f4
-    alias: Kallen Asleep
-    trigger:
-      - platform: time
-        at: input_datetime.kallen_bedtime
-    action:
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.kallen_awake
 
   - id: 395ebb76-83e4-4a7c-913e-2598fef3d5c1
     alias: Doorbell Alert
