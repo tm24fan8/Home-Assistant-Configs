@@ -5,6 +5,7 @@
   {% from 'time.jinja' import input_datetime_12hr, read_time_from_calendar %}
   {% from 'status.jinja' import emma_sleep %}
   {% from 'formatting.jinja' import cleanup %}
+  {% from 'easy_time.jinja' import count_the_days %}
     <p>
       {{ greeting() }}
     </p>
@@ -248,6 +249,18 @@
           {% endif %}
         {% endif %}
         "You will want to close these before the security system is armed for the night. "
+      {% endif %}
+    </p>
+
+    <p>
+      {% if count_the_days('calendar.garbage_collection','start_time') == 1 %}
+        {% if state_attr('calendar.garbage_collection','message') == 'Large Garbage Pickup' %}
+          Tomorrow is the monthly unlimited garbage pickup. Make sure to take out all regular trash, as well as any larger items that need to be disposed of.
+        {% else %}
+          Tomorrow is regular garbage pickup. Make sure that all trash cans are emptied and the outside bin has been wheeled to the curb.
+        {% endif %}
+      {% elif is_state('calendar.garbage_collection','on') %}
+          The garbage was picked up today. Please make sure to wheel the garbage bin back to the house if you have not already.
       {% endif %}
     </p>
 

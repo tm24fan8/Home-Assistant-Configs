@@ -425,6 +425,63 @@ script:
                 {% endif %}
               {% endif %}
       - if:
+        - condition: state
+          entity_id: sensor.today_is
+          state: 'Monday'
+        then:
+        - if:
+          - condition: template
+            value_template: >
+              {% from 'easy_time.jinja' import count_the_days, month_week_day %}
+              {% set month = as_timestamp(now()) | timestamp_custom('%-m') %}
+              {{ count_the_days(month_week_day(month,3,2)) | int < 7 }}
+          then:
+          - service: calendar.create_event
+            target:
+              entity_id: calendar.garbage_collection
+            data:
+              summary: Large Garbage Pickup
+              description: Bulk items ARE accepted
+              start_date: >
+                {% from 'easy_time.jinja' import this_weekday, count_the_days %}
+                {% set holiday = state_attr('calendar.holidays','next_holiday') %}
+                {% if holiday in ["New Year's Day","Memorial Day","Independence Day","Labor Day","Thanksgiving","Christmas"] and count_the_days('calendar.holidays','start_time') | int <= 4 %}
+                  {{ as_timestamp(this_weekday(3)) | timestamp_custom('%Y-%m-%d') }}
+                {% else %}
+                  {{ as_timestamp(this_weekday(2)) | timestamp_custom('%Y-%m-%d') }}
+                {% endif %}
+              end_date: >
+                {% from 'easy_time.jinja' import this_weekday, count_the_days %}
+                {% set holiday = state_attr('calendar.holidays','next_holiday') %}
+                {% if holiday in ["New Year's Day","Memorial Day","Independence Day","Labor Day","Thanksgiving","Christmas"] and count_the_days('calendar.holidays','start_time') | int <= 4 %}
+                  {{ as_timestamp(this_weekday(4)) | timestamp_custom('%Y-%m-%d') }}
+                {% else %}
+                  {{ as_timestamp(this_weekday(3)) | timestamp_custom('%Y-%m-%d') }}
+                {% endif %}
+          else:
+          - service: calendar.create_event
+            target:
+              entity_id: calendar.garbage_collection
+            data:
+              summary: Normal Garbage Pickup
+              description: Bulk items not accepted
+              start_date: >
+                {% from 'easy_time.jinja' import this_weekday, count_the_days %}
+                {% set holiday = state_attr('calendar.holidays','next_holiday') %}
+                {% if holiday in ["New Year's Day","Memorial Day","Independence Day","Labor Day","Thanksgiving","Christmas"] and count_the_days('calendar.holidays','start_time') | int <= 4 %}
+                  {{ as_timestamp(this_weekday(3)) | timestamp_custom('%Y-%m-%d') }}
+                {% else %}
+                  {{ as_timestamp(this_weekday(2)) | timestamp_custom('%Y-%m-%d') }}
+                {% endif %}
+              end_date: >
+                {% from 'easy_time.jinja' import this_weekday, count_the_days %}
+                {% set holiday = state_attr('calendar.holidays','next_holiday') %}
+                {% if holiday in ["New Year's Day","Memorial Day","Independence Day","Labor Day","Thanksgiving","Christmas"] and count_the_days('calendar.holidays','start_time') | int <= 4 %}
+                  {{ as_timestamp(this_weekday(4)) | timestamp_custom('%Y-%m-%d') }}
+                {% else %}
+                  {{ as_timestamp(this_weekday(3)) | timestamp_custom('%Y-%m-%d') }}
+                {% endif %}
+      - if:
         - condition: template
           value_template: "{{ states('sensor.todays_high_temp') | int >= states('input_number.hot_day_threshold') | int }}"
         then:
