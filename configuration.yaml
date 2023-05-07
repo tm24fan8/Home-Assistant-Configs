@@ -98,7 +98,6 @@ recorder:
       - sensor.*bps_received
       - sensor.*bytes_sent
       - sensor.*bytes_received
-      - sensor.minecraft_vm*
       - binary_sensor.*server_on
       - binary_sensor.*desktop_on
     entities:
@@ -181,6 +180,7 @@ influxdb:
       - sensor.*voltage
       - sensor.*current
       - sensor.*cpu*
+      - sensor.*gpu*
       - sensor.*memory*
       - sensor.*ram_free*
       - sensor.*ram_used*
