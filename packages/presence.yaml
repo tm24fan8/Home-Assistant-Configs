@@ -262,6 +262,49 @@ template:
       unique_id: 3f0a1504-fd01-4967-a6fb-0309813d31e3
       state: "{{ is_state('input_boolean.emma_sleeping','on') or is_state('input_boolean.kallen_sleeping','on') or is_state('input_boolean.master_bedroom_sleeping','on') }}"
       icon: mdi:sleep
+  - sensor:
+    - unique_id: people_at_home
+      name: People at Home
+      state: >
+        {%- set people = expand('group.family') %}
+        {{ people | selectattr('state', 'in', ['home', 'on'] ) | list | count }}
+      icon: >
+        {%- set icons = ['account-off', 'account', 'account-multiple'] %}
+        {%- set people = expand('group.family') %}
+        {%- set cnt = people | selectattr('state', 'in', ['home', 'on'] ) | list | count %}
+        {%- if cnt >= 0 %}
+          mdi:{{ icons[cnt] if cnt in range(icons | count) else 'account-group' }}
+        {%- else %}
+          mdi:account-alert
+        {%- endif %}
+      attributes:
+        template: people_tracker
+        people: > 
+          {%- set people = expand('group.family') | selectattr('state', 'eq', 'home') | map(attribute='name') | list %}
+          {%- set company = expand('group.family') | selectattr('state', 'eq', 'on') | map(attribute='name') | list %}
+          {%- set people = people + company %}
+          {{ people }}
+        and: >
+          {%- set people = expand('group.family') | selectattr('state', 'eq', 'home') | map(attribute='name') | list %}
+          {%- set company = expand('group.family') | selectattr('state', 'eq', 'on') | map(attribute='name') | list %}
+          {%- set people = people + company %}
+          {%- if people | count > 0 %}
+            {{- [people[:-1] | join(', '), 'and', people[-1]] | join(' ') if people | count > 1 else people[0] }}
+          {%- else %}unknown
+          {%- endif %}
+        or: >
+          {%- set people = expand('group.family') | selectattr('state', 'eq', 'home') | map(attribute='name') | list %}
+          {%- set company = expand('group.family') | selectattr('state', 'eq', 'on') | map(attribute='name') | list %}
+          {%- set people = people + company %}
+          {%- if people | count > 0 %}
+            {{- [people[:-1] | join(', '), 'or', people[-1]] | join(' ') if people | count > 1 else people[0] }}
+          {%- else %}unknown
+          {%- endif %}
+        count: >
+          {%- set people = expand('group.family') | selectattr('state', 'eq', 'home') | map(attribute='name') | list %}
+          {%- set company = expand('group.family') | selectattr('state', 'eq', 'on') | map(attribute='name') | list %}
+          {%- set people = people + company %}
+          {{ people | count }}
 
 mqtt:
   sensor:
