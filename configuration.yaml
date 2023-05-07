@@ -98,6 +98,7 @@ recorder:
       - sensor.*bps_received
       - sensor.*bytes_sent
       - sensor.*bytes_received
+      - sensor.minecraft_vm*
       - binary_sensor.*server_on
       - binary_sensor.*desktop_on
     entities:
@@ -125,7 +126,6 @@ recorder:
       - media_player.emma_bedroom_speaker
       - media_player.spotify_iron_nerd
       - media_player.xia_desktop
-      - media_player.xia_desktop_2
       - media_player.tony_asus
       - media_player.kallen_desktop
       - media_player.basement_google_speaker
@@ -207,6 +207,8 @@ influxdb:
       - device_tracker.*ipad*
       - device_tracker.*watch*
       - device_tracker.*airpod*
+      - binary_sensor.*desktop_on
+      - binary_sensor.*server_on
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
