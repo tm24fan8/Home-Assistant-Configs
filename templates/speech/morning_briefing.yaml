@@ -153,6 +153,8 @@
           "Tony will be scraping out the nickels and dimes tonight for the sake of entertainment. ",
           "Tony is not really all that funny, but tonight he will present himself to a crowd of questionable individuals who seem to think that he is. "
         ] | random }} The studio is scheduled to go online at {{ input_datetime_12hr('input_datetime.tony_streaming_start_time') }}. "
+      {% else %}
+        "Tony does not have a stream scheduled today. "
       {% endif %}
     </p>
 
