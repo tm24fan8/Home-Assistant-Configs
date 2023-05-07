@@ -63,7 +63,7 @@
 {% macro tony_night_meds() %}
 {% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct %}
 {% set ct = ct() | int %}
-{% if is_state('input_boolean.tony_night_meds_taken','on') and ct < 57600 %}
+{% if is_state('input_boolean.tony_night_meds_taken','on') and ct < 43200 %}
   Tony took his night meds at {{ input_datetime_12hr_with_date('input_datetime.tony_night_meds_taken') }} today.
 {% elif is_state('input_boolean.tony_night_meds_taken','off') and (ct >= 82800 or ct <= 21600) %}
   Tony has not taken his night meds.
