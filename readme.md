@@ -58,7 +58,7 @@ Again, mostly just the ones I'm **using** or **will use soon**...also a few that
 - [Card Tools](https://github.com/thomasloven/lovelace-card-tools) (required for various other cards)
 - [Layout Card](https://github.com/thomasloven/lovelace-layout-card)
 - [Scheduler Card](https://github.com/nielsfaber/scheduler-card) (required for Scheduler component)
-- [Sun Card](https://github.com/tm24fan8/home-assistant-sun-card)
+- [Horizon Card](https://github.com/rejuvenate/lovelace-horizon-card)
 - [Lovelace Home Feed Card](https://github.com/gadgetchnnel/lovelace-home-feed-card)
 - [Mini Graph Card](https://github.com/kalkih/mini-graph-card)
 - [Battery State Card](https://github.com/maxwroc/battery-state-card)
