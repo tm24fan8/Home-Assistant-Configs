@@ -854,28 +854,11 @@
       dimmer_device: ccc672e3d924e72a952d801736ea59d3
       on_short_action: []
       on_long_action:
-      - service: switch.turn_on
-        data: {}
-        target:
-          entity_id: switch.adaptive_lighting_adapt_brightness_living_room
-      - wait_template: '{{ is_state(''switch.adaptive_lighting_adapt_brightness_living_room'',''on'')
-          }}'
-        continue_on_timeout: true
-        timeout: 00:00:05
       - service: input_select.select_option
         data:
           option: Adaptive
         target:
           entity_id: input_select.living_room_scenes
-      - delay:
-          hours: 0
-          minutes: 0
-          seconds: 3
-          milliseconds: 0
-      - service: switch.turn_off
-        data: {}
-        target:
-          entity_id: switch.adaptive_lighting_adapt_brightness_living_room
       brightness_up_short_action: []
       brightness_down_short_action: []
       off_short_action:
@@ -911,28 +894,11 @@
           option: Adaptive
         target:
           entity_id: input_select.dining_room_lamp_scenes
-      - service: switch.turn_on
-        data: {}
-        target:
-          entity_id: switch.adaptive_lighting_adapt_brightness_living_room
-      - wait_template: '{{ is_state(''switch.adaptive_lighting_adapt_brightness_living_room'',''on'')
-          }}'
-        continue_on_timeout: true
-        timeout: 00:00:05
       - service: input_select.select_option
         data:
           option: Adaptive
         target:
           entity_id: input_select.living_room_scenes
-      - delay:
-          hours: 0
-          minutes: 0
-          seconds: 3
-          milliseconds: 0
-      - service: switch.turn_off
-        data: {}
-        target:
-          entity_id: switch.adaptive_lighting_adapt_brightness_living_room
 - id: '1682550106529'
   alias: Master Bedroom Switch Handler
   description: ''
