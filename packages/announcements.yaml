@@ -176,7 +176,16 @@ automation:
             entity_id: input_boolean.good_morning
             state: 'off'
         sequence:
-        - service: script.morning_briefing
+        - if:
+          - condition: template
+            value_template: >
+              {% if is_state('input_boolean.kallen_school_today','on') and is_state('input_boolean.kallen_overnight','on') %}
+                false
+              {% else %}
+                true
+              {% endif %}
+          then:
+          - service: script.morning_briefing
       - conditions:
         - condition: and
           conditions:
