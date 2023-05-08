@@ -4,8 +4,7 @@
   {% from 'speech.jinja' import greeting, dadjoke, inspirational_quote %}
   {% from 'time.jinja' import input_datetime_12hr, next_twitch_stream %}
   {% from 'status.jinja' import emma_sleep %}
-  {% from 'formatting.jinja' import cleanup %}
-  {% from 'easy_time.jinja' import count_the_days, speak_the_days %}
+  {% from 'easy_time.jinja' import count_the_days, custom_time %}
       <p>
         {{ greeting() }}
       </p>
@@ -297,7 +296,7 @@
 
             {% if is_state('input_boolean.kallen_school_today', 'on') %}
               {% if is_state('sensor.school_start_days2go', '0') %}
-                Today is the first day of school! The last day is {{ speak_the_days('input_datetime.school_last_day') }}.
+                Today is the first day of school! The last day is in {{ custom_time('input_datetime.school_last_day','month,week,day') }}.
               {% else %}
                 {{ [ 'Today is a school day.',
                   'Collin has school today.',
@@ -328,7 +327,7 @@
                 'In case you were wondering.',
                 'Also, did you know.'
               ] | random }}
-                'Thanksgiving break starts {{ speak_the_days('input_datetime.thanksgiving_break_start') }}!'
+                'Thanksgiving break starts in {{ custom_time('input_datetime.thanksgiving_break_start','week,day') }}!'
             {% endif %}
             {% if (count_the_days('input_datetime.christmas_break_start') | int <= 14) and (count_the_days('input_datetime.christmas_break_start') | int > 0) %}
                 {{ [ 'Oh, and look at that.',
@@ -336,7 +335,7 @@
                 'In case you were wondering.',
                 'Also, did you know.'
               ] | random }}
-                'Christmas break starts {{ speak_the_days('input_datetime.christmas_break_start') }}!'
+                'Christmas break starts in {{ custom_time('input_datetime.christmas_break_start','week,day') }}!'
             {% endif %}
             {% if (count_the_days('input_datetime.spring_break_start') | int <= 14) and (count_the_days('input_datetime.spring_break_start') | int > 0) %}
                 {{ [ 'Oh, and look at that.',
@@ -344,7 +343,7 @@
                 'In case you were wondering.',
                 'Also, did you know.'
               ] | random }}
-                'Spring break starts {{ speak_the_days('input_datetime.spring_break_start') }}!'
+                'Spring break starts in {{ custom_time('input_datetime.spring_break_start','week,day') }}!'
             {% endif %}
             {% if (count_the_days('input_datetime.school_last_day') | int <= 35) and (count_the_days('input_datetime.school_last_day') | int > 0)  %}
                 {{ [ 'Oh, and look at that.',
@@ -352,7 +351,7 @@
                 'In case you were wondering.',
                 'Also, did you know.'
               ] | random }}
-                The school year ends {{ speak_the_days('input_datetime.school_last_day') }}.
+                The school year ends in {{ custom_time('input_datetime.school_last_day','week,day') }}.
             {% endif %}
             {% if count_the_days('input_datetime.school_last_day') | int == 0 %}
               Congratulations, today is the last day of school! Have an awesome day!
@@ -364,7 +363,7 @@
       </p>
 
       <p>
-        {{ cleanup(emma_sleep()) }}
+        {{ emma_sleep() }}
       </p>
 
       <p>
@@ -388,7 +387,7 @@
 
       <p>
         {% if state_attr('calendar.garbage_collection','start_time') != none %}
-          {% if count_the_days('calendar.garbage_collection','start_time') == 1 %}
+          {% if count_the_days('calendar.garbage_collection','start_time') | int == 1 %}
             {% if state_attr('calendar.garbage_collection','message') == 'Large Garbage Pickup' %}
               Tomorrow is the monthly unlimited garbage pickup. Make sure to take out all regular trash, as well as any larger items that need to be disposed of.
             {% else %}

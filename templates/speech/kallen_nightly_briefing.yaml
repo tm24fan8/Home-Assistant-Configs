@@ -2,7 +2,7 @@
   {# Kallen Nightly Briefing #}
   {%- macro getReport() -%}
   {% from 'speech.jinja' import dadjoke %}
-  {% from 'easy_time.jinja' import count_the_days, speak_the_days %}
+  {% from 'easy_time.jinja' import count_the_days, custom_time %}
     <p>
       Good Evening, Collin, it is currently {{ now().strftime("%I:%M %p") }}.
       {{ [ 'My sensors are detecting a strange smell. I am running diagnostics. But in the mean time, you should start a shower.',
@@ -61,7 +61,7 @@
           'In case you were wondering.',
           'Also, did you know.'
         ] | random }}
-          'Thanksgiving break starts {{ speak_the_days('input_datetime.thanksgiving_break_start') }}!'
+          'Thanksgiving break starts in {{ custom_time('input_datetime.thanksgiving_break_start','week,day') }}!'
       {% endif %}
       {% if (count_the_days('input_datetime.christmas_break_start') | int <= 14) and (count_the_days('input_datetime.christmas_break_start') | int > 0) %}
           {{ [ 'Oh, and look at that.',
@@ -69,7 +69,7 @@
           'In case you were wondering.',
           'Also, did you know.'
         ] | random }}
-          'Christmas break starts {{ speak_the_days('input_datetime.christmas_break_start') }}!'
+          'Christmas break starts in {{ custom_time('input_datetime.christmas_break_start','week,day') }}!'
       {% endif %}
       {% if (count_the_days('input_datetime.spring_break_start') | int <= 14) and (count_the_days('input_datetime.spring_break_start') | int > 0) %}
           {{ [ 'Oh, and look at that.',
@@ -77,7 +77,7 @@
           'In case you were wondering.',
           'Also, did you know.'
         ] | random }}
-          'Spring break starts {{ speak_the_days('input_datetime.spring_break_start') }}!'
+          'Spring break starts in {{ custom_time('input_datetime.spring_break_start','week,day') }}!'
       {% endif %}
       {% if (count_the_days('input_datetime.school_last_day') | int < 35) and (count_the_days('input_datetime.school_last_day') | int > 0) -%}
       {{ [ 'School is almost over for the year.',
