@@ -63,6 +63,9 @@ template:
       unique_id: ae893dd6-129c-4886-a966-a89b958d9f08
       state: "{{ states('climate.master_bedroom_aircon') not in ['off','unknown','unavailable'] and states('sensor.master_bedroom_aircon_power') | int > 20 }}"
       device_class: running
+    - name: Kallen Fan - Separate Schedule
+      unique_id: 3f243861-6a1f-412f-b9e3-933b54793b08
+      state: "{{ states('input_datetime.kallen_fan') != states('input_datetime.kallen_bedtime') }}"
 
 input_boolean:
   master_bedroom_nighttime_protocol:
