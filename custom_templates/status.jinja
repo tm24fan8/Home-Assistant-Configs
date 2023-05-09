@@ -116,7 +116,11 @@
 {% endmacro %}
 
 {% macro medReportKallen() %}
+{% if is_state('input_boolean.kallen_overnight','on') %}
+Kallen is staying elsewhere overnight.
+{% else %}
 {{ kallen_morning_meds() }}
 {{ kallen_night_meds() }}
+{% endif %}
 {% endmacro %}
 
