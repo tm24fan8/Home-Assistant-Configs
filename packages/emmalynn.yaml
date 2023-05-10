@@ -694,7 +694,6 @@ script:
           target:
             entity_id:
               - input_select.upstairs_hallway_scenes
-              - input_select.master_bedroom_scenes
           data:
             option: Adaptive
       - service: switch.turn_off
