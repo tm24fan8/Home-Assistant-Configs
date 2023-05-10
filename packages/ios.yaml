@@ -1,21 +1,13 @@
 ios:
   actions:
-    - name: 'mb-climate-manual-day'
-      background_color: '#00B9FF'
+    - name: 'Basement On'
+      background_color: '#8600d3'
       label:
-        text: "MB Day"
-        color: '#000000'
+        text: "Basement On"
+        color: '#FFFFFF'
       icon:
-        icon: mdi:weather-sunny
-        color: '#FFF000'
-    - name: 'mb-climate-manual-night'
-      background_color: '#003C81'
-      label:
-        text: "MB Night"
-        color: '#E0E0E0'
-      icon:
-        icon: mdi:lightbulb-night
-        color: '#E0E0E0'
+        icon: mdi:stairs
+        color: '#FFFFFF'
     - name: 'Dinner Is Ready'
       background_color: '#8600d3'
       label:
@@ -31,14 +23,6 @@ ios:
         color: '#FFFFFF'
       icon:
         icon: mdi:bullhorn
-        color: '#FFFFFF'
-    - name: 'Basement On'
-      background_color: '#8600d3'
-      label:
-        text: "Basement On"
-        color: '#FFFFFF'
-      icon:
-        icon: mdi:stairs
         color: '#FFFFFF'
     - name: 'Give Me Darkness'
       background_color: '#8600d3'
@@ -56,19 +40,3 @@ ios:
       icon:
         icon: mdi:weather-night
         color: '#FFFFFF'
-    # - name: We Are Home
-    #   background_color: '#00FF00'
-    #   label:
-    #     text: "We Are Home"
-    #     color: '#000000'
-    #   icon:
-    #     icon: mdi:home-account
-    #     color: '#000000'
-    # - name: 'We Are Leaving'
-    #   background_color: '#FF0000'
-    #   label:
-    #     text: "We Are Leaving"
-    #     color: '#FFFFFF'
-    #   icon:
-    #     icon: mdi:shield
-    #     color: '#FFFFFF'
