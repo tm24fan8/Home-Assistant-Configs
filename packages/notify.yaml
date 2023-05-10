@@ -278,6 +278,16 @@ notify:
       - service: living_room_tv
       - service: basement_tv
       - service: master_bedroom_tv
+  - name: tv_common
+    platform: group
+    services:
+      - service: living_room_tv
+      - service: basement_tv
+  - name: tv_no_basement
+    platform: group
+    services:
+      - service: living_room_tv
+      - service: master_bedroom_tv
   - name: alexa_everywhere
     platform: group
     services:
@@ -744,6 +754,7 @@ script:
               - living_room
               - basement
               - master_bedroom
+              - common
               - all
       title:
         name: 'Title'
@@ -775,6 +786,10 @@ script:
             notify.master_bedroom_tv
           {% elif who == "basement" %}
             notify.basement_tv
+          {% elif who == "no_basement" %}
+            notify.tv_no_basement
+          {% elif who == "common" %}
+            notify.tv_common
           {% elif who == "all" %}
             notify.tv_notifications
           {% endif %}
