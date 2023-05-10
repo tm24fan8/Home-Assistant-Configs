@@ -42,7 +42,8 @@ automation:
   - id: c583aebf-4500-412c-9436-e1b534ba1a44
     alias: Tony Meds Handler
     description: Make sure Tony has taken his meds in the morning and at night
-    mode: restart
+    mode: parallel
+    max: 4
     trigger:
     - platform: time
       at: input_datetime.tony_morning_meds_notify
@@ -50,6 +51,14 @@ automation:
     - platform: time
       at: input_datetime.tony_night_meds_notify
       id: sleep
+    - platform: state
+      entity_id: input_boolean.tony_morning_meds_taken
+      to: 'on'
+      id: boolean-morning
+    - platform: state
+      entity_id: input_boolean.tony_night_meds_taken
+      to: 'on'
+      id: boolean-night
     action:
     - choose:
       - conditions:
@@ -76,6 +85,40 @@ automation:
         - service: script.turn_on
           target:
             entity_id: script.tony_night_meds
+      - conditions:
+        - condition: trigger
+          id: boolean-morning
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.tony_morning_meds_taken
+          data:
+            datetime: >
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(0) }}
+        - service: logbook.log
+          data:
+            name: Tony Morning Meds
+            message: Taken
+            entity_id: input_boolean.tony_morning_meds_taken
+            domain: input_boolean
+      - conditions:
+        - condition: trigger
+          id: boolean-night
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.tony_night_meds_taken
+          data:
+            datetime: >
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(0) }}
+        - service: logbook.log
+          data:
+            name: Tony Night Meds
+            message: have been taken
+            entity_id: input_boolean.tony_night_meds_taken
+            domain: input_boolean
 
   - id: 77f33070-4405-41b6-84c4-05b4f3697199
     alias: Tony Stream Today
@@ -173,22 +216,9 @@ script:
     - choose:
       - conditions: "{{ wait.trigger.id in ['taken','manual'] }}"
         sequence:
-        - service: input_datetime.set_datetime
-          target:
-            entity_id: input_datetime.tony_morning_meds_taken
-          data:
-            datetime: >
-              {% from 'time.jinja' import set_datetime %}
-              {{ set_datetime (0) }}
         - service: input_boolean.turn_on
           target:
             entity_id: input_boolean.tony_morning_meds_taken
-        - service: logbook.log
-          data:
-            name: Tony Morning Meds
-            message: Taken
-            entity_id: input_boolean.tony_morning_meds_taken
-            domain: input_boolean
       - conditions: "{{ wait.trigger.id == 'skipped' }}"
         sequence:
         - service: logbook.log
@@ -289,22 +319,9 @@ script:
     - choose:
       - conditions: "{{ wait.trigger.id in ['taken','manual'] }}"
         sequence:
-        - service: input_datetime.set_datetime
-          target:
-            entity_id: input_datetime.tony_night_meds_taken
-          data:
-            datetime: >
-              {% from 'time.jinja' import set_datetime %}
-              {{ set_datetime (0) }}
         - service: input_boolean.turn_on
           target:
             entity_id: input_boolean.tony_night_meds_taken
-        - service: logbook.log
-          data:
-            name: Tony Night Meds
-            message: have been taken
-            entity_id: input_boolean.tony_night_meds_taken
-            domain: input_boolean
       - conditions: "{{ wait.trigger.id == 'skipped' }}"
         sequence:
         - service: logbook.log

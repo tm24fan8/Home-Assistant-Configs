@@ -64,7 +64,8 @@ automation:
   - id: 67fbdb66-b94b-4351-86de-a388d601e93c
     alias: Kallen Meds Handler
     description: Make sure Kallen has taken his meds in the morning and at night
-    mode: restart
+    mode: parallel
+    max: 4
     trigger:
     - platform: time
       at: input_datetime.kallen_morning_meds_notify
@@ -72,6 +73,14 @@ automation:
     - platform: time
       at: input_datetime.kallen_night_meds_notify
       id: sleep
+    - platform: state
+      entity_id: input_boolean.kallen_morning_meds_taken
+      to: 'on'
+      id: boolean-morning
+    - platform: state
+      entity_id: input_boolean.kallen_night_meds_taken
+      to: 'on'
+      id: boolean-night
     action:
     - choose:
       - conditions:
@@ -98,6 +107,40 @@ automation:
         - service: script.turn_on
           target:
             entity_id: script.kallen_night_meds
+      - conditions:
+        - condition: trigger
+          id: boolean-morning
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.kallen_morning_meds_taken
+          data:
+            datetime: >
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(0) }}
+        - service: logbook.log
+          data:
+            name: Kallen Morning Meds
+            message: Taken
+            entity_id: input_boolean.kallen_morning_meds_taken
+            domain: input_boolean
+      - conditions:
+        - condition: trigger
+          id: boolean-night
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.kallen_night_meds_taken
+          data:
+            datetime: >
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(0) }}
+        - service: logbook.log
+          data:
+            name: Kallen Night Meds
+            message: have been taken
+            entity_id: input_boolean.kallen_night_meds_taken
+            domain: input_boolean
 
   - id: 1d552b1f-c0ed-4d80-b8ba-3c085d2c3d3a
     alias: "Kallen Late Bedtime"
@@ -195,22 +238,9 @@ script:
     - choose:
       - conditions: "{{ wait.trigger.id in ['taken','manual'] }}"
         sequence:
-        - service: input_datetime.set_datetime
-          target:
-            entity_id: input_datetime.kallen_morning_meds_taken
-          data:
-            datetime: >
-              {% from 'time.jinja' import set_datetime %}
-              {{ set_datetime (0) }}
         - service: input_boolean.turn_on
           target:
             entity_id: input_boolean.kallen_morning_meds_taken
-        - service: logbook.log
-          data:
-            name: Kallen Morning Meds
-            message: Taken
-            entity_id: input_boolean.kallen_morning_meds_taken
-            domain: input_boolean
       - conditions: "{{ wait.trigger.id == 'skipped' }}"
         sequence:
         - service: logbook.log
@@ -296,6 +326,20 @@ script:
             title: Skip
           - action: "KALLEN_NIGHT_MEDS_ASK_LATER"
             title: Ask Later
+    - service: script.text_notify
+      data:
+        who: parents
+        type: alert
+        title: Night Meds
+        message: Kallen needs to take his night meds (melatonin)
+        tag: kallen-night-meds
+        actions:
+          - action: "KALLEN_NIGHT_MEDS_TAKEN"
+            title: Taken
+          - action: "KALLEN_NIGHT_MEDS_SKIPPED"
+            title: Skip
+          - action: "KALLEN_NIGHT_MEDS_ASK_LATER"
+            title: Ask Later
     - wait_for_trigger:
       - platform: event
         event_type: ios.notification_action_fired
@@ -321,22 +365,9 @@ script:
     - choose:
       - conditions: "{{ wait.trigger.id in ['taken','manual'] }}"
         sequence:
-        - service: input_datetime.set_datetime
-          target:
-            entity_id: input_datetime.kallen_night_meds_taken
-          data:
-            datetime: >
-              {% from 'time.jinja' import set_datetime %}
-              {{ set_datetime (0) }}
         - service: input_boolean.turn_on
           target:
             entity_id: input_boolean.kallen_night_meds_taken
-        - service: logbook.log
-          data:
-            name: Kallen Night Meds
-            message: have been taken
-            entity_id: input_boolean.kallen_night_meds_taken
-            domain: input_boolean
       - conditions: "{{ wait.trigger.id == 'skipped' }}"
         sequence:
         - service: logbook.log
@@ -378,6 +409,6 @@ script:
     - service: script.text_notify
       data:
         type: alert
-        who: kallen
+        who: all
         message: clear_notification
         tag: kallen-night-meds
