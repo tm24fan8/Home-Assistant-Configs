@@ -83,17 +83,21 @@
 {% macro kallen_morning_meds() %}
 {% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct %}
 {% set ct = ct() | int %}
-{% if is_state('input_boolean.kallen_morning_meds_taken','on') %}
-  Kallen took his morning meds at {{ input_datetime_12hr_with_date('input_datetime.kallen_morning_meds_taken') }} today.
-{% else %}
-  Kallen has not taken his morning meds.
-  {% if ct < state_attr('input_datetime.kallen_morning_meds_notify','timestamp') | int %}
-    {{ ['He has a reminder scheduled for',
-        'Rest assured that I will pester him mercilessly about this, starting at',
-        'This is absolutely essential, and I will remind him to do it at',
-      ] | random }} {{ input_datetime_12hr('input_datetime.kallen_morning_meds_notify') }} today.
+{% set wakeup = state_attr('input_datetime.kallen_wakeup_time','timestamp') | int %}
+{% set bedtime = state_attr('input_datetime.kallen_bedtime','timestamp') | int %}
+{% if wakeup <= ct <= bedtime %}
+  {% if is_state('input_boolean.kallen_morning_meds_taken','on') %}
+    Kallen took his morning meds at {{ input_datetime_12hr_with_date('input_datetime.kallen_morning_meds_taken') }} today.
   {% else %}
-    There are no further notifications scheduled for him today.
+    Kallen has not taken his morning meds.
+    {% if ct < state_attr('input_datetime.kallen_morning_meds_notify','timestamp') | int %}
+      {{ ['He has a reminder scheduled for',
+          'Rest assured that I will pester him mercilessly about this, starting at',
+          'This is absolutely essential, and I will remind him to do it at',
+        ] | random }} {{ input_datetime_12hr('input_datetime.kallen_morning_meds_notify') }} today.
+    {% else %}
+      There are no further notifications scheduled for him today.
+    {% endif %}
   {% endif %}
 {% endif %}
 {% endmacro %}
@@ -102,8 +106,12 @@
 {% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct %}
 {% set ct = ct() | int %}
 {% set diff = state_attr('input_datetime.kallen_bedtime','timestamp') | int - ct %}
+{% set wakeup = state_attr('input_datetime.kallen_wakeup_time','timestamp') | int %}
+{% set bedtime = state_attr('input_datetime.kallen_bedtime','timestamp') | int - 900 %}
 {% if is_state('input_boolean.kallen_night_meds_taken','on') %}
-  Kallen took his night meds at {{ input_datetime_12hr_with_date('input_datetime.kallen_night_meds_taken') }} today.
+  {% if bedtime <= ct <= wakeup %}
+    Kallen took his night meds at {{ input_datetime_12hr_with_date('input_datetime.kallen_night_meds_taken') }} today.
+  {% endif %}
 {% else %}
   {% if diff <= 3600 %}
     Kallen has not taken his night meds.
