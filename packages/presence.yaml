@@ -306,6 +306,17 @@ template:
           {%- set company = expand('group.family') | selectattr('state', 'eq', 'on') | map(attribute='name') | list %}
           {%- set people = people + company %}
           {{ people | count }}
+    - unique_id: cddca636-e8b0-4a5c-8c3e-7f2b3c1b31a9
+      name: People Sleeping Total
+      state: >
+        {% set sleeping = [
+          states.input_boolean.emma_sleeping,
+          states.input_boolean.kallen_sleeping,
+          states.input_boolean.master_bedroom_sleeping,
+        ] %}
+        {{ sleeping | selectattr('state','eq','on') | list | count }}
+      unit_of_measurement: ''
+      icon: mdi:sleep
 
 mqtt:
   sensor:
