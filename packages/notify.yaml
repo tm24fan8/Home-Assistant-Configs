@@ -1262,7 +1262,7 @@ script:
           {% elif who in ['emma_bedroom','Emma Bedroom','media_player.emma_bedroom_speaker'] %}
             {{ is_state('binary_sensor.people_sleeping','on') }}
           {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_speaker','Kallen Bedroom'] %}
-            {% if (kallen_wakeup - 3600) < ct < (kallen_wakeup + 3600) %}
+            {% if is_state('input_boolean.kallen_school_today','on') and (kallen_wakeup - 900) < ct < (kallen_wakeup + 3600) %}
               false
             {% else %}
               {{ is_state('binary_sensor.people_sleeping','on') }}
