@@ -277,6 +277,7 @@ template:
         {%- else %}
           mdi:account-alert
         {%- endif %}
+      unit_of_measurement: ''
       attributes:
         template: people_tracker
         people: > 
