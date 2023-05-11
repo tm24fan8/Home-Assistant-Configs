@@ -328,7 +328,12 @@ script:
             title: Ask Later
     - service: script.text_notify
       data:
-        who: parents
+        who: >
+          {% if states('person.christina_stork') in ['Bob Evans','BobEvans'] %}
+            tony
+          {% else %}
+            parents
+          {% endif %}
         type: alert
         title: Night Meds
         message: Kallen needs to take his night meds (melatonin)
