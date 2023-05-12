@@ -1,7 +1,7 @@
 >
   {# Kallen Morning Briefing #}
   {%- macro getReport() -%}
-  {% from 'time.jinja' import current_time_12hr, current_date_readout, input_datetime_12hr %}
+  {% from 'time.jinja' import current_time, current_date_readout, input_datetime_12hr %}
   {% from 'speech.jinja' import dadjoke, inspirational_quote %}
   {% from 'easy_time.jinja' import count_the_day, custom_time %}
     <p>
@@ -10,7 +10,7 @@
       {% if is_state('binary_sensor.morning','on') %}
         <s>Today is {{ current_date_readout() }}.</s>
       {% else %}
-        <s>It is {{ current_time_12hr() }}.</s>
+        <s>It is {{ current_time(12) }}.</s>
       {% endif %}
 
       {% if is_state('sensor.anniversary_kallen_s_birthday', '0') %}

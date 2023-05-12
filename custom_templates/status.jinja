@@ -1,5 +1,5 @@
 {% macro emma_sleep() %}
-{% from 'time.jinja' import input_datetime_12hr_with_date %}
+{% from 'time.jinja' import input_datetime_12hr_with_date, input_datetime_12hr %}
 {% from 'easy_time.jinja' import custom_time, custom_time_between %}
 {% set asleep = state_attr('input_datetime.emma_down_for_nap','timestamp') | int %}
 {% set wakeup = state_attr('input_datetime.emma_up_from_nap','timestamp') | int %}
@@ -17,7 +17,7 @@
     Emma has not yet awoken for the day.
   {% endif %}
 {% else %}
-  Emma is awake, and does not appear to have napped yet today.
+  Emma is awake, and does not appear to have napped yet. She woke up at {{ input_datetime_12hr('input_datetime.emma_wakeup') }} today.
 {% endif %}
 {% endmacro %}
 
@@ -54,8 +54,6 @@
         'This is absolutely essential, and I will remind him to do it at',
         'Since nobody including Tony himself likes him without his meds, I will remind him at',
       ] | random }} {{ input_datetime_12hr('input_datetime.tony_morning_meds_notify') }} today.
-  {% else %}
-    There are no further notifications scheduled for him today.
   {% endif %}
 {% endif %}
 {% endmacro %}
@@ -95,8 +93,6 @@
           'Rest assured that I will pester him mercilessly about this, starting at',
           'This is absolutely essential, and I will remind him to do it at',
         ] | random }} {{ input_datetime_12hr('input_datetime.kallen_morning_meds_notify') }} today.
-    {% else %}
-      There are no further notifications scheduled for him today.
     {% endif %}
   {% endif %}
 {% endif %}

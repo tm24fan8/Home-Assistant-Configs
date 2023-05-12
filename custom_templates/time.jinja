@@ -2,12 +2,12 @@
 {{ (states(input_number)) | int * 60 }}
 {% endmacro %}
 
-{% macro current_time_12hr() %}
+{% macro current_time(hr) %}
+{% if hr == 12 %}
 {{ now().strftime('%-I:%M %p') }}
-{% endmacro %}
-
-{% macro current_time_24hr() %}
+{% elif hr == 24 %}
 {{ now().strftime('%H:%M') }}
+{% endif %}
 {% endmacro %}
 
 {% macro current_date_input() %}
