@@ -196,7 +196,7 @@ influxdb:
       - sensor.*iphone_storage
       - sensor.*_open
       - sensor.xr500*
-      - sensor.*gas_price
+      - sensor.*gas*
       - sensor.speedtest*
       - sensor.*fan_time
       - sensor.*compressor_time
@@ -308,7 +308,7 @@ prometheus:
       - sensor.*iphone_storage
       - sensor.*_open
       - sensor.xr500*
-      - sensor.*gas_price
+      - sensor.*gas*
       - sensor.speedtest*
       - sensor.*fan_time
       - sensor.*compressor_time
