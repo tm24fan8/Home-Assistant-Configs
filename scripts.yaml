@@ -585,3 +585,87 @@ cleanup_crash:
     alias: Run Node-RED cleanup flow
   mode: single
   icon: mdi:truck-snowflake
+basement_shutdown:
+  alias: Basement Shutdown
+  sequence:
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id:
+      - input_boolean.studio_quiet
+      - input_boolean.recliner_mode
+    alias: Turn off any active modes
+  - if:
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: media_player.basement_tv
+        state:
+        - playing
+        - paused
+    then:
+    - service: remote.turn_off
+      data: {}
+      target:
+        entity_id: remote.basement_tv
+    alias: If TV is not being used, turn it off
+  - service: script.turn_on
+    data: {}
+    target:
+      entity_id:
+      - script.asus_laptop_shutdown
+      - script.kallen_desktop_shutdown
+    alias: Shut down the laptop
+  - service: script.text_notify
+    data:
+      type: alert
+      who: tony
+      title: Basement Shutting Down
+      message: Would you like to shut down your computer?
+      tag: tony-pc-shutdown
+      actions:
+      - action: TONY_COMPUTER_SHUTDOWN
+        title: Shutdown
+      - action: TONY_COMPUTER_LOCK
+        title: Lock
+      - action: TONY_COMPUTER_IGNORE
+        title: Do Nothing
+    alias: Ask about shutting down main computer
+  - wait_for_trigger:
+    - platform: state
+      entity_id:
+      - binary_sensor.basement_studio_door
+      to: 'on'
+    timeout:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+    alias: Wait for the door to open
+  - service: light.turn_off
+    data: {}
+    target:
+      entity_id: light.basement_lights
+    alias: Turn off the lights
+  - wait_for_trigger:
+    - platform: state
+      entity_id:
+      - binary_sensor.basement_studio_door
+      to: 'off'
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 10
+    timeout:
+      hours: 0
+      minutes: 1
+      seconds: 0
+      milliseconds: 0
+    alias: Wait for the door to close
+  - service: timer.cancel
+    data: {}
+    target:
+      entity_id: timer.basement_studio_door_timer
+    alias: Cancel the door timer since the lights are already off
+  mode: restart
+  icon: mdi:power

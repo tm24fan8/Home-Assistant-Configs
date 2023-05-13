@@ -8,6 +8,14 @@ ios:
       icon:
         icon: mdi:stairs
         color: '#FFFFFF'
+    - name: 'Basement Off'
+      background_color: '#470070'
+      label:
+        text: "Basement Off"
+        color: '#FFFFFF'
+      icon:
+        icon: mdi:power
+        color: '#FFFFFF'
     - name: 'Dinner Is Ready'
       background_color: '#8600d3'
       label:
