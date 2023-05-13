@@ -604,10 +604,10 @@ basement_shutdown:
         - playing
         - paused
     then:
-    - service: remote.turn_off
+    - service: media_player.turn_off
       data: {}
       target:
-        entity_id: remote.basement_tv
+        entity_id: media_player.basement_tv
     alias: If TV is not being used, turn it off
   - service: script.turn_on
     data: {}
