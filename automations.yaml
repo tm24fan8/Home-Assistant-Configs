@@ -402,6 +402,13 @@
         qos: 0
         retain: false
       alias: Restart Glances via MQTT
+    - service: button.press
+      data: {}
+      target:
+        entity_id:
+        - button.reset_alexa_message
+        - button.reset_report
+        - button.reset_text_notification
     - service: script.volume_reset
       data: {}
       alias: Reset all speaker volumes
