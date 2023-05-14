@@ -18,7 +18,6 @@ input_select:
       - Justin
       - Matthew
       - Salli
-    initial: Brian
     icon: mdi:account-voice
 
 script:
