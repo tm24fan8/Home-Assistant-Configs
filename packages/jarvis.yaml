@@ -19,6 +19,26 @@ input_select:
       - Matthew
       - Salli
     icon: mdi:account-voice
+  tts_devices:
+    name: TTS Devices
+    options:
+      - Living Room
+      - Basement
+      - Basement Google
+      - Common Areas
+      - Master Bedroom
+      - Kallen Bedroom
+      - Emma Bedroom
+      - Kids Bedrooms
+      - All Bedrooms
+      - Everywhere
+    initial: Living Room
+    icon: mdi:dots-horizontal-circle
+
+input_text:
+  tts_message:
+    name: TTS Message
+    initial: Type your message here
 
 script:
   alexa_interjection:

@@ -1,18 +1,3 @@
-tts_devices:
-  name: TTS Devices
-  options:
-    - Living Room
-    - Basement
-    - Basement Google
-    - Common Areas
-    - Master Bedroom
-    - Kallen Bedroom
-    - Emma Bedroom
-    - Kids Bedrooms
-    - All Bedrooms
-    - Everywhere
-  initial: Living Room
-  icon: mdi:dots-horizontal-circle
 announcement_voice:
   name: Announcement Voice
   options:
