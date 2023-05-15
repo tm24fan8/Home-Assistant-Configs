@@ -1,15 +1,3 @@
-announcement_voice:
-  name: Announcement Voice
-  options:
-    - Brian
-    - Emma
-    - Joanna
-    - Amy
-    - Justin
-    - Matthew
-    - Salli
-  initial: Brian
-  icon: mdi:account-voice
 router_stats:
   name: Router Stats
   options:

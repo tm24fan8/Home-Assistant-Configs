@@ -19,6 +19,17 @@ input_select:
       - Matthew
       - Salli
     icon: mdi:account-voice
+  announcement_voice:
+    name: Announcement Voice
+    options:
+      - Brian
+      - Emma
+      - Joanna
+      - Amy
+      - Justin
+      - Matthew
+      - Salli
+    icon: mdi:account-voice
   tts_devices:
     name: TTS Devices
     options:
