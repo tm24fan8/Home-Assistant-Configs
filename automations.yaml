@@ -984,10 +984,18 @@
         target:
           entity_id: input_boolean.emma_sleeping
       off_short_action:
-      - service: script.turn_on
-        data: {}
-        target:
-          entity_id: script.evening_on_second_floor
+      - if:
+        - condition: state
+          entity_id: binary_sensor.early_night_mode
+          state: 'on'
+        then:
+        - service: script.evening_on_second_floor
+          data: {}
+        else:
+        - service: light.turn_off
+          data: {}
+          target:
+            entity_id: light.second_floor_lights
 - id: '1682561310614'
   alias: Kallen Bedroom Switch Handler
   description: ''
