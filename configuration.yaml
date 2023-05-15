@@ -200,6 +200,9 @@ influxdb:
       - sensor.speedtest*
       - sensor.*fan_time
       - sensor.*compressor_time
+      - sensor.kdfi*
+      - sensor.openweathermap*
+      - sensor.*battery*
       - binary_sensor.*motion*
       - binary_sensor.*door*
       - binary_sensor.*window*
@@ -241,6 +244,7 @@ influxdb:
       - sensor.south_side_shell
       - sensor.east_side_shell
       - sensor.shell_ottawa_avenue
+      - sensor.current_lights_on
 
 logbook:
   include:
@@ -312,6 +316,9 @@ prometheus:
       - sensor.speedtest*
       - sensor.*fan_time
       - sensor.*compressor_time
+      - sensor.kdfi*
+      - sensor.openweathermap*
+      - sensor.*battery*
       - binary_sensor.*motion*
       - binary_sensor.*door*
       - binary_sensor.*window*
@@ -353,3 +360,4 @@ prometheus:
       - sensor.south_side_shell
       - sensor.east_side_shell
       - sensor.shell_ottawa_avenue
+      - sensor.current_lights_on
