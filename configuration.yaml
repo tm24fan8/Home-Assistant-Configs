@@ -212,6 +212,7 @@ influxdb:
       - device_tracker.*airpod*
       - binary_sensor.*desktop_on
       - binary_sensor.*server_on
+      - sensor.*_steps
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
@@ -245,6 +246,17 @@ influxdb:
       - sensor.east_side_shell
       - sensor.shell_ottawa_avenue
       - sensor.current_lights_on
+      - binary_sensor.early_night_mode
+      - input_boolean.give_me_darkness
+      - input_boolean.night_mode
+      - input_boolean.goodnight
+      - sensor.twitch_ironnerd24
+      - sensor.twitch_xia_p988
+      - input_boolean.emma_sleeping
+      - input_boolean.kallen_sleeping
+      - input_boolean.master_bedroom_sleeping
+      - binary_sensor.people_sleeping
+      - sensor.people_sleeping_total
 
 logbook:
   include:
@@ -328,6 +340,7 @@ prometheus:
       - device_tracker.*airpod*
       - binary_sensor.*desktop_on
       - binary_sensor.*server_on
+      - sensor.*_steps
     include_entities:
       - media_player.living_room_tv
       - media_player.basement_tv
@@ -361,3 +374,14 @@ prometheus:
       - sensor.east_side_shell
       - sensor.shell_ottawa_avenue
       - sensor.current_lights_on
+      - binary_sensor.early_night_mode
+      - input_boolean.give_me_darkness
+      - input_boolean.night_mode
+      - input_boolean.goodnight
+      - sensor.twitch_ironnerd24
+      - sensor.twitch_xia_p988
+      - input_boolean.emma_sleeping
+      - input_boolean.kallen_sleeping
+      - input_boolean.master_bedroom_sleeping
+      - binary_sensor.people_sleeping
+      - sensor.people_sleeping_total
