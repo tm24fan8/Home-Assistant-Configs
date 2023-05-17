@@ -433,8 +433,10 @@ script:
           - condition: template
             value_template: >
               {% from 'easy_time.jinja' import count_the_days, month_week_day %}
-              {% set month = as_timestamp(now()) | timestamp_custom('%-m') %}
-              {{ count_the_days(month_week_day(month,3,2)) | int < 7 }}
+              {% set month = as_timestamp(now()) | timestamp_custom('%-m') | int %}
+              {% set largepickup = month_week_day(month,3,2) %}
+              {% set countdown = count_the_days(largepickup) | int %}
+              {{ 0 <= countdown < 7 }}
           then:
           - service: calendar.create_event
             target:
