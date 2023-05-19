@@ -3,7 +3,7 @@
   {%- macro getReport() -%}
   {% from 'time.jinja' import current_time, current_date_readout, input_datetime_12hr %}
   {% from 'speech.jinja' import dadjoke, inspirational_quote %}
-  {% from 'easy_time.jinja' import count_the_day, custom_time %}
+  {% from 'easy_time.jinja' import count_the_days, custom_time %}
     <p>
       Good morning, Collin.
 
