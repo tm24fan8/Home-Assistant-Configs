@@ -2,8 +2,8 @@
   {# Daily Briefing #}
   {%- macro getReport() -%}
   {% from 'speech.jinja' import greeting, dadjoke, inspirational_quote %}
-  {% from 'time.jinja' import input_datetime_12hr, next_twitch_stream %}
-  {% from 'status.jinja' import emma_sleep %}
+  {% from 'time.jinja' import input_datetime_12hr %}
+  {% from 'status.jinja' import emma_sleep, tonyStatusReport %}
   {% from 'easy_time.jinja' import count_the_days, custom_time %}
       <p>
         {{ greeting() }}
@@ -282,17 +282,7 @@
               ] | random }} at {{ input_datetime_12hr('input_datetime.tina_workday_start') }}.
             {% endif %}
 
-            {% if is_state('input_boolean.tony_streaming_today','on') %}
-              {{ [
-                "Tony will be pretending to be a real content creator tonight. ",
-                "Tony will be doing his best to defeat his impostor syndrome tonight. ",
-                "Tony will be playing video games and yelling into a microphone tonight. ",
-                "Tony will be scraping out the nickels and dimes tonight for the sake of entertainment. ",
-                "Tony is not really all that funny, but tonight he will present himself to a crowd of questionable individuals who seem to think that he is. "
-              ] | random }} The studio is scheduled to go online at {{ input_datetime_12hr('input_datetime.tony_streaming_start_time') }}. "
-            {% else %}
-              "Tony does not have a stream scheduled today. His next scheduled stream is in {{ next_twitch_stream() }}. "
-            {% endif %}
+            {{ tonyStatusReport('stream','tts') }}
 
             {% if is_state('input_boolean.kallen_school_today', 'on') %}
               {% if is_state('sensor.school_start_days2go', '0') %}
