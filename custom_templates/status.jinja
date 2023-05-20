@@ -105,7 +105,7 @@
 {% set wakeup = state_attr('input_datetime.kallen_wakeup_time','timestamp') | int %}
 {% set bedtime = state_attr('input_datetime.kallen_bedtime','timestamp') | int - 900 %}
 {% if is_state('input_boolean.kallen_night_meds_taken','on') %}
-  {% if bedtime <= ct <= wakeup %}
+  {% if (ct >= bedtime) or (ct < wakeup) %}
     Kallen took his night meds at {{ input_datetime_12hr_with_date('input_datetime.kallen_night_meds_taken') }} today.
   {% endif %}
 {% else %}
