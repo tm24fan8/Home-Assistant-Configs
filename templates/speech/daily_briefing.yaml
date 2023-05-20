@@ -3,7 +3,7 @@
   {%- macro getReport() -%}
   {% from 'speech.jinja' import greeting, dadjoke, inspirational_quote %}
   {% from 'time.jinja' import input_datetime_12hr %}
-  {% from 'status.jinja' import emma_sleep, tonyStatusReport %}
+  {% from 'status.jinja' import emma_sleep, tonyStatusReport, kallenStatusReport %}
   {% from 'easy_time.jinja' import count_the_days, custom_time %}
       <p>
         {{ greeting() }}
@@ -284,71 +284,7 @@
 
             {{ tonyStatusReport('stream','tts') }}
 
-            {% if is_state('input_boolean.kallen_school_today', 'on') %}
-              {% if is_state('sensor.school_start_days2go', '0') %}
-                Today is the first day of school! The last day is in {{ custom_time('input_datetime.school_last_day','month,week,day') }}.
-              {% else %}
-                {{ [ 'Today is a school day.',
-                  'Collin has school today.',
-                  'It is a school day. '
-                ] | random }}
-                {% if is_state('input_boolean.two_hour_delay','on') %}
-                  'But there was a two hour delay. '
-                {% endif %}
-              {% endif %}
-              {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
-                {{ states('input_text.kallen_pickup') }} will be picking Collin up from school today. 
-              {% else %}
-                <s>Pickup today will be at {{ input_datetime_12hr('input_datetime.kallen_school_day_end') }}</s>
-                {% if is_state('input_boolean.kallen_school_early_release','on') %}
-                  And It is early release!
-                {% endif %}
-              {% endif %}
-              {% if states('sensor.windows_open') | int > 0 %}
-                'I detect that there are windows open. Make sure you close them before you leave, or else the security system will not arm. '
-              {% endif %}
-            {% endif %}
-            {% if is_state('input_boolean.school_cancelled','on') %}
-              'School has been cancelled for today. '
-            {% endif %}
-            {% if (count_the_days('input_datetime.thanksgiving_break_start') | int <= 14) and (count_the_days('input_datetime.thanksgiving_break_start') | int > 0) %}
-                {{ [ 'Oh, and look at that.',
-                'For those trying to keep count. ',
-                'In case you were wondering.',
-                'Also, did you know.'
-              ] | random }}
-                'Thanksgiving break starts in {{ custom_time('input_datetime.thanksgiving_break_start','week,day') }}!'
-            {% endif %}
-            {% if (count_the_days('input_datetime.christmas_break_start') | int <= 14) and (count_the_days('input_datetime.christmas_break_start') | int > 0) %}
-                {{ [ 'Oh, and look at that.',
-                'For those trying to keep count. ',
-                'In case you were wondering.',
-                'Also, did you know.'
-              ] | random }}
-                'Christmas break starts in {{ custom_time('input_datetime.christmas_break_start','week,day') }}!'
-            {% endif %}
-            {% if (count_the_days('input_datetime.spring_break_start') | int <= 14) and (count_the_days('input_datetime.spring_break_start') | int > 0) %}
-                {{ [ 'Oh, and look at that.',
-                'For those trying to keep count. ',
-                'In case you were wondering.',
-                'Also, did you know.'
-              ] | random }}
-                'Spring break starts in {{ custom_time('input_datetime.spring_break_start','week,day') }}!'
-            {% endif %}
-            {% if (count_the_days('input_datetime.school_last_day') | int <= 35) and (count_the_days('input_datetime.school_last_day') | int > 0)  %}
-                {{ [ 'Oh, and look at that.',
-                'For those trying to keep count. ',
-                'In case you were wondering.',
-                'Also, did you know.'
-              ] | random }}
-                The school year ends in {{ custom_time('input_datetime.school_last_day','week,day') }}.
-            {% endif %}
-            {% if count_the_days('input_datetime.school_last_day') | int == 0 %}
-              Congratulations, today is the last day of school! Have an awesome day!
-            {% endif %}
-            {% if count_the_days('input_datetime.school_last_day') | int == -1 -%}
-              Today is the first day of Summer Break! 
-            {%- endif %}
+            {{ kallenStatusReport('school','tts') }}
           {% endif %}
       </p>
 
