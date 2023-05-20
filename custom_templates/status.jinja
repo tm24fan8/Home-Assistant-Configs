@@ -130,16 +130,16 @@ Kallen is staying elsewhere overnight.
 
 {% macro twitchStreamInfo(method) %}
 {% from 'time.jinja' import next_twitch_stream, calendar_event_today %}
-{% if is_state('input_boolean.tony_streaming_today','on') %}
+{% if is_state('input_boolean.tony_streaming_today','on') or calendar_event_today('calendar.tony_s_twitch_schedule') == 'false' %}
   {% set streamstart = state_attr('input_datetime.tony_streaming_start_time','timestamp') | timestamp_custom('%-I:%M %p',false) %}
-{% else %}
+{% elif calendar_event_today('calendar.tony_s_twitch_schedule') == 'true' %}
   {% set streamstart = as_timestamp(state_attr('calendar.tony_s_twitch_schedule','start_time')) | int | timestamp_custom('%-I:%M %p') %}
 {% endif %}
 {% set game = state_attr('sensor.twitch_ironnerd24','game') %}
 {% set viewers = state_attr('sensor.twitch_ironnerd24','viewers') %}
 {% if is_state('sensor.twitch_ironnerd24','streaming') %}
 Tony is currently streaming. The current stream category is {{ game }}. The current viewer count is {{ viewers }}.
-{% elif is_state('input_boolean.tony_streaming_today','on') or calendar_event_today('calendar.tony_s_twitch_schedule') %}
+{% elif is_state('input_boolean.tony_streaming_today','on') or calendar_event_today('calendar.tony_s_twitch_schedule') == 'true' %}
   {% if method == 'tts' %}
     {{ [
     "Tony will be pretending to be a real content creator tonight. ",
