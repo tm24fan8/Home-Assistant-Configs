@@ -3,7 +3,7 @@
   {%- macro getReport() -%}
   {% from 'speech.jinja' import greeting, dadjoke, inspirational_quote %}
   {% from 'time.jinja' import input_datetime_12hr, read_time_from_calendar, next_twitch_stream %}
-  {% from 'status.jinja' import emma_sleep, tonyStatusReport %}
+  {% from 'status.jinja' import tonyStatusReport, tinaStatusReport, kallenStatusReport, emmaStatusReport %}
   {% from 'easy_time.jinja' import count_the_days %}
     <p>
       {{ greeting() }}
@@ -90,6 +90,8 @@
           "Tina will not be at the thankless idiot scape known as work tomorrow. ",
         ] | random }}
       {% endif %}
+
+      {{ emmaStatusReport('sleep','tts') }}
     </p>
 
     <p>
@@ -213,10 +215,6 @@
           "Emma's white noise generator will activate at {{ input_datetime_12hr('input_datetime.emma_bedtime') }}. "
         {% endif %}
       {% endif %}
-    </p>
-
-    <p>
-      {{ emma_sleep() }}
     </p>
 
     <p>

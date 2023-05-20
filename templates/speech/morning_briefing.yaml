@@ -3,7 +3,7 @@
   {%- macro getReport() -%}
   {% from 'speech.jinja' import greeting_nodate, dadjoke, inspirational_quote %}
   {% from 'time.jinja' import input_datetime_12hr %}
-  {% from 'status.jinja' import tonyStatusReport %}
+  {% from 'status.jinja' import tonyStatusReport, tinaStatusReport, kallenStatusReport, emmaStatusReport %}
   {% from 'easy_time.jinja' import count_the_days %}
     <p>
       {{ greeting_nodate() }}
@@ -100,14 +100,7 @@
       {% endif %}
     </p>
     <p>
-      {% if is_state('input_boolean.work_today','on') %}
-        {{ [
-          "Tina must go and please the food gods today ",
-          "Today, Tina must go and entertain the gremlins known as her customers and coworkers ",
-          "Today, Tina will be owned by our lovely lord and savior, capitalism, starting ",
-          "Tina will attempt to satiate the patron saint of capitalism today "
-        ] | random }} at {{ input_datetime_12hr('input_datetime.tina_workday_start') }}.
-      {% endif %}
+      {{ tinaStatusReport('work','tts') }}
     </p>
     <p>
       {% if is_state('input_boolean.kallen_school_today','on') and is_state('input_boolean.work_today','on') %}

@@ -281,3 +281,59 @@ Tony does not have a stream scheduled today. The next scheduled stream is in {{ 
 {{ schoolReportKallen(method) }}
 {% endif %}
 {% endmacro %}
+
+{% macro workReportTina(method) %}
+{% from 'time.jinja' import input_datetime_12hr %}
+{% set tina = states.person.christina_stork.state %}
+{% if method == 'tts' %}
+  {% if is_state('binary_sensor.evening','on') %}
+    {% if tina in ['Bob Evans','BobEvans'] and is_state('input_boolean.work_today','on') %}
+      <s>Tina is at work right now. She will be done at approximately {{ input_datetime_12hr('input_datetime.tina_workday_end') }}. </s>
+    {% elif is_state('input_boolean.work_today','on') %}
+      Tina has work today.
+    {% endif %}
+  {% else %}
+    {% if tina in ['Bob Evans','BobEvans'] and is_state('input_boolean.work_today','on') %}
+      {{ [
+        "Tina is still at work right now, ",
+        "Tina has not yet been released from work, ",
+        "Tina is still at the thankless idiot scape known as work, ",
+        "Tina is still consumed by the gods of capitalism, ",
+      ] | random }} she will be done at approximately {{ input_datetime_12hr('input_datetime.tina_workday_end') }}.
+    {% elif is_state('input_boolean.work_today','on') %}
+      {{ [
+        "Tina must go and please the food gods today ",
+        "Today, Tina must go and entertain the gremlins known as her customers and coworkers ",
+        "Today, Tina will be owned by our lovely lord and savior, capitalism, starting ",
+        "Tina will attempt to satiate the patron saint of capitalism today "
+      ] | random }} at {{ input_datetime_12hr('input_datetime.tina_workday_start') }}.
+    {% endif %}
+  {% endif %}
+{% elif method == 'text' %}
+  {% if tina in ['Bob Evans','BobEvans'] and is_state('input_boolean.work_today','on') %}
+    Tina is at work right now. She will be done at approximately {{ input_datetime_12hr('input_datetime.tina_workday_end') }} today.
+  {% elif is_state('input_boolean.work_today','on') %}
+    Tina has work at {{ input_datetime_12hr('input_datetime.tina_workday_start') }} today.
+  {% else %}
+    Tina has today off from work.
+  {% endif %}
+{% endif %}
+{% endmacro %}
+
+{% macro tinaStatusReport(type,method) %}
+{% from 'status.jinja' import workReportTina %}
+{% if type == 'work' %}
+{{ workReportTina(method) }}
+{% elif type == 'full' %}
+{{ workReportTina(method) }}
+{% endif %}
+{% endmacro %}
+
+{% macro emmaStatusReport(type,method) %}
+{% from 'status.jinja' import emma_sleep %}
+{% if type == 'sleep' %}
+{{ emma_sleep() }}
+{% elif type == 'full' %}
+{{ emma_sleep() }}
+{% endif %}
+{% endmacro %}

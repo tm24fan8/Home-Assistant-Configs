@@ -3,8 +3,8 @@
   {%- macro getReport() -%}
   {% from 'speech.jinja' import greeting, dadjoke, inspirational_quote %}
   {% from 'time.jinja' import input_datetime_12hr %}
-  {% from 'status.jinja' import emma_sleep, tonyStatusReport, kallenStatusReport %}
-  {% from 'easy_time.jinja' import count_the_days, custom_time %}
+  {% from 'status.jinja' import tonyStatusReport, tinaStatusReport, kallenStatusReport, emmaStatusReport %}
+  {% from 'easy_time.jinja' import count_the_days %}
       <p>
         {{ greeting() }}
       </p>
@@ -148,12 +148,7 @@
             Tomorrow is Tony and Christina's wedding anniversary!
           {% endif %}
 
-          {% set tina = states.person.christina_stork.state %}
-          {% if tina in ['Bob Evans','BobEvans'] and is_state('input_boolean.work_today','on') %}
-            <s>Tina is at work right now. She will be done at approximately {{ input_datetime_12hr('input_datetime.tina_workday_end') }}. </s>
-          {% elif is_state('input_boolean.work_today','on') %}
-            Tina has work today.
-          {% endif %}
+          {{ tinaStatusReport('work','tts') }}
 
         
         {% else %}
@@ -265,32 +260,16 @@
               {%- endif -%}
             {%- endif -%}
 
-            {% set tina = states.person.christina_stork.state %}
-            {% if tina in ['Bob Evans','BobEvans'] and is_state('input_boolean.work_today','on') %}
-              {{ [
-                "Tina is still at work right now, ",
-                "Tina has not yet been released from work, ",
-                "Tina is still at the thankless idiot scape known as work, ",
-                "Tina is still consumed by the gods of capitalism, ",
-              ] | random }} she will be done at approximately {{ input_datetime_12hr('input_datetime.tina_workday_end') }}.
-            {% elif is_state('input_boolean.work_today','on') %}
-              {{ [
-                "Tina must go and please the food gods today ",
-                "Today, Tina must go and entertain the gremlins known as her customers and coworkers ",
-                "Today, Tina will be owned by our lovely lord and savior, capitalism, starting ",
-                "Tina will attempt to satiate the patron saint of capitalism today "
-              ] | random }} at {{ input_datetime_12hr('input_datetime.tina_workday_start') }}.
-            {% endif %}
+            {{ tinaStatusReport('work','tts') }}
 
             {{ tonyStatusReport('stream','tts') }}
 
             {{ kallenStatusReport('school','tts') }}
+
+            {{ emmaStatusReport('sleep','tts') }}
           {% endif %}
       </p>
 
-      <p>
-        {{ emma_sleep() }}
-      </p>
 
       <p>
         'Around the house, there are currently {{ states('sensor.current_lights_on') }} lights on. '
