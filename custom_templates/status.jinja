@@ -154,7 +154,6 @@ Tony does not have a stream scheduled today. The next scheduled stream is in {{ 
 
 {% macro tonyStatusReport(type,method) %}
 {% from 'status.jinja' import medReportTony, twitchStreamInfo %}
-{% from 'time.jinja' import ct %}
 {% if type == 'meds' %}
 {{ medReportTony() }}
 {% endif %}
