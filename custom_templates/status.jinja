@@ -147,7 +147,7 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
   {% elif method == 'text' %}
     Tony will be streaming today. Stream starts at {{ streamstart }}.
   {% endif %}
-{% else %}
+{% elif state_attr('calendar.tony_s_twitch_schedule','start_time') != none %}
 Tony does not have a stream scheduled today. The next scheduled stream is in {{ next_twitch_stream() }} approximately.
 {% endif %}
 {% endmacro %}
