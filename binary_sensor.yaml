@@ -38,7 +38,7 @@
   unique_id: 51e388e1-3b50-48d7-8f6e-aa6ae7b846e5
   name: Evening
   after: '17:00'
-  before: '21:00'
+  before: '22:00'
 
 - platform: tod
   unique_id: deb55666-14f4-460e-8e74-94c8d7ba5d4a
