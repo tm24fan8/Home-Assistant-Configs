@@ -41,7 +41,7 @@
 {% endif %}
 {% endmacro %}
 
-{% macro tony_morning_meds() %}
+{% macro tony_morning_meds(method) %}
 {% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct %}
 {% set ct = ct() | int %}
 {% if is_state('input_boolean.tony_morning_meds_taken','on') %}
@@ -49,33 +49,41 @@
 {% elif is_state('input_boolean.tony_morning_meds_taken','off') and ct >= 21600 %}
   Tony has not taken his morning meds.
   {% if ct < state_attr('input_datetime.tony_morning_meds_notify','timestamp') | int %}
-    {{ ['He has a reminder scheduled for',
-        'Rest assured that I will pester him mercilessly about this, starting at',
-        'This is absolutely essential, and I will remind him to do it at',
-        'Since nobody including Tony himself likes him without his meds, I will remind him at',
-      ] | random }} {{ input_datetime_12hr('input_datetime.tony_morning_meds_notify') }} today.
+    {% if method == 'tts' %}
+      {{ ['He has a reminder scheduled for',
+          'Rest assured that I will pester him mercilessly about this, starting at',
+          'This is absolutely essential, and I will remind him to do it at',
+          'Since nobody including Tony himself likes him without his meds, I will remind him at',
+        ] | random }} {{ input_datetime_12hr('input_datetime.tony_morning_meds_notify') }} today. 
+    {% else %}
+      He will be reminded at {{ input_datetime_12hr('input_datetime.tony_morning_meds_notify') }} today.
+    {% endif %}
   {% endif %}
 {% endif %}
 {% endmacro %}
 
-{% macro tony_night_meds() %}
+{% macro tony_night_meds(method) %}
 {% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct %}
 {% set ct = ct() | int %}
 {% if is_state('input_boolean.tony_night_meds_taken','on') and ct < 43200 %}
   Tony took his night meds at {{ input_datetime_12hr_with_date('input_datetime.tony_night_meds_taken') }} today.
 {% elif is_state('input_boolean.tony_night_meds_taken','off') and (ct >= 82800 or ct <= 21600) %}
   Tony has not taken his night meds.
-  {{ ['He will be reminded when he goes to bed.',
-      'I will make sure he is reminded when it is time.',
-      'This will be rectified whenever he drags his ass to bed.',
-      'All in due time, of course.'
-    ] | random }}
+  {% if method == 'tts' %}
+    {{ ['He will be reminded when he goes to bed.',
+        'I will make sure he is reminded when it is time.',
+        'This will be rectified whenever he drags his ass to bed.',
+        'All in due time, of course.'
+      ] | random }}
+  {% else %}
+    He will be reminded when he goes to bed.
+  {% endif %}
 {% endif %}
 {% endmacro %}
 
-{% macro medReportTony() %}
-{{ tony_morning_meds() }}
-{{ tony_night_meds() }}
+{% macro medReportTony(method) %}
+{{ tony_morning_meds(method) }}
+{{ tony_night_meds(method) }}
 {% endmacro %}
 
 {% macro kallen_morning_meds() %}
@@ -159,13 +167,13 @@ Tony does not have a stream scheduled today. The next scheduled stream is in {{ 
 {% macro tonyStatusReport(type,method) %}
 {% from 'status.jinja' import medReportTony, twitchStreamInfo %}
 {% if type == 'meds' %}
-{{ medReportTony() }}
+{{ medReportTony(method) }}
 {% endif %}
 {% if type == 'stream' %}
 {{ twitchStreamInfo(method) }}
 {% endif %}
 {% if type == 'full' %}
-{{ medReportTony() }}
+{{ medReportTony(method) }}
 {{ twitchStreamInfo(method) }}
 {% endif %}
 {% endmacro %}
