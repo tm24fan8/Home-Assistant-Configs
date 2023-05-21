@@ -240,7 +240,7 @@ influxdb:
       - sensor.the_big_fish
       - sensor.speedway
       - sensor.meijer
-      - sensor.wash_n_fill
+      - sensor.ridis
       - sensor.marathon_cleveland_avenue
       - sensor.south_side_shell
       - sensor.east_side_shell
@@ -368,7 +368,7 @@ prometheus:
       - sensor.the_big_fish
       - sensor.speedway
       - sensor.meijer
-      - sensor.wash_n_fill
+      - sensor.ridis
       - sensor.marathon_cleveland_avenue
       - sensor.south_side_shell
       - sensor.east_side_shell

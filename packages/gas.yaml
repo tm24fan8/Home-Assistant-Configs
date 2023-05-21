@@ -89,7 +89,7 @@ scrape:
         icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/71535
     sensor:
-      - name: Wash N Fill
+      - name: Ridis
         unique_id: 9db2cbc3-39ea-4471-9541-64aa7aa8de71
         select: *selector
         unit_of_measurement: USD
