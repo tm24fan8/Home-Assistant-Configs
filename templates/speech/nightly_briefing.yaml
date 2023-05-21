@@ -63,34 +63,7 @@
       {% else %}
         "Collin does not have school tomorrow. "
       {% endif %}
-      {% set start = (state_attr('binary_sensor.tina_work_tomorrow','start_timestamp') | int) // 1000 %}
-      {% set tmrw = (as_timestamp(states('sensor.date')) + 86400) | int %}
-      {% set diff = (start - tmrw) %}
-      {% if is_state('input_boolean.work_today','on') %}
-        {{ [
-          "Tina is still at work right now, ",
-          "Tina has not yet been released from work, ",
-          "Tina is still at the thankless idiot scape known as work, ",
-          "Tina is still consumed by the gods of capitalism, ",
-        ] | random }} she will be done at approximately {{ input_datetime_12hr('input_datetime.tina_workday_end') }}.
-      {% elif is_state('binary_sensor.tina_work_tomorrow','on') %}
-        {{ [
-          "Tina must go and please the food gods tomorrow ",
-          "Tomorrow, Tina must go and entertain the gremlins known as her customers and coworkers ",
-          "Tomorrow, Tina will be owned by our lovely lord and savior, capitalism, ",
-        ] | random }} at {{ diff | timestamp_custom('%H:%M %p',false) }}. "
-      {% else %}
-        {{ [
-          "Tina seems to have been granted a reprieve from her endless torture tomorrow. ",
-          "The powers that be have decided that Tina deserves a break from work tomorrow. ",
-          "Tina has been granted time off from the hellscape of work tomorrow. ",
-          "Tina will not be attending the gathering of tormented souls known as work tomorrow. ",
-          "The scheduling gods have decided that Tina's services will not be required tomorrow. "
-          "Tina gets a break tomorrow from grinding it out for the gods of capitalism. ",
-          "Tina will not be at the thankless idiot scape known as work tomorrow. ",
-        ] | random }}
-      {% endif %}
-
+      {{ tinaStatusReport('work','tts') }}
       {{ emmaStatusReport('sleep','tts') }}
     </p>
 

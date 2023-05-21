@@ -283,37 +283,62 @@ Tony does not have a stream scheduled today. The next scheduled stream is in {{ 
 {% endmacro %}
 
 {% macro workReportTina(method) %}
-{% from 'time.jinja' import input_datetime_12hr %}
+{% from 'time.jinja' import input_datetime_12hr, calendar_event_today %}
 {% set tina = states.person.christina_stork.state %}
+{% set start = (state_attr('binary_sensor.tina_work_tomorrow','start_timestamp') | int) // 1000 %}
+{% set tmrw = (as_timestamp(states('sensor.date')) + 86400) | int %}
+{% set diff = (start - tmrw) %}
 {% if method == 'tts' %}
-  {% if is_state('binary_sensor.evening','on') %}
-    {% if tina in ['Bob Evans','BobEvans'] and is_state('input_boolean.work_today','on') %}
-      <s>Tina is at work right now. She will be done at approximately {{ input_datetime_12hr('input_datetime.tina_workday_end') }}. </s>
-    {% elif is_state('input_boolean.work_today','on') %}
-      Tina has work today.
+  {% if is_state('input_boolean.work_today','on') and tina in ['Bob Evans','BobEvans'] %}
+    {{ [
+      "Tina is still at work right now, ",
+      "Tina has not yet been released from work, ",
+      "Tina is still at the thankless idiot scape known as work, ",
+      "Tina is still consumed by the gods of capitalism, ",
+    ] | random }} she will be done at approximately {{ input_datetime_12hr('input_datetime.tina_workday_end') }}.
+  {% elif is_state('binary_sensor.evening','on') %}
+    {% if is_state('binary_sensor.tina_work_tomorrow','on') %}
+      {{ [
+        "Tina must go and please the food gods tomorrow ",
+        "Tomorrow, Tina must go and entertain the gremlins known as her customers and coworkers ",
+        "Tomorrow, Tina will be owned by our lovely lord and savior capitalism ",
+      ] | random }} at {{ diff | timestamp_custom('%H:%M %p',false) }}. "
+    {% elif is_state('binary_sensor.tina_work_tomorrow','off') %}
+      {{ [
+        "Tina seems to have been granted a reprieve from her endless torture tomorrow. ",
+        "The powers that be have decided that Tina deserves a break from work tomorrow. ",
+        "Tina has been granted time off from the hellscape of work tomorrow. ",
+        "Tina will not be attending the gathering of tormented souls known as work tomorrow. ",
+        "The scheduling gods have decided that Tina's services will not be required tomorrow. "
+        "Tina gets a break tomorrow from grinding it out for the gods of capitalism. ",
+        "Tina will not be at the thankless idiot scape known as work tomorrow. ",
+      ] | random }}
     {% endif %}
+  {% elif is_state('input_boolean.work_today','on') %}
+    {{ [
+      "Tina must go and please the food gods today ",
+      "Today, Tina must go and entertain the gremlins known as her customers and coworkers ",
+      "Today, Tina will be owned and operated by our lovely lord and savior capitalism starting ",
+      "Tina will attempt to satiate the patron saint of capitalism today "
+    ] | random }} at {{ input_datetime_12hr('input_datetime.tina_workday_start') }}.
   {% else %}
-    {% if tina in ['Bob Evans','BobEvans'] and is_state('input_boolean.work_today','on') %}
-      {{ [
-        "Tina is still at work right now, ",
-        "Tina has not yet been released from work, ",
-        "Tina is still at the thankless idiot scape known as work, ",
-        "Tina is still consumed by the gods of capitalism, ",
-      ] | random }} she will be done at approximately {{ input_datetime_12hr('input_datetime.tina_workday_end') }}.
-    {% elif is_state('input_boolean.work_today','on') %}
-      {{ [
-        "Tina must go and please the food gods today ",
-        "Today, Tina must go and entertain the gremlins known as her customers and coworkers ",
-        "Today, Tina will be owned by our lovely lord and savior, capitalism, starting ",
-        "Tina will attempt to satiate the patron saint of capitalism today "
-      ] | random }} at {{ input_datetime_12hr('input_datetime.tina_workday_start') }}.
-    {% endif %}
+    {{ [
+      "Tina seems to have been granted a reprieve from her endless torture today. ",
+      "The powers that be have decided that Tina deserves a break from work today. ",
+      "Tina has been granted time off from the hellscape of work today. ",
+      "Tina will not be attending the gathering of tormented souls known as work today. ",
+      "The scheduling gods have decided that Tina's services will not be required today. "
+      "Tina gets a break today from grinding it out for the gods of capitalism. ",
+      "Tina will not be at the thankless idiot scape known as work today. ",
+    ] | random }}
   {% endif %}
 {% elif method == 'text' %}
   {% if tina in ['Bob Evans','BobEvans'] and is_state('input_boolean.work_today','on') %}
     Tina is at work right now. She will be done at approximately {{ input_datetime_12hr('input_datetime.tina_workday_end') }} today.
   {% elif is_state('input_boolean.work_today','on') %}
     Tina has work at {{ input_datetime_12hr('input_datetime.tina_workday_start') }} today.
+  {% elif is_state('binary_sensor.evening','on') and is_state('binary_sensor.tina_work_tomorrow','on') %}
+    Tina has work tomorrow at {{ diff | timestamp_custom('%H:%M %p',false) }}.
   {% else %}
     Tina has today off from work.
   {% endif %}
