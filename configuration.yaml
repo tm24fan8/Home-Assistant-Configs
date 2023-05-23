@@ -100,6 +100,8 @@ recorder:
       - sensor.*bytes_received
       - binary_sensor.*server_on
       - binary_sensor.*desktop_on
+      - sensor.nextcloud*
+      - binary_sensor.nextcloud*
     entities:
       - sensor.avg_ping
       - sensor.max_ping
@@ -213,6 +215,8 @@ influxdb:
       - binary_sensor.*desktop_on
       - binary_sensor.*server_on
       - sensor.*_steps
+      - sensor.nextcloud*
+      - binary_sensor.nextcloud*
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
@@ -341,6 +345,8 @@ prometheus:
       - binary_sensor.*desktop_on
       - binary_sensor.*server_on
       - sensor.*_steps
+      - sensor.nextcloud*
+      - binary_sensor.nextcloud*
     include_entities:
       - media_player.living_room_tv
       - media_player.basement_tv
