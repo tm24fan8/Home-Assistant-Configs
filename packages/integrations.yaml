@@ -84,7 +84,6 @@ proxmoxve:
           - 102
           - 109
           - 114
-          - 115
         containers:
           - 100
           - 101
