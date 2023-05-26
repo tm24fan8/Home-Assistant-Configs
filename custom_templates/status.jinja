@@ -280,13 +280,25 @@ Tony does not have a stream scheduled today. The next scheduled stream is in {{ 
 {% endif %}
 {% endmacro %}
 
+{% macro kallenSleep(method) %}
+{% from 'time.jinja' import input_datetime_12hr %}
+{% if is_state('input_boolean.kallen_sleeping','on') %}
+  Kallen went to bed at {{ input_datetime_12hr('input_datetime.kallen_bedtime') }} today.
+{% else %}
+  Kallen woke up at {{ input_datetime_12hr('input_datetime.kallen_wakeup_time') }} today.
+{% endif %}
+{% endmacro %}
+
 {% macro kallenStatusReport(type,method) %}
 {% from 'status.jinja' import medReportKallen %}
 {% if type == 'meds' %}
 {{ medReportKallen() }}
 {% elif type == 'school' %}
 {{ schoolReportKallen(method) }}
+{% elif type == 'sleep' %}
+{{ kallenSleep(method)}}
 {% elif type == 'full' %}
+{{ kallenSleep(method) }}
 {{ medReportKallen() }}
 {{ schoolReportKallen(method) }}
 {% endif %}
