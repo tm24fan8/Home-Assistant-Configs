@@ -281,11 +281,18 @@ Tony does not have a stream scheduled today. The next scheduled stream is in {{ 
 {% endmacro %}
 
 {% macro kallenSleep(method) %}
-{% from 'time.jinja' import input_datetime_12hr %}
+{% from 'time.jinja' import input_datetime_12hr, ct %}
+{% set ct = ct() | int %}
 {% if is_state('input_boolean.kallen_sleeping','on') %}
-  Kallen went to bed at {{ input_datetime_12hr('input_datetime.kallen_bedtime') }} today.
+  Kallen went to bed at {{ input_datetime_12hr('input_datetime.kallen_bedtime') }} tonight.
+  {% if ct > 14400 %}
+    His scheduled wakeup time is {{ input_datetime_12hr('input_datetime.kallen_wakeup_time') }} today.
+  {% endif %}
 {% else %}
   Kallen woke up at {{ input_datetime_12hr('input_datetime.kallen_wakeup_time') }} today.
+  {% if ct > 57600 %}
+    His scheduled bedtime is {{ input_datetime_12hr('input_datetime.kallen_bedtime') }} tonight.
+  {% endif %}
 {% endif %}
 {% endmacro %}
 
