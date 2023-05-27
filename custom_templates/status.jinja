@@ -247,11 +247,12 @@ Tony does not have a stream scheduled today. The next scheduled stream is in {{ 
       The school year ends in {{ custom_time('input_datetime.school_last_day','week,day') }}.
   {% endif %}
   {% if count_the_days('input_datetime.school_last_day') | int == 0 %}
-    Congratulations, today is the last day of school! Have an awesome day!
+    Congratulations, today is the last day of school! Have an awesome day! Additionally, congratulations on finishing your time in elementary school. This is an immense accomplishment. Onward and upward to better things, middle school starts this fall!
   {% endif %}
   {% if count_the_days('input_datetime.school_last_day') | int == -1 -%}
     Today is the first day of Summer Break! 
   {%- endif %}
+  
 {% elif method == 'text' %}
   {% if is_state('input_boolean.kallen_school_today','on') %}
     {% if is_state('input_boolean.two_hour_delay','on') %}

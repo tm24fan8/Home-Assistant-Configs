@@ -50,6 +50,9 @@
       {% elif is_state('input_boolean.school_cancelled','on') and is_state('person.kallen_stork','home') %}
         "I hope you are enjoying your free day off from school, Collin. "
       {% endif %}
+      {% if count_the_days('input_datetime.school_last_day') | int == 0 %}
+        "Congratulations, today is the last day of school! Have an awesome day! Additionally, congratulations on finishing your time in elementary school. This is an immense accomplishment. Onward and upward to better things, middle school starts this fall!"
+      {% endif %}
     </p>
     <p>
       {% if is_state('sensor.anniversary_tony_s_birthday','0') %}
