@@ -92,7 +92,7 @@ recorder:
       - sensor.*power
       - sensor.*energy*
       - sensor.*energy_sensor*
-      - sensor.*power_sensor
+      - sensor.*power_sensor*
       - sensor.*voltage
       - sensor.*current
       - sensor.*bps_sent
@@ -101,8 +101,8 @@ recorder:
       - sensor.*bytes_received
       - binary_sensor.*server_on
       - binary_sensor.*desktop_on
-      - sensor.nextcloud*
-      - binary_sensor.nextcloud*
+      - sensor.minecraft_vm*
+      - sensor.win10_vm*
     entities:
       - sensor.avg_ping
       - sensor.max_ping
@@ -217,6 +217,9 @@ influxdb:
       - binary_sensor.*server_on
       - sensor.*_steps
       - binary_sensor.*uptime*
+      - sensor.minecraft_vm*
+      - sensor.win10_vm*
+      - sensor.home_assistant_glances*
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
@@ -346,6 +349,9 @@ prometheus:
       - binary_sensor.*server_on
       - sensor.*_steps
       - binary_sensor.*uptime*
+      - sensor.minecraft_vm*
+      - sensor.win10_vm*
+      - sensor.home_assistant_glances*
     include_entities:
       - media_player.living_room_tv
       - media_player.basement_tv
