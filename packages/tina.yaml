@@ -7,6 +7,9 @@ input_boolean:
   work_today_extended:
     name: Work Today Extended
     icon: mdi:briefcase-plus
+  tina_morning_meds_taken:
+    name: Tina Morning Meds Taken
+    icon: mdi:medical-bag
 
 input_datetime:
   tina_workday_start:
@@ -19,6 +22,16 @@ input_datetime:
     has_date: false
     has_time: true
     icon: mdi:briefcase-off
+  tina_morning_meds_taken:
+    name: Tina Morning Meds Taken
+    has_date: true
+    has_time: true
+    icon: mdi:medical-bag
+  tina_morning_meds_notify:
+    name: Tina Morning Meds Notify
+    has_date: false
+    has_time: true
+    icon: mdi:medical-bag
 
 automation:
   - id: cd9f921f-71c7-4e29-9aee-7421ef19bdd3
@@ -54,6 +67,51 @@ automation:
         at: input_datetime.tina_workday_end
     action: 
       - service: script.tina_work_reset
+
+  - id: 513e33b8-a236-474b-a9cc-e40af36a052d
+    alias: Tina Meds Handler
+    description: Make sure Tina has taken her meds in the morning and at night
+    mode: parallel
+    max: 4
+    trigger:
+    - platform: time
+      at: input_datetime.tina_morning_meds_notify
+      id: wakeup
+    - platform: state
+      entity_id: input_boolean.tina_morning_meds_taken
+      to: 'on'
+      id: boolean-morning
+    action:
+    - choose:
+      - conditions:
+        - condition: and
+          conditions:
+          - condition: trigger
+            id: wakeup
+          - condition: state
+            entity_id: input_boolean.tina_morning_meds_taken
+            state: 'off'
+        sequence:
+        - service: script.turn_on
+          target:
+            entity_id: script.tina_morning_meds
+      - conditions:
+        - condition: trigger
+          id: boolean-morning
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.tina_morning_meds_taken
+          data:
+            datetime: >
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(0) }}
+        - service: logbook.log
+          data:
+            name: Tina Morning Meds
+            message: Taken
+            entity_id: input_boolean.tina_morning_meds_taken
+            domain: input_boolean
 
 script:
   tina_work_today:
@@ -121,3 +179,110 @@ script:
             - service: script.master_bedroom_scheduling_evening
             - service: script.emma_bedroom_scheduling_evening
             - service: script.security_scheduling
+
+  tina_morning_meds:
+    alias: 'Tina Morning Meds'
+    icon: mdi:medical-bag
+    mode: restart
+    sequence:
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.tina_morning_meds_taken
+    - service: script.text_notify
+      data:
+        who: tina
+        type: alert
+        title: Morning Meds
+        message: You need to take your morning meds
+        tag: tina-morning-meds
+        actions:
+          - action: "TINA_MORNING_MEDS_TAKEN"
+            title: Taken
+          - action: "TINA_MORNING_MEDS_SKIPPED"
+            title: Skip
+          - action: "TINA_MORNING_MEDS_ASK_LATER"
+            title: Ask Later
+    - wait_for_trigger:
+      - platform: event
+        event_type: ios.notification_action_fired
+        event_data:
+          actionName: "TINA_MORNING_MEDS_TAKEN"
+        id: taken
+      - platform: event
+        event_type: ios.notification_action_fired
+        event_data:
+          actionName: "TINA_MORNING_MEDS_SKIPPED"
+        id: skipped
+      - platform: event
+        event_type: ios.notification_action_fired
+        event_data:
+          actionName: "TINA_MORNING_MEDS_ASK_LATER"
+        id: ask-later
+      - platform: state
+        entity_id: person.christina_stork
+        from: 'home'
+        id: left
+      - platform: state
+        entity_id: input_boolean.tina_morning_meds_taken
+        to: 'on'
+        id: manual
+      timeout: "00:30:00"
+      continue_on_timeout: true
+    - choose:
+      - conditions: "{{ wait.trigger.id in ['taken','manual'] }}"
+        sequence:
+        - service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.tina_morning_meds_taken
+      - conditions: "{{ wait.trigger.id == 'skipped' }}"
+        sequence:
+        - service: logbook.log
+          data:
+            name: Tina Morning Meds
+            message: Skipped
+            entity_id: input_boolean.tina_morning_meds_taken
+            domain: input_boolean
+      - conditions: "{{ wait.trigger.id == 'ask-later' }}"
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.tina_morning_meds_notify
+          data:
+            datetime: >
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(0,30) }}
+        - service: logbook.log
+          data:
+            name: Tina Morning Meds
+            message: Delayed for 30 minutes
+            entity_id: input_boolean.tina_morning_meds_taken
+            domain: input_boolean
+      - conditions: "{{ wait.trigger.id == 'left' }}"
+        sequence:
+        - service: script.text_notify
+          data:
+            who: tina
+            type: alert
+            title: HEY DUMBASS
+            message: YOU FORGOT TO TAKE YOUR MORNING MEDS!!!!!
+      - conditions: "{{ wait.trigger == 'none' or wait.trigger.idx is undefined }}"
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.tina_morning_meds_notify
+          data:
+            datetime: >
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(0,1) }}
+        - service: logbook.log
+          data:
+            name: Tina Morning Meds
+            message: No response, delayed for 1 minute
+            entity_id: input_boolean.tina_morning_meds_taken
+            domain: input_boolean
+    - service: script.text_notify
+      data:
+        type: alert
+        who: tina
+        message: clear_notification
+        tag: tina-morning-meds

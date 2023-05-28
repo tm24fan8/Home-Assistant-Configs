@@ -386,11 +386,41 @@ Tony does not have a stream scheduled today. The next scheduled stream is in {{ 
 {% endif %}
 {% endmacro %}
 
+{% macro tina_morning_meds(method) %}
+{% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct %}
+{% set ct = ct() | int %}
+{% if is_state('binary_sensor.overnight','off') %}
+  {% if is_state('input_boolean.tina_morning_meds_taken','on') %}
+    Tina took her morning meds at {{ input_datetime_12hr_with_date('input_datetime.tina_morning_meds_taken') }} today.
+  {% elif is_state('input_boolean.tina_morning_meds_taken','off') and is_state('binary_sensor.after_midnight','off') %}
+    Tina has not taken her morning meds.
+    {% if ct < state_attr('input_datetime.tina_morning_meds_notify','timestamp') | int %}
+      {% if method == 'tts' %}
+        {{ ['She has a reminder scheduled for',
+            'Rest assured that I will pester her mercilessly about this, starting at',
+            'This is absolutely essential, and I will remind her to do it at',
+            'Her blood pressure is very important, so I will remind her at',
+          ] | random }} {{ input_datetime_12hr('input_datetime.tina_morning_meds_notify') }} today. 
+      {% else %}
+        She will be reminded at {{ input_datetime_12hr('input_datetime.tina_morning_meds_notify') }} today.
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endif %}
+{% endmacro %}
+
+{% macro medReportTina(method) %}
+{{ tina_morning_meds(method) }}
+{% endmacro %}
+
 {% macro tinaStatusReport(type,method) %}
 {% from 'status.jinja' import workReportTina %}
 {% if type == 'work' %}
 {{ workReportTina(method) }}
+{% elif type == 'meds' %}
+{{ medReportTina(method) }}
 {% elif type == 'full' %}
+{{ medReportTina(method) }}
 {{ workReportTina(method) }}
 {% endif %}
 {% endmacro %}

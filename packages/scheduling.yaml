@@ -569,9 +569,21 @@ script:
           entity_id: input_datetime.tony_morning_meds_notify
         data:
           time: "{{ states('input_datetime.master_bedroom_wakeup') }}"
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.tina_morning_meds_notify
+        data:
+          time: >
+            {% if is_state('input_boolean.work_today','on') %}
+              {{ state_attr('input_datetime.tina_workday_start','timestamp') | int - 1800 }}
+            {% else %}
+              {{ states('input_datetime.master_bedroom_wakeup') }}
+            {% endif %}
       - service: input_boolean.turn_off
         target:
-          entity_id: input_boolean.tony_morning_meds_taken
+          entity_id:
+            - input_boolean.tony_morning_meds_taken
+            - input_boolean.tina_morning_meds_taken
       - service: input_boolean.turn_on
         target:
           entity_id: input_boolean.master_bedroom_scheduling_morning_ran
