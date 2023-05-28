@@ -116,7 +116,7 @@
 {% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct %}
 {% set ct = ct() | int %}
 {% set wakeup = state_attr('input_datetime.kallen_wakeup_time','timestamp') | int %}
-{% if state_attr('input_datetime.kallen_bedtime','timestamp') | int <= 7200 %}
+{% if 0 <= state_attr('input_datetime.kallen_bedtime','timestamp') | int <= 7200 %}
   {% set bedtime = 85440 %}
 {% else %}
   {% set bedtime = state_attr('input_datetime.kallen_bedtime','timestamp') | int - 900 %}
