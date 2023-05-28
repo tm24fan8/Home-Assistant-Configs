@@ -17,6 +17,18 @@
   before: '07:00'
 
 - platform: tod
+  unique_id: f939dc46-be13-4741-8d28-e12cf4142c39
+  name: After Midnight
+  after: '00:00'
+  before: '04:00'
+
+- platform: tod
+  unique_id: 44f08c9b-7856-4811-86aa-2a94cce849d7
+  name: Early Morning
+  after: '04:00'
+  before: '06:30'
+
+- platform: tod
   unique_id: 0aa45991-5828-4cf6-b6a4-38189517a265
   name: Morning
   after: '06:30'
