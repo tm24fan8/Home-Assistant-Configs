@@ -92,7 +92,11 @@
 {% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct %}
 {% set ct = ct() | int %}
 {% set wakeup = state_attr('input_datetime.kallen_wakeup_time','timestamp') | int %}
-{% set bedtime = state_attr('input_datetime.kallen_bedtime','timestamp') | int %}
+{% if state_attr('input_datetime.kallen_bedtime','timestamp') | int <= 7200 %}
+  {% set bedtime = 86340 %}
+{% else %}
+  {% set bedtime = state_attr('input_datetime.kallen_bedtime','timestamp') | int - 900 %}
+{% endif %}
 {% if wakeup <= ct <= bedtime %}
   {% if is_state('input_boolean.kallen_morning_meds_taken','on') %}
     Kallen took his morning meds at {{ input_datetime_12hr_with_date('input_datetime.kallen_morning_meds_taken') }} today.
@@ -111,9 +115,13 @@
 {% macro kallen_night_meds() %}
 {% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct %}
 {% set ct = ct() | int %}
-{% set diff = state_attr('input_datetime.kallen_bedtime','timestamp') | int - ct %}
 {% set wakeup = state_attr('input_datetime.kallen_wakeup_time','timestamp') | int %}
-{% set bedtime = state_attr('input_datetime.kallen_bedtime','timestamp') | int - 900 %}
+{% if state_attr('input_datetime.kallen_bedtime','timestamp') | int <= 7200 %}
+  {% set bedtime = 85440 %}
+{% else %}
+  {% set bedtime = state_attr('input_datetime.kallen_bedtime','timestamp') | int - 900 %}
+{% endif %}
+{% set diff = bedtime - ct %}
 {% if is_state('input_boolean.kallen_night_meds_taken','on') %}
   {% if (ct >= bedtime) or (ct < wakeup) %}
     Kallen took his night meds at {{ input_datetime_12hr_with_date('input_datetime.kallen_night_meds_taken') }} today.
