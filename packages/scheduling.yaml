@@ -575,7 +575,7 @@ script:
         data:
           time: >
             {% if is_state('input_boolean.work_today','on') %}
-              {{ state_attr('input_datetime.tina_workday_start','timestamp') | int - 1800 }}
+              {{ (state_attr('input_datetime.tina_workday_start','timestamp') | int - 1800) | timestamp_custom('%H:%M', false) }}
             {% else %}
               {{ states('input_datetime.master_bedroom_wakeup') }}
             {% endif %}
