@@ -33,7 +33,7 @@
 **.conf
 **.uuid
 **.txt
-**.log
+**.log*
 **.db
 **.sqlite
 **.xml
@@ -45,6 +45,7 @@
 **zones.yaml
 **test.yaml
 **testing.yaml
+**proxmox.yaml
 **.homekit*
 **.vscode
 **.pid
@@ -54,8 +55,6 @@
 **.key
 **core.*
 **OZW_Log.txt
-**home-assistant.log
-**home-assistant_v2.db
 **.db-journal
 **.db-shm
 **.db-wal
@@ -66,11 +65,9 @@
 **pyozw.sqlite
 **ipchange.yaml
 **production_auth.json
-**.log*
 **alexa_auth
 **.corrupt*
 **ages_old.yaml
-**proxmox.yaml
 
 # exceptions
 !/appdaemon/apps/
