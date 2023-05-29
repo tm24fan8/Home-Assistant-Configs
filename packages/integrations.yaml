@@ -71,31 +71,3 @@ pyscript:
   hass_is_global: true
 
 animated_scenes:
-
-proxmoxve:
-  - host: 192.168.1.4
-    username: !secret proxmoxve_user
-    password: !secret proxmoxve_pass
-    verify_ssl: false
-    realm: pve
-    nodes:
-      - node: basement-server
-        vms:
-          - 102
-          - 109
-          - 114
-        containers:
-          - 100
-          - 101
-          - 103
-          - 104
-          - 105
-          - 106
-          - 107
-          - 108
-          - 110
-          - 111
-          - 112
-          - 113
-          - 115
-          - 116

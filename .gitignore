@@ -70,6 +70,7 @@
 **alexa_auth
 **.corrupt*
 **ages_old.yaml
+**proxmox.yaml
 
 # exceptions
 !/appdaemon/apps/
