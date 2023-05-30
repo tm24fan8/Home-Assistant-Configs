@@ -171,6 +171,9 @@ sensor:
           precipitation: >-
             {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
             {{ forecast.precipitation }}
+          friendly: >-
+            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
+            {{ forecast.condition | replace("partlycloudy","partly cloudy") }}
       current_forecast_detail:
         friendly_name: Current Forecast Detail
         unique_id: e5ae9864-70b5-402c-9d2f-c4d6a10085df
@@ -522,7 +525,7 @@ sensor:
             {% else %}
               and {{ states.weather.iron_nerd_weather_station.state }}
             {% endif %}
-            {%- if is_state('binary_sensor.night','off')%}
+            {%- if is_state('binary_sensor.early_night_mode','off')%}
               {{ [
                 'Later Today ',
                 'For the rest of the day '
@@ -826,7 +829,7 @@ sensor:
               {% endif %}
             {% endif %}
             {% if states('sensor.thermal_comfort_simmerindex') in ['extremely_warm','danger_of_heatstroke','extreme_danger_of_heatstroke','circulatory_collapse_imminent'] %}
-              "To reiterate, the current weather is dangerously hot! "
+              "I cannot stress this enough, the current weather is dangerously hot! "
             {% endif %}
             {% if is_state('sensor.thermal_comfort_perception','somewhat_uncomfortable') %}
               "The humidity is somewhat uncomfortable outside."

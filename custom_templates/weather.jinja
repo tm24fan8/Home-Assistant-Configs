@@ -1,29 +1,82 @@
-{% macro weatherReport(time,method) %}
+{% macro weatherReport(type,method,time) %}
 {% from 'time.jinja' import ct %}
 {% set ct = ct() | int %}
-{% if time in ['current','full'] %}
-  The current weather is {{ states('sensor.pirateweather_summary') | lower }}. It is {{ state_attr('weather.iron_nerd_weather_station','temperature') | round }} degrees outside and feels like {{ states('sensor.pirateweather_apparent_temperature') | round }} degrees.
-  {% if method == 'tts' %}
-    {% if is_state('binary_sensor.heat_threshold','on') %}
-      It is very hot outside, so be careful if you have to venture out.
-    {% elif is_state('binary_sensor.cold_threshold','on') %}
-      It is very cold outside, so be careful if you have to venture out.
+{% set time = time|default('day') %}
+{% if method == 'text' %}
+  {% if type in ['current','full'] %}
+    The current weather is {{ states('weather.iron_nerd_weather_station') | lower }}. It is {{ state_attr('weather.iron_nerd_weather_station','temperature') | round }} degrees outside and feels like {{ states('sensor.pirateweather_apparent_temperature') | round }} degrees.
+  {% endif %}
+  {% if type in ['forecast','full'] %}
+    {% if 14400 <= ct <= 61200 %}
+      The forecast high is {{ states('sensor.todays_high_temp') }}.
+    {% else %}
+      Overnight you can expect a low of {{ states('sensor.overnight_lowest_temperature') }}.
+    {% endif %}
+    {% if is_state('binary_sensor.early_night_mode','on') %}For tonight{% else %}For the rest of the day{% endif %}, the conditions are expected to be {{ state_attr('sensor.current_forecast','friendly') }}.
+  {% endif %}
+  {% if type in ['alerts','full'] %}
+    {% if is_state('input_boolean.tornado_alarm','on') %}
+      We are under a tornado warning. If you are not already in shelter, you should be. Get on it!
+    {% elif states('sensor.weatheralerts_active_alerts') > '0' %}
+      Current weather alerts: {{ states('sensor.weather_alert_string') }}.
+    {% endif %}
+    {% if is_state('binary_sensor.lightning_warning','on') %}
+      {% set ltgdist = (states('sensor.blitzortung_lightning_distance') | int) / 1.609 | round %}
+        There is lightning in the area. Nearest strike is {{ ltgdist }} away.
+    {% endif %}
+    {% if states('sensor.kdfi_visibility') | int < 3 %}
+      Caution: Current outdoor visibility is {{ states('sensor.kdfi_visibility') }} miles.
     {% endif %}
   {% endif %}
-{% endif %}
-{% if time in ['forecast','full'] %}
-  {% if 14400 <= ct <= 61200 %}
-    The forecast high is {{ states('sensor.todays_high_temp') }}.
-    {% if method == 'tts' %}
-      {% if is_state('input_boolean.hot_day','on') %}
-        It is going to be a very hot day, so be careful if you are going outside!
-      {% elif is_state('input_boolean.cold_day','on') %}
-        It is going to be a very cold day, so be careful if you are going outside!
-      {% endif %}
+{% elif method == 'tts' %}
+  {% if type in ['alerts','full'] %}
+    {% if states('sensor.weatheralerts_active_alerts') > '0' %}
+      "Currently there are weather alerts active. The total number of alerts is {{ states('sensor.weather_alerts_active_corrected') }}. They are as follows. "
+        {{ states('sensor.weather_alert_string') }}.
     {% endif %}
-  {% else %}
-    Overnight you can expect a low of {{ states('sensor.overnight_lowest_temperature') }}.
+    {% if is_state('input_boolean.tornado_alarm','on') %}
+      "We are under a tornado warning. If you are not already in shelter, you should be. Get on it! "
+    {% elif is_state('input_boolean.tornado_watch','on') %}
+      {{ [
+        "There is currently a tornado watch active. Please keep an eye on the sky and your local weather reports. ",
+        "We are currently under a tornado watch. This means the possibility exists for a tornado to form. Be prepared, and be safe! ",
+        "The National Weather Service has issued a tornado watch for our area. Be prepared to take shelter if a warning is issued! ",
+      ] | random }}
+    {% endif %}
+    {% if is_state('binary_sensor.lightning_warning','on') %}
+      {% set ltgdist = (states('sensor.blitzortung_lightning_distance') | int) / 1.609 | round %}
+      {{ [
+        "There are reports of lightning in the area, please stay safe. ",
+        "My sensors detect the presence of lightning nearby, so you should prepare to take shelter if needed. ",
+        "A little birdy told me there is lightning nearby. His feathers were all sticking up, I have no idea why. ",
+        "Please exercise caution, as there is lightning in the area. ",
+        "That flashing in the sky is not interstellar warfare, it is simply lightning. But you should still be careful outside. ",
+      ] | random }}
+      "The nearest lightning strike is {{ ltgdist }} miles away. "
+    {% endif %}
+    {% if (states('sensor.kdfi_visibility') | int ) < 3 %}
+      {{ [
+        "It is foggy outside, please exercise caution when driving. ",
+        "The visibility outside is quite low. If you will be driving soon, please be cautious. ",
+        "It is pea soup outside right now, and that is just as awful to drive in as it is to eat. Be careful! ",
+        "Look out the window. Do you notice that you cannot see anything? Bear that in mind if you intend to drive any time soon. ",
+        "Be advised, it is very difficult to see outside right now. Drive safely. "
+      ] | random }}
+    {% endif %}
   {% endif %}
-  Later {% if is_state('binary_sensor.early_night_mode','on') %}tonight{% else %}today{% endif %}, the conditions are expected to be {{ states('sensor.current_forecast') }}.
+
+  {% if type in ['current','full'] %}
+    {{ states('sensor.current_conditions_detail') }}
+  {% elif type == 'forecast' %}
+    {{ states('sensor.current_forecast_detail') }}
+  {% endif %}
+  {% if time in ['morning','day'] and type != 'alerts' %}
+    {{ [
+      'Just in case you were planning on going anywhere,',
+      'On the off chance that you planned to go outside,',
+      'If you were planning to go out and do something with your life,',
+      ] | random }}
+      {{ states('sensor.clothing_forecast_detail') }}
+  {% endif %}
 {% endif %}
 {% endmacro %}
