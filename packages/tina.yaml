@@ -63,10 +63,29 @@ automation:
     alias: Work Reset
     initial_state: true
     trigger:
+      - platform: zone
+        entity_id: person.christina_stork
+        zone: zone.home
+        event: enter
+        id: home
+        variables:
+          reason: "{{ trigger.id }}"
       - platform: time
         at: input_datetime.tina_workday_end
+        id: end
+        variables:
+          reason: "{{ trigger.id }}"
+    condition:
+      - condition: state
+        entity_id: input_boolean.work_today
+        state: 'on'
+      - condition: time
+        after: "15:00:00"
+        before: "00:00:00"
     action: 
       - service: script.tina_work_reset
+        data:
+          reason: "{{ reason }}"
 
   - id: 513e33b8-a236-474b-a9cc-e40af36a052d
     alias: Tina Meds Handler
@@ -139,10 +158,32 @@ script:
 
   tina_work_reset:
     alias: 'Tina Work Reset'
+    variables:
+      reason: '{{ reason|default("{}") }}'
     sequence:
-      - service: input_boolean.turn_off
-        target:
-          entity_id: input_boolean.work_today
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: "{{ reason == 'home' }}"
+          sequence:
+          - service: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.work_today
+        - conditions:
+          - condition: template
+            value_template: "{{ reason == 'end' }}"
+          sequence:
+          - if:
+            - condition: template
+              value_template: "{{ states('person.christina_stork') not in ['Bob Evans','BobEvans'] }}"
+            then:
+            - service: input_boolean.turn_off
+              target:
+                entity_id: input_boolean.work_today
+        default:
+        - service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.work_today
 
 # This is in case her schedule changes after the regular 4:00AM scheduling scripts run
   tina_schedule_change:
