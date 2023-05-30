@@ -378,7 +378,7 @@ Tony does not have a stream scheduled today. The next scheduled stream is in {{ 
   {% elif is_state('input_boolean.work_today_extended','on') and is_state('input_boolean.work_today','off') %}
     Tina has finished work for the day.
     {% if is_state('binary_sensor.tina_work_tomorrow','on') %}
-      She has work tomorrow at {{ diff | timestamp_custom('%H:%M %p',false) }}.
+      She has work tomorrow at {{ diff | timestamp_custom('%-I:%M %p',false) }}.
     {% endif %}
   {% else %}
     Tina has today off from work.
