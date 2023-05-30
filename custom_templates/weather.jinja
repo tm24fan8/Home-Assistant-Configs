@@ -1,0 +1,29 @@
+{% macro weatherReport(time,method) %}
+{% from 'time.jinja' import ct %}
+{% set ct = ct() | int %}
+{% if time in ['current','full'] %}
+  The current weather is {{ states('sensor.pirateweather_summary') | lower }}. It is {{ state_attr('weather.iron_nerd_weather_station','temperature') | round }} degrees outside and feels like {{ states('sensor.pirateweather_apparent_temperature') | round }} degrees.
+  {% if method == 'tts' %}
+    {% if is_state('binary_sensor.heat_threshold','on') %}
+      It is very hot outside, so be careful if you have to venture out.
+    {% elif is_state('binary_sensor.cold_threshold','on') %}
+      It is very cold outside, so be careful if you have to venture out.
+    {% endif %}
+  {% endif %}
+{% endif %}
+{% if time in ['forecast','full'] %}
+  {% if 14400 <= ct <= 61200 %}
+    The forecast high is {{ states('sensor.todays_high_temp') }}.
+    {% if method == 'tts' %}
+      {% if is_state('input_boolean.hot_day','on') %}
+        It is going to be a very hot day, so be careful if you are going outside!
+      {% elif is_state('input_boolean.cold_day','on') %}
+        It is going to be a very cold day, so be careful if you are going outside!
+      {% endif %}
+    {% endif %}
+  {% else %}
+    Overnight you can expect a low of {{ states('sensor.overnight_lowest_temperature') }}.
+  {% endif %}
+  Later {% if is_state('binary_sensor.early_night_mode','on') %}tonight{% else %}today{% endif %}, the conditions are expected to be {{ states('sensor.current_forecast') }}.
+{% endif %}
+{% endmacro %}
