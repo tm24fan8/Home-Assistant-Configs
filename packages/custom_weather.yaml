@@ -40,12 +40,12 @@ template:
     - name: Heat Threshold
       unique_id: 849a08bb-d4e6-40e9-ae42-50f7fb71b727
       state: >
-        {% set temp = states('sensor.pirateweather_temperature') | int %}
+        {% set temp = state_attr('weather.iron_nerd_weather_station','temperature') | int %}
         {% set threshold = states('input_number.hot_day_threshold') | int %}
         {{ temp >= threshold }}
       device_class: heat
       attributes:
-        current_temp: "{{ states('sensor.pirateweather_temperature') | int }}"
+        current_temp: "{{ state_attr('weather.iron_nerd_weather_station','temperature') | int }}"
         threshold: "{{ states('input_number.hot_day_threshold') | int }}"
     - name: Heat Index Threshold
       unique_id: aae2cd89-dde2-4557-923c-b476d1b49b88
@@ -60,22 +60,22 @@ template:
     - name: Cold Threshold
       unique_id: a7c97b91-6d42-433a-a96b-94e39c58d63f
       state: >
-        {% set temp = states('sensor.pirateweather_temperature') | int %}
+        {% set temp = state_attr('weather.iron_nerd_weather_station','temperature') | int %}
         {% set threshold = states('input_number.cold_day_threshold') | int %}
         {{ temp <= threshold }}
       device_class: cold
       attributes:
-        current_temp: "{{ states('sensor.pirateweather_temperature') | int }}"
+        current_temp: "{{ state_attr('weather.iron_nerd_weather_station','temperature') | int }}"
         threshold: "{{ states('input_number.cold_day_threshold') | int }}"
     - name: Overnight Low Threshold
       unique_id: 6869e6eb-c8a6-43c8-aa4d-4d50659811b8
       state: >
-        {% set temp = states('sensor.pirateweather_temperature') | int %}
+        {% set temp = state_attr('weather.iron_nerd_weather_station','temperature') | int %}
         {% set threshold = states('input_number.overnight_low_threshold') | int%}
         {{ temp <= threshold }}
       device_class: cold
       attributes:
-        current_temp: "{{ states('sensor.pirateweather_temperature') | int }}"
+        current_temp: "{{ state_attr('weather.iron_nerd_weather_station','temperature') | int }}"
         threshold: "{{ states('input_number.overnight_low_threshold') | int }}"
     - name: Wind Chill Threshold
       unique_id: c734b642-b85d-465c-b3c3-aadbe4a00dc1
@@ -85,7 +85,7 @@ template:
         {{ feelslike <= threshold }}
       device_class: cold
       attributes:
-        current_temp: "{{ states('sensor.pirateweather_temperature') | int }}"
+        current_temp: "{{ state_attr('weather.iron_nerd_weather_station','temperature') | int }}"
         threshold: "{{ states('input_number.wind_chill_threshold') | int }}"
     - name: "Lightning Warning"
       unique_id: edaddfc4-f7f0-4d75-aada-a2c588afe029
