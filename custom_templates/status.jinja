@@ -124,7 +124,7 @@
 {% set diff = bedtime - ct %}
 {% if is_state('input_boolean.kallen_night_meds_taken','on') %}
   {% if (ct >= bedtime) or (ct < wakeup) %}
-    Kallen took his night meds at {{ input_datetime_12hr_with_date('input_datetime.kallen_night_meds_taken') }} today.
+    Kallen took his night meds at {{ input_datetime_12hr_with_date('input_datetime.kallen_night_meds_taken') }} tonight.
   {% endif %}
 {% else %}
   {% if diff <= 3600 %}
@@ -292,9 +292,10 @@ Tony does not have a stream scheduled today. The next scheduled stream is in {{ 
 {% macro kallenSleep(method) %}
 {% from 'time.jinja' import input_datetime_12hr, ct %}
 {% set ct = ct() | int %}
+{% set bedtimestamp = state_attr('input_datetime.kallen_bedtime','timestamp') | int %}
 {% if is_state('input_boolean.kallen_sleeping','on') %}
   Kallen went to bed at {{ input_datetime_12hr('input_datetime.kallen_bedtime') }} tonight.
-  {% if ct > 14400 %}
+  {% if 14400 < ct < bedtimestamp %}
     His scheduled wakeup time is {{ input_datetime_12hr('input_datetime.kallen_wakeup_time') }} today.
   {% endif %}
 {% else %}
