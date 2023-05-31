@@ -242,3 +242,17 @@ input_number:
     step: 1
     unit_of_measurement: °F
     icon: mdi:thermometer
+  hot_overnight_threshold:
+    name: Hot Overnight Threshold
+    min: 40
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
+  extended_heat_threshold:
+    name: Extended Heat Threshold
+    min: 70
+    max: 100
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer

@@ -484,8 +484,9 @@ script:
                   {{ as_timestamp(this_weekday(3)) | timestamp_custom('%Y-%m-%d') }}
                 {% endif %}
       - if:
-        - condition: template
-          value_template: "{{ states('sensor.todays_high_temp') | int >= states('input_number.hot_day_threshold') | int }}"
+        - condition: state
+          entity_id: binary_sensor.heat_warning
+          state: 'on'
         then:
         - service: input_boolean.turn_on
           target:

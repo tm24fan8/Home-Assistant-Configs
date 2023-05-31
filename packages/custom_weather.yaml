@@ -87,6 +87,30 @@ template:
       attributes:
         current_temp: "{{ state_attr('weather.iron_nerd_weather_station','temperature') | int }}"
         threshold: "{{ states('input_number.wind_chill_threshold') | int }}"
+    - name: Heat Warning
+      unique_id: 02b8020a-4fa1-4489-abea-bfadf82ec7e5
+      state: >
+        {% set day = states('sensor.todays_high_temp') | int %}
+        {% set night = states('sensor.overnight_lowest_temperature') | int %}
+        {% set dayThreshold = states('input_number.extended_heat_threshold') | int %}
+        {% set nightThreshold = states('input_number.hot_overnight_threshold') | int %}
+        {% set hotDayThreshold = states('input_number.hot_day_threshold') | int %}
+        {{ (day >= dayThreshold and night >= nightThreshold) or day >= hotDayThreshold }}
+      device_class: heat
+      attributes:
+        trigger: >
+          {% set day = states('sensor.todays_high_temp') | int %}
+          {% set night = states('sensor.overnight_lowest_temperature') | int %}
+          {% set dayThreshold = states('input_number.extended_heat_threshold') | int %}
+          {% set nightThreshold = states('input_number.hot_overnight_threshold') | int %}
+          {% set hotDayThreshold = states('input_number.hot_day_threshold') | int %}
+          {% if day >= dayThreshold and night >= nightThreshold %}
+            Extended Threat
+          {% elif day >= hotDayThreshold %}
+            Hot Day
+          {% else %}
+            No Trigger
+          {% endif %}
     - name: "Lightning Warning"
       unique_id: edaddfc4-f7f0-4d75-aada-a2c588afe029
       state: "{{ states('sensor.blitzortung_lightning_counter') | int > 0 }}"
