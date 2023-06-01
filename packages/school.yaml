@@ -329,15 +329,12 @@ automation:
     alias: End of School Year
     initial_state: true
     trigger:
-      - platform: time
-        at: input_datetime.school_last_day
-    condition:
-      - condition: state
-        entity_id: input_boolean.school_in_session
-        state: 'on'
+      - platform: template
+        value_template: "{{ states('sensor.school_end_days2go') | int == -1 }}"
     action:
-      - service: script.turn_on
-        entity_id: script.school_year_over
+      - service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.school_in_session
 
   - id: 068c20ee-23ba-4cd5-af31-dcfff7bdbfed
     alias: Kallen Two Hour Delay
@@ -484,14 +481,3 @@ script:
       - service: input_boolean.turn_on
         entity_id: input_boolean.school_in_session
 
-  school_year_over:
-    alias: 'School Year Over'
-    sequence:
-      - condition: state
-        entity_id: input_boolean.school_in_session
-        state: 'on'
-      - condition: template
-        value_template: >
-          {{ states('input_datetime.school_last_day') == now().strftime("%Y-%m-%d") }}
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.school_in_session

@@ -260,31 +260,32 @@ Tony does not have a stream scheduled today. The next scheduled stream is in {{ 
   {% if count_the_days('input_datetime.school_last_day') | int == -1 -%}
     Today is the first day of Summer Break! 
   {%- endif %}
-  
 {% elif method == 'text' %}
-  {% if is_state('input_boolean.kallen_school_today','on') %}
-    {% if is_state('input_boolean.two_hour_delay','on') %}
-      School is currently under a two hour delay for Kallen.
-    {% elif is_state('input_boolean.kallen_at_school','on') %}
-      Kallen is at school right now.
-      {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
-        {{ states('input_text.kallen_pickup') }} will be picking him up from school today.
-      {% elif is_state('input_boolean.kallen_school_early_release','on') %}
-        The school is on an early release schedule, pickup is at {{ input_datetime_12hr('input_datetime.kallen_school_day_end') }} today.
+  {% if is_state('input_boolean.school_in_session','on') %}
+    {% if is_state('input_boolean.kallen_school_today','on') %}
+      {% if is_state('input_boolean.two_hour_delay','on') %}
+        School is currently under a two hour delay for Kallen.
+      {% elif is_state('input_boolean.kallen_at_school','on') %}
+        Kallen is at school right now.
+        {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
+          {{ states('input_text.kallen_pickup') }} will be picking him up from school today.
+        {% elif is_state('input_boolean.kallen_school_early_release','on') %}
+          The school is on an early release schedule, pickup is at {{ input_datetime_12hr('input_datetime.kallen_school_day_end') }} today.
+        {% else %}
+          His pickup time is {{ input_datetime_12hr('input_datetime.kallen_school_day_end') }} today.
+        {% endif %}
       {% else %}
-        His pickup time is {{ input_datetime_12hr('input_datetime.kallen_school_day_end') }} today.
+        Kallen has school at {{ input_datetime_12hr('input_datetime.kallen_school_day_start') }} today.
+      {% endif %}
+    {% elif is_state('input_boolean.school_cancelled','on') %}
+      School is cancelled today for Kallen.
+    {% elif is_state('input_boolean.kallen_school_today_extended','on') and is_state('input_boolean.kallen_school_today','off') %}
+      {% if (ct > wakeup) and (ct < bedtime) %}
+        Kallen has finished his school day.
       {% endif %}
     {% else %}
-      Kallen has school at {{ input_datetime_12hr('input_datetime.kallen_school_day_start') }} today.
+      Kallen does not have school today.
     {% endif %}
-  {% elif is_state('input_boolean.school_cancelled','on') %}
-    School is cancelled today for Kallen.
-  {% elif is_state('input_boolean.kallen_school_today_extended','on') and is_state('input_boolean.kallen_school_today','off') %}
-    {% if (ct > wakeup) and (ct < bedtime) %}
-      Kallen has finished his school day.
-    {% endif %}
-  {% else %}
-    Kallen does not have school today.
   {% endif %}
 {% endif %}
 {% endmacro %}
