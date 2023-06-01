@@ -47,127 +47,129 @@
     </p>
 
     <p>
-      {% if is_state('input_boolean.kallen_school_today', 'on') %}
-        {% if count_the_days('input_datetime.school_first_day') | int == 0 %}
-          Today is the first day of school! 
-        {% else %}
-          {{ [ 'Today is a school day.',
-            'It is a school day. ',
-            'There is school today. ',
-            'You must attend school today. ',
-            'Today, you get to attend your favorite place. Just kidding. It is a school day. ',
-          ] | random }}
-        {% endif %}
-        {% if is_state('input_boolean.two_hour_delay','on') %}
+      {% if is_state('input_boolean.school_in_session','on') %}
+        {% if is_state('input_boolean.kallen_school_today', 'on') %}
+          {% if count_the_days('input_datetime.school_first_day') | int == 0 %}
+            Today is the first day of school! 
+          {% else %}
+            {{ [ 'Today is a school day.',
+              'It is a school day. ',
+              'There is school today. ',
+              'You must attend school today. ',
+              'Today, you get to attend your favorite place. Just kidding. It is a school day. ',
+            ] | random }}
+          {% endif %}
+          {% if is_state('input_boolean.two_hour_delay','on') %}
+            {{ [
+              'School will be starting two hours late today, as you are likely already aware. ',
+              'Your school superintendant has decided to sleep in this morning. He also decided to let you do the same. What a guy! ',
+              'The weather dictates that you must wait two hours to go to school. I know you are totally bummed out, but it is for your safety. ',
+            ] | random }}
+          {% else %}
+            {{ [
+              'Were you hoping for a delay or cancellation? Well too bad. School is on time today. ',
+              'I regret to inform you that your school is running on time today. ',
+              'My sensors detect that your school expects you at the usual time today. ',
+              'Unfortunately, your school has not decided to embrace to power of sleep. They are running on time today. ',
+            ] | random }}
+          {% endif %}
+          {% if is_state('input_boolean.kallen_band_practice','on') %}
+            {{ [
+              'You have band practice this morning before school. ',
+              'You have a date with a trombone in just a short while. ',
+              'You get to practice avoiding eighth position today. ',
+              'I know it is early, but you had better pucker up because you have to spit in a metal tube and make music today. '
+            ] | random }}
+          {% endif %}
+          {% if is_state('input_boolean.kallen_school_early_release','on') %}
+            {{ [
+              "And it is early dismissal today!",
+              "And you get out of school early today!",
+              "And school is releasing you into the wild earlier than usual today!",
+              "And you even get to come home a little earlier today!",
+            ] | random }}
+          {% endif %}
+          <s>School today starts at {{ input_datetime_12hr('input_datetime.kallen_school_day_start') }}</s>
+          {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
+            Today, you will be picked up from school by {{ states('input_text.kallen_pickup') }}.
+          {% elif is_state('input_boolean.work_today','off') %}
+            Today, you will be picked up from school by your parents.
+          {% else %}
+            Today, you will be picked up from school by your dad.
+          {% endif %}
+          <s>Pickup today will be at {{ input_datetime_12hr('input_datetime.kallen_school_day_end') }}</s>
+          {% if count_the_days('input_datetime.school_last_day') | int == 0 -%}
+            But today is the last day of School! 
+          {%- endif %}
           {{ [
-            'School will be starting two hours late today, as you are likely already aware. ',
-            'Your school superintendant has decided to sleep in this morning. He also decided to let you do the same. What a guy! ',
-            'The weather dictates that you must wait two hours to go to school. I know you are totally bummed out, but it is for your safety. ',
-          ] | random }}
-        {% else %}
-          {{ [
-            'Were you hoping for a delay or cancellation? Well too bad. School is on time today. ',
-            'I regret to inform you that your school is running on time today. ',
-            'My sensors detect that your school expects you at the usual time today. ',
-            'Unfortunately, your school has not decided to embrace to power of sleep. They are running on time today. ',
-          ] | random }}
+            "The lunch menu for today is ",
+            "Today's cuisine will be ",
+            "On today's episode of fine dining at school, we have ",
+            "Today, your lovely cafeteria workers will be serving up ",
+            "If you are wondering what you will be fooding today, it is ",
+          ] | random }} {{ states('sensor.kallen_lunch_menu_items') }}.
         {% endif %}
-        {% if is_state('input_boolean.kallen_band_practice','on') %}
-          {{ [
-            'You have band practice this morning before school. ',
-            'You have a date with a trombone in just a short while. ',
-            'You get to practice avoiding eighth position today. ',
-            'I know it is early, but you had better pucker up because you have to spit in a metal tube and make music today. '
+        {% if is_state('input_boolean.kallen_school_today', 'off') %}
+          {% if is_state('input_boolean.school_cancelled','on') %}
+            {{ [
+              "It turns out you will not be attending school today after all. ",
+              "The school has decided not to open today. ",
+              "School is cancelled for today. Try not to be too disappointed by this terrible news. ",
+              "Due to the typical shenanigans of Ohio weather, your school is closed today. ",
+              "Your school does not want you to attend today. Oh. Sorry. They do not want anyone else to attend either. They are closed. ",
+            ] | random }}
+          {% else %}
+            "And look at that. You do not have school today. "
+          {% endif %}
+          {{ [ 'Guess today would be a good day to clean your room.',
+            'You could always do some chores. HA, good one.',
+            'Want to play a nice game of chess? Sorry. I meant, want to play Beam NG?',
+            'Want to play a nice game of chess? Sorry. I meant, want to sell your soul to League of Legends?',
+            'I hope you enjoy your day off. You deserve it.',
+            'Today would be a good day to spend some time with mom and dad.',
+            'Yes, you have a day off! Well, you are always a little bit off anyway.',
+            'I know you will enjoy spending more time with your sister.',
+            'Emmalynn will be thrilled when she finds out about this.',
+            'Do not let your sister eat you for breakfast.',
+          ] | random }} 
+        {% endif %}
+        {% if (count_the_days('input_datetime.thanksgiving_break_start') | int <= 14) and (count_the_days('input_datetime.thanksgiving_break_start') | int > 0) %}
+            {{ [ 'Oh, and look at that.',
+            'For those trying to keep count. ',
+            'In case you were wondering.',
+            'Also, did you know.'
           ] | random }}
+            'Thanksgiving break starts in {{ custom_time('input_datetime.thanksgiving_break_start','week,day') }}!'
         {% endif %}
-        {% if is_state('input_boolean.kallen_school_early_release','on') %}
-          {{ [
-            "And it is early dismissal today!",
-            "And you get out of school early today!",
-            "And school is releasing you into the wild earlier than usual today!",
-            "And you even get to come home a little earlier today!",
+        {% if (count_the_days('input_datetime.christmas_break_start') | int <= 14) and (count_the_days('input_datetime.christmas_break_start') | int > 0) %}
+            {{ [ 'Oh, and look at that.',
+            'For those trying to keep count. ',
+            'In case you were wondering.',
+            'Also, did you know.'
           ] | random }}
+            'Christmas break starts in {{ custom_time('input_datetime.christmas_break_start','week,day') }}!'
         {% endif %}
-        <s>School today starts at {{ input_datetime_12hr('input_datetime.kallen_school_day_start') }}</s>
-        {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
-          Today, you will be picked up from school by {{ states('input_text.kallen_pickup') }}.
-        {% elif is_state('input_boolean.work_today','off') %}
-          Today, you will be picked up from school by your parents.
-        {% else %}
-          Today, you will be picked up from school by your dad.
-        {% endif %}
-        <s>Pickup today will be at {{ input_datetime_12hr('input_datetime.kallen_school_day_end') }}</s>
-        {% if count_the_days('input_datetime.school_last_day') | int == 0 -%}
-          But today is the last day of School! 
-        {%- endif %}
-        {{ [
-          "The lunch menu for today is ",
-          "Today's cuisine will be ",
-          "On today's episode of fine dining at school, we have ",
-          "Today, your lovely cafeteria workers will be serving up ",
-          "If you are wondering what you will be fooding today, it is ",
-        ] | random }} {{ states('sensor.kallen_lunch_menu_items') }}.
-      {% endif %}
-      {% if is_state('input_boolean.kallen_school_today', 'off') %}
-        {% if is_state('input_boolean.school_cancelled','on') %}
-          {{ [
-            "It turns out you will not be attending school today after all. ",
-            "The school has decided not to open today. ",
-            "School is cancelled for today. Try not to be too disappointed by this terrible news. ",
-            "Due to the typical shenanigans of Ohio weather, your school is closed today. ",
-            "Your school does not want you to attend today. Oh. Sorry. They do not want anyone else to attend either. They are closed. ",
+        {% if (count_the_days('input_datetime.spring_break_start') | int <= 14) and (count_the_days('input_datetime.spring_break_start') | int > 0) %}
+            {{ [ 'Oh, and look at that.',
+            'For those trying to keep count. ',
+            'In case you were wondering.',
+            'Also, did you know.'
           ] | random }}
-        {% else %}
-          "And look at that. You do not have school today. "
+            'Spring break starts in {{ custom_time('input_datetime.spring_break_start','week,day') }}!'
         {% endif %}
-        {{ [ 'Guess today would be a good day to clean your room.',
-          'You could always do some chores. HA, good one.',
-          'Want to play a nice game of chess? Sorry. I meant, want to play Beam NG?',
-          'Want to play a nice game of chess? Sorry. I meant, want to sell your soul to League of Legends?',
-          'I hope you enjoy your day off. You deserve it.',
-          'Today would be a good day to spend some time with mom and dad.',
-          'Yes, you have a day off! Well, you are always a little bit off anyway.',
-          'I know you will enjoy spending more time with your sister.',
-          'Emmalynn will be thrilled when she finds out about this.',
-          'Do not let your sister eat you for breakfast.',
-        ] | random }} 
-      {% endif %}
-      {% if (count_the_days('input_datetime.thanksgiving_break_start') | int <= 14) and (count_the_days('input_datetime.thanksgiving_break_start') | int > 0) %}
-          {{ [ 'Oh, and look at that.',
-          'For those trying to keep count. ',
-          'In case you were wondering.',
-          'Also, did you know.'
-        ] | random }}
-          'Thanksgiving break starts in {{ custom_time('input_datetime.thanksgiving_break_start','week,day') }}!'
-      {% endif %}
-      {% if (count_the_days('input_datetime.christmas_break_start') | int <= 14) and (count_the_days('input_datetime.christmas_break_start') | int > 0) %}
-          {{ [ 'Oh, and look at that.',
-          'For those trying to keep count. ',
-          'In case you were wondering.',
-          'Also, did you know.'
-        ] | random }}
-          'Christmas break starts in {{ custom_time('input_datetime.christmas_break_start','week,day') }}!'
-      {% endif %}
-      {% if (count_the_days('input_datetime.spring_break_start') | int <= 14) and (count_the_days('input_datetime.spring_break_start') | int > 0) %}
-          {{ [ 'Oh, and look at that.',
-          'For those trying to keep count. ',
-          'In case you were wondering.',
-          'Also, did you know.'
-        ] | random }}
-          'Spring break starts in {{ custom_time('input_datetime.spring_break_start','week,day') }}!'
-      {% endif %}
 
-      {% if (count_the_days('input_datetime.school_last_day') | int < 35) and (count_the_days('input_datetime.school_last_day') | int > 0) -%}
-        {{ [ 'School is almost over for the year.',
-            'You have made it to the end of the school year.',
-            'You are almost done with school.'
-          ] | random }}
-          There are only {{ count_the_days('input_datetime.school_last_day') }} days  
-        {{ [ 'left in the school year ',
-            ' left of school.',
-            'Until the last day of school.'
-          ] | random }}
-      {%- endif %}
+        {% if (count_the_days('input_datetime.school_last_day') | int < 35) and (count_the_days('input_datetime.school_last_day') | int > 0) -%}
+          {{ [ 'School is almost over for the year.',
+              'You have made it to the end of the school year.',
+              'You are almost done with school.'
+            ] | random }}
+            There are only {{ count_the_days('input_datetime.school_last_day') }} days  
+          {{ [ 'left in the school year ',
+              ' left of school.',
+              'Until the last day of school.'
+            ] | random }}
+        {%- endif %}
+      {% endif %}
 
       {% if is_state ('input_boolean.kallen_school_today', 'off') and is_state('sensor.pirateweather_icon', 'snow') %}
         Do you wanna build a snowman? It is snowing!
