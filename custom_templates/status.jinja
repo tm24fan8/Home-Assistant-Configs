@@ -1,46 +1,3 @@
-{% macro emma_sleep() %}
-{% from 'time.jinja' import input_datetime_12hr_with_date, input_datetime_12hr %}
-{% from 'easy_time.jinja' import custom_time, custom_time_between %}
-{% set asleep = state_attr('input_datetime.emma_down_for_nap','timestamp') | int %}
-{% set wakeup = state_attr('input_datetime.emma_up_from_nap','timestamp') | int %}
-{% set day = now().strftime("%-d") %}
-{% set asleep_day = asleep | timestamp_custom("%-d") %}
-{% set wakeup_day = wakeup | timestamp_custom("%-d") %}
-{% if is_state('input_boolean.emma_sleeping','off') and is_state('input_boolean.emma_has_napped','on') or ((asleep_day == day) and (wakeup_day == day)) %}
-  Emma napped today for {{ custom_time_between('input_datetime.emma_down_for_nap','input_datetime.emma_up_from_nap','hour,minute') }}. She was retrieved from her room at {{ input_datetime_12hr_with_date('input_datetime.emma_up_from_nap') }} approximately.
-{% elif is_state('input_boolean.emma_has_napped','off') and ((asleep_day == day) and (wakeup_day != day)) and is_state('input_boolean.emma_sleeping','on') %}
-  Emma is down for nap. She was put down at {{ input_datetime_12hr_with_date('input_datetime.emma_down_for_nap') }} approximately. She has been asleep for {{ custom_time('input_datetime.emma_down_for_nap','hour,minute') }}.
-{% elif is_state('input_boolean.emma_sleeping','on') %}
-  {% if is_state('binary_sensor.early_night_mode','on') %}
-    Emma is asleep for the night.
-  {% else %}
-    Emma has not yet awoken for the day.
-  {% endif %}
-{% else %}
-  Emma is awake, and does not appear to have napped yet. She woke up at {{ input_datetime_12hr('input_datetime.emma_wakeup') }} today.
-{% endif %}
-{% endmacro %}
-
-{% macro emma_sleep_notification() %}
-{% from 'easy_time.jinja' import clock, custom_time_between %}
-{% set asleep = state_attr('input_datetime.emma_down_for_nap','timestamp') | int %}
-{% set wakeup = state_attr('input_datetime.emma_up_from_nap','timestamp') | int %}
-{% set day = now().strftime("%-d") %}
-{% set asleep_day = asleep | timestamp_custom("%-d") %}
-{% set wakeup_day = wakeup | timestamp_custom("%-d") %}
-{% if is_state('input_boolean.emma_sleeping','off') and is_state('input_boolean.emma_has_napped','on') or ((asleep_day == day) and (wakeup_day == day)) %}
-  Emma has awoken. She napped today for {{ custom_time_between('input_datetime.emma_down_for_nap','input_datetime.emma_up_from_nap','hour,minute') }}. She was retrieved from her room at {{ clock('12-hr') }}
-{% elif is_state('input_boolean.emma_has_napped','off') and is_state('input_boolean.emma_sleeping','off') and ((asleep_day != day) or (wakeup_day != day)) %}
-  Emma has awoken for the day at {{ clock('12-hr') }}
-{% elif is_state('input_boolean.emma_has_napped','off') and ((asleep_day == day) and (wakeup_day != day)) and is_state('input_boolean.emma_sleeping','on') %}
-  Emma is being put down for nap. She was put down at {{ clock('12-hr') }}
-{% elif is_state('input_boolean.emma_sleeping','on') %}
-  Emma is asleep for the night (or at least, her sleep switch is active) at {{ clock('12-hr') }}
-{% else %}
-  This notification is confused and should not be here. Blame Tony.
-{% endif %}
-{% endmacro %}
-
 {% macro tony_morning_meds(method) %}
 {% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct %}
 {% set ct = ct() | int %}
@@ -86,6 +43,153 @@
 {% macro medReportTony(method) %}
 {{ tony_morning_meds(method) }}
 {{ tony_night_meds(method) }}
+{% endmacro %}
+
+{% macro twitchStreamInfo(method) %}
+{% from 'time.jinja' import next_twitch_stream, calendar_event_today %}
+{% if is_state('input_boolean.tony_streaming_today','on') or calendar_event_today('calendar.tony_s_twitch_schedule') == 'false' %}
+  {% set streamstart = state_attr('input_datetime.tony_streaming_start_time','timestamp') | timestamp_custom('%-I:%M %p',false) %}
+{% elif calendar_event_today('calendar.tony_s_twitch_schedule') == 'true' %}
+  {% set streamstart = as_timestamp(state_attr('calendar.tony_s_twitch_schedule','start_time')) | int | timestamp_custom('%-I:%M %p') %}
+{% endif %}
+{% set game = state_attr('sensor.twitch_ironnerd24','game') %}
+{% set viewers = state_attr('sensor.twitch_ironnerd24','viewers') %}
+{% if is_state('sensor.twitch_ironnerd24','streaming') %}
+Tony is currently streaming. The current stream category is {{ game }}. The current viewer count is {{ viewers }}.
+{% elif is_state('input_boolean.tony_streaming_today','on') or calendar_event_today('calendar.tony_s_twitch_schedule') == 'true' %}
+  {% if method == 'tts' %}
+    {{ [
+    "Tony will be pretending to be a real content creator tonight. ",
+    "Tony will be doing his best to defeat his impostor syndrome tonight. ",
+    "Tony will be playing video games and yelling into a microphone tonight. ",
+    "Tony will be scraping out the nickels and dimes tonight for the sake of entertainment. ",
+    "Tony is not really all that funny, but tonight he will present himself to a crowd of questionable individuals who seem to think that he is. "
+  ] | random }} The studio is scheduled to go online at {{ streamstart }}. "
+  {% elif method == 'text' %}
+    Tony will be streaming today. Stream starts at {{ streamstart }}.
+  {% endif %}
+{% elif state_attr('calendar.tony_s_twitch_schedule','start_time') != none %}
+Tony does not have a stream scheduled today. The next scheduled stream is in {{ next_twitch_stream() }} approximately.
+{% endif %}
+{% endmacro %}
+
+{% macro tonyStatusReport(type,method) %}
+{% from 'status.jinja' import medReportTony, twitchStreamInfo %}
+{% if type == 'meds' %}
+{{ medReportTony(method) }}
+{% endif %}
+{% if type == 'stream' %}
+{{ twitchStreamInfo(method) }}
+{% endif %}
+{% if type == 'full' %}
+{{ medReportTony(method) }}
+{{ twitchStreamInfo(method) }}
+{% endif %}
+{% endmacro %}
+
+{% macro workReportTina(method) %}
+{% from 'time.jinja' import input_datetime_12hr, calendar_event_today %}
+{% set tina = states.person.christina_stork.state %}
+{% set start = (state_attr('binary_sensor.tina_work_tomorrow','start_timestamp') | int) // 1000 %}
+{% set tmrw = (as_timestamp(states('sensor.date')) + 86400) | int %}
+{% set diff = (start - tmrw) %}
+{% if method == 'tts' %}
+  {% if is_state('input_boolean.work_today','on') and tina in ['Bob Evans','BobEvans'] %}
+    {{ [
+      "Tina is still at work right now, ",
+      "Tina has not yet been released from work, ",
+      "Tina is still at the thankless idiot scape known as work, ",
+      "Tina is still consumed by the gods of capitalism, ",
+    ] | random }} she will be done at approximately {{ input_datetime_12hr('input_datetime.tina_workday_end') }}.
+  {% elif is_state('binary_sensor.evening','on') %}
+    {% if is_state('binary_sensor.tina_work_tomorrow','on') %}
+      {{ [
+        "Tina must go and please the food gods tomorrow ",
+        "Tomorrow, Tina must go and entertain the gremlins known as her customers and coworkers ",
+        "Tomorrow, Tina will be owned by our lovely lord and savior capitalism ",
+      ] | random }} at {{ diff | timestamp_custom('%H:%M %p',false) }}. "
+    {% elif is_state('binary_sensor.tina_work_tomorrow','off') %}
+      {{ [
+        "Tina seems to have been granted a reprieve from her endless torture tomorrow. ",
+        "The powers that be have decided that Tina deserves a break from work tomorrow. ",
+        "Tina has been granted time off from the hellscape of work tomorrow. ",
+        "Tina will not be attending the gathering of tormented souls known as work tomorrow. ",
+        "The scheduling gods have decided that Tina's services will not be required tomorrow. "
+        "Tina gets a break tomorrow from grinding it out for the gods of capitalism. ",
+        "Tina will not be at the thankless idiot scape known as work tomorrow. ",
+      ] | random }}
+    {% endif %}
+  {% elif is_state('input_boolean.work_today','on') %}
+    {{ [
+      "Tina must go and please the food gods today ",
+      "Today, Tina must go and entertain the gremlins known as her customers and coworkers ",
+      "Today, Tina will be owned and operated by our lovely lord and savior capitalism starting ",
+      "Tina will attempt to satiate the patron saint of capitalism today "
+    ] | random }} at {{ input_datetime_12hr('input_datetime.tina_workday_start') }}.
+  {% else %}
+    {{ [
+      "Tina seems to have been granted a reprieve from her endless torture today. ",
+      "The powers that be have decided that Tina deserves a break from work today. ",
+      "Tina has been granted time off from the hellscape of work today. ",
+      "Tina will not be attending the gathering of tormented souls known as work today. ",
+      "The scheduling gods have decided that Tina's services will not be required today. "
+      "Tina gets a break today from grinding it out for the gods of capitalism. ",
+      "Tina will not be at the thankless idiot scape known as work today. ",
+    ] | random }}
+  {% endif %}
+{% elif method == 'text' %}
+  {% if tina in ['Bob Evans','BobEvans'] and is_state('input_boolean.work_today','on') %}
+    Tina is at work right now. She will be done at approximately {{ input_datetime_12hr('input_datetime.tina_workday_end') }} today.
+  {% elif is_state('input_boolean.work_today','on') %}
+    Tina has work at {{ input_datetime_12hr('input_datetime.tina_workday_start') }} today.
+  {% elif is_state('input_boolean.work_today_extended','on') and is_state('input_boolean.work_today','off') %}
+    Tina has finished work for the day.
+    {% if is_state('binary_sensor.tina_work_tomorrow','on') %}
+      She has work tomorrow at {{ diff | timestamp_custom('%-I:%M %p',false) }}.
+    {% endif %}
+  {% else %}
+    Tina has today off from work.
+  {% endif %}
+{% endif %}
+{% endmacro %}
+
+{% macro tina_morning_meds(method) %}
+{% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct %}
+{% set ct = ct() | int %}
+{% if is_state('binary_sensor.overnight','off') %}
+  {% if is_state('input_boolean.tina_morning_meds_taken','on') %}
+    Tina took her morning meds at {{ input_datetime_12hr_with_date('input_datetime.tina_morning_meds_taken') }} today.
+  {% elif is_state('input_boolean.tina_morning_meds_taken','off') and is_state('binary_sensor.after_midnight','off') %}
+    Tina has not taken her morning meds.
+    {% if ct < state_attr('input_datetime.tina_morning_meds_notify','timestamp') | int %}
+      {% if method == 'tts' %}
+        {{ ['She has a reminder scheduled for',
+            'Rest assured that I will pester her mercilessly about this, starting at',
+            'This is absolutely essential, and I will remind her to do it at',
+            'Her blood pressure is very important, so I will remind her at',
+          ] | random }} {{ input_datetime_12hr('input_datetime.tina_morning_meds_notify') }} today. 
+      {% else %}
+        She will be reminded at {{ input_datetime_12hr('input_datetime.tina_morning_meds_notify') }} today.
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endif %}
+{% endmacro %}
+
+{% macro medReportTina(method) %}
+{{ tina_morning_meds(method) }}
+{% endmacro %}
+
+{% macro tinaStatusReport(type,method) %}
+{% from 'status.jinja' import workReportTina %}
+{% if type == 'work' %}
+{{ workReportTina(method) }}
+{% elif type == 'meds' %}
+{{ medReportTina(method) }}
+{% elif type == 'full' %}
+{{ medReportTina(method) }}
+{{ workReportTina(method) }}
+{% endif %}
 {% endmacro %}
 
 {% macro kallen_morning_meds() %}
@@ -143,48 +247,6 @@ Kallen is staying elsewhere overnight.
 {% else %}
 {{ kallen_morning_meds() }}
 {{ kallen_night_meds() }}
-{% endif %}
-{% endmacro %}
-
-{% macro twitchStreamInfo(method) %}
-{% from 'time.jinja' import next_twitch_stream, calendar_event_today %}
-{% if is_state('input_boolean.tony_streaming_today','on') or calendar_event_today('calendar.tony_s_twitch_schedule') == 'false' %}
-  {% set streamstart = state_attr('input_datetime.tony_streaming_start_time','timestamp') | timestamp_custom('%-I:%M %p',false) %}
-{% elif calendar_event_today('calendar.tony_s_twitch_schedule') == 'true' %}
-  {% set streamstart = as_timestamp(state_attr('calendar.tony_s_twitch_schedule','start_time')) | int | timestamp_custom('%-I:%M %p') %}
-{% endif %}
-{% set game = state_attr('sensor.twitch_ironnerd24','game') %}
-{% set viewers = state_attr('sensor.twitch_ironnerd24','viewers') %}
-{% if is_state('sensor.twitch_ironnerd24','streaming') %}
-Tony is currently streaming. The current stream category is {{ game }}. The current viewer count is {{ viewers }}.
-{% elif is_state('input_boolean.tony_streaming_today','on') or calendar_event_today('calendar.tony_s_twitch_schedule') == 'true' %}
-  {% if method == 'tts' %}
-    {{ [
-    "Tony will be pretending to be a real content creator tonight. ",
-    "Tony will be doing his best to defeat his impostor syndrome tonight. ",
-    "Tony will be playing video games and yelling into a microphone tonight. ",
-    "Tony will be scraping out the nickels and dimes tonight for the sake of entertainment. ",
-    "Tony is not really all that funny, but tonight he will present himself to a crowd of questionable individuals who seem to think that he is. "
-  ] | random }} The studio is scheduled to go online at {{ streamstart }}. "
-  {% elif method == 'text' %}
-    Tony will be streaming today. Stream starts at {{ streamstart }}.
-  {% endif %}
-{% elif state_attr('calendar.tony_s_twitch_schedule','start_time') != none %}
-Tony does not have a stream scheduled today. The next scheduled stream is in {{ next_twitch_stream() }} approximately.
-{% endif %}
-{% endmacro %}
-
-{% macro tonyStatusReport(type,method) %}
-{% from 'status.jinja' import medReportTony, twitchStreamInfo %}
-{% if type == 'meds' %}
-{{ medReportTony(method) }}
-{% endif %}
-{% if type == 'stream' %}
-{{ twitchStreamInfo(method) }}
-{% endif %}
-{% if type == 'full' %}
-{{ medReportTony(method) }}
-{{ twitchStreamInfo(method) }}
 {% endif %}
 {% endmacro %}
 
@@ -322,108 +384,46 @@ Tony does not have a stream scheduled today. The next scheduled stream is in {{ 
 {% endif %}
 {% endmacro %}
 
-{% macro workReportTina(method) %}
-{% from 'time.jinja' import input_datetime_12hr, calendar_event_today %}
-{% set tina = states.person.christina_stork.state %}
-{% set start = (state_attr('binary_sensor.tina_work_tomorrow','start_timestamp') | int) // 1000 %}
-{% set tmrw = (as_timestamp(states('sensor.date')) + 86400) | int %}
-{% set diff = (start - tmrw) %}
-{% if method == 'tts' %}
-  {% if is_state('input_boolean.work_today','on') and tina in ['Bob Evans','BobEvans'] %}
-    {{ [
-      "Tina is still at work right now, ",
-      "Tina has not yet been released from work, ",
-      "Tina is still at the thankless idiot scape known as work, ",
-      "Tina is still consumed by the gods of capitalism, ",
-    ] | random }} she will be done at approximately {{ input_datetime_12hr('input_datetime.tina_workday_end') }}.
-  {% elif is_state('binary_sensor.evening','on') %}
-    {% if is_state('binary_sensor.tina_work_tomorrow','on') %}
-      {{ [
-        "Tina must go and please the food gods tomorrow ",
-        "Tomorrow, Tina must go and entertain the gremlins known as her customers and coworkers ",
-        "Tomorrow, Tina will be owned by our lovely lord and savior capitalism ",
-      ] | random }} at {{ diff | timestamp_custom('%H:%M %p',false) }}. "
-    {% elif is_state('binary_sensor.tina_work_tomorrow','off') %}
-      {{ [
-        "Tina seems to have been granted a reprieve from her endless torture tomorrow. ",
-        "The powers that be have decided that Tina deserves a break from work tomorrow. ",
-        "Tina has been granted time off from the hellscape of work tomorrow. ",
-        "Tina will not be attending the gathering of tormented souls known as work tomorrow. ",
-        "The scheduling gods have decided that Tina's services will not be required tomorrow. "
-        "Tina gets a break tomorrow from grinding it out for the gods of capitalism. ",
-        "Tina will not be at the thankless idiot scape known as work tomorrow. ",
-      ] | random }}
-    {% endif %}
-  {% elif is_state('input_boolean.work_today','on') %}
-    {{ [
-      "Tina must go and please the food gods today ",
-      "Today, Tina must go and entertain the gremlins known as her customers and coworkers ",
-      "Today, Tina will be owned and operated by our lovely lord and savior capitalism starting ",
-      "Tina will attempt to satiate the patron saint of capitalism today "
-    ] | random }} at {{ input_datetime_12hr('input_datetime.tina_workday_start') }}.
+{% macro emma_sleep() %}
+{% from 'time.jinja' import input_datetime_12hr_with_date, input_datetime_12hr %}
+{% from 'easy_time.jinja' import custom_time, custom_time_between %}
+{% set asleep = state_attr('input_datetime.emma_down_for_nap','timestamp') | int %}
+{% set wakeup = state_attr('input_datetime.emma_up_from_nap','timestamp') | int %}
+{% set day = now().strftime("%-d") %}
+{% set asleep_day = asleep | timestamp_custom("%-d") %}
+{% set wakeup_day = wakeup | timestamp_custom("%-d") %}
+{% if is_state('input_boolean.emma_sleeping','off') and is_state('input_boolean.emma_has_napped','on') or ((asleep_day == day) and (wakeup_day == day)) %}
+  Emma napped today for {{ custom_time_between('input_datetime.emma_down_for_nap','input_datetime.emma_up_from_nap','hour,minute') }}. She was retrieved from her room at {{ input_datetime_12hr_with_date('input_datetime.emma_up_from_nap') }} approximately.
+{% elif is_state('input_boolean.emma_has_napped','off') and ((asleep_day == day) and (wakeup_day != day)) and is_state('input_boolean.emma_sleeping','on') %}
+  Emma is down for nap. She was put down at {{ input_datetime_12hr_with_date('input_datetime.emma_down_for_nap') }} approximately. She has been asleep for {{ custom_time('input_datetime.emma_down_for_nap','hour,minute') }}.
+{% elif is_state('input_boolean.emma_sleeping','on') %}
+  {% if is_state('binary_sensor.early_night_mode','on') %}
+    Emma is asleep for the night.
   {% else %}
-    {{ [
-      "Tina seems to have been granted a reprieve from her endless torture today. ",
-      "The powers that be have decided that Tina deserves a break from work today. ",
-      "Tina has been granted time off from the hellscape of work today. ",
-      "Tina will not be attending the gathering of tormented souls known as work today. ",
-      "The scheduling gods have decided that Tina's services will not be required today. "
-      "Tina gets a break today from grinding it out for the gods of capitalism. ",
-      "Tina will not be at the thankless idiot scape known as work today. ",
-    ] | random }}
+    Emma has not yet awoken for the day.
   {% endif %}
-{% elif method == 'text' %}
-  {% if tina in ['Bob Evans','BobEvans'] and is_state('input_boolean.work_today','on') %}
-    Tina is at work right now. She will be done at approximately {{ input_datetime_12hr('input_datetime.tina_workday_end') }} today.
-  {% elif is_state('input_boolean.work_today','on') %}
-    Tina has work at {{ input_datetime_12hr('input_datetime.tina_workday_start') }} today.
-  {% elif is_state('input_boolean.work_today_extended','on') and is_state('input_boolean.work_today','off') %}
-    Tina has finished work for the day.
-    {% if is_state('binary_sensor.tina_work_tomorrow','on') %}
-      She has work tomorrow at {{ diff | timestamp_custom('%-I:%M %p',false) }}.
-    {% endif %}
-  {% else %}
-    Tina has today off from work.
-  {% endif %}
+{% else %}
+  Emma is awake, and does not appear to have napped yet. She woke up at {{ input_datetime_12hr('input_datetime.emma_wakeup') }} today.
 {% endif %}
 {% endmacro %}
 
-{% macro tina_morning_meds(method) %}
-{% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct %}
-{% set ct = ct() | int %}
-{% if is_state('binary_sensor.overnight','off') %}
-  {% if is_state('input_boolean.tina_morning_meds_taken','on') %}
-    Tina took her morning meds at {{ input_datetime_12hr_with_date('input_datetime.tina_morning_meds_taken') }} today.
-  {% elif is_state('input_boolean.tina_morning_meds_taken','off') and is_state('binary_sensor.after_midnight','off') %}
-    Tina has not taken her morning meds.
-    {% if ct < state_attr('input_datetime.tina_morning_meds_notify','timestamp') | int %}
-      {% if method == 'tts' %}
-        {{ ['She has a reminder scheduled for',
-            'Rest assured that I will pester her mercilessly about this, starting at',
-            'This is absolutely essential, and I will remind her to do it at',
-            'Her blood pressure is very important, so I will remind her at',
-          ] | random }} {{ input_datetime_12hr('input_datetime.tina_morning_meds_notify') }} today. 
-      {% else %}
-        She will be reminded at {{ input_datetime_12hr('input_datetime.tina_morning_meds_notify') }} today.
-      {% endif %}
-    {% endif %}
-  {% endif %}
-{% endif %}
-{% endmacro %}
-
-{% macro medReportTina(method) %}
-{{ tina_morning_meds(method) }}
-{% endmacro %}
-
-{% macro tinaStatusReport(type,method) %}
-{% from 'status.jinja' import workReportTina %}
-{% if type == 'work' %}
-{{ workReportTina(method) }}
-{% elif type == 'meds' %}
-{{ medReportTina(method) }}
-{% elif type == 'full' %}
-{{ medReportTina(method) }}
-{{ workReportTina(method) }}
+{% macro emma_sleep_notification() %}
+{% from 'easy_time.jinja' import clock, custom_time_between %}
+{% set asleep = state_attr('input_datetime.emma_down_for_nap','timestamp') | int %}
+{% set wakeup = state_attr('input_datetime.emma_up_from_nap','timestamp') | int %}
+{% set day = now().strftime("%-d") %}
+{% set asleep_day = asleep | timestamp_custom("%-d") %}
+{% set wakeup_day = wakeup | timestamp_custom("%-d") %}
+{% if is_state('input_boolean.emma_sleeping','off') and is_state('input_boolean.emma_has_napped','on') or ((asleep_day == day) and (wakeup_day == day)) %}
+  Emma has awoken. She napped today for {{ custom_time_between('input_datetime.emma_down_for_nap','input_datetime.emma_up_from_nap','hour,minute') }}. She was retrieved from her room at {{ clock('12-hr') }}
+{% elif is_state('input_boolean.emma_has_napped','off') and is_state('input_boolean.emma_sleeping','off') and ((asleep_day != day) or (wakeup_day != day)) %}
+  Emma has awoken for the day at {{ clock('12-hr') }}
+{% elif is_state('input_boolean.emma_has_napped','off') and ((asleep_day == day) and (wakeup_day != day)) and is_state('input_boolean.emma_sleeping','on') %}
+  Emma is being put down for nap. She was put down at {{ clock('12-hr') }}
+{% elif is_state('input_boolean.emma_sleeping','on') %}
+  Emma is asleep for the night (or at least, her sleep switch is active) at {{ clock('12-hr') }}
+{% else %}
+  This notification is confused and should not be here. Blame Tony.
 {% endif %}
 {% endmacro %}
 
