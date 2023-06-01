@@ -35,7 +35,7 @@
 {% endmacro %}
 
 {% macro read_time_from_calendar(calendar,start_or_end) %}
-{{ as_timestamp(strptime(state_attr(calendar,start_or_end), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%I:%M %p") }}
+{{ as_timestamp(strptime(state_attr(calendar,start_or_end), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%-I:%M %p") }}
 {% endmacro %}
 
 {% macro set_datetime(hours,minutes,seconds) %}
