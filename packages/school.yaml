@@ -441,8 +441,7 @@ script:
         entity_id: 
           - input_boolean.kallen_school_today
           - input_boolean.kallen_school_today_extended
-      - service: script.turn_on
-        entity_id: script.school_in_session
+          - input_boolean.school_in_session
       - delay:
           seconds: 1
       - if:
@@ -471,13 +470,3 @@ script:
           - input_boolean.kallen_school_today_extended
           - input_boolean.kallen_band_practice
           - input_boolean.kallen_school_early_release
-
-  school_in_session:
-    alias: 'School In Session'
-    sequence:
-      - condition: state
-        entity_id: input_boolean.school_in_session
-        state: 'off'
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.school_in_session
-

@@ -167,18 +167,23 @@ script:
           entity_id:
             - input_boolean.kallen_morning_meds_taken
             - input_boolean.kallen_night_meds_taken
-      - service: input_datetime.set_datetime
-        entity_id: input_datetime.kallen_school_day_start
-        data:
-          time: >
-            {% from 'time.jinja' import set_time_from_calendar %}
-            {% if is_state('input_boolean.two_hour_delay','on') %}
-              11:00
-            {% else %}
-              {{ set_time_from_calendar('calendar.kallen_school_days','start_time') }}
-            {% endif %}
-      - delay:
-          seconds: 1
+      - if:
+        - condition: state
+          entity_id: input_boolean.school_in_session
+          state: 'on'
+        then:
+        - service: input_datetime.set_datetime
+          entity_id: input_datetime.kallen_school_day_start
+          data:
+            time: >
+              {% from 'time.jinja' import set_time_from_calendar %}
+              {% if is_state('input_boolean.two_hour_delay','on') %}
+                11:00
+              {% else %}
+                {{ set_time_from_calendar('calendar.kallen_school_days','start_time') }}
+              {% endif %}
+        - delay:
+            seconds: 1
       - if:
         - condition: state
           entity_id: input_boolean.kallen_wakeup_override
@@ -229,24 +234,29 @@ script:
               {% else %}
                 10:00
               {% endif %}
-      - service: input_datetime.set_datetime
-        entity_id: input_datetime.kallen_school_day_start_reminder
-        data:
-          time: >
-            {% if is_state('input_boolean.two_hour_delay','on') %}
-              10:00
-            {% else %}
-              {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 3600) | timestamp_custom('%H:%M', false) }}
-            {% endif %}
-      - service: input_datetime.set_datetime
-        entity_id: input_datetime.kallen_school_day_end_reminder
-        data:
-          time: >
-            {% if is_state('input_boolean.kallen_school_early_release','on') %}
-              13:30
-            {% else %}
-              14:00
-            {% endif %}
+      - if:
+        - condition: state
+          entity_id: input_boolean.kallen_school_today
+          state: 'on'
+        then:
+        - service: input_datetime.set_datetime
+          entity_id: input_datetime.kallen_school_day_start_reminder
+          data:
+            time: >
+              {% if is_state('input_boolean.two_hour_delay','on') %}
+                10:00
+              {% else %}
+                {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 3600) | timestamp_custom('%H:%M', false) }}
+              {% endif %}
+        - service: input_datetime.set_datetime
+          entity_id: input_datetime.kallen_school_day_end_reminder
+          data:
+            time: >
+              {% if is_state('input_boolean.kallen_school_early_release','on') %}
+                13:30
+              {% else %}
+                14:00
+              {% endif %}
       - service: input_datetime.set_datetime
         target:
           entity_id: input_datetime.kallen_morning_meds_notify
