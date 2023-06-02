@@ -1,7 +1,7 @@
 {% from 'time.jinja' import ct %}
 {% set ct = ct() | int %}
 
-{% macro weatherReport(type,method,time) %}
+{% macro weatherInfo(type,method,time) %}
 {% set time = time|default('day') %}
 {% if method == 'text' %}
   {% if type in ['current','full'] %}
@@ -65,7 +65,6 @@
       ] | random }}
     {% endif %}
   {% endif %}
-
   {% if type in ['current','full'] %}
     {{ states('sensor.current_conditions_detail') }}
   {% elif type == 'forecast' %}
@@ -80,4 +79,8 @@
       {{ states('sensor.clothing_forecast_detail') }}
   {% endif %}
 {% endif %}
+{% endmacro %}
+
+{% macro weatherReport(type,method,time) %}
+{{ weatherInfo(type,method,time) | replace('clear-night','clear') | replace('partlycloudy','partly cloudy') }}
 {% endmacro %}
