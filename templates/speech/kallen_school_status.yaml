@@ -18,9 +18,6 @@
       {% endif %}
 
       {% if is_state('input_boolean.kallen_school_today','on') %}
-        {% if is_state('input_boolean.kallen_band_practice','on') %}
-          "You have band practice this morning before school. "
-        {% endif %}
         "Your school day will start at {{ input_datetime_12hr('input_datetime.kallen_school_day_start') }}. "
         {% if is_state('input_boolean.kallen_school_early_release','on') %}
           "There will be early dismissal today. "

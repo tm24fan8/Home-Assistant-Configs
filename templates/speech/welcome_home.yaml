@@ -39,14 +39,6 @@
         'Do not forget to do your homework! ',
         'You must be glad that your school day is over! '
         ] | random }}
-        {% if is_state('input_boolean.kallen_band_practice','on') %}
-          {{ [
-          'I hope you also enjoyed band practice this morning! ',
-          'I hope the trombone treated you well this morning! ',
-          'Band geeks are the best geeks! ',
-          'You did not achieve eighth position this morning, did you? ',
-          ] | random }}
-        {% endif %}
       {% elif is_state('input_boolean.school_cancelled','on') and is_state('person.kallen_stork','home') %}
         "I hope you are enjoying your free day off from school, Collin. "
       {% endif %}

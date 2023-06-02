@@ -73,14 +73,6 @@
               'Unfortunately, your school has not decided to embrace to power of sleep. They are running on time today. ',
             ] | random }}
           {% endif %}
-          {% if is_state('input_boolean.kallen_band_practice','on') %}
-            {{ [
-              'You have band practice this morning before school. ',
-              'You have a date with a trombone in just a short while. ',
-              'You get to practice avoiding eighth position today. ',
-              'I know it is early, but you had better pucker up because you have to spit in a metal tube and make music today. '
-            ] | random }}
-          {% endif %}
           {% if is_state('input_boolean.kallen_school_early_release','on') %}
             {{ [
               "And it is early dismissal today!",

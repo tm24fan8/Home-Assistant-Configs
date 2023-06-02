@@ -20,9 +20,6 @@ input_boolean:
   school_cancelled:
     name: Kallen School Cancelled
     icon: mdi:calendar-remove
-  kallen_band_practice:
-    name: Kallen Band Practice
-    icon: mdi:trumpet
   kallen_alternate_pickup:
     name: Kallen Alternate Pickup
     icon: mdi:car
@@ -88,16 +85,6 @@ template:
             off
           {% endif %}
       icon: mdi:school
-    - name: Kallen Band Tomorrow
-      unique_id: c57855eb-0499-4585-9081-9b2244ce6845
-      state: >-
-          {%- set test=(as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) %}
-          {% if states.calendar.kallen_school_days.attributes.start_time == test + " 08:00:00" %}
-            on
-          {% else %}
-            off
-          {% endif %}
-      icon: mdi:trumpet
 
 sensor:
   - platform: template
@@ -345,14 +332,6 @@ automation:
         from: 'off'
         to: 'on'
     action:
-      - service: input_boolean.turn_off
-        target:
-          entity_id: input_boolean.kallen_band_practice
-      - delay:
-          hours: 0
-          minutes: 0
-          seconds: 2
-          milliseconds: 0
       - service: script.kallen_scheduling_morning
       - delay:
           hours: 0
@@ -385,7 +364,8 @@ automation:
           - input_boolean.kallen_school_early_release
           - input_boolean.kallen_school_today_extended
           - input_boolean.kallen_at_school
-          - input_boolean.kallen_band_practice
+          - input_boolean.kallen_alternate_pickup
+          - input_boolean.kallen_school_early_release
       - delay:
           hours: 0
           minutes: 0
@@ -442,15 +422,6 @@ script:
           - input_boolean.kallen_school_today
           - input_boolean.kallen_school_today_extended
           - input_boolean.school_in_session
-      - delay:
-          seconds: 1
-      - if:
-        - condition: template
-          value_template: >
-            {{ state_attr('input_datetime.kallen_school_day_start','timestamp') == 28800 }}
-        then:
-          - service: input_boolean.turn_on
-            entity_id: input_boolean.kallen_band_practice
 
   kallen_school_reset:
     alias: 'Kallen School Reset'
@@ -468,5 +439,4 @@ script:
       - service: input_boolean.turn_off
         entity_id: 
           - input_boolean.kallen_school_today_extended
-          - input_boolean.kallen_band_practice
           - input_boolean.kallen_school_early_release

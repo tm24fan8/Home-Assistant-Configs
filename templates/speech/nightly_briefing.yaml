@@ -25,11 +25,7 @@
     <p>
       {{ tonyStatusReport('stream','tts') }}
       {% if is_state('binary_sensor.kallen_school_tomorrow','on') %}
-        {% if is_state('binary_sensor.kallen_band_tomorrow','on') %}
-          "Collin has school tomorrow, and there will be band practice in the morning at {{ read_time_from_calendar('calendar.kallen_school_days','start_time') }}. "
-        {% else %}
-          "Collin has school tomorrow at {{ read_time_from_calendar('calendar.kallen_school_days','start_time') }}. "
-        {% endif %}
+        "Collin has school tomorrow at {{ read_time_from_calendar('calendar.kallen_school_days','start_time') }}. "
       {% else %}
         "Collin does not have school tomorrow. "
       {% endif %}
