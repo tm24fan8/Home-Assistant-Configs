@@ -1,7 +1,7 @@
 >
   {# Kallen School Status #}
   {%- macro getReport() -%}
-  {% from 'time.jinja' import input_datetime_12hr %}
+  {% from 'time.jinja' import input_datetime_read %}
     <p>
       "Hello Collin, "
 
@@ -18,11 +18,11 @@
       {% endif %}
 
       {% if is_state('input_boolean.kallen_school_today','on') %}
-        "Your school day will start at {{ input_datetime_12hr('input_datetime.kallen_school_day_start') }}. "
+        "Your school day will start at {{ input_datetime_read('input_datetime.kallen_school_day_start') }}. "
         {% if is_state('input_boolean.kallen_school_early_release','on') %}
           "There will be early dismissal today. "
         {% endif %}
-        "Your school day will end at {{ input_datetime_12hr('input_datetime.kallen_school_day_end') }}. "
+        "Your school day will end at {{ input_datetime_read('input_datetime.kallen_school_day_end') }}. "
       {% endif %}
     </p>
 

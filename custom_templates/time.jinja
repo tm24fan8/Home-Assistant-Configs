@@ -16,12 +16,16 @@
 {{ now().strftime('%Y-%m-%d') }}
 {% endmacro %}
 
-{% macro input_datetime_12hr(entity) %}
+{% macro input_datetime_read(entity,type) %}
+{% if type is defined %}
+  {% if type == 'withdate' %}
+    {{ state_attr(entity,'timestamp') | int | timestamp_custom('%-I:%M %p') }}
+  {% elif type == 'nodate' %}
+    {{ state_attr(entity,'timestamp') | int | timestamp_custom('%-I:%M %p', False) }}
+  {% endif %}
+{% else %}
 {{ state_attr(entity,'timestamp') | int | timestamp_custom('%-I:%M %p', False) }}
-{% endmacro %}
-
-{% macro input_datetime_12hr_with_date(entity) %}
-{{ state_attr(entity,'timestamp') | int | timestamp_custom('%-I:%M %p') }}
+{% endif %}
 {% endmacro %}
 
 {% macro current_date_readout() %}

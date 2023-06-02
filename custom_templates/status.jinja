@@ -1,11 +1,11 @@
-{% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct, next_twitch_stream, calendar_event_today, read_time_from_calendar %}
+{% from 'time.jinja' import input_datetime_read, ct, next_twitch_stream, calendar_event_today, read_time_from_calendar %}
 {% from 'easy_time.jinja' import count_the_days, custom_time, custom_time_between, clock %}
 {% set ct = ct() | int %}
 
 {% macro tony_morning_meds(method) %}
 {% if is_state('binary_sensor.overnight','off') %}
   {% if is_state('input_boolean.tony_morning_meds_taken','on') %}
-    Tony took his morning meds at {{ input_datetime_12hr_with_date('input_datetime.tony_morning_meds_taken') }} today.
+    Tony took his morning meds at {{ input_datetime_read('input_datetime.tony_morning_meds_taken','withdate') }} today.
   {% elif is_state('input_boolean.tony_morning_meds_taken','off') and ct >= 21600 %}
     Tony has not taken his morning meds.
     {% if ct < state_attr('input_datetime.tony_morning_meds_notify','timestamp') | int %}
@@ -14,9 +14,9 @@
             'Rest assured that I will pester him mercilessly about this, starting at',
             'This is absolutely essential, and I will remind him to do it at',
             'Since nobody including Tony himself likes him without his meds, I will remind him at',
-          ] | random }} {{ input_datetime_12hr('input_datetime.tony_morning_meds_notify') }} today. 
+          ] | random }} {{ input_datetime_read('input_datetime.tony_morning_meds_notify') }} today. 
       {% else %}
-        He will be reminded at {{ input_datetime_12hr('input_datetime.tony_morning_meds_notify') }} today.
+        He will be reminded at {{ input_datetime_read('input_datetime.tony_morning_meds_notify') }} today.
       {% endif %}
     {% endif %}
   {% endif %}
@@ -25,7 +25,7 @@
 
 {% macro tony_night_meds(method) %}
 {% if is_state('input_boolean.tony_night_meds_taken','on') and ct < 43200 %}
-  Tony took his night meds at {{ input_datetime_12hr_with_date('input_datetime.tony_night_meds_taken') }} today.
+  Tony took his night meds at {{ input_datetime_read('input_datetime.tony_night_meds_taken','withdate') }} today.
 {% elif is_state('input_boolean.tony_night_meds_taken','off') and (ct >= 82800 or ct <= 21600) %}
   Tony has not taken his night meds.
   {% if method == 'tts' %}
@@ -101,7 +101,7 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
       "Tina has not yet been released from work, ",
       "Tina is still at the thankless idiot scape known as work, ",
       "Tina is still consumed by the gods of capitalism, ",
-    ] | random }} she will be done at approximately {{ input_datetime_12hr('input_datetime.tina_workday_end') }}.
+    ] | random }} she will be done at approximately {{ input_datetime_read('input_datetime.tina_workday_end') }}.
   {% elif is_state('binary_sensor.evening','on') %}
     {% if is_state('binary_sensor.tina_work_tomorrow','on') %}
       {{ [
@@ -126,7 +126,7 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
       "Today, Tina must go and entertain the gremlins known as her customers and coworkers ",
       "Today, Tina will be owned and operated by our lovely lord and savior capitalism starting ",
       "Tina will attempt to satiate the patron saint of capitalism today "
-    ] | random }} at {{ input_datetime_12hr('input_datetime.tina_workday_start') }}.
+    ] | random }} at {{ input_datetime_read('input_datetime.tina_workday_start') }}.
   {% else %}
     {{ [
       "Tina seems to have been granted a reprieve from her endless torture today. ",
@@ -140,9 +140,9 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
   {% endif %}
 {% elif method == 'text' %}
   {% if tina in ['Bob Evans','BobEvans'] and is_state('input_boolean.work_today','on') %}
-    Tina is at work right now. She will be done at approximately {{ input_datetime_12hr('input_datetime.tina_workday_end') }} today.
+    Tina is at work right now. She will be done at approximately {{ input_datetime_read('input_datetime.tina_workday_end') }} today.
   {% elif is_state('input_boolean.work_today','on') %}
-    Tina has work at {{ input_datetime_12hr('input_datetime.tina_workday_start') }} today.
+    Tina has work at {{ input_datetime_read('input_datetime.tina_workday_start') }} today.
   {% elif is_state('input_boolean.work_today_extended','on') and is_state('input_boolean.work_today','off') %}
     Tina has finished work for the day.
     {% if is_state('binary_sensor.tina_work_tomorrow','on') %}
@@ -157,7 +157,7 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% macro tina_morning_meds(method) %}
 {% if is_state('binary_sensor.overnight','off') %}
   {% if is_state('input_boolean.tina_morning_meds_taken','on') %}
-    Tina took her morning meds at {{ input_datetime_12hr_with_date('input_datetime.tina_morning_meds_taken') }} today.
+    Tina took her morning meds at {{ input_datetime_read('input_datetime.tina_morning_meds_taken','withdate') }} today.
   {% elif is_state('input_boolean.tina_morning_meds_taken','off') and is_state('binary_sensor.after_midnight','off') %}
     Tina has not taken her morning meds.
     {% if ct < state_attr('input_datetime.tina_morning_meds_notify','timestamp') | int %}
@@ -166,9 +166,9 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
             'Rest assured that I will pester her mercilessly about this, starting at',
             'This is absolutely essential, and I will remind her to do it at',
             'Her blood pressure is very important, so I will remind her at',
-          ] | random }} {{ input_datetime_12hr('input_datetime.tina_morning_meds_notify') }} today. 
+          ] | random }} {{ input_datetime_read('input_datetime.tina_morning_meds_notify') }} today. 
       {% else %}
-        She will be reminded at {{ input_datetime_12hr('input_datetime.tina_morning_meds_notify') }} today.
+        She will be reminded at {{ input_datetime_read('input_datetime.tina_morning_meds_notify') }} today.
       {% endif %}
     {% endif %}
   {% endif %}
@@ -199,14 +199,14 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% endif %}
 {% if wakeup <= ct <= bedtime %}
   {% if is_state('input_boolean.kallen_morning_meds_taken','on') %}
-    Kallen took his morning meds at {{ input_datetime_12hr_with_date('input_datetime.kallen_morning_meds_taken') }} today.
+    Kallen took his morning meds at {{ input_datetime_read('input_datetime.kallen_morning_meds_taken','withdate') }} today.
   {% else %}
     Kallen has not taken his morning meds.
     {% if ct < state_attr('input_datetime.kallen_morning_meds_notify','timestamp') | int %}
       {{ ['He has a reminder scheduled for',
           'Rest assured that I will pester him mercilessly about this, starting at',
           'This is absolutely essential, and I will remind him to do it at',
-        ] | random }} {{ input_datetime_12hr('input_datetime.kallen_morning_meds_notify') }} today.
+        ] | random }} {{ input_datetime_read('input_datetime.kallen_morning_meds_notify') }} today.
     {% endif %}
   {% endif %}
 {% endif %}
@@ -222,7 +222,7 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% set diff = bedtime - ct %}
 {% if is_state('input_boolean.kallen_night_meds_taken','on') %}
   {% if (ct >= bedtime) or (ct < wakeup) %}
-    Kallen took his night meds at {{ input_datetime_12hr_with_date('input_datetime.kallen_night_meds_taken') }} tonight.
+    Kallen took his night meds at {{ input_datetime_read('input_datetime.kallen_night_meds_taken','withdate') }} tonight.
   {% endif %}
 {% else %}
   {% if diff <= 3600 %}
@@ -263,7 +263,7 @@ Kallen is staying elsewhere overnight.
     {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
       {{ states('input_text.kallen_pickup') }} will be picking Collin up from school today. 
     {% else %}
-      Pickup today will be at {{ input_datetime_12hr('input_datetime.kallen_school_day_end') }}.
+      Pickup today will be at {{ input_datetime_read('input_datetime.kallen_school_day_end') }}.
       {% if is_state('input_boolean.kallen_school_early_release','on') %}
         And It is early release!
       {% endif %}
@@ -323,12 +323,12 @@ Kallen is staying elsewhere overnight.
         {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
           {{ states('input_text.kallen_pickup') }} will be picking him up from school today.
         {% elif is_state('input_boolean.kallen_school_early_release','on') %}
-          The school is on an early release schedule, pickup is at {{ input_datetime_12hr('input_datetime.kallen_school_day_end') }} today.
+          The school is on an early release schedule, pickup is at {{ input_datetime_read('input_datetime.kallen_school_day_end') }} today.
         {% else %}
-          His pickup time is {{ input_datetime_12hr('input_datetime.kallen_school_day_end') }} today.
+          His pickup time is {{ input_datetime_read('input_datetime.kallen_school_day_end') }} today.
         {% endif %}
       {% else %}
-        Kallen has school at {{ input_datetime_12hr('input_datetime.kallen_school_day_start') }} today.
+        Kallen has school at {{ input_datetime_read('input_datetime.kallen_school_day_start') }} today.
       {% endif %}
     {% elif is_state('input_boolean.school_cancelled','on') %}
       School is cancelled today for Kallen.
@@ -346,14 +346,14 @@ Kallen is staying elsewhere overnight.
 {% macro kallenSleep(method) %}
 {% set bedtimestamp = state_attr('input_datetime.kallen_bedtime','timestamp') | int %}
 {% if is_state('input_boolean.kallen_sleeping','on') %}
-  Kallen went to bed at {{ input_datetime_12hr('input_datetime.kallen_bedtime') }} tonight.
+  Kallen went to bed at {{ input_datetime_read('input_datetime.kallen_bedtime') }} tonight.
   {% if 14400 < ct < bedtimestamp %}
-    His scheduled wakeup time is {{ input_datetime_12hr('input_datetime.kallen_wakeup_time') }} today.
+    His scheduled wakeup time is {{ input_datetime_read('input_datetime.kallen_wakeup_time') }} today.
   {% endif %}
 {% else %}
-  Kallen woke up at {{ input_datetime_12hr('input_datetime.kallen_wakeup_time') }} today.
+  Kallen woke up at {{ input_datetime_read('input_datetime.kallen_wakeup_time') }} today.
   {% if ct > 57600 %}
-    His scheduled bedtime is {{ input_datetime_12hr('input_datetime.kallen_bedtime') }} tonight.
+    His scheduled bedtime is {{ input_datetime_read('input_datetime.kallen_bedtime') }} tonight.
   {% endif %}
 {% endif %}
 {% endmacro %}
@@ -379,9 +379,9 @@ Kallen is staying elsewhere overnight.
 {% set asleep_day = asleep | timestamp_custom("%-d") %}
 {% set wakeup_day = wakeup | timestamp_custom("%-d") %}
 {% if is_state('input_boolean.emma_sleeping','off') and is_state('input_boolean.emma_has_napped','on') or ((asleep_day == day) and (wakeup_day == day)) %}
-  Emma napped today for {{ custom_time_between('input_datetime.emma_down_for_nap','input_datetime.emma_up_from_nap','hour,minute') }}. She was retrieved from her room at {{ input_datetime_12hr_with_date('input_datetime.emma_up_from_nap') }} approximately.
+  Emma napped today for {{ custom_time_between('input_datetime.emma_down_for_nap','input_datetime.emma_up_from_nap','hour,minute') }}. She was retrieved from her room at {{ input_datetime_read('input_datetime.emma_up_from_nap') }} approximately.
 {% elif is_state('input_boolean.emma_has_napped','off') and ((asleep_day == day) and (wakeup_day != day)) and is_state('input_boolean.emma_sleeping','on') %}
-  Emma is down for nap. She was put down at {{ input_datetime_12hr_with_date('input_datetime.emma_down_for_nap') }} approximately. She has been asleep for {{ custom_time('input_datetime.emma_down_for_nap','hour,minute') }}.
+  Emma is down for nap. She was put down at {{ input_datetime_read('input_datetime.emma_down_for_nap','withdate') }} approximately. She has been asleep for {{ custom_time('input_datetime.emma_down_for_nap','hour,minute') }}.
 {% elif is_state('input_boolean.emma_sleeping','on') %}
   {% if is_state('binary_sensor.early_night_mode','on') %}
     Emma is asleep for the night.
@@ -389,7 +389,7 @@ Kallen is staying elsewhere overnight.
     Emma has not yet awoken for the day.
   {% endif %}
 {% else %}
-  Emma is awake, and does not appear to have napped yet. She woke up at {{ input_datetime_12hr('input_datetime.emma_wakeup') }} today.
+  Emma is awake, and does not appear to have napped yet. She woke up at {{ input_datetime_read('input_datetime.emma_wakeup') }} today.
 {% endif %}
 {% endmacro %}
 

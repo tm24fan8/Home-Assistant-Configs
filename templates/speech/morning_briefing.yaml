@@ -2,7 +2,6 @@
   {# Morning Briefing #}
   {%- macro getReport() -%}
   {% from 'speech.jinja' import greeting_nodate, dadjoke, inspirational_quote %}
-  {% from 'time.jinja' import input_datetime_12hr %}
   {% from 'status.jinja' import tonyStatusReport, tinaStatusReport, kallenStatusReport, emmaStatusReport %}
   {% from 'easy_time.jinja' import count_the_days %}
   {% from 'weather.jinja' import weatherReport %}

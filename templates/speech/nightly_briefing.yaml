@@ -2,7 +2,7 @@
   {# Nightly Briefing #}
   {%- macro getReport() -%}
   {% from 'speech.jinja' import greeting, dadjoke, inspirational_quote %}
-  {% from 'time.jinja' import input_datetime_12hr, read_time_from_calendar, next_twitch_stream %}
+  {% from 'time.jinja' import input_datetime_read, read_time_from_calendar, next_twitch_stream %}
   {% from 'status.jinja' import tonyStatusReport, tinaStatusReport, kallenStatusReport, emmaStatusReport %}
   {% from 'easy_time.jinja' import count_the_days %}
   {% from 'weather.jinja' import weatherReport %}
@@ -105,18 +105,18 @@
           {% elif states('climate.master_bedroom_aircon') not in ['off','unknown','unavailable'] %}
             "The master bedroom air conditioner is already running in {{ states('climate.master_bedroom_aircon') }} mode. "
           {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','AC') and is_state('input_boolean.hot_day','on') %}
-            "Today was a hot day, so the master bedroom air conditioner will activate cooling mode a bit earlier tonight at {{ input_datetime_12hr('input_datetime.master_bedroom_cooling') }}. "
+            "Today was a hot day, so the master bedroom air conditioner will activate cooling mode a bit earlier tonight at {{ input_datetime_read('input_datetime.master_bedroom_cooling') }}. "
           {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','AC') %}
-            "The master bedroom air conditioner will activate cooling mode at {{ input_datetime_12hr('input_datetime.master_bedroom_cooling') }}. "
+            "The master bedroom air conditioner will activate cooling mode at {{ input_datetime_read('input_datetime.master_bedroom_cooling') }}. "
           {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','Fan') %}
-            "The master bedroom air conditioner will activate fan only mode at {{ input_datetime_12hr('input_datetime.master_bedroom_cooling') }}. "
+            "The master bedroom air conditioner will activate fan only mode at {{ input_datetime_read('input_datetime.master_bedroom_cooling') }}. "
           {% endif %}
         {% endif %}
         {% if states('input_select.scheduled_climate_mode_master_bedroom_fan') != 'N/A' %}
           {% if is_state('fan.master_bedroom_fan','on') %}
             "The master bedroom fan is already running. "
           {% else %}
-            "The master bedroom fan will activate at {{ input_datetime_12hr('input_datetime.master_bedroom_fan') }}. "
+            "The master bedroom fan will activate at {{ input_datetime_read('input_datetime.master_bedroom_fan') }}. "
           {% endif %}
         {% endif %}
       {% endif %}
@@ -131,9 +131,9 @@
           {% elif is_state('input_boolean.white_noise_kallen_bedroom','on') %}
             "Collin's white noise generator is already running. "
           {% elif is_state('input_select.scheduled_climate_mode_kallen_fan','Fan') %}
-            "Collin's fan will activate at {{ input_datetime_12hr('input_datetime.kallen_fan') }}. "
+            "Collin's fan will activate at {{ input_datetime_read('input_datetime.kallen_fan') }}. "
           {% elif is_state('input_select.scheduled_climate_mode_kallen_fan','White Noise') %}
-            "Collin's white noise generator will activate at {{ input_datetime_12hr('input_datetime.kallen_bedtime') }}. "
+            "Collin's white noise generator will activate at {{ input_datetime_read('input_datetime.kallen_bedtime') }}. "
           {% endif %}
         {% endif %}
       {% else %}
@@ -149,9 +149,9 @@
         {% elif is_state('input_boolean.white_noise_emma_bedroom','on') and is_state('input_select.scheduled_climate_mode_emma_aircon','White Noise') %}
           "Emma's white noise generator is already running. "
         {% elif is_state('input_select.scheduled_climate_mode_emma_aircon','AC') %}
-          "Emma's air conditioner will be activated at {{ input_datetime_12hr('input_datetime.emma_bedtime') }}. "
+          "Emma's air conditioner will be activated at {{ input_datetime_read('input_datetime.emma_bedtime') }}. "
         {% elif is_state('input_select.scheduled_climate_mode_emma_aircon','White Noise') %}
-          "Emma's white noise generator will activate at {{ input_datetime_12hr('input_datetime.emma_bedtime') }}. "
+          "Emma's white noise generator will activate at {{ input_datetime_read('input_datetime.emma_bedtime') }}. "
         {% endif %}
       {% endif %}
     </p>

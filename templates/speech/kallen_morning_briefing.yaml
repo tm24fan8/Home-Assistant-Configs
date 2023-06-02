@@ -1,7 +1,7 @@
 >
   {# Kallen Morning Briefing #}
   {%- macro getReport() -%}
-  {% from 'time.jinja' import current_time, current_date_readout, input_datetime_12hr %}
+  {% from 'time.jinja' import current_time, current_date_readout, input_datetime_read %}
   {% from 'speech.jinja' import dadjoke, inspirational_quote %}
   {% from 'easy_time.jinja' import count_the_days, custom_time %}
     <p>
@@ -81,7 +81,7 @@
               "And you even get to come home a little earlier today!",
             ] | random }}
           {% endif %}
-          <s>School today starts at {{ input_datetime_12hr('input_datetime.kallen_school_day_start') }}</s>
+          <s>School today starts at {{ input_datetime_read('input_datetime.kallen_school_day_start') }}</s>
           {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
             Today, you will be picked up from school by {{ states('input_text.kallen_pickup') }}.
           {% elif is_state('input_boolean.work_today','off') %}
@@ -89,7 +89,7 @@
           {% else %}
             Today, you will be picked up from school by your dad.
           {% endif %}
-          <s>Pickup today will be at {{ input_datetime_12hr('input_datetime.kallen_school_day_end') }}</s>
+          <s>Pickup today will be at {{ input_datetime_read('input_datetime.kallen_school_day_end') }}</s>
           {% if count_the_days('input_datetime.school_last_day') | int == 0 -%}
             But today is the last day of School! 
           {%- endif %}
