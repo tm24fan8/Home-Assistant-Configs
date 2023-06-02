@@ -1,6 +1,7 @@
-{% macro weatherReport(type,method,time) %}
 {% from 'time.jinja' import ct %}
 {% set ct = ct() | int %}
+
+{% macro weatherReport(type,method,time) %}
 {% set time = time|default('day') %}
 {% if method == 'text' %}
   {% if type in ['current','full'] %}

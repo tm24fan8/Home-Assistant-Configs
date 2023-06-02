@@ -1,6 +1,8 @@
-{% macro tony_morning_meds(method) %}
-{% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct %}
+{% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct, next_twitch_stream, calendar_event_today, read_time_from_calendar %}
+{% from 'easy_time.jinja' import count_the_days, custom_time, custom_time_between, clock %}
 {% set ct = ct() | int %}
+
+{% macro tony_morning_meds(method) %}
 {% if is_state('binary_sensor.overnight','off') %}
   {% if is_state('input_boolean.tony_morning_meds_taken','on') %}
     Tony took his morning meds at {{ input_datetime_12hr_with_date('input_datetime.tony_morning_meds_taken') }} today.
@@ -22,8 +24,6 @@
 {% endmacro %}
 
 {% macro tony_night_meds(method) %}
-{% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct %}
-{% set ct = ct() | int %}
 {% if is_state('input_boolean.tony_night_meds_taken','on') and ct < 43200 %}
   Tony took his night meds at {{ input_datetime_12hr_with_date('input_datetime.tony_night_meds_taken') }} today.
 {% elif is_state('input_boolean.tony_night_meds_taken','off') and (ct >= 82800 or ct <= 21600) %}
@@ -46,8 +46,6 @@
 {% endmacro %}
 
 {% macro twitchStreamInfo(method) %}
-{% from 'time.jinja' import next_twitch_stream, calendar_event_today, read_time_from_calendar %}
-{% from 'easy_time.jinja' import count_the_days %}
 {% if is_state('input_boolean.tony_streaming_today','on') or calendar_event_today('calendar.tony_s_twitch_schedule') == 'false' %}
   {% set streamstart = state_attr('input_datetime.tony_streaming_start_time','timestamp') | timestamp_custom('%-I:%M %p',false) %}
 {% elif calendar_event_today('calendar.tony_s_twitch_schedule') == 'true' %}
@@ -79,7 +77,6 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% endmacro %}
 
 {% macro tonyStatusReport(type,method) %}
-{% from 'status.jinja' import medReportTony, twitchStreamInfo %}
 {% if type == 'meds' %}
 {{ medReportTony(method) }}
 {% endif %}
@@ -93,7 +90,6 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% endmacro %}
 
 {% macro workReportTina(method) %}
-{% from 'time.jinja' import input_datetime_12hr, calendar_event_today %}
 {% set tina = states.person.christina_stork.state %}
 {% set start = (state_attr('binary_sensor.tina_work_tomorrow','start_timestamp') | int) // 1000 %}
 {% set tmrw = (as_timestamp(states('sensor.date')) + 86400) | int %}
@@ -159,8 +155,6 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% endmacro %}
 
 {% macro tina_morning_meds(method) %}
-{% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct %}
-{% set ct = ct() | int %}
 {% if is_state('binary_sensor.overnight','off') %}
   {% if is_state('input_boolean.tina_morning_meds_taken','on') %}
     Tina took her morning meds at {{ input_datetime_12hr_with_date('input_datetime.tina_morning_meds_taken') }} today.
@@ -186,7 +180,6 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% endmacro %}
 
 {% macro tinaStatusReport(type,method) %}
-{% from 'status.jinja' import workReportTina %}
 {% if type == 'work' %}
 {{ workReportTina(method) }}
 {% elif type == 'meds' %}
@@ -198,8 +191,6 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% endmacro %}
 
 {% macro kallen_morning_meds() %}
-{% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct %}
-{% set ct = ct() | int %}
 {% set wakeup = state_attr('input_datetime.kallen_wakeup_time','timestamp') | int %}
 {% if state_attr('input_datetime.kallen_bedtime','timestamp') | int <= 7200 %}
   {% set bedtime = 86340 %}
@@ -222,8 +213,6 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% endmacro %}
 
 {% macro kallen_night_meds() %}
-{% from 'time.jinja' import input_datetime_12hr, input_datetime_12hr_with_date, ct %}
-{% set ct = ct() | int %}
 {% set wakeup = state_attr('input_datetime.kallen_wakeup_time','timestamp') | int %}
 {% if 0 <= state_attr('input_datetime.kallen_bedtime','timestamp') | int <= 7200 %}
   {% set bedtime = 85440 %}
@@ -256,11 +245,8 @@ Kallen is staying elsewhere overnight.
 {% endmacro %}
 
 {% macro schoolReportKallen(method) %}
-{% from 'time.jinja' import input_datetime_12hr, ct %}
-{% from 'easy_time.jinja' import custom_time, count_the_days %}
 {% set wakeup = state_attr('input_datetime.kallen_wakeup_time','timestamp') %}
 {% set bedtime = state_attr('input_datetime.kallen_bedtime','timestamp') %}
-{% set ct = ct() | int %}
 {% if method == 'tts' %}
   {% if is_state('input_boolean.kallen_school_today', 'on') %}
     {% if is_state('sensor.school_start_days2go', '0') %}
@@ -358,8 +344,6 @@ Kallen is staying elsewhere overnight.
 {% endmacro %}
 
 {% macro kallenSleep(method) %}
-{% from 'time.jinja' import input_datetime_12hr, ct %}
-{% set ct = ct() | int %}
 {% set bedtimestamp = state_attr('input_datetime.kallen_bedtime','timestamp') | int %}
 {% if is_state('input_boolean.kallen_sleeping','on') %}
   Kallen went to bed at {{ input_datetime_12hr('input_datetime.kallen_bedtime') }} tonight.
@@ -375,7 +359,6 @@ Kallen is staying elsewhere overnight.
 {% endmacro %}
 
 {% macro kallenStatusReport(type,method) %}
-{% from 'status.jinja' import medReportKallen %}
 {% if type == 'meds' %}
 {{ medReportKallen() }}
 {% elif type == 'school' %}
@@ -390,8 +373,6 @@ Kallen is staying elsewhere overnight.
 {% endmacro %}
 
 {% macro emma_sleep() %}
-{% from 'time.jinja' import input_datetime_12hr_with_date, input_datetime_12hr %}
-{% from 'easy_time.jinja' import custom_time, custom_time_between %}
 {% set asleep = state_attr('input_datetime.emma_down_for_nap','timestamp') | int %}
 {% set wakeup = state_attr('input_datetime.emma_up_from_nap','timestamp') | int %}
 {% set day = now().strftime("%-d") %}
@@ -413,7 +394,6 @@ Kallen is staying elsewhere overnight.
 {% endmacro %}
 
 {% macro emma_sleep_notification() %}
-{% from 'easy_time.jinja' import clock, custom_time_between %}
 {% set asleep = state_attr('input_datetime.emma_down_for_nap','timestamp') | int %}
 {% set wakeup = state_attr('input_datetime.emma_up_from_nap','timestamp') | int %}
 {% set day = now().strftime("%-d") %}
@@ -433,7 +413,6 @@ Kallen is staying elsewhere overnight.
 {% endmacro %}
 
 {% macro emmaStatusReport(type,method) %}
-{% from 'status.jinja' import emma_sleep %}
 {% if type == 'sleep' %}
 {{ emma_sleep() }}
 {% elif type == 'full' %}
