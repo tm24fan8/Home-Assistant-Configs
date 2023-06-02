@@ -133,7 +133,7 @@ sensor:
           {% set person = states.person.kallen_stork.state %}
           {% if person in ['Home','home'] %}
             Home
-          {% elif person in ['School','Elementary School','High School'] %}
+          {% elif person in ['School','Middle School','High School'] %}
             School
           {% elif person in ['WalMart','Wal-Mart','Kroger','Chief','Meijer','Dollar General - Clinton St','Aldi'] %}
             Grocery Store
@@ -344,15 +344,15 @@ automation:
       - entity_id: person.tony_stork
         event: leave
         platform: zone
-        zone: zone.elementary_school
+        zone: zone.middle_school
       - entity_id: person.christina_stork
         event: leave
         platform: zone
-        zone: zone.elementary_school
+        zone: zone.middle_school
       - entity_id: person.kallen_stork
         event: enter
         platform: zone
-        zone: zone.elementary_school
+        zone: zone.middle_school
     condition:
       - condition: time
         before: "11:30:00"
@@ -399,15 +399,15 @@ automation:
       - entity_id: person.tony_stork
         event: leave
         platform: zone
-        zone: zone.elementary_school
+        zone: zone.middle_school
       - entity_id: person.christina_stork
         event: leave
         platform: zone
-        zone: zone.elementary_school
+        zone: zone.middle_school
       - entity_id: person.kallen_stork
         event: leave
         platform: zone
-        zone: zone.elementary_school
+        zone: zone.middle_school
     condition:
       - condition: time
         after: "11:30:00"
