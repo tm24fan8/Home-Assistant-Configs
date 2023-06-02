@@ -43,7 +43,7 @@
         "I hope you are enjoying your free day off from school, Collin. "
       {% endif %}
       {% if count_the_days('input_datetime.school_last_day') | int == 0 %}
-        "Congratulations, today is the last day of school! Have an awesome day! Additionally, congratulations on finishing your time in elementary school. This is an immense accomplishment. Onward and upward to better things, middle school starts this fall!"
+        "Congratulations, today is the last day of school! Have an awesome day!"
       {% endif %}
     </p>
     <p>
