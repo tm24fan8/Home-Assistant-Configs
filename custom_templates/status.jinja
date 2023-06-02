@@ -2,10 +2,10 @@
 {% from 'easy_time.jinja' import count_the_days, custom_time, custom_time_between, clock %}
 {% set ct = ct() | int %}
 
-{% macro tony_morning_meds(method) %}
+{% macro tony_morning_meds(type,method) %}
 {% if is_state('binary_sensor.overnight','off') %}
   {% if is_state('input_boolean.tony_morning_meds_taken','on') %}
-    Tony took his morning meds at {{ input_datetime_read('input_datetime.tony_morning_meds_taken','withdate') }} today.
+    Tony took his morning meds at {{ input_datetime_read('input_datetime.tony_morning_meds_taken','withdate') | trim }}.
   {% elif is_state('input_boolean.tony_morning_meds_taken','off') and ct >= 21600 %}
     Tony has not taken his morning meds.
     {% if ct < state_attr('input_datetime.tony_morning_meds_notify','timestamp') | int %}
@@ -14,18 +14,18 @@
             'Rest assured that I will pester him mercilessly about this, starting at',
             'This is absolutely essential, and I will remind him to do it at',
             'Since nobody including Tony himself likes him without his meds, I will remind him at',
-          ] | random }} {{ input_datetime_read('input_datetime.tony_morning_meds_notify') }} today. 
+          ] | random }} {{ input_datetime_read('input_datetime.tony_morning_meds_notify') | trim }}. 
       {% else %}
-        He will be reminded at {{ input_datetime_read('input_datetime.tony_morning_meds_notify') }} today.
+        He will be reminded at {{ input_datetime_read('input_datetime.tony_morning_meds_notify') | trim }}.
       {% endif %}
     {% endif %}
   {% endif %}
 {% endif %}
 {% endmacro %}
 
-{% macro tony_night_meds(method) %}
+{% macro tony_night_meds(type,method) %}
 {% if is_state('input_boolean.tony_night_meds_taken','on') and ct < 43200 %}
-  Tony took his night meds at {{ input_datetime_read('input_datetime.tony_night_meds_taken','withdate') }} today.
+  Tony took his night meds at {{ input_datetime_read('input_datetime.tony_night_meds_taken','withdate') | trim }}.
 {% elif is_state('input_boolean.tony_night_meds_taken','off') and (ct >= 82800 or ct <= 21600) %}
   Tony has not taken his night meds.
   {% if method == 'tts' %}
@@ -40,12 +40,12 @@
 {% endif %}
 {% endmacro %}
 
-{% macro medReportTony(method) %}
-{{ tony_morning_meds(method) }}
-{{ tony_night_meds(method) }}
+{% macro medReportTony(type,method) %}
+{{ tony_morning_meds(type,method) }}
+{{ tony_night_meds(type,method) }}
 {% endmacro %}
 
-{% macro twitchStreamInfo(method) %}
+{% macro twitchStreamInfo(type,method) %}
 {% if is_state('input_boolean.tony_streaming_today','on') or calendar_event_today('calendar.tony_s_twitch_schedule') == 'false' %}
   {% set streamstart = state_attr('input_datetime.tony_streaming_start_time','timestamp') | timestamp_custom('%-I:%M %p',false) %}
 {% elif calendar_event_today('calendar.tony_s_twitch_schedule') == 'true' %}
@@ -54,42 +54,41 @@
 {% set game = state_attr('sensor.twitch_ironnerd24','game') %}
 {% set viewers = state_attr('sensor.twitch_ironnerd24','viewers') %}
 {% if is_state('sensor.twitch_ironnerd24','streaming') %}
-Tony is currently streaming. The current stream category is {{ game }}. The current viewer count is {{ viewers }}.
+{% if type == 'stream' %}Tony{% else %}He{% endif %} is currently streaming. The current stream category is {{ game }}. The current viewer count is {{ viewers }}.
 {% elif is_state('input_boolean.tony_streaming_today','on') or calendar_event_today('calendar.tony_s_twitch_schedule') == 'true' %}
   {% if method == 'tts' %}
+    {% if type == 'stream' %}Tony{% else %}He{% endif %}
     {{ [
-    "Tony will be pretending to be a real content creator tonight. ",
-    "Tony will be doing his best to defeat his impostor syndrome tonight. ",
-    "Tony will be playing video games and yelling into a microphone tonight. ",
-    "Tony will be scraping out the nickels and dimes tonight for the sake of entertainment. ",
-    "Tony is not really all that funny, but tonight he will present himself to a crowd of questionable individuals who seem to think that he is. "
+    " will be pretending to be a real content creator tonight. ",
+    " will be doing his best to defeat his impostor syndrome tonight. ",
+    " will be playing video games and yelling into a microphone tonight. ",
+    " will be scraping out the nickels and dimes tonight for the sake of entertainment. ",
+    " is not really all that funny, but tonight he will present himself to a crowd of questionable individuals who seem to think that he is. "
   ] | random }} The studio is scheduled to go online at {{ streamstart }}. "
   {% elif method == 'text' %}
-    Tony will be streaming today. Stream starts at {{ streamstart }}.
+    {% if type == 'stream' %}Tony{% else %}He{% endif %} will be streaming today. Stream starts at {{ streamstart }}.
   {% endif %}
 {% elif state_attr('calendar.tony_s_twitch_schedule','start_time') != none %}
   {% if count_the_days('calendar.tony_s_twitch_schedule','start_time') | int == 1 %}
-    Tony will be streaming at {{ time_from_calendar('calendar.tony_s_twitch_schedule','start_time','read') }} tomorrow.
-  {% else %}
-    Tony does not have a stream scheduled today. The next scheduled stream is in {{ next_twitch_stream() }} approximately.
+    {% if type == 'stream' %}Tony{% else %}He{% endif %} will be streaming at {{ time_from_calendar('calendar.tony_s_twitch_schedule','start_time','read') }} tomorrow.
   {% endif %}
 {% endif %}
 {% endmacro %}
 
 {% macro tonyStatusReport(type,method) %}
 {% if type == 'meds' %}
-{{ medReportTony(method) }}
+{{ medReportTony(type,method) }}
 {% endif %}
 {% if type == 'stream' %}
-{{ twitchStreamInfo(method) }}
+{{ twitchStreamInfo(type,method) }}
 {% endif %}
 {% if type == 'full' %}
-{{ medReportTony(method) }}
-{{ twitchStreamInfo(method) }}
+{{ medReportTony(type,method) }}
+{{ twitchStreamInfo(type,method) }}
 {% endif %}
 {% endmacro %}
 
-{% macro workReportTina(method) %}
+{% macro workReportTina(type,method) %}
 {% set tina = states.person.christina_stork.state %}
 {% set start = (state_attr('binary_sensor.tina_work_tomorrow','start_timestamp') | int) // 1000 %}
 {% set tmrw = (as_timestamp(states('sensor.date')) + 86400) | int %}
@@ -140,24 +139,24 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
   {% endif %}
 {% elif method == 'text' %}
   {% if tina in ['Bob Evans','BobEvans'] and is_state('input_boolean.work_today','on') %}
-    Tina is at work right now. She will be done at approximately {{ input_datetime_read('input_datetime.tina_workday_end') }} today.
+    {% if type == 'work' %}Tina{% else %}She{% endif %} is at work right now. She will be done at approximately {{ input_datetime_read('input_datetime.tina_workday_end') | trim }}.
   {% elif is_state('input_boolean.work_today','on') %}
-    Tina has work at {{ input_datetime_read('input_datetime.tina_workday_start') }} today.
+    {% if type == 'work' %}Tina{% else %}She{% endif %} has work at {{ input_datetime_read('input_datetime.tina_workday_start') | trim }}.
   {% elif is_state('input_boolean.work_today_extended','on') and is_state('input_boolean.work_today','off') %}
-    Tina has finished work for the day.
+    {% if type == 'work' %}Tina{% else %}She{% endif %} has finished work for the day.
     {% if is_state('binary_sensor.tina_work_tomorrow','on') %}
-      She has work tomorrow at {{ diff | timestamp_custom('%-I:%M %p',false) }}.
+      {% if type == 'work' %}Tina{% else %}She{% endif %} has work tomorrow at {{ diff | timestamp_custom('%-I:%M %p',false) }}.
     {% endif %}
   {% else %}
-    Tina has today off from work.
+    {% if type == 'work' %}Tina{% else %}She{% endif %} has today off from work.
   {% endif %}
 {% endif %}
 {% endmacro %}
 
-{% macro tina_morning_meds(method) %}
+{% macro tina_morning_meds(type,method) %}
 {% if is_state('binary_sensor.overnight','off') %}
   {% if is_state('input_boolean.tina_morning_meds_taken','on') %}
-    Tina took her morning meds at {{ input_datetime_read('input_datetime.tina_morning_meds_taken','withdate') }} today.
+    Tina took her morning meds at {{ input_datetime_read('input_datetime.tina_morning_meds_taken','withdate') | trim }}.
   {% elif is_state('input_boolean.tina_morning_meds_taken','off') and is_state('binary_sensor.after_midnight','off') %}
     Tina has not taken her morning meds.
     {% if ct < state_attr('input_datetime.tina_morning_meds_notify','timestamp') | int %}
@@ -166,31 +165,31 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
             'Rest assured that I will pester her mercilessly about this, starting at',
             'This is absolutely essential, and I will remind her to do it at',
             'Her blood pressure is very important, so I will remind her at',
-          ] | random }} {{ input_datetime_read('input_datetime.tina_morning_meds_notify') }} today. 
+          ] | random }} {{ input_datetime_read('input_datetime.tina_morning_meds_notify') | trim }}. 
       {% else %}
-        She will be reminded at {{ input_datetime_read('input_datetime.tina_morning_meds_notify') }} today.
+        She will be reminded at {{ input_datetime_read('input_datetime.tina_morning_meds_notify') | trim }}.
       {% endif %}
     {% endif %}
   {% endif %}
 {% endif %}
 {% endmacro %}
 
-{% macro medReportTina(method) %}
-{{ tina_morning_meds(method) }}
+{% macro medReportTina(type,method) %}
+{{ tina_morning_meds(type,method) }}
 {% endmacro %}
 
 {% macro tinaStatusReport(type,method) %}
 {% if type == 'work' %}
-{{ workReportTina(method) }}
+{{ workReportTina(type,method) }}
 {% elif type == 'meds' %}
-{{ medReportTina(method) }}
+{{ medReportTina(type,method) }}
 {% elif type == 'full' %}
-{{ medReportTina(method) }}
-{{ workReportTina(method) }}
+{{ medReportTina(type,method) }}
+{{ workReportTina(type,method) }}
 {% endif %}
 {% endmacro %}
 
-{% macro kallen_morning_meds() %}
+{% macro kallen_morning_meds(type,method) %}
 {% set wakeup = state_attr('input_datetime.kallen_wakeup_time','timestamp') | int %}
 {% if state_attr('input_datetime.kallen_bedtime','timestamp') | int <= 7200 %}
   {% set bedtime = 86340 %}
@@ -199,20 +198,20 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% endif %}
 {% if wakeup <= ct <= bedtime %}
   {% if is_state('input_boolean.kallen_morning_meds_taken','on') %}
-    Kallen took his morning meds at {{ input_datetime_read('input_datetime.kallen_morning_meds_taken','withdate') }} today.
+    {% if type == 'meds' %}Kallen{% else %}He{% endif %} took his morning meds at {{ input_datetime_read('input_datetime.kallen_morning_meds_taken','withdate') | trim }}.
   {% else %}
-    Kallen has not taken his morning meds.
+    {% if type == 'meds' %}Kallen{% else %}He{% endif %} has not taken his morning meds.
     {% if ct < state_attr('input_datetime.kallen_morning_meds_notify','timestamp') | int %}
       {{ ['He has a reminder scheduled for',
           'Rest assured that I will pester him mercilessly about this, starting at',
           'This is absolutely essential, and I will remind him to do it at',
-        ] | random }} {{ input_datetime_read('input_datetime.kallen_morning_meds_notify') }} today.
+        ] | random }} {{ input_datetime_read('input_datetime.kallen_morning_meds_notify') | trim }}.
     {% endif %}
   {% endif %}
 {% endif %}
 {% endmacro %}
 
-{% macro kallen_night_meds() %}
+{% macro kallen_night_meds(type,method) %}
 {% set wakeup = state_attr('input_datetime.kallen_wakeup_time','timestamp') | int %}
 {% if 0 <= state_attr('input_datetime.kallen_bedtime','timestamp') | int <= 7200 %}
   {% set bedtime = 85440 %}
@@ -222,11 +221,11 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% set diff = bedtime - ct %}
 {% if is_state('input_boolean.kallen_night_meds_taken','on') %}
   {% if (ct >= bedtime) or (ct < wakeup) %}
-    Kallen took his night meds at {{ input_datetime_read('input_datetime.kallen_night_meds_taken','withdate') }} tonight.
+    {% if type == 'meds' %}Kallen{% else %}He{% endif %} took his night meds at {{ input_datetime_read('input_datetime.kallen_night_meds_taken','withdate') | trim }}.
   {% endif %}
 {% else %}
   {% if diff <= 3600 %}
-    Kallen has not taken his night meds.
+    {% if type == 'meds' %}Kallen{% else %}He{% endif %} has not taken his night meds.
       {{ ['He will be reminded when he goes to bed.',
           'I will make sure he is reminded when it is time.',
           'All in due time, of course.'
@@ -235,16 +234,16 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% endif %}
 {% endmacro %}
 
-{% macro medReportKallen() %}
+{% macro medReportKallen(type,method) %}
 {% if is_state('input_boolean.kallen_overnight','on') %}
-Kallen is staying elsewhere overnight.
+{% if type == 'meds' %}Kallen{% else %}He{% endif %} is staying elsewhere overnight, so no med tracking is available.
 {% else %}
-{{ kallen_morning_meds() }}
-{{ kallen_night_meds() }}
+{{ kallen_morning_meds(type,method) }}
+{{ kallen_night_meds(type,method) }}
 {% endif %}
 {% endmacro %}
 
-{% macro schoolReportKallen(method) %}
+{% macro schoolReportKallen(type,method) %}
 {% set wakeup = state_attr('input_datetime.kallen_wakeup_time','timestamp') %}
 {% set bedtime = state_attr('input_datetime.kallen_bedtime','timestamp') %}
 {% if method == 'tts' %}
@@ -263,7 +262,7 @@ Kallen is staying elsewhere overnight.
     {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
       {{ states('input_text.kallen_pickup') }} will be picking Collin up from school today. 
     {% else %}
-      Pickup today will be at {{ input_datetime_read('input_datetime.kallen_school_day_end') }}.
+      Pickup today will be at {{ input_datetime_read('input_datetime.kallen_school_day_end') | trim }}.
       {% if is_state('input_boolean.kallen_school_early_release','on') %}
         And It is early release!
       {% endif %}
@@ -317,71 +316,71 @@ Kallen is staying elsewhere overnight.
   {% if is_state('input_boolean.school_in_session','on') %}
     {% if is_state('input_boolean.kallen_school_today','on') %}
       {% if is_state('input_boolean.two_hour_delay','on') %}
-        School is currently under a two hour delay for Kallen.
+        School is currently under a two hour delay.
       {% elif is_state('input_boolean.kallen_at_school','on') %}
-        Kallen is at school right now.
+        {% if type == 'school' %}Kallen{% else %}He{% endif %} is at school right now.
         {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
           {{ states('input_text.kallen_pickup') }} will be picking him up from school today.
         {% elif is_state('input_boolean.kallen_school_early_release','on') %}
-          The school is on an early release schedule, pickup is at {{ input_datetime_read('input_datetime.kallen_school_day_end') }} today.
+          The school is on an early release schedule, pickup is at {{ input_datetime_read('input_datetime.kallen_school_day_end') | trim }}.
         {% else %}
-          His pickup time is {{ input_datetime_read('input_datetime.kallen_school_day_end') }} today.
+          His pickup time is {{ input_datetime_read('input_datetime.kallen_school_day_end') | trim }}.
         {% endif %}
       {% else %}
-        Kallen has school at {{ input_datetime_read('input_datetime.kallen_school_day_start') }} today.
+        {% if type == 'school' %}Kallen{% else %}He{% endif %} has school at {{ input_datetime_read('input_datetime.kallen_school_day_start') | trim }} today.
       {% endif %}
     {% elif is_state('input_boolean.school_cancelled','on') %}
-      School is cancelled today for Kallen.
+      School is cancelled today.
     {% elif is_state('input_boolean.kallen_school_today_extended','on') and is_state('input_boolean.kallen_school_today','off') %}
       {% if (ct > wakeup) and (ct < bedtime) %}
-        Kallen has finished his school day.
+        {% if type == 'school' %}Kallen{% else %}He{% endif %} has finished his school day.
       {% endif %}
     {% else %}
-      Kallen does not have school today.
+      {% if type == 'school' %}Kallen{% else %}He{% endif %} does not have school today.
     {% endif %}
   {% endif %}
 {% endif %}
 {% endmacro %}
 
-{% macro kallenSleep(method) %}
+{% macro kallenSleep(type,method) %}
 {% set bedtimestamp = state_attr('input_datetime.kallen_bedtime','timestamp') | int %}
 {% if is_state('input_boolean.kallen_sleeping','on') %}
-  Kallen went to bed at {{ input_datetime_read('input_datetime.kallen_bedtime') }} tonight.
+  Kallen went to bed at {{ input_datetime_read('input_datetime.kallen_bedtime') | trim }}.
   {% if 14400 < ct < bedtimestamp %}
-    His scheduled wakeup time is {{ input_datetime_read('input_datetime.kallen_wakeup_time') }} today.
+    His scheduled wakeup time is {{ input_datetime_read('input_datetime.kallen_wakeup_time') | trim }}.
   {% endif %}
 {% else %}
-  Kallen woke up at {{ input_datetime_read('input_datetime.kallen_wakeup_time') }} today.
+  Kallen woke up at {{ input_datetime_read('input_datetime.kallen_wakeup_time') | trim }}.
   {% if ct > 57600 %}
-    His scheduled bedtime is {{ input_datetime_read('input_datetime.kallen_bedtime') }} tonight.
+    His scheduled bedtime is {{ input_datetime_read('input_datetime.kallen_bedtime') | trim }}.
   {% endif %}
 {% endif %}
 {% endmacro %}
 
 {% macro kallenStatusReport(type,method) %}
 {% if type == 'meds' %}
-{{ medReportKallen() }}
+{{ medReportKallen(type,method) }}
 {% elif type == 'school' %}
-{{ schoolReportKallen(method) }}
+{{ schoolReportKallen(type,method) }}
 {% elif type == 'sleep' %}
-{{ kallenSleep(method)}}
+{{ kallenSleep(type,method)}}
 {% elif type == 'full' %}
-{{ kallenSleep(method) }}
-{{ medReportKallen() }}
-{{ schoolReportKallen(method) }}
+{{ kallenSleep(type,method) }}
+{{ medReportKallen(type,method) }}
+{{ schoolReportKallen(type,method) }}
 {% endif %}
 {% endmacro %}
 
-{% macro emma_sleep() %}
+{% macro emma_sleep(type,method) %}
 {% set asleep = state_attr('input_datetime.emma_down_for_nap','timestamp') | int %}
 {% set wakeup = state_attr('input_datetime.emma_up_from_nap','timestamp') | int %}
 {% set day = now().strftime("%-d") %}
 {% set asleep_day = asleep | timestamp_custom("%-d") %}
 {% set wakeup_day = wakeup | timestamp_custom("%-d") %}
 {% if is_state('input_boolean.emma_sleeping','off') and is_state('input_boolean.emma_has_napped','on') or ((asleep_day == day) and (wakeup_day == day)) %}
-  Emma napped today for {{ custom_time_between('input_datetime.emma_down_for_nap','input_datetime.emma_up_from_nap','hour,minute') }}. She was retrieved from her room at {{ input_datetime_read('input_datetime.emma_up_from_nap') }} approximately.
+  Emma napped today for {{ custom_time_between('input_datetime.emma_down_for_nap','input_datetime.emma_up_from_nap','hour,minute') }}. She was retrieved from her room at around {{ input_datetime_read('input_datetime.emma_up_from_nap') | trim }}.
 {% elif is_state('input_boolean.emma_has_napped','off') and ((asleep_day == day) and (wakeup_day != day)) and is_state('input_boolean.emma_sleeping','on') %}
-  Emma is down for nap. She was put down at {{ input_datetime_read('input_datetime.emma_down_for_nap','withdate') }} approximately. She has been asleep for {{ custom_time('input_datetime.emma_down_for_nap','hour,minute') }}.
+  Emma is down for nap. She was put down at around {{ input_datetime_read('input_datetime.emma_down_for_nap','withdate') | trim }}. She has been asleep for {{ custom_time('input_datetime.emma_down_for_nap','hour,minute') }}.
 {% elif is_state('input_boolean.emma_sleeping','on') %}
   {% if is_state('binary_sensor.early_night_mode','on') %}
     Emma is asleep for the night.
@@ -389,11 +388,11 @@ Kallen is staying elsewhere overnight.
     Emma has not yet awoken for the day.
   {% endif %}
 {% else %}
-  Emma is awake, and does not appear to have napped yet. She woke up at {{ input_datetime_read('input_datetime.emma_wakeup') }} today.
+  Emma is awake, and does not appear to have napped yet. She woke up at {{ input_datetime_read('input_datetime.emma_wakeup') | trim }}.
 {% endif %}
 {% endmacro %}
 
-{% macro emma_sleep_notification() %}
+{% macro emma_sleep_notification(type,method) %}
 {% set asleep = state_attr('input_datetime.emma_down_for_nap','timestamp') | int %}
 {% set wakeup = state_attr('input_datetime.emma_up_from_nap','timestamp') | int %}
 {% set day = now().strftime("%-d") %}
@@ -414,8 +413,8 @@ Kallen is staying elsewhere overnight.
 
 {% macro emmaStatusReport(type,method) %}
 {% if type == 'sleep' %}
-{{ emma_sleep() }}
+{{ emma_sleep(type,method) }}
 {% elif type == 'full' %}
-{{ emma_sleep() }}
+{{ emma_sleep(type,method) }}
 {% endif %}
 {% endmacro %}
