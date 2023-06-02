@@ -178,7 +178,7 @@ script:
             time: >
               {% from 'time.jinja' import set_time_from_calendar %}
               {% if is_state('input_boolean.two_hour_delay','on') %}
-                11:00
+                10:00
               {% else %}
                 {{ set_time_from_calendar('calendar.kallen_school_days','start_time') }}
               {% endif %}
@@ -195,7 +195,7 @@ script:
             time: >
               {% if is_state('input_boolean.kallen_school_today', 'on') %}
                 {% if is_state('input_boolean.two_hour_delay','on') %}
-                  09:30
+                  08:30
                 {% else %}
                   {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 5400) | timestamp_custom('%H:%M', false) }}
                 {% endif %}
@@ -227,7 +227,7 @@ script:
             time: >
               {% if is_state('input_boolean.kallen_school_today', 'on') %}
                 {% if is_state('input_boolean.two_hour_delay','on') %}
-                  09:40
+                  08:40
                 {% else %}
                   {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 4800) | timestamp_custom('%H:%M', false) }}
                 {% endif %}
@@ -244,7 +244,7 @@ script:
           data:
             time: >
               {% if is_state('input_boolean.two_hour_delay','on') %}
-                10:00
+                09:00
               {% else %}
                 {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 3600) | timestamp_custom('%H:%M', false) }}
               {% endif %}
@@ -253,9 +253,9 @@ script:
           data:
             time: >
               {% if is_state('input_boolean.kallen_school_early_release','on') %}
-                13:30
+                12:45
               {% else %}
-                14:00
+                {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 5400) | timestamp_custom('%H:%M', false) }}
               {% endif %}
       - service: input_datetime.set_datetime
         target:
@@ -390,7 +390,7 @@ script:
               {% set kallenloc = states('input_select.kallen_morning_briefing_location') %}
               {% if is_state('input_boolean.kallen_school_today','on') %}
                 {% if is_state('input_boolean.two_hour_delay','on') %}
-                  10:20
+                  9:20
                 {% else %}
                   {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 2400) | timestamp_custom('%H:%M', false) }}
                 {% endif %}
@@ -421,7 +421,7 @@ script:
                 {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
                   15:00
                 {% elif is_state('input_boolean.kallen_school_early_release','on') %}
-                  13:15
+                  12:30
                 {% else %}
                   14:15
                 {% endif %}
@@ -566,7 +566,7 @@ script:
                 {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
                   14:30
                 {% elif is_state('input_boolean.kallen_school_early_release','on') %}
-                  12:30
+                  12:00
                 {% else %}
                   13:30
                 {% endif %}
