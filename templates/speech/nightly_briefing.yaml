@@ -2,7 +2,7 @@
   {# Nightly Briefing #}
   {%- macro getReport() -%}
   {% from 'speech.jinja' import greeting, dadjoke, inspirational_quote %}
-  {% from 'time.jinja' import input_datetime_read, read_time_from_calendar, next_twitch_stream %}
+  {% from 'time.jinja' import input_datetime_read, time_from_calendar, next_twitch_stream %}
   {% from 'status.jinja' import tonyStatusReport, tinaStatusReport, kallenStatusReport, emmaStatusReport %}
   {% from 'easy_time.jinja' import count_the_days %}
   {% from 'weather.jinja' import weatherReport %}
@@ -25,7 +25,7 @@
     <p>
       {{ tonyStatusReport('stream','tts') }}
       {% if is_state('binary_sensor.kallen_school_tomorrow','on') %}
-        "Collin has school tomorrow at {{ read_time_from_calendar('calendar.kallen_school_days','start_time') }}. "
+        "Collin has school tomorrow at {{ time_from_calendar('calendar.kallen_school_days','start_time','read') }}. "
       {% else %}
         "Collin does not have school tomorrow. "
       {% endif %}

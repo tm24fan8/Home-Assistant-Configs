@@ -176,11 +176,11 @@ script:
           entity_id: input_datetime.kallen_school_day_start
           data:
             time: >
-              {% from 'time.jinja' import set_time_from_calendar %}
+              {% from 'time.jinja' import time_from_calendar %}
               {% if is_state('input_boolean.two_hour_delay','on') %}
                 10:00
               {% else %}
-                {{ set_time_from_calendar('calendar.kallen_school_days','start_time') }}
+                {{ time_from_calendar('calendar.kallen_school_days','start_time','set') }}
               {% endif %}
         - delay:
             seconds: 1

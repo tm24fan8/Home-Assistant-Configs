@@ -1,4 +1,4 @@
-{% from 'time.jinja' import input_datetime_read, ct, next_twitch_stream, calendar_event_today, read_time_from_calendar %}
+{% from 'time.jinja' import input_datetime_read, ct, next_twitch_stream, calendar_event_today, time_from_calendar %}
 {% from 'easy_time.jinja' import count_the_days, custom_time, custom_time_between, clock %}
 {% set ct = ct() | int %}
 
@@ -69,7 +69,7 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
   {% endif %}
 {% elif state_attr('calendar.tony_s_twitch_schedule','start_time') != none %}
   {% if count_the_days('calendar.tony_s_twitch_schedule','start_time') | int == 1 %}
-    Tony will be streaming at {{ read_time_from_calendar('calendar.tony_s_twitch_schedule','start_time') }} tomorrow.
+    Tony will be streaming at {{ time_from_calendar('calendar.tony_s_twitch_schedule','start_time','read') }} tomorrow.
   {% else %}
     Tony does not have a stream scheduled today. The next scheduled stream is in {{ next_twitch_stream() }} approximately.
   {% endif %}

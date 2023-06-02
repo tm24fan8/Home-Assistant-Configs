@@ -392,8 +392,8 @@ script:
           entity_id: input_datetime.tony_streaming_start_time
         data:
           time: >
-            {% from 'time.jinja' import set_time_from_calendar %}
-            {{ set_time_from_calendar('calendar.tony_s_twitch_schedule','start_time') }}
+            {% from 'time.jinja' import time_from_calendar %}
+            {{ time_from_calendar('calendar.tony_s_twitch_schedule','start_time','set') }}
       - service: input_boolean.turn_on
         entity_id: input_boolean.tony_streaming_today
 
