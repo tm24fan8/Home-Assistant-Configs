@@ -46,7 +46,8 @@
 {% endmacro %}
 
 {% macro twitchStreamInfo(method) %}
-{% from 'time.jinja' import next_twitch_stream, calendar_event_today %}
+{% from 'time.jinja' import next_twitch_stream, calendar_event_today, read_time_from_calendar %}
+{% from 'easy_time.jinja' import count_the_days %}
 {% if is_state('input_boolean.tony_streaming_today','on') or calendar_event_today('calendar.tony_s_twitch_schedule') == 'false' %}
   {% set streamstart = state_attr('input_datetime.tony_streaming_start_time','timestamp') | timestamp_custom('%-I:%M %p',false) %}
 {% elif calendar_event_today('calendar.tony_s_twitch_schedule') == 'true' %}
@@ -69,7 +70,11 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
     Tony will be streaming today. Stream starts at {{ streamstart }}.
   {% endif %}
 {% elif state_attr('calendar.tony_s_twitch_schedule','start_time') != none %}
-Tony does not have a stream scheduled today. The next scheduled stream is in {{ next_twitch_stream() }} approximately.
+  {% if count_the_days('calendar.tony_s_twitch_schedule','start_time') | int == 1 %}
+    Tony will be streaming at {{ read_time_from_calendar('calendar.tony_s_twitch_schedule','start_time') }} tomorrow.
+  {% else %}
+    Tony does not have a stream scheduled today. The next scheduled stream is in {{ next_twitch_stream() }} approximately.
+  {% endif %}
 {% endif %}
 {% endmacro %}
 
