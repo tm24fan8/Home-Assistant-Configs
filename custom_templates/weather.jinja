@@ -84,3 +84,36 @@
 {% macro weatherReport(type,method,time) %}
 {{ weatherInfo(type,method,time) | replace('clear-night','clear') | replace('partlycloudy','partly cloudy') }}
 {% endmacro %}
+
+{% macro tempConvert(temp,unitFrom,unitTo) %}
+{% if unitFrom in ['F','f']  %}
+  {% if unitTo in ['C','c'] %}
+    {{ (temp - 32) * 5/9 }}
+  {% elif unitTo in ['K','k'] %}
+    {{ (temp - 32) * 5 / 9 + 273.15 }}
+  {% endif %}
+{% elif unitFrom in ['C','c'] %}
+  {% if unitTo in ['F','f'] %}
+    {{ (temp * 9 / 5) + 32 }}
+  {% elif unitTo in ['K','k'] %}
+    {{ temp + 273.15 }}
+  {% endif %}
+{% elif unitFrom in ['K','k'] %}
+  {% if unitTo in ['F','f'] %}
+    {{ (temp - 273.15) * 9 / 5 + 32 }}
+  {% elif unitTo in ['C','c'] %}
+    {{ temp - 273.15 }}
+  {% endif %}
+{% endif %}
+{% endmacro %}
+
+{% macro pressureConvert(pressure,unitFrom,unitTo) %}
+{% if unitFrom == 'inHg' %}
+  {% if unitTo == 'mbar' %}
+    {{ pressure * 33.864 }}
+  {% endif %}
+{% elif unitFrom == 'mbar' %}
+  {% if unitTo == 'inHg' %}
+    {{ pressure / 33.864 }}
+  {% endif %}
+{% endif %}
