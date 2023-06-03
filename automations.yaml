@@ -455,7 +455,7 @@
       - service: script.text_notify
         data:
           type: normal
-          who: all
+          who: tony
           title: Low Batteries in House
           message: 'Low battery alert for: {{sensors}}'
           tag: battery-monitoring
