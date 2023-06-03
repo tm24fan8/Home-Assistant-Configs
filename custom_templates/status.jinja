@@ -88,11 +88,33 @@
 {% endif %}
 {% endmacro %}
 
+{% macro tina_morning_meds(type,method) %}
+{% if is_state('binary_sensor.overnight','off') %}
+  {% if is_state('input_boolean.tina_morning_meds_taken','on') %}
+    Tina took her morning meds at {{ input_datetime_read('input_datetime.tina_morning_meds_taken','withdate') | trim }}.
+  {% elif is_state('input_boolean.tina_morning_meds_taken','off') and is_state('binary_sensor.after_midnight','off') %}
+    Tina has not taken her morning meds.
+    {% if ct < state_attr('input_datetime.tina_morning_meds_notify','timestamp') | int %}
+      {% if method == 'tts' %}
+        {{ ['She has a reminder scheduled for',
+            'Rest assured that I will pester her mercilessly about this, starting at',
+            'This is absolutely essential, and I will remind her to do it at',
+            'Her blood pressure is very important, so I will remind her at',
+          ] | random }} {{ input_datetime_read('input_datetime.tina_morning_meds_notify') | trim }}. 
+      {% else %}
+        She will be reminded at {{ input_datetime_read('input_datetime.tina_morning_meds_notify') | trim }}.
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endif %}
+{% endmacro %}
+
 {% macro workReportTina(type,method) %}
 {% set tina = states.person.christina_stork.state %}
 {% set start = (state_attr('binary_sensor.tina_work_tomorrow','start_timestamp') | int) // 1000 %}
 {% set tmrw = (as_timestamp(states('sensor.date')) + 86400) | int %}
 {% set diff = (start - tmrw) %}
+{% set meds = tina_morning_meds('meds','text') %}
 {% if method == 'tts' %}
   {% if is_state('input_boolean.work_today','on') and tina in ['Bob Evans','BobEvans'] %}
     {{ [
@@ -139,37 +161,16 @@
   {% endif %}
 {% elif method == 'text' %}
   {% if tina in ['Bob Evans','BobEvans'] and is_state('input_boolean.work_today','on') %}
-    {% if type == 'work' %}Tina{% else %}She{% endif %} is at work right now. She will be done at approximately {{ input_datetime_read('input_datetime.tina_workday_end') | trim }}.
+    Tina is at work right now. She will be done at approximately {{ input_datetime_read('input_datetime.tina_workday_end') | trim }}.
   {% elif is_state('input_boolean.work_today','on') %}
-    {% if type == 'work' %}Tina{% else %}She{% endif %} has work at {{ input_datetime_read('input_datetime.tina_workday_start') | trim }}.
+    Tina has work at {{ input_datetime_read('input_datetime.tina_workday_start') | trim }}.
   {% elif is_state('input_boolean.work_today_extended','on') and is_state('input_boolean.work_today','off') %}
-    {% if type == 'work' %}Tina{% else %}She{% endif %} has finished work for the day.
+    Tina has finished work for the day.
     {% if is_state('binary_sensor.tina_work_tomorrow','on') %}
-      {% if type == 'work' %}Tina{% else %}She{% endif %} has work tomorrow at {{ diff | timestamp_custom('%-I:%M %p',false) }}.
+      Tina has work tomorrow at {{ diff | timestamp_custom('%-I:%M %p',false) }}.
     {% endif %}
   {% else %}
-    {% if type == 'work' %}Tina{% else %}She{% endif %} has today off from work.
-  {% endif %}
-{% endif %}
-{% endmacro %}
-
-{% macro tina_morning_meds(type,method) %}
-{% if is_state('binary_sensor.overnight','off') %}
-  {% if is_state('input_boolean.tina_morning_meds_taken','on') %}
-    Tina took her morning meds at {{ input_datetime_read('input_datetime.tina_morning_meds_taken','withdate') | trim }}.
-  {% elif is_state('input_boolean.tina_morning_meds_taken','off') and is_state('binary_sensor.after_midnight','off') %}
-    Tina has not taken her morning meds.
-    {% if ct < state_attr('input_datetime.tina_morning_meds_notify','timestamp') | int %}
-      {% if method == 'tts' %}
-        {{ ['She has a reminder scheduled for',
-            'Rest assured that I will pester her mercilessly about this, starting at',
-            'This is absolutely essential, and I will remind her to do it at',
-            'Her blood pressure is very important, so I will remind her at',
-          ] | random }} {{ input_datetime_read('input_datetime.tina_morning_meds_notify') | trim }}. 
-      {% else %}
-        She will be reminded at {{ input_datetime_read('input_datetime.tina_morning_meds_notify') | trim }}.
-      {% endif %}
-    {% endif %}
+    Tina has today off from work.
   {% endif %}
 {% endif %}
 {% endmacro %}
