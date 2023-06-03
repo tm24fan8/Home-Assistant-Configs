@@ -897,10 +897,6 @@ sensor:
             
           {# Call the macro  #}
           {{- cleanup(mother_of_all_macros()) -}}
-      nws_current_visibility:
-        friendly_name: "Current Visibility"
-        unique_id: aa6e8dab-ac22-43f2-b541-b0996522f7f7
-        value_template: "{{ ((state_attr('weather.iron_nerd_weather_station','visibility') | int) * 0.621371) | round }}"
 
       # current_inside_humidity:
       #   friendly_name: "Current Inside Humidity"
