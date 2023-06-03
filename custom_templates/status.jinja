@@ -71,9 +71,9 @@
 {% endmacro %}
 
 {% macro tony_night_meds(type,method) %}
-{% if is_state('input_boolean.tony_night_meds_taken','on') and ct < 43200 %}
+{% if is_state('input_boolean.tony_night_meds_taken','on') and (is_state('binary_sensor.overnight','on') or ct < 43200) %}
   Tony took his night meds at {{ input_datetime_read('input_datetime.tony_night_meds_taken','withdate') | trim }}.
-{% elif is_state('input_boolean.tony_night_meds_taken','off') and (ct >= 82800 or ct <= 21600) %}
+{% elif is_state('input_boolean.tony_night_meds_taken','off') and is_state('binary_sensor.overnight','on') %}
   Tony has not taken his night meds.
   {% if method == 'tts' %}
     {{ ['He will be reminded when he goes to bed.',
