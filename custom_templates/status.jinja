@@ -1,6 +1,53 @@
 {% from 'time.jinja' import input_datetime_read, ct, next_twitch_stream, calendar_event_today, time_from_calendar %}
 {% from 'easy_time.jinja' import count_the_days, custom_time, custom_time_between, clock %}
+{% from 'lighting.jinja' import lightsOn %}
 {% set ct = ct() | int %}
+
+{% macro airLeaks(type,method) %}
+{% set windows = states('sensor.windows_open') %}
+{% set doors = states('sensor.doors_open') %}
+{% if states('sensor.total_faults') > '0' %}
+  {% if method == 'tts' %}
+    {% if type == 'full' %}
+      {% if states('sensor.total_faults') > '0' %}
+        "Additionally, "
+        {% if windows > '0' and doors > '0' %}
+          "There are currently {{ states('sensor.windows_open') }} {% if windows == '1' %}window {% else %}windows {% endif %}and {{ states('sensor.doors_open') }} {% if doors == '1' %}door {% else %}doors {% endif %}open. "
+        {% else %}
+          {% if windows > '0' %}
+            "There {% if windows == '1' %}is {% else %}are {% endif %}currently {{ states('sensor.windows_open') }} {% if windows == '1' %}window {% else %}windows {% endif %}open. "
+          {% endif %}
+          {% if doors > '0' %}
+            "There {% if doors == '1' %}is {% else %}are {% endif %}currently {{ states('sensor.doors_open') }} {% if doors == '1' %}door {% else %}doors {% endif %}open. "
+          {% endif %}
+        {% endif %}
+      {% endif %}
+    {% endif %}
+  {% elif method == 'text' %}
+    {% if windows > '0' and doors > '0' %}
+      There are currently {{ states('sensor.windows_open') }} {% if windows == '1' %}window {% else %}windows {% endif %}and {{ states('sensor.doors_open') }} {% if doors == '1' %}door {% else %}doors {% endif %}open.
+    {% else %}
+      {% if windows > '0' %}
+        There {% if windows == '1' %}is {% else %}are {% endif %}currently {{ states('sensor.windows_open') }} {% if windows == '1' %}window {% else %}windows {% endif %}open.
+      {% endif %}
+      {% if doors > '0' %}
+        There {% if doors == '1' %}is {% else %}are {% endif %}currently {{ states('sensor.doors_open') }} {% if doors == '1' %}door {% else %}doors {% endif %}open.
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endif %}
+{% endmacro %}
+
+{% macro houseStatusReport(type,method) %}
+{% if type == 'airleaks' %}
+{{ airLeaks(type,method) }}
+{% elif type == 'lights' %}
+{{ lightsOn(type,method) }}
+{% elif type == 'full' %}
+{{ lightsOn(type,method) }}
+{{ airLeaks(type,method) }}
+{% endif %}
+{% endmacro %}
 
 {% macro tony_morning_meds(type,method) %}
 {% if is_state('binary_sensor.overnight','off') %}
