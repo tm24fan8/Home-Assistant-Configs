@@ -666,7 +666,14 @@ script:
               {% endif %}
         - service: input_boolean.turn_off
           target:
-            entity_id: input_boolean.tony_night_meds_taken
+            entity_id:
+              - input_boolean.tony_night_meds_taken
+              - input_boolean.tina_night_meds_taken
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.tina_night_meds_notify
+          data:
+            time: '03:00'
       - service: input_boolean.turn_on
         target:
           entity_id: input_boolean.master_bedroom_scheduling_evening_ran

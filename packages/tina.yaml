@@ -10,6 +10,9 @@ input_boolean:
   tina_morning_meds_taken:
     name: Tina Morning Meds Taken
     icon: mdi:medical-bag
+  tina_night_meds_taken:
+    name: Tina Night Meds Taken
+    icon: mdi:medical-bag
 
 input_datetime:
   tina_workday_start:
@@ -29,6 +32,16 @@ input_datetime:
     icon: mdi:medical-bag
   tina_morning_meds_notify:
     name: Tina Morning Meds Notify
+    has_date: false
+    has_time: true
+    icon: mdi:medical-bag
+  tina_night_meds_taken:
+    name: Tina Night Meds Taken
+    has_date: true
+    has_time: true
+    icon: mdi:medical-bag
+  tina_night_meds_notify:
+    name: Tina Night Meds Notify
     has_date: false
     has_time: true
     icon: mdi:medical-bag
@@ -100,6 +113,13 @@ automation:
       entity_id: input_boolean.tina_morning_meds_taken
       to: 'on'
       id: boolean-morning
+    - platform: time
+      at: input_datetime.tina_night_meds_notify
+      id: sleep
+    - platform: state
+      entity_id: input_boolean.tina_night_meds_taken
+      to: 'on'
+      id: boolean-night
     action:
     - choose:
       - conditions:
@@ -130,6 +150,38 @@ automation:
             name: Tina Morning Meds
             message: Taken
             entity_id: input_boolean.tina_morning_meds_taken
+            domain: input_boolean
+      - conditions:
+        - condition: and
+          conditions:
+          - condition: trigger
+            id: sleep
+          - condition: state
+            entity_id: input_boolean.tina_night_meds_taken
+            state: 'off'
+          - condition: state
+            entity_id: input_boolean.master_bedroom_sleeping
+            state: 'off'
+        sequence:
+        - service: script.turn_on
+          target:
+            entity_id: script.tina_night_meds
+      - conditions:
+        - condition: trigger
+          id: boolean-night
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.tina_night_meds_taken
+          data:
+            datetime: >
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(0) }}
+        - service: logbook.log
+          data:
+            name: Tina Night Meds
+            message: Taken
+            entity_id: input_boolean.tina_night_meds_taken
             domain: input_boolean
 
 script:
@@ -327,3 +379,104 @@ script:
         who: tina
         message: clear_notification
         tag: tina-morning-meds
+
+  tina_night_meds:
+    alias: 'Tina Night Meds'
+    icon: mdi:medical-bag
+    mode: restart
+    sequence:
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.tina_night_meds_taken
+    - service: script.text_notify
+      data:
+        who: tina
+        type: alert
+        title: Night Meds
+        message: You need to take your night meds
+        tag: tina-night-meds
+        actions:
+          - action: "TINA_NIGHT_MEDS_TAKEN"
+            title: Taken
+          - action: "TINA_NIGHT_MEDS_SKIPPED"
+            title: Skip
+          - action: "TINA_NIGHT_MEDS_ASK_LATER"
+            title: Ask Later
+    - wait_for_trigger:
+      - platform: event
+        event_type: ios.notification_action_fired
+        event_data:
+          actionName: "TINA_NIGHT_MEDS_TAKEN"
+        id: taken
+      - platform: event
+        event_type: ios.notification_action_fired
+        event_data:
+          actionName: "TINA_NIGHT_MEDS_SKIPPED"
+        id: skipped
+      - platform: event
+        event_type: ios.notification_action_fired
+        event_data:
+          actionName: "TINA_NIGHT_MEDS_ASK_LATER"
+        id: ask-later
+      - platform: state
+        entity_id: input_boolean.tina_night_meds_taken
+        to: 'on'
+        id: manual
+      - platform: state
+        entity_id:
+          - input_boolean.master_bedroom_sleeping
+          - input_boolean.goodnight
+        to: 'on'
+        id: sleeping
+      timeout: "00:30:00"
+      continue_on_timeout: true
+    - choose:
+      - conditions: "{{ wait.trigger.id in ['taken','manual'] }}"
+        sequence:
+        - service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.tina_night_meds_taken
+      - conditions: "{{ wait.trigger.id in ['skipped','sleeping'] }}"
+        sequence:
+        - service: logbook.log
+          data:
+            name: Tina Night Meds
+            message: Skipped
+            entity_id: input_boolean.tina_night_meds_taken
+            domain: input_boolean
+      - conditions: "{{ wait.trigger.id == 'ask-later' }}"
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.tina_night_meds_notify
+          data:
+            datetime: >
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(0,30) }}
+        - service: logbook.log
+          data:
+            name: Tina Night Meds
+            message: Delayed for 30 minutes
+            entity_id: input_boolean.tina_night_meds_taken
+            domain: input_boolean
+      - conditions: "{{ wait.trigger == 'none' or wait.trigger.idx is undefined }}"
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.tina_night_meds_notify
+          data:
+            datetime: >
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(0,1) }}
+        - service: logbook.log
+          data:
+            name: Tina Night Meds
+            message: No response, delayed for 1 minute
+            entity_id: input_boolean.tina_night_meds_taken
+            domain: input_boolean
+    - service: script.text_notify
+      data:
+        type: alert
+        who: tina
+        message: clear_notification
+        tag: tina-night-meds

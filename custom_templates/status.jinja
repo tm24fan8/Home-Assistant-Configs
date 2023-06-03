@@ -156,6 +156,22 @@
 {% endif %}
 {% endmacro %}
 
+{% macro tina_night_meds(type,method) %}
+{% if is_state('input_boolean.tina_night_meds_taken','on') and (is_state('binary_sensor.overnight','on') or ct < 43200) %}
+  Tina took her night meds at {{ input_datetime_read('input_datetime.tina_night_meds_taken','withdate') | trim }}.
+{% elif is_state('input_boolean.tina_night_meds_taken','off') and is_state('binary_sensor.overnight','on') %}
+  Tina has not taken her night meds.
+  {% if method == 'tts' %}
+    {{ ['She will be reminded when she goes to bed.',
+        'I will make sure she is reminded when it is time.',
+        'All in due time, of course.'
+      ] | random }}
+  {% else %}
+    She will be reminded when she goes to bed.
+  {% endif %}
+{% endif %}
+{% endmacro %}
+
 {% macro workReportTina(type,method) %}
 {% set tina = states.person.christina_stork.state %}
 {% set start = (state_attr('binary_sensor.tina_work_tomorrow','start_timestamp') | int) // 1000 %}
@@ -224,6 +240,7 @@
 
 {% macro medReportTina(type,method) %}
 {{ tina_morning_meds(type,method) }}
+{{ tina_night_meds(type,method) }}
 {% endmacro %}
 
 {% macro tinaStatusReport(type,method) %}
