@@ -289,6 +289,9 @@ automation:
         - condition: trigger
           id: lights-off
         sequence:
+        - service: timer.cancel
+          target:
+            entity_id: timer.emma_bedtime_update
         - if:
           - condition: state
             entity_id: input_boolean.emma_sleeping
