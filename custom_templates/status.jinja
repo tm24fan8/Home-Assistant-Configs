@@ -130,8 +130,8 @@
 {{ twitchStreamInfo(type,method) }}
 {% endif %}
 {% if type == 'full' %}
-{{ medReportTony(type,method) }}
 {{ twitchStreamInfo(type,method) }}
+{{ medReportTony(type,method) }}
 {% endif %}
 {% endmacro %}
 
@@ -249,8 +249,8 @@
 {% elif type == 'meds' %}
 {{ medReportTina(type,method) }}
 {% elif type == 'full' %}
-{{ medReportTina(type,method) }}
 {{ workReportTina(type,method) }}
+{{ medReportTina(type,method) }}
 {% endif %}
 {% endmacro %}
 
@@ -448,7 +448,7 @@
   Emma is down for nap. She was put down at around {{ input_datetime_read('input_datetime.emma_down_for_nap','withdate') | trim }}. She has been asleep for {{ custom_time('input_datetime.emma_down_for_nap','hour,minute') }}.
 {% elif is_state('input_boolean.emma_sleeping','on') %}
   {% if is_state('binary_sensor.early_night_mode','on') %}
-    Emma is asleep for the night.
+    Emma is asleep for the night. She went to bed at {{ input_datetime_read('input_datetime.emma_bedtime') | trim }}.
   {% else %}
     Emma has not yet awoken for the day. She went to bed at {{ input_datetime_read('input_datetime.emma_bedtime') | trim }}.
   {% endif %}
