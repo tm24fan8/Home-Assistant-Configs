@@ -17,9 +17,9 @@
       "The {{ state_attr(team,'friendly_name') }} had their game postponed today, and it will be played at a later date. "
     {% elif (state_attr(team,'team_score') | int) == state_attr(team,'opponent_score') | int %}
       "The {{ state_attr(team,'friendly_name') }} tied in their game today against the {{ state_attr(team,'opponent_name') }} by a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}. "
-    {% elif state_attr(team,'team_winner') == 'true' %}
+    {% elif state_attr(team,'team_winner') == true %}
       "The {{ state_attr(team,'friendly_name') }} won their game today against the {{ state_attr(team,'opponent_name') }} by a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}. "
-    {% elif state_attr(team,'opponent_winner') == 'true' %}
+    {% elif state_attr(team,'opponent_winner') == true %}
       "The {{ state_attr(team,'friendly_name') }} lost their game today against the {{ state_attr(team,'opponent_name') }} by a score of {{ state_attr(team,'opponent_score') }} to {{ state_attr(team,'team_score') }}. "
     {% endif %}
     {% if state_attr(team,'clock') not in ['postponed','Postponed'] %}
@@ -30,9 +30,9 @@
       "The {{ state_attr(team,'friendly_name') }} had their game postponed yesterday, and it will be played at a later date. "
     {% elif (state_attr(team,'team_score') | int) == state_attr(team,'opponent_score') | int %}
       "The {{ state_attr(team,'friendly_name') }} tied in their game yesterday against the {{ state_attr(team,'opponent_name') }} by a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}. "
-    {% elif state_attr(team,'team_winner') == 'true' %}
+    {% elif state_attr(team,'team_winner') == true %}
       "The {{ state_attr(team,'friendly_name') }} won their game yesterday against the {{ state_attr(team,'opponent_name') }} by a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}. "
-    {% elif state_attr(team,'opponent_winner') == 'true' %}
+    {% elif state_attr(team,'opponent_winner') == true %}
       "The {{ state_attr(team,'friendly_name') }} lost their game yesterday against the {{ state_attr(team,'opponent_name') }} by a score of {{ state_attr(team,'opponent_score') }} to {{ state_attr(team,'team_score') }}. "
     {% endif %}
     {% if state_attr(team,'clock') not in ['postponed','Postponed'] %}
