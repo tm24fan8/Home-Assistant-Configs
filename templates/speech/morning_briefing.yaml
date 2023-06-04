@@ -5,6 +5,7 @@
   {% from 'status.jinja' import tonyStatusReport, tinaStatusReport, kallenStatusReport, emmaStatusReport %}
   {% from 'easy_time.jinja' import count_the_days %}
   {% from 'weather.jinja' import weatherReport %}
+  {% from 'sports.jinja' import sports_pregame, sports_main %}
     <p>
       {{ greeting_nodate() }}
     </p>
@@ -114,7 +115,6 @@
     </p>
 
     <p>
-      {% from 'sports.jinja' import sports_pregame, sports_main %}
       {% if is_state('input_boolean.sports_updates','on') %}
         {% if is_state('binary_sensor.michigan_wolverines_inhibit','off') %}
           {{ sports_pregame('sensor.michigan_wolverines') }}
