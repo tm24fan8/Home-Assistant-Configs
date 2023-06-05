@@ -443,7 +443,7 @@
 {% set asleep_day = asleep | timestamp_custom("%-d") %}
 {% set wakeup_day = wakeup | timestamp_custom("%-d") %}
 {% if is_state('input_boolean.emma_sleeping','off') and is_state('input_boolean.emma_has_napped','on') or ((asleep_day == day) and (wakeup_day == day)) %}
-  Emma napped today for {{ custom_time_between('input_datetime.emma_down_for_nap','input_datetime.emma_up_from_nap','hour,minute') }}. She was retrieved from her room at around {{ input_datetime_read('input_datetime.emma_up_from_nap') | trim }}.
+  Emma napped today for {{ custom_time_between('input_datetime.emma_down_for_nap','input_datetime.emma_up_from_nap','hour,minute') }}. She was retrieved from her room at around {{ input_datetime_read('input_datetime.emma_up_from_nap','withdate') | trim }}.
 {% elif is_state('input_boolean.emma_has_napped','off') and ((asleep_day == day) and (wakeup_day != day)) and is_state('input_boolean.emma_sleeping','on') %}
   Emma is down for nap. She was put down at around {{ input_datetime_read('input_datetime.emma_down_for_nap','withdate') | trim }}. She has been asleep for {{ custom_time('input_datetime.emma_down_for_nap','hour,minute') }}.
 {% elif is_state('input_boolean.emma_sleeping','on') %}
