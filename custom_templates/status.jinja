@@ -49,49 +49,6 @@
 {% endif %}
 {% endmacro %}
 
-{% macro tony_morning_meds(type,method) %}
-{% if is_state('binary_sensor.overnight','off') %}
-  {% if is_state('input_boolean.tony_morning_meds_taken','on') %}
-    {% if type == 'meds' %}Tony{% else %}He{% endif %} took his morning meds at {{ input_datetime_read('input_datetime.tony_morning_meds_taken','withdate') | trim }}.
-  {% elif is_state('input_boolean.tony_morning_meds_taken','off') and ct >= 21600 %}
-    {% if type == 'meds' %}Tony{% else %}He{% endif %} has not taken his morning meds.
-    {% if ct < state_attr('input_datetime.tony_morning_meds_notify','timestamp') | int %}
-      {% if method == 'tts' %}
-        {{ ['He has a reminder scheduled for',
-            'Rest assured that I will pester him mercilessly about this, starting at',
-            'This is absolutely essential, and I will remind him to do it at',
-            'Since nobody including Tony himself likes him without his meds, I will remind him at',
-          ] | random }} {{ input_datetime_read('input_datetime.tony_morning_meds_notify') | trim }}. 
-      {% else %}
-        He will be reminded at {{ input_datetime_read('input_datetime.tony_morning_meds_notify') | trim }}.
-      {% endif %}
-    {% endif %}
-  {% endif %}
-{% endif %}
-{% endmacro %}
-
-{% macro tony_night_meds(type,method) %}
-{% if is_state('input_boolean.tony_night_meds_taken','on') and (is_state('binary_sensor.overnight','on') or ct < 43200) %}
-  {% if type == 'meds' %}Tony{% else %}He{% endif %} took his night meds at {{ input_datetime_read('input_datetime.tony_night_meds_taken','withdate') | trim }}.
-{% elif is_state('input_boolean.tony_night_meds_taken','off') and is_state('binary_sensor.overnight','on') %}
-  {% if type == 'meds' %}Tony{% else %}He{% endif %} has not taken his night meds.
-  {% if method == 'tts' %}
-    {{ ['He will be reminded when he goes to bed.',
-        'I will make sure he is reminded when it is time.',
-        'This will be rectified whenever he drags his ass to bed.',
-        'All in due time, of course.'
-      ] | random }}
-  {% else %}
-    He will be reminded when he goes to bed.
-  {% endif %}
-{% endif %}
-{% endmacro %}
-
-{% macro medReportTony(type,method) %}
-{{ tony_morning_meds(type,method) }}
-{{ tony_night_meds(type,method) }}
-{% endmacro %}
-
 {% macro twitchStreamInfo(type,method) %}
 {% if is_state('input_boolean.tony_streaming_today','on') or calendar_event_today('calendar.tony_s_twitch_schedule') == 'false' %}
   {% set streamstart = state_attr('input_datetime.tony_streaming_start_time','timestamp') | timestamp_custom('%-I:%M %p',false) %}
@@ -120,6 +77,52 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
     Tony will be streaming at {{ time_from_calendar('calendar.tony_s_twitch_schedule','start_time','read') }} tomorrow.
   {% endif %}
 {% endif %}
+{% endmacro %}
+
+{% macro tony_morning_meds(type,method) %}
+{% set streamBlock = twitchStreamInfo(type,method) | trim == '' %}
+{% if is_state('binary_sensor.overnight','off') %}
+  {% if is_state('input_boolean.tony_morning_meds_taken','on') %}
+    {% if type == 'meds' or streamBlock == true %}Tony{% else %}He{% endif %} took his morning meds at {{ input_datetime_read('input_datetime.tony_morning_meds_taken','withdate') | trim }}.
+  {% elif is_state('input_boolean.tony_morning_meds_taken','off') and ct >= 21600 %}
+    {% if type == 'meds' or streamBlock == true %}Tony{% else %}He{% endif %} has not taken his morning meds.
+    {% if ct < state_attr('input_datetime.tony_morning_meds_notify','timestamp') | int %}
+      {% if method == 'tts' %}
+        {{ ['He has a reminder scheduled for',
+            'Rest assured that I will pester him mercilessly about this, starting at',
+            'This is absolutely essential, and I will remind him to do it at',
+            'Since nobody including Tony himself likes him without his meds, I will remind him at',
+          ] | random }} {{ input_datetime_read('input_datetime.tony_morning_meds_notify') | trim }}. 
+      {% else %}
+        He will be reminded at {{ input_datetime_read('input_datetime.tony_morning_meds_notify') | trim }}.
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endif %}
+{% endmacro %}
+
+{% macro tony_night_meds(type,method) %}
+{% set streamBlock = twitchStreamInfo(type,method) | trim == '' %}
+{% set morningBlock = tony_morning_meds(type,method) | trim != '' %}
+{% if is_state('input_boolean.tony_night_meds_taken','on') and (is_state('binary_sensor.overnight','on') or ct < 43200) %}
+  {% if type == 'meds' or streamBlock == true or morningBlock == true %}Tony{% else %}He{% endif %} took his night meds at {{ input_datetime_read('input_datetime.tony_night_meds_taken','withdate') | trim }}.
+{% elif is_state('input_boolean.tony_night_meds_taken','off') and is_state('binary_sensor.overnight','on') %}
+  {% if type == 'meds' or streamBlock == true or morningBlock == true %}Tony{% else %}He{% endif %} has not taken his night meds.
+  {% if method == 'tts' %}
+    {{ ['He will be reminded when he goes to bed.',
+        'I will make sure he is reminded when it is time.',
+        'This will be rectified whenever he drags his ass to bed.',
+        'All in due time, of course.'
+      ] | random }}
+  {% else %}
+    He will be reminded when he goes to bed.
+  {% endif %}
+{% endif %}
+{% endmacro %}
+
+{% macro medReportTony(type,method) %}
+{{ tony_morning_meds(type,method) }}
+{{ tony_night_meds(type,method) }}
 {% endmacro %}
 
 {% macro tonyStatusReport(type,method) %}
