@@ -42,14 +42,15 @@ input_number:
     step: 5
     icon: mdi:timer
 
-sensor:
-  - platform: command_line
-    name: Lines of Code
-    unique_id: 1bbf11f9-28d3-4575-83e8-f1a277687724
-    command: "find /config -name '*.yaml' | xargs cat | wc -l"
-    scan_interval: 20000
-    unit_of_measurement: ''
+command_line:
+  - sensor:
+      name: Lines of Code
+      unique_id: 1bbf11f9-28d3-4575-83e8-f1a277687724
+      command: "find /config -name '*.yaml' | xargs cat | wc -l"
+      scan_interval: 20000
+      unit_of_measurement: ''
 
+sensor:
   - platform: template
     sensors:
       min_ping:
