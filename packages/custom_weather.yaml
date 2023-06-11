@@ -174,16 +174,6 @@ sensor:
   #   max_age:
   #     days: 7
 
-  - platform: openweathermaphistory
-    name: 'Rain Factor'
-    api_key: !secret openweathermap_api
-    day0sig: 1
-    day1sig: 0.5
-    day2sig: 0.25
-    day3sig: 0.12
-    day4sig: 0.06
-    watertarget: 0.5
-
   - platform: template
     sensors:
       current_forecast:
