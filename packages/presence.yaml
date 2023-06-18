@@ -579,13 +579,30 @@ script:
           entity_id:
           - input_boolean.white_noise_kallen_bedroom
           - input_boolean.white_noise_emma_bedroom
-      - service: fan.turn_off
-        target:
-          area_id:
-          - basement_studio
-          - kallen_bedroom
-          - master_bedroom
-          - emma_bedroom
+      - if:
+        - condition: not
+          conditions:
+          - condition: state
+            entity_id:
+            - input_boolean.hot_day
+            - binary_sensor.heat_warning
+            - binary_sensor.heat_threshold
+            - binary_sensor.heat_index_threshold
+            state: 'on'
+        then:
+        - service: fan.turn_off
+          target:
+            area_id:
+            - basement_studio
+            - kallen_bedroom
+            - master_bedroom
+            - emma_bedroom
+        else:
+        - service: fan.turn_off
+          target:
+            area_id:
+            - basement_studio
+            - master_bedroom
       - delay:
           seconds: 5
       - service: switch.turn_on
