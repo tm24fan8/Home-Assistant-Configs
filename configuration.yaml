@@ -264,6 +264,10 @@ influxdb:
       - input_boolean.master_bedroom_sleeping
       - binary_sensor.people_sleeping
       - sensor.people_sleeping_total
+      - sensor.ac_compressors_running
+      - sensor.ac_fans_running
+      - sensor.aircons_running
+      - sensor.fans_running
 
 logbook:
   include:
@@ -396,3 +400,7 @@ prometheus:
       - input_boolean.master_bedroom_sleeping
       - binary_sensor.people_sleeping
       - sensor.people_sleeping_total
+      - sensor.ac_compressors_running
+      - sensor.ac_fans_running
+      - sensor.aircons_running
+      - sensor.fans_running
