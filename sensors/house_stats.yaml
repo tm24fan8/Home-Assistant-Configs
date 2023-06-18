@@ -151,18 +151,6 @@
           states.light.basement_led_strip_1
         ] %}
         {{ lights | selectattr('state','eq','on') | list | count | int }}
-    current_fans_on:
-      friendly_name: Current Fans On
-      unique_id: 41171a78-ab1c-43bf-81c3-26b960e30b86
-      unit_of_measurement: ''
-      value_template: >-
-        {% set fans = [
-          states.fan.basement_fan,
-          states.fan.kallen_bedroom_fan,
-          states.fan.master_bedroom_fan,
-          states.fan.emma_air_conditioner
-        ] %}
-        {{ fans | selectattr('state','eq','on') | list | count | int }}
     current_outdoor_lights_on:
       friendly_name: Current Outdoor Lights On
       unique_id: 252981eb-e7bf-464a-9bfb-ab14dec4eb70
