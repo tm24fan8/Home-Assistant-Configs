@@ -236,6 +236,12 @@
         ] %}
         {% set fans_on = fans | selectattr('state','eq','on') | list | count | int %}
         {{ climate + fans_on | int }}
+    climate_devices_running:
+      friendly_name: Climate Devices Running
+      unique_id: 3c61c756-2934-4294-8085-7d3855b692dd
+      unit_of_measurement: ''
+      value_template: >-
+        {{ (states('sensor.fans_running') | int) + (states('sensor.aircons_running') | int) | int }}
     front_porch_color_temp:
       friendly_name: Front Porch Color Temp
       unique_id: 21a01514-d382-4c57-9add-3d500464b22b
