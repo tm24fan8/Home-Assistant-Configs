@@ -191,7 +191,7 @@
           states.binary_sensor.emma_aircon_compressor,
           states.binary_sensor.master_bedroom_aircon_compressor
         ] %}
-        {{ comressors | selectattr('state','eq','on') | list | count | int }}
+        {{ compressors | selectattr('state','eq','on') | list | count | int }}
     ac_fans_running:
       friendly_name: A/C Fans Running
       unique_id: 0b4b4362-4c35-42a0-98ba-55ac49ca2dbb
