@@ -566,16 +566,18 @@ script:
           - kallen_bedroom
           - living_room
           - master_bedroom
+          - master_bedroom_closet
           - mud_room
           - emma_bedroom
           - upstairs_hallway
           - dining_room
           - downstairs_bathroom
           - upstairs_bathroom
+          - tina_desk
       - service: input_boolean.turn_off
         target:
           entity_id:
-          - input_boolean.tina_desk_lights
+          - input_boolean.white_noise_kallen_bedroom
           - input_boolean.white_noise_emma_bedroom
       - service: fan.turn_off
         target:
