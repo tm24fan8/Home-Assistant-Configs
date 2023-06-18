@@ -643,6 +643,7 @@ script:
       - stop: Away Mode Skipped
     mode: single
     icon: mdi:shield-lock
+
   family_is_home_day:
     alias: Family Is Home Day
     sequence:
@@ -724,6 +725,7 @@ script:
           option: Adaptive
     mode: single
     icon: mdi:home-account
+
   family_is_home_night:
     alias: Family Is Home Night
     sequence:
