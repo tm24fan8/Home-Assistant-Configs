@@ -3,6 +3,24 @@
 {% from 'lighting.jinja' import lightsOn %}
 {% set ct = ct() | int %}
 
+{% macro climateDevices(type,method) %}
+{% set total = states('sensor.climate_devices_running') | int %}
+{% set fans = states('sensor.fans_running') | int %}
+{% set aircons = states('sensor.aircons_running') | int %}
+{% if total > 0 %}
+  {% if fans > 0 and aircons > 0 %}
+    There are currently {{ fans }} {% if fans > 1 %}fans {% else %}fan {% endif %}running and {{ aircons }} {% if aircons > 1 %}air conditioners {% else %}air conditioner {%endif%}running.
+  {% else %}
+    {% if fans > 0 %}
+      There {% if fans > 1 %}are {% else %}is {% endif %}{{ fans }} {% if fans > 1 %}fans {% else %}fan {% endif %}running.
+    {% endif %}
+    {% if aircons > 0 %}
+      There {% if aircons > 1 %}are {% else %}is {% endif %}{{ aircons }} {% if aircons > 1 %}air conditioners {% else %}air conditioner {% endif %}running.
+    {% endif %}
+  {% endif %}
+{% endif %}
+{% endmacro %}
+
 {% macro airLeaks(type,method) %}
 {% set windows = states('sensor.windows_open') %}
 {% set doors = states('sensor.doors_open') %}
@@ -39,11 +57,14 @@
 {% endmacro %}
 
 {% macro houseStatusReport(type,method) %}
-{% if type == 'airleaks' %}
+{% if type == 'climate_devices' %}
+{{ climateDevices(type,method) }}
+{% elif type == 'airleaks' %}
 {{ airLeaks(type,method) }}
 {% elif type == 'lights' %}
 {{ lightsOn(type,method) }}
 {% elif type == 'full' %}
+{{ climateDevices(type,method) }}
 {{ lightsOn(type,method) }}
 {{ airLeaks(type,method) }}
 {% endif %}
