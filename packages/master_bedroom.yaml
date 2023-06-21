@@ -36,6 +36,9 @@ automation:
     - condition: state
       entity_id: group.adults
       state: home
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'off'
     action:
     - choose:
       - conditions:
@@ -84,9 +87,18 @@ script:
     sequence:
     - variables:
         brightness: "{{ state_attr('switch.adaptive_lighting_master_bedroom','brightness_pct') }}"
-    - service: button.press
-      target:
-        entity_id: button.master_bedroom_day_mode
+    - if:
+      - condition: template
+        value_template: >
+          {% from 'time.jinja' import ct %}
+          {% set ct = ct() | int %}
+          {% set cooling = state_attr('input_datetime.master_bedroom_cooling','timestamp') | int %}
+          {% set wakeup = state_attr('input_datetime.master_bedroom_wakeup','timestamp') | int %}
+          {{ 21600 < ct < cooling }}
+      then:
+      - service: button.press
+        target:
+          entity_id: button.master_bedroom_day_mode
     - service: switch.turn_off
       target:
         entity_id: switch.master_bedroom_echo_dot_do_not_disturb_switch
@@ -152,9 +164,14 @@ script:
     alias: 'Master Bedroom Sleep'
     mode: restart
     sequence:
-    - service: button.press
-      target:
-        entity_id: button.master_bedroom_night_mode
+    - if:
+      - condition: state
+        entity_id: input_boolean.night_mode
+        state: 'off'
+      then:
+      - service: button.press
+        target:
+          entity_id: button.master_bedroom_night_mode
     - wait_template: "{{ is_state('light.master_bedroom_lights','off') }}"
       timeout:
         minutes: 60
