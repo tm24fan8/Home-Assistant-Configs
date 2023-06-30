@@ -602,7 +602,6 @@ basement_shutdown:
         entity_id: media_player.basement_tv
         state:
         - playing
-        - paused
     then:
     - service: media_player.turn_off
       data: {}
@@ -642,6 +641,10 @@ basement_shutdown:
       seconds: 0
       milliseconds: 0
     alias: Wait for the door to open
+  - service: fan.turn_off
+    data: {}
+    target:
+      entity_id: fan.basement_fan
   - service: light.turn_off
     data: {}
     target:
