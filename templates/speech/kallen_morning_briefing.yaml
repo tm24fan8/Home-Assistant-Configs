@@ -1,7 +1,7 @@
 >
   {# Kallen Morning Briefing #}
-  {%- macro getReport() -%}
   {% from 'formatting.jinja' import cleanup %}
+  {%- macro getReport() -%}
   {% from 'time.jinja' import current_time, current_date_readout, input_datetime_read %}
   {% from 'speech.jinja' import dadjoke, inspirational_quote %}
   {% from 'easy_time.jinja' import count_the_days, custom_time %}

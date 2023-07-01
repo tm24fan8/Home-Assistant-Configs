@@ -1,7 +1,7 @@
 >
   {# Welcome Home #}
-  {%- macro getReport() -%}
   {% from 'formatting.jinja' import cleanup %}
+  {%- macro getReport() -%}
   {% from 'speech.jinja' import dadjoke %}
   {% from 'time.jinja' import input_datetime_read %}
   {% from 'status.jinja' import emma_sleep %}

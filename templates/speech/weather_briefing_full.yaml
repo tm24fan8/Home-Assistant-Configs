@@ -1,7 +1,7 @@
 >
   {# Weather Briefing #}
-  {%- macro getReport() -%}
   {% from 'formatting.jinja' import cleanup %}
+  {%- macro getReport() -%}
 
     <p>
       {% if is_state('input_boolean.tornado_alarm','on') %}

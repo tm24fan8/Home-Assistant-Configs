@@ -1,7 +1,7 @@
 >
   {# Kallen Nightly Briefing #}
-  {%- macro getReport() -%}
   {% from 'formatting.jinja' import cleanup %}
+  {%- macro getReport() -%}
   {% from 'speech.jinja' import dadjoke %}
   {% from 'easy_time.jinja' import count_the_days, custom_time %}
     <p>

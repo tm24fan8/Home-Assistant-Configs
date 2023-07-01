@@ -1,7 +1,7 @@
 >
   {# Nightly Briefing #}
-  {%- macro getReport() -%}
   {% from 'formatting.jinja' import cleanup %}
+  {%- macro getReport() -%}
   {% from 'speech.jinja' import greeting, dadjoke, inspirational_quote %}
   {% from 'time.jinja' import input_datetime_read, time_from_calendar, next_twitch_stream %}
   {% from 'status.jinja' import tonyStatusReport, tinaStatusReport, kallenStatusReport, emmaStatusReport %}

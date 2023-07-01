@@ -1,7 +1,7 @@
 >
   {# Birthdays #}
-  {%- macro getReport() -%}
   {% from 'formatting.jinja' import cleanup %}
+  {%- macro getReport() -%}
     <p>
       {{ [
         'Attention household, I am told that there is a birthday among us!',
