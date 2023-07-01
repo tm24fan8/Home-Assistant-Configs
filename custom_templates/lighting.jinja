@@ -6,7 +6,7 @@
 {% macro lightsOn(type,method) %}
 {% set lights = states('sensor.current_lights_on') %}
 {% if method == 'tts' %}
-'Around the house, there {% if lights == '1' %}is{% else %}are{% endif %}currently{{ lights }} {% if lights == '1' %}light {% else %}lights {% endif %} on. '
+Around the house, there {% if lights == '1' %}is {% else %}are {% endif %}currently {{ lights }} {% if lights == '1' %}light {% else %}lights {% endif %}on.
 {% elif method == 'text' %}
 There {% if lights == '1' %}is {% else %}are {% endif %}currently {{ lights }} {% if lights == '1' %}light {% else %}lights {% endif %}on.
 {% endif %}
