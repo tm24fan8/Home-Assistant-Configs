@@ -9,6 +9,8 @@
     "Greetings earthling. ",
     "Good afternoon. ",
     "How do you do, fellow kids? ",
+    "Howdy partner. ",
+    "Greetings, human overlords. ",
   ] | random }}
 {% else %}
   {{ [
@@ -33,6 +35,8 @@ It is {{ now().strftime("%I:%M %p") }}.
     "Greetings earthling. ",
     "Good afternoon. ",
     "How do you do, fellow kids? ",
+    "Howdy partner. ",
+    "Greetings, human overlords. ",
   ] | random }}
 {% else %}
   {{ [
@@ -48,6 +52,9 @@ It is {{ now().strftime("%I:%M %p") }}.
 "Here is a random dad joke ",
 "In case you hadn't had enough idiotic humor today, here is a little more ",
 "For further proof that the developer responsible for my existence is an idiot, I present the following joke ",
+"I like jokes. I particularly like stupid jokes. Here is an example ",
+"The best jokes are the dumb ones like this one ",
+"And now for todays episode of humor for morons ",
 ] | random }}<break time="1s"/> {{ states('sensor.random_joke') }}
 {% endmacro %}
 
