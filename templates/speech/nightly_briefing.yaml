@@ -1,6 +1,7 @@
 >
   {# Nightly Briefing #}
   {%- macro getReport() -%}
+  {% from 'formatting.jinja' import cleanup %}
   {% from 'speech.jinja' import greeting, dadjoke, inspirational_quote %}
   {% from 'time.jinja' import input_datetime_read, time_from_calendar, next_twitch_stream %}
   {% from 'status.jinja' import tonyStatusReport, tinaStatusReport, kallenStatusReport, emmaStatusReport %}
@@ -230,17 +231,4 @@
     </p>
 
   {%- endmacro -%}
-
-  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
-    {%- macro cleanup(data) -%}
-      {%- for item in data.split("\n")  if item | trim != "" -%}
-        {{ item | trim }} {% endfor -%}
-  {%- endmacro -%}
-
-  {# a macro to call all macros :)  #}
-    {%- macro mother_of_all_macros() -%}
-      {{ getReport() }}
-    {%- endmacro -%}
-    
-    {# Call the macro  #}
-    {{- cleanup(mother_of_all_macros()) -}}
+  {{- cleanup(getReport()) -}}

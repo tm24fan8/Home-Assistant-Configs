@@ -207,6 +207,7 @@ sensor:
         unique_id: e5ae9864-70b5-402c-9d2f-c4d6a10085df
         icon_template: mdi:weather-sunny
         value_template: >-
+          {% from 'formatting.jinja' import cleanup %}
           {%- macro getReport() -%}
             {{ [
               'Today in Defiance ',
@@ -310,18 +311,7 @@ sensor:
                 ] | random }}
             {{ states('sensor.overnight_lowest_temperature') }} degrees.
           {%- endmacro -%}
-          {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
-            {%- macro cleanup(data) -%}
-              {%- for item in data.split("\n")  if item | trim != "" -%}
-                {{ item | trim }} {% endfor -%}
-          {%- endmacro -%}
-          {# a macro to call all macros :)  #}
-            {%- macro mother_of_all_macros() -%}
-              {{ getReport() }}
-            {%- endmacro -%}
-
-            {# Call the macro  #}
-            {{- cleanup(mother_of_all_macros()) -}}
+          {{- cleanup(getReport()) -}}
       tomorrow_forecast:
         friendly_name: Tomorrows Forecast
         unique_id: a8ae26b0-ed26-4568-bb2b-f7c72707b009
@@ -350,6 +340,7 @@ sensor:
         unique_id: 21374ed0-80d1-49ba-817d-3e93eb3865e4
         icon_template: mdi:weather-sunny
         value_template: >-
+          {% from 'formatting.jinja' import cleanup %}
           {%- macro getReport() -%}
             {{ [
               'Tomorrow in Defiance ',
@@ -442,23 +433,13 @@ sensor:
                 ] | random }}
             {{ state_attr('sensor.tomorrow_forecast','overnight_low') }} degrees.
           {%- endmacro -%}
-          {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
-            {%- macro cleanup(data) -%}
-              {%- for item in data.split("\n")  if item | trim != "" -%}
-                {{ item | trim }} {% endfor -%}
-          {%- endmacro -%}
-          {# a macro to call all macros :)  #}
-            {%- macro mother_of_all_macros() -%}
-              {{ getReport() }}
-            {%- endmacro -%}
-
-            {# Call the macro  #}
-            {{- cleanup(mother_of_all_macros()) -}}
+          {{- cleanup(getReport()) -}}
       current_conditions:
         friendly_name: Current Conditions
         unique_id: 70db7e57-08db-48b2-919b-03b5face37b9
         icon_template: mdi:weather-sunny
         value_template: >-
+          {% from 'formatting.jinja' import cleanup %}
           {%- macro getReport() -%}
             The Weather in Defiance
               {{ [
@@ -498,23 +479,13 @@ sensor:
               and {{ states.weather.iron_nerd_weather_station.state }}
             {% endif %}
           {%- endmacro -%}
-          {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
-            {%- macro cleanup(data) -%}
-              {%- for item in data.split("\n")  if item | trim != "" -%}
-                {{ item | trim }} {% endfor -%}
-          {%- endmacro -%}
-          {# a macro to call all macros :)  #}
-            {%- macro mother_of_all_macros() -%}
-              {{ getReport() }}
-            {%- endmacro -%}
-
-            {# Call the macro  #}
-            {{- cleanup(mother_of_all_macros()) -}}
+          {{- cleanup(getReport()) -}}
       current_conditions_detail:
         friendly_name: Current Conditions Detail
         unique_id: 2b3687d1-bdd5-4551-8c0a-05b1ff617543
         icon_template: mdi:weather-sunny
         value_template: >-
+          {% from 'formatting.jinja' import cleanup %}
           {%- macro getReport() -%}
             The Weather in Defiance
               {{ [
@@ -660,18 +631,7 @@ sensor:
                 {{ states('sensor.overnight_lowest_temperature') }} degrees.
             {% endif %}
           {%- endmacro -%}
-          {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
-          {%- macro cleanup(data) -%}
-            {%- for item in data.split("\n")  if item | trim != "" -%}
-              {{ item | trim }} {% endfor -%}
-          {%- endmacro -%}
-          {# a macro to call all macros :)  #}
-          {%- macro mother_of_all_macros() -%}
-            {{ getReport() }}
-          {%- endmacro -%}
-
-          {# Call the macro  #}
-          {{- cleanup(mother_of_all_macros()) -}}
+          {{- cleanup(getReport()) -}}
       outside_pressure:
         friendly_name: 'Outside Pressure'
         unique_id: ac2944bb-e9d7-40a3-9707-ef477fd5f309
@@ -725,6 +685,7 @@ sensor:
         friendly_name: "Clothing Forecast Detail"
         unique_id: 13065f50-5eef-4afd-830e-2a2c87f47496
         value_template: >-
+          {% from 'formatting.jinja' import cleanup %}
           {%- macro getReport() -%}
             {% if is_state('binary_sensor.morning','on') %}
               Based on the forecasted high temperature,
@@ -874,19 +835,7 @@ sensor:
               "The possibility of frost exists currently. Be prepared. "
             {% endif %}
           {%- endmacro -%}
-          {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
-          {%- macro cleanup(data) -%}
-            {%- for item in data.split("\n")  if item | trim != "" -%}
-              {{ item | trim }} {% endfor -%}
-          {%- endmacro -%}
-
-          {# a macro to call all macros :)  #}
-          {%- macro mother_of_all_macros() -%}
-            {{ getReport() }}
-          {%- endmacro -%}
-            
-          {# Call the macro  #}
-          {{- cleanup(mother_of_all_macros()) -}}
+          {{- cleanup(getReport()) -}}
 
       # current_inside_humidity:
       #   friendly_name: "Current Inside Humidity"
@@ -905,6 +854,7 @@ sensor:
         friendly_name: Weather Alert String
         unique_id: 66b5f020-0b5e-48ed-92a2-740d2d708b30
         value_template: >
+          {% from 'formatting.jinja' import cleanup %}
           {%- macro getReport() -%}
             {% set alerts = [
                 states('sensor.weatheralerts_alert_1_most_recent_active_alert'),
@@ -925,14 +875,7 @@ sensor:
               'None'
             {% endif %}
           {%- endmacro -%}
-          {%- macro cleanup(data) -%}
-            {%- for item in data.split("\n")  if item | trim != "" -%}
-              {{ item | trim }} {% endfor -%}
-          {%- endmacro -%}
-          {%- macro mother_of_all_macros() -%}
-            {{ getReport() }}
-          {%- endmacro -%}
-          {{- cleanup(mother_of_all_macros()) -}}
+          {{- cleanup(getReport()) -}}
         attribute_templates:
           active_alerts: "{{ states('sensor.weatheralerts_active_alerts') }}"
         icon_template: >
@@ -945,6 +888,7 @@ sensor:
         friendly_name: 'Weather Alerts Active - Corrected'
         unique_id: e2f51da4-2271-4719-8edf-a28f76ac1e3f
         value_template: >
+          {% from 'formatting.jinja' import cleanup %}
           {%- macro getReport() -%}
             {% set alerts = [
                 states('sensor.weatheralerts_alert_1_most_recent_active_alert'),
@@ -958,14 +902,7 @@ sensor:
             {% set flood1 = 1 if (flood > 0) else 0 %}
             {{ (main + flood1) | int }}
           {%- endmacro -%}
-          {%- macro cleanup(data) -%}
-            {%- for item in data.split("\n")  if item | trim != "" -%}
-              {{ item | trim }} {% endfor -%}
-          {%- endmacro -%}
-          {%- macro mother_of_all_macros() -%}
-            {{ getReport() }}
-          {%- endmacro -%}
-          {{- cleanup(mother_of_all_macros()) -}}
+          {{- cleanup(getReport()) -}}
         icon_template: >
           {% if (states('sensor.weatheralerts_active_alerts') | int ) > 0 %}
             mdi:alert

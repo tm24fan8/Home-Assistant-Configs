@@ -1489,6 +1489,7 @@ script:
         data:
           who: '{{ who }}'
           message: >-
+            {% from 'formatting.jinja' import cleanup %}
             {% macro greeting() %}
               <p>
               {% if now().strftime('%H')|int < 12%}
@@ -1782,14 +1783,6 @@ script:
                 'Mischief managed. Server back online.',
                 ] | random }}
             {% endmacro %}
-
-
-            {# a macro that removes all newline characters, empty spaces, and returns formatted text. Also replaces all Underscores with Spaces  #}
-            {%- macro cleanup(data) -%}
-              {%- for item in data.split("\n")  if item | trim != "" -%}
-                {{ item | trim | replace("_", " ") }} {% endfor -%}
-            {%- endmacro -%}
-
 
             {# ********************************************* #}
             {#  ******** Start the Speech routines ********  #}

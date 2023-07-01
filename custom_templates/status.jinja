@@ -1,3 +1,4 @@
+{% from 'formatting.jinja' import cleanup %}
 {% from 'time.jinja' import input_datetime_read, ct, next_twitch_stream, calendar_event_today, time_from_calendar %}
 {% from 'easy_time.jinja' import count_the_days, custom_time, custom_time_between, clock %}
 {% from 'lighting.jinja' import lightsOn %}
@@ -57,17 +58,20 @@
 {% endmacro %}
 
 {% macro houseStatusReport(type,method) %}
-{% if type == 'climate_devices' %}
-{{ climateDevices(type,method) }}
-{% elif type == 'airleaks' %}
-{{ airLeaks(type,method) }}
-{% elif type == 'lights' %}
-{{ lightsOn(type,method) }}
-{% elif type == 'full' %}
-{{ climateDevices(type,method) }}
-{{ lightsOn(type,method) }}
-{{ airLeaks(type,method) }}
-{% endif %}
+  {% macro data() %}
+  {% if type == 'climate_devices' %}
+  {{ climateDevices(type,method) }}
+  {% elif type == 'airleaks' %}
+  {{ airLeaks(type,method) }}
+  {% elif type == 'lights' %}
+  {{ lightsOn(type,method) }}
+  {% elif type == 'full' %}
+  {{ climateDevices(type,method) }}
+  {{ lightsOn(type,method) }}
+  {{ airLeaks(type,method) }}
+  {% endif %}
+  {% endmacro %}
+{{ cleanup(data()) }}
 {% endmacro %}
 
 {% macro twitchStreamInfo(type,method) %}
@@ -147,16 +151,19 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% endmacro %}
 
 {% macro tonyStatusReport(type,method) %}
-{% if type == 'meds' %}
-{{ medReportTony(type,method) }}
-{% endif %}
-{% if type == 'stream' %}
-{{ twitchStreamInfo(type,method) }}
-{% endif %}
-{% if type == 'full' %}
-{{ twitchStreamInfo(type,method) }}
-{{ medReportTony(type,method) }}
-{% endif %}
+  {% macro data() %}
+  {% if type == 'meds' %}
+  {{ medReportTony(type,method) }}
+  {% endif %}
+  {% if type == 'stream' %}
+  {{ twitchStreamInfo(type,method) }}
+  {% endif %}
+  {% if type == 'full' %}
+  {{ twitchStreamInfo(type,method) }}
+  {{ medReportTony(type,method) }}
+  {% endif %}
+  {% endmacro %}
+{{ cleanup(data()) }}
 {% endmacro %}
 
 {% macro tina_morning_meds(type,method) %}
@@ -268,14 +275,17 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% endmacro %}
 
 {% macro tinaStatusReport(type,method) %}
-{% if type == 'work' %}
-{{ workReportTina(type,method) }}
-{% elif type == 'meds' %}
-{{ medReportTina(type,method) }}
-{% elif type == 'full' %}
-{{ workReportTina(type,method) }}
-{{ medReportTina(type,method) }}
-{% endif %}
+  {% macro data() %}
+  {% if type == 'work' %}
+  {{ workReportTina(type,method) }}
+  {% elif type == 'meds' %}
+  {{ medReportTina(type,method) }}
+  {% elif type == 'full' %}
+  {{ workReportTina(type,method) }}
+  {{ medReportTina(type,method) }}
+  {% endif %}
+  {% endmacro %}
+{{ cleanup(data()) }}
 {% endmacro %}
 
 {% macro kallen_morning_meds(type,method) %}
@@ -447,17 +457,20 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% endmacro %}
 
 {% macro kallenStatusReport(type,method) %}
-{% if type == 'meds' %}
-{{ medReportKallen(type,method) }}
-{% elif type == 'school' %}
-{{ schoolReportKallen(type,method) }}
-{% elif type == 'sleep' %}
-{{ kallenSleep(type,method)}}
-{% elif type == 'full' %}
-{{ kallenSleep(type,method) }}
-{{ medReportKallen(type,method) }}
-{{ schoolReportKallen(type,method) }}
-{% endif %}
+  {% macro data() %}
+  {% if type == 'meds' %}
+  {{ medReportKallen(type,method) }}
+  {% elif type == 'school' %}
+  {{ schoolReportKallen(type,method) }}
+  {% elif type == 'sleep' %}
+  {{ kallenSleep(type,method)}}
+  {% elif type == 'full' %}
+  {{ kallenSleep(type,method) }}
+  {{ medReportKallen(type,method) }}
+  {{ schoolReportKallen(type,method) }}
+  {% endif %}
+  {% endmacro %}
+{{ cleanup(data()) }}
 {% endmacro %}
 
 {% macro emma_sleep(type,method) %}
@@ -501,9 +514,12 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% endmacro %}
 
 {% macro emmaStatusReport(type,method) %}
-{% if type == 'sleep' %}
-{{ emma_sleep(type,method) }}
-{% elif type == 'full' %}
-{{ emma_sleep(type,method) }}
-{% endif %}
+  {% macro data() %}
+  {% if type == 'sleep' %}
+  {{ emma_sleep(type,method) }}
+  {% elif type == 'full' %}
+  {{ emma_sleep(type,method) }}
+  {% endif %}
+  {% endmacro %}
+{{ cleanup(data()) }}
 {% endmacro %}

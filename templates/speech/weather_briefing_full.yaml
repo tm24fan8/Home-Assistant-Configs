@@ -1,6 +1,7 @@
 >
   {# Weather Briefing #}
   {%- macro getReport() -%}
+  {% from 'formatting.jinja' import cleanup %}
 
     <p>
       {% if is_state('input_boolean.tornado_alarm','on') %}
@@ -52,18 +53,4 @@
     </p>
 
   {%- endmacro -%}
-
-
-  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
-    {%- macro cleanup(data) -%}
-      {%- for item in data.split("\n")  if item | trim != "" -%}
-        {{ item | trim }} {% endfor -%}
-  {%- endmacro -%}
-
-  {# a macro to call all macros :)  #}
-    {%- macro mother_of_all_macros() -%}
-      {{ getReport() }}
-    {%- endmacro -%}
-    
-    {# Call the macro  #}
-    {{- cleanup(mother_of_all_macros()) -}}
+  {{- cleanup(getReport()) -}}

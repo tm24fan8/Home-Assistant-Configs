@@ -1,3 +1,4 @@
+{% from 'formatting.jinja' import cleanup %}
 {% from 'time.jinja' import ct %}
 {% set ct = ct() | int %}
 
@@ -82,7 +83,10 @@
 {% endmacro %}
 
 {% macro weatherReport(type,method,time) %}
-{{ weatherInfo(type,method,time) | replace('clear-night','clear') | replace('partlycloudy','partly cloudy') }}
+  {% macro data() %}
+  {{ weatherInfo(type,method,time) | replace('clear-night','clear') | replace('partlycloudy','partly cloudy') }}
+  {% endmacro %}
+{{ cleanup(data()) }}
 {% endmacro %}
 
 {% macro tempConvert(temp,unitFrom,unitTo) %}
