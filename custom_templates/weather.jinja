@@ -6,7 +6,7 @@
 {% set time = time|default('day') %}
 {% if method == 'text' %}
   {% if type in ['current','full'] %}
-    The current weather is {{ states('weather.iron_nerd_weather_station') | lower }}. It is {{ state_attr('weather.iron_nerd_weather_station','temperature') | round }} degrees outside and feels like {{ states('sensor.pirateweather_apparent_temperature') | round }} degrees.
+    The current weather is {{ states('weather.iron_nerd_weather_station') | lower }}. It is {{ state_attr('weather.iron_nerd_weather_station','temperature') | round }} degrees outside and feels like {{ states('sensor.stratton_ave_apparent_temperature') | round }} degrees.
   {% endif %}
   {% if type in ['forecast','full'] %}
     {% if 14400 <= ct <= 61200 %}

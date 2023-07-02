@@ -64,12 +64,12 @@ template:
     - name: Heat Index Threshold
       unique_id: aae2cd89-dde2-4557-923c-b476d1b49b88
       state: >
-        {% set feelslike = states('sensor.pirateweather_apparent_temperature') | int %}
+        {% set feelslike = states('sensor.stratton_ave_apparent_temperature') | int %}
         {% set threshold = states('input_number.heat_index_threshold') | int %}
         {{ feelslike >= threshold }}
       device_class: heat
       attributes:
-        current_temp: "{{ states('sensor.pirateweather_apparent_temperature') | int }}"
+        current_temp: "{{ states('sensor.stratton_ave_apparent_temperature') | int }}"
         threshold: "{{ states('input_number.heat_index_threshold') | int }}"
     - name: Cold Threshold
       unique_id: a7c97b91-6d42-433a-a96b-94e39c58d63f
@@ -94,7 +94,7 @@ template:
     - name: Wind Chill Threshold
       unique_id: c734b642-b85d-465c-b3c3-aadbe4a00dc1
       state: >
-        {% set feelslike = states('sensor.pirateweather_apparent_temperature') | int %}
+        {% set feelslike = states('sensor.stratton_ave_apparent_temperature') | int %}
         {% set threshold = states('input_number.wind_chill_threshold') | int %}
         {{ feelslike <= threshold }}
       device_class: cold
@@ -148,7 +148,7 @@ sensor:
   # - platform: statistics
   #   unique_id: 6192c95a-8fd1-4ba0-87de-d06fdc071d6b
   #   name: Apparent Temp Average
-  #   entity_id: sensor.pirateweather_apparent_temperature
+  #   entity_id: sensor.stratton_ave_apparent_temperature
   #   state_characteristic: average_linear
   #   max_age:
   #     days: 7
@@ -811,10 +811,10 @@ sensor:
                 It is {{ states('sensor.clothing_forecast') }} right now so I suggest wearing shorts.
               {% endif %}
               {% if is_state('binary_sensor.heat_index_threshold','on') %}
-                Warning, the heat index is {{ states('sensor.pirateweather_apparent_temperature') | float | round }} degrees right now, which is very high. So please make sure to stay hydrated!
+                Warning, the heat index is {{ states('sensor.stratton_ave_apparent_temperature') | float | round }} degrees right now, which is very high. So please make sure to stay hydrated!
               {% endif %}
               {% if is_state('binary_sensor.wind_chill_threshold','on') %}
-                Warning, it currently feels like {{ states('sensor.pirateweather_apparent_temperature') | float | round }} degrees outside, so please make sure all exposed skin is covered to avoid frostbite!
+                Warning, it currently feels like {{ states('sensor.stratton_ave_apparent_temperature') | float | round }} degrees outside, so please make sure all exposed skin is covered to avoid frostbite!
               {% endif %}
             {% endif %}
             {% if states('sensor.thermal_comfort_simmerindex') in ['extremely_warm','danger_of_heatstroke','extreme_danger_of_heatstroke','circulatory_collapse_imminent'] %}
