@@ -507,7 +507,7 @@ script:
             entity_id: input_boolean.hot_day
       - if:
         - condition: template
-          value_template: "{{ states('sensor.todays_high_temp') | int <= states('input_number.cold_day_threshold') | int }}"
+          value_template: "{{ states('sensor.today_corrected_high_temp') | int <= states('input_number.cold_day_threshold') | int }}"
         then:
         - service: input_boolean.turn_on
           target:
@@ -628,7 +628,7 @@ script:
           data:
             time: >
               {% set low = states('sensor.overnight_lowest_temperature') | int %}
-              {% set high = states('sensor.todays_high_temp') | int %}
+              {% set high = states('sensor.today_corrected_high_temp') | int %}
               {% if low > 60 or is_state('input_boolean.hot_day','on') %}
                 22:30
               {% elif 50 <= low <= 60 %}
@@ -709,7 +709,7 @@ script:
           entity_id: input_datetime.emma_bedtime
           data:
             time: >
-              {% set high = states('sensor.todays_high_temp') | int %}
+              {% set high = states('sensor.today_corrected_high_temp') | int %}
               {% set low = states('sensor.overnight_lowest_temperature') | int %}
               {% if is_state('input_boolean.hot_day','on') %}
                 22:00

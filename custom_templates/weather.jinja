@@ -10,7 +10,7 @@
   {% endif %}
   {% if type in ['forecast','full'] %}
     {% if 14400 <= ct <= 61200 %}
-      The forecast high is {{ states('sensor.todays_high_temp') }}.
+      The forecast high is {{ states('sensor.today_corrected_high_temp') }}.
     {% else %}
       Overnight you can expect a low of {{ states('sensor.overnight_lowest_temperature') }}.
     {% endif %}

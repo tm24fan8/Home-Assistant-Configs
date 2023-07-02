@@ -43,7 +43,7 @@
       {% endif %}
     </p>
     <p>
-      Today the high temperature will be {{ states('sensor.todays_high_temp') }} degrees.
+      Today the high temperature will be {{ states('sensor.today_corrected_high_temp') }} degrees.
       {{ states('sensor.clothing_forecast_detail') }}
     </p>
 

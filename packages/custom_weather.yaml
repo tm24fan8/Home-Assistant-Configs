@@ -104,7 +104,7 @@ template:
     - name: Heat Warning
       unique_id: 02b8020a-4fa1-4489-abea-bfadf82ec7e5
       state: >
-        {% set day = states('sensor.todays_high_temp') | int %}
+        {% set day = states('sensor.today_corrected_high_temp') | int %}
         {% set night = states('sensor.overnight_lowest_temperature') | int %}
         {% set dayThreshold = states('input_number.extended_heat_threshold') | int %}
         {% set nightThreshold = states('input_number.hot_overnight_threshold') | int %}
@@ -113,7 +113,7 @@ template:
       device_class: heat
       attributes:
         trigger: >
-          {% set day = states('sensor.todays_high_temp') | int %}
+          {% set day = states('sensor.today_corrected_high_temp') | int %}
           {% set night = states('sensor.overnight_lowest_temperature') | int %}
           {% set dayThreshold = states('input_number.extended_heat_threshold') | int %}
           {% set nightThreshold = states('input_number.hot_overnight_threshold') | int %}
@@ -214,7 +214,7 @@ sensor:
               'Later Today ',
               'For the rest of the day '
               ] | random }}
-            expect a high of {{ states('sensor.todays_high_temp') }}
+            expect a high of {{ states('sensor.today_corrected_high_temp') }}
             {%- if states('sensor.current_forecast') == 'sunny' and is_state('binary_sensor.night','off')%}
               {{ [
                   'and sunny. ',
@@ -529,7 +529,7 @@ sensor:
                 'Later Today ',
                 'For the rest of the day '
                 ] | random }}
-              expect a high of {{ states('sensor.todays_high_temp') }}
+              expect a high of {{ states('sensor.today_corrected_high_temp') }}
               {%- if states('sensor.current_forecast') == 'sunny' and is_state('binary_sensor.night','off')%}
                 {{ [
                     'and sunny. ',
@@ -658,22 +658,22 @@ sensor:
         unique_id: 8ed2684b-d0ad-402c-bc3c-340cb9b2437a
         value_template: >-
             {% if is_state('binary_sensor.overnight', 'off') %}
-              {% set temp = states('sensor.todays_high_temp')|int %}
+              {% set temp = states('sensor.today_corrected_high_temp')|int %}
             {% else %}
               {% set temp = states('sensor.pirateweather_temperature')|round %}
             {% endif %}
-            {%- if states('sensor.todays_high_temp')|int > 63 %}
-              {%- if states('sensor.todays_high_temp')|int < 80 %}
+            {%- if states('sensor.today_corrected_high_temp')|int > 63 %}
+              {%- if states('sensor.today_corrected_high_temp')|int < 80 %}
                 Nice
-              {% elif states('sensor.todays_high_temp')|int > 90 %}
+              {% elif states('sensor.today_corrected_high_temp')|int > 90 %}
                 Hot
               {% else %}
                 Toasty
               {%- endif %}
-            {% elif states('sensor.todays_high_temp')|int < 64 %}
-              {%- if states('sensor.todays_high_temp')|int < 32 %}
+            {% elif states('sensor.today_corrected_high_temp')|int < 64 %}
+              {%- if states('sensor.today_corrected_high_temp')|int < 32 %}
                 Freezing
-              {% elif states('sensor.todays_high_temp')|int > 48 %}
+              {% elif states('sensor.today_corrected_high_temp')|int > 48 %}
                 Chilly
               {% else %}
                 Cold
@@ -936,18 +936,24 @@ sensor:
         unit_of_measurement: 'in'
         value_template: "{{ state_attr('sensor.rain_factor','day_0_rain') | float }}"
         icon_template: mdi:weather-rainy
+      today_corrected_high_temp:
+        friendly_name: 'Today Corrected High Temp'
+        unique_id: c0c40ec1-605e-4739-a935-ac0a2937fab2
+        unit_of_measurement: °F
+        value_template: "{{ states('input_number.today_corrected_high_temp') | int }}"
+        icon_template: mdi:thermometer-high
 
 input_number:
-  today_calculated_high_temp:
-    name: Today Calculated High Temp
+  today_corrected_high_temp:
+    name: Today Corrected High Temp
     min: -100
     max: 150
     step: 1
     unit_of_measurement: °F
     icon: mdi:thermometer
     mode: box
-  today_calculated_low_temp:
-    name: Today Calculated Low Temp
+  today_corrected_low_temp:
+    name: Today Corrected Low Temp
     min: -100
     max: 150
     step: 1
@@ -1020,6 +1026,26 @@ input_boolean:
   #     - service: input_boolean.turn_off
   #       entity_id: input_boolean.freeze_warning
 
+automation:
+  - id: bae55746-c571-4a5d-88e0-8c83aea8110b
+    alias: Fix High Temperature
+    description: Gotta make up for one of a few shortcomings in Pirateweather
+    mode: single
+    trigger:
+    - platform: time
+      at: "00:30"
+    - platform: time
+      at: "06:00"
+    - platform: time
+      at: "12:00"
+    - platform: time
+      at: "17:45"
+    action:
+    - service: input_number.set_value
+      target:
+        entity_id: input_number.today_corrected_high_temp
+      data:
+        value: "{{ states('sensor.todays_high_temp') | int }}"
 
 script:
 
