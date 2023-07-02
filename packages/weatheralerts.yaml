@@ -1673,8 +1673,8 @@ script:
           tag: lightning-warning
       - if:
         - condition: state
-          entity_id:  input_boolean.audible_notifications
-          state: 'on'
+          entity_id:  input_boolean.master_bedroom_sleeping
+          state: 'off'
         then:
         - service: scene.create
           data:
@@ -1706,11 +1706,17 @@ script:
               - light.tina_desk_strip
           data:
             color_name: red
-        - service: script.status_annc
-          data:
-            who: 'common'
-            call_interruption: 1
-            call_lightning_alert: 1
+        - if:
+          - condition: state
+            entity_id: input_boolean.master_bedroom_sleeping
+            state: 'off'
+          then:
+          - service: script.status_annc
+            data:
+              who: 'common'
+              type: alert
+              call_interruption: 1
+              call_lightning_alert: 1
         - delay:
             seconds: 10
         - service: scene.turn_on
@@ -1726,11 +1732,17 @@ script:
           who: all
           message: clear_notification
           tag: lightning-warning
-      - service: script.status_annc
-        data:
-          who: 'common'
-          call_interruption: 1
-          call_lightning_clear: 1
+      - if:
+        - condition: state
+          entity_id: input_boolean.master_bedroom_sleeping
+          state: 'off'
+        then:
+        - service: script.status_annc
+          data:
+            who: 'common'
+            type: alert
+            call_interruption: 1
+            call_lightning_clear: 1
       - service: script.text_notify
         data:
           type: alert

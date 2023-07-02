@@ -1488,6 +1488,7 @@ script:
       - service: script.speech_engine
         data:
           who: '{{ who }}'
+          type: '{{ type }}'
           message: >-
             {% from 'formatting.jinja' import cleanup %}
             {% macro greeting() %}
