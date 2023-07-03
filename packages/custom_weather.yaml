@@ -1032,14 +1032,14 @@ automation:
     description: Gotta make up for one of a few shortcomings in Pirateweather
     mode: single
     trigger:
-    - platform: time
-      at: "00:30"
-    - platform: time
-      at: "06:00"
-    - platform: time
-      at: "12:00"
-    - platform: time
-      at: "17:45"
+    - platform: time_pattern
+      minutes: "/5"
+    condition:
+    - condition: template
+      value_template: >
+        {% from 'time.jinja' import ct %}
+        {% set ct = ct() | int %}
+        {{ ct <= 63900 }}
     action:
     - service: input_number.set_value
       target:
