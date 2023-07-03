@@ -607,18 +607,43 @@ automation:
             - service: switch.turn_on
               target:
                 entity_id: switch.presence_simulation
+          - service: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.front_porch_light_on
+          - service: automation.turn_on
+            target:
+              entity_id: automation.auto_night_porch_light
+          - if:
+            - condition: state
+              entity_id: binary_sensor.early_night_mode
+              state: 'on'
+            then:
+            - service: light.turn_on
+              target:
+                entity_id: light.front_porch_light
         - conditions:
           - condition: trigger
             id: vacation-off
           sequence:
+          - service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.front_porch_light_on
+          - service: automation.turn_off
+            target:
+              entity_id: automation.auto_night_porch_light
+            data:
+              stop_actions: true
           - if:
-            - condition: state
-              entity_id:
-              - input_boolean.hot_day
-              - binary_sensor.heat_warning
-              - binary_sensor.heat_threshold
-              - binary_sensor.heat_index_threshold
-              state: 'on'
+            - condition: template
+              value_template: >
+                {% set heat = [
+                  states.input_boolean.hot_day,
+                  states.binary_sensor.heat_warning,
+                  states.binary_sensor.heat_threshold,
+                  states.binary_sensor.heat_index_threshold
+                ] %}
+                {% set number = heat | selectattr('state','eq','on') | list | count | int %}
+                {{ number > 0 }}
             then:
             - service: fans_on
               target:
@@ -645,6 +670,36 @@ automation:
                 entity_id: climate.master_bedroom_aircon
               data:
                 fan_mode: Auto
+
+  - id: 6d668686-c88e-4eae-9b91-1a2bdebce290
+    alias: Auto Night Porch Light
+    description: Turn porch light on at night and off during day. To be used primarily with vacation mode.
+    mode: restart
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.early_night_mode
+        to: 'on'
+        id: night-on
+      - platform: state
+        entity_id: binary_sensor.early_night_mode
+        to: 'off'
+        id: night-off
+    action:
+    - choose:
+      - conditions:
+        - condition: trigger
+          id: night-on
+        sequence:
+        - service: light.turn_on
+          target:
+            entity_id: light.front_porch_light
+      - conditions:
+        - condition: trigger
+          id: night-off
+        sequence:
+        - service: light.turn_on
+          target:
+            entity_id: light.front_porch_light
 
 script:
   family_is_away:
