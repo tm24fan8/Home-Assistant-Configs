@@ -704,15 +704,16 @@ script:
           - input_boolean.white_noise_kallen_bedroom
           - input_boolean.white_noise_emma_bedroom
       - if:
-        - condition: not
-          conditions:
-          - condition: state
-            entity_id:
-            - input_boolean.hot_day
-            - binary_sensor.heat_warning
-            - binary_sensor.heat_threshold
-            - binary_sensor.heat_index_threshold
-            state: 'on'
+        - condition: template
+          value_template: >
+            {% set heat = [
+              states.input_boolean.hot_day,
+              states.binary_sensor.heat_warning,
+              states.binary_sensor.heat_threshold,
+              states.binary_sensor.heat_index_threshold
+            ] %}
+            {% set number = heat | selectattr('state','eq','on') | list | count | int %}
+            {{ number == 0 }}
         then:
         - service: fan.turn_off
           target:
