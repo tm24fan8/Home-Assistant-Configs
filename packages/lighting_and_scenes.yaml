@@ -946,6 +946,50 @@ automation:
           adapt_brightness: "{{ is_state('switch.adaptive_lighting_adapt_brightness_basement_studio','on') }}"
           adapt_color: "{{ is_state('switch.adaptive_lighting_adapt_color_basement_studio','on') }}"
 
+  - id: 75198e15-1e4a-4b1d-824a-23c9eaa73057
+    alias: Basement LED Strip Reset
+    description: Power cycle the LED strip when it goes unavailable
+    mode: single
+    trigger:
+      - platform: state
+        entity_id: light.basement_led_strip_1
+        to: 'unavailable'
+        for:
+          minutes: 5
+      - platform: state
+        entity_id: input_button.basement_led_strip_reset
+        not_to:
+          - unavailable
+          - unknown
+    condition:
+      - condition: template
+        value_template: "{{ states('switch.basement_led_strip') not in ['unknown','unavailable'] }}"
+      - condition: state
+        entity_id: input_boolean.studio_quiet
+        state: 'off'
+      - condition: state
+        entity_id: sensor.twitch_ironnerd24
+        state: 'offline'
+    action:
+      - repeat:
+          while:
+          - condition: state
+            entity_id: light.basement_led_strip_1
+            state: 'unavailable'
+          - condition: template
+            value_template: "{{ repeat.index <= 10 }}"
+          sequence:
+          - service: switch.turn_off
+            target:
+              entity_id: switch.basement_led_strip
+          - delay:
+              seconds: 10
+          - service: switch.turn_on
+            target:
+              entity_id: switch.basement_led_strip
+          - delay:
+              seconds: 10
+
   - id: 3f05cd0d-bd6e-42c7-884d-3d1cbfda46e0
     alias: Living Room Lights Adaptive Resync
     description: Deals with situations where the living room lights should be adaptive but end up out of sync
