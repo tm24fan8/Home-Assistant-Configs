@@ -645,7 +645,7 @@ automation:
                 {% set number = heat | selectattr('state','eq','on') | list | count | int %}
                 {{ number > 0 }}
             then:
-            - service: fans_on
+            - service: fan.turn_on
               target:
                 entity_id:
                   - fan.emma_air_conditioner
