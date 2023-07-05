@@ -11,6 +11,9 @@ sensor:
     energy_sensor_naming: "{} Energy Sensor"
     mode: lut
   - platform: powercalc
+    entity_id: switch.basement_led_strip
+    power_sensor_id: sensor.basement_led_strip_power
+  - platform: powercalc
     entity_id: switch.basement_server
     power_sensor_id: sensor.basement_server_power
   - platform: powercalc
@@ -57,10 +60,10 @@ sensor:
     create_group: Kallen Bedroom Lights
     include:
       group: light.kallen_bedroom_lights
-  - platform: powercalc
-    create_group: Basement Studio Lights
-    include:
-      group: light.basement_studio_lights
+  # - platform: powercalc
+  #   create_group: Basement Studio Lights
+  #   include:
+  #     group: light.basement_studio_lights
   - platform: powercalc
     create_group: First Floor Lights
     include:
