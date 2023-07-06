@@ -1523,6 +1523,7 @@ automation:
           - service: script.status_annc
             data:
               who: everywhere
+              type: weather
               call_interruption: 1
               call_thunderstorm_warning: 1
         - conditions:
@@ -1532,6 +1533,7 @@ automation:
           - service: script.status_annc
             data:
               who: everywhere
+              type: weather
               call_interruption: 1
               call_tornado_watch: 1
         - conditions:
@@ -1541,6 +1543,7 @@ automation:
           - service: script.status_annc
             data:
               who: everywhere
+              type: weather
               call_interruption: 1
               call_thunderstorm_watch: 1
         - conditions:
@@ -1550,6 +1553,7 @@ automation:
           - service: script.status_annc
             data:
               who: everywhere
+              type: weather
               call_interruption: 1
               call_freeze_warning: 1
       - service: input_text.set_value
@@ -1614,6 +1618,7 @@ automation:
       - service: script.speech_engine
         data:
           who: everywhere
+          type: weather
           message: "It is raining and there are windows open in the house. Please close them!"
       - wait_template: "{{ is_state('binary_sensor.windows','off') or is_state('sensor.pirateweather_precip','none') }}"
         timeout: "00:15:00"
@@ -1632,6 +1637,7 @@ automation:
           - service: script.speech_engine
             data:
               who: common
+              type: weather
               message: "Windows are now closed. Thank you, and enjoy your dry house."
         - conditions:
           - condition: template
@@ -1646,11 +1652,13 @@ automation:
           - service: script.speech_engine
             data:
               who: common
+              type: weather
               message: "Nevermind, it has stopped raining. Feel free to do whatever you'd like with the windows."
         default:
         - service: script.speech_engine
           data:
             who: common
+            type: weather
             message: "Well, I guess no one cares if the house floods. Suit yourself, but do not say I didn't warn you."
 
 
@@ -1673,8 +1681,8 @@ script:
           tag: lightning-warning
       - if:
         - condition: state
-          entity_id:  input_boolean.master_bedroom_sleeping
-          state: 'off'
+          entity_id: binary_sensor.audible_weather_alerts_allowed
+          state: 'on'
         then:
         - service: scene.create
           data:
@@ -1706,17 +1714,12 @@ script:
               - light.tina_desk_strip
           data:
             color_name: red
-        - if:
-          - condition: state
-            entity_id: input_boolean.master_bedroom_sleeping
-            state: 'off'
-          then:
-          - service: script.status_annc
-            data:
-              who: 'common'
-              type: alert
-              call_interruption: 1
-              call_lightning_alert: 1
+        - service: script.status_annc
+          data:
+            who: common
+            type: weather
+            call_interruption: 1
+            call_lightning_alert: 1
         - delay:
             seconds: 10
         - service: scene.turn_on
@@ -1732,17 +1735,12 @@ script:
           who: all
           message: clear_notification
           tag: lightning-warning
-      - if:
-        - condition: state
-          entity_id: input_boolean.master_bedroom_sleeping
-          state: 'off'
-        then:
-        - service: script.status_annc
-          data:
-            who: 'common'
-            type: alert
-            call_interruption: 1
-            call_lightning_clear: 1
+      - service: script.status_annc
+        data:
+          who: common
+          type: weather
+          call_interruption: 1
+          call_lightning_clear: 1
       - service: script.text_notify
         data:
           type: alert

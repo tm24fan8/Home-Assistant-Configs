@@ -951,14 +951,15 @@ script:
               - Salli
       type:
         name: 'Type'
-        description: 'What type of message is this? Can override some settings depending on the option selected. Alert bypasses time restrictions but respects volume settings and sleep mode. Critical bypasses all restrictions, and sets all volumes to max.'
+        description: 'What type of message is this? Can override some settings depending on the option selected. Alert bypasses time restrictions but respects volume settings and sleep mode. Weather is similar to alert, but will not play at all if everyone is asleep. Critical bypasses all restrictions, and sets all volumes to max.'
         required: false
-        example: 'normal, alert, critical'
+        example: 'normal, alert, weather, critical'
         selector:
           select:
             options:
               - normal
               - alert
+              - weather
               - critical
     variables:
       voice: "{{ states('input_select.jarvis_voice') }}"
@@ -998,6 +999,8 @@ script:
           state: 'on'
         - condition: template
           value_template: "{{ type in ['critical','Critical','alert','Alert'] }}"
+        - condition: template
+          value_template: "{{ type in ['weather','Weather'] and is_state('binary_sensor.audible_weather_alerts_allowed','on') }}"
       - condition: state
         entity_id: group.adults
         state: 'home'
