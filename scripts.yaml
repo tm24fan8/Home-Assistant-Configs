@@ -613,8 +613,22 @@ basement_shutdown:
     target:
       entity_id:
       - script.asus_laptop_shutdown
-      - script.kallen_desktop_shutdown
     alias: Shut down the laptop
+  - if:
+    - condition: state
+      entity_id: input_boolean.kallen_computer_updates
+      state: 'off'
+    then:
+    - service: script.kallen_desktop_shutdown
+      data: {}
+    else:
+    - service: script.kallen_desktop_lock
+      data: {}
+    - service: input_boolean.turn_off
+      data: {}
+      target:
+        entity_id: input_boolean.kallen_computer_updates
+    alias: Turn off Kallen Desktop unless updates are scheduled
   - service: script.text_notify
     data:
       type: alert
