@@ -988,7 +988,7 @@ automation:
             target:
               entity_id: switch.basement_led_strip
           - delay:
-              seconds: 10
+              seconds: 30
 
   - id: 3f05cd0d-bd6e-42c7-884d-3d1cbfda46e0
     alias: Living Room Lights Adaptive Resync
