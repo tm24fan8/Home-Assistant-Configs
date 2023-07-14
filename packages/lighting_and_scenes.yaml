@@ -86,6 +86,13 @@ input_number:
     step: 1
     unit_of_measurement: minutes
     icon: mdi:timer
+  basement_led_strip_resets:
+    name: Basement LED Strip Resets
+    min: 0
+    max: 500
+    step: 1
+    unit_of_measurement: resets
+    icon: mdi:restore
 
 input_select:
   living_room_scenes:
@@ -381,7 +388,12 @@ sensor:
         availability_template: "{{ is_state('light.living_room_lights','on') and is_state('switch.adaptive_lighting_living_room','on') }}"
         unit_of_measurement: 'K'
         icon_template: mdi:thermometer-lines
-
+      basement_led_strip_resets:
+        friendly_name: "Basement LED Strip Resets"
+        unique_id: 0d016f09-a89b-4616-83b7-934580612d00
+        value_template: "{{ states('input_number.basement_led_strip_resets') | int }}"
+        unit_of_measurement: 'resets'
+        icon_template: mdi:restore
 
 template:
   - binary_sensor:
@@ -956,39 +968,60 @@ automation:
         to: 'unavailable'
         for:
           minutes: 5
+        id: offline
       - platform: state
         entity_id: input_button.basement_led_strip_reset
         not_to:
           - unavailable
           - unknown
-    condition:
-      - condition: template
-        value_template: "{{ states('switch.basement_led_strip') not in ['unknown','unavailable'] }}"
-      - condition: state
-        entity_id: input_boolean.studio_quiet
-        state: 'off'
-      - condition: state
-        entity_id: sensor.twitch_ironnerd24
-        state: 'offline'
+        id: button
+      - platform: time
+        at: "00:00:00"
+        id: midnight
     action:
-      - repeat:
-          while:
-          - condition: state
-            entity_id: light.basement_led_strip_1
-            state: 'unavailable'
-          - condition: template
-            value_template: "{{ repeat.index <= 10 }}"
+      - choose:
+        - conditions:
+          - condition: and
+            conditions:
+            - condition: trigger
+              id:
+                - offline
+                - button
           sequence:
-          - service: switch.turn_off
+          - if:
+            - condition: template
+              value_template: "{{ is_state('input_boolean.studio_quiet','off') and is_state('sensor.twitch_ironnerd24','offline') and states('switch.basement_led_strip') not in ['unknown','unavailable'] }}"
+            then:
+            - repeat:
+                while:
+                - condition: state
+                  entity_id: light.basement_led_strip_1
+                  state: 'unavailable'
+                - condition: template
+                  value_template: "{{ repeat.index <= 10 }}"
+                sequence:
+                - service: input_number.increment
+                  target:
+                    entity_id: input_number.basement_led_strip_resets
+                - service: switch.turn_off
+                  target:
+                    entity_id: switch.basement_led_strip
+                - delay:
+                    seconds: 10
+                - service: switch.turn_on
+                  target:
+                    entity_id: switch.basement_led_strip
+                - delay:
+                    seconds: 30
+        - conditions:
+          - condition: trigger
+            id: midnight
+          sequence:
+          - service: input_number.set_value
             target:
-              entity_id: switch.basement_led_strip
-          - delay:
-              seconds: 10
-          - service: switch.turn_on
-            target:
-              entity_id: switch.basement_led_strip
-          - delay:
-              seconds: 30
+              entity_id: input_number.basement_led_strip_resets
+            data:
+              value: 0
 
   - id: 3f05cd0d-bd6e-42c7-884d-3d1cbfda46e0
     alias: Living Room Lights Adaptive Resync
