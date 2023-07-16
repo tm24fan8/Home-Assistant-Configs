@@ -76,3 +76,5 @@ sensor:
     create_group: Master Bedroom All Lights
     include:
       area: master_bedroom
+      filter:
+        domain: light
