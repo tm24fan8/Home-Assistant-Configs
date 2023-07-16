@@ -278,12 +278,29 @@ going_upstairs:
   - service: script.asus_laptop_shutdown
     data: {}
     alias: Shut down laptop
-  - service: script.activate_alexa_actionable_notification
-    data:
-      text: <voice name='Joanna'><prosody rate='150%'>Would you like me to shut down
-        your computer?</prosody></voice>
-      event_id: actionable_notification_shutdown_computer
-      alexa_device: media_player.basement_echo_dot
+  - if:
+    - condition: state
+      entity_id: binary_sensor.basement_occupied
+      state: 'off'
+      alias: If basement is not occupied
+    then:
+    - service: script.activate_alexa_actionable_notification
+      data:
+        text: <voice name='Joanna'><prosody rate='150%'>Would you like me to shut
+          down your computer?</prosody></voice>
+        event_id: actionable_notification_shutdown_computer
+        alexa_device: media_player.living_room_echo_dot
+      response_variable: shutdown
+      alias: Ask in living room
+    else:
+    - service: script.activate_alexa_actionable_notification
+      data:
+        text: <voice name='Joanna'><prosody rate='150%'>Would you like me to shut
+          down your computer?</prosody></voice>
+        event_id: actionable_notification_shutdown_computer
+        alexa_device: media_player.basement_echo_dot
+      response_variable: shutdown
+      alias: Ask in basement
     alias: Ask about shutting down main computer
   - wait_for_trigger:
     - platform: state
@@ -291,6 +308,17 @@ going_upstairs:
       - binary_sensor.basement_studio_door
       from: 'off'
       to: 'on'
+      id: door
+    - platform: state
+      entity_id:
+      - input_boolean.goodnight
+      from: 'off'
+      to: 'on'
+      id: goodnight
+    - platform: state
+      entity_id: light.master_bedroom_lights
+      to: 'on'
+      id: lights
     timeout:
       hours: 0
       minutes: 20
@@ -311,6 +339,12 @@ going_upstairs:
     target:
       entity_id: input_datetime.tony_night_meds_notify
     alias: Schedule the night meds notification
+  - if:
+    - condition: template
+      value_template: '{{ wait.trigger.id in [''goodnight'',''lights''] }}'
+    then:
+    - stop: Automation steps skipped
+    alias: If I was not in the basement, skip the rest
   - wait_for_trigger:
     - platform: state
       entity_id:
