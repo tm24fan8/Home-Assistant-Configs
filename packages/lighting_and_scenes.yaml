@@ -1416,13 +1416,6 @@ script:
             entity_id: input_boolean.give_me_darkness
             state: 'on'
           sequence:
-          - service: input_select.select_option
-            target:
-              entity_id:
-                - input_select.mud_room_scenes
-                - input_select.dining_room_lamp_scenes
-            data:
-              option: Nightlight
           - if:
             - condition: state
               entity_id: person.christina_stork
@@ -1452,6 +1445,12 @@ script:
                     target:
                       entity_id:
                       - light.downstairs_bathroom_lights
+                - service: input_select.select_option
+                  target:
+                    entity_id:
+                      - input_select.mud_room_scenes
+                  data:
+                    option: Nightlight
                 else:
                 - service: light.turn_off
                   target:
@@ -1466,6 +1465,13 @@ script:
                     target:
                       entity_id:
                       - light.downstairs_bathroom_lights
+                - service: input_select.select_option
+                  target:
+                    entity_id:
+                      - input_select.mud_room_scenes
+                      - input_select.dining_room_lamp_scenes
+                  data:
+                    option: Nightlight
             - conditions:
               - condition: state
                 entity_id: input_boolean.guest_mode
