@@ -3,4 +3,3 @@ report_system:
   initial: Type your report here
 text_testing:
   name: Text Testing
-  initial: This is for testing input texts
