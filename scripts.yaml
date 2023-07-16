@@ -369,17 +369,6 @@ going_upstairs:
       milliseconds: 0
     alias: Wait until I am in the bathroom, or in bed, or the lights are manually
       turned on
-  - if:
-    - condition: state
-      entity_id: input_boolean.goodnight
-      state: 'off'
-    then:
-    - service: input_select.select_option
-      data:
-        option: Side Nightlight
-      target:
-        entity_id: input_select.master_bedroom_scenes
-    alias: Turn on dim lighting in master bedroom, unless I am in bed
   - choose:
     - conditions: '{{ wait.trigger.id == ''bathroom'' }}'
       sequence:
