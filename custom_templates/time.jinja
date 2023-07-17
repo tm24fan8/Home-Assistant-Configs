@@ -38,11 +38,26 @@
 {% endif %}
 {% endmacro %}
 
-{% macro time_from_calendar(calendar,start_or_end,action) %}
+{% macro time_from_calendar(calendar,start_or_end,action,operator,hours,minutes) %}
+{% set base = as_timestamp(strptime(state_attr(calendar,start_or_end), '%Y-%m-%d %H:%M:%S')) | int %}
+{% if minutes is defined %}
+  {% set mod = ((hours * 60) * 60) + (minutes * 60) | int %}
+{% elif hours is defined %}
+  {% set mod = (hours* 60) * 60 | int %}
+{% endif %}
 {% if action == 'set' %}
-{{ as_timestamp(strptime(state_attr(calendar,start_or_end), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%H:%M") }}
+  {% set ts = "%H:%M" %}
 {% elif action == 'read' %}
-{{ as_timestamp(strptime(state_attr(calendar,start_or_end), '%Y-%m-%d %H:%M:%S')) | timestamp_custom("%-I:%M %p") }}
+  {% set ts = "%-I:%M %p" %}
+{% endif %}
+{% if operator is defined %}
+  {% if operator == 'add' %}
+    {{ (base + mod) | timestamp_custom(ts) }}
+  {% elif operator == 'subtract' %}
+    {{ (base - mod) | timestamp_custom(ts) }}
+  {% endif %}
+{% else %}
+  {{ base | timestamp_custom(ts) }}
 {% endif %}
 {% endmacro %}
 
