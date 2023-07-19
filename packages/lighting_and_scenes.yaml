@@ -246,6 +246,7 @@ input_select:
       - Day Mode
       - Evening Mode
       - Night Mode
+      - Bright Mode
       - Reset
     initial: Select
     icon: mdi:desk
@@ -1688,6 +1689,115 @@ script:
             target:
               entity_id: light.emma_bedroom_light
 
+  day_mode_in_tina_desk:
+    alias: Day Mode in Tina Desk
+    mode: restart
+    icon: mdi:palette
+    sequence:
+      - parallel:
+        - service: light.turn_on
+          target:
+            entity_id: light.tina_lamp_top
+        - service: light.turn_off
+          target:
+            entity_id: light.tina_lamp_side
+        - service: light.turn_on
+          target:
+            entity_id: light.tina_desk_strip
+          data:
+            rgb_color:
+              - 0
+              - 255
+              - 255
+            brightness: 89
+      - wait_template: "{{ is_state('light.tina_lamp_side','off') }}"
+        timeout:
+          seconds: 15
+        continue_on_timeout: true
+      - service: switch.turn_on
+        target:
+          entity_id: switch.adaptive_lighting_tina_lamp
+
+  evening_mode_in_tina_desk:
+    alias: Evening Mode in Tina Desk
+    mode: restart
+    icon: mdi:palette
+    sequence:
+      - parallel:
+        - service: light.turn_on
+          target:
+            entity_id: light.tina_lamp
+        - service: light.turn_on
+          target:
+            entity_id: light.tina_desk_strip
+          data:
+            rgb_color:
+              - 127
+              - 0
+              - 255
+            brightness: 128
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.tina_lamp_scenes
+        data:
+          option: Adaptive
+
+  night_mode_in_tina_desk:
+    alias: Night Mode in Tina Desk
+    mode: restart
+    icon: mdi:palette
+    sequence:
+      - service: switch.turn_off
+        target:
+          entity_id: switch.adaptive_lighting_tina_lamp
+      - parallel:
+        - service: light.turn_on
+          target:
+            entity_id: light.tina_lamp
+          data:
+            rgb_color:
+              - 127
+              - 0
+              - 255
+            brightness: 128
+        - service: light.turn_on
+          target:
+            entity_id: light.tina_desk_strip
+          data:
+            rgb_color:
+              - 127
+              - 0
+              - 255
+            brightness: 128
+
+  bright_mode_in_tina_desk:
+    alias: Bright Mode in Tina Desk
+    mode: restart
+    icon: mdi:palette
+    sequence:
+      - service: switch.turn_off
+        target:
+          entity_id: switch.adaptive_lighting_tina_lamp
+      - parallel:
+        - service: light.turn_on
+          target:
+            entity_id: light.tina_lamp
+          data:
+            rgb_color:
+              - 255
+              - 210
+              - 175
+            brightness: 255
+        - service: light.turn_on
+          target:
+            entity_id: light.tina_desk_strip
+          data:
+            rgb_color:
+              - 255
+              - 210
+              - 175
+            brightness: 255
+
 #! Unless there is a good reason, do not define multi-room scenes below.
 #! Use scripts instead, to avoid some straight-up haunted house bullshit...
 
@@ -1791,55 +1901,6 @@ scene:
     entities:
       input_select.dining_room_lamp_scenes:
         state: "Nightlight"
-  - name: Day Mode in Tina Desk
-    icon: mdi:palette
-    entities:
-      light.tina_lamp_top:
-        state: "on"
-      light.tina_lamp_side:
-        state: "off"
-      light.tina_desk_strip:
-        state: "on"
-        rgb_color:
-          - 0
-          - 255
-          - 255
-        brightness: 89
-      input_select.tina_lamp_scenes:
-        state: "Adaptive"
-  - name: Evening Mode in Tina Desk
-    icon: mdi:palette
-    entities:
-      light.tina_lamp:
-        state: "on"
-      input_select.tina_lamp_scenes:
-        state: "Adaptive"
-      light.tina_desk_strip:
-        state: "on"
-        rgb_color:
-          - 127
-          - 0
-          - 255
-        brightness: 128
-  - name: Night Mode in Tina Desk
-    icon: mdi:palette
-    entities:
-      switch.adaptive_lighting_tina_lamp:
-        state: "off"
-      light.tina_lamp:
-        state: "on"
-        rgb_color:
-          - 127
-          - 0
-          - 255
-        brightness: 128
-      light.tina_desk_strip:
-        state: "on"
-        rgb_color:
-          - 127
-          - 0
-          - 255
-        brightness: 128
   - name: Adaptive in Tina Lamp
     icon: mdi:palette
     entities:
