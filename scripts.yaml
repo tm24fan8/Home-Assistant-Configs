@@ -278,21 +278,36 @@ going_upstairs:
   - service: script.asus_laptop_shutdown
     data: {}
     alias: Shut down laptop
-  - if:
-    - condition: state
-      entity_id: binary_sensor.basement_occupied
-      state: 'off'
-      alias: If basement is not occupied
-    then:
-    - service: script.activate_alexa_actionable_notification
-      data:
-        text: <voice name='Joanna'><prosody rate='150%'>Would you like me to shut
-          down your computer?</prosody></voice>
-        event_id: actionable_notification_shutdown_computer
-        alexa_device: media_player.living_room_echo_dot
-      response_variable: shutdown
-      alias: Ask in living room
-    else:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: sensor.last_alexa_name
+        state: Living Room Echo Dot
+        alias: If triggered from living room
+      sequence:
+      - service: script.activate_alexa_actionable_notification
+        data:
+          text: <voice name='Joanna'><prosody rate='150%'>Would you like me to shut
+            down your computer?</prosody></voice>
+          event_id: actionable_notification_shutdown_computer
+          alexa_device: media_player.living_room_echo_dot
+        response_variable: shutdown
+        alias: Ask in living room
+    - conditions:
+      - condition: state
+        entity_id: sensor.last_alexa_name
+        state: Master Bedroom Echo Dot
+        alias: If triggered from master bedroom
+      sequence:
+      - service: script.activate_alexa_actionable_notification
+        data:
+          text: <voice name='Joanna'><prosody rate='150%'>Would you like me to shut
+            down your computer?</prosody></voice>
+          event_id: actionable_notification_shutdown_computer
+          alexa_device: media_player.master_bedroom_echo_dot
+        response_variable: shutdown
+        alias: Ask in master bedroom
+    default:
     - service: script.activate_alexa_actionable_notification
       data:
         text: <voice name='Joanna'><prosody rate='150%'>Would you like me to shut
@@ -321,10 +336,10 @@ going_upstairs:
       id: lights
     timeout:
       hours: 0
-      minutes: 20
+      minutes: 30
       seconds: 0
       milliseconds: 0
-    alias: Wait until the door opens
+    alias: Figure out where I am
   - service: light.turn_off
     data: {}
     target:
@@ -702,6 +717,7 @@ basement_shutdown:
       - action: TONY_COMPUTER_IGNORE
         title: Do Nothing
     alias: Ask about shutting down main computer
+    response_variable: tony_computer
   - wait_for_trigger:
     - platform: state
       entity_id:
