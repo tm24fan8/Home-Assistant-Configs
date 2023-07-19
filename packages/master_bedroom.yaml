@@ -99,6 +99,10 @@ script:
       - service: button.press
         target:
           entity_id: button.master_bedroom_day_mode
+      else:
+      - service: button.press
+        target:
+          entity_id: button.master_bedroom_night_mode
     - service: switch.turn_off
       target:
         entity_id: switch.master_bedroom_echo_dot_do_not_disturb_switch
@@ -171,7 +175,7 @@ script:
       then:
       - service: button.press
         target:
-          entity_id: button.master_bedroom_night_mode
+          entity_id: button.master_bedroom_bedtime_mode
     - wait_template: "{{ is_state('light.master_bedroom_lights','off') }}"
       timeout:
         minutes: 60
