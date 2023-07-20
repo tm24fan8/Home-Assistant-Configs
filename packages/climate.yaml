@@ -256,3 +256,12 @@ input_number:
     step: 1
     unit_of_measurement: °F
     icon: mdi:thermometer
+
+intent_script:
+  MasterBedroomModes:
+    action:
+      service: "button.press"
+      data:
+        entity_id: "{{ mode }}"
+    speech:
+      text: "Master bedroom set to {{ mode }}"

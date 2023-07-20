@@ -1,9 +1,0 @@
-intent_script:
-  SetVolume:
-    action:
-      service: "media_player.volume_set"
-      data:
-        entity_id: "{{ media_player }}"
-        volume_level: "{{ volume / 100.0 }}"
-    speech:
-      text: "Volume changed to {{ volume }}"

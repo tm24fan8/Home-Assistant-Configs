@@ -83,6 +83,15 @@ input_boolean:
     name: Kallen Nightly Briefing Ran
     icon: mdi:home-analytics
 
+intent_script:
+  PlayAnnouncement:
+    action:
+      service: "script.{{announcement}}"
+      data:
+        who: "{{ who|default('everywhere') }}"
+    speech:
+      text: "Okay"
+
 ################################
 # Announcment Automation - fires at the time of the above input_datetimes
 ################################

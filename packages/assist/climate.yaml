@@ -1,8 +1,0 @@
-intent_script:
-  MasterBedroomModes:
-    action:
-      service: "button.press"
-      data:
-        entity_id: "{{ mode }}"
-    speech:
-      text: "Master bedroom set to {{ mode }}"

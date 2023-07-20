@@ -1,8 +1,0 @@
-intent_script:
-  PlayAnnouncement:
-    action:
-      service: "script.{{announcement}}"
-      data:
-        who: "{{ who|default('everywhere') }}"
-    speech:
-      text: "Okay"

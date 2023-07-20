@@ -417,13 +417,12 @@ script:
           entity_id: input_datetime.daily_briefing
           data:
             time: >
+              {% from 'time.jinja' import time_from_calendar %}
               {% if is_state('input_boolean.kallen_school_today','on') %}
                 {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
                   15:00
-                {% elif is_state('input_boolean.kallen_school_early_release','on') %}
-                  12:30
                 {% else %}
-                  14:15
+                  {{ time_from_calendar('calendar.kallen_school_days','end_time','set','subtract',1) }}
                 {% endif %}
               {% elif is_state('input_boolean.kallen_school_today','off') and is_state('input_boolean.work_today','off') %}
                 15:00
@@ -568,7 +567,7 @@ script:
                 {% elif is_state('input_boolean.kallen_school_early_release','on') %}
                   12:00
                 {% else %}
-                  13:30
+                  13:00
                 {% endif %}
               {% else %}
                 14:00
