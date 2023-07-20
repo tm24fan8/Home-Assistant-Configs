@@ -1,0 +1,34 @@
+language: "en"
+
+intents:
+  BootComputers:
+    data:
+      - sentences:
+        - "{action} the computer for {person}"
+        - "{action} {person}'s computer"
+
+lists:
+  person:
+    values:
+      - in: "tony"
+        out: "tony_desktop"
+      - in: "tina"
+        out: "tina_desktop"
+      - in: "christina"
+        out: "tina_desktop"
+      - in: "kallen"
+        out: "kallen_desktop"
+      - in: "collin"
+        out: "kallen_desktop"
+  action:
+    values:
+      - in: "boot"
+        out: "wake"
+      - in: "boot up"
+        out: "wake"
+      - in: "turn on"
+        out: "wake"
+      - in: "shut down"
+        out: "shutdown"
+      - in: "turn off"
+        out: "shutdown"

@@ -1,0 +1,22 @@
+language: "en"
+
+intents:
+  SetVolume:
+    data:
+      - sentences:
+        - "(set|change) {media_player} volume to {volume} [percent]"
+        - "(set|change) [the] volume for {media_player} to {volume} [percent]"
+
+lists:
+  media_player:
+    values:
+      - in: "living room tv"
+        out: "media_player.living_room_tv"
+      - in: "basement tv"
+        out: "media_player.basement_tv"
+      - in: "master bedroom tv"
+        out: "media_player.master_bedroom_firetv"
+  volume:
+    range:
+      from: 0
+      to: 100

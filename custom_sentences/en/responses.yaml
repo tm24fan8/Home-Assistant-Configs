@@ -1,0 +1,7 @@
+language: "en"
+responses:
+  intents:
+    HassTurnOn:
+      default: "I have turned on the {{ slots.name }}"
+    HassTurnOff:
+      default: "I have turned off the {{ slots.name }}"

@@ -1,0 +1,27 @@
+intent_script:
+  SetVolume:
+    action:
+      service: "media_player.volume_set"
+      data:
+        entity_id: "{{ media_player }}"
+        volume_level: "{{ volume / 100.0 }}"
+    speech:
+      text: "Volume changed to {{ volume }}"
+
+  BootComputers:
+    action:
+      service: "script.{{person}}_{{action}}"
+    speech:
+      text: >
+        {% if person == "tony_desktop" %}
+          {% set computer = "tony's computer" %}
+        {% elif person == "tina_desktop" %}
+          {% set computer = "tina's computer" %}
+        {% elif person == "kallen_desktop" %}
+          {% set computer = "collin's computer" %}
+        {% endif %}
+        {% if action == "wake" %}
+          {{ computer }} is now booting up
+        {% elif action == "shutdown" %}
+          {{ computer }} is shutting down
+        {% endif %}
