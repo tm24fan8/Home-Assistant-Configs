@@ -1,0 +1,35 @@
+language: "en"
+
+intents:
+  SportsScore:
+    data:
+      - sentences:
+        - "(what is|give me|what's) the score (for|of|in) the {team} [game]"
+        - "[give me a] score update for {team} [game]"
+        - "did [the] {team} win [their game]"
+        - "(what is the|give me the) status (of|for) the {team} [game]"
+        - "(is|are|do) [the] {team} (play|playing) today"
+
+skip_words:
+  - "please"
+  - "can you"
+
+lists:
+  team:
+    values:
+      - in: "(michigan wolverines|michigan)"
+        out: "michigan_wolverines"
+      - in: "(ohio state|buckeyes)"
+        out: "ohio_state_buckeyes"
+      - in: "(toledo rockets|toledo|rockets)"
+        out: "toledo_rockets"
+      - in: "(minnesota vikings|vikings)"
+        out: "minnesota_vikings"
+      - in: "(forty niners|san francisco forty niners|49ers)"
+        out: "san_francisco_49ers"
+      - in: "(cleveland guardians|guardians)"
+        out: "cleveland_guardians"
+      - in: "(minnesota twins|twins)"
+        out: "minnesota_twins"
+      - in: "(los angeles dodgers|LA dodgers|dodgers)"
+        out: "los_angeles_dodgers"
