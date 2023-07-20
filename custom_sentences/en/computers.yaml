@@ -7,6 +7,10 @@ intents:
         - "{action} the computer for {person}"
         - "{action} {person}'s computer"
 
+skip_words:
+  - "please"
+  - "can you"
+
 lists:
   person:
     values:
