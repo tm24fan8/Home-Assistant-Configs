@@ -1,0 +1,24 @@
+language: "en"
+
+intents:
+  GetLocation:
+    data:
+      - sentences:
+        - "where is {person} [at] [(right now|currently)]"
+        - "give me [the] [current] location (of|for) {person}"
+
+skip_words:
+  - "please"
+  - "can you"
+
+lists:
+  person:
+    values:
+      - in: "(tony stork|tony|anthony|dad)"
+        out: "person.tony_stork"
+      - in: "(tina stork|christina stork|tina|christina|mom)"
+        out: "person.christina_stork"
+      - in: "(kallen stork|collin stork|kallen|collin)"
+        out: "person.kallen_stork"
+      - in: "(emmalynn stork|emma stork|emmalynn|emma)"
+        out: "person.emmalynn_stork"

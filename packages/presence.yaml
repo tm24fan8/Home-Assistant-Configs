@@ -336,6 +336,20 @@ mqtt:
       payload_available: "online"
       payload_not_available: "offline"
 
+intent_script:
+  GetLocation:
+    speech:
+      text: >
+        {% set location = states(person) %}
+        {% set name = state_attr(person,'friendly_name') %}
+        {% if location in ['away','not_home'] %}
+          {{ name }} is currently away from home
+        {% elif location in ['unavailable','unknown'] %}
+          I do not have a current location for {{ name }}
+        {% else %}
+          {{ name }} is currently at {{ location }}
+        {% endif %}
+
 automation:
   - id: kallen_at_school
     alias: Kallen is at School
