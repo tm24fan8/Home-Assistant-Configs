@@ -1,0 +1,46 @@
+language: "en"
+
+intents:
+  PlayAnnouncement:
+    data:
+      - sentences:
+        - "(announce|announced|tell everyone|inform the house) [that] {announcement} [in [the] {who}]"
+        - "(play|run|broadcast) [the] {announcement} announcement [in [the] {who}]"
+
+skip_words:
+  - "please"
+  - "can you"
+
+lists:
+  announcement:
+    values:
+      - in: "(dinner|dinner is ready)"
+        out: "dinner_is_ready"
+      - in: "(we are leaving|leaving|going out)"
+        out: "we_are_leaving"
+      - in: "(birthday|we have a birthday)"
+        out: "birthday_announcement"
+      - in: "(server maintenance|maintenance|the server is going down)"
+        out: "server_maintenance_annc"
+      - in: "(server maintenance done|the server is back)"
+        out: "server_maintenance_done_annc"
+  who:
+    values:
+      - in: "living room"
+        out: "living_room"
+      - in: "basement"
+        out: "basement"
+      - in: "master bedroom"
+        out: "master_bedroom"
+      - in: "common areas"
+        out: "common_areas"
+      - in: "(kallen bedroom|kallen's bedroom|collin bedroom|collin's bedroom)"
+        out: "kallen_bedroom"
+      - in: "(emma bedroom|emma's bedroom)"
+        out: emma_bedroom"
+      - in: "kids bedrooms"
+        out: "kids_bedrooms"
+      - in: "all bedrooms"
+        out: "all_bedrooms"
+      - in: "everywhere"
+        out: "everywhere"
