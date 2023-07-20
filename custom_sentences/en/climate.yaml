@@ -1,0 +1,19 @@
+language: "en"
+
+intents:
+  MasterBedroomModes:
+    data:
+      - sentences:
+        - "(set|change) [the] master bedroom mode to {mode}"
+        - "(activate|turn on) {mode} in [the] master bedroom"
+
+lists:
+  mode:
+    values:
+      - in: "day mode"
+        out: "button.master_bedroom_day_mode"
+      - in: "night mode"
+        out: "button.master_bedroom_night_mode"
+      - in: "bedtime mode"
+        out: "button.master_bedroom_bedtime_mode"
+
