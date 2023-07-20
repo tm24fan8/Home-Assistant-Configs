@@ -5,7 +5,16 @@ intents:
     data:
       - sentences:
         - "(set|change) {media_player} volume to {volume} [percent]"
+        requires_context:
+          domain: "media_player"
+      - sentences:
         - "(set|change) [the] volume for {media_player} to {volume} [percent]"
+        requires_context:
+          domain: "media_player"
+
+skip_words:
+  - "please"
+  - "can you"
 
 lists:
   media_player:
