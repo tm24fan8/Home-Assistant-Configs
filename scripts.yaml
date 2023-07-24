@@ -363,8 +363,66 @@ going_upstairs:
     - condition: template
       value_template: '{{ wait.trigger.id in [''goodnight'',''lights''] }}'
     then:
+    - service: script.text_notify
+      data:
+        type: alert
+        who: tony
+        title: Basement Shutdown
+        message: Would you like me to shut down your computer?
+        tag: going-upstairs-pc-shutdown
+        actions:
+        - action: GU_PC_SHUTDOWN_YES
+          title: Shutdown
+        - action: GU_PC_SHUTDOWN_LOCK
+          title: Lock
+        - action: GU_PC_SHUTDOWN_NOTHING
+          title: Do Nothing
+      alias: Send an actionable notification
+    - wait_for_trigger:
+      - platform: event
+        event_type: ios.notification_action_fired
+        event_data:
+          actionName: GU_PC_SHUTDOWN_YES
+        id: shutdown-yes
+        alias: Shutdown Yes
+      - platform: event
+        event_type: ios.notification_action_fired
+        event_data:
+          actionName: GU_PC_SHUTDOWN_LOCK
+        id: shutdown-lock
+        alias: Shutdown Lock
+      - platform: event
+        event_type: ios.notification_action_fired
+        event_data:
+          actionName: GU_PC_SHUTDOWN_NOTHING
+        alias: Shutdown Nothing
+        id: shutdown-nothing
+      timeout:
+        hours: 0
+        minutes: 20
+        seconds: 0
+        milliseconds: 0
+      alias: Wait for response to notification
+    - choose:
+      - conditions: '{{ wait.trigger.id == ''shutdown-yes'' }}'
+        sequence:
+        - service: script.tony_desktop_shutdown
+          data: {}
+      - conditions: '{{ wait.trigger.id == ''shutdown-lock'' }}'
+        sequence:
+        - service: script.tony_desktop_lock
+          data: {}
+      alias: Run the desired action
+    - service: script.text_notify
+      data:
+        type: alert
+        who: tony
+        message: clear_notification
+        tag: going-upstairs-pc-shutdown
+      alias: Clear the notification
     - stop: Automation steps skipped
-    alias: If I was not in the basement, skip the rest
+    alias: If I was not in the basement, ask about shutdown via text and then skip
+      the rest
   - wait_for_trigger:
     - platform: state
       entity_id:
