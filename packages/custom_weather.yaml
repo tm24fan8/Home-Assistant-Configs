@@ -15,12 +15,22 @@ weather:
       {% else %}
         {{ state_attr('weather.weatherapi_stratton_ave','forecast') }}
       {% endif %}
-    pressure_template: "{{ states('sensor.kdfi_barometric_pressure') | float }}"
+    pressure_template: >
+      {% if states('sensor.kdfi_barometric_pressure') %}
+        {{ states('sensor.kdfi_barometric_pressure') }}
+      {% else %}
+        {{ states('sensor.myradar_pressure') | float }}
+      {% endif %}
     pressure_unit: inHg
     wind_speed_template: "{{ states('sensor.pirateweather_wind_speed') | float }}"
     wind_speed_unit: mph
     wind_bearing_template: "{{ states('sensor.pirateweather_wind_bearing') | float }}"
-    visibility_template: "{{ states('sensor.kdfi_visibility') | float }}"
+    visibility_template: >
+      {% if states('sensor.kdfi_visibility') %}
+        {{ states('sensor.kdfi_visibility') | float }}
+      {% else %}
+        {{ states('sensor.pirateweather_visibility') }}
+      {% endif %}
     visibility_unit: mi
     attribution_template: "Daily weather data from Iron Nerd's custom weather station template"
     ozone_template: "{{ states('sensor.pirateweather_ozone') | float }}"
@@ -38,12 +48,22 @@ weather:
       {% else %}
         {{ state_attr('weather.iron_nerd_studios_hourly','forecast') }}
       {% endif %}
-    pressure_template: "{{ states('sensor.kdfi_barometric_pressure') | float }}"
+    pressure_template: >
+      {% if states('sensor.kdfi_barometric_pressure') %}
+        {{ states('sensor.kdfi_barometric_pressure') }}
+      {% else %}
+        {{ states('sensor.myradar_pressure') | float }}
+      {% endif %}
     pressure_unit: inHg
     wind_speed_template: "{{ states('sensor.pirateweather_wind_speed') | float }}"
     wind_speed_unit: mph
     wind_bearing_template: "{{ states('sensor.pirateweather_wind_bearing') | float }}"
-    visibility_template: "{{ states('sensor.kdfi_visibility') | float }}"
+    visibility_template: >
+      {% if states('sensor.kdfi_visibility') %}
+        {{ states('sensor.kdfi_visibility') | float }}
+      {% else %}
+        {{ states('sensor.pirateweather_visibility') }}
+      {% endif %}
     visibility_unit: mi
     attribution_template: "Hourly weather data from Iron Nerd's custom weather station template"
     ozone_template: "{{ states('sensor.pirateweather_ozone') | float }}"

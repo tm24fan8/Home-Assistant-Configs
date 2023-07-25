@@ -41,7 +41,7 @@
         "Currently there are weather alerts active. The total number of alerts is {{ states('sensor.weather_alerts_active_corrected') }}. They are as follows. "
           {{ states('sensor.weather_alert_string') }}.
       {% endif %}
-      {% if (states('sensor.kdfi_visibility') | int ) < 3 %}
+      {% if (states('sensor.pirateweather_visibility') | int ) < 3 %}
         {{ [
           "It is foggy outside, please exercise caution when driving. ",
           "The visibility outside is quite low. If you will be driving soon, please be cautious. ",
