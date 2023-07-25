@@ -115,10 +115,20 @@
 {% if unitFrom == 'inHg' %}
   {% if unitTo == 'mbar' %}
     {{ pressure * 33.864 }}
+  {% elif unitTo == 'psi' %}
+    {{ pressure / 2.036 }}
   {% endif %}
 {% elif unitFrom == 'mbar' %}
   {% if unitTo == 'inHg' %}
     {{ pressure / 33.864 }}
+  {% elif unitTo == 'psi' %}
+    {{ (pressure * 14.504) / 1000 }}
+  {% endif %}
+{% elif unitFrom == 'psi' %}
+  {% if unitTo == 'inHg' %}
+    {{ pressure * 2.036 }}
+  {% elif unitTo == 'mbar' %}
+    {{ (pressure / 14.504) * 1000 }}
   {% endif %}
 {% endif %}
 {% endmacro %}
