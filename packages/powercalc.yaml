@@ -2,15 +2,6 @@
 
 sensor:
   - platform: powercalc
-    entity_id: light.basement_led_strip_1
-    manufacturer: lifx
-    model: LIFX Z/length_4
-    create_energy_sensor: true
-    create_utility_meters: true
-    power_sensor_naming: "{} Power Sensor"
-    energy_sensor_naming: "{} Energy Sensor"
-    mode: lut
-  - platform: powercalc
     entity_id: switch.basement_led_strip
     power_sensor_id: sensor.basement_led_strip_power
   - platform: powercalc
