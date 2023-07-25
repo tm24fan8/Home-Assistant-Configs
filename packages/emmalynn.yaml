@@ -277,7 +277,7 @@ automation:
                 state: 'on'
               - condition: time
                 after: "23:00:00"
-                before: "04:00:00"
+                before: "07:00:00"
             sequence:
             - service: timer.start
               target:
@@ -292,7 +292,6 @@ automation:
           target:
             entity_id:
               - timer.emma_bedtime_update
-              - timer.emma_naptime_update
         - if:
           - condition: state
             entity_id: input_boolean.emma_sleeping
@@ -307,7 +306,7 @@ automation:
                   state: 'off'
                 - condition: time
                   before: "23:00:00"
-                  after: "04:00:00"
+                  after: "07:00:00"
               sequence:
               - service: input_datetime.set_datetime
                 target:
@@ -322,7 +321,7 @@ automation:
                   state: 'on'
                 - condition: time
                   after: "23:00:00"
-                  before: "04:00:00"
+                  before: "07:00:00"
               sequence:
               - service: input_datetime.set_datetime
                 target:
@@ -339,7 +338,9 @@ automation:
           - condition: state
             entity_id: light.emma_bedroom_light
             state: 'on'
-          then: 
+          then:
+          - delay:
+              seconds: 1
           - service: timer.start
             target:
               entity_id: timer.emma_naptime_update
@@ -359,7 +360,9 @@ automation:
           - condition: state
             entity_id: light.emma_bedroom_light
             state: 'on'
-          then: 
+          then:
+          - delay:
+              seconds: 1
           - service: timer.start
             target:
               entity_id: timer.emma_bedtime_update
