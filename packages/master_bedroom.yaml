@@ -4,6 +4,9 @@ input_boolean:
   master_bedroom_sleeping:
     name: Master Bedroom Sleeping
     icon: mdi:sleep
+  master_bedroom_alarm_clock:
+    name: Master Bedroom Alarm Clock
+    icon: mdi:alarm
 
 input_datetime:
   master_bedroom_cooling:
@@ -21,6 +24,11 @@ input_datetime:
     has_date: false
     has_time: true
     icon: mdi:fan-off
+  master_bedroom_alarm_clock:
+    name: Master Bedroom Alarm Clock
+    has_date: false
+    has_time: true
+    icon: mdi:alarm
 
 automation:
   - id: 09c3d481-11df-459c-9240-d002b9b2ef53

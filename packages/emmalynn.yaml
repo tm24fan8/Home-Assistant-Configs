@@ -16,6 +16,9 @@ input_boolean:
   emma_tylenol:
     name: Emma Tylenol
     icon: mdi:medical-bag
+  emma_alarm_clock:
+    name: Emma Alarm Clock
+    icon: mdi:alarm
 
 input_datetime:
   emma_bedtime:
@@ -49,6 +52,11 @@ input_datetime:
     has_date: true
     has_time: true
     icon: mdi:medical-bag
+  emma_alarm_clock:
+    name: Emma Alarm Clock
+    has_date: false
+    has_time: true
+    icon: mdi:alarm
 
 automation:
   - id: 4f01dff7-be22-4850-a05e-1906e3151441

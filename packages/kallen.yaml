@@ -22,6 +22,9 @@ input_boolean:
   kallen_night_meds_taken:
     name: Kallen Night Meds Taken
     icon: mdi:medical-bag
+  kallen_alarm_clock:
+    name: Kallen Alarm Clock
+    icon: mdi:alarm
 
 input_datetime:
   kallen_bedtime:
@@ -59,6 +62,11 @@ input_datetime:
     has_date: false
     has_time: true
     icon: mdi:medical-bag
+  kallen_alarm_clock:
+    name: Kallen Alarm Clock
+    has_date: false
+    has_time: true
+    icon: mdi:alarm
 
 automation:
   - id: 67fbdb66-b94b-4351-86de-a388d601e93c
