@@ -39,6 +39,12 @@ input_boolean:
   security_armed_away:
     name: Security Armed Away
     icon: mdi:security
+  skip_disarm:
+    name: Skip Disarm
+    icon: mdi:security
+  skip_rearm:
+    name: Skip Rearm
+    icon: mdi:security
 
 input_datetime:
   morning_alarm_disarm:
@@ -168,6 +174,19 @@ automation:
     action:
       - choose:
         - conditions:
+          - condition: state
+            entity_id: input_boolean.skip_disarm
+            state: 'on'
+          sequence:
+          - service: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.skip_disarm
+          - service: persistent_notification.create
+            data:
+              title: Security Information
+              message: Scheduled security disarm has been skipped
+              notification_id: security_disarm_skipped
+        - conditions:
           - condition: trigger
             id: morning
           sequence:
@@ -201,9 +220,6 @@ automation:
       - condition: state
         entity_id: input_boolean.guest_mode
         state: 'off'
-      - condition: time
-        after: '04:30'
-        before: '13:30'
       - condition: or
         conditions:
           - condition: state
@@ -226,6 +242,20 @@ automation:
         then:
         - service: script.security_scheduling
       - if:
+        - condition: state
+          entity_id: input_boolean.skip_rearm
+          state: 'on'
+        then:
+        - service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.skip_rearm
+        - service: persistent_notification.create
+          data:
+            title: Security Information
+            message: Scheduled security rearm has been skipped
+            notification_id: security_rearm_skipped
+        - stop: Skipped
+      - if:
         - condition: and
           conditions:
             - condition: time
@@ -243,9 +273,14 @@ automation:
         then:
           - stop: School early release
       - if:
-        - condition: state
-          entity_id: alarm_control_panel.stratton_ave_alarm
-          state: disarmed
+        - condition: and
+          conditions:
+            - condition: state
+              entity_id: alarm_control_panel.stratton_ave_alarm
+              state: disarmed
+            - condition: time
+              after: '04:30'
+              before: '13:30'
         then:
         - service: script.security_arm_home
 
@@ -374,6 +409,11 @@ automation:
           entity_id:
             - automation.scheduled_alarm_rearm
             - automation.scheduled_alarm_disarm
+      - service: input_boolean.turn_off
+        target:
+          entity_id:
+            - input_boolean.skip_disarm
+            - input_boolean.skip_rearm
 
   - id: 8ae8384f-1540-4b6e-bd08-e81807ff0bcd
     alias: Security Boolean Handling
