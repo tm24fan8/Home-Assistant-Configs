@@ -300,6 +300,7 @@ automation:
           target:
             entity_id:
               - timer.emma_bedtime_update
+              - timer.emma_naptime_update
         - if:
           - condition: state
             entity_id: input_boolean.emma_sleeping
