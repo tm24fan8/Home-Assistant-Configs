@@ -266,6 +266,43 @@
           mdi:eye
         {% endif %}
     # The sum of all the years of life in our household, because why not LOL
+    second_floor_plugs_current:
+      friendly_name: Second Floor Plugs Current
+      unique_id: 7f78e126-3986-4a91-8815-8a9435541bea
+      unit_of_measurement: A
+      value_template: >
+        {% set outlets = [
+          states.sensor.master_bedroom_fan_current.state,
+          states.sensor.master_bedroom_aircon_current.state,
+          states.sensor.kallen_bedroom_fan_current.state,
+          states.sensor.emma_air_conditioner_current.state
+        ] | map('float') | list %}
+        {{ outlets | sum | round(2) }}
+      icon_template: mdi:lightning-bolt-circle
+    first_floor_plugs_current:
+      friendly_name: First Floor Plugs Current
+      unique_id: 29ffd18a-c961-4022-82f3-9aca6919fb84
+      unit_of_measurement: A
+      value_template: >
+        {% set outlets = [
+          states.sensor.tina_desktop_current.state
+        ] | map('float') | list %}
+        {{ outlets | sum | round(2) }}
+      icon_template: mdi:lightning-bolt-circle
+    basement_plugs_current:
+      friendly_name: Basement Plugs Current
+      unique_id: 79052046-80ac-43e4-8fd4-ec7e36cefe3d
+      unit_of_measurement: A
+      value_template: >
+        {% set outlets = [
+          states.sensor.basement_fan_current.state,
+          states.sensor.basement_led_strip_current.state,
+          states.sensor.basement_server_current.state,
+          states.sensor.kallen_desktop_current.state,
+          states.sensor.tony_desktop_current.state
+        ] | map('float') | list %}
+        {{ outlets | sum | round(2) }}
+      icon_template: mdi:lightning-bolt-circle
 
 - platform: history_stats
   name: Basement TV Time
