@@ -4,8 +4,8 @@ intents:
   SetVolume:
     data:
       - sentences:
-        - "(set|change) {media_player} volume to {volume} [percent]"
-        - "(set|change) [the] volume for {media_player} to {volume} [percent]"
+        - "(set|change) [the] {media_player} volume to {volume} [percent]"
+        - "(set|change) [the] volume for [the] {media_player} to {volume} [percent]"
 
 skip_words:
   - "please"

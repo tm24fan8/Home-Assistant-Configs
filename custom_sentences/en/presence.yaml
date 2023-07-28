@@ -18,7 +18,7 @@ lists:
         out: "person.tony_stork"
       - in: "(tina stork|christina stork|tina|christina|mom)"
         out: "person.christina_stork"
-      - in: "(kallen stork|collin stork|kallen|collin)"
+      - in: "(kallen stork|kallens stork|collin stork|collins stork|kallen|kallens|collin|collins)"
         out: "person.kallen_stork"
       - in: "(emmalynn stork|emma stork|emmalynn|emma)"
         out: "person.emmalynn_stork"
