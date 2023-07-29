@@ -201,11 +201,8 @@ automation:
     description: Sets the climate mode for when Emma goes down for nap
     mode: restart
     trigger:
-    - platform: state
-      entity_id: sensor.pirateweather_temperature
-      not_to:
-        - 'unavailable'
-        - 'unknown'
+    - platform: time_pattern
+      minutes: "/5"
     - platform: state
       entity_id: input_number.emma_naptime_aircon_threshold
     - platform: state
@@ -223,7 +220,7 @@ automation:
         entity_id: input_select.naptime_climate_mode_emma_aircon
       data:
         option: >
-          {% set temp = states('sensor.pirateweather_temperature') | int %}
+          {% set temp = state_attr('weather.iron_nerd_weather_station','temperature') | int %}
           {% set threshold = states('input_number.emma_naptime_aircon_threshold') | int %}
           {% if (temp >= threshold) or is_state('input_boolean.hot_day','on') %}
             AC

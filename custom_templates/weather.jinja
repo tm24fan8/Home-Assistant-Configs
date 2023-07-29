@@ -26,8 +26,8 @@
       {% set ltgdist = (states('sensor.blitzortung_lightning_distance') | int) / 1.609 | round %}
         There is lightning in the area. Nearest strike is {{ ltgdist }} miles away.
     {% endif %}
-    {% if states('sensor.pirateweather_visibility') | int < 3 %}
-      Caution: Current outdoor visibility is {{ states('sensor.pirateweather_visibility') }} miles.
+    {% if state_attr('weather.iron_nerd_weather_station','visibility') | int < 3 %}
+      Caution: Current outdoor visibility is {{ state_attr('weather.iron_nerd_weather_station','visibility') }} miles.
     {% endif %}
   {% endif %}
 {% elif method == 'tts' %}
@@ -56,7 +56,7 @@
       ] | random }}
       "The nearest lightning strike is {{ ltgdist }} miles away. "
     {% endif %}
-    {% if (states('sensor.pirateweather_visibility') | int ) < 3 %}
+    {% if (state_attr('weather.iron_nerd_weather_station','visibility') | int ) < 3 %}
       {{ [
         "It is foggy outside, please exercise caution when driving. ",
         "The visibility outside is quite low. If you will be driving soon, please be cautious. ",

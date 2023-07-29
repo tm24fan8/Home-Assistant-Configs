@@ -5,6 +5,12 @@
   {% from 'time.jinja' import current_time, current_date_readout, input_datetime_read %}
   {% from 'speech.jinja' import dadjoke, inspirational_quote %}
   {% from 'easy_time.jinja' import count_the_days, custom_time %}
+  {% set precipTypes = [
+    states.sensor.pirateweather_precip,
+    states.sensor.openweathermap_precipitation_kind,
+    states.sensor.tomorrow_io_stratton_ave_precipitation_type
+    ] %}
+  {% set snowing = precipTypes | selectattr('state','eq','snow') | map(attribute='state') | list | count | int %}
     <p>
       Good morning, Collin.
 
@@ -164,7 +170,7 @@
         {%- endif %}
       {% endif %}
 
-      {% if is_state ('input_boolean.kallen_school_today', 'off') and is_state('sensor.pirateweather_icon', 'snow') %}
+      {% if is_state ('input_boolean.kallen_school_today', 'off') and snowing > 0 %}
         Do you wanna build a snowman? It is snowing!
       {% endif %}
 
