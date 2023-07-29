@@ -299,6 +299,10 @@ notify:
     services:
       - service: alexa_media_living_room_echo_dot
       - service: alexa_media_basement_echo_dot
+  - platform: html5
+    vapid_pub_key: !secret vapid_pub_key
+    vapid_prv_key: !secret vapid_prv_key
+    vapid_email: tm24fan8@gmail.com
 
 script:
   volume_reset:
