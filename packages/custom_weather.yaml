@@ -570,7 +570,7 @@ sensor:
               ' is ',
               ' is currently '
               ] | random }}
-              {{states('sensor.pirateweather_temperature')|round}} degrees
+              {{state_attr('weather.iron_nerd_weather_station','temperature')|round}} degrees
             {% if is_state('weather.iron_nerd_weather_station', 'rainy') %}
               {{ [
               'with rain. ',
@@ -616,7 +616,7 @@ sensor:
               ' is ',
               ' is currently '
               ] | random }}
-              {{states('sensor.pirateweather_temperature')|round}} degrees
+              {{state_attr('weather.iron_nerd_weather_station','temperature')|round}} degrees
             {% if is_state('weather.iron_nerd_weather_station', 'rainy') %}
               {{ [
               'with rain. ',
@@ -784,7 +784,7 @@ sensor:
             {% if is_state('binary_sensor.overnight', 'off') %}
               {% set temp = states('sensor.today_corrected_high_temp')|int %}
             {% else %}
-              {% set temp = states('sensor.pirateweather_temperature')|round %}
+              {% set temp = state_attr('weather.iron_nerd_weather_station','temperature')|round %}
             {% endif %}
             {%- if states('sensor.today_corrected_high_temp')|int > 63 %}
               {%- if states('sensor.today_corrected_high_temp')|int < 80 %}
