@@ -307,7 +307,7 @@ automation:
         data:
           type: critical
           who: >-
-            {% if states('person.christina_stork') in ['Bob Evans','BobEvans'] %}
+            {% if states('person.christina_stork') in ['Bob Evans','BobEvans','unavailable','unknown'] %}
               tony
             {% else %}
               parents
