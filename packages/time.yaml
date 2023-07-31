@@ -36,3 +36,25 @@ intent_script:
         entity_id: "{{ room }}"
     speech:
       text: "Okay"
+
+automation:
+  - id: 849b72f0-89e9-421b-9e75-01a6d977488d
+    alias: Timer Handling
+    description: This automation will handle when house timers (usually set by voice) are finished
+    mode: queued
+    max: 10
+    trigger:
+    - platform: event
+      event_type: timer.finished
+      event_data:
+        entity_id: timer.kitchen_timer
+      id: kitchen-finished
+    action:
+    - choose:
+      - conditions: "{{ trigger.id == 'kitchen-finished' }}"
+        sequence:
+        - service: script.speech_engine
+          data:
+            type: normal
+            who: common
+            message: "The timer for the kitchen is finished"
