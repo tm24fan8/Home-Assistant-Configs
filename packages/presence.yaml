@@ -76,7 +76,7 @@ binary_sensor:
     unique_id: a159dd2e-d8dc-469b-aaeb-bd774be07e1a
     name: Tony Presence
     device_class: presence
-    prior: 0.1
+    prior: 0.83
     probability_threshold: 0.9
     observations:
       - entity_id: "device_tracker.life360_tony_stork"
@@ -86,17 +86,17 @@ binary_sensor:
         to_state: "home"
       - entity_id: "device_tracker.tony_s_iphone"
         prob_given_true: 0.8
-        prob_given_false: 0.6
+        prob_given_false: 0.5
         platform: "state"
         to_state: "home"
       - entity_id: "device_tracker.tony_s_iphone_app"
         prob_given_true: 0.8
-        prob_given_false: 0.2
+        prob_given_false: 0.5
         platform: "state"
         to_state: "home"
       - platform: template
         value_template: "{{ states('sensor.tony_s_iphone_ssid') in ['deltaforce-5G','deltaforce-2G','studio-5G','studio-2G'] }}"
-        prob_given_true: 0.99
+        prob_given_true: 0.75
         prob_given_false: 0.01
   - platform: bayesian
     unique_id: 84183380-8ffc-49c1-a97b-8ef25ff6b5d4
