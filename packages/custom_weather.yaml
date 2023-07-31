@@ -254,6 +254,39 @@ template:
           true
         {% endif %}
 
+binary_sensor:
+  - platform: bayesian
+    unique_id: 3e9640d9-57a0-4495-8731-e64b34774065
+    name: Raining Bayesian
+    prior: 0.17
+    probability_threshold: 0.6
+    observations:
+      - entity_id: "sensor.myradar_precip"
+        prob_given_true: 0.99
+        prob_given_false: 0.45
+        platform: "state"
+        to_state: "rain"
+      - entity_id: "sensor.pirateweather_precip"
+        prob_given_true: 0.13
+        prob_given_false: 0.005
+        platform: "state"
+        to_state: "rain"
+      - entity_id: "sensor.openweathermap_precipitation_kind"
+        prob_given_true: 0.75
+        prob_given_false: 0.005
+        platform: "state"
+        to_state: "rain"
+      - entity_id: "sensor.tomorrow_io_stratton_ave_precipitation_type"
+        prob_given_true: 0.99
+        prob_given_false: 0.005
+        platform: "state"
+        to_state: "rain"
+      - entity_id: "sensor.stratton_ave_precipitation"
+        prob_given_true: 0.99
+        prob_given_false: 0.2
+        platform: "numeric_state"
+        above: 0
+
 sensor:
   - platform: weatheralerts
     state: OH
