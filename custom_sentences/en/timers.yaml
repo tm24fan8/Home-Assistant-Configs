@@ -1,0 +1,47 @@
+language: "en"
+
+intents:
+  SetTimer:
+    data:
+      - sentences:
+        - "(set|start) [(a|the)] timer in [the] {room} (for|to) {time} {unit}"
+        - "(set|start) [(a|the)] timer (for|to) {time} {unit} in [the] {room}"
+  CancelTimer:
+    data:
+      - sentences:
+        - "cancel [the] timer [(in|for)] [the] {room}"
+        - "cancel [the] {room} timer"
+  PauseTimer:
+    data:
+      - sentences:
+        - "pause [the] timer [(in|for)] [the] {room}"
+        - "pause [the] {room} timer"
+  ResumeTimer:
+    data:
+      - sentences:
+        - "(unpause|resume) [the] timer [(in|for)] [the] {room}"
+        - "(unpause|resume) [the] {room} timer"
+
+skip_words:
+  - "please"
+  - "can you"
+  - "alexa"
+  - "hey google"
+
+lists:
+  room:
+    values:
+      - in: "kitchen"
+        out: "timer.kitchen_timer"
+  unit:
+    values:
+      - in: "(hours|hour)"
+        out: "hours"
+      - in: "(minutes|minute)"
+        out: "minutes"
+      - in: "(seconds|second)"
+        out: "seconds"
+  time:
+    range:
+      from: 0
+      to: 60

@@ -1,0 +1,38 @@
+intent_script:
+  SetTimer:
+    action:
+      service: timer.start
+      target:
+        entity_id: "{{ room }}"
+      data:
+        duration: >
+          {% if unit == 'hours' %}
+            {{ (time * 60) * 60 }}
+          {% elif unit == 'minutes' %}
+            {{ time * 60}}
+          {% elif unit == 'seconds' %}
+            {{ time }}
+          {% endif %}
+    speech:
+      text: "Okay"
+  CancelTimer:
+    action:
+      service: timer.cancel
+      target:
+        entity_id: "{{ room }}"
+    speech:
+      text: "Okay"
+  PauseTimer:
+    action:
+      service: timer.pause
+      target:
+        entity_id: "{{ room }}"
+    speech:
+      text: "Okay"
+  ResumeTimer:
+    action:
+      service: timer.start
+      target:
+        entity_id: "{{ room }}"
+    speech:
+      text: "Okay"
