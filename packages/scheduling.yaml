@@ -570,7 +570,7 @@ script:
                   13:00
                 {% endif %}
               {% else %}
-                14:00
+                14:30
               {% endif %}
       - delay:
           milliseconds: 500
