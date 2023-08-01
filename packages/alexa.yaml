@@ -160,7 +160,9 @@ automation:
         - condition: trigger
           id: security-yes
         then:
-        - service: script.security_arm_home
+        - service: alarm_control_panel.alarm_arm_home
+          target:
+            entity_id: alarm_control_panel.nerdhome_alarm_panel
       - alias: 'If no, leave security alone'
         if:
         - condition: trigger
