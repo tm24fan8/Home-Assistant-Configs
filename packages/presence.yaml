@@ -912,7 +912,9 @@ script:
       - service: media_player.turn_off
         target:
           entity_id: media_player.living_room_tv
-      - service: script.security_arm_away
+      - service: alarm_control_panel.alarm_arm_away
+        target:
+          entity_id: alarm_control_panel.nerdhome_alarm_panel
       else:
       - stop: Away Mode Skipped
     mode: single
@@ -961,7 +963,9 @@ script:
         entity_id:
           - script.welcome_home
           - script.volume_reset
-    - service: script.security_disarm
+    - service: alarm_control_panel.alarm_disarm
+      target:
+        entity_id: alarm_control_panel.nerdhome_alarm_panel
     - service: switch.turn_off
       target:
         entity_id:
@@ -1028,7 +1032,9 @@ script:
         entity_id:
           - script.welcome_home
           - script.volume_reset
-    - service: script.security_disarm
+    - service: alarm_control_panel.alarm_disarm
+      target:
+        entity_id: alarm_control_panel.nerdhome_alarm_panel
     - service: switch.turn_off
       target:
         entity_id:

@@ -32,13 +32,6 @@ input_boolean:
   security_issue:
     name: Security Issue
     icon: mdi:alert-circle-outline
-  # These booleans will only provide status/context for automation purposes. They will NOT actually control the security system.
-  security_armed_home:
-    name: Security Armed Home
-    icon: mdi:shield-home
-  security_armed_away:
-    name: Security Armed Away
-    icon: mdi:security
   skip_disarm:
     name: Skip Disarm
     icon: mdi:security
@@ -57,6 +50,81 @@ input_datetime:
     icon: mdi:shield-home
     has_date: false
     has_time: true
+
+alarm_control_panel:
+  - platform: template
+    panels:
+      nerdhome_alarm_panel:
+        name: Nerd Home Alarm Panel
+        unique_id: d7eb8335-4998-49bf-957e-231aeed35179
+        value_template: "{{ states('alarm_control_panel.stratton_ave_alarm') }}"
+        code_arm_required: false
+        arm_away:
+        - if:
+          - condition: state
+            entity_id: binary_sensor.security_faults
+            state: 'off'
+          then:
+          - service: alarm_control_panel.alarm_arm_away
+            target:
+              entity_id: alarm_control_panel.stratton_ave_alarm
+            data:
+              code: !secret ring_alarm_code
+          - service: input_boolean.turn_off
+            target:
+              entity_id:
+                - input_boolean.lockdown_issue
+          else:
+          - service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.lockdown_issue
+        arm_home:
+        - if:
+          - condition: state
+            entity_id: binary_sensor.security_faults
+            state: 'off'
+          then:
+          - service: alarm_control_panel.alarm_arm_home
+            target:
+              entity_id: alarm_control_panel.stratton_ave_alarm
+            data:
+              code: !secret ring_alarm_code
+          - service: input_boolean.turn_off
+            target:
+              entity_id:
+                - input_boolean.lockdown_issue
+          - if:
+            - condition: template
+              value_template: "{{ silent != 1 }}"
+            then:
+            - service: script.status_annc
+              data:
+                who: living_room
+                call_security_armed: 1
+          else:
+          - service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.lockdown_issue
+        disarm:
+        - service: alarm_control_panel.alarm_disarm
+          target:
+            entity_id: alarm_control_panel.stratton_ave_alarm
+          data:
+            code: !secret ring_alarm_code
+        - service: alarm_control_panel.alarm_disarm
+          target:
+            entity_id: alarm_control_panel.alexa_guard_9ee3b
+        - service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.lockdown_issue
+        - if:
+          - condition: template
+            value_template: "{{ silent != 1 }}"
+          then:
+          - service: script.status_annc
+            data:
+              who: living_room
+              call_security_not_armed: 1
 
 sensor:
   - platform: template
@@ -198,12 +266,16 @@ automation:
               - condition: state
                 entity_id: input_boolean.kallen_school_today
                 state: 'on'
-          - service: script.security_disarm
+          - service: alarm_control_panel.alarm_disarm
+            target:
+              entity_id: alarm_control_panel.nerdhome_alarm_panel
         - conditions:
           - condition: trigger
             id: wakeup
           sequence:
-          - service: script.security_disarm
+          - service: alarm_control_panel.alarm_disarm
+            target:
+              entity_id: alarm_control_panel.nerdhome_alarm_panel
 
   - id: f51eb02f-3f44-4b5d-a389-762b8ca88e2a
     alias: Scheduled Alarm Rearm
@@ -282,7 +354,9 @@ automation:
               after: '04:15'
               before: '13:30'
         then:
-        - service: script.security_arm_home
+        - service: alarm_control_panel.alarm_arm_home
+          target:
+            entity_id: alarm_control_panel.nerdhome_alarm_panel
 
   - id: c7927c59-e0fe-48b9-b308-dd90fb774920
     alias: Lockdown Issue
@@ -381,9 +455,13 @@ automation:
             entity_id: group.adults
             state: 'not_home'
           then:
-            - service: script.security_arm_away
+            - service: alarm_control_panel.alarm_arm_away
+              target:
+                entity_id: alarm_control_panel.nerdhome_alarm_panel
           else:
-            - service: script.security_arm_home
+            - service: alarm_control_panel.alarm_arm_home
+              target:
+                entity_id: alarm_control_panel.nerdhome_alarm_panel
         else:
           - service: script.speech_engine
             data:
@@ -417,115 +495,36 @@ automation:
             - input_boolean.skip_disarm
             - input_boolean.skip_rearm
 
-  - id: 8ae8384f-1540-4b6e-bd08-e81807ff0bcd
-    alias: Security Boolean Handling
-    description: Handle the toggles that provide context for the current security mode
+  - id: ea52c580-dcf4-4eec-8d25-adda3b9e7cf4
+    alias: Alexa Guard Handling
+    description: Sync state of Alexa guard with state of main alarm system
+    mode: restart
     trigger:
       - platform: state
         entity_id: alarm_control_panel.stratton_ave_alarm
-        to: disarmed
+        state: 'armed_away'
+        id: away
+      - platform: state
+        entity_id: alarm_control_panel.stratton_ave_alarm
+        state: 'disarmed'
+        id: disarmed
+    condition:
+      - condition: state
+        entity_id: input_boolean.lockdown_issue
+        state: 'off'
     action:
-      - service: input_boolean.turn_off
-        target:
-          entity_id:
-            - input_boolean.security_armed_home
-            - input_boolean.security_armed_away
-
-script:
-  security_arm_home:
-    alias: Security Arm - Home
-    sequence:
-      - if:
-        - condition: state
-          entity_id: binary_sensor.security_faults
-          state: 'off'
-        then:
-        - service: alarm_control_panel.alarm_arm_home
-          target:
-            entity_id: alarm_control_panel.stratton_ave_alarm
-          data:
-            code: !secret ring_alarm_code
-        - service: input_boolean.turn_off
-          target:
-            entity_id:
-              - input_boolean.lockdown_issue
-              - input_boolean.security_armed_away
-        - service: input_boolean.turn_on
-          target:
-            entity_id: input_boolean.security_armed_home
-        - if:
-          - condition: template
-            value_template: "{{ silent != 1 }}"
-          then:
-          - service: script.status_annc
-            data:
-              who: living_room
-              call_security_armed: 1
-        else:
-        - service: input_boolean.turn_on
-          target:
-            entity_id: input_boolean.lockdown_issue
-
-  security_arm_away:
-    alias: Security Arm - Away
-    sequence:
-      - if:
-        - condition: state
-          entity_id: binary_sensor.security_faults
-          state: 'off'
-        then:
-        - service: alarm_control_panel.alarm_arm_away
-          target:
-            entity_id: alarm_control_panel.stratton_ave_alarm
-          data:
-            code: !secret ring_alarm_code
-        - service: alarm_control_panel.alarm_arm_away
-          target:
-            entity_id: alarm_control_panel.alexa_guard_9ee3b
-        - service: input_boolean.turn_off
-          target:
-            entity_id:
-              - input_boolean.lockdown_issue
-              - input_boolean.security_armed_home
-        - service: input_boolean.turn_on
-          target:
-            entity_id: input_boolean.security_armed_away
-        else:
-        - service: input_boolean.turn_on
-          target:
-            entity_id: input_boolean.lockdown_issue
-
-  security_disarm:
-    alias: Security Disarm
-    sequence:
-      - service: alarm_control_panel.alarm_disarm
-        target:
-          entity_id: alarm_control_panel.stratton_ave_alarm
-        data:
-          code: !secret ring_alarm_code
-      - service: alarm_control_panel.alarm_disarm
-        target:
-          entity_id: alarm_control_panel.alexa_guard_9ee3b
-      - service: input_boolean.turn_off
-        target:
-          entity_id: input_boolean.lockdown_issue
-      - if:
-        - condition: and
-          conditions:
-          - condition: state
-            entity_id: input_boolean.security_armed_home
-            state: 'on'
-          - condition: template
-            value_template: "{{ silent != 1 }}"
-        then:
-        - service: script.status_annc
-          data:
-            who: living_room
-            call_security_not_armed: 1
-      - delay:
-          seconds: 1
-      - service: input_boolean.turn_off
-        target:
-          entity_id:
-            - input_boolean.security_armed_home
-            - input_boolean.security_armed_away
+      - choose:
+        - conditions:
+          - condition: trigger
+            id: away
+          sequence:
+          - service: alarm_control_panel.alarm_arm_away
+            target:
+              entity_id: alarm_control_panel.alexa_guard_9ee3b
+        - conditions:
+          - conditions: trigger
+            id: disarmed
+          sequence:
+          - service: alarm_control_panel.alarm_disarm
+            target:
+              entity_id: alarm_control_panel.alexa_guard_9ee3b
