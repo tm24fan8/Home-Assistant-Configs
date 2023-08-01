@@ -589,6 +589,12 @@ automation:
         - service: light.turn_on
           target:
             entity_id: light.first_floor_lights
+        - service: light.turn_on
+          target:
+            entity_id: light.stairwell_led_strip
+          data:
+            color_temp_kelvin: 2000
+            brightness: 255
         - service: input_select.select_option
           target:
             entity_id:
@@ -621,7 +627,18 @@ automation:
         sequence:
         - service: light.turn_off
           target:
-            entity_id: light.living_room_lights
+            entity_id:
+              - light.living_room_lights
+              - light.tina_desk_lights
+              - light.mud_room_overhead
+              - light.downstairs_bathroom_lights
+              - light.dining_room_lamp
+        - service: light.turn_on
+          target:
+            entity_id: light.stairwell_led_strip
+          data:
+            color_temp_kelvin: 2000
+            brightness: 50
 
   - id: b897d714-bbf2-44ce-afaf-63cf3694351c
     alias: Tina Desk Lights Handler
