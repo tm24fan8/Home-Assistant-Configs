@@ -246,6 +246,13 @@ going_upstairs:
       - input_select.upstairs_hallway_scenes
       - input_select.living_room_scenes
     alias: Set scenes
+  - service: light.turn_on
+    data:
+      kelvin: 2000
+      brightness: 150
+    target:
+      entity_id: light.stairwell_led_strip
+    alias: Turn up the stairwell LED strip
   - service: input_boolean.turn_on
     entity_id: input_boolean.night_mode
     alias: Turn on Night Mode
