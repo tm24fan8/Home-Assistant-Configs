@@ -41,6 +41,13 @@ script:
       - service: switch.turn_off
         target:
           entity_id: switch.adaptive_lighting_basement_studio
+      - service: lifx.effect_move
+        target:
+          entity_id: light.basement_led_strip_1
+        data:
+          speed: 0.5
+          direction: right
+          power_on: false
       - service: lifx.set_state
         target:
           entity_id: light.basement_led_strip_1
@@ -85,13 +92,7 @@ script:
             - 30
             - 31
           color_name: "{{ 'blue' if type == 'police' else 'white' }}"
-      - service: lifx.effect_move
-        target:
-          entity_id: light.basement_led_strip_1
-        data:
-          speed: 0.5
-          direction: right
-          power_on: true
+          power: true
       - service: light.turn_on
         target:
           entity_id:
@@ -108,6 +109,8 @@ script:
           - service: light.turn_off
             target:
               entity_id: light.basement_studio_lights
+          - delay:
+              seconds: 3
           - service: switch.turn_on
             target:
               entity_id: switch.adaptive_lighting_basement_studio
@@ -181,12 +184,17 @@ script:
             scene_id: living_room_alert_restore
             snapshot_entities:
               - light.living_room_led_strip
-              - light.living_room_color_1
-              - light.living_room_color_2
-              - light.living_room_color_3
+              - light.living_room_overhead
       - service: switch.turn_off
         target:
           entity_id: switch.adaptive_lighting_living_room
+      - service: lifx.effect_move
+        target:
+          entity_id: light.living_room_led_strip
+        data:
+          speed: 0.5
+          direction: right
+          power_on: false
       - service: lifx.set_state
         target:
           entity_id: light.living_room_led_strip
@@ -239,13 +247,7 @@ script:
             - 38
             - 39
           color_name: "{{ 'blue' if type == 'police' else 'white' }}"
-      - service: lifx.effect_move
-        target:
-          entity_id: light.living_room_led_strip
-        data:
-          speed: 0.5
-          direction: right
-          power_on: true
+          power: true
       - service: light.turn_on
         target:
           entity_id:
@@ -259,7 +261,11 @@ script:
           sequence:
           - service: light.turn_off
             target:
-              entity_id: light.living_room_lights
+              entity_id:
+                - light.living_room_overhead
+                - light.living_room_led_strip
+          - delay:
+              seconds: 3
           - service: switch.turn_on
             target:
               entity_id: switch.adaptive_lighting_living_room
