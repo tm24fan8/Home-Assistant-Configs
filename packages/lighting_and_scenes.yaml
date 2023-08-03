@@ -110,6 +110,9 @@ input_select:
       - Tokyo
       - Forest Adventure
       - Painted Sky
+      - Twitch
+      - Netflix
+      - MLB
     initial: Select
     icon: hue:room-living
   mud_room_scenes:
