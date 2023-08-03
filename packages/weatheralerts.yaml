@@ -1688,32 +1688,33 @@ script:
           data:
             scene_id: lightning_alert_restore
             snapshot_entities:
-              - light.living_room_color_1
-              - light.living_room_color_2
-              - light.living_room_color_3
               - light.tina_lamp_side
               - light.tina_lamp_top
               - light.tina_desk_strip
+              - light.dining_room_lamp
               - switch.adaptive_lighting_living_room
               - switch.adaptive_lighting_tina_lamp
         - service: switch.turn_off
           target:
             entity_id:
-              - switch.adaptive_lighting_living_room
               - switch.adaptive_lighting_tina_lamp
         - delay:
             milliseconds: 500
         - service: light.turn_on
           target:
             entity_id:
-              - light.living_room_color_1
-              - light.living_room_color_2
-              - light.living_room_color_3
               - light.tina_lamp_side
               - light.tina_lamp_top
               - light.tina_desk_strip
           data:
             color_name: red
+        - service: light.turn_off
+          target:
+            entity_id: light.dining_room_lamp
+        - service: script.living_room_lights_alert
+          data:
+            type: red
+            duration: 10
         - service: script.status_annc
           data:
             who: common
