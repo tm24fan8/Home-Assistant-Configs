@@ -526,87 +526,87 @@ automation:
           tag: kallen-pickup
     initial_state: true
 
-  - id: 395ebb76-83e4-4a7c-913e-2598fef3d5c1
-    alias: Doorbell Alert
-    trigger:
-      - alias: "Doorbell Rings"
-        platform: state
-        entity_id: binary_sensor.front_doorbell_ding_mqtt
-        from: "off"
-        to: "on"
-    condition:
-      - alias: "Are we home?"
-        condition: state
-        entity_id: group.adults
-        state: "home"
-    action:
-      - alias: "Save Current Light State"
-        service: scene.create
-        data:
-          scene_id: doorbell_lights_restore
-          snapshot_entities:
-            - light.living_room_overhead
-            - light.living_room_led_strip
-            - light.dining_room_lamp
-            - light.tina_lamp_top
-            - light.tina_lamp_side
-            - light.tina_desk_strip
-      - alias: "Save Current Adaptive State"
-        service: scene.create
-        data:
-          scene_id: doorbell_adaptive_restore
-          snapshot_entities:
-            - switch.adaptive_lighting_tina_lamp
-            - switch.adaptive_lighting_living_room
-      - alias: "Turn Adaptive Lighting off"
-        service: switch.turn_off
-        target:
-          entity_id:
-            - switch.adaptive_lighting_tina_lamp
-            - switch.adaptive_lighting_living_room
-      - alias: "Turn dining room lamp off"
-        service: light.turn_off
-        target:
-          entity_id: light.dining_room_lamp
-      - alias: "Turn Lights On"
-        service: light.turn_on
-        target:
-          entity_id:
-            - light.living_room_lights
-            - light.tina_lamp
-            - light.tina_desk_strip
-            - light.living_room_led_strip
-        data:
-          color_name: green
-      - alias: "Make LED strip flash"
-        service: lifx.effect_pulse
-        target:
-          entity_id: light.living_room_led_strip
-        data:
-          power_on: true
-          mode: ping
-          period: 1
-          cycles: 30
-          color_name: white
-          brightness: 255
-      - alias: "End early if door opened"
-        wait_template: "{{ is_state('binary_sensor.front_door','on') }}"
-        timeout:
-          seconds: 30
-      - alias: "Return lights to previous state"
-        service: scene.turn_on
-        target:
-          entity_id: scene.doorbell_lights_restore
-      - delay:
-          seconds: 3
-      - alias: "Stop LED strip effect"
-        service: lifx.effect_stop
-        target:
-          entity_id: light.living_room_led_strip
-      - alias: "Return Adaptive Lighting to previous state"
-        service: scene.turn_on
-        target:
-          entity_id: scene.doorbell_adaptive_restore
+  # - id: 395ebb76-83e4-4a7c-913e-2598fef3d5c1
+  #   alias: Doorbell Alert
+  #   trigger:
+  #     - alias: "Doorbell Rings"
+  #       platform: state
+  #       entity_id: binary_sensor.front_doorbell_ding_mqtt
+  #       from: "off"
+  #       to: "on"
+  #   condition:
+  #     - alias: "Are we home?"
+  #       condition: state
+  #       entity_id: group.adults
+  #       state: "home"
+  #   action:
+  #     - alias: "Save Current Light State"
+  #       service: scene.create
+  #       data:
+  #         scene_id: doorbell_lights_restore
+  #         snapshot_entities:
+  #           - light.living_room_overhead
+  #           - light.living_room_led_strip
+  #           - light.dining_room_lamp
+  #           - light.tina_lamp_top
+  #           - light.tina_lamp_side
+  #           - light.tina_desk_strip
+  #     - alias: "Save Current Adaptive State"
+  #       service: scene.create
+  #       data:
+  #         scene_id: doorbell_adaptive_restore
+  #         snapshot_entities:
+  #           - switch.adaptive_lighting_tina_lamp
+  #           - switch.adaptive_lighting_living_room
+  #     - alias: "Turn Adaptive Lighting off"
+  #       service: switch.turn_off
+  #       target:
+  #         entity_id:
+  #           - switch.adaptive_lighting_tina_lamp
+  #           - switch.adaptive_lighting_living_room
+  #     - alias: "Turn dining room lamp off"
+  #       service: light.turn_off
+  #       target:
+  #         entity_id: light.dining_room_lamp
+  #     - alias: "Turn Lights On"
+  #       service: light.turn_on
+  #       target:
+  #         entity_id:
+  #           - light.living_room_lights
+  #           - light.tina_lamp
+  #           - light.tina_desk_strip
+  #           - light.living_room_led_strip
+  #       data:
+  #         color_name: green
+  #     - alias: "Make LED strip flash"
+  #       service: lifx.effect_pulse
+  #       target:
+  #         entity_id: light.living_room_led_strip
+  #       data:
+  #         power_on: true
+  #         mode: ping
+  #         period: 1
+  #         cycles: 30
+  #         color_name: white
+  #         brightness: 255
+  #     - alias: "End early if door opened"
+  #       wait_template: "{{ is_state('binary_sensor.front_door','on') }}"
+  #       timeout:
+  #         seconds: 30
+  #     - alias: "Return lights to previous state"
+  #       service: scene.turn_on
+  #       target:
+  #         entity_id: scene.doorbell_lights_restore
+  #     - delay:
+  #         seconds: 3
+  #     - alias: "Stop LED strip effect"
+  #       service: lifx.effect_stop
+  #       target:
+  #         entity_id: light.living_room_led_strip
+  #     - alias: "Return Adaptive Lighting to previous state"
+  #       service: scene.turn_on
+  #       target:
+  #         entity_id: scene.doorbell_adaptive_restore
 
   - id: 481e7756-9549-413f-9b41-5b0f8c5f5cba
     alias: iOS Skip Away Mode
