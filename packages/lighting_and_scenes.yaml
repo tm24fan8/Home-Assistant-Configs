@@ -5,14 +5,23 @@ input_boolean:
   living_room_entertainment_mode:
     name: Living Room Entertainment Mode
     icon: mdi:party-popper
+  basement_entertainment_mode:
+    name: Basement Entertainment Mode
+    icon: mdi:party-popper
   front_porch_light_on:
     name: Front Porch Light On
     icon: hue:room-outdoors
   living_room_dynamic_scenes:
     name: Living Room Dynamic Scenes
     icon: mdi:animation
+  basement_dynamic_scenes:
+    name: Basement Dynamic Scenes
+    icon: mdi:animation
   living_room_entertainment_control:
     name: Living Room Entertainment Control
+    icon: mdi:television-ambient-light
+  basement_entertainment_control:
+    name: Basement Entertainment Control
     icon: mdi:television-ambient-light
   delivery_mode:
     name: Delivery Mode
@@ -180,6 +189,7 @@ input_select:
       - Relax
       - Purple
       - Pink
+      - Tokyo
       - Kallen Reading
       - Baby Is Napping
       - Stairwell
