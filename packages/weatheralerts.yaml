@@ -1561,26 +1561,26 @@ automation:
           entity_id: input_text.weatheralerts_triggered_audible_alert_ids
           value: "{{ state_attr('sensor.weatheralerts_alert_1', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_2', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_3', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_4', 'alert_id') }} {{ state_attr('sensor.weatheralerts_alert_5', 'alert_id') }}"
 
-  - id: 04b1119f-4e30-4ae3-ae50-632ac521c871
-    alias: Lightning Detected
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.lightning_warning
-        from: 'off'
-        to: 'on'
-    action:
-      - service: script.lightning_warning
+  # - id: 04b1119f-4e30-4ae3-ae50-632ac521c871
+  #   alias: Lightning Detected
+  #   trigger:
+  #     - platform: state
+  #       entity_id: binary_sensor.lightning_warning
+  #       from: 'off'
+  #       to: 'on'
+  #   action:
+  #     - service: script.lightning_warning
 
 
-  - id: df317cd2-b5c6-43a7-a587-844403a4a0ad
-    alias: Lightning Warning Off
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.lightning_warning
-        from: 'on'
-        to: 'off'
-    action:
-      - service: script.lightning_clear
+  # - id: df317cd2-b5c6-43a7-a587-844403a4a0ad
+  #   alias: Lightning Warning Off
+  #   trigger:
+  #     - platform: state
+  #       entity_id: binary_sensor.lightning_warning
+  #       from: 'on'
+  #       to: 'off'
+  #   action:
+  #     - service: script.lightning_clear
 
 
   - id: 9e34264f-b3c8-4537-ba31-b5915f2fd326
@@ -1667,87 +1667,87 @@ automation:
 ## script ##
 
 script:
-  lightning_warning:
-    alias: 'Lightning Warning'
-    sequence: 
-      - service: script.text_notify
-        data:
-          type: alert
-          who: 'all'
-          title: "Lightning Detected!"
-          message: >-
-            {% set ltgdist = (states('sensor.blitzortung_lightning_distance') | int) / 1.609 | round %}
-            "Lightning has been detected within 20 miles of the house. Nearest storm is {{ ltgdist }} miles away."
-          tag: lightning-warning
-      - if:
-        - condition: state
-          entity_id: binary_sensor.audible_weather_alerts_allowed
-          state: 'on'
-        then:
-        - service: scene.create
-          data:
-            scene_id: lightning_alert_restore
-            snapshot_entities:
-              - light.tina_lamp_side
-              - light.tina_lamp_top
-              - light.tina_desk_strip
-              - light.dining_room_lamp
-              - switch.adaptive_lighting_living_room
-              - switch.adaptive_lighting_tina_lamp
-        - service: switch.turn_off
-          target:
-            entity_id:
-              - switch.adaptive_lighting_tina_lamp
-        - delay:
-            milliseconds: 500
-        - service: light.turn_on
-          target:
-            entity_id:
-              - light.tina_lamp_side
-              - light.tina_lamp_top
-              - light.tina_desk_strip
-          data:
-            color_name: red
-        - service: light.turn_off
-          target:
-            entity_id: light.dining_room_lamp
-        - service: script.living_room_lights_alert
-          data:
-            type: red
-            duration: 10
-        - service: script.status_annc
-          data:
-            who: common
-            type: weather
-            call_interruption: 1
-            call_lightning_alert: 1
-        - delay:
-            seconds: 10
-        - service: scene.turn_on
-          target:
-            entity_id: scene.lightning_alert_restore
+  # lightning_warning:
+  #   alias: 'Lightning Warning'
+  #   sequence: 
+  #     - service: script.text_notify
+  #       data:
+  #         type: alert
+  #         who: 'all'
+  #         title: "Lightning Detected!"
+  #         message: >-
+  #           {% set ltgdist = (states('sensor.blitzortung_lightning_distance') | int) / 1.609 | round %}
+  #           "Lightning has been detected within 20 miles of the house. Nearest storm is {{ ltgdist }} miles away."
+  #         tag: lightning-warning
+  #     - if:
+  #       - condition: state
+  #         entity_id: binary_sensor.audible_weather_alerts_allowed
+  #         state: 'on'
+  #       then:
+  #       - service: scene.create
+  #         data:
+  #           scene_id: lightning_alert_restore
+  #           snapshot_entities:
+  #             - light.tina_lamp_side
+  #             - light.tina_lamp_top
+  #             - light.tina_desk_strip
+  #             - light.dining_room_lamp
+  #             - switch.adaptive_lighting_living_room
+  #             - switch.adaptive_lighting_tina_lamp
+  #       - service: switch.turn_off
+  #         target:
+  #           entity_id:
+  #             - switch.adaptive_lighting_tina_lamp
+  #       - delay:
+  #           milliseconds: 500
+  #       - service: light.turn_on
+  #         target:
+  #           entity_id:
+  #             - light.tina_lamp_side
+  #             - light.tina_lamp_top
+  #             - light.tina_desk_strip
+  #         data:
+  #           color_name: red
+  #       - service: light.turn_off
+  #         target:
+  #           entity_id: light.dining_room_lamp
+  #       - service: script.living_room_lights_alert
+  #         data:
+  #           type: red
+  #           duration: 10
+  #       - service: script.status_annc
+  #         data:
+  #           who: common
+  #           type: weather
+  #           call_interruption: 1
+  #           call_lightning_alert: 1
+  #       - delay:
+  #           seconds: 10
+  #       - service: scene.turn_on
+  #         target:
+  #           entity_id: scene.lightning_alert_restore
   
-  lightning_clear:
-    alias: 'Lightning Clear'
-    sequence: 
-      - service: script.text_notify
-        data:
-          type: alert
-          who: all
-          message: clear_notification
-          tag: lightning-warning
-      - service: script.status_annc
-        data:
-          who: common
-          type: weather
-          call_interruption: 1
-          call_lightning_clear: 1
-      - service: script.text_notify
-        data:
-          type: alert
-          who: 'all'
-          title: "Lightning Clear"
-          message: "The lightning threat has passed. It is safe to resume normal activities."
+  # lightning_clear:
+  #   alias: 'Lightning Clear'
+  #   sequence: 
+  #     - service: script.text_notify
+  #       data:
+  #         type: alert
+  #         who: all
+  #         message: clear_notification
+  #         tag: lightning-warning
+  #     - service: script.status_annc
+  #       data:
+  #         who: common
+  #         type: weather
+  #         call_interruption: 1
+  #         call_lightning_clear: 1
+  #     - service: script.text_notify
+  #       data:
+  #         type: alert
+  #         who: 'all'
+  #         title: "Lightning Clear"
+  #         message: "The lightning threat has passed. It is safe to resume normal activities."
 
   ## Script creates UI notification and is called via automation defined above
   weatheralerts_popup_on_wx_alert:
