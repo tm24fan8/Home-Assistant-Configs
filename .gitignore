@@ -16,9 +16,7 @@
 /deps
 /hacs
 /image
-/node-red/*
-/node-red/projects/*
-/node-red/projects/NerdFlows/*
+/node-red/
 /files
 /appdaemon/*
 /appdaemon/apps/*
