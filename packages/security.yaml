@@ -502,11 +502,11 @@ automation:
     trigger:
       - platform: state
         entity_id: alarm_control_panel.stratton_ave_alarm
-        state: 'armed_away'
+        to: 'armed_away'
         id: away
       - platform: state
         entity_id: alarm_control_panel.stratton_ave_alarm
-        state: 'disarmed'
+        to: 'disarmed'
         id: disarmed
     condition:
       - condition: state
@@ -522,7 +522,7 @@ automation:
             target:
               entity_id: alarm_control_panel.alexa_guard_9ee3b
         - conditions:
-          - conditions: trigger
+          - condition: trigger
             id: disarmed
           sequence:
           - service: alarm_control_panel.alarm_disarm
