@@ -37,6 +37,16 @@ input_datetime:
     has_date: false
     has_time: true
     icon: mdi:bell-alert
+  kallen_asleep_at:
+    name: Kallen Asleep At
+    has_date: false
+    has_time: true
+    icon: mdi:weather-night
+  kallen_awake_at:
+    name: Kallen Awake At
+    has_date: false
+    has_time: true
+    icon: mdi:weather-sunset-up
   kallen_fan:
     name: Kallen Fan
     has_date: false

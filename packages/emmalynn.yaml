@@ -31,6 +31,16 @@ input_datetime:
     has_date: false
     has_time: true
     icon: mdi:fan-off
+  emma_asleep_at:
+    name: Emma Asleep At
+    has_date: false
+    has_time: true
+    icon: mdi:weather-night
+  emma_awake_at:
+    name: Emma Awake At
+    has_date: false
+    has_time: true
+    icon: mdi:weather-sunset-up
   emma_down_for_nap:
     name: Emma Down For Nap
     has_date: true
@@ -99,7 +109,17 @@ automation:
                 target:
                   entity_id: input_datetime.emma_down_for_nap
                 data:
-                  datetime: "{{ as_timestamp(now()) | timestamp_custom('%Y-%m-%d %H:%M:%S') }}"
+                  datetime: >
+                    {% from 'time.jinja' import current_time %}
+                    {{ current_time(24,'withdate') }}
+              else:
+              - service: input_datetime.set_datetime
+                target:
+                  entity_id: input_datetime.emma_asleep_at
+                data:
+                  time: >
+                    {% from 'time.jinja' import current_time %}
+                    {{ current_time(24) }}
             - delay:
                 seconds: 1
             - service: script.text_notify
@@ -129,7 +149,9 @@ automation:
                 target:
                   entity_id: input_datetime.emma_up_from_nap
                 data:
-                  datetime: "{{ as_timestamp(now()) | timestamp_custom('%Y-%m-%d %H:%M:%S') }}"
+                  datetime: >
+                    {% from 'time.jinja' import current_time %}
+                    {{ current_time(24,'withdate') }}
               - delay:
                   milliseconds: 500
               - if:
@@ -146,7 +168,7 @@ automation:
                   target:
                     entity_id: input_datetime.emma_bedtime
                   data:
-                    time: "{{ (state_attr('input_datetime.emma_up_from_nap','timestamp') + 10800) | timestamp_custom('%H:%M') }}"
+                    time: "{{ (state_attr('input_datetime.emma_up_from_nap','timestamp') + 14400) | timestamp_custom('%H:%M') }}"
               - service: input_boolean.turn_on
                 target:
                   entity_id: input_boolean.emma_has_napped
@@ -267,7 +289,7 @@ automation:
                 state: 'off'
               - condition: time
                 before: "23:00:00"
-                after: "04:00:00"
+                after: "07:00:00"
             sequence:
             - service: timer.start
               target:
@@ -318,7 +340,9 @@ automation:
                 target:
                   entity_id: input_datetime.emma_down_for_nap
                 data:
-                  datetime: "{{ as_timestamp(now()) | timestamp_custom('%Y-%m-%d %H:%M:%S') }}"
+                  datetime: >
+                    {% from 'time.jinja' import current_time %}
+                    {{ current_time(24,'withdate') }}
             - conditions:
               - condition: or
                 conditions:
@@ -331,7 +355,7 @@ automation:
               sequence:
               - service: input_datetime.set_datetime
                 target:
-                  entity_id: input_datetime.emma_bedtime
+                  entity_id: input_datetime.emma_asleep_at
                 data:
                   datetime: >
                     {% from 'time.jinja' import current_time %}
@@ -357,7 +381,9 @@ automation:
             target:
               entity_id: input_datetime.emma_down_for_nap
             data:
-              datetime: "{{ as_timestamp(now()) | timestamp_custom('%Y-%m-%d %H:%M:%S') }}"
+              datetime: >
+                {% from 'time.jinja' import current_time %}
+                {{ current_time(24,'withdate') }}
       - conditions:
         - condition: trigger
           id: bedtime-timer-finished
@@ -377,7 +403,7 @@ automation:
           else:
           - service: input_datetime.set_datetime
             target:
-              entity_id: input_datetime.emma_bedtime
+              entity_id: input_datetime.emma_asleep_at
             data:
               datetime: >
                 {% from 'time.jinja' import current_time %}
@@ -857,7 +883,7 @@ script:
         then:
         - service: input_datetime.set_datetime
           target:
-            entity_id: input_datetime.emma_wakeup
+            entity_id: input_datetime.emma_awake_at
           data:
             time: >
               {% from 'time.jinja' import current_time %}

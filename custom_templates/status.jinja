@@ -289,7 +289,7 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% endmacro %}
 
 {% macro kallen_morning_meds(type,method) %}
-{% set wakeup = state_attr('input_datetime.kallen_wakeup_time','timestamp') | int %}
+{% set wakeup = state_attr('input_datetime.kallen_awake_at','timestamp') | int %}
 {% if state_attr('input_datetime.kallen_bedtime','timestamp') | int <= 7200 %}
   {% set bedtime = 86340 %}
 {% else %}
@@ -311,8 +311,8 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% endmacro %}
 
 {% macro kallen_night_meds(type,method) %}
-{% set wakeup = state_attr('input_datetime.kallen_wakeup_time','timestamp') | int %}
-{% if 0 <= state_attr('input_datetime.kallen_bedtime','timestamp') | int <= 7200 %}
+{% set wakeup = state_attr('input_datetime.kallen_awake_at','timestamp') | int %}
+{% if 0 <= state_attr('input_datetime.kallen_asleep_at','timestamp') | int <= 7200 %}
   {% set bedtime = 85440 %}
 {% else %}
   {% set bedtime = state_attr('input_datetime.kallen_bedtime','timestamp') | int - 900 %}
@@ -325,10 +325,12 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% else %}
   {% if diff <= 3600 %}
     {% if type == 'meds' %}Kallen{% else %}He{% endif %} has not taken his night meds.
+      {% if method == 'tts' %}
       {{ ['He will be reminded when he goes to bed.',
           'I will make sure he is reminded when it is time.',
           'All in due time, of course.'
         ] | random }}
+      {% endif %}
   {% endif %}
 {% endif %}
 {% endmacro %}
@@ -444,12 +446,12 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% macro kallenSleep(type,method) %}
 {% set bedtimestamp = state_attr('input_datetime.kallen_bedtime','timestamp') | int %}
 {% if is_state('input_boolean.kallen_sleeping','on') %}
-  Kallen went to bed at {{ input_datetime_read('input_datetime.kallen_bedtime') | trim }}.
+  Kallen went to bed at {{ input_datetime_read('input_datetime.kallen_asleep_at') | trim }}.
   {% if 14400 < ct < bedtimestamp %}
     His scheduled wakeup time is {{ input_datetime_read('input_datetime.kallen_wakeup_time') | trim }}.
   {% endif %}
 {% else %}
-  Kallen woke up at {{ input_datetime_read('input_datetime.kallen_wakeup_time') | trim }}.
+  Kallen woke up at {{ input_datetime_read('input_datetime.kallen_awake_at') | trim }}.
   {% if ct > 57600 %}
     His scheduled bedtime is {{ input_datetime_read('input_datetime.kallen_bedtime') | trim }}.
   {% endif %}
@@ -485,12 +487,12 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
   Emma is down for nap. She was put down at around {{ input_datetime_read('input_datetime.emma_down_for_nap','withdate') | trim }}. She has been asleep for {{ custom_time('input_datetime.emma_down_for_nap','hour,minute') }}.
 {% elif is_state('input_boolean.emma_sleeping','on') %}
   {% if is_state('binary_sensor.early_night_mode','on') %}
-    Emma is asleep for the night. She went to bed at {{ input_datetime_read('input_datetime.emma_bedtime') | trim }}.
+    Emma is asleep for the night. She went to bed at {{ input_datetime_read('input_datetime.emma_asleep_at') | trim }}.
   {% else %}
-    Emma has not yet awoken for the day. She went to bed at {{ input_datetime_read('input_datetime.emma_bedtime') | trim }}.
+    Emma has not yet awoken for the day. She went to bed at {{ input_datetime_read('input_datetime.emma_asleep_at') | trim }}.
   {% endif %}
 {% else %}
-  Emma is awake, and does not appear to have napped yet. She woke up at {{ input_datetime_read('input_datetime.emma_wakeup') | trim }}.
+  Emma is awake, and does not appear to have napped yet. She woke up at {{ input_datetime_read('input_datetime.emma_awake_at') | trim }}.
 {% endif %}
 {% endmacro %}
 
