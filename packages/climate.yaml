@@ -179,13 +179,6 @@ input_number:
     step: 1
     unit_of_measurement: °F
     icon: mdi:thermometer
-  master_bedroom_daytime_threshold:
-    name: Master Bedroom Daytime Threshold
-    min: 60
-    max: 90
-    step: 1
-    unit_of_measurement: °F
-    icon: mdi:thermometer
   emma_aircon_threshold:
     name: Emma Aircon Threshold
     min: 40
