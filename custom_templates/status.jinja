@@ -223,7 +223,7 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
         "Tina must go and please the food gods tomorrow ",
         "Tomorrow, Tina must go and entertain the gremlins known as her customers and coworkers ",
         "Tomorrow, Tina will be owned by our lovely lord and savior capitalism ",
-      ] | random }} at {{ diff | timestamp_custom('%H:%M %p',false) }}. "
+      ] | random }} at {{ diff | timestamp_custom('%-I:%M %p',false) }}. "
     {% elif is_state('binary_sensor.tina_work_tomorrow','off') %}
       {{ [
         "Tina seems to have been granted a reprieve from her endless torture tomorrow. ",
