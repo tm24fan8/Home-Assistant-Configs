@@ -246,6 +246,8 @@ template:
       state: >
         {% if is_state('input_boolean.audible_notifications','on') %}
           true
+        {% elif is_state('binary_sensor.basement_occupied','on') %}
+          true
         {% elif states('sensor.people_sleeping_total') | int == 3 %}
           false
         {% elif is_state('input_boolean.kallen_overnight','on') and (states('sensor.people_sleeping_total') | int == 2) %}
