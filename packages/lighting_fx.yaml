@@ -1,3 +1,11 @@
+input_text:
+  basement_lights_restore:
+    name: Basement Lights Restore
+    icon: mdi:lightbulb-alert
+  living_room_lights_restore:
+    name: Living Room Lights Restore
+    icon: mdi:lightbulb-alert
+
 script:
   basement_lights_alert:
     alias: Basement Lights Alert
@@ -22,13 +30,25 @@ script:
             min: 1
             max: 30
     sequence:
+    # Setup and processing
       - variables:
           lightState: "{{ states('light.basement_studio_lights') }}"
           adaptive: "{{ states('switch.adaptive_lighting_basement_studio') }}"
           nightMode: "{{ 'on' if is_state('switch.adaptive_lighting_basement_studio','on') and is_state('switch.adaptive_lighting_sleep_mode_basement_studio','on') else 'off' }}"
+      # If current scene is a defined scene, take note of it
       - if:
         - condition: template
-          value_template: "{{ lightState == 'on' }}"
+          value_template: "{{ states('input_text.basement_studio_selected_scene') in state_attr('input_select.basement_studio_scenes','options') }}"
+        then:
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.basement_lights_restore
+          data:
+            value: "{{ states('input_text.basement_studio_selected_scene') }}"
+      # If the lights are on, and another alert isn't being interrupted, create a backup scene to restore at the end
+      - if:
+        - condition: template
+          value_template: "{{ lightState == 'on' and states('input_text.basement_studio_selected_scene') != 'Alert' }}"
         then:
         - service: scene.create
           data:
@@ -38,9 +58,27 @@ script:
               - light.basement_short_lamp
               - light.basement_tall_lamp
               - light.basement_stairwell
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.basement_studio_selected_scene
+          data:
+            value: Alert
+      # Define variable for restoration of the current scene if the backup is not needed
+      - variables:
+          restoreScene: "{{ states('input_text.basement_lights_restore') }}"
+    # Actual alert begins
       - service: switch.turn_off
         target:
           entity_id: switch.adaptive_lighting_basement_studio
+      - service: light.turn_on
+        target:
+          entity_id:
+            - light.basement_short_lamp
+            - light.basement_tall_lamp
+            - light.basement_stairwell
+        data:
+          color_name: "{{ 'red' if type == 'police' else type }}"
+          brightness: 255
       - service: lifx.effect_move
         target:
           entity_id: light.basement_led_strip_1
@@ -70,6 +108,7 @@ script:
             - 14
             - 15
           color_name: "{{ 'red' if type == 'police' else type }}"
+          brightness: 255
       - service: lifx.set_state
         target:
           entity_id: light.basement_led_strip_1
@@ -92,18 +131,12 @@ script:
             - 30
             - 31
           color_name: "{{ 'blue' if type == 'police' else 'white' }}"
+          brightness: 255
           power: true
-      - service: light.turn_on
-        target:
-          entity_id:
-            - light.basement_short_lamp
-            - light.basement_tall_lamp
-            - light.basement_stairwell
-        data:
-          color_name: "{{ 'red' if type == 'police' else type }}"
       - delay:
           seconds: "{{ duration|default(10) }}"
       - choose:
+      # If the lights were off, turn them back off
         - conditions: "{{ lightState == 'off' }}"
           sequence:
           - service: light.turn_off
@@ -119,6 +152,7 @@ script:
               entity_id: input_text.basement_studio_selected_scene
             data:
               value: Adaptive
+      # If the lights were in night mode, put them back to it
         - conditions: "{{ nightMode == 'on' }}"
           sequence:
           - service: input_select.select_option
@@ -131,6 +165,7 @@ script:
           - service: switch.turn_on
             target:
               entity_id: switch.adaptive_lighting_sleep_mode_basement_studio
+      # If the lights were in adaptive, put them back to it
         - conditions: "{{ adaptive == 'on' }}"
           sequence:
           - service: input_select.select_option
@@ -138,10 +173,20 @@ script:
               entity_id: input_select.basement_studio_scenes
             data:
               option: Adaptive
+      # If the current scene was a defined scene, activate that scene
+        - conditions: "{{ restoreScene in state_attr('input_select.basement_studio_scenes','options') }}"
+          sequence:
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.basement_studio_scenes
+            data:
+              option: "{{ restoreScene }}"
+      # Otherwise, restore the backup scene from above
         default:
         - service: scene.turn_on
           target:
             entity_id: scene.basement_alert_restore
+      # Cleanup
       - delay:
           seconds: "{{ 3 if adaptive == 'on' or nightMode == 'on' else 1 }}"
       - service: lifx.effect_stop
@@ -171,13 +216,25 @@ script:
             min: 1
             max: 30
     sequence:
+    # Setup and processing
       - variables:
           lightState: "{{ states('light.living_room_lights') }}"
           adaptive: "{{ states('switch.adaptive_lighting_living_room') }}"
           nightMode: "{{ 'on' if is_state('switch.adaptive_lighting_living_room','on') and is_state('switch.adaptive_lighting_sleep_mode_living_room','on') else 'off' }}"
+      # If current scene is a defined scene, take note of it
       - if:
         - condition: template
-          value_template: "{{ lightState == 'on' }}"
+          value_template: "{{ states('input_text.living_room_selected_scene') in state_attr('input_select.basement_studio_scenes','options') }}"
+        then:
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.living_room_lights_restore
+          data:
+            value: "{{ states('input_text.living_room_selected_scene') }}"
+      # If the lights are on, and another alert isn't being interrupted, create a backup scene to restore at the end
+      - if:
+        - condition: template
+          value_template: "{{ lightState == 'on' and currentScene != 'Alert' }}"
         then:
         - service: scene.create
           data:
@@ -185,9 +242,25 @@ script:
             snapshot_entities:
               - light.living_room_led_strip
               - light.living_room_overhead
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.basement_studio_selected_scene
+          data:
+            value: Alert
+      # Define variable for restoration of the current scene if the backup is not needed
+      - variables:
+          restoreScene: "{{ states('input_text.basement_lights_restore') }}"
+    # Actual alert begins
       - service: switch.turn_off
         target:
           entity_id: switch.adaptive_lighting_living_room
+      - service: light.turn_on
+        target:
+          entity_id:
+            - light.living_room_overhead
+        data:
+          color_name: "{{ 'red' if type == 'police' else type }}"
+          brightness: 255
       - service: lifx.effect_move
         target:
           entity_id: light.living_room_led_strip
@@ -221,6 +294,7 @@ script:
             - 18
             - 19
           color_name: "{{ 'red' if type == 'police' else type }}"
+          brightness: 255
       - service: lifx.set_state
         target:
           entity_id: light.living_room_led_strip
@@ -247,16 +321,12 @@ script:
             - 38
             - 39
           color_name: "{{ 'blue' if type == 'police' else 'white' }}"
+          brightness: 255
           power: true
-      - service: light.turn_on
-        target:
-          entity_id:
-            - light.living_room_overhead
-        data:
-          color_name: "{{ 'red' if type == 'police' else type }}"
       - delay:
           seconds: "{{ duration|default(10) }}"
       - choose:
+      # If the lights were off, turn them back off
         - conditions: "{{ lightState == 'off' }}"
           sequence:
           - service: light.turn_off
@@ -274,6 +344,7 @@ script:
               entity_id: input_text.living_room_selected_scene
             data:
               value: Adaptive
+      # If the lights were in night mode, put them back to it
         - conditions: "{{ nightMode == 'on' }}"
           sequence:
           - service: input_select.select_option
@@ -286,6 +357,7 @@ script:
           - service: switch.turn_on
             target:
               entity_id: switch.adaptive_lighting_sleep_mode_living_room
+      # If the lights were in adaptive, put them back to it
         - conditions: "{{ adaptive == 'on' }}"
           sequence:
           - service: input_select.select_option
@@ -293,10 +365,20 @@ script:
               entity_id: input_select.living_room_scenes
             data:
               option: Adaptive
+      # If the current scene was a defined scene, activate that scene
+        - conditions: "{{ restoreScene in state_attr('input_select.living_room_scenes','options') }}"
+          sequence:
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.living_room_scenes
+            data:
+              option: "{{ restoreScene }}"
+      # Otherwise, restore the backup scene from above
         default:
         - service: scene.turn_on
           target:
             entity_id: scene.living_room_alert_restore
+      # Cleanup
       - delay:
           seconds: "{{ 3 if adaptive == 'on' or nightMode == 'on' else 1 }}"
       - service: lifx.effect_stop
