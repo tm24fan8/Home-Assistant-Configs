@@ -241,6 +241,7 @@ template:
       device_class: safety
       attributes:
         current_strikes: "{{ states('sensor.blitzortung_lightning_counter') | int }}"
+      icon: "{{ 'mdi:flash-alert' if states('sensor.blitzortung_lightning_counter') | int > 0 else 'mdi:flash-outline'}}"
     - name: "Audible Weather Alerts Allowed"
       unique_id: 03851823-32d5-44c1-af42-256fcd922069
       state: >
