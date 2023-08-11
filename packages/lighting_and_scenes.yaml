@@ -1042,7 +1042,7 @@ automation:
                   target:
                     entity_id: switch.basement_led_strip
                 - delay:
-                    seconds: 10
+                    seconds: 20
                 - service: switch.turn_on
                   target:
                     entity_id: switch.basement_led_strip
