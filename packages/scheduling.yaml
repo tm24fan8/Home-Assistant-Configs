@@ -200,7 +200,7 @@ script:
                   {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 5400) | timestamp_custom('%H:%M', false) }}
                 {% endif %}
               {% else %}
-                10:00
+                12:00
               {% endif %}
       - service: input_select.select_option
         target:
@@ -232,7 +232,7 @@ script:
                   {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 4800) | timestamp_custom('%H:%M', false) }}
                 {% endif %}
               {% else %}
-                10:00
+                12:00
               {% endif %}
       - if:
         - condition: state
@@ -283,10 +283,14 @@ script:
           entity_id: input_datetime.kallen_bedtime
           data:
             time: >
-              {% if is_state('binary_sensor.kallen_school_tomorrow', 'on') %}
-                  21:00
+              {% if is_state('input_boolean.school_in_session','on') %}
+                {% if is_state('binary_sensor.kallen_school_tomorrow', 'on') %}
+                    21:00
+                {% else %}
+                    22:00
+                {% endif %}
               {% else %}
-                  22:00
+                11:00
               {% endif %}
       - delay:
           seconds: 1
