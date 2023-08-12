@@ -224,7 +224,7 @@ script:
       # If current scene is a defined scene, take note of it
       - if:
         - condition: template
-          value_template: "{{ states('input_text.living_room_selected_scene') in state_attr('input_select.living_room_studio_scenes','options') }}"
+          value_template: "{{ states('input_text.living_room_selected_scene') in state_attr('input_select.living_room_scenes','options') }}"
         then:
         - service: input_text.set_value
           target:
