@@ -224,7 +224,7 @@ script:
       # If current scene is a defined scene, take note of it
       - if:
         - condition: template
-          value_template: "{{ states('input_text.living_room_selected_scene') in state_attr('input_select.basement_studio_scenes','options') }}"
+          value_template: "{{ states('input_text.living_room_selected_scene') in state_attr('input_select.living_room_studio_scenes','options') }}"
         then:
         - service: input_text.set_value
           target:
@@ -234,7 +234,7 @@ script:
       # If the lights are on, and another alert isn't being interrupted, create a backup scene to restore at the end
       - if:
         - condition: template
-          value_template: "{{ lightState == 'on' and currentScene != 'Alert' }}"
+          value_template: "{{ lightState == 'on' and states('input_text.living_room_selected_scene') != 'Alert' }}"
         then:
         - service: scene.create
           data:
@@ -244,12 +244,12 @@ script:
               - light.living_room_overhead
         - service: input_text.set_value
           target:
-            entity_id: input_text.basement_studio_selected_scene
+            entity_id: input_text.living_room_studio_selected_scene
           data:
             value: Alert
       # Define variable for restoration of the current scene if the backup is not needed
       - variables:
-          restoreScene: "{{ states('input_text.basement_lights_restore') }}"
+          restoreScene: "{{ states('input_text.living_room_lights_restore') }}"
     # Actual alert begins
       - service: switch.turn_off
         target:
