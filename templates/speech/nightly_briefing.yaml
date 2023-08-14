@@ -17,6 +17,7 @@
         "The day grows short, let us gather around the campfire for an epic tale of things to come. ",
         "I am tired after a long day of doing absolutely nothing, but I am still here to give you the latest and greatest uselessness! ",
         "My programmer decided that I should say something interesting here, and then he realized that he is not interesting. ",
+        "My introduction lines are getting stale as hell. Any new ideas, anyone? ",
       ] | random }}
     </p>
 
@@ -95,45 +96,30 @@
 
     <p>
       {% if states('input_select.scheduled_climate_mode_master_bedroom_aircon') != 'N/A' or states('input_select.scheduled_climate_mode_master_bedroom_fan') != 'N/A' %}
-        {{ [
-          "Tonight in master bedroom climate news, ",
-          "In the master bedroom, we have the following schedule to share. ",
-          "Bedroom climate scheduling will be as follows. ",
-        ] | random }}
-        {% if states('input_select.scheduled_climate_mode_master_bedroom_aircon') != 'N/A' %}
+        {% if not is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','N/A') %}
           {% if is_state('climate.master_bedroom_aircon','fan_only') %}
             "The master bedroom air conditioner is already running in fan only mode. "
           {% elif states('climate.master_bedroom_aircon') not in ['off','unknown','unavailable'] %}
             "The master bedroom air conditioner is already running in {{ states('climate.master_bedroom_aircon') }} mode. "
           {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','AC') and is_state('input_boolean.hot_day','on') %}
-            "Today was a hot day, so the master bedroom air conditioner will activate cooling mode a bit earlier tonight at {{ input_datetime_read('input_datetime.master_bedroom_cooling') }}. "
+            "Today was a hot day, so the master bedroom air conditioner will start cooling a bit earlier tonight at {{ input_datetime_read('input_datetime.master_bedroom_cooling') }}. "
           {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','AC') %}
-            "The master bedroom air conditioner will activate cooling mode at {{ input_datetime_read('input_datetime.master_bedroom_cooling') }}. "
+            "The master bedroom air conditioner will start cooling at {{ input_datetime_read('input_datetime.master_bedroom_cooling') }}. "
           {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','Fan') %}
             "The master bedroom air conditioner will activate fan only mode at {{ input_datetime_read('input_datetime.master_bedroom_cooling') }}. "
           {% endif %}
         {% endif %}
         {% if states('input_select.scheduled_climate_mode_master_bedroom_fan') != 'N/A' %}
-          {% if is_state('fan.master_bedroom_fan','on') %}
-            "The master bedroom fan is already running. "
-          {% else %}
+          {% if not is_state('fan.master_bedroom_fan','on') %}
             "The master bedroom fan will activate at {{ input_datetime_read('input_datetime.master_bedroom_fan') }}. "
           {% endif %}
         {% endif %}
       {% endif %}
       {% if is_state('input_boolean.kallen_overnight','off') %}
-        {% if states('input_select.scheduled_climate_mode_kallen_fan') != 'N/A' %}
-          {{ [
-            "In Collin's room, ",
-            "For Collin's climate schedule, we have the following. "
-          ] | random }}
-          {% if is_state('fan.kallen_bedroom_fan','on') %}
-            "Collin's fan is already running. "
-          {% elif is_state('input_boolean.white_noise_kallen_bedroom','on') %}
-            "Collin's white noise generator is already running. "
-          {% elif is_state('input_select.scheduled_climate_mode_kallen_fan','Fan') %}
+        {% if not is_state('input_select.scheduled_climate_mode_kallen_fan','N/A') %}
+          {% if is_state('input_select.scheduled_climate_mode_kallen_fan','Fan') and is_state('fan.kallen_fan','off') %}
             "Collin's fan will activate at {{ input_datetime_read('input_datetime.kallen_fan') }}. "
-          {% elif is_state('input_select.scheduled_climate_mode_kallen_fan','White Noise') %}
+          {% elif is_state('input_select.scheduled_climate_mode_kallen_fan','White Noise') and is_state('input_boolean.white_noise_kallen_bedroom','off') %}
             "Collin's white noise generator will activate at {{ input_datetime_read('input_datetime.kallen_bedtime') }}. "
           {% endif %}
         {% endif %}
@@ -141,17 +127,9 @@
         "Collin's room will be left alone, as he is spending the night elsewhere tonight. "
       {% endif %}
       {% if states('input_select.scheduled_climate_mode_emma_aircon') != 'N/A' %}
-        {{ [
-          "In Emma's bedroom, ",
-          "For Emma's climate scheduling, "
-        ] | random }}
-        {% if is_state('fan.emma_air_conditioner','on') and is_state('input_select.scheduled_climate_mode_emma_aircon','AC') %}
-          "Emma's air conditioner is already running. "
-        {% elif is_state('input_boolean.white_noise_emma_bedroom','on') and is_state('input_select.scheduled_climate_mode_emma_aircon','White Noise') %}
-          "Emma's white noise generator is already running. "
-        {% elif is_state('input_select.scheduled_climate_mode_emma_aircon','AC') %}
+        {% if is_state('input_select.scheduled_climate_mode_emma_aircon','AC') and is_state('fan.emma_air_conditioner','off') %}
           "Emma's air conditioner will be activated at {{ input_datetime_read('input_datetime.emma_bedtime') }}. "
-        {% elif is_state('input_select.scheduled_climate_mode_emma_aircon','White Noise') %}
+        {% elif is_state('input_select.scheduled_climate_mode_emma_aircon','White Noise') and is_state('input_boolean.white_noise_emma_bedroom','off') %}
           "Emma's white noise generator will activate at {{ input_datetime_read('input_datetime.emma_bedtime') }}. "
         {% endif %}
       {% endif %}

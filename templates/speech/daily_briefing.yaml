@@ -55,6 +55,7 @@
           "Given that you are well into your day, here is a bit of helpful information. ",
           "You are past the point of no return and must finish your day, so I am here to help you out. ",
           "The developer has informed me that I must inform you of the following informational information. ",
+          "My introduction lines are getting stale as hell. Any new ideas, anyone? ",
         ] | random }}
 
         {% if is_state('binary_sensor.evening','on') %}
