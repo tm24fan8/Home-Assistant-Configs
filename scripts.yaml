@@ -250,7 +250,7 @@ going_upstairs:
   - service: light.turn_on
     data:
       kelvin: 2000
-      brightness: 150
+      brightness: 200
     target:
       entity_id: light.stairwell_led_strip
     alias: Turn up the stairwell LED strip

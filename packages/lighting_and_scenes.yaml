@@ -1195,8 +1195,10 @@ script:
           data:
             color_temp_kelvin: 2000
             brightness: >
-              {% if is_state('input_boolean.give_me_darkness','on') %}
+              {% if is_state('input_boolean.goodnight','on') %}
                 50
+              {% elif is_state('input_boolean.give_me_darkness','on') %}
+                100
               {% else %}
                 150
               {% endif %}
@@ -1599,7 +1601,7 @@ script:
               entity_id: light.stairwell_led_strip
             data:
               color_temp_kelvin: 2000
-              brightness: 50
+              brightness: 100
           - service: input_select.select_option
             target:
               entity_id:
