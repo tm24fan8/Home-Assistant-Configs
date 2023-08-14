@@ -888,14 +888,22 @@
           entity_id: light.living_room_lights
         alias: Brightness Down Small
       off_short_action:
-      - if:
-        - condition: state
-          entity_id: binary_sensor.early_night_mode
-          state: 'on'
-        then:
-        - service: script.evening_on_first_floor
-          data: {}
-        else:
+      - choose:
+        - conditions:
+          - condition: state
+            entity_id: binary_sensor.early_night_mode
+            state: 'on'
+          sequence:
+          - service: script.evening_on_first_floor
+            data: {}
+        - conditions:
+          - condition: state
+            entity_id: input_boolean.goodnight
+            state: 'on'
+          sequence:
+          - service: script.goodnight_on_first_floor
+            data: {}
+        default:
         - service: light.turn_off
           data: {}
           target:
@@ -1025,18 +1033,41 @@
         target:
           entity_id: input_boolean.emma_sleeping
       off_short_action:
-      - if:
-        - condition: state
-          entity_id: binary_sensor.early_night_mode
-          state: 'on'
-        then:
-        - service: script.evening_on_second_floor
-          data: {}
-        else:
+      - choose:
+        - conditions:
+          - condition: state
+            entity_id: binary_sensor.early_night_mode
+            state: 'on'
+          sequence:
+          - service: script.evening_on_second_floor
+            data: {}
+        - conditions:
+          - condition: state
+            entity_id: input_boolean.goodnight
+            state: 'on'
+          sequence:
+          - service: script.goodnight_on_second_floor
+            data: {}
+        default:
         - service: light.turn_off
           data: {}
           target:
-            entity_id: light.second_floor_lights
+            area_id:
+            - emma_bedroom
+            - kallen_bedroom
+            - master_bedroom
+            - master_bedroom_closet
+            - upstairs_hallway
+        - if:
+          - condition: template
+            value_template: '{{ is_state(''timer.upstairs_bathroom_motion_timer'',''idle'')
+              and is_state(''binary_sensor.upstairs_bathroom_motion'',''off'') and
+              is_state(''light.upstairs_bathroom_lights'',''on'') }}'
+          then:
+          - service: light.turn_off
+            data: {}
+            target:
+              entity_id: light.upstairs_bathroom_lights
 - id: '1682561310614'
   alias: Kallen Bedroom Switch Handler
   description: ''
