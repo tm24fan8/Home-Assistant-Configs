@@ -26,6 +26,9 @@
       {% set ltgdist = (states('sensor.blitzortung_lightning_distance') | int) / 1.609 | round %}
         There is lightning in the area. Nearest strike is {{ ltgdist }} miles away.
     {% endif %}
+    {% if is_state('binary_sensor.raining_bayesian','on') %}
+      It is currently raining. Make sure all doors and windows are closed!
+    {% endif %}
     {% if state_attr('weather.iron_nerd_weather_station','visibility') | int < 3 %}
       Caution: Current outdoor visibility is {{ state_attr('weather.iron_nerd_weather_station','visibility') }} miles.
     {% endif %}
@@ -55,6 +58,14 @@
         "That flashing in the sky is not interstellar warfare, it is simply lightning. But you should still be careful outside. ",
       ] | random }}
       "The nearest lightning strike is {{ ltgdist }} miles away. "
+    {% endif %}
+    {% if is_state('binary_sensor.raining_bayesian','on') %}
+      {{ [
+        "I have looked outside and determined that it is raining. ",
+        "If you look outside the window, you will notice, it wainin. ",
+        "It wainin sideways! ",
+        "There appears to be excessive moisture currently falling from the sky. Plan accordingly. ",
+      ] | random }}
     {% endif %}
     {% if (state_attr('weather.iron_nerd_weather_station','visibility') | int ) < 3 %}
       {{ [
