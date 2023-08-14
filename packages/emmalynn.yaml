@@ -357,7 +357,7 @@ automation:
                 target:
                   entity_id: input_datetime.emma_asleep_at
                 data:
-                  datetime: >
+                  time: >
                     {% from 'time.jinja' import current_time %}
                     {{ current_time(24) }}
       - conditions:
