@@ -117,7 +117,7 @@
       {% endif %}
       {% if is_state('input_boolean.kallen_overnight','off') %}
         {% if not is_state('input_select.scheduled_climate_mode_kallen_fan','N/A') %}
-          {% if is_state('input_select.scheduled_climate_mode_kallen_fan','Fan') and is_state('fan.kallen_fan','off') %}
+          {% if is_state('input_select.scheduled_climate_mode_kallen_fan','Fan') and is_state('fan.kallen_bedroom_fan','off') %}
             "Collin's fan will activate at {{ input_datetime_read('input_datetime.kallen_fan') }}. "
           {% elif is_state('input_select.scheduled_climate_mode_kallen_fan','White Noise') and is_state('input_boolean.white_noise_kallen_bedroom','off') %}
             "Collin's white noise generator will activate at {{ input_datetime_read('input_datetime.kallen_bedtime') }}. "
