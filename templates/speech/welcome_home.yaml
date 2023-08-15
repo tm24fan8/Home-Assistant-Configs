@@ -6,6 +6,7 @@
   {% from 'time.jinja' import input_datetime_read %}
   {% from 'status.jinja' import emma_sleep %}
   {% from 'easy_time.jinja' import count_the_days %}
+  {% from 'weather.jinja' import weatherReport %}
     <p>
       "Welcome home, "
         {% if is_state('person.tony_stork','home') and is_state('person.christina_stork','home') %}
@@ -62,40 +63,7 @@
       {% endif %}
     </p>
     <p>
-      {% if is_state('input_boolean.tornado_alarm','on') %}
-        "We are under a tornado warning. If you are not already in shelter, you should be. Get on it! "
-      {% elif is_state('input_boolean.tornado_watch','on') %}
-        {{ [
-          "There is currently a tornado watch active. Please keep an eye on the sky and your local weather reports. ",
-          "We are currently under a tornado watch. This means the possibility exists for a tornado to form. Be prepared, and be safe! ",
-          "The National Weather Service has issued a tornado watch for our area. Be prepared to take shelter if a warning is issued! ",
-        ] | random }}
-      {% endif %}
-      {% if is_state('binary_sensor.lightning_warning','on') %}
-        {% set ltgdist = (states('sensor.blitzortung_lightning_distance') | int) / 1.609 | round %}
-        {{ [
-          "There are reports of lightning in the area, please stay safe. ",
-          "My sensors detect the presence of lightning nearby, so you should prepare to take shelter if needed. ",
-          "A little birdy told me there is lightning nearby. His feathers were all sticking up, I have no idea why. ",
-          "Please exercise caution, as there is lightning in the area. ",
-          "That flashing in the sky is not interstellar warfare, it is simply lightning. But you should still be careful outside. ",
-        ] | random }}
-        "The nearest lightning strike is {{ ltgdist }} miles away. "
-      {% endif %}
-      {% if states('sensor.weatheralerts_active_alerts') > '0' %}
-        "Currently there are weather alerts active. The total number of alerts is {{ states('sensor.weather_alerts_active_corrected') }}. They are as follows. "
-          {{ states('sensor.weather_alert_string') }}.
-      {% endif %}
-      {% if (state_attr('weather.iron_nerd_weather_station','visibility') | int ) < 3 %}
-        "In case you are planning to go back out, "
-        {{ [
-          "It is foggy outside, please exercise caution when driving. ",
-          "The visibility outside is quite low. If you will be driving soon, please be cautious. ",
-          "It is pea soup outside right now, and that is just as awful to drive in as it is to eat. Be careful! ",
-          "Look out the window. Do you notice that you cannot see anything? Bear that in mind if you intend to drive any time soon. ",
-          "Be advised, it is very difficult to see outside right now. Drive safely. "
-        ] | random }}
-      {% endif %}
+      {{ weatherReport('alerts','tts','day') }}
     </p>
 
     <p>
@@ -109,8 +77,6 @@
                 "and the master bedroom air conditioner is currently in fan only mode. "
               {% elif is_state('climate.master_bedroom_aircon','dry') %}
                 "and the master bedroom air conditioner is currently moonlighting as a dehumidifier. "
-              {% elif is_state('climate.master_bedroom_aircon','off') %}
-                "and the master bedroom air conditioner is currently not running. "
               {% elif is_state('climate.master_bedroom_aircon','auto') %}
                 "and the master bedroom air conditioner is making its own decisions. Be afraid, be very afraid. "
               {% else %}
