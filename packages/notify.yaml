@@ -981,6 +981,10 @@ script:
     variables:
       voice: "{{ states('input_select.jarvis_voice') }}"
     sequence:
+      - service: script.get_room_services
+        data:
+          room: "{{ who }}"
+        response_variable: "room"
       - service: mqtt.publish
         data:
           topic: 'house/polly/lastmsg'
@@ -1024,42 +1028,10 @@ script:
       - service: >-
           {% if voice == 'nabu' %}
             script.nabu_voice      
-          {% elif who in ['living_room_echo_dot', 'media_player.living_room_echo_dot','living_room','Living Room Echo Dot','Living Room']  %}
-            script.alexa_voice
-          {% elif who in ['kallen_bedroom','Kallen Bedroom']  %}
-            {% if is_state('input_boolean.kallen_sleeping','on') and type not in ['critical','Critical'] %}
-              script.alexa_voice
-            {% else %}
-              script.jarvis_voice
-            {% endif %}
-          {% elif who in ['emma_bedroom','Emma Bedroom'] %}
-            {% if is_state('input_boolean.emma_sleeping','on') and type not in ['critical','Critical'] %}
-              script.alexa_voice
-            {% else %}
-              script.jarvis_voice
-            {% endif %}
-          {% elif who in ['master_bedroom','master_bedroom_echo_dot','media_player.master_bedroom_echo_dot','Master Bedroom Echo Dot','Master Bedroom']  %}
-            script.alexa_voice
-          {% elif who in ['kids_bedrooms','Kids Bedrooms'] %}
-            script.jarvis_voice
-          {% elif who in ['all_bedrooms','All Bedrooms'] %}
-            script.alexa_voice
-          {% elif who in ['Basement','basement','basement_echo_dot','media_player.basement_echo_dot','Basement Echo Dot']  %}
-            script.alexa_voice
-          {% elif who in ['Basement Google','basement_google'] %}
-            {% if is_state('input_boolean.studio_quiet','on') %}
-              script.alexa_voice
-            {% else %}
-              script.jarvis_voice
-            {% endif %}
-          {% elif who in ['Common Areas','common','common_areas'] %}
-            script.alexa_voice
-          {% elif who in ['alexa_everywhere','Alexa Everywhere'] %}
-            script.alexa_voice
-          {% elif who in ['Everywhere','everywhere'] %}
+          {% elif room.jarvis_tts == 'alexa' %}
             script.alexa_voice
           {% else %}
-            script.alexa_voice
+            script.jarvis_voice
           {% endif %}
         data:
           who: >
