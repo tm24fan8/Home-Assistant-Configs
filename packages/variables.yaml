@@ -1,6 +1,6 @@
 script:
-  get_room_services:
-    alias: Get Room Services
+  get_room_speakers:
+    alias: Get Room Speakers
     sequence:
     - variables:
         room_services: >-
@@ -16,14 +16,99 @@ script:
                 selectattr('entity_id', 'in', area_entities(room)) |
                 rejectattr('attributes.device_class', 'undefined') |
                 selectattr('attributes.device_class', 'search', '(speaker)') | 
+                selectattr('entity_id', 'search', 'google') |
                 map(attribute='entity_id') |
               list | first %}
   
             {% set tts = "alexa" if alexa_speaker is defined else "google" %}
+          {% else %}
+            {% set tts = "group" %}
           {% endif %}
           {"area":"{{room}}","alexa_speaker":"{{alexa_speaker|default({}) }}","jarvis_tts":"{{tts|default("google") }}","google_speaker":"{{google_speaker|default({}) }}"}
     - stop: "Services acquired"
-      response_variable: "room_services"
+      response_variable: "get_room_speakers"
+
+  get_group_speakers:
+    alias: Get Group Speakers
+    sequence:
+    - variables:
+        get_group_speakers: >-
+          {% set speakers = expand('group.' + group) | map(attribute='entity_id') | list | join(',') %}
+          {% set alexa_speakers = expand('group.' + group) | 
+              rejectattr('attributes.last_called', 'undefined') |
+              selectattr('entity_id', 'search', 'echo_dot') |
+              map(attribute='entity_id') |
+            list | join(',') %}
+          {% set google_speakers = expand('group.' + group) |
+              rejectattr('attributes.device_class', 'undefined') |
+              selectattr('attributes.device_class', 'search', '(speaker)') | 
+              selectattr('entity_id', 'search', 'google') |
+              map(attribute='entity_id') |
+            list | join(',') %}
+          {"alexa":"{{alexa_speakers|default({})}}","google":"{{google_speakers|default({})}}"}
+    - stop: "Speakers acquired"
+      response_variable: "get_group_speakers"
+
+  get_echo_dots:
+    alias: Get Echo Dots
+    sequence:
+    - variables:
+        get_echo_dots: >-
+          {% if group is defined %}
+            {% set speakers = expand('group.' + group) %}
+          {% else %}
+            {% set speakers = states.media_player %}
+          {% endif %}
+          {% set echo_dots = speakers |
+            rejectattr('attributes.last_called', 'undefined') |
+            selectattr('entity_id', 'search', 'echo_dot') |
+            map(attribute='entity_id') |
+          list | join(',') %}
+          {"speakers":"{{echo_dots}}"}
+    - stop: "Echo Dots acquired"
+      response_variable: "get_echo_dots"
+
+  get_google_speakers:
+    alias: Get Google Speakers
+    sequnce:
+    - variables:
+        get_google_speakers: >-
+          {% if group is defined %}
+            {% set speakers = expand('group.' + group) %}
+          {% else %}
+            {% set speakers = states.media_player %}
+          {% endif %}
+          {% set google_speaker = speakers |
+              rejectattr('attributes.device_class', 'undefined') |
+              selectattr('attributes.device_class', 'search', '(speaker)') | 
+              selectattr('entity_id', 'search', 'google') |
+              map(attribute='entity_id') |
+            list | join(',') %}
+          {"speakers":"{{google_speaker}}"}
+    - stop: "Google speakers acquired"
+      response_variable: "get_google_speakers"
+
+  get_all_speakers:
+    alias: Get All Speakers
+    sequence:
+    - variables: >-
+        get_speakers:
+        {% set alexa_speaker = states.media_player |
+            rejectattr('attributes.last_called', 'undefined') |
+            selectattr('entity_id', 'search', 'echo_dot') |
+            map(attribute='entity_id')
+          %}
+
+        {% set google_speaker = states.media_player |
+            rejectattr('attributes.device_class', 'undefined') |
+            selectattr('attributes.device_class', 'search', '(speaker)') | 
+            selectattr('entity_id', 'search', 'google') |
+            map(attribute='entity_id')
+          %}
+        {% set alexa_list = alexa_speaker | list | join(',') %}
+        {% set google_list = google_speaker | list | join(',') %}
+        {% set all_speakers = alexa_list + ',' + google_list %}
+        {"all_speakers":"{{all_speakers}}"}
 
   get_room_lights:
     alias: Get Room Lights
