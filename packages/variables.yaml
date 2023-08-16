@@ -4,22 +4,24 @@ script:
     sequence:
     - variables:
         room_services: >-
-          {% set alexa_speaker = states.media_player | 
-              selectattr('entity_id', 'in', area_entities(room)) |
-              rejectattr('attributes.last_called', 'undefined') |
-              selectattr('entity_id', 'search', 'echo_dot') |
-              map(attribute='entity_id') |
-            list | first %}
-
-          {% set google_speaker = states.media_player | 
-              selectattr('entity_id', 'in', area_entities(room)) |
-              rejectattr('attributes.device_class', 'undefined') |
-              selectattr('attributes.device_class', 'search', '(speaker)') | 
-              map(attribute='entity_id') |
-            list | first %}
-
-          {% set tts = "alexa" if alexa_speaker is defined else "google" %}
-          {"area":"{{room}}","alexa_speaker":"{{alexa_speaker|default({}) }}","jarvis_tts":"{{tts}}","google_speaker":"{{google_speaker|default({}) }}"}
+          {% if room in areas() %}
+            {% set alexa_speaker = states.media_player | 
+                selectattr('entity_id', 'in', area_entities(room)) |
+                rejectattr('attributes.last_called', 'undefined') |
+                selectattr('entity_id', 'search', 'echo_dot') |
+                map(attribute='entity_id') |
+              list | first %}
+  
+            {% set google_speaker = states.media_player | 
+                selectattr('entity_id', 'in', area_entities(room)) |
+                rejectattr('attributes.device_class', 'undefined') |
+                selectattr('attributes.device_class', 'search', '(speaker)') | 
+                map(attribute='entity_id') |
+              list | first %}
+  
+            {% set tts = "alexa" if alexa_speaker is defined else "google" %}
+          {% endif %}
+          {"area":"{{room}}","alexa_speaker":"{{alexa_speaker|default({}) }}","jarvis_tts":"{{tts|default("google") }}","google_speaker":"{{google_speaker|default({}) }}"}
     - stop: "Services acquired"
       response_variable: "room_services"
 
