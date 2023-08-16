@@ -1,5 +1,6 @@
 script:
   get_room_services:
+    alias: Get Room Services
     sequence:
     - variables:
         room_services: >-
@@ -21,3 +22,18 @@ script:
           {"area":"{{room}}","alexa_speaker":"{{alexa_speaker|default({}) }}","jarvis_tts":"{{tts}}","google_speaker":"{{google_speaker|default({}) }}"}
     - stop: "Services acquired"
       response_variable: "room_services"
+
+  get_room_lights:
+    alias: Get Room Lights
+    sequence:
+    - variables:
+        area: >
+          {{ room }}
+        entities: >
+          {% set lights = states.light |
+            selectattr('entity_id', 'in', area_entities(area)) |
+            map(attribute='entity_id') |
+            list | join(',') %}
+          {"lights":"{{lights}}"}
+    - stop: "Lights acquired"
+      response_variable: "entities"
