@@ -980,11 +980,33 @@ script:
               - critical
     variables:
       voice: "{{ states('input_select.jarvis_voice') }}"
+      groupname: >-
+        {% if who == 'kids_bedrooms' %}
+          kids_bedroom_speakers
+        {% elif who == 'all_bedrooms' %}
+          all_bedroom_speakers
+        {% elif who == 'basement' and is_state('input_boolean.studio_quiet','on') %}
+          alexa_no_basement
+        {% else %}
+          {{ who }}
+        {% endif %}
     sequence:
-      - service: script.get_room_services
+      - service: script.get_room_speakers
         data:
           room: "{{ who }}"
-        response_variable: "room"
+        response_variable: "get_room_speakers"
+      - choose:
+        - conditions: "{{ who in ['everywhere','Everywhere'] }}"
+          sequence:
+          - service: script.get_all_speakers
+            response_variable: "get_all_speakers"
+        - conditions: "{{ get_room_speakers.jarvis_tts == 'group' }}"
+          sequence:
+          - service: script.get_group_speakers
+            data:
+              group: "{{ who }}"
+            response_variable: "get_group_speakers"
+      # Need to figure out whether to do this part here, or in alexa/jarvis voice scripts, or both
       - service: mqtt.publish
         data:
           topic: 'house/polly/lastmsg'
@@ -1028,12 +1050,13 @@ script:
       - service: >-
           {% if voice == 'nabu' %}
             script.nabu_voice      
-          {% elif room.jarvis_tts == 'alexa' %}
+          {% elif get_room_services.jarvis_tts in ['group','alexa'] %}
             script.alexa_voice
           {% else %}
             script.jarvis_voice
           {% endif %}
         data:
+          # Work on where this redirect logic should go
           who: >
             {% if who in ['living_room_echo_dot', 'media_player.living_room_echo_dot','living_room','Living Room Echo Dot','Living Room']  %}
               living_room
@@ -1110,7 +1133,7 @@ script:
           type: '{{ type }}'
       - if:
         - condition: template
-          value_template: "{{ who in ['Everywhere','everywhere','all_bedrooms','All Bedrooms','kids_bedrooms','Kids Bedrooms'] }}"
+          value_template: "{{ get_room_speakers.jarvis_tts == 'group' and get_group_speakers.google is defined }}"
         then:
         - service: script.jarvis_voice
           data:
