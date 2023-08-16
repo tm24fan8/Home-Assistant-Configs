@@ -124,8 +124,8 @@ recorder:
       - media_player.basement_echo_dot
       - media_player.living_room_echo_dot
       - media_player.master_bedroom_echo_dot
-      - media_player.kallen_bedroom_speaker
-      - media_player.emma_bedroom_speaker
+      - media_player.kallen_bedroom_google_speaker
+      - media_player.emma_bedroom_google_speaker
       - media_player.spotify_iron_nerd
       - media_player.xia_desktop
       - media_player.tony_asus

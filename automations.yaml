@@ -597,7 +597,7 @@
           volume_level: '{{ states(''input_number.emma_bedroom_google_speaker_night_volume'')
             }}'
         target:
-          entity_id: media_player.emma_bedroom_speaker
+          entity_id: media_player.emma_bedroom_google_speaker
     - conditions:
       - condition: trigger
         id: basement-on
@@ -617,7 +617,7 @@
           volume_level: '{{ states(''input_number.kallen_bedroom_google_speaker_night_volume'')
             }}'
         target:
-          entity_id: media_player.kallen_bedroom_speaker
+          entity_id: media_player.kallen_bedroom_google_speaker
     - conditions:
       - condition: trigger
         id: emma-off
@@ -634,7 +634,7 @@
               }}\n{% else %}\n  {{ states('input_number.emma_bedroom_google_speaker_day_volume')
               }}\n{% endif %}\n"
           target:
-            entity_id: media_player.emma_bedroom_speaker
+            entity_id: media_player.emma_bedroom_google_speaker
     - conditions:
       - condition: trigger
         id: basement-off
@@ -668,7 +668,7 @@
               }}\n{% else %}\n  {{ states('input_number.kallen_bedroom_google_speaker_day_volume')
               }}\n{% endif %}\n"
           target:
-            entity_id: media_player.kallen_bedroom_speaker
+            entity_id: media_player.kallen_bedroom_google_speaker
   mode: parallel
   max: 10
 - id: '1671584633378'
