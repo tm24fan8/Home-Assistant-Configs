@@ -115,6 +115,7 @@ recorder:
       - sensor.time_utc
       - sensor.hacs
       - sensor.mariadb_database_size
+      - sensor.internet_time
   include:
     entities:
       - media_player.living_room_tv
@@ -168,6 +169,7 @@ influxdb:
       - sensor.xr500_gateway_kib_s_sent
       - light.all_lights
       - fan.all_fans
+      - sensor.internet_time
   include:
     domains:
       - sun
@@ -306,6 +308,7 @@ prometheus:
       - sensor.xr500_gateway_kib_s_sent
       - light.all_lights
       - fan.all_fans
+      - sensor.internet_time
     include_domains:
       - sun
       - light
