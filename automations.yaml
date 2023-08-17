@@ -1062,7 +1062,8 @@
           - condition: template
             value_template: '{{ is_state(''timer.upstairs_bathroom_motion_timer'',''idle'')
               and is_state(''binary_sensor.upstairs_bathroom_motion'',''off'') and
-              is_state(''light.upstairs_bathroom_lights'',''on'') }}'
+              is_state(''light.upstairs_bathroom_lights'',''on'') and is_state(''input_boolean.shower_mode'',''off'')
+              }}'
           then:
           - service: light.turn_off
             data: {}
