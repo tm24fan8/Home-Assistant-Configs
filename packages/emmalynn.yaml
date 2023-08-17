@@ -772,6 +772,9 @@ script:
                 - input_select.upstairs_hallway_scenes
             data:
               option: Adaptive
+          - service: script.stairwell_led_strip
+            data:
+              brightness: 255
         - conditions:
           - condition: state
             entity_id: binary_sensor.early_night_mode
