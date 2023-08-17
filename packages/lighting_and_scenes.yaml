@@ -625,9 +625,7 @@ automation:
         - service: light.turn_on
           target:
             entity_id: light.first_floor_lights
-        - service: light.turn_on
-          target:
-            entity_id: light.stairwell_led_strip
+        - service: script.stairwell_led_strip
           data:
             color_temp_kelvin: 2000
             brightness: 255
@@ -669,9 +667,7 @@ automation:
               - light.mud_room_overhead
               - light.downstairs_bathroom_lights
               - light.dining_room_lamp
-        - service: light.turn_on
-          target:
-            entity_id: light.stairwell_led_strip
+        - service: script.stairwell_led_strip
           data:
             color_temp_kelvin: 2000
             brightness: 50
@@ -1067,6 +1063,52 @@ automation:
           adapt_color: "{{ is_state('switch.adaptive_lighting_adapt_color_living_room','on') }}"
 
 script:
+  stairwell_led_strip:
+    alias: Stairwell LED Strip
+    description: This script handles a few settings for the stairwell LED strip, for convenience
+    mode: restart
+    sequence:
+    - variables:
+        brt1: 50
+        brt2: 100
+        brt3: 150
+        brtmax: 255
+        colortemp: >
+          {% if is_state('input_boolean.goodnight','off') and
+                is_state('input_boolean.give_me_darkness','off') and
+                is_state('binary_sensor.early_night_mode','off')
+          %}
+            4000
+          {% else %}
+            2000
+          {% endif %}
+    - if:
+      - condition: template
+        value_template: "{{ brightness == 'reset' }}"
+      then:
+      - service: light.turn_on
+        target:
+          entity_id: light.stairwell_led_strip
+        data:
+          brightness: >
+            {% if is_state('input_boolean.goodnight','on') %}
+              {{ brt1 }}
+            {% elif is_state('input_boolean.give_me_darkness','on') %}
+              {{ brt2 }}
+            {% elif is_state('binary_sensor.early_night_mode','on') %}
+              {{ brt3 }}
+            {% else %}
+              {{ brtmax }}
+            {% endif %}
+          color_temp_kelvin: "{{ colortemp }}"
+      else:
+      - service: light.turn_on
+        target:
+          entity_id: light.stairwell_led_strip
+        data:
+          brightness: "{{ brightness|default(brt3) }}"
+          color_temp_kelvin: "{{ color_temp_kelvin|default(colortemp) }}"
+
   adaptive_on_first_floor:
     alias: Adaptive on First Floor
     sequence:
@@ -1189,19 +1231,9 @@ script:
           entity_id: binary_sensor.early_night_mode
           state: 'on'
         then:
-        - service: light.turn_on
-          target:
-            entity_id: light.stairwell_led_strip
+        - service: script.stairwell_led_strip
           data:
-            color_temp_kelvin: 2000
-            brightness: >
-              {% if is_state('input_boolean.goodnight','on') %}
-                50
-              {% elif is_state('input_boolean.give_me_darkness','on') %}
-                100
-              {% else %}
-                150
-              {% endif %}
+            brightness: reset
       - if:
         - condition: state
           entity_id: light.hallway_overhead
@@ -1374,11 +1406,8 @@ script:
   bright_on_second_floor:
     alias: 'Bright on Second Floor'
     sequence:
-      - service: light.turn_on
-        target:
-          entity_id: light.stairwell_led_strip
+      - service: script.stairwell_led_strip
         data:
-          color_temp_kelvin: 2000
           brightness: 255
       - service: light.turn_on
         target:
@@ -1596,9 +1625,7 @@ script:
             entity_id: input_boolean.give_me_darkness
             state: 'on'
           sequence:
-          - service: light.turn_on
-            target:
-              entity_id: light.stairwell_led_strip
+          - service: script.stairwell_led_strip
             data:
               color_temp_kelvin: 2000
               brightness: 100
@@ -1656,9 +1683,7 @@ script:
             entity_id: input_boolean.give_me_darkness
             state: 'off'
           sequence:
-          - service: light.turn_on
-            target:
-              entity_id: light.stairwell_led_strip
+          - service: script.stairwell_led_strip
             data:
               color_temp_kelvin: 2000
               brightness: 150
@@ -1797,9 +1822,7 @@ script:
           entity_id: input_select.upstairs_bathroom_scenes
         data:
           option: Single Nightlight
-    - service: light.turn_on
-      target:
-        entity_id: light.stairwell_led_strip
+    - service: script.stairwell_led_strip
       data:
         color_temp_kelvin: 2000
         brightness: 50
