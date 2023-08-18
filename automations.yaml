@@ -209,23 +209,12 @@
   description: Runs when family arrives at home
   trigger:
   - platform: state
-    entity_id: group.adults
-    not_from:
-    - unknown
-    - unavailable
+    entity_id: sensor.adults_home_fix
+    not_from: broken
     to: home
   condition:
   - condition: not
     conditions:
-    - condition: state
-      entity_id: person.tony_stork
-      state: unknown
-    - condition: state
-      entity_id: person.christina_stork
-      state: unknown
-    - condition: state
-      entity_id: group.family
-      state: unknown
     - condition: state
       entity_id: binary_sensor.internet
       state: 'off'
@@ -248,9 +237,7 @@
   trigger:
   - platform: state
     entity_id: group.adults
-    not_from:
-    - unknown
-    - unavailable
+    not_from: broken
     to: not_home
   condition:
   - condition: state
@@ -258,15 +245,6 @@
     state: 'off'
   - condition: not
     conditions:
-    - condition: state
-      entity_id: person.tony_stork
-      state: unknown
-    - condition: state
-      entity_id: person.christina_stork
-      state: unknown
-    - condition: state
-      entity_id: group.family
-      state: unknown
     - condition: state
       entity_id: binary_sensor.internet
       state: 'off'

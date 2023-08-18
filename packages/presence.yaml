@@ -154,6 +154,44 @@ binary_sensor:
 sensor:
   - platform: template
     sensors:
+      adults_home_fix:
+        friendly_name: "Adults Home Fix"
+        unique_id: c63364fb-c3cb-44a6-8fba-5d63e3f9c981
+        value_template: >
+          {% if states('person.tony_stork') in ['unknown','unavailable'] or states('person.christina_stork') in ['unknown','unavailable'] %}
+            broken
+          {% elif is_state('group.adults','home') %}
+            home
+          {% elif is_state('group.adults','not_home') %}
+            not_home
+          {% endif %}
+        icon_template: >
+          {% if states('person.tony_stork') in ['unknown','unavailable'] or states('person.christina_stork') in ['unknown','unavailable'] %}
+            mdi:alert-circle
+          {% elif is_state('group.adults','home') %}
+            mdi:home
+          {% elif is_state('group.adults','not_home') %}
+            mdi:home-outline
+          {% endif %}
+      family_home_fix:
+        friendly_name: "Family Home Fix"
+        unique_id: f27a1a56-0c7e-46ee-9f21-a48cc1a0421c
+        value_template: >
+          {% if states('person.tony_stork') in ['unknown','unavailable'] or states('person.christina_stork') in ['unknown','unavailable'] or states('person.kallen_stork') in ['unknown','unavailable'] %}
+            broken
+          {% elif is_state('group.family','home') %}
+            home
+          {% elif is_state('group.family','not_home') %}
+            not_home
+          {% endif %}
+        icon_template: >
+          {% if states('person.tony_stork') in ['unknown','unavailable'] or states('person.christina_stork') in ['unknown','unavailable'] or states('person.kallen_stork') in ['unknown','unavailable'] %}
+            mdi:alert-circle
+          {% elif is_state('group.family','home') %}
+            mdi:home
+          {% elif is_state('group.family','not_home') %}
+            mdi:home-outline
+          {% endif %}
       tony_location:
         friendly_name: "Tony"
         unique_id: 2620a9d0-01f0-4af4-8438-a0c860735aab
