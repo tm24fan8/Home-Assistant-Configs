@@ -236,7 +236,7 @@
   description: Runs when the family has left home
   trigger:
   - platform: state
-    entity_id: group.adults
+    entity_id: sensor.adults_home_fix
     not_from: broken
     to: not_home
   condition:
