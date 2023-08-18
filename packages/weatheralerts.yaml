@@ -1613,18 +1613,31 @@ automation:
           title: "WINDOWS ARE OPEN!"
           message: "It is raining and there are windows open in the house. Please close them!"
           tag: rain-window-warning
+      - service: script.living_room_lights_alert
+        data:
+          type: blue
+          duration: 10
+      - if:
+        - condition: state
+          entity_id: binary_sensor.basement_occupied
+          state: 'on'
+        then:
+        - service: script.basement_lights_alert
+          data:
+            type: blue
+            duration: 10
       - service: script.speech_engine
         data:
           who: everywhere
           type: weather
           message: "It is raining and there are windows open in the house. Please close them!"
-      - wait_template: "{{ is_state('binary_sensor.windows','off') or is_state('binary_sensor.raining_bayesian','none') }}"
+      - wait_template: "{{ is_state('binary_sensor.windows','off') or is_state('binary_sensor.raining_bayesian','off') }}"
         timeout: "00:15:00"
         continue_on_timeout: true
       - choose:
         - conditions:
           - condition: template
-            value_template: "{{ is_state('binary_sensor.windows','off') and states('binary_sensor.raining_bayesian') not in ['none'] }}"
+            value_template: "{{ is_state('binary_sensor.windows','off') and is_state('binary_sensor.raining_bayesian','on') }}"
           sequence:
           - service: script.text_notify
             data:
@@ -1639,7 +1652,7 @@ automation:
               message: "Windows are now closed. Thank you, and enjoy your dry house."
         - conditions:
           - condition: template
-            value_template: "{{ is_state('binary_sensor.raining_bayesian','none') }}"
+            value_template: "{{ is_state('binary_sensor.raining_bayesian','off') }}"
           sequence:
           - service: script.text_notify
             data:
