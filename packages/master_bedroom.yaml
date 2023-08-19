@@ -102,7 +102,7 @@ script:
           {% set ct = ct() | int %}
           {% set cooling = state_attr('input_datetime.master_bedroom_cooling','timestamp') | int %}
           {% set wakeup = state_attr('input_datetime.master_bedroom_wakeup','timestamp') | int %}
-          {{ 21600 < ct < cooling }}
+          {{ (21600 < ct < cooling) and is_state('binary_sensor.people_sleeping','off') }}
       then:
       - service: button.press
         target:
