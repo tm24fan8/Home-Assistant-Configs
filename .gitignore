@@ -67,6 +67,7 @@
 **alexa_auth
 **.corrupt*
 **ages_old.yaml
+**jsconfig*
 
 # exceptions
 !/appdaemon/apps/
