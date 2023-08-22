@@ -95,6 +95,11 @@ input_boolean:
     name: Hot Day
     icon: mdi:heat-wave
 
+  # Activated (manually) to immediately put all climate devices into their best cooling configurations
+  meltdown_protocol:
+    name: Meltdown Protocol
+    icon: mdi:skull-crossbones
+
   # Activated if the day will be excessively cold. For use with automations for daytime climate control.
   cold_day:
     name: Cold Day

@@ -235,6 +235,17 @@ template:
           {% else %}
             No Trigger
           {% endif %}
+        danger: >
+          {% set day = states('sensor.today_corrected_high_temp') | int %}
+          {% set night = states('sensor.overnight_lowest_temperature') | int %}
+          {% set dayThreshold = states('input_number.extended_heat_threshold') | int + 10 %}
+          {% set nightThreshold = states('input_number.hot_overnight_threshold') | int + 10 %}
+          {% set hotDayThreshold = states('input_number.hot_day_threshold') | int + 5 %}
+          {% if (day >= dayThreshold and night >= nightThreshold) or day >= hotDayThreshold %}
+            Extreme
+          {% else %}
+            Normal
+          {% endif %}
     - name: "Lightning Warning"
       unique_id: edaddfc4-f7f0-4d75-aada-a2c588afe029
       state: "{{ states('sensor.blitzortung_lightning_counter') | int > 0 }}"
