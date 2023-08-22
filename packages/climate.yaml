@@ -68,8 +68,8 @@ template:
       state: "{{ states('input_datetime.kallen_fan') != states('input_datetime.kallen_bedtime') }}"
 
 input_boolean:
-  master_bedroom_nighttime_protocol:
-    name: Master Bedroom Nighttime Protocol
+  master_bedroom_climate_protocol:
+    name: Master Bedroom Climate Protocol
     icon: mdi:lightbulb-night
   kallen_bedtime_protocol:
     name: Kallen Bedtime Protocol
