@@ -68,6 +68,7 @@
 **.corrupt*
 **ages_old.yaml
 **jsconfig*
+.markdownlint.json
 
 # exceptions
 !/appdaemon/apps/

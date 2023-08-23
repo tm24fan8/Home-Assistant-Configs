@@ -6,7 +6,7 @@ Just a place to track my work on my personal Home Assistant configuration, and l
 
 I have recently started using the Node-RED Projects feature, which makes version control for my flows a LOT easier than it was before.
 
-With this change, the Node-RED flows are now in a new repo used as a submodule to this repo. They can be found at [HA-NerdFlows](https://github.com/tm24fan8/HA-NerdFlows).
+With this change, the Node-RED flows are now in their own repo. They can be found at [HA-NerdFlows](https://github.com/tm24fan8/HA-NerdFlows).
 
 ## Attributions
 
@@ -18,6 +18,9 @@ I am fairly new to this, and while I'm learning to do a lot of it myself, I have
 ## HACS Components
 
 These aren't all the ones I have installed...just the ones I am actively **using** or **will use soon**
+
+<details>
+<summary>Click here</summary>
 
 - [Adaptive Lighting](https://github.com/basnijholt/adaptive-lighting)
 - [Alexa Media Player](https://github.com/custom-components/alexa_media_player)
@@ -50,10 +53,21 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [Hass Animated Scenes](https://github.com/chazzu/hass-animated-scenes)
 - [Jokes](https://github.com/LaggAt/ha-jokes)
 - [Google Photos](https://github.com/Daanoz/ha-google-photos)
+- [Uptime Kuma](https://github.com/meichthys/uptime_kuma)
+- [Jellyfin](https://github.com/koying/jellyfin_ha)
+- [Sonoff LAN](https://github.com/AlexxIT/SonoffLAN)
+- [Powercalc](https://github.com/bramstroker/homeassistant-powercalc)
+- [Govee LAN Control](https://github.com/wez/govee-lan-hass)
+- [Discord Game](https://github.com/LordBoos/discord_game)
+
+</details>
 
 ## HACS Lovelace Cards
 
 Again, mostly just the ones I'm **using** or **will use soon**...also a few that I'm putting in here so that I don't forget about them later.
+
+<details>
+<summary>Click here</summary>
 
 - [Card Tools](https://github.com/thomasloven/lovelace-card-tools) (required for various other cards)
 - [Layout Card](https://github.com/thomasloven/lovelace-layout-card)
@@ -109,14 +123,29 @@ Again, mostly just the ones I'm **using** or **will use soon**...also a few that
 - [Sankey Chart Card](https://github.com/MindFreeze/ha-sankey-chart)
 - [Hourly Weather Card](https://github.com/decompil3d/lovelace-hourly-weather)
 - [Formula One Card](https://github.com/marcokreeft87/formulaone-card)
+- [UV Index Card](https://github.com/t1gr0u/uv-index-card)
+- [Github Flexi Card](https://github.com/maxwroc/github-flexi-card)
+- [Windrose Card](https://github.com/aukedejong/lovelace-windrose-card)
+- [Swipe Card](https://github.com/bramkragten/swipe-card)
+- [Meteoalarm Card](https://github.com/MrBartusek/MeteoalarmCard)
+
+</details>
 
 ## AppDaemon Apps
+
+<details>
+<summary>Click here</summary>
 
 - [White Noise](https://github.com/apop880/White-Noise)
 - [Follow Me](https://github.com/aneisch/follow_me_appdaemon)
 - [Alexa Door and Window Announcer](https://github.com/UbhiTS/ad-alexadoorwindowannounce)
 
+</details>
+
 ## Themes/Icons
+
+<details>
+<summary>Click here</summary>
 
 - [Noctis](https://github.com/tm24fan8/noctis) - *edited for my specific needs*
 - [Hass Hue Icons](https://github.com/arallsopp/hass-hue-icons)
@@ -124,3 +153,5 @@ Again, mostly just the ones I'm **using** or **will use soon**...also a few that
 - [BHA Icon Pack](https://github.com/hulkhaugen/hass-bha-icons)
 - [Custom Icons Library](https://github.com/Mariusthvdb/custom-icons)
 - [FontAwesome](https://github.com/thomasloven/hass-fontawesome)
+
+</details>
