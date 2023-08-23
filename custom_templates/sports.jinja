@@ -65,3 +65,14 @@
     'weeks' in state_attr(team,'kickoff_in') }}
 {% endif %}
 {% endmacro %}
+
+{% macro sports_today(team) %}
+{% if states(team) != 'NOT_FOUND' %}
+  {% set date = state_attr(team,'date') | as_timestamp | timestamp_custom('%m-%d') %}
+{% else %}
+  {% set date = 'none' %}
+{% endif %}
+{% if date == now().strftime('%m-%d') %}
+{{ states(team) in ['PRE','IN'] }}
+{% endif %}
+{% endmacro %}

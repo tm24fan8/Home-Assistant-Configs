@@ -13,41 +13,81 @@ template:
       state: >
         {% from 'sports.jinja' import sports_inhibit %}
         {{ sports_inhibit('sensor.michigan_wolverines') }}
+    - name: Michigan Wolverines Event Today
+      unique_id: f21b7a35-5470-48f1-b786-943a05c4d1a2
+      state: >
+        {% from 'sports.jinja' import sports_today %}
+        {{ sports_today('sensor.michigan_wolverines') }}
     - name: Ohio State Buckeyes Inhibit
       unique_id: d5359cb4-427a-46f8-99d6-4313530fde81
       state: >
         {% from 'sports.jinja' import sports_inhibit %}
         {{ state_attr('sensor.ohio_state_buckeyes','opponent_abbr') in ['MICH'] or sports_inhibit('sensor.ohio_state_buckeyes') }}
+    - name: Ohio State Buckeyes Event Today
+      unique_id: 4a633623-4029-42c6-95ae-2ea48e9cf17a
+      state: >
+        {% from 'sports.jinja' import sports_today %}
+        {{ sports_today('sensor.ohio_state_buckeyes') }}
     - name: Toledo Rockets Inhibit
       unique_id: 1f84d3f3-a06e-4745-a593-c21fe3504072
       state: >
         {% from 'sports.jinja' import sports_inhibit %}
         {{ state_attr('sensor.toledo_rockets','opponent_abbr') in ['OSU','MICH'] or sports_inhibit('sensor.toledo_rockets') }}
+    - name: Toledo Rockets Event Today
+      unique_id: 9c145c55-ff74-4d58-a969-7aeb49f3cfb4
+      state: >
+        {% from 'sports.jinja' import sports_today %}
+        {{ sports_today('sensor.toledo_rockets') }}
     - name: Minnesota Vikings Inhibit
       unique_id: ea60c987-a95b-4024-a9c7-1bc6975e07e2
       state: >
         {% from 'sports.jinja' import sports_inhibit %}
         {{ sports_inhibit('sensor.minnesota_vikings') }}
+    - name: Minnesota Vikings Event Today
+      unique_id: c6a17d4b-0c7d-4c8a-83cd-ece877a286b9
+      state: >
+        {% from 'sports.jinja' import sports_today %}
+        {{ sports_today('sensor.minnesota_vikings') }}
     - name: San Francisco 49ers Inhibit
       unique_id: ce2441fa-09d6-4afc-b350-fee3745cdb50
       state: >
         {% from 'sports.jinja' import sports_inhibit %}
-        {{ state_attr('sensor.toledo_rockets','opponent_abbr') in ['MIN'] or sports_inhibit('sensor.san_francisco_49ers') }}
+        {{ state_attr('sensor.san_francisco_49ers','opponent_abbr') in ['MIN'] or sports_inhibit('sensor.san_francisco_49ers') }}
+    - name: San Francisco 49ers Event Today
+      unique_id: 1469af10-a652-4e24-9b75-820bf193e2aa
+      state: >
+        {% from 'sports.jinja' import sports_today %}
+        {{ sports_today('sensor.san_francisco_49ers') }}
     - name: Cleveland Guardians Inhibit
       unique_id: b0980d47-d762-4f23-97b1-9e88da729d8f
       state: >
         {% from 'sports.jinja' import sports_inhibit %}
         {{ sports_inhibit('sensor.cleveland_guardians') }}
+    - name: Cleveland Guardians Event Today
+      unique_id: 985a7b2c-9ebd-4a2e-8ee2-2ab5359310e0
+      state: >
+        {% from 'sports.jinja' import sports_today %}
+        {{ sports_today('sensor.cleveland_guardians') }}
     - name: Minnesota Twins Inhibit
       unique_id: 2987ae95-f55d-4994-b9dd-018278d2f5ad
       state: >
         {% from 'sports.jinja' import sports_inhibit %}
         {{ state_attr('sensor.minnesota_twins','opponent_abbr') in ['CLE','LAD'] or sports_inhibit('sensor.minnesota_twins') }}
+    - name: Minnesota Twins Event Today
+      unique_id: 30055cb3-d259-4cef-90e1-7dea0a5cb439
+      state: >
+        {% from 'sports.jinja' import sports_today %}
+        {{ sports_today('sensor.minnesota_twins') }}
     - name: Los Angeles Dodgers Inhibit
       unique_id: 2c6aae6e-eff6-46e5-bee9-311f9bbc0c0e
       state: >
         {% from 'sports.jinja' import sports_inhibit %}
         {{ state_attr('sensor.los_angeles_dodgers','opponent_abbr') in ['CLE'] or sports_inhibit('sensor.los_angeles_dodgers') }}
+    - name: Los Angeles Dodgers Event Today
+      unique_id: 7c2bd060-ea2c-4b81-8af7-3e6b9b3c639d
+      state: >
+        {% from 'sports.jinja' import sports_today %}
+        {{ sports_today('sensor.los_angeles_dodgers') }}
 
 intent_script:
   SportsScore:
