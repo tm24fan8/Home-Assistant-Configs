@@ -31,34 +31,6 @@ input_datetime:
     icon: mdi:alarm
 
 automation:
-  - id: 09c3d481-11df-459c-9240-d002b9b2ef53
-    alias: 'Master Bedroom Handling'
-    description: "For scheduled operations in the Master Bedroom"
-    initial_state: true
-    mode: single
-    trigger:
-    - platform: time
-      at: input_datetime.master_bedroom_wakeup
-      id: wakeup
-    condition:
-    - condition: state
-      entity_id: group.adults
-      state: home
-    - condition: state
-      entity_id: input_boolean.vacation_mode
-      state: 'off'
-    action:
-    - choose:
-      - conditions:
-        - condition: trigger
-          id: wakeup
-        sequence:
-        - service: input_boolean.turn_off
-          target:
-            entity_id: input_boolean.master_bedroom_sleeping
-# Currently, input_boolean.master_bedroom_sleeping is turned on by the Goodnight flow in Node-RED whenever I go to bed.
-# That is why there is only one trigger here at the moment.
-
   - id: 7889ccf2-1fee-4819-8e59-5ad4e5879b0a
     alias: 'Master Bedroom Sleeping'
     description: 'Handles the response to the Master Bedroom Sleeping toggle'
@@ -95,22 +67,6 @@ script:
     sequence:
     - variables:
         brightness: "{{ state_attr('switch.adaptive_lighting_master_bedroom','brightness_pct') }}"
-    - if:
-      - condition: template
-        value_template: >
-          {% from 'time.jinja' import ct %}
-          {% set ct = ct() | int %}
-          {% set cooling = state_attr('input_datetime.master_bedroom_cooling','timestamp') | int %}
-          {% set wakeup = state_attr('input_datetime.master_bedroom_wakeup','timestamp') | int %}
-          {{ (21600 < ct < cooling) and is_state('binary_sensor.people_sleeping','off') }}
-      then:
-      - service: button.press
-        target:
-          entity_id: button.master_bedroom_day_mode
-      else:
-      - service: button.press
-        target:
-          entity_id: button.master_bedroom_night_mode
     - service: switch.turn_off
       target:
         entity_id: switch.master_bedroom_echo_dot_do_not_disturb_switch
@@ -176,14 +132,6 @@ script:
     alias: 'Master Bedroom Sleep'
     mode: restart
     sequence:
-    - if:
-      - condition: state
-        entity_id: input_boolean.night_mode
-        state: 'off'
-      then:
-      - service: button.press
-        target:
-          entity_id: button.master_bedroom_bedtime_mode
     - wait_template: "{{ is_state('light.master_bedroom_lights','off') }}"
       timeout:
         minutes: 60
