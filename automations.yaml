@@ -895,6 +895,7 @@
             - light.living_room_lights
             - light.dining_room_lamp
             - light.tina_desk_lights
+            - light.mud_room_overhead
       brightness_up_long_action:
       - service: switch.turn_off
         data: {}
