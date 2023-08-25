@@ -159,6 +159,81 @@ weather:
       {{ states(result) | float }}
     precipitation_unit: in
 
+binary_sensor:
+  - platform: bayesian
+    unique_id: 3e9640d9-57a0-4495-8731-e64b34774065
+    name: Raining Bayesian
+    prior: 0.17
+    probability_threshold: 0.6
+    observations:
+      - entity_id: "sensor.myradar_precip"
+        prob_given_true: 0.99
+        prob_given_false: 0.45
+        platform: "state"
+        to_state: "rain"
+      - entity_id: "sensor.pirateweather_precip"
+        prob_given_true: 0.13
+        prob_given_false: 0.005
+        platform: "state"
+        to_state: "rain"
+      - entity_id: "sensor.openweathermap_precipitation_kind"
+        prob_given_true: 0.75
+        prob_given_false: 0.005
+        platform: "state"
+        to_state: "rain"
+      - entity_id: "sensor.tomorrow_io_stratton_ave_precipitation_type"
+        prob_given_true: 0.99
+        prob_given_false: 0.005
+        platform: "state"
+        to_state: "rain"
+      - entity_id: "sensor.stratton_ave_precipitation"
+        prob_given_true: 0.99
+        prob_given_false: 0.2
+        platform: "numeric_state"
+        above: 0
+
+sensor:
+  - platform: weatheralerts
+    state: OH
+    zone: 4
+    county: 39
+
+  # - platform: statistics
+  #   unique_id: b5996cb4-b715-4fc9-b3d8-98fc12c2b7dd
+  #   name: Outside Temp Average
+  #   entity_id: sensor.pirateweather_temperature
+  #   state_characteristic: average_linear
+  #   max_age:
+  #     days: 7
+  # - platform: statistics
+  #   unique_id: 6192c95a-8fd1-4ba0-87de-d06fdc071d6b
+  #   name: Apparent Temp Average
+  #   entity_id: sensor.stratton_ave_apparent_temperature
+  #   state_characteristic: average_linear
+  #   max_age:
+  #     days: 7
+  # - platform: statistics
+  #   unique_id: 7b9c269c-40b7-4255-a051-2d1b7a6af017
+  #   name: Wind Speed Average
+  #   entity_id: sensor.pirateweather_wind_speed
+  #   state_characteristic: average_linear
+  #   max_age:
+  #     days: 7
+  # - platform: statistics
+  #   unique_id: b43d053f-aafb-4237-a742-a2ca841498fa
+  #   name: Visibility Stats Average
+  #   entity_id: sensor.kdfi_visibility
+  #   state_characteristic: average_linear
+  #   max_age:
+  #     days: 7
+  # - platform: statistics
+  #   unique_id: b1206da2-fa00-4f7d-9af4-f2cf6794bd24
+  #   name: Humidity Stats Average
+  #   entity_id: sensor.pirateweather_humidity
+  #   state_characteristic: average_linear
+  #   max_age:
+  #     days: 7
+
 template:
   - binary_sensor:
     - name: Heat Threshold
@@ -267,119 +342,351 @@ template:
         {% else %}
           true
         {% endif %}
-
-binary_sensor:
-  - platform: bayesian
-    unique_id: 3e9640d9-57a0-4495-8731-e64b34774065
-    name: Raining Bayesian
-    prior: 0.17
-    probability_threshold: 0.6
-    observations:
-      - entity_id: "sensor.myradar_precip"
-        prob_given_true: 0.99
-        prob_given_false: 0.45
-        platform: "state"
-        to_state: "rain"
-      - entity_id: "sensor.pirateweather_precip"
-        prob_given_true: 0.13
-        prob_given_false: 0.005
-        platform: "state"
-        to_state: "rain"
-      - entity_id: "sensor.openweathermap_precipitation_kind"
-        prob_given_true: 0.75
-        prob_given_false: 0.005
-        platform: "state"
-        to_state: "rain"
-      - entity_id: "sensor.tomorrow_io_stratton_ave_precipitation_type"
-        prob_given_true: 0.99
-        prob_given_false: 0.005
-        platform: "state"
-        to_state: "rain"
-      - entity_id: "sensor.stratton_ave_precipitation"
-        prob_given_true: 0.99
-        prob_given_false: 0.2
-        platform: "numeric_state"
-        above: 0
-
-sensor:
-  - platform: weatheralerts
-    state: OH
-    zone: 4
-    county: 39
-
-  # - platform: statistics
-  #   unique_id: b5996cb4-b715-4fc9-b3d8-98fc12c2b7dd
-  #   name: Outside Temp Average
-  #   entity_id: sensor.pirateweather_temperature
-  #   state_characteristic: average_linear
-  #   max_age:
-  #     days: 7
-  # - platform: statistics
-  #   unique_id: 6192c95a-8fd1-4ba0-87de-d06fdc071d6b
-  #   name: Apparent Temp Average
-  #   entity_id: sensor.stratton_ave_apparent_temperature
-  #   state_characteristic: average_linear
-  #   max_age:
-  #     days: 7
-  # - platform: statistics
-  #   unique_id: 7b9c269c-40b7-4255-a051-2d1b7a6af017
-  #   name: Wind Speed Average
-  #   entity_id: sensor.pirateweather_wind_speed
-  #   state_characteristic: average_linear
-  #   max_age:
-  #     days: 7
-  # - platform: statistics
-  #   unique_id: b43d053f-aafb-4237-a742-a2ca841498fa
-  #   name: Visibility Stats Average
-  #   entity_id: sensor.kdfi_visibility
-  #   state_characteristic: average_linear
-  #   max_age:
-  #     days: 7
-  # - platform: statistics
-  #   unique_id: b1206da2-fa00-4f7d-9af4-f2cf6794bd24
-  #   name: Humidity Stats Average
-  #   entity_id: sensor.pirateweather_humidity
-  #   state_characteristic: average_linear
-  #   max_age:
-  #     days: 7
-
-  - platform: template
-    sensors:
-      current_forecast:
-        friendly_name: Current Forecast
-        unique_id: c0faea33-2ac3-40f1-8558-584c3f5d6b16
-        icon_template: mdi:weather-sunny
-        value_template: >-
-            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
-            {{ forecast.condition }}
-        attribute_templates:
-          high_temp: >-
-            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
-            {{ forecast.temperature }}
-          overnight_low: >-
-            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
-            {{ forecast.templow }}
-          wind_bearing: >-
-            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
-            {{ forecast.wind_bearing }}
-          wind_speed: >-
-            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
-            {{ forecast.wind_speed }}
-          precipitation: >-
-            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
-            {{ forecast.precipitation }}
-          friendly: >-
-            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
-            {{ forecast.condition | replace("partlycloudy","partly cloudy") }}
-      current_forecast_detail:
-        friendly_name: Current Forecast Detail
-        unique_id: e5ae9864-70b5-402c-9d2f-c4d6a10085df
-        icon_template: mdi:weather-sunny
-        value_template: >-
-          {% from 'formatting.jinja' import cleanup %}
-          {%- macro getReport() -%}
+  - sensor:
+    - name: Current Forecast
+      unique_id: c0faea33-2ac3-40f1-8558-584c3f5d6b16
+      icon: mdi:weather-sunny
+      state: >-
+          {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
+          {{ forecast.condition }}
+      attributes:
+        high_temp: >-
+          {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
+          {{ forecast.temperature }}
+        overnight_low: >-
+          {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
+          {{ forecast.templow }}
+        wind_bearing: >-
+          {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
+          {{ forecast.wind_bearing }}
+        wind_speed: >-
+          {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
+          {{ forecast.wind_speed }}
+        precipitation: >-
+          {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
+          {{ forecast.precipitation }}
+        friendly: >-
+          {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
+          {{ forecast.condition | replace("partlycloudy","partly cloudy") }}
+    - name: Current Forecast Detail
+      unique_id: e5ae9864-70b5-402c-9d2f-c4d6a10085df
+      icon: mdi:weather-sunny
+      state: >-
+        {% from 'formatting.jinja' import cleanup %}
+        {%- macro getReport() -%}
+          {{ [
+            'Today in Defiance ',
+            'Later Today ',
+            'For the rest of the day '
+            ] | random }}
+          expect a high of {{ states('sensor.today_corrected_high_temp') }}
+          {%- if states('sensor.current_forecast') == 'sunny' and is_state('binary_sensor.night','off')%}
             {{ [
-              'Today in Defiance ',
+                'and sunny. ',
+                'with sun. ',
+                'with sunny conditions prevailing. '
+                ] | random }}
+          {%- elif states('sensor.current_forecast') == 'sunny' and is_state('binary_sensor.night','on') %}
+            {{ [
+              'and clear. ',
+              'with clear skies. '
+              ] | random }}
+          {%- elif states('sensor.current_forecast') == 'clear-night' %}
+            {{ [
+              'and clear. ',
+              'with clear skies. '
+              ] | random }}
+          {%- elif states('sensor.current_forecast') == 'rainy' %}
+            {{ [
+              'with rain. ',
+              'with showers. ',
+              'and rainy. '
+              ] | random }}
+            {{ [
+              'Rainfall accumulations ',
+              'Total Rainfall amounts '
+              ] | random }}
+              near {{ state_attr('sensor.current_forecast','precipitation') }} inches
+              {{ 'possible. ' }}
+          {%- elif states('sensor.current_forecast') == 'snowy' %}
+            {{ [
+              'with snow. ',
+              'with snow showers. '
+              ] | random }}
+            {{ [
+              'Snowfall accumulations ',
+              'Total snowfall amounts '
+              ] | random }}
+              near {{ state_attr('sensor.current_forecast','precipitation') }} inches
+              {{ 'possible. ' }}
+          {%- elif states('sensor.current_forecast') == 'snowy-rainy' %}
+            {{ [
+                'with mix preciptation possible. ',
+                'with snow and rain showers. '
+                ] | random }}
+            Total accumulation near {{ state_attr('sensor.current_forecast','precipitation') }} inches
+              {{ 'possible. ' }}
+          {%- elif states('sensor.current_forecast') == 'windy' %}
+            {{ [
+              'and windy. ',
+              'with lots of wind. '
+              ] | random }}
+          {%- elif states('sensor.current_forecast') == 'fog' %}
+            {{ [
+              'and foggy. ',
+              'with some fog. '
+              ] | random }}
+          {% elif states('sensor.current_forecast') == 'cloudy' %}
+            {{ [
+              'with clouds. ',
+              'with cloudy skies. '
+              ] | random }}
+          {% elif states('sensor.current_forecast') == 'partlycloudy' %}
+            {{ [
+                'with some clouds. ',
+                'with partly cloudy skies. ',
+                'with scattered clouds '
+                ] | random }}
+          {%- elif states('sensor.current_forecast') == 'hail' %}
+            {{ [
+              'with severe thunderstorms possible. ',
+              'with hail possible. '
+              ] | random }}
+            {{ [
+              'Rainfall accumulations ',
+              'Total Rainfall amounts '
+              ] | random }}
+              near {{ state_attr('sensor.current_forecast','precipitation') }} inches
+              {{ 'possible. ' }}
+          {%- elif states('sensor.current_forecast') == 'lightning' %}
+            {{ [
+              'with thunderstorms possible. ',
+              'with the potential of thunderstorms. '
+              ] | random }}
+            {{ [
+              'Rainfall accumulations ',
+              'Total Rainfall amounts '
+              ] | random }}
+              near {{ state_attr('sensor.current_forecast','precipitation') }} inches
+              {{ 'possible. ' }}
+          {% endif -%}
+          {{ [
+              'Later tonight expect a low of ',
+              'Overnight expect a low of '
+              ] | random }}
+          {{ states('sensor.overnight_lowest_temperature') }} degrees.
+        {%- endmacro -%}
+        {{- cleanup(getReport()) -}}
+    - name: Tomorrows Forecast
+      unique_id: a8ae26b0-ed26-4568-bb2b-f7c72707b009
+      icon: mdi:weather-sunny
+      state: >-
+          {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
+          {{ forecast.condition }}
+      attributes:
+        high_temp: >-
+          {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
+          {{ forecast.temperature }}
+        overnight_low: >-
+          {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
+          {{ forecast.templow }}
+        wind_bearing: >-
+          {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
+          {{ forecast.wind_bearing }}
+        wind_speed: >-
+          {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
+          {{ forecast.wind_speed }}
+        precipitation: >-
+          {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
+          {{ forecast.precipitation }}
+    - name: Tomorrow Forecast Detail
+      unique_id: 21374ed0-80d1-49ba-817d-3e93eb3865e4
+      icon: mdi:weather-sunny
+      state: >-
+        {% from 'formatting.jinja' import cleanup %}
+        {%- macro getReport() -%}
+          {{ [
+            'Tomorrow in Defiance ',
+            'For the next day ',
+            'Tomorrow '
+            ] | random }}
+          expect a high of {{ state_attr('sensor.tomorrow_forecast','high_temp') }}
+          {%- if states('sensor.tomorrow_forecast') == 'sunny' %}
+            {{ [
+                'and sunny. ',
+                'with sun. ',
+                'with sunny conditions prevailing. '
+                ] | random }}
+          {%- elif states('sensor.tomorrow_forecast') == 'rainy' %}
+            {{ [
+              'with rain. ',
+              'with showers. ',
+              'and rainy. '
+              ] | random }}
+            {{ [
+              'Rainfall accumulations ',
+              'Total Rainfall amounts '
+              ] | random }}
+              near {{ state_attr('sensor.tomorrow_forecast','precipitation') }} inches
+              {{ 'possible. ' }}
+          {%- elif states('sensor.tomorrow_forecast') == 'snowy' %}
+            {{ [
+              'with snow. ',
+              'with snow showers. '
+              ] | random }}
+            {{ [
+              'Snowfall accumulations ',
+              'Total snowfall amounts '
+              ] | random }}
+              near {{ state_attr('sensor.tomorrow_forecast','precipitation') }} inches
+              {{ 'possible. ' }}
+          {%- elif states('sensor.tomorrow_forecast') == 'snowy-rainy' %}
+            {{ [
+                'with mix preciptation possible. ',
+                'with snow and rain showers. '
+                ] | random }}
+            Total accumulation near {{ state_attr('sensor.tomorrow_forecast','precipitation') }} inches
+              {{ 'possible. ' }}
+          {%- elif states('sensor.tomorrow_forecast') == 'windy' %}
+            {{ [
+              'and windy. ',
+              'with lots of wind. '
+              ] | random }}
+          {%- elif states('sensor.current_forecast') == 'fog' %}
+            {{ [
+              'and foggy. ',
+              'with some fog. '
+              ] | random }}
+          {% elif states('sensor.tomorrow_forecast') == 'cloudy' %}
+            {{ [
+              'with clouds. ',
+              'with cloudy skies. '
+              ] | random }}
+          {% elif states('sensor.tomorrow_forecast') == 'partlycloudy' %}
+            {{ [
+                'with some clouds. ',
+                'with partly cloudy skies. ',
+                'with scattered clouds '
+                ] | random }}
+          {%- elif states('sensor.tomorrow_forecast') == 'hail' %}
+            {{ [
+              'with severe thunderstorms possible. ',
+              'with hail possible. '
+              ] | random }}
+            {{ [
+              'Rainfall accumulations ',
+              'Total Rainfall amounts '
+              ] | random }}
+              near {{ state_attr('sensor.current_forecast','precipitation') }} inches
+              {{ 'possible. ' }}
+          {%- elif states('sensor.current_forecast') == 'lightning' %}
+            {{ [
+              'with thunderstorms possible. ',
+              'with the potential of thunderstorms. '
+              ] | random }}
+            {{ [
+              'Rainfall accumulations ',
+              'Total Rainfall amounts '
+              ] | random }}
+              near {{ state_attr('sensor.current_forecast','precipitation') }} inches
+              {{ 'possible. ' }}
+          {% endif -%}
+          {{ [
+              ' Tomorrow night expect a low of '
+              ] | random }}
+          {{ state_attr('sensor.tomorrow_forecast','overnight_low') }} degrees.
+        {%- endmacro -%}
+        {{- cleanup(getReport()) -}}
+    - name: Current Conditions
+      unique_id: 70db7e57-08db-48b2-919b-03b5face37b9
+      icon: mdi:weather-sunny
+      state: >-
+        {% from 'formatting.jinja' import cleanup %}
+        {%- macro getReport() -%}
+          The Weather in Defiance
+            {{ [
+            ' is ',
+            ' is currently '
+            ] | random }}
+            {{state_attr('weather.iron_nerd_weather_station','temperature')|round}} degrees
+          {% if is_state('weather.iron_nerd_weather_station', 'rainy') %}
+            {{ [
+            'with rain. ',
+            'with showers. '
+            ] | random }}
+          {% elif is_state('weather.iron_nerd_weather_station', 'cloudy') %}
+            {{ [
+            'with clouds. ',
+            'with cloudy skies. '
+            ] | random }}
+          {% elif is_state('weather.iron_nerd_weather_station', 'partlycloudy') %}
+            {{ [
+            'with some clouds. ',
+            'with partly cloudy skies. ',
+            'with scatterd clouds '
+            ] | random }}
+          {% elif is_state('weather.iron_nerd_weather_station', 'sunny') %}
+            {% if is_state('sun.sun', 'above_horizon') %}
+              {{ [
+              'and sunny. ',
+              'with sun. '
+              ] | random }}
+            {% else %}
+              {{ [
+              'and clear. ',
+              'with clear skies. '
+              ] | random }}
+            {% endif %}
+          {% else %}
+            and {{ states.weather.iron_nerd_weather_station.state }}
+          {% endif %}
+        {%- endmacro -%}
+        {{- cleanup(getReport()) -}}
+    - name: Current Conditions Detail
+      unique_id: 2b3687d1-bdd5-4551-8c0a-05b1ff617543
+      icon: mdi:weather-sunny
+      state: >-
+        {% from 'formatting.jinja' import cleanup %}
+        {%- macro getReport() -%}
+          The Weather in Defiance
+            {{ [
+            ' is ',
+            ' is currently '
+            ] | random }}
+            {{state_attr('weather.iron_nerd_weather_station','temperature')|round}} degrees
+          {% if is_state('weather.iron_nerd_weather_station', 'rainy') %}
+            {{ [
+            'with rain. ',
+            'with showers. '
+            ] | random }}
+          {% elif is_state('weather.iron_nerd_weather_station', 'cloudy') %}
+            {{ [
+            'with clouds. ',
+            'with cloudy skies. '
+            ] | random }}
+          {% elif is_state('weather.iron_nerd_weather_station', 'partlycloudy') %}
+            {{ [
+            'with some clouds. ',
+            'with partly cloudy skies. ',
+            'with scattered clouds. '
+            ] | random }}
+          {% elif is_state('weather.iron_nerd_weather_station', 'sunny') %}
+            {% if is_state('sun.sun', 'above_horizon') %}
+              {{ [
+              'and sunny. ',
+              'with sun. '
+              ] | random }}
+            {% else %}
+              {{ [
+              'and clear. ',
+              'with clear skies. '
+              ] | random }}
+            {% endif %}
+          {% else %}
+            and {{ states.weather.iron_nerd_weather_station.state }}
+          {% endif %}
+          {%- if is_state('binary_sensor.early_night_mode','off')%}
+            {{ [
               'Later Today ',
               'For the rest of the day '
               ] | random }}
@@ -410,8 +717,7 @@ sensor:
                 'Rainfall accumulations ',
                 'Total Rainfall amounts '
                 ] | random }}
-                near {{ state_attr('sensor.current_forecast','precipitation') }} inches
-                {{ 'possible. ' }}
+                near {{ state_attr('sensor.current_forecast','precipitation') }} inches {{ 'possible. ' }}
             {%- elif states('sensor.current_forecast') == 'snowy' %}
               {{ [
                 'with snow. ',
@@ -428,8 +734,7 @@ sensor:
                   'with mix preciptation possible. ',
                   'with snow and rain showers. '
                   ] | random }}
-              Total accumulation near {{ state_attr('sensor.current_forecast','precipitation') }} inches
-                {{ 'possible. ' }}
+              Total accumulation near {{ state_attr('sensor.current_forecast','precipitation') }} inches {{ 'possible. ' }}
             {%- elif states('sensor.current_forecast') == 'windy' %}
               {{ [
                 'and windy. ',
@@ -449,7 +754,7 @@ sensor:
               {{ [
                   'with some clouds. ',
                   'with partly cloudy skies. ',
-                  'with scattered clouds '
+                  'with scattered clouds. '
                   ] | random }}
             {%- elif states('sensor.current_forecast') == 'hail' %}
               {{ [
@@ -479,638 +784,315 @@ sensor:
                 'Overnight expect a low of '
                 ] | random }}
             {{ states('sensor.overnight_lowest_temperature') }} degrees.
-          {%- endmacro -%}
-          {{- cleanup(getReport()) -}}
-      tomorrow_forecast:
-        friendly_name: Tomorrows Forecast
-        unique_id: a8ae26b0-ed26-4568-bb2b-f7c72707b009
-        icon_template: mdi:weather-sunny
-        value_template: >-
-            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
-            {{ forecast.condition }}
-        attribute_templates:
-          high_temp: >-
-            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
-            {{ forecast.temperature }}
-          overnight_low: >-
-            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
-            {{ forecast.templow }}
-          wind_bearing: >-
-            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
-            {{ forecast.wind_bearing }}
-          wind_speed: >-
-            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
-            {{ forecast.wind_speed }}
-          precipitation: >-
-            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[1] %}
-            {{ forecast.precipitation }}
-      tomorrow_forecast_detail:
-        friendly_name: Tomorrow Forecast Detail
-        unique_id: 21374ed0-80d1-49ba-817d-3e93eb3865e4
-        icon_template: mdi:weather-sunny
-        value_template: >-
-          {% from 'formatting.jinja' import cleanup %}
-          {%- macro getReport() -%}
+          {%- else -%}
             {{ [
-              'Tomorrow in Defiance ',
-              'For the next day ',
-              'Tomorrow '
-              ] | random }}
-            expect a high of {{ state_attr('sensor.tomorrow_forecast','high_temp') }}
-            {%- if states('sensor.tomorrow_forecast') == 'sunny' %}
-              {{ [
-                  'and sunny. ',
-                  'with sun. ',
-                  'with sunny conditions prevailing. '
-                  ] | random }}
-            {%- elif states('sensor.tomorrow_forecast') == 'rainy' %}
-              {{ [
-                'with rain. ',
-                'with showers. ',
-                'and rainy. '
-                ] | random }}
-              {{ [
-                'Rainfall accumulations ',
-                'Total Rainfall amounts '
-                ] | random }}
-                near {{ state_attr('sensor.tomorrow_forecast','precipitation') }} inches
-                {{ 'possible. ' }}
-            {%- elif states('sensor.tomorrow_forecast') == 'snowy' %}
-              {{ [
-                'with snow. ',
-                'with snow showers. '
-                ] | random }}
-              {{ [
-                'Snowfall accumulations ',
-                'Total snowfall amounts '
-                ] | random }}
-                near {{ state_attr('sensor.tomorrow_forecast','precipitation') }} inches
-                {{ 'possible. ' }}
-            {%- elif states('sensor.tomorrow_forecast') == 'snowy-rainy' %}
-              {{ [
-                  'with mix preciptation possible. ',
-                  'with snow and rain showers. '
-                  ] | random }}
-              Total accumulation near {{ state_attr('sensor.tomorrow_forecast','precipitation') }} inches
-                {{ 'possible. ' }}
-            {%- elif states('sensor.tomorrow_forecast') == 'windy' %}
-              {{ [
-                'and windy. ',
-                'with lots of wind. '
-                ] | random }}
-            {%- elif states('sensor.current_forecast') == 'fog' %}
-              {{ [
-                'and foggy. ',
-                'with some fog. '
-                ] | random }}
-            {% elif states('sensor.tomorrow_forecast') == 'cloudy' %}
-              {{ [
-                'with clouds. ',
-                'with cloudy skies. '
-                ] | random }}
-            {% elif states('sensor.tomorrow_forecast') == 'partlycloudy' %}
-              {{ [
-                  'with some clouds. ',
-                  'with partly cloudy skies. ',
-                  'with scattered clouds '
-                  ] | random }}
-            {%- elif states('sensor.tomorrow_forecast') == 'hail' %}
-              {{ [
-                'with severe thunderstorms possible. ',
-                'with hail possible. '
-                ] | random }}
-              {{ [
-                'Rainfall accumulations ',
-                'Total Rainfall amounts '
-                ] | random }}
-                near {{ state_attr('sensor.current_forecast','precipitation') }} inches
-                {{ 'possible. ' }}
-            {%- elif states('sensor.current_forecast') == 'lightning' %}
-              {{ [
-                'with thunderstorms possible. ',
-                'with the potential of thunderstorms. '
-                ] | random }}
-              {{ [
-                'Rainfall accumulations ',
-                'Total Rainfall amounts '
-                ] | random }}
-                near {{ state_attr('sensor.current_forecast','precipitation') }} inches
-                {{ 'possible. ' }}
-            {% endif -%}
-            {{ [
-                ' Tomorrow night expect a low of '
-                ] | random }}
-            {{ state_attr('sensor.tomorrow_forecast','overnight_low') }} degrees.
-          {%- endmacro -%}
-          {{- cleanup(getReport()) -}}
-      current_conditions:
-        friendly_name: Current Conditions
-        unique_id: 70db7e57-08db-48b2-919b-03b5face37b9
-        icon_template: mdi:weather-sunny
-        value_template: >-
-          {% from 'formatting.jinja' import cleanup %}
-          {%- macro getReport() -%}
-            The Weather in Defiance
-              {{ [
-              ' is ',
-              ' is currently '
-              ] | random }}
-              {{state_attr('weather.iron_nerd_weather_station','temperature')|round}} degrees
-            {% if is_state('weather.iron_nerd_weather_station', 'rainy') %}
-              {{ [
-              'with rain. ',
-              'with showers. '
-              ] | random }}
-            {% elif is_state('weather.iron_nerd_weather_station', 'cloudy') %}
-              {{ [
-              'with clouds. ',
-              'with cloudy skies. '
-              ] | random }}
-            {% elif is_state('weather.iron_nerd_weather_station', 'partlycloudy') %}
-              {{ [
-              'with some clouds. ',
-              'with partly cloudy skies. ',
-              'with scatterd clouds '
-              ] | random }}
-            {% elif is_state('weather.iron_nerd_weather_station', 'sunny') %}
-              {% if is_state('sun.sun', 'above_horizon') %}
-                {{ [
-                'and sunny. ',
-                'with sun. '
-                ] | random }}
-              {% else %}
-                {{ [
-                'and clear. ',
-                'with clear skies. '
-                ] | random }}
-              {% endif %}
-            {% else %}
-              and {{ states.weather.iron_nerd_weather_station.state }}
-            {% endif %}
-          {%- endmacro -%}
-          {{- cleanup(getReport()) -}}
-      current_conditions_detail:
-        friendly_name: Current Conditions Detail
-        unique_id: 2b3687d1-bdd5-4551-8c0a-05b1ff617543
-        icon_template: mdi:weather-sunny
-        value_template: >-
-          {% from 'formatting.jinja' import cleanup %}
-          {%- macro getReport() -%}
-            The Weather in Defiance
-              {{ [
-              ' is ',
-              ' is currently '
-              ] | random }}
-              {{state_attr('weather.iron_nerd_weather_station','temperature')|round}} degrees
-            {% if is_state('weather.iron_nerd_weather_station', 'rainy') %}
-              {{ [
-              'with rain. ',
-              'with showers. '
-              ] | random }}
-            {% elif is_state('weather.iron_nerd_weather_station', 'cloudy') %}
-              {{ [
-              'with clouds. ',
-              'with cloudy skies. '
-              ] | random }}
-            {% elif is_state('weather.iron_nerd_weather_station', 'partlycloudy') %}
-              {{ [
-              'with some clouds. ',
-              'with partly cloudy skies. ',
-              'with scattered clouds. '
-              ] | random }}
-            {% elif is_state('weather.iron_nerd_weather_station', 'sunny') %}
-              {% if is_state('sun.sun', 'above_horizon') %}
-                {{ [
-                'and sunny. ',
-                'with sun. '
-                ] | random }}
-              {% else %}
-                {{ [
-                'and clear. ',
-                'with clear skies. '
-                ] | random }}
-              {% endif %}
-            {% else %}
-              and {{ states.weather.iron_nerd_weather_station.state }}
-            {% endif %}
-            {%- if is_state('binary_sensor.early_night_mode','off')%}
-              {{ [
-                'Later Today ',
-                'For the rest of the day '
-                ] | random }}
-              expect a high of {{ states('sensor.today_corrected_high_temp') }}
-              {%- if states('sensor.current_forecast') == 'sunny' and is_state('binary_sensor.night','off')%}
-                {{ [
-                    'and sunny. ',
-                    'with sun. ',
-                    'with sunny conditions prevailing. '
-                    ] | random }}
-              {%- elif states('sensor.current_forecast') == 'sunny' and is_state('binary_sensor.night','on') %}
-                {{ [
-                  'and clear. ',
-                  'with clear skies. '
-                  ] | random }}
-              {%- elif states('sensor.current_forecast') == 'clear-night' %}
-                {{ [
-                  'and clear. ',
-                  'with clear skies. '
-                  ] | random }}
-              {%- elif states('sensor.current_forecast') == 'rainy' %}
-                {{ [
-                  'with rain. ',
-                  'with showers. ',
-                  'and rainy. '
-                  ] | random }}
-                {{ [
-                  'Rainfall accumulations ',
-                  'Total Rainfall amounts '
-                  ] | random }}
-                  near {{ state_attr('sensor.current_forecast','precipitation') }} inches {{ 'possible. ' }}
-              {%- elif states('sensor.current_forecast') == 'snowy' %}
-                {{ [
-                  'with snow. ',
-                  'with snow showers. '
-                  ] | random }}
-                {{ [
-                  'Snowfall accumulations ',
-                  'Total snowfall amounts '
-                  ] | random }}
-                  near {{ state_attr('sensor.current_forecast','precipitation') }} inches
-                  {{ 'possible. ' }}
-              {%- elif states('sensor.current_forecast') == 'snowy-rainy' %}
-                {{ [
-                    'with mix preciptation possible. ',
-                    'with snow and rain showers. '
-                    ] | random }}
-                Total accumulation near {{ state_attr('sensor.current_forecast','precipitation') }} inches {{ 'possible. ' }}
-              {%- elif states('sensor.current_forecast') == 'windy' %}
-                {{ [
-                  'and windy. ',
-                  'with lots of wind. '
-                  ] | random }}
-              {%- elif states('sensor.current_forecast') == 'fog' %}
-                {{ [
-                  'and foggy. ',
-                  'with some fog. '
-                  ] | random }}
-              {% elif states('sensor.current_forecast') == 'cloudy' %}
-                {{ [
-                  'with clouds. ',
-                  'with cloudy skies. '
-                  ] | random }}
-              {% elif states('sensor.current_forecast') == 'partlycloudy' %}
-                {{ [
-                    'with some clouds. ',
-                    'with partly cloudy skies. ',
-                    'with scattered clouds. '
-                    ] | random }}
-              {%- elif states('sensor.current_forecast') == 'hail' %}
-                {{ [
-                  'with severe thunderstorms possible. ',
-                  'with hail possible. '
-                  ] | random }}
-                {{ [
-                  'Rainfall accumulations ',
-                  'Total Rainfall amounts '
-                  ] | random }}
-                  near {{ state_attr('sensor.current_forecast','precipitation') }} inches
-                  {{ 'possible. ' }}
-              {%- elif states('sensor.current_forecast') == 'lightning' %}
-                {{ [
-                  'with thunderstorms possible. ',
-                  'with the potential of thunderstorms. '
-                  ] | random }}
-                {{ [
-                  'Rainfall accumulations ',
-                  'Total Rainfall amounts '
-                  ] | random }}
-                  near {{ state_attr('sensor.current_forecast','precipitation') }} inches
-                  {{ 'possible. ' }}
-              {% endif -%}
-              {{ [
-                  'Later tonight expect a low of ',
+                  'Tonight expect a low of ',
                   'Overnight expect a low of '
                   ] | random }}
               {{ states('sensor.overnight_lowest_temperature') }} degrees.
-            {%- else -%}
-              {{ [
-                    'Tonight expect a low of ',
-                    'Overnight expect a low of '
-                    ] | random }}
-                {{ states('sensor.overnight_lowest_temperature') }} degrees.
-            {% endif %}
-          {%- endmacro -%}
-          {{- cleanup(getReport()) -}}
-      outside_pressure:
-        friendly_name: 'Outside Pressure'
-        unique_id: ac2944bb-e9d7-40a3-9707-ef477fd5f309
-        value_template: '{{ state_attr(''weather.iron_nerd_weather_station'',''pressure'') }}'
-        unit_of_measurement: ''
-      todays_high_temp:
-        friendly_name: "Today's High Temp"
-        unique_id: 532904af-940b-45cd-af8e-c69d1a9c4531
-        unit_of_measurement: '°F'
-        device_class: temperature
-        value_template: >-
-          {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
-          {{ forecast.temperature }}
-      tonights_low_temp:
-        friendly_name: "Tonight's Low Temp"
-        unique_id: 8ddc55b6-4728-4897-a32f-90be970f744b
-        unit_of_measurement: '°F'
-        device_class: temperature
-        value_template: >-
-          {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
-          {{ forecast.templow }}
-      clothing_forecast:
-        friendly_name: "Clothing Forecast"
-        unique_id: 8ed2684b-d0ad-402c-bc3c-340cb9b2437a
-        value_template: >-
-            {% if is_state('binary_sensor.overnight', 'off') %}
-              {% set temp = states('sensor.today_corrected_high_temp')|int %}
+          {% endif %}
+        {%- endmacro -%}
+        {{- cleanup(getReport()) -}}
+    - name: 'Outside Pressure'
+      unique_id: ac2944bb-e9d7-40a3-9707-ef477fd5f309
+      state: '{{ state_attr(''weather.iron_nerd_weather_station'',''pressure'') }}'
+      unit_of_measurement: ''
+    - name: "Today's High Temp"
+      unique_id: 532904af-940b-45cd-af8e-c69d1a9c4531
+      unit_of_measurement: '°F'
+      device_class: temperature
+      state: >-
+        {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
+        {{ forecast.temperature }}
+    - name: "Tonight's Low Temp"
+      unique_id: 8ddc55b6-4728-4897-a32f-90be970f744b
+      unit_of_measurement: '°F'
+      device_class: temperature
+      state: >-
+        {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
+        {{ forecast.templow }}
+    - name: "Clothing Forecast"
+      unique_id: 8ed2684b-d0ad-402c-bc3c-340cb9b2437a
+      state: >-
+          {% if is_state('binary_sensor.overnight', 'off') %}
+            {% set temp = states('sensor.today_corrected_high_temp')|int %}
+          {% else %}
+            {% set temp = state_attr('weather.iron_nerd_weather_station','temperature')|round %}
+          {% endif %}
+          {%- if states('sensor.today_corrected_high_temp')|int > 63 %}
+            {%- if states('sensor.today_corrected_high_temp')|int < 80 %}
+              Nice
+            {% elif states('sensor.today_corrected_high_temp')|int > 90 %}
+              Hot
             {% else %}
-              {% set temp = state_attr('weather.iron_nerd_weather_station','temperature')|round %}
-            {% endif %}
-            {%- if states('sensor.today_corrected_high_temp')|int > 63 %}
-              {%- if states('sensor.today_corrected_high_temp')|int < 80 %}
-                Nice
-              {% elif states('sensor.today_corrected_high_temp')|int > 90 %}
-                Hot
-              {% else %}
-                Toasty
-              {%- endif %}
-            {% elif states('sensor.today_corrected_high_temp')|int < 64 %}
-              {%- if states('sensor.today_corrected_high_temp')|int < 32 %}
-                Freezing
-              {% elif states('sensor.today_corrected_high_temp')|int > 48 %}
-                Chilly
-              {% else %}
-                Cold
-              {%- endif %}
-            {% else %}
-              Unknown
+              Toasty
             {%- endif %}
-      clothing_forecast_detail:
-        friendly_name: "Clothing Forecast Detail"
-        unique_id: 13065f50-5eef-4afd-830e-2a2c87f47496
-        value_template: >-
-          {% from 'formatting.jinja' import cleanup %}
-          {%- macro getReport() -%}
-            {% if is_state('binary_sensor.morning','on') %}
-              Based on the forecasted high temperature,
-              {% if is_state('sensor.clothing_forecast', 'Freezing') %}
-                You're gonna freeze your balls off out there. so I suggest wearing long pants and a heavy coat.
-              {% elif is_state('sensor.clothing_forecast','Cold') %}
-                It's gonna be cold as balls today. so I suggest wearing long pants and a light jacket.
-              {% elif is_state('sensor.clothing_forecast', 'Chilly') %}
-                It's gonna be on the chilly side today. so I suggest wearing at least long pants.
-              {% elif is_state('sensor.clothing_forecast', 'Nice') %}
-                It is going to be
-                {{ [ 'pretty nice outside. ',
-                  'a good day to be outside. ',
-                  'a decent day outside for once. ',
-                  'downright tolerable outside. ',
-                ] | random }}
-                So I suggest wearing shorts.
-              {% elif is_state('sensor.clothing_forecast', 'Toasty') and is_state('sensor.current_forecast', 'sunny') %}
-                It is going to be
-                {{ [ 'on the warm side ',
-                  ' rather warm outside ',
-                  ' almost too hot outside ',
-                  ' a little warm ',
-                ] | random }}
-                today, and very sunny. So I suggest wearing shorts and 
-                {{ [ 'bringing your shades, hat, and maybe some sunscreen.',
-                  'preparing to bake under the sun.',
-                  'getting ready to be cooked alive.',
-                ] | random }}
-              {% elif is_state('sensor.clothing_forecast', 'Hot') and is_state('sensor.current_forecast', 'sunny') %}
-                It is going to be
-                {{ [ 'so hot you will sweat your balls off',
-                  'hotter than the sun ',
-                  'hotter than the inside of a volcano ',
-                ] | random }}
-                today, and very sunny. So I suggest wearing shorts and 
-                {{ [ 'bringing your shades, hat, and maybe some sunscreen.',
-                  'preparing to bake under the sun.',
-                  'getting ready to be cooked alive.',
-                ] | random }}
-              {% elif is_state('sensor.clothing_forecast', 'Toasty') %}
-                It is going to be
-                {{ [ 'on the warm side ',
-                  ' rather warm outside ',
-                  ' almost too hot outside ',
-                  ' a little warm ',
-                ] | random }}
-                today. So I suggest wearing shorts.
-              {% elif is_state('sensor.clothing_forecast', 'Hot') %}
-                It is going to be
-                {{ [ 'so hot you will sweat your balls off',
-                  'hotter than the sun ',
-                  'hotter than the inside of a volcano ',
-                  'hotter than hell itself ',
-                ] | random }}
-                today. So I suggest wearing shorts.
-              {% else %}
-                It is going to be {{ states('sensor.clothing_forecast') }} today so I suggest wearing shorts.
-              {% endif %}
-              {% if is_state('input_boolean.hot_day','on') %}
-                Warning, today will be a very sweaty day, so please remember to stay hydrated!
-              {% endif %}
-              {% if is_state('input_boolean.cold_day','on') %}
-                Warning, today will be excessively cold, please make sure all exposed skin is covered to avoid frostbite!
-              {% endif %}
+          {% elif states('sensor.today_corrected_high_temp')|int < 64 %}
+            {%- if states('sensor.today_corrected_high_temp')|int < 32 %}
+              Freezing
+            {% elif states('sensor.today_corrected_high_temp')|int > 48 %}
+              Chilly
             {% else %}
-              Based on the current temperature,
-              {% if is_state('sensor.clothing_forecast', 'Freezing') %}
-                You're gonna freeze your balls off out there. so I suggest wearing long pants and a heavy coat if you are going out.
-              {% elif is_state('sensor.clothing_forecast','Cold') %}
-                It is cold as balls outside. so I suggest wearing long pants and a light jacket.
-              {% elif is_state('sensor.clothing_forecast', 'Chilly') %}
-                It is chilly right now. so I suggest wearing at least long pants
-                if you are going to venture outside.
-              {% elif is_state('sensor.clothing_forecast', 'Nice') %}
-                It is
-                {{ [ 'pretty nice outside. ',
-                  'a good day to be outside. ',
-                  'a decent day outside for once. ',
-                  'downright tolerable outside. ',
-                ] | random }}
-                So I suggest wearing shorts.
-              {% elif is_state('sensor.clothing_forecast', 'Toasty') and is_state('weather.iron_nerd_weather_station','sunny') %}
-                It is
-                {{ [ 'on the warm side ',
-                  ' rather warm ',
-                  ' almost too hot ',
-                  ' a little warm ',
-                ] | random }}
-                and very sunny outside. So I suggest wearing shorts and
-                {{ [ 'bringing your shades, hat, and maybe some sunscreen.',
-                  'preparing to bake under the sun.',
-                  'getting ready to be cooked alive.',
-                ] | random }}
-              {% elif is_state('sensor.clothing_forecast', 'Hot') and is_state('weather.iron_nerd_weather_station','sunny') %}
-                It is
-                {{ [ 'so hot you will sweat your balls off',
-                  'hotter than the sun ',
-                  'hotter than the inside of a volcano ',
-                ] | random }}
-                and very sunny outside. So I suggest wearing shorts and
-                {{ [ 'bringing your shades, hat, and maybe some sunscreen.',
-                  'preparing to bake under the sun.',
-                  'getting ready to be cooked alive.',
-                ] | random }}
-              {% elif is_state('sensor.clothing_forecast', 'Toasty') %}
-                It is
-                {{ [ 'on the warm side ',
-                  ' rather warm ',
-                  ' almost too hot ',
-                  ' a little warm ',
-                ] | random }}
-                outside. So I suggest wearing shorts.
-              {% elif is_state('sensor.clothing_forecast', 'Hot') %}
-                It is
-                {{ [ 'so hot you will sweat your balls off',
-                  'hotter than the sun ',
-                  'hotter than the inside of a volcano ',
-                  'hotter than hell itself ',
-                ] | random }}
-                outside. So I suggest wearing shorts.
-              {% else %}
-                It is {{ states('sensor.clothing_forecast') }} right now so I suggest wearing shorts.
-              {% endif %}
-              {% if is_state('binary_sensor.heat_index_threshold','on') %}
-                Warning, the heat index is {{ states('sensor.stratton_ave_apparent_temperature') | float | round }} degrees right now, which is very high. So please make sure to stay hydrated!
-              {% endif %}
-              {% if is_state('binary_sensor.wind_chill_threshold','on') %}
-                Warning, it currently feels like {{ states('sensor.stratton_ave_apparent_temperature') | float | round }} degrees outside, so please make sure all exposed skin is covered to avoid frostbite!
-              {% endif %}
+              Cold
+            {%- endif %}
+          {% else %}
+            Unknown
+          {%- endif %}
+    - name: "Clothing Forecast Detail"
+      unique_id: 13065f50-5eef-4afd-830e-2a2c87f47496
+      state: >-
+        {% from 'formatting.jinja' import cleanup %}
+        {%- macro getReport() -%}
+          {% if is_state('binary_sensor.morning','on') %}
+            Based on the forecasted high temperature,
+            {% if is_state('sensor.clothing_forecast', 'Freezing') %}
+              You're gonna freeze your balls off out there. so I suggest wearing long pants and a heavy coat.
+            {% elif is_state('sensor.clothing_forecast','Cold') %}
+              It's gonna be cold as balls today. so I suggest wearing long pants and a light jacket.
+            {% elif is_state('sensor.clothing_forecast', 'Chilly') %}
+              It's gonna be on the chilly side today. so I suggest wearing at least long pants.
+            {% elif is_state('sensor.clothing_forecast', 'Nice') %}
+              It is going to be
+              {{ [ 'pretty nice outside. ',
+                'a good day to be outside. ',
+                'a decent day outside for once. ',
+                'downright tolerable outside. ',
+              ] | random }}
+              So I suggest wearing shorts.
+            {% elif is_state('sensor.clothing_forecast', 'Toasty') and is_state('sensor.current_forecast', 'sunny') %}
+              It is going to be
+              {{ [ 'on the warm side ',
+                ' rather warm outside ',
+                ' almost too hot outside ',
+                ' a little warm ',
+              ] | random }}
+              today, and very sunny. So I suggest wearing shorts and 
+              {{ [ 'bringing your shades, hat, and maybe some sunscreen.',
+                'preparing to bake under the sun.',
+                'getting ready to be cooked alive.',
+              ] | random }}
+            {% elif is_state('sensor.clothing_forecast', 'Hot') and is_state('sensor.current_forecast', 'sunny') %}
+              It is going to be
+              {{ [ 'so hot you will sweat your balls off',
+                'hotter than the sun ',
+                'hotter than the inside of a volcano ',
+              ] | random }}
+              today, and very sunny. So I suggest wearing shorts and 
+              {{ [ 'bringing your shades, hat, and maybe some sunscreen.',
+                'preparing to bake under the sun.',
+                'getting ready to be cooked alive.',
+              ] | random }}
+            {% elif is_state('sensor.clothing_forecast', 'Toasty') %}
+              It is going to be
+              {{ [ 'on the warm side ',
+                ' rather warm outside ',
+                ' almost too hot outside ',
+                ' a little warm ',
+              ] | random }}
+              today. So I suggest wearing shorts.
+            {% elif is_state('sensor.clothing_forecast', 'Hot') %}
+              It is going to be
+              {{ [ 'so hot you will sweat your balls off',
+                'hotter than the sun ',
+                'hotter than the inside of a volcano ',
+                'hotter than hell itself ',
+              ] | random }}
+              today. So I suggest wearing shorts.
+            {% else %}
+              It is going to be {{ states('sensor.clothing_forecast') }} today so I suggest wearing shorts.
             {% endif %}
-            {% if states('sensor.thermal_comfort_simmerindex') in ['extremely_warm','danger_of_heatstroke','extreme_danger_of_heatstroke','circulatory_collapse_imminent'] %}
-              "I cannot stress this enough, the current weather is dangerously hot! "
+            {% if is_state('input_boolean.hot_day','on') %}
+              Warning, today will be a very sweaty day, so please remember to stay hydrated!
             {% endif %}
-            {% if is_state('sensor.thermal_comfort_perception','somewhat_uncomfortable') %}
-              "The humidity is somewhat uncomfortable outside."
-            {% elif is_state('sensor.thermal_comfort_perception','quite_uncomfortable') %}
-              "The humidity is very uncomfortable outside. "
-            {% elif is_state('sensor.thermal_comfort_perception','extremely_uncomfortable') %}
-              "The humidity outside is extremely uncomfortable and oppresive. "
-            {% elif is_state('sensor.thermal_comfort_perception','severely_high') %}
-              "The humidity outside is severely high, and could even be deadly for asthma related illnesses. "
+            {% if is_state('input_boolean.cold_day','on') %}
+              Warning, today will be excessively cold, please make sure all exposed skin is covered to avoid frostbite!
             {% endif %}
-            {% if is_state('sensor.thermal_comfort_frostrisk','high') %}
-              "There is currently a high chance of frost outside. Plan accordingly! "
-            {% elif is_state('sensor.thermal_comfort_frostrisk','probable') %}
-              "The possibility of frost exists currently. Be prepared. "
+          {% else %}
+            Based on the current temperature,
+            {% if is_state('sensor.clothing_forecast', 'Freezing') %}
+              You're gonna freeze your balls off out there. so I suggest wearing long pants and a heavy coat if you are going out.
+            {% elif is_state('sensor.clothing_forecast','Cold') %}
+              It is cold as balls outside. so I suggest wearing long pants and a light jacket.
+            {% elif is_state('sensor.clothing_forecast', 'Chilly') %}
+              It is chilly right now. so I suggest wearing at least long pants
+              if you are going to venture outside.
+            {% elif is_state('sensor.clothing_forecast', 'Nice') %}
+              It is
+              {{ [ 'pretty nice outside. ',
+                'a good day to be outside. ',
+                'a decent day outside for once. ',
+                'downright tolerable outside. ',
+              ] | random }}
+              So I suggest wearing shorts.
+            {% elif is_state('sensor.clothing_forecast', 'Toasty') and is_state('weather.iron_nerd_weather_station','sunny') %}
+              It is
+              {{ [ 'on the warm side ',
+                ' rather warm ',
+                ' almost too hot ',
+                ' a little warm ',
+              ] | random }}
+              and very sunny outside. So I suggest wearing shorts and
+              {{ [ 'bringing your shades, hat, and maybe some sunscreen.',
+                'preparing to bake under the sun.',
+                'getting ready to be cooked alive.',
+              ] | random }}
+            {% elif is_state('sensor.clothing_forecast', 'Hot') and is_state('weather.iron_nerd_weather_station','sunny') %}
+              It is
+              {{ [ 'so hot you will sweat your balls off',
+                'hotter than the sun ',
+                'hotter than the inside of a volcano ',
+              ] | random }}
+              and very sunny outside. So I suggest wearing shorts and
+              {{ [ 'bringing your shades, hat, and maybe some sunscreen.',
+                'preparing to bake under the sun.',
+                'getting ready to be cooked alive.',
+              ] | random }}
+            {% elif is_state('sensor.clothing_forecast', 'Toasty') %}
+              It is
+              {{ [ 'on the warm side ',
+                ' rather warm ',
+                ' almost too hot ',
+                ' a little warm ',
+              ] | random }}
+              outside. So I suggest wearing shorts.
+            {% elif is_state('sensor.clothing_forecast', 'Hot') %}
+              It is
+              {{ [ 'so hot you will sweat your balls off',
+                'hotter than the sun ',
+                'hotter than the inside of a volcano ',
+                'hotter than hell itself ',
+              ] | random }}
+              outside. So I suggest wearing shorts.
+            {% else %}
+              It is {{ states('sensor.clothing_forecast') }} right now so I suggest wearing shorts.
             {% endif %}
-          {%- endmacro -%}
-          {{- cleanup(getReport()) -}}
+            {% if is_state('binary_sensor.heat_index_threshold','on') %}
+              Warning, the heat index is {{ states('sensor.stratton_ave_apparent_temperature') | float | round }} degrees right now, which is very high. So please make sure to stay hydrated!
+            {% endif %}
+            {% if is_state('binary_sensor.wind_chill_threshold','on') %}
+              Warning, it currently feels like {{ states('sensor.stratton_ave_apparent_temperature') | float | round }} degrees outside, so please make sure all exposed skin is covered to avoid frostbite!
+            {% endif %}
+          {% endif %}
+          {% if states('sensor.thermal_comfort_simmerindex') in ['extremely_warm','danger_of_heatstroke','extreme_danger_of_heatstroke','circulatory_collapse_imminent'] %}
+            "I cannot stress this enough, the current weather is dangerously hot! "
+          {% endif %}
+          {% if is_state('sensor.thermal_comfort_perception','somewhat_uncomfortable') %}
+            "The humidity is somewhat uncomfortable outside."
+          {% elif is_state('sensor.thermal_comfort_perception','quite_uncomfortable') %}
+            "The humidity is very uncomfortable outside. "
+          {% elif is_state('sensor.thermal_comfort_perception','extremely_uncomfortable') %}
+            "The humidity outside is extremely uncomfortable and oppresive. "
+          {% elif is_state('sensor.thermal_comfort_perception','severely_high') %}
+            "The humidity outside is severely high, and could even be deadly for asthma related illnesses. "
+          {% endif %}
+          {% if is_state('sensor.thermal_comfort_frostrisk','high') %}
+            "There is currently a high chance of frost outside. Plan accordingly! "
+          {% elif is_state('sensor.thermal_comfort_frostrisk','probable') %}
+            "The possibility of frost exists currently. Be prepared. "
+          {% endif %}
+        {%- endmacro -%}
+        {{- cleanup(getReport()) -}}
 
-      # current_inside_humidity:
-      #   friendly_name: "Current Inside Humidity"
-      #   unit_of_measurement: '%'
-      #   value_template: "{{ state_attr('climate.home','current_humidity') }}"
-      # lighting_stike_count:
-      #   friendly_name: "Lightning Strike Count"
-      #   value_template: "{{ states('sensor.acurite_6045m_3078_strcnt') }}"
-      # yesterday_rainfall_in:
-      #   friendly_name: "Yesterday Rainfall"
-      #   value_template: "{{ state_attr('sensor.daily_rainfall_in', 'last_period') }}"
-      # previous_rainfall:
-      #   friendly_name: "Past 48h Rainfall"
-      #   value_template: "{{ states('sensor.daily_rainfall_in') | float  + state_attr('sensor.daily_rainfall_in', 'last_period') | float  }}"
-      weather_alert_string:
-        friendly_name: Weather Alert String
-        unique_id: 66b5f020-0b5e-48ed-92a2-740d2d708b30
-        value_template: >
-          {% from 'formatting.jinja' import cleanup %}
-          {%- macro getReport() -%}
-            {% set alerts = [
-                states('sensor.weatheralerts_alert_1_most_recent_active_alert'),
-                states('sensor.weatheralerts_alert_2_most_recent_active_alert'),
-                states('sensor.weatheralerts_alert_3_most_recent_active_alert'),
-                states('sensor.weatheralerts_alert_4_most_recent_active_alert'),
-                states('sensor.weatheralerts_alert_5_most_recent_active_alert'),
-              ] %}
-            {% set main = alerts | reject('eq','unavailable') | select('ne','Flood Warning') | join(", ") | default('') %}
-            {% set flood = alerts | reject ('eq','unavailable') | select('eq','Flood Warning') | first | default('') %}
-            {% if flood not in [''] and main not in [''] %}
-              {{ main + ", " + flood }}
-            {% elif flood not in [''] and main in [''] %}
-              {{ flood }}
-            {% elif main not in [''] and flood in [''] %}
-              {{ main }}
-            {% else %}
-              'None'
-            {% endif %}
-          {%- endmacro -%}
-          {{- cleanup(getReport()) -}}
-        attribute_templates:
-          active_alerts: "{{ states('sensor.weatheralerts_active_alerts') }}"
-        icon_template: >
-          {% if (states('sensor.weatheralerts_active_alerts') | int ) > 0 %}
-            mdi:alert
+    # current_inside_humidity:
+    # - name: "Current Inside Humidity"
+    #   unit_of_measurement: '%'
+    #   state: "{{ state_attr('climate.home','current_humidity') }}"
+    # lighting_stike_count:
+    # - name: "Lightning Strike Count"
+    #   state: "{{ states('sensor.acurite_6045m_3078_strcnt') }}"
+    # yesterday_rainfall_in:
+    # - name: "Yesterday Rainfall"
+    #   state: "{{ state_attr('sensor.daily_rainfall_in', 'last_period') }}"
+    # previous_rainfall:
+    # - name: "Past 48h Rainfall"
+    #   state: "{{ states('sensor.daily_rainfall_in') | float  + state_attr('sensor.daily_rainfall_in', 'last_period') | float  }}"
+    - name: Weather Alert String
+      unique_id: 66b5f020-0b5e-48ed-92a2-740d2d708b30
+      state: >
+        {% from 'formatting.jinja' import cleanup %}
+        {%- macro getReport() -%}
+          {% set alerts = [
+              states('sensor.weatheralerts_alert_1_most_recent_active_alert'),
+              states('sensor.weatheralerts_alert_2_most_recent_active_alert'),
+              states('sensor.weatheralerts_alert_3_most_recent_active_alert'),
+              states('sensor.weatheralerts_alert_4_most_recent_active_alert'),
+              states('sensor.weatheralerts_alert_5_most_recent_active_alert'),
+            ] %}
+          {% set main = alerts | reject('eq','unavailable') | select('ne','Flood Warning') | join(", ") | default('') %}
+          {% set flood = alerts | reject ('eq','unavailable') | select('eq','Flood Warning') | first | default('') %}
+          {% if flood not in [''] and main not in [''] %}
+            {{ main + ", " + flood }}
+          {% elif flood not in [''] and main in [''] %}
+            {{ flood }}
+          {% elif main not in [''] and flood in [''] %}
+            {{ main }}
           {% else %}
-            mdi:alert-remove
+            'None'
           {% endif %}
-      weather_alerts_active_corrected:
-        friendly_name: 'Weather Alerts Active - Corrected'
-        unique_id: e2f51da4-2271-4719-8edf-a28f76ac1e3f
-        value_template: >
-          {% from 'formatting.jinja' import cleanup %}
-          {%- macro getReport() -%}
-            {% set alerts = [
-                states('sensor.weatheralerts_alert_1_most_recent_active_alert'),
-                states('sensor.weatheralerts_alert_2_most_recent_active_alert'),
-                states('sensor.weatheralerts_alert_3_most_recent_active_alert'),
-                states('sensor.weatheralerts_alert_4_most_recent_active_alert'),
-                states('sensor.weatheralerts_alert_5_most_recent_active_alert'),
-              ] %}
-            {% set main = alerts | reject('eq','unavailable') | select('ne','Flood Warning') | list | count | int %}
-            {% set flood = alerts | reject ('eq','unavailable') | select('eq','Flood Warning') | list | count | int %}
-            {% set flood1 = 1 if (flood > 0) else 0 %}
-            {{ (main + flood1) | int }}
-          {%- endmacro -%}
-          {{- cleanup(getReport()) -}}
-        icon_template: >
-          {% if (states('sensor.weatheralerts_active_alerts') | int ) > 0 %}
-            mdi:alert
-          {% else %}
-            mdi:alert-remove
-          {% endif %}
+        {%- endmacro -%}
+        {{- cleanup(getReport()) -}}
+      attributes:
+        active_alerts: "{{ states('sensor.weatheralerts_active_alerts') }}"
+      icon: >
+        {% if (states('sensor.weatheralerts_active_alerts') | int ) > 0 %}
+          mdi:alert
+        {% else %}
+          mdi:alert-remove
+        {% endif %}
+    - name: 'Weather Alerts Active - Corrected'
+      unique_id: e2f51da4-2271-4719-8edf-a28f76ac1e3f
+      state: >
+        {% from 'formatting.jinja' import cleanup %}
+        {%- macro getReport() -%}
+          {% set alerts = [
+              states('sensor.weatheralerts_alert_1_most_recent_active_alert'),
+              states('sensor.weatheralerts_alert_2_most_recent_active_alert'),
+              states('sensor.weatheralerts_alert_3_most_recent_active_alert'),
+              states('sensor.weatheralerts_alert_4_most_recent_active_alert'),
+              states('sensor.weatheralerts_alert_5_most_recent_active_alert'),
+            ] %}
+          {% set main = alerts | reject('eq','unavailable') | select('ne','Flood Warning') | list | count | int %}
+          {% set flood = alerts | reject ('eq','unavailable') | select('eq','Flood Warning') | list | count | int %}
+          {% set flood1 = 1 if (flood > 0) else 0 %}
+          {{ (main + flood1) | int }}
+        {%- endmacro -%}
+        {{- cleanup(getReport()) -}}
+      icon: >
+        {% if (states('sensor.weatheralerts_active_alerts') | int ) > 0 %}
+          mdi:alert
+        {% else %}
+          mdi:alert-remove
+        {% endif %}
 
 # Sensors to more accurately forecast the overnight temperatures
-      overnight_lowest_temperature:
-        friendly_name: 'Overnight Lowest Temperature'
-        unique_id: 70bdffbe-dc55-4913-af70-a37a6db2bcaa
-        unit_of_measurement: '°F'
-        value_template: >
-          {% set ns = namespace(temps=[]) %}
-          {% set x = state_attr('weather.iron_nerd_weather_station_hourly','forecast')  | count %}
-          {% set pd = state_attr('weather.iron_nerd_weather_station_hourly','forecast') %}
-          {% for i in range(0,x) %}
-            {% set hr = as_timestamp(as_local(as_datetime(pd[i].datetime))) | timestamp_custom('%H') | int %}
-            {% if hr in range(21,24) or hr in range(0,8) %}
-              {% if as_local(as_datetime(pd[i].datetime)) == now().replace(hour=hr, minute=00, second=0, microsecond=0) + timedelta(days=0) or
-                    as_local(as_datetime(pd[i].datetime)) == now().replace(hour=hr, minute=00, second=0, microsecond=0) + timedelta(days=1) %}
-                {% set ns.temps = ns.temps + [pd[i].temperature] %}
-              {% endif %}
+    - name: 'Overnight Lowest Temperature'
+      unique_id: 70bdffbe-dc55-4913-af70-a37a6db2bcaa
+      unit_of_measurement: '°F'
+      state: >
+        {% set ns = namespace(temps=[]) %}
+        {% set x = state_attr('weather.iron_nerd_weather_station_hourly','forecast')  | count %}
+        {% set pd = state_attr('weather.iron_nerd_weather_station_hourly','forecast') %}
+        {% for i in range(0,x) %}
+          {% set hr = as_timestamp(as_local(as_datetime(pd[i].datetime))) | timestamp_custom('%H') | int %}
+          {% if hr in range(21,24) or hr in range(0,8) %}
+            {% if as_local(as_datetime(pd[i].datetime)) == now().replace(hour=hr, minute=00, second=0, microsecond=0) + timedelta(days=0) or
+                  as_local(as_datetime(pd[i].datetime)) == now().replace(hour=hr, minute=00, second=0, microsecond=0) + timedelta(days=1) %}
+              {% set ns.temps = ns.temps + [pd[i].temperature] %}
             {% endif %}
-          {% endfor %}
-          {{ ns.temps | min | int }}
-        icon_template: mdi:thermometer
-      rain_24hr:
-        friendly_name: 'Rain - 24 Hours'
-        unique_id: 26d2b945-f676-4c3c-8a4f-4b3b909d62dd
-        unit_of_measurement: 'in'
-        value_template: "{{ state_attr('sensor.rain_factor','day_0_rain') | float }}"
-        icon_template: mdi:weather-rainy
-      today_corrected_high_temp:
-        friendly_name: 'Today Corrected High Temp'
-        unique_id: c0c40ec1-605e-4739-a935-ac0a2937fab2
-        unit_of_measurement: °F
-        value_template: "{{ states('input_number.today_corrected_high_temp') | int }}"
-        icon_template: mdi:thermometer-high
+          {% endif %}
+        {% endfor %}
+        {{ ns.temps | min | int }}
+      icon: mdi:thermometer
+    - name: 'Rain - 24 Hours'
+      unique_id: 26d2b945-f676-4c3c-8a4f-4b3b909d62dd
+      unit_of_measurement: 'in'
+      state: "{{ state_attr('sensor.rain_factor','day_0_rain') | float }}"
+      icon: mdi:weather-rainy
+    - name: 'Today Corrected High Temp'
+      unique_id: c0c40ec1-605e-4739-a935-ac0a2937fab2
+      unit_of_measurement: °F
+      state: "{{ states('input_number.today_corrected_high_temp') | int }}"
+      icon: mdi:thermometer-high
 
 input_number:
   today_corrected_high_temp:

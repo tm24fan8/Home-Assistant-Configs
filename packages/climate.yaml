@@ -1,50 +1,3 @@
-sensor:
-  - platform: template
-    sensors:
-      master_bedroom_current_temp:
-        friendly_name: "Master Bedroom Current Temp"
-        unique_id: 40c6b591-09d3-45cd-8cab-9838517cc08a
-        value_template: "{{ state_attr('climate.master_bedroom_aircon','current_temperature') | float }}"
-        availability_template: "{{ states('climate.master_bedroom_aircon') not in ['unavailable','unknown'] }}"
-      master_bedroom_outdoor_temp:
-        friendly_name: "Master Bedroom Outdoor Temp"
-        unique_id: 1a79ac59-0faf-4de5-b546-5d6d5e151dd6
-        value_template: "{{ state_attr('climate.master_bedroom_aircon','outdoor_temperature') | float }}"
-        availability_template: "{{ states('climate.master_bedroom_aircon') not in ['unavailable','unknown'] }}"
-      master_bedroom_target_temp:
-        friendly_name: "Master Bedroom Target Temp"
-        unique_id: 2ce31844-b115-42b8-8213-feccf24e236c
-        value_template: "{{ state_attr('climate.master_bedroom_aircon','temperature') | float }}"
-        availability_template: "{{ states('climate.master_bedroom_aircon') not in ['unavailable','unknown'] }}"
-      master_bedroom_aircon_eco_mode:
-        friendly_name: "Master Bedroom Eco Mode"
-        unique_id: edf36e23-adcf-4506-80eb-a14f4ea2fce0
-        value_template: "{{ is_state_attr('climate.master_bedroom_aircon','preset_mode','eco') }}"
-        icon_template: >-
-          {% if is_state_attr('climate.master_bedroom_aircon','preset_mode','eco') %}
-            mdi:home-lightning-bolt
-          {% else %}
-            mdi:home-lightning-bolt-outline
-          {% endif %}
-        availability_template: "{{ states('climate.master_bedroom_aircon') not in ['unavailable','unknown'] }}"
-      master_bedroom_aircon_fan_mode:
-        friendly_name: "Master Bedroom Aircon Fan Mode"
-        unique_id: c0e4f9ba-0c6c-4673-9a75-13f253f2f2e8
-        value_template: "{{ state_attr('climate.master_bedroom_aircon','fan_mode') }}"
-        icon_template: >
-          {% if is_state_attr('climate.master_bedroom_aircon','fan_mode','Auto') %}
-            mdi:fan-auto
-          {% elif is_state_attr('climate.master_bedroom_aircon','fan_mode','Low') %}
-            mdi:fan-speed-1
-          {% elif is_state_attr('climate.master_bedroom_aircon','fan_mode','Medium') %}
-            mdi:fan-speed-2
-          {% elif is_state_attr('climate.master_bedroom_aircon','fan_mode','High') %}
-            mdi:fan-speed-3
-          {% else %}
-            mdi:fan-off
-          {% endif %}
-        availability_template: "{{ states('climate.master_bedroom_aircon') not in ['unavailable','unknown'] }}"
-
 template:
   - binary_sensor:
     - name: Emma Aircon - Compressor
@@ -66,6 +19,45 @@ template:
     - name: Kallen Fan - Separate Schedule
       unique_id: 3f243861-6a1f-412f-b9e3-933b54793b08
       state: "{{ states('input_datetime.kallen_fan') != states('input_datetime.kallen_bedtime') }}"
+  - sensor:
+    - name: "Master Bedroom Current Temp"
+      unique_id: 40c6b591-09d3-45cd-8cab-9838517cc08a
+      state: "{{ state_attr('climate.master_bedroom_aircon','current_temperature') | float }}"
+      availability: "{{ states('climate.master_bedroom_aircon') not in ['unavailable','unknown'] }}"
+    - name: "Master Bedroom Outdoor Temp"
+      unique_id: 1a79ac59-0faf-4de5-b546-5d6d5e151dd6
+      state: "{{ state_attr('climate.master_bedroom_aircon','outdoor_temperature') | float }}"
+      availability: "{{ states('climate.master_bedroom_aircon') not in ['unavailable','unknown'] }}"
+    - name: "Master Bedroom Target Temp"
+      unique_id: 2ce31844-b115-42b8-8213-feccf24e236c
+      state: "{{ state_attr('climate.master_bedroom_aircon','temperature') | float }}"
+      availability: "{{ states('climate.master_bedroom_aircon') not in ['unavailable','unknown'] }}"
+    - name: "Master Bedroom Eco Mode"
+      unique_id: edf36e23-adcf-4506-80eb-a14f4ea2fce0
+      state: "{{ is_state_attr('climate.master_bedroom_aircon','preset_mode','eco') }}"
+      icon: >-
+        {% if is_state_attr('climate.master_bedroom_aircon','preset_mode','eco') %}
+          mdi:home-lightning-bolt
+        {% else %}
+          mdi:home-lightning-bolt-outline
+        {% endif %}
+      availability: "{{ states('climate.master_bedroom_aircon') not in ['unavailable','unknown'] }}"
+    - name: "Master Bedroom Aircon Fan Mode"
+      unique_id: c0e4f9ba-0c6c-4673-9a75-13f253f2f2e8
+      state: "{{ state_attr('climate.master_bedroom_aircon','fan_mode') }}"
+      icon: >
+        {% if is_state_attr('climate.master_bedroom_aircon','fan_mode','Auto') %}
+          mdi:fan-auto
+        {% elif is_state_attr('climate.master_bedroom_aircon','fan_mode','Low') %}
+          mdi:fan-speed-1
+        {% elif is_state_attr('climate.master_bedroom_aircon','fan_mode','Medium') %}
+          mdi:fan-speed-2
+        {% elif is_state_attr('climate.master_bedroom_aircon','fan_mode','High') %}
+          mdi:fan-speed-3
+        {% else %}
+          mdi:fan-off
+        {% endif %}
+      availability: "{{ states('climate.master_bedroom_aircon') not in ['unavailable','unknown'] }}"
 
 input_boolean:
   master_bedroom_climate_protocol:

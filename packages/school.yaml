@@ -85,155 +85,150 @@ template:
             off
           {% endif %}
       icon: mdi:school
-
-sensor:
-  - platform: template
-    sensors:
-      school_start_days2go:
-        unique_id: 94a53e67-c00f-4cc7-9309-f9033a9482f9
-        value_template: >
-          {% from 'easy_time.jinja' import count_the_days %}
-          {{ count_the_days('input_datetime.school_first_day') }}
-        attribute_templates:
-          date: "{{ state_attr('input_datetime.school_first_day','timestamp') | timestamp_custom('%B %d, %Y') }}"
-        unit_of_measurement: 'Days'
-      school_end_days2go:
-        unique_id: 589c44ec-7e16-4c72-a264-cdf54de409a9
-        value_template: >
-          {% from 'easy_time.jinja' import count_the_days %}
-          {{ count_the_days('input_datetime.school_last_day') | int }}
-        attribute_templates:
-          date: "{{ state_attr('input_datetime.school_last_day','timestamp') | timestamp_custom('%B %d, %Y') }}"
-        unit_of_measurement: 'Days'
-      vacation_days2go:
-        unique_id: f1628d87-e58a-4d1a-8a49-a71f0a9ed3e5
-        value_template: >
-          {% from 'easy_time.jinja' import count_the_days %}
-          {% if state_attr('calendar.vacation', 'start_time') %}
-            {{ count_the_days('calendar.vacation','start_time') }}
-          {% else %}
-            999
-          {% endif %}
-        unit_of_measurement: 'Days'
-      thanksgiving_break_days2go:
-        unique_id: 2381e9de-407b-4304-b09a-448c169bbaf2
-        value_template: >
-          {% from 'easy_time.jinja' import count_the_days %}
-          {{ count_the_days('input_datetime.thanksgiving_break_start') }}
-        attribute_templates:
-          date: "{{ state_attr('input_datetime.thanksgiving_break_start','timestamp') | timestamp_custom('%B %d, %Y') }}"
-        unit_of_measurement: 'Days'
-      christmas_break_days2go:
-        unique_id: 851700f7-c593-4db8-ba4f-001cbffcfc4a
-        value_template: >
-          {% from 'easy_time.jinja' import count_the_days %}
-          {{ count_the_days('input_datetime.christmas_break_start') }}
-        attribute_templates:
-          date: "{{ state_attr('input_datetime.christmas_break_start','timestamp') | timestamp_custom('%B %d, %Y') }}"
-        unit_of_measurement: 'Days'
-      spring_break_days2go:
-        unique_id: cec6e687-8999-4548-991c-02ba546335f5
-        value_template: >
-          {% from 'easy_time.jinja' import count_the_days %}
-          {{ count_the_days('input_datetime.spring_break_start') }}
-        attribute_templates:
-          date: "{{ state_attr('input_datetime.spring_break_start','timestamp') | timestamp_custom('%B %d, %Y') }}"
-        unit_of_measurement: 'Days'
-      kallen_lunch_menu_week:
-        friendly_name: Lunch Menu Week
-        unique_id: 62ba9dcb-3cd3-4875-8e6f-86bebf542c37
-        value_template: >
-          {% if is_state('calendar.elementary_school_lunch','on') %}
-            {{ state_attr('calendar.elementary_school_lunch','message') }}
-          {% else %}
-            No Menu
-          {% endif %}
-        icon_template: >
-          {% if is_state_attr('calendar.elementary_school_lunch','message','First Menu') %}
-            mdi:numeric-1-circle
-          {% elif is_state_attr('calendar.elementary_school_lunch','message','Second Menu') %}
-            mdi:numeric-2-circle
-          {% elif is_state_attr('calendar.elementary_school_lunch','message','Third Menu') %}
-            mdi:numeric-3-circle
-          {% elif is_state_attr('calendar.elementary_school_lunch','message','Fourth Menu') %}
-            mdi:numeric-4-circle
-          {% else %}
-            mdi:calendar-end
-          {% endif %}
-      kallen_lunch_menu_items:
-        friendly_name: Lunch Menu Items
-        unique_id: a2cb62d7-ae9f-4bab-81c1-81f2006391b2
-        icon_template: >
+  - sensor:
+    - name: School Start Days2go
+      unique_id: 94a53e67-c00f-4cc7-9309-f9033a9482f9
+      state: >
+        {% from 'easy_time.jinja' import count_the_days %}
+        {{ count_the_days('input_datetime.school_first_day') }}
+      attributes:
+        date: "{{ state_attr('input_datetime.school_first_day','timestamp') | timestamp_custom('%B %d, %Y') }}"
+      unit_of_measurement: 'Days'
+    - name: School End Days2go
+      unique_id: 589c44ec-7e16-4c72-a264-cdf54de409a9
+      state: >
+        {% from 'easy_time.jinja' import count_the_days %}
+        {{ count_the_days('input_datetime.school_last_day') | int }}
+      attributes:
+        date: "{{ state_attr('input_datetime.school_last_day','timestamp') | timestamp_custom('%B %d, %Y') }}"
+      unit_of_measurement: 'Days'
+    - name: Vacation Days2go
+      unique_id: f1628d87-e58a-4d1a-8a49-a71f0a9ed3e5
+      state: >
+        {% from 'easy_time.jinja' import count_the_days %}
+        {% if state_attr('calendar.vacation', 'start_time') %}
+          {{ count_the_days('calendar.vacation','start_time') }}
+        {% else %}
+          999
+        {% endif %}
+      unit_of_measurement: 'Days'
+    - name: Thanksgiving Break Days2go
+      unique_id: 2381e9de-407b-4304-b09a-448c169bbaf2
+      state: >
+        {% from 'easy_time.jinja' import count_the_days %}
+        {{ count_the_days('input_datetime.thanksgiving_break_start') }}
+      attributes:
+        date: "{{ state_attr('input_datetime.thanksgiving_break_start','timestamp') | timestamp_custom('%B %d, %Y') }}"
+      unit_of_measurement: 'Days'
+    - name: Christmas Break Days2go
+      unique_id: 851700f7-c593-4db8-ba4f-001cbffcfc4a
+      state: >
+        {% from 'easy_time.jinja' import count_the_days %}
+        {{ count_the_days('input_datetime.christmas_break_start') }}
+      attributes:
+        date: "{{ state_attr('input_datetime.christmas_break_start','timestamp') | timestamp_custom('%B %d, %Y') }}"
+      unit_of_measurement: 'Days'
+    - name: Spring Break Days2go
+      unique_id: cec6e687-8999-4548-991c-02ba546335f5
+      state: >
+        {% from 'easy_time.jinja' import count_the_days %}
+        {{ count_the_days('input_datetime.spring_break_start') }}
+      attributes:
+        date: "{{ state_attr('input_datetime.spring_break_start','timestamp') | timestamp_custom('%B %d, %Y') }}"
+      unit_of_measurement: 'Days'
+    - name: Lunch Menu Week
+      unique_id: 62ba9dcb-3cd3-4875-8e6f-86bebf542c37
+      state: >
+        {% if is_state('calendar.elementary_school_lunch','on') %}
+          {{ state_attr('calendar.elementary_school_lunch','message') }}
+        {% else %}
+          No Menu
+        {% endif %}
+      icon: >
+        {% if is_state_attr('calendar.elementary_school_lunch','message','First Menu') %}
+          mdi:numeric-1-circle
+        {% elif is_state_attr('calendar.elementary_school_lunch','message','Second Menu') %}
+          mdi:numeric-2-circle
+        {% elif is_state_attr('calendar.elementary_school_lunch','message','Third Menu') %}
+          mdi:numeric-3-circle
+        {% elif is_state_attr('calendar.elementary_school_lunch','message','Fourth Menu') %}
+          mdi:numeric-4-circle
+        {% else %}
+          mdi:calendar-end
+        {% endif %}
+    - name: Lunch Menu Items
+      unique_id: a2cb62d7-ae9f-4bab-81c1-81f2006391b2
+      icon: >
+        {% set week = states('sensor.kallen_lunch_menu_week') %}
+        {% if week == 'First Menu' %}
+          mdi:numeric-1-circle
+        {% elif week == 'Second Menu' %}
+          mdi:numeric-2-circle
+        {% elif week == 'Third Menu' %}
+          mdi:numeric-3-circle
+        {% elif week == 'Fourth Menu' %}
+          mdi:numeric-4-circle
+        {% else %}
+          mdi:calendar-end
+        {% endif %}
+      state: >
+        {% from 'formatting.jinja' import cleanup %}
+        {%- macro getReport() -%}
           {% set week = states('sensor.kallen_lunch_menu_week') %}
+          {% set dow = now().strftime('%A') %}
           {% if week == 'First Menu' %}
-            mdi:numeric-1-circle
-          {% elif week == 'Second Menu' %}
-            mdi:numeric-2-circle
-          {% elif week == 'Third Menu' %}
-            mdi:numeric-3-circle
-          {% elif week == 'Fourth Menu' %}
-            mdi:numeric-4-circle
-          {% else %}
-            mdi:calendar-end
-          {% endif %}
-        value_template: >
-          {% from 'formatting.jinja' import cleanup %}
-          {%- macro getReport() -%}
-            {% set week = states('sensor.kallen_lunch_menu_week') %}
-            {% set dow = now().strftime('%A') %}
-            {% if week == 'First Menu' %}
-              {% if dow == 'Monday' %}
-                Sloppy Joe, tomatoes or dip, green beans, mixed fruit, and milk.
-              {% elif dow == 'Tuesday' %}
-                Beef, taco salad, refried beans, spanish rice, peaches, and milk.
-              {% elif dow == 'Wednesday' %}
-                Optionally, Papa Johns Pizza. Otherwise, pulled pork, steamed broccoli, carrots, apples, and milk.
-              {% elif dow == 'Thursday' %}
-                Beef Stroganoff, steamed cauliflower, cucumbers, fresh fruit, and milk.
-              {% elif dow == 'Friday' %}
-                Hamburger, spinach salad, oven potatoes, applesauce, and milk.
-              {% endif %}
-            {% elif week == 'Second Menu' %}
-              {% if dow == 'Monday' %}
-                Popcorn chicken, mashed potatoes, corn, pears, bread, and milk.
-              {% elif dow == 'Tuesday' %}
-                Lasagna, garlic bread, celery, tomatoes, apple crisp, and milk.
-              {% elif dow == 'Wednesday' %}
-                Optionally, Papa Johns Pizza. Otherwise, hot ham and cheese, spinach salad, broccoli, fresh fruit, and milk.
-              {% elif dow == 'Thursday' %}
-                Turkey and noodles, mashed potatoes, carrots, peaches, bread, and milk.
-              {% elif down == 'Friday' %}
-                Hot dog with chili sauce, oven potatoes, backed beans, mixed fruit, and milk.
-              {% endif %}
-            {% elif week == 'Third Menu' %}
-              {% if dow == 'Monday' %}
-                Bosco sticks with pizza sauce, black bean salad, oven potatoes, peach crisp, and milk.
-              {% elif dow == 'Tuesday' %}
-                Toasted cheese, tomato soup, mixed vegetables, fresh fruit, treat, and milk.
-              {% elif dow == 'Wednesday' %}
-                Optionally, Papa Johns Pizza. Otherwise, popcorn chicken, mashed potatoes, carrots, apples, corn bread, and milk.
-              {% elif dow == 'Thursday' %}
-                Spaghetti, broccoli, green beans, fresh fruit, breadsticks, and milk.
-              {% elif dow == 'Friday' %}
-                Cold cut sub, spinach salad, tomatoes, pears, and milk.
-              {% endif %}
-            {% elif week == 'Fourth Menu' %}
-              {% if dow == 'Monday' %}
-                Chicken patty, baked beans, celery, mixed fruit, and milk.
-              {% elif dow == 'Tuesday' %}
-                Omelet or french toast, sausage, hash browns, tomatoes, orange, and milk.
-              {% elif dow == 'Wednesday' %}
-                Optionally, Papa Johns Pizza. Otherwise, hamburger, green beans, cauliflower, apple crisp, and milk.
-              {% elif dow == 'Thursday' %}
-                Mac and cheese, steamed broccoli, carrots, pears, bread, and milk.
-              {% elif dow == 'Friday' %}
-                Hot dog, spinach salad, oven potatoes, fresh fruit, and milk.
-              {% endif %}
-            {% else %}
-              No menu for the current day.
+            {% if dow == 'Monday' %}
+              Sloppy Joe, tomatoes or dip, green beans, mixed fruit, and milk.
+            {% elif dow == 'Tuesday' %}
+              Beef, taco salad, refried beans, spanish rice, peaches, and milk.
+            {% elif dow == 'Wednesday' %}
+              Optionally, Papa Johns Pizza. Otherwise, pulled pork, steamed broccoli, carrots, apples, and milk.
+            {% elif dow == 'Thursday' %}
+              Beef Stroganoff, steamed cauliflower, cucumbers, fresh fruit, and milk.
+            {% elif dow == 'Friday' %}
+              Hamburger, spinach salad, oven potatoes, applesauce, and milk.
             {% endif %}
-          {%- endmacro -%}
-          {{- cleanup(getReport()) -}}
+          {% elif week == 'Second Menu' %}
+            {% if dow == 'Monday' %}
+              Popcorn chicken, mashed potatoes, corn, pears, bread, and milk.
+            {% elif dow == 'Tuesday' %}
+              Lasagna, garlic bread, celery, tomatoes, apple crisp, and milk.
+            {% elif dow == 'Wednesday' %}
+              Optionally, Papa Johns Pizza. Otherwise, hot ham and cheese, spinach salad, broccoli, fresh fruit, and milk.
+            {% elif dow == 'Thursday' %}
+              Turkey and noodles, mashed potatoes, carrots, peaches, bread, and milk.
+            {% elif down == 'Friday' %}
+              Hot dog with chili sauce, oven potatoes, backed beans, mixed fruit, and milk.
+            {% endif %}
+          {% elif week == 'Third Menu' %}
+            {% if dow == 'Monday' %}
+              Bosco sticks with pizza sauce, black bean salad, oven potatoes, peach crisp, and milk.
+            {% elif dow == 'Tuesday' %}
+              Toasted cheese, tomato soup, mixed vegetables, fresh fruit, treat, and milk.
+            {% elif dow == 'Wednesday' %}
+              Optionally, Papa Johns Pizza. Otherwise, popcorn chicken, mashed potatoes, carrots, apples, corn bread, and milk.
+            {% elif dow == 'Thursday' %}
+              Spaghetti, broccoli, green beans, fresh fruit, breadsticks, and milk.
+            {% elif dow == 'Friday' %}
+              Cold cut sub, spinach salad, tomatoes, pears, and milk.
+            {% endif %}
+          {% elif week == 'Fourth Menu' %}
+            {% if dow == 'Monday' %}
+              Chicken patty, baked beans, celery, mixed fruit, and milk.
+            {% elif dow == 'Tuesday' %}
+              Omelet or french toast, sausage, hash browns, tomatoes, orange, and milk.
+            {% elif dow == 'Wednesday' %}
+              Optionally, Papa Johns Pizza. Otherwise, hamburger, green beans, cauliflower, apple crisp, and milk.
+            {% elif dow == 'Thursday' %}
+              Mac and cheese, steamed broccoli, carrots, pears, bread, and milk.
+            {% elif dow == 'Friday' %}
+              Hot dog, spinach salad, oven potatoes, fresh fruit, and milk.
+            {% endif %}
+          {% else %}
+            No menu for the current day.
+          {% endif %}
+        {%- endmacro -%}
+        {{- cleanup(getReport()) -}}
 
 
   # - platform: rest

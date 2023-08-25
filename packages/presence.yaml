@@ -153,6 +153,9 @@ binary_sensor:
 
 template:
   - binary_sensor:
+    - name: People Present
+      state: >
+        {{ is_state('person.tony_stork', 'home') or is_state('person.christina_stork', 'home') }}
     - name: "Tony Home"
       unique_id: 4f0d8c3d-dc49-4b7a-a1fc-5d286b4a954d
       state: "{{ is_state('device_tracker.tony_s_iphone', 'home') or is_state('device_tracker.life360_tony_stork','home') }}"

@@ -50,28 +50,6 @@ command_line:
       scan_interval: 20000
       unit_of_measurement: ''
 
-sensor:
-  - platform: template
-    sensors:
-      min_ping:
-        friendly_name: "Min Ping"
-        unique_id: ddcb9f6f-7c94-41fe-9453-2a2205b078e0
-        value_template: "{{ state_attr('binary_sensor.internet','round_trip_time_min') }}"
-        availability_template: "{{ is_state('binary_sensor.internet','on') }}"
-        unit_of_measurement: "ms"
-      avg_ping:
-        friendly_name: "Avg Ping"
-        unique_id: 79a13c64-7508-48de-8b44-2a23c59917c8
-        value_template: "{{ state_attr('binary_sensor.internet','round_trip_time_avg') }}"
-        availability_template: "{{ is_state('binary_sensor.internet','on') }}"
-        unit_of_measurement: "ms"
-      max_ping:
-        friendly_name: "Max Ping"
-        unique_id: c9c71ab6-c7fa-4425-a4ed-768d60e93781
-        value_template: "{{ state_attr('binary_sensor.internet','round_trip_time_max') }}"
-        availability_template: "{{ is_state('binary_sensor.internet','on') }}"
-        unit_of_measurement: "ms"
-
 mqtt:
   sensor:
     - name: "Uptime Kuma Status"
@@ -127,6 +105,22 @@ template:
       state: "{{ states('sensor.asus_laptop_system_idle_time') | int > 1800 }}"
       attributes:
         idle_time: "{{ states('sensor.asus_laptop_system_idle_time') }}s"
+  - sensor:
+    - name: "Min Ping"
+      unique_id: ddcb9f6f-7c94-41fe-9453-2a2205b078e0
+      state: "{{ state_attr('binary_sensor.internet','round_trip_time_min') }}"
+      availability: "{{ is_state('binary_sensor.internet','on') }}"
+      unit_of_measurement: "ms"
+    - name: "Avg Ping"
+      unique_id: 79a13c64-7508-48de-8b44-2a23c59917c8
+      state: "{{ state_attr('binary_sensor.internet','round_trip_time_avg') }}"
+      availability: "{{ is_state('binary_sensor.internet','on') }}"
+      unit_of_measurement: "ms"
+    - name: "Max Ping"
+      unique_id: c9c71ab6-c7fa-4425-a4ed-768d60e93781
+      state: "{{ state_attr('binary_sensor.internet','round_trip_time_max') }}"
+      availability: "{{ is_state('binary_sensor.internet','on') }}"
+      unit_of_measurement: "ms"
 
   # - platform: influxdb
   #   host: 192.168.1.26

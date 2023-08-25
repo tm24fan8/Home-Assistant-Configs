@@ -1,38 +1,25 @@
-- platform: twitch_helix
-  client_id: !secret twitch_client_id
-  client_secret: !secret twitch_client_secret
-  own_channel: ironnerd24
-  thumbnail_dimensions: 320x180
-  entity_prefix: Twitch_
-  channels:
-    - ironnerd24
-    - Xia_P988
-- platform: template
-  sensors:
-    basement_tv_current_app:
-      friendly_name: 'Basement TV Current App'
-      unique_id: 838c2320-24b6-4555-959e-0546580ae8b2
-      value_template: >-
-        {% if is_state('media_player.basement_tv','off') %}
-          Off
-        {% else %}
-          {{ state_attr('media_player.basement_tv','app_name') }}
-        {% endif %}
-    living_room_tv_current_app:
-      friendly_name: 'Living Room TV Current App'
-      unique_id: b03de99d-b7fa-4f4c-8cdf-758c906dffe4
-      value_template: >-
-        {% if is_state('media_player.living_room_tv','off') %}
-          Off
-        {% else %}
-          {{ state_attr('media_player.living_room_tv','app_name') }}
-        {% endif %}
-    master_bedroom_tv_current_app:
-      friendly_name: 'Master Bedroom TV Current App'
-      unique_id: 4bf4bef3-fc81-4259-a75c-6693ceba0926
-      value_template: >-
-        {% if is_state('media_player.master_bedroom_firetv','off') %}
-          Off
-        {% else %}
-          {{ state_attr('media_player.master_bedroom_firetv','app_name') }}
-        {% endif %}
+- sensor:
+  - name: 'Basement TV Current App'
+    unique_id: 838c2320-24b6-4555-959e-0546580ae8b2
+    state: >-
+      {% if is_state('media_player.basement_tv','off') %}
+        Off
+      {% else %}
+        {{ state_attr('media_player.basement_tv','app_name') }}
+      {% endif %}
+  - name: 'Living Room TV Current App'
+    unique_id: b03de99d-b7fa-4f4c-8cdf-758c906dffe4
+    state: >-
+      {% if is_state('media_player.living_room_tv','off') %}
+        Off
+      {% else %}
+        {{ state_attr('media_player.living_room_tv','app_name') }}
+      {% endif %}
+  - name: 'Master Bedroom TV Current App'
+    unique_id: 4bf4bef3-fc81-4259-a75c-6693ceba0926
+    state: >-
+      {% if is_state('media_player.master_bedroom_firetv','off') %}
+        Off
+      {% else %}
+        {{ state_attr('media_player.master_bedroom_firetv','app_name') }}
+      {% endif %}

@@ -1,0 +1,10 @@
+sensor:
+- platform: twitch_helix
+  client_id: !secret twitch_client_id
+  client_secret: !secret twitch_client_secret
+  own_channel: ironnerd24
+  thumbnail_dimensions: 320x180
+  entity_prefix: Twitch_
+  channels:
+    - ironnerd24
+    - Xia_P988

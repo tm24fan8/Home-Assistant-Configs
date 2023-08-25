@@ -1,0 +1,121 @@
+sensor:
+- platform: history_stats
+  name: Basement TV Time
+  entity_id: media_player.basement_tv
+  state: 'playing'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Basement TV Chromecast Time
+  entity_id: media_player.basement_tv_chromecast
+  state: 'playing'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Living Room TV Time
+  entity_id: media_player.living_room_tv
+  state: 'playing'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Living Room TV Chromecast Time
+  entity_id: media_player.living_room_tv_chromecast
+  state: 'playing'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Master Bedroom TV Time
+  entity_id: media_player.master_bedroom_firetv
+  state: 'playing'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Outside Lights
+  entity_id: light.outside_lights
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Windows Open Time
+  entity_id: sensor.windows_open
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Doors Open Time
+  entity_id: sensor.doors_open
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Emma A/C Compressor Time
+  entity_id: binary_sensor.emma_aircon_compressor
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Emma A/C Fan Time
+  entity_id: binary_sensor.emma_aircon_fan
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Master Bedroom A/C Compressor Time
+  entity_id: binary_sensor.master_bedroom_aircon_compressor
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Master Bedroom A/C Fan Time
+  entity_id: binary_sensor.master_bedroom_aircon_fan
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Master Bedroom Fan Time
+  entity_id: fan.master_bedroom_fan
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Kallen Fan Time
+  entity_id: fan.kallen_bedroom_fan
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24
+- platform: history_stats
+  name: Basement Fan Time
+  entity_id: fan.basement_fan
+  state: 'on'
+  type: time
+  end: '{{ now() }}'
+  duration:
+    hours: 24

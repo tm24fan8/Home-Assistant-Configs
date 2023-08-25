@@ -1,63 +1,31 @@
-- platform: rest
-  name: Kallen Tasks
-  method: GET
-  resource: 'https://api.todoist.com/sync/v9/projects/get_data'
-  params:
-    project_id: 2285969005
-  headers:
-    Authorization: !secret todoist_api_token
-  value_template: '{{value_json[''project''][''id'']}}'
-  json_attributes:
-    - project
-    - items
-  scan_interval: 30
-- platform: rest
-  name: Home Tech
-  method: GET
-  resource: 'https://api.todoist.com/sync/v9/projects/get_data'
-  params:
-    project_id: 2285967948
-  headers:
-    Authorization: !secret todoist_api_token
-  value_template: '{{value_json[''project''][''id'']}}'
-  json_attributes:
-    - project
-    - items
-  scan_interval: 30
-- platform: template
-  sensors:
-    home_tech_bug_reports:
-      friendly_name: 'Bug Reports'
-      unique_id: d9c3d6c5-f28f-4b60-a19f-355c8e58f9cb
-      value_template: "{{ states('sensor.home_tech') }}"
-      attribute_templates:
-        project: "{{ state_attr('sensor.home_tech', 'project') }}"
-        items: "{{ state_attr('sensor.home_tech', 'items')|selectattr('section_id', 'eq', '94865633')|list|selectattr('parent_id','eq',none)|list }}"
-    home_tech_improvements:
-      friendly_name: 'Improvements'
-      unique_id: f1af501a-de94-4951-a841-9ef82a08bb95
-      value_template: "{{ states('sensor.home_tech') }}"
-      attribute_templates:
-        project: "{{ state_attr('sensor.home_tech', 'project') }}"
-        items: "{{ state_attr('sensor.home_tech', 'items')|selectattr('section_id', 'eq', '114199257')|list|selectattr('parent_id','eq',none)|list }}"
-    home_tech_in_progress:
-      friendly_name: 'In Progress'
-      unique_id: ea820db3-3b17-49a5-8ab9-b5d1e89c5da1
-      value_template: "{{ states('sensor.home_tech') }}"
-      attribute_templates:
-        project: "{{ state_attr('sensor.home_tech', 'project') }}"
-        items: "{{ state_attr('sensor.home_tech', 'items')|selectattr('section_id', 'eq', '81234677')|list|selectattr('parent_id','eq',none)|list }}"
-    home_tech_long_term:
-      friendly_name: 'Long Term or Maintaining'
-      unique_id: 4c807471-6d9a-4f64-bad9-893a330a9499
-      value_template: "{{ states('sensor.home_tech') }}"
-      attribute_templates:
-        project: "{{ state_attr('sensor.home_tech', 'project') }}"
-        items: "{{ state_attr('sensor.home_tech', 'items')|selectattr('section_id', 'eq', '88456343')|list|selectattr('parent_id','eq',none)|list }}"
-    home_tech_postponed_indefinitely:
-      friendly_name: 'Postponed Indefinitely'
-      unique_id: eadb779a-eb65-4cc8-a184-fb5d6f29c48d
-      value_template: "{{ states('sensor.home_tech') }}"
-      attribute_templates:
-        project: "{{ state_attr('sensor.home_tech', 'project') }}"
-        items: "{{ state_attr('sensor.home_tech', 'items')|selectattr('section_id', 'eq', '81234736')|list|selectattr('parent_id','eq',none)|list }}"
+- sensor:
+  - name: 'Bug Reports'
+    unique_id: d9c3d6c5-f28f-4b60-a19f-355c8e58f9cb
+    state: "{{ states('sensor.home_tech') }}"
+    attributes:
+      project: "{{ state_attr('sensor.home_tech', 'project') }}"
+      items: "{{ state_attr('sensor.home_tech', 'items')|selectattr('section_id', 'eq', '94865633')|list|selectattr('parent_id','eq',none)|list }}"
+  - name: 'Improvements'
+    unique_id: f1af501a-de94-4951-a841-9ef82a08bb95
+    state: "{{ states('sensor.home_tech') }}"
+    attributes:
+      project: "{{ state_attr('sensor.home_tech', 'project') }}"
+      items: "{{ state_attr('sensor.home_tech', 'items')|selectattr('section_id', 'eq', '114199257')|list|selectattr('parent_id','eq',none)|list }}"
+  - name: 'In Progress'
+    unique_id: ea820db3-3b17-49a5-8ab9-b5d1e89c5da1
+    state: "{{ states('sensor.home_tech') }}"
+    attributes:
+      project: "{{ state_attr('sensor.home_tech', 'project') }}"
+      items: "{{ state_attr('sensor.home_tech', 'items')|selectattr('section_id', 'eq', '81234677')|list|selectattr('parent_id','eq',none)|list }}"
+  - name: 'Long Term or Maintaining'
+    unique_id: 4c807471-6d9a-4f64-bad9-893a330a9499
+    state: "{{ states('sensor.home_tech') }}"
+    attributes:
+      project: "{{ state_attr('sensor.home_tech', 'project') }}"
+      items: "{{ state_attr('sensor.home_tech', 'items')|selectattr('section_id', 'eq', '88456343')|list|selectattr('parent_id','eq',none)|list }}"
+  - name: 'Postponed Indefinitely'
+    unique_id: eadb779a-eb65-4cc8-a184-fb5d6f29c48d
+    state: "{{ states('sensor.home_tech') }}"
+    attributes:
+      project: "{{ state_attr('sensor.home_tech', 'project') }}"
+      items: "{{ state_attr('sensor.home_tech', 'items')|selectattr('section_id', 'eq', '81234736')|list|selectattr('parent_id','eq',none)|list }}"

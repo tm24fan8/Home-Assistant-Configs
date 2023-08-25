@@ -1,426 +1,276 @@
-- platform: template
-  sensors:
-    sensor_count:
-      friendly_name: 'Number of Sensors'
-      unique_id: e068dac5-a6f8-438d-a5df-93fa2c4eee2e
-      value_template: >-
-        {{ states.sensor | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
-      unit_of_measurement: ''
-    automation_count:
-      friendly_name: 'Number of Automations'
-      unique_id: ff75e7c9-1eac-4254-9a8d-4ed742a95233
-      value_template: >-
-        {{ states.automation| rejectattr('state', 'eq', 'unavailable') | list | count | int }}
-      unit_of_measurement: ''
-    script_count:
-      friendly_name: 'Number of Scripts'
-      unique_id: 29827719-36a0-4dad-9527-6b60aba3c4aa
-      value_template: >-
-        {{ states.script | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
-      unit_of_measurement: ''
-    binary_sensor_count:
-      friendly_name: 'Number of Binary Sensors'
-      unique_id: ffee9622-84f6-40df-b870-b8f79aa01943
-      value_template: >-
-        {{ states.binary_sensor | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
-      unit_of_measurement: ''
-    tracker_count:
-      friendly_name: 'Number of Devices'
-      unique_id: bc5c5934-084d-4bcb-930b-d48347ba1b3c
-      value_template: >-
-        {{ states.device_tracker| rejectattr('state', 'eq', 'unavailable') | list | count | int }}
-      unit_of_measurement: ''
-    lights_count:
-      friendly_name: 'Number of Lights'
-      unique_id: 71b7d157-4701-49dd-9145-41c5c93e22b4
-      value_template: >-
-        {{ states.light | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
-      unit_of_measurement: ''
-    switches_count:
-      friendly_name: 'Number of Switches'
-      unique_id: d2d60031-818c-475f-8243-c0101616847d
-      value_template: >-
-        {{ states.switch | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
-      unit_of_measurement: ''
-    camera_count:
-      friendly_name: 'Number of online Cameras'
-      unique_id: 46cefd93-b7d5-4fbf-b6d4-2fe94a053122
-      value_template: >-
-        {{ states.camera | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
-      unit_of_measurement: ''
-    media_player_count:
-      friendly_name: 'Number of Media Players'
-      unique_id: 295c724c-2044-4d06-8272-d92b086ff76f
-      value_template: >-
-        {{ states.media_player | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
-      unit_of_measurement: ''
-    entities_count:
-      friendly_name: 'Number of Entities'
-      unique_id: f2b17937-59ca-4a84-9a1b-a666bfb0566b
-      value_template: >-
-        {{ states | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
-      unit_of_measurement: ''
-    na_entities_count:
-      friendly_name: 'Number of NA Entities'
-      unique_id: cf2e5f8c-7f82-40c6-ae76-b587b7945c41
-      value_template: >-
-        {{ states | selectattr('state', 'eq', 'unavailable') | map(attribute='entity_id') | list | count | int }}
-      unit_of_measurement: ''
-    current_lights_on:
-      friendly_name: Current Lights On
-      unique_id: ea4afe4a-d0ac-4fce-968f-b181e50f4dc8
-      unit_of_measurement: ''
-      value_template: >-
-        {% set lights = [
-          states.light.living_room_color_1,
-          states.light.living_room_color_2,
-          states.light.living_room_color_3,
-          states.light.dining_room_lamp,
-          states.light.mud_room_overhead,
-          states.light.downstairs_bathroom_left,
-          states.light.downstairs_bathroom_right,
-          states.light.tina_lamp_top,
-          states.light.tina_lamp_side,
-          states.light.tina_desk_strip,
-          states.light.basement_tall_lamp,
-          states.light.basement_short_lamp,
-          states.light.basement_stairwell,
-          states.light.basement_led_strip_1,
-          states.light.hallway_overhead,
-          states.light.upstairs_bathroom_left,
-          states.light.upstairs_bathroom_middle_left,
-          states.light.upstairs_bathroom_middle_right,
-          states.light.upstairs_bathroom_right,
-          states.light.upstairs_bathroom_wall,
-          states.light.master_bedroom_front,
-          states.light.master_bedroom_side,
-          states.light.master_bedroom_closet,
-          states.light.kallen_bedroom_wall,
-          states.light.kallen_bedroom_overhead,
-          states.light.emma_bedroom_light,
-          states.light.front_porch_light
-        ] %}
-        {{ lights | selectattr('state','eq','on') | list | count | int }}
-    first_floor_lights_on:
-      friendly_name: First Floor Lights On
-      unique_id: fca1468d-4e0c-40ff-8c7f-251f99ee1b5b
-      unit_of_measurement: ''
-      value_template: >-
-        {% set lights = [
-          states.light.living_room_color_1,
-          states.light.living_room_color_2,
-          states.light.living_room_color_3,
-          states.light.dining_room_lamp,
-          states.light.mud_room_overhead,
-          states.light.downstairs_bathroom_left,
-          states.light.downstairs_bathroom_right,
-          states.light.tina_lamp_top,
-          states.light.tina_lamp_side,
-          states.light.tina_desk_strip
-        ] %}
-        {{ lights | selectattr('state','eq','on') | list | count | int }}
-    second_floor_lights_on:
-      friendly_name: Second Floor Lights On
-      unique_id: 517a73c0-67a0-44f9-99f3-5dfec784da18
-      unit_of_measurement: ''
-      value_template: >-
-        {% set lights = [
-          states.light.hallway_overhead,
-          states.light.upstairs_bathroom_left,
-          states.light.upstairs_bathroom_middle_left,
-          states.light.upstairs_bathroom_middle_right,
-          states.light.upstairs_bathroom_right,
-          states.light.upstairs_bathroom_wall,
-          states.light.master_bedroom_front,
-          states.light.master_bedroom_side,
-          states.light.master_bedroom_closet,
-          states.light.kallen_bedroom_wall,
-          states.light.kallen_bedroom_overhead,
-          states.light.emma_bedroom_light
-        ] %}
-        {{ lights | selectattr('state','eq','on') | list | count | int }}
-    basement_lights_on:
-      friendly_name: Basement Lights On
-      unique_id: 1a9e13d1-c2bd-44e4-82b2-b975ca61eed3
-      unit_of_measurement: ''
-      value_template: >-
-        {% set lights = [
-          states.light.basement_stairwell,
-          states.light.basement_tall_lamp,
-          states.light.basement_short_lamp,
-          states.light.basement_led_strip_1
-        ] %}
-        {{ lights | selectattr('state','eq','on') | list | count | int }}
-    current_outdoor_lights_on:
-      friendly_name: Current Outdoor Lights On
-      unique_id: 252981eb-e7bf-464a-9bfb-ab14dec4eb70
-      unit_of_measurement: ''
-      value_template: >-
-        {% set lights = [
-          states.light.front_porch_light
-        ] %}
-        {{ lights | selectattr('state','eq','on') | list | count | int }}
-    current_computers_on:
-      friendly_name: Current Computers On
-      unique_id: fb3f14f3-d0c9-4880-88c6-143d56248f13
-      unit_of_measurement: ''
-      value_template: >-
-        {% set computers = [
-          states.binary_sensor.tony_desktop_on,
-          states.binary_sensor.tina_desktop_on,
-          states.binary_sensor.kallen_desktop_on,
-          states.binary_sensor.basement_server_on
-        ] %}
-        {{ computers | selectattr('state','eq','on') | list | count | int }}
-    climate_devices_installed:
-      friendly_name: Climate Devices Installed
-      unique_id: e227272d-a10b-4641-ad27-39dc88a1ac2a
-      unit_of_measurement: ''
-      value_template: >-
-        {% set devices = [
-          states.input_boolean.master_bedroom_aircon_installed,
-          states.input_boolean.emma_bedroom_aircon_installed
-        ] %}
-        {{ devices | selectattr('state','eq','on') | list | count | int }}
-    ac_compressors_running:
-      friendly_name: A/C Compressors Running
-      unique_id: f27854e4-3a87-478e-9cdc-491cdb215d41
-      unit_of_measurement: ''
-      value_template: >-
-        {% set compressors = [
-          states.binary_sensor.emma_aircon_compressor,
-          states.binary_sensor.master_bedroom_aircon_compressor
-        ] %}
-        {{ compressors | selectattr('state','eq','on') | list | count | int }}
-    ac_fans_running:
-      friendly_name: A/C Fans Running
-      unique_id: 0b4b4362-4c35-42a0-98ba-55ac49ca2dbb
-      unit_of_measurement: ''
-      value_template: >-
-        {% set fans = [
-          states.binary_sensor.emma_aircon_fan,
-          states.binary_sensor.master_bedroom_aircon_fan
-        ] %}
-        {{ fans | selectattr('state','eq','on') | list | count | int }}
-    fans_running:
-      friendly_name: Fans Running
-      unique_id: 31f2b8d8-4d21-4328-bb03-482943795359
-      unit_of_measurement: ''
-      value_template: >-
-        {% set fans = [
-          states.fan.basement_fan,
-          states.fan.master_bedroom_fan,
-          states.fan.kallen_bedroom_fan
-        ] %}
-        {{ fans | selectattr('state','eq','on') | list | count | int }}
-    aircons_running:
-      friendly_name: Air Conditioners Running
-      unique_id: e1a2a8d6-75d9-4de5-9b4b-449681ca27a4
-      unit_of_measurement: ''
-      value_template: >-
-        {% set climate = states.climate | selectattr('state','ne','off') | rejectattr('state','eq','unavailable') | rejectattr('state','eq','unknown') | list | count | int %}
-        {% set fans = [
-          states.fan.emma_air_conditioner
-        ] %}
-        {% set fans_on = fans | selectattr('state','eq','on') | list | count | int %}
-        {{ climate + fans_on | int }}
-    climate_devices_running:
-      friendly_name: Climate Devices Running
-      unique_id: 3c61c756-2934-4294-8085-7d3855b692dd
-      unit_of_measurement: ''
-      value_template: >-
-        {{ (states('sensor.fans_running') | int) + (states('sensor.aircons_running') | int) | int }}
-    front_porch_color_temp:
-      friendly_name: Front Porch Color Temp
-      unique_id: 21a01514-d382-4c57-9add-3d500464b22b
-      unit_of_measurement: 'mireds'
-      value_template: >
-        {% if is_state('light.front_porch_light','off') %}
-          {{ 0 | int }}
-        {% else %}
-          {{ state_attr('light.front_porch_light','color_temp') | int }}
-        {% endif %}
-    birthdays_today:
-      friendly_name: Birthdays Today
-      unique_id: ec61c919-60a0-47a2-978c-aa2453267d3d
-      unit_of_measurement: ''
-      value_template: >
-        {% set birthdays = [
-          states.sensor.anniversary_tony_s_birthday,
-          states.sensor.anniversary_tina_s_birthday,
-          states.sensor.anniversary_kallen_s_birthday,
-          states.sensor.anniversary_emmalynn_s_birthday
-        ] %}
-        {{ birthdays | selectattr('state','eq','0') | list | count | int }}
-      icon_template: >
-        {% set birthdays = [
-          states.sensor.anniversary_tony_s_birthday,
-          states.sensor.anniversary_tina_s_birthday,
-          states.sensor.anniversary_kallen_s_birthday,
-          states.sensor.anniversary_emmalynn_s_birthday
-        ] %}
-        {% set status = birthdays | selectattr('state','eq','0') | list | count | int %}
-        {% if status > 0 %}
-          mdi:cake
-        {% else %}
-          mdi:eye
-        {% endif %}
-    # The sum of all the years of life in our household, because why not LOL
-    second_floor_plugs_current:
-      friendly_name: Second Floor Plugs Current
-      unique_id: 7f78e126-3986-4a91-8815-8a9435541bea
-      unit_of_measurement: A
-      value_template: >
-        {% set outlets = [
-          states.sensor.master_bedroom_fan_current.state,
-          states.sensor.master_bedroom_aircon_current.state,
-          states.sensor.kallen_bedroom_fan_current.state,
-          states.sensor.emma_air_conditioner_current.state
-        ] | map('float') | list %}
-        {{ outlets | sum | round(2) }}
-      icon_template: mdi:lightning-bolt-circle
-    first_floor_plugs_current:
-      friendly_name: First Floor Plugs Current
-      unique_id: 29ffd18a-c961-4022-82f3-9aca6919fb84
-      unit_of_measurement: A
-      value_template: >
-        {% set outlets = [
-          states.sensor.tina_desktop_current.state
-        ] | map('float') | list %}
-        {{ outlets | sum | round(2) }}
-      icon_template: mdi:lightning-bolt-circle
-    basement_plugs_current:
-      friendly_name: Basement Plugs Current
-      unique_id: 79052046-80ac-43e4-8fd4-ec7e36cefe3d
-      unit_of_measurement: A
-      value_template: >
-        {% set outlets = [
-          states.sensor.basement_fan_current.state,
-          states.sensor.basement_led_strip_current.state,
-          states.sensor.basement_server_current.state,
-          states.sensor.kallen_desktop_current.state,
-          states.sensor.tony_desktop_current.state
-        ] | map('float') | list %}
-        {{ outlets | sum | round(2) }}
-      icon_template: mdi:lightning-bolt-circle
-
-- platform: history_stats
-  name: Basement TV Time
-  entity_id: media_player.basement_tv
-  state: 'playing'
-  type: time
-  end: '{{ now() }}'
-  duration:
-    hours: 24
-- platform: history_stats
-  name: Basement TV Chromecast Time
-  entity_id: media_player.basement_tv_chromecast
-  state: 'playing'
-  type: time
-  end: '{{ now() }}'
-  duration:
-    hours: 24
-- platform: history_stats
-  name: Living Room TV Time
-  entity_id: media_player.living_room_tv
-  state: 'playing'
-  type: time
-  end: '{{ now() }}'
-  duration:
-    hours: 24
-- platform: history_stats
-  name: Living Room TV Chromecast Time
-  entity_id: media_player.living_room_tv_chromecast
-  state: 'playing'
-  type: time
-  end: '{{ now() }}'
-  duration:
-    hours: 24
-- platform: history_stats
-  name: Master Bedroom TV Time
-  entity_id: media_player.master_bedroom_firetv
-  state: 'playing'
-  type: time
-  end: '{{ now() }}'
-  duration:
-    hours: 24
-- platform: history_stats
-  name: Outside Lights
-  entity_id: light.outside_lights
-  state: 'on'
-  type: time
-  end: '{{ now() }}'
-  duration:
-    hours: 24
-- platform: history_stats
-  name: Windows Open Time
-  entity_id: sensor.windows_open
-  state: 'on'
-  type: time
-  end: '{{ now() }}'
-  duration:
-    hours: 24
-- platform: history_stats
-  name: Doors Open Time
-  entity_id: sensor.doors_open
-  state: 'on'
-  type: time
-  end: '{{ now() }}'
-  duration:
-    hours: 24
-- platform: history_stats
-  name: Emma A/C Compressor Time
-  entity_id: binary_sensor.emma_aircon_compressor
-  state: 'on'
-  type: time
-  end: '{{ now() }}'
-  duration:
-    hours: 24
-- platform: history_stats
-  name: Emma A/C Fan Time
-  entity_id: binary_sensor.emma_aircon_fan
-  state: 'on'
-  type: time
-  end: '{{ now() }}'
-  duration:
-    hours: 24
-- platform: history_stats
-  name: Master Bedroom A/C Compressor Time
-  entity_id: binary_sensor.master_bedroom_aircon_compressor
-  state: 'on'
-  type: time
-  end: '{{ now() }}'
-  duration:
-    hours: 24
-- platform: history_stats
-  name: Master Bedroom A/C Fan Time
-  entity_id: binary_sensor.master_bedroom_aircon_fan
-  state: 'on'
-  type: time
-  end: '{{ now() }}'
-  duration:
-    hours: 24
-- platform: history_stats
-  name: Master Bedroom Fan Time
-  entity_id: fan.master_bedroom_fan
-  state: 'on'
-  type: time
-  end: '{{ now() }}'
-  duration:
-    hours: 24
-- platform: history_stats
-  name: Kallen Fan Time
-  entity_id: fan.kallen_bedroom_fan
-  state: 'on'
-  type: time
-  end: '{{ now() }}'
-  duration:
-    hours: 24
-- platform: history_stats
-  name: Basement Fan Time
-  entity_id: fan.basement_fan
-  state: 'on'
-  type: time
-  end: '{{ now() }}'
-  duration:
-    hours: 24
+- sensor:
+  - name: 'Number of Sensors'
+    unique_id: e068dac5-a6f8-438d-a5df-93fa2c4eee2e
+    state: >-
+      {{ states.sensor | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
+    unit_of_measurement: ''
+  - name: 'Number of Automations'
+    unique_id: ff75e7c9-1eac-4254-9a8d-4ed742a95233
+    state: >-
+      {{ states.automation| rejectattr('state', 'eq', 'unavailable') | list | count | int }}
+    unit_of_measurement: ''
+  - name: 'Number of Scripts'
+    unique_id: 29827719-36a0-4dad-9527-6b60aba3c4aa
+    state: >-
+      {{ states.script | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
+    unit_of_measurement: ''
+  - name: 'Number of Binary Sensors'
+    unique_id: ffee9622-84f6-40df-b870-b8f79aa01943
+    state: >-
+      {{ states.binary_sensor | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
+    unit_of_measurement: ''
+  - name: 'Number of Devices'
+    unique_id: bc5c5934-084d-4bcb-930b-d48347ba1b3c
+    state: >-
+      {{ states.device_tracker| rejectattr('state', 'eq', 'unavailable') | list | count | int }}
+    unit_of_measurement: ''
+  - name: 'Number of Lights'
+    unique_id: 71b7d157-4701-49dd-9145-41c5c93e22b4
+    state: >-
+      {{ states.light | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
+    unit_of_measurement: ''
+  - name: 'Number of Switches'
+    unique_id: d2d60031-818c-475f-8243-c0101616847d
+    state: >-
+      {{ states.switch | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
+    unit_of_measurement: ''
+  - name: 'Number of online Cameras'
+    unique_id: 46cefd93-b7d5-4fbf-b6d4-2fe94a053122
+    state: >-
+      {{ states.camera | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
+    unit_of_measurement: ''
+  - name: 'Number of Media Players'
+    unique_id: 295c724c-2044-4d06-8272-d92b086ff76f
+    state: >-
+      {{ states.media_player | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
+    unit_of_measurement: ''
+  - name: 'Number of Entities'
+    unique_id: f2b17937-59ca-4a84-9a1b-a666bfb0566b
+    state: >-
+      {{ states | rejectattr('state', 'eq', 'unavailable') | list | count | int }}
+    unit_of_measurement: ''
+  - name: 'Number of NA Entities'
+    unique_id: cf2e5f8c-7f82-40c6-ae76-b587b7945c41
+    state: >-
+      {{ states | selectattr('state', 'eq', 'unavailable') | map(attribute='entity_id') | list | count | int }}
+    unit_of_measurement: ''
+  - name: Current Lights On
+    unique_id: ea4afe4a-d0ac-4fce-968f-b181e50f4dc8
+    unit_of_measurement: ''
+    state: >-
+      {% set lights = [
+        states.light.living_room_color_1,
+        states.light.living_room_color_2,
+        states.light.living_room_color_3,
+        states.light.dining_room_lamp,
+        states.light.mud_room_overhead,
+        states.light.downstairs_bathroom_left,
+        states.light.downstairs_bathroom_right,
+        states.light.tina_lamp_top,
+        states.light.tina_lamp_side,
+        states.light.tina_desk_strip,
+        states.light.basement_tall_lamp,
+        states.light.basement_short_lamp,
+        states.light.basement_stairwell,
+        states.light.basement_led_strip_1,
+        states.light.hallway_overhead,
+        states.light.upstairs_bathroom_left,
+        states.light.upstairs_bathroom_middle_left,
+        states.light.upstairs_bathroom_middle_right,
+        states.light.upstairs_bathroom_right,
+        states.light.upstairs_bathroom_wall,
+        states.light.master_bedroom_front,
+        states.light.master_bedroom_side,
+        states.light.master_bedroom_closet,
+        states.light.kallen_bedroom_wall,
+        states.light.kallen_bedroom_overhead,
+        states.light.emma_bedroom_light,
+        states.light.front_porch_light
+      ] %}
+      {{ lights | selectattr('state','eq','on') | list | count | int }}
+  - name: First Floor Lights On
+    unique_id: fca1468d-4e0c-40ff-8c7f-251f99ee1b5b
+    unit_of_measurement: ''
+    state: >-
+      {% set lights = [
+        states.light.living_room_color_1,
+        states.light.living_room_color_2,
+        states.light.living_room_color_3,
+        states.light.dining_room_lamp,
+        states.light.mud_room_overhead,
+        states.light.downstairs_bathroom_left,
+        states.light.downstairs_bathroom_right,
+        states.light.tina_lamp_top,
+        states.light.tina_lamp_side,
+        states.light.tina_desk_strip
+      ] %}
+      {{ lights | selectattr('state','eq','on') | list | count | int }}
+  - name: Second Floor Lights On
+    unique_id: 517a73c0-67a0-44f9-99f3-5dfec784da18
+    unit_of_measurement: ''
+    state: >-
+      {% set lights = [
+        states.light.hallway_overhead,
+        states.light.upstairs_bathroom_left,
+        states.light.upstairs_bathroom_middle_left,
+        states.light.upstairs_bathroom_middle_right,
+        states.light.upstairs_bathroom_right,
+        states.light.upstairs_bathroom_wall,
+        states.light.master_bedroom_front,
+        states.light.master_bedroom_side,
+        states.light.master_bedroom_closet,
+        states.light.kallen_bedroom_wall,
+        states.light.kallen_bedroom_overhead,
+        states.light.emma_bedroom_light
+      ] %}
+      {{ lights | selectattr('state','eq','on') | list | count | int }}
+  - name: Basement Lights On
+    unique_id: 1a9e13d1-c2bd-44e4-82b2-b975ca61eed3
+    unit_of_measurement: ''
+    state: >-
+      {% set lights = [
+        states.light.basement_stairwell,
+        states.light.basement_tall_lamp,
+        states.light.basement_short_lamp,
+        states.light.basement_led_strip_1
+      ] %}
+      {{ lights | selectattr('state','eq','on') | list | count | int }}
+  - name: Current Outdoor Lights On
+    unique_id: 252981eb-e7bf-464a-9bfb-ab14dec4eb70
+    unit_of_measurement: ''
+    state: >-
+      {% set lights = [
+        states.light.front_porch_light
+      ] %}
+      {{ lights | selectattr('state','eq','on') | list | count | int }}
+  - name: Current Computers On
+    unique_id: fb3f14f3-d0c9-4880-88c6-143d56248f13
+    unit_of_measurement: ''
+    state: >-
+      {% set computers = [
+        states.binary_sensor.tony_desktop_on,
+        states.binary_sensor.tina_desktop_on,
+        states.binary_sensor.kallen_desktop_on,
+        states.binary_sensor.basement_server_on
+      ] %}
+      {{ computers | selectattr('state','eq','on') | list | count | int }}
+  - name: Climate Devices Installed
+    unique_id: e227272d-a10b-4641-ad27-39dc88a1ac2a
+    unit_of_measurement: ''
+    state: >-
+      {% set devices = [
+        states.input_boolean.master_bedroom_aircon_installed,
+        states.input_boolean.emma_bedroom_aircon_installed
+      ] %}
+      {{ devices | selectattr('state','eq','on') | list | count | int }}
+  - name: A/C Compressors Running
+    unique_id: f27854e4-3a87-478e-9cdc-491cdb215d41
+    unit_of_measurement: ''
+    state: >-
+      {% set compressors = [
+        states.binary_sensor.emma_aircon_compressor,
+        states.binary_sensor.master_bedroom_aircon_compressor
+      ] %}
+      {{ compressors | selectattr('state','eq','on') | list | count | int }}
+  - name: A/C Fans Running
+    unique_id: 0b4b4362-4c35-42a0-98ba-55ac49ca2dbb
+    unit_of_measurement: ''
+    state: >-
+      {% set fans = [
+        states.binary_sensor.emma_aircon_fan,
+        states.binary_sensor.master_bedroom_aircon_fan
+      ] %}
+      {{ fans | selectattr('state','eq','on') | list | count | int }}
+  - name: Fans Running
+    unique_id: 31f2b8d8-4d21-4328-bb03-482943795359
+    unit_of_measurement: ''
+    state: >-
+      {% set fans = [
+        states.fan.basement_fan,
+        states.fan.master_bedroom_fan,
+        states.fan.kallen_bedroom_fan
+      ] %}
+      {{ fans | selectattr('state','eq','on') | list | count | int }}
+  - name: Air Conditioners Running
+    unique_id: e1a2a8d6-75d9-4de5-9b4b-449681ca27a4
+    unit_of_measurement: ''
+    state: >-
+      {% set climate = states.climate | selectattr('state','ne','off') | rejectattr('state','eq','unavailable') | rejectattr('state','eq','unknown') | list | count | int %}
+      {% set fans = [
+        states.fan.emma_air_conditioner
+      ] %}
+      {% set fans_on = fans | selectattr('state','eq','on') | list | count | int %}
+      {{ climate + fans_on | int }}
+  - name: Climate Devices Running
+    unique_id: 3c61c756-2934-4294-8085-7d3855b692dd
+    unit_of_measurement: ''
+    state: >-
+      {{ (states('sensor.fans_running') | int) + (states('sensor.aircons_running') | int) | int }}
+  - name: Front Porch Color Temp
+    unique_id: 21a01514-d382-4c57-9add-3d500464b22b
+    unit_of_measurement: 'mireds'
+    state: >
+      {% if is_state('light.front_porch_light','off') %}
+        {{ 0 | int }}
+      {% else %}
+        {{ state_attr('light.front_porch_light','color_temp') | int }}
+      {% endif %}
+  - name: Birthdays Today
+    unique_id: ec61c919-60a0-47a2-978c-aa2453267d3d
+    unit_of_measurement: ''
+    state: >
+      {% set birthdays = [
+        states.sensor.anniversary_tony_s_birthday,
+        states.sensor.anniversary_tina_s_birthday,
+        states.sensor.anniversary_kallen_s_birthday,
+        states.sensor.anniversary_emmalynn_s_birthday
+      ] %}
+      {{ birthdays | selectattr('state','eq','0') | list | count | int }}
+    icon: >
+      {% set birthdays = [
+        states.sensor.anniversary_tony_s_birthday,
+        states.sensor.anniversary_tina_s_birthday,
+        states.sensor.anniversary_kallen_s_birthday,
+        states.sensor.anniversary_emmalynn_s_birthday
+      ] %}
+      {% set status = birthdays | selectattr('state','eq','0') | list | count | int %}
+      {% if status > 0 %}
+        mdi:cake
+      {% else %}
+        mdi:eye
+      {% endif %}
+  # The sum of all the years of life in our household, because why not LOL
+  - name: Second Floor Plugs Current
+    unique_id: 7f78e126-3986-4a91-8815-8a9435541bea
+    unit_of_measurement: A
+    state: >
+      {% set outlets = [
+        states.sensor.master_bedroom_fan_current.state,
+        states.sensor.master_bedroom_aircon_current.state,
+        states.sensor.kallen_bedroom_fan_current.state,
+        states.sensor.emma_air_conditioner_current.state
+      ] | map('float') | list %}
+      {{ outlets | sum | round(2) }}
+    icon: mdi:lightning-bolt-circle
+  - name: First Floor Plugs Current
+    unique_id: 29ffd18a-c961-4022-82f3-9aca6919fb84
+    unit_of_measurement: A
+    state: >
+      {% set outlets = [
+        states.sensor.tina_desktop_current.state
+      ] | map('float') | list %}
+      {{ outlets | sum | round(2) }}
+    icon: mdi:lightning-bolt-circle
+  - name: Basement Plugs Current
+    unique_id: 79052046-80ac-43e4-8fd4-ec7e36cefe3d
+    unit_of_measurement: A
+    state: >
+      {% set outlets = [
+        states.sensor.basement_fan_current.state,
+        states.sensor.basement_led_strip_current.state,
+        states.sensor.basement_server_current.state,
+        states.sensor.kallen_desktop_current.state,
+        states.sensor.tony_desktop_current.state
+      ] | map('float') | list %}
+      {{ outlets | sum | round(2) }}
+    icon: mdi:lightning-bolt-circle

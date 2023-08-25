@@ -38,6 +38,21 @@ input_datetime:
     has_time: true
     icon: mdi:medical-bag
 
+sensor:
+- platform: rest
+  name: Home Tech
+  method: GET
+  resource: 'https://api.todoist.com/sync/v9/projects/get_data'
+  params:
+    project_id: 2285967948
+  headers:
+    Authorization: !secret todoist_api_token
+  value_template: '{{value_json[''project''][''id'']}}'
+  json_attributes:
+    - project
+    - items
+  scan_interval: 30
+
 automation:
   - id: c583aebf-4500-412c-9436-e1b534ba1a44
     alias: Tony Meds Handler

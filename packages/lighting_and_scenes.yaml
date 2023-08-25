@@ -303,135 +303,6 @@ input_text:
   tina_desk_selected_scene:
     name: Tina Desk Selected Scene
 
-sensor:
-  - platform: template
-    sensors:
-      basement_studio_lights_brightness_actual:
-        friendly_name: "Basement Studio Lights - Brightness Actual"
-        unique_id: dee4dc84-a6a0-4150-903e-5b8bd436d962
-        value_template: >
-          {% from 'lighting.jinja' import get_brightness_pct %}
-          {{ get_brightness_pct('light.basement_studio_lights') }}
-        availability_template: "{{ is_state('light.basement_studio_lights','on') }}"
-        unit_of_measurement: '%'
-        icon_template: mdi:brightness-percent
-      basement_studio_lights_brightness_intended:
-        friendly_name: "Basement Studio Lights - Brightness Intended"
-        unique_id: 3542077f-24c6-460c-a73f-fe7bc8413b81
-        value_template: "{{ state_attr('switch.adaptive_lighting_basement_studio','brightness_pct') | float | round(2) }}"
-        availability_template: "{{ is_state('switch.adaptive_lighting_basement_studio','on') }}"
-        unit_of_measurement: '%'
-        icon_template: mdi:brightness-percent
-      basement_studio_lights_colortemp_actual:
-        friendly_name: "Basement Studio Lights - Colortemp Actual"
-        unique_id: 93cb2a2f-c8a7-44bf-813f-26ce349a072f
-        value_template: "{{ state_attr('light.basement_studio_lights','color_temp_kelvin') | int }}"
-        availability_template: "{{ is_state('light.basement_studio_lights','on') }}"
-        unit_of_measurement: 'K'
-        icon_template: mdi:thermometer-lines
-      basement_studio_lights_colortemp_intended:
-        friendly_name: "Basement Studio Lights - Colortemp Intended"
-        unique_id: 85d4b063-bae8-43c2-9fea-35820b13f26f
-        value_template: "{{ state_attr('switch.adaptive_lighting_basement_studio','color_temp_kelvin') | int }}"
-        availability_template: "{{ is_state('switch.adaptive_lighting_basement_studio','on') }}"
-        unit_of_measurement: 'K'
-        icon_template: mdi:thermometer-lines
-      basement_studio_lights_brightness_diff:
-        friendly_name: "Basement Studio Lights - Brightness Diff"
-        unique_id: ab24a44c-6c6b-4ae9-b256-52592b0503bb
-        value_template: >
-          {% set current = states('sensor.basement_studio_lights_brightness_actual') | float %}
-          {% set intended = states('sensor.basement_studio_lights_brightness_intended') | float %}
-          {{ (current - intended) | float | round(2) }}
-        availability_template: "{{ is_state('light.basement_studio_lights','on') and is_state('switch.adaptive_lighting_basement_studio','on') }}"
-        unit_of_measurement: '%'
-        icon_template: mdi:brightness-percent
-      basement_studio_lights_colortemp_diff:
-        friendly_name: "Basement Studio Lights - Colortemp Diff"
-        unique_id: fecf7d42-9a5c-471e-9af3-e1a330a6ae3e
-        value_template: >
-          {% set current = states('sensor.basement_studio_lights_colortemp_actual') | float %}
-          {% set intended = states('sensor.basement_studio_lights_colortemp_intended') | float %}
-          {{ (current - intended) | float | round(2) }}
-        availability_template: "{{ is_state('light.basement_studio_lights','on') and is_state('switch.adaptive_lighting_basement_studio','on') }}"
-        unit_of_measurement: 'K'
-        icon_template: mdi:thermometer-lines
-      living_room_lights_brightness_actual:
-        friendly_name: "Living Room Lights - Brightness Actual"
-        unique_id: e557022a-184f-4111-bb6a-6c0869cce42c
-        value_template: >
-          {% from 'lighting.jinja' import get_brightness_pct %}
-          {{ get_brightness_pct('light.living_room_lights') }}
-        availability_template: "{{ is_state('light.living_room_lights','on') }}"
-        unit_of_measurement: '%'
-        icon_template: mdi:brightness-percent
-      living_room_lights_brightness_intended:
-        friendly_name: "Living Room Lights - Brightness Intended"
-        unique_id: a758742f-6724-4920-a9d1-325fe4f02664
-        value_template: "{{ state_attr('switch.adaptive_lighting_living_room','brightness_pct') | float | round(2) }}"
-        availability_template: "{{ is_state('switch.adaptive_lighting_living_room','on') }}"
-        unit_of_measurement: '%'
-        icon_template: mdi:brightness-percent
-      living_room_lights_colortemp_actual:
-        friendly_name: "Living Room Lights - Colortemp Actual"
-        unique_id: dbe08826-e113-4474-bbca-60d3c32a4b65
-        value_template: "{{ state_attr('light.living_room_lights','color_temp_kelvin') | int }}"
-        availability_template: "{{ is_state('light.living_room_lights','on') }}"
-        unit_of_measurement: 'K'
-        icon_template: mdi:thermometer-lines
-      living_room_lights_colortemp_intended:
-        friendly_name: "Living Room Lights - Colortemp Intended"
-        unique_id: 8b974c03-ab5b-4b89-97bf-afee78fa1a40
-        value_template: "{{ state_attr('switch.adaptive_lighting_living_room','color_temp_kelvin') | int }}"
-        availability_template: "{{ is_state('switch.adaptive_lighting_living_room','on') }}"
-        unit_of_measurement: 'K'
-        icon_template: mdi:thermometer-lines
-      living_room_lights_brightness_diff:
-        friendly_name: "Living Room Lights - Brightness Diff"
-        unique_id: 05f911d3-3b6a-4ca2-8181-5365707b2456
-        value_template: >
-          {% set current = states('sensor.living_room_lights_brightness_actual') | float %}
-          {% set intended = states('sensor.living_room_lights_brightness_intended') | float %}
-          {{ (current - intended) | float | round(2) }}
-        availability_template: "{{ is_state('light.living_room_lights','on') and is_state('switch.adaptive_lighting_living_room','on') }}"
-        unit_of_measurement: '%'
-        icon_template: mdi:brightness-percent
-      living_room_lights_colortemp_diff:
-        friendly_name: "Living Room Lights - Colortemp Diff"
-        unique_id: d8fcaa26-d3dc-48d8-b4b9-9e701a1506a8
-        value_template: >
-          {% set current = states('sensor.living_room_lights_colortemp_actual') | float %}
-          {% set intended = states('sensor.living_room_lights_colortemp_intended') | float %}
-          {{ (current - intended) | float | round(2) }}
-        availability_template: "{{ is_state('light.living_room_lights','on') and is_state('switch.adaptive_lighting_living_room','on') }}"
-        unit_of_measurement: 'K'
-        icon_template: mdi:thermometer-lines
-      basement_led_strip_resets:
-        friendly_name: "Basement LED Strip Resets"
-        unique_id: 0d016f09-a89b-4616-83b7-934580612d00
-        value_template: "{{ states('input_number.basement_led_strip_resets') | int }}"
-        unit_of_measurement: 'resets'
-        icon_template: mdi:restore
-      tina_desk_scene:
-        friendly_name: Tina Desk Scene
-        unique_id: 0d94ba35-bc9d-40a2-aa77-776d26bc3538
-        value_template: >
-          {% if is_state('input_boolean.give_me_darkness','on') %}
-            Night Mode
-          {% elif is_state('binary_sensor.early_night_mode','on') and is_state('input_boolean.give_me_darkness','off') %}
-            Evening Mode
-          {% else %}
-            Day Mode
-          {% endif %}
-        icon_template: >
-          {% if is_state('input_boolean.give_me_darkness','on') %}
-            mdi:weather-night
-          {% elif is_state('binary_sensor.early_night_mode','on') and is_state('input_boolean.give_me_darkness','off') %}
-            mdi:lightbulb-night
-          {% else %}
-            mdi:lightbulb
-          {% endif %}
-
 template:
   - binary_sensor:
     - name: Basement Lights Sync Issue
@@ -532,6 +403,118 @@ template:
           {% endif %}
       device_class: problem
       delay_on: "00:00:10"
+  - sensor:
+    - name: "Basement Studio Lights - Brightness Actual"
+      unique_id: dee4dc84-a6a0-4150-903e-5b8bd436d962
+      state: >
+        {% from 'lighting.jinja' import get_brightness_pct %}
+        {{ get_brightness_pct('light.basement_studio_lights') }}
+      availability: "{{ is_state('light.basement_studio_lights','on') }}"
+      unit_of_measurement: '%'
+      icon: mdi:brightness-percent
+    - name: "Basement Studio Lights - Brightness Intended"
+      unique_id: 3542077f-24c6-460c-a73f-fe7bc8413b81
+      state: "{{ state_attr('switch.adaptive_lighting_basement_studio','brightness_pct') | float | round(2) }}"
+      availability: "{{ is_state('switch.adaptive_lighting_basement_studio','on') }}"
+      unit_of_measurement: '%'
+      icon: mdi:brightness-percent
+    - name: "Basement Studio Lights - Colortemp Actual"
+      unique_id: 93cb2a2f-c8a7-44bf-813f-26ce349a072f
+      state: "{{ state_attr('light.basement_studio_lights','color_temp_kelvin') | int }}"
+      availability: "{{ is_state('light.basement_studio_lights','on') }}"
+      unit_of_measurement: 'K'
+      icon: mdi:thermometer-lines
+    - name: "Basement Studio Lights - Colortemp Intended"
+      unique_id: 85d4b063-bae8-43c2-9fea-35820b13f26f
+      state: "{{ state_attr('switch.adaptive_lighting_basement_studio','color_temp_kelvin') | int }}"
+      availability: "{{ is_state('switch.adaptive_lighting_basement_studio','on') }}"
+      unit_of_measurement: 'K'
+      icon: mdi:thermometer-lines
+    - name: "Basement Studio Lights - Brightness Diff"
+      unique_id: ab24a44c-6c6b-4ae9-b256-52592b0503bb
+      state: >
+        {% set current = states('sensor.basement_studio_lights_brightness_actual') | float %}
+        {% set intended = states('sensor.basement_studio_lights_brightness_intended') | float %}
+        {{ (current - intended) | float | round(2) }}
+      availability: "{{ is_state('light.basement_studio_lights','on') and is_state('switch.adaptive_lighting_basement_studio','on') }}"
+      unit_of_measurement: '%'
+      icon: mdi:brightness-percent
+    - name: "Basement Studio Lights - Colortemp Diff"
+      unique_id: fecf7d42-9a5c-471e-9af3-e1a330a6ae3e
+      state: >
+        {% set current = states('sensor.basement_studio_lights_colortemp_actual') | float %}
+        {% set intended = states('sensor.basement_studio_lights_colortemp_intended') | float %}
+        {{ (current - intended) | float | round(2) }}
+      availability: "{{ is_state('light.basement_studio_lights','on') and is_state('switch.adaptive_lighting_basement_studio','on') }}"
+      unit_of_measurement: 'K'
+      icon: mdi:thermometer-lines
+    - name: "Living Room Lights - Brightness Actual"
+      unique_id: e557022a-184f-4111-bb6a-6c0869cce42c
+      state: >
+        {% from 'lighting.jinja' import get_brightness_pct %}
+        {{ get_brightness_pct('light.living_room_lights') }}
+      availability: "{{ is_state('light.living_room_lights','on') }}"
+      unit_of_measurement: '%'
+      icon: mdi:brightness-percent
+    - name: "Living Room Lights - Brightness Intended"
+      unique_id: a758742f-6724-4920-a9d1-325fe4f02664
+      state: "{{ state_attr('switch.adaptive_lighting_living_room','brightness_pct') | float | round(2) }}"
+      availability: "{{ is_state('switch.adaptive_lighting_living_room','on') }}"
+      unit_of_measurement: '%'
+      icon: mdi:brightness-percent
+    - name: "Living Room Lights - Colortemp Actual"
+      unique_id: dbe08826-e113-4474-bbca-60d3c32a4b65
+      state: "{{ state_attr('light.living_room_lights','color_temp_kelvin') | int }}"
+      availability: "{{ is_state('light.living_room_lights','on') }}"
+      unit_of_measurement: 'K'
+      icon: mdi:thermometer-lines
+    - name: "Living Room Lights - Colortemp Intended"
+      unique_id: 8b974c03-ab5b-4b89-97bf-afee78fa1a40
+      state: "{{ state_attr('switch.adaptive_lighting_living_room','color_temp_kelvin') | int }}"
+      availability: "{{ is_state('switch.adaptive_lighting_living_room','on') }}"
+      unit_of_measurement: 'K'
+      icon: mdi:thermometer-lines
+    - name: "Living Room Lights - Brightness Diff"
+      unique_id: 05f911d3-3b6a-4ca2-8181-5365707b2456
+      state: >
+        {% set current = states('sensor.living_room_lights_brightness_actual') | float %}
+        {% set intended = states('sensor.living_room_lights_brightness_intended') | float %}
+        {{ (current - intended) | float | round(2) }}
+      availability: "{{ is_state('light.living_room_lights','on') and is_state('switch.adaptive_lighting_living_room','on') }}"
+      unit_of_measurement: '%'
+      icon: mdi:brightness-percent
+    - name: "Living Room Lights - Colortemp Diff"
+      unique_id: d8fcaa26-d3dc-48d8-b4b9-9e701a1506a8
+      state: >
+        {% set current = states('sensor.living_room_lights_colortemp_actual') | float %}
+        {% set intended = states('sensor.living_room_lights_colortemp_intended') | float %}
+        {{ (current - intended) | float | round(2) }}
+      availability: "{{ is_state('light.living_room_lights','on') and is_state('switch.adaptive_lighting_living_room','on') }}"
+      unit_of_measurement: 'K'
+      icon: mdi:thermometer-lines
+    - name: "Basement LED Strip Resets"
+      unique_id: 0d016f09-a89b-4616-83b7-934580612d00
+      state: "{{ states('input_number.basement_led_strip_resets') | int }}"
+      unit_of_measurement: 'resets'
+      icon: mdi:restore
+    - name: Tina Desk Scene
+      unique_id: 0d94ba35-bc9d-40a2-aa77-776d26bc3538
+      state: >
+        {% if is_state('input_boolean.give_me_darkness','on') %}
+          Night Mode
+        {% elif is_state('binary_sensor.early_night_mode','on') and is_state('input_boolean.give_me_darkness','off') %}
+          Evening Mode
+        {% else %}
+          Day Mode
+        {% endif %}
+      icon: >
+        {% if is_state('input_boolean.give_me_darkness','on') %}
+          mdi:weather-night
+        {% elif is_state('binary_sensor.early_night_mode','on') and is_state('input_boolean.give_me_darkness','off') %}
+          mdi:lightbulb-night
+        {% else %}
+          mdi:lightbulb
+        {% endif %}
 
 switch:
   - platform: animated_scenes
