@@ -1160,3 +1160,51 @@
           option: Reset
         target:
           entity_id: input_select.tina_desk_scenes
+- id: '1693174941627'
+  alias: Presence Disconnect Protection
+  description: When the internet drops, sometimes LIfe360 does too. This automation
+    prevents the chaos that causes.
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.internet
+    from: 'on'
+    to: 'off'
+    id: disconnect
+  - platform: state
+    entity_id:
+    - binary_sensor.internet
+    from: 'off'
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+    id: reconnect
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - disconnect
+      sequence:
+      - service: automation.turn_off
+        data:
+          stop_actions: true
+        target:
+          entity_id:
+          - automation.family_has_arrived
+          - automation.family_has_left
+    - conditions:
+      - condition: trigger
+        id:
+        - reconnect
+      sequence:
+      - service: automation.turn_on
+        data: {}
+        target:
+          entity_id:
+          - automation.family_has_arrived
+          - automation.family_has_left
+  mode: restart
