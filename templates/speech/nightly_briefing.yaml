@@ -97,11 +97,7 @@
     <p>
       {% if states('input_select.scheduled_climate_mode_master_bedroom_aircon') != 'N/A' or states('input_select.scheduled_climate_mode_master_bedroom_fan') != 'N/A' %}
         {% if not is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','N/A') %}
-          {% if is_state('climate.master_bedroom_aircon','fan_only') %}
-            "The master bedroom air conditioner is already running in fan only mode. "
-          {% elif states('climate.master_bedroom_aircon') not in ['off','unknown','unavailable'] %}
-            "The master bedroom air conditioner is already running in {{ states('climate.master_bedroom_aircon') }} mode. "
-          {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','AC') and is_state('input_boolean.hot_day','on') %}
+          {% if is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','AC') and is_state('input_boolean.hot_day','on') %}
             "Today was a hot day, so the master bedroom air conditioner will start cooling a bit earlier tonight at {{ input_datetime_read('input_datetime.master_bedroom_cooling') }}. "
           {% elif is_state('input_select.scheduled_climate_mode_master_bedroom_aircon','AC') %}
             "The master bedroom air conditioner will start cooling at {{ input_datetime_read('input_datetime.master_bedroom_cooling') }}. "

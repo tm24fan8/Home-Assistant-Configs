@@ -35,8 +35,14 @@
   {% endif %}
 {% elif method == 'tts' %}
   {% if type in ['alerts','full'] %}
+    {% set alerts = states('sensor.weather_alerts_active_corrected') %}
+    {% if alerts == '1' %}
+      {% set alertStrings = ['is','alert','It is'] %}
+    {% else %}
+      {% set alertStrings = ['are','alerts','They are'] %}
+    {% endif %}
     {% if states('sensor.weatheralerts_active_alerts') > '0' %}
-      "Currently there are weather alerts active. The total number of alerts is {{ states('sensor.weather_alerts_active_corrected') }}. They are as follows. "
+      "There {{ alertStrings[0] }} {{ alerts }} weather {{ alertStrings[1] }} active. {{ alertStrings[2] }}, "
         {{ states('sensor.weather_alert_string') }}.
     {% endif %}
     {% if is_state('input_boolean.tornado_alarm','on') %}
