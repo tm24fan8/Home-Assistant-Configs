@@ -20,14 +20,6 @@ template:
       unique_id: 3f243861-6a1f-412f-b9e3-933b54793b08
       state: "{{ states('input_datetime.kallen_fan') != states('input_datetime.kallen_bedtime') }}"
   - sensor:
-    - name: "Master Bedroom Current Temp"
-      unique_id: 40c6b591-09d3-45cd-8cab-9838517cc08a
-      state: "{{ state_attr('climate.master_bedroom_aircon','current_temperature') | float }}"
-      availability: "{{ states('climate.master_bedroom_aircon') not in ['unavailable','unknown'] }}"
-    - name: "Master Bedroom Outdoor Temp"
-      unique_id: 1a79ac59-0faf-4de5-b546-5d6d5e151dd6
-      state: "{{ state_attr('climate.master_bedroom_aircon','outdoor_temperature') | float }}"
-      availability: "{{ states('climate.master_bedroom_aircon') not in ['unavailable','unknown'] }}"
     - name: "Master Bedroom Target Temp"
       unique_id: 2ce31844-b115-42b8-8213-feccf24e236c
       state: "{{ state_attr('climate.master_bedroom_aircon','temperature') | float }}"

@@ -70,7 +70,7 @@
       {% if (states('sensor.climate_devices_installed') | int) > 0 %}
         "In climate control news, "
           {% if is_state('input_boolean.master_bedroom_aircon_installed','on') %}
-            "the master bedroom temperature is {{ state_attr('climate.master_bedroom_aircon','current_temperature') }} degrees. "
+            "the master bedroom temperature is {{ states('sensor.master_bedroom_aircon_indoor_temperature') | int }} degrees. "
               {% if is_state('climate.master_bedroom_aircon','cool') %}
                 "and the master bedroom air conditioner is set for cooling to {{ state_attr('climate.master_bedroom_aircon','temperature') }} degrees. "
               {% elif is_state('climate.master_bedroom_aircon','fan_only') %}
