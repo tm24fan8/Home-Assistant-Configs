@@ -44,7 +44,7 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [Wyze](https://github.com/JoshuaMulliken/ha-wyzeapi)
 - [Blitzortung Lightning Detector](https://github.com/mrk-its/homeassistant-blitzortung)
 - [LIFX Beta](https://github.com/Djelibeybi/ha-lifx-beta)
-- [Midea Air Conditioning](https://github.com/mac-zhou/midea-ac-py)
+- [Midea Air Conditioning](https://github.com/mill1000/midea-ac-py)
 - [WeatherAPI](https://github.com/iprak/weatherapi)
 - [Browser Mod](https://github.com/thomasloven/hass-browser_mod)
 - [Watchman](https://github.com/dummylabs/thewatchman)
