@@ -74,6 +74,10 @@ automation:
       entity_id: input_boolean.tony_night_meds_taken
       to: 'on'
       id: boolean-night
+    - platform: state
+      entity_id: input_boolean.master_bedroom_sleeping
+      to: 'off'
+      id: sleep-off
     action:
     - choose:
       - conditions:
@@ -133,6 +137,23 @@ automation:
             name: Tony Night Meds
             message: have been taken
             entity_id: input_boolean.tony_night_meds_taken
+            domain: input_boolean
+      - conditions:
+        - condition: trigger
+          id: sleep-off
+        sequence:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.tony_morning_meds_notify
+          data:
+            datetime: >
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(0,1) }}
+        - service: logbook.log
+          data:
+            name: Tony Day Meds
+            message: notification scheduled
+            entity_id: input_boolean.tony_day_meds_taken
             domain: input_boolean
 
   - id: 77f33070-4405-41b6-84c4-05b4f3697199
