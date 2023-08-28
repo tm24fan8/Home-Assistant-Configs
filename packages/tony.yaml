@@ -153,7 +153,7 @@ automation:
           data:
             name: Tony Day Meds
             message: notification scheduled
-            entity_id: input_boolean.tony_day_meds_taken
+            entity_id: input_boolean.tony_morning_meds_taken
             domain: input_boolean
 
   - id: 77f33070-4405-41b6-84c4-05b4f3697199
