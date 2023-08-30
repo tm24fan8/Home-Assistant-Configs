@@ -641,6 +641,7 @@ automation:
         id: leave-radius
       - platform: state
         entity_id: binary_sensor.parents_home
+        not_from: unavailable
         to: 'on'
         id: arrive-home
     condition:

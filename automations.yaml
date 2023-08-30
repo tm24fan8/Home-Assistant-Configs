@@ -211,6 +211,7 @@
   - platform: state
     entity_id:
     - binary_sensor.parents_home
+    not_from: unavailable
     to: 'on'
   condition:
   - condition: not
@@ -238,6 +239,7 @@
   - platform: state
     entity_id:
     - binary_sensor.parents_home
+    not_from: unavailable
     to: 'off'
   condition:
   - condition: state
