@@ -86,8 +86,8 @@ automation:
         id: sleep-off
     condition:
       - condition: state
-        entity_id: group.adults
-        state: 'home'
+        entity_id: binary_sensor.parents_home
+        state: 'on'
     action:
       - choose:
         - conditions:

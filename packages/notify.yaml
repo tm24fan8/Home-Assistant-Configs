@@ -1006,8 +1006,8 @@ script:
         - condition: template
           value_template: "{{ type in ['weather','Weather'] and is_state('binary_sensor.audible_weather_alerts_allowed','on') }}"
       - condition: state
-        entity_id: group.adults
-        state: 'home'
+        entity_id: binary_sensor.parents_home
+        state: 'on'
       - condition: state
         entity_id: input_boolean.vacation_mode
         state: 'off'
@@ -1155,8 +1155,8 @@ script:
         entity_id: input_boolean.audible_notifications
         state: 'on'
       - condition: state
-        entity_id: group.adults
-        state: 'home'
+        entity_id: binary_sensor.parents_home
+        state: 'on'
       - condition: state
         entity_id: input_boolean.vacation_mode
         state: 'off'

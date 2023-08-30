@@ -168,13 +168,17 @@ template:
       unique_id: 2419e826-b276-434c-b5c6-e42c065a73ff
       state: "{{ is_state('device_tracker.kallen_iphone','home') or is_state('device_tracker.life360_kallen_stork','home') }}"
       device_class: presence
-    - name: "Nerds Home"
-      unique_id: 2672a6a2-4be4-495c-b479-ffc7c6df67d2
-      state: "{{ is_state('group.family','home') and (is_state('person.tony_stork','home') or is_state('person.kallen_stork','home')) }}"
-      device_class: presence
     - name: "Parents Home"
       unique_id: 8de02d19-60a6-436d-9187-1cfc70d6c297
-      state: "{{ is_state('group.adults','home') and (is_state('person.tony_stork','home') or is_state('person.christina_stork','home')) }}"
+      state: "{{ is_state('binary_sensor.tony_home','on') or is_state('binary_sensor.tina_home','on') }}"
+      device_class: presence
+    - name: "Family Home"
+      unique_id: c1ec8744-3d76-4887-a0f2-572459bba8a2
+      state: "{{ is_state('binary_sensor.tony_home','on') or is_state('binary_sensor.tina_home','on') or (is_state('binary_sensor.parents_home','on') and is_state('binary_sensor.kallen_home','on')) }}"
+      device_class: presence
+    - name: "Nerds Home"
+      unique_id: 2672a6a2-4be4-495c-b479-ffc7c6df67d2
+      state: "{{ is_state('binary_sensor.tony_home','on') or is_state('binary_sensor.kallen_home','on') }}"
       device_class: presence
     - name: "Basement Occupied"
       unique_id: 20039c29-8b9d-436d-ba6c-8f2c2bda1db0
@@ -252,42 +256,6 @@ template:
         {{ sleeping | selectattr('state','eq','on') | list | count }}
       unit_of_measurement: ''
       icon: mdi:sleep
-    - unique_id: c63364fb-c3cb-44a6-8fba-5d63e3f9c981
-      name: "Adults Home Fix"
-      state: >
-        {% if states('person.tony_stork') in ['unknown','unavailable'] or states('person.christina_stork') in ['unknown','unavailable'] %}
-          broken
-        {% elif is_state('group.adults','home') %}
-          home
-        {% elif is_state('group.adults','not_home') %}
-          not_home
-        {% endif %}
-      icon: >
-        {% if states('person.tony_stork') in ['unknown','unavailable'] or states('person.christina_stork') in ['unknown','unavailable'] %}
-          mdi:alert-circle
-        {% elif is_state('group.adults','home') %}
-          mdi:home
-        {% elif is_state('group.adults','not_home') %}
-          mdi:home-outline
-        {% endif %}
-    - unique_id: f27a1a56-0c7e-46ee-9f21-a48cc1a0421c
-      name: "Family Home Fix"
-      state: >
-        {% if states('person.tony_stork') in ['unknown','unavailable'] or states('person.christina_stork') in ['unknown','unavailable'] or states('person.kallen_stork') in ['unknown','unavailable'] %}
-          broken
-        {% elif is_state('group.family','home') %}
-          home
-        {% elif is_state('group.family','not_home') %}
-          not_home
-        {% endif %}
-      icon: >
-        {% if states('person.tony_stork') in ['unknown','unavailable'] or states('person.christina_stork') in ['unknown','unavailable'] or states('person.kallen_stork') in ['unknown','unavailable'] %}
-          mdi:alert-circle
-        {% elif is_state('group.family','home') %}
-          mdi:home
-        {% elif is_state('group.family','not_home') %}
-          mdi:home-outline
-        {% endif %}
     - unique_id: 2620a9d0-01f0-4af4-8438-a0c860735aab
       name: "Tony"
       state: >-
@@ -563,8 +531,8 @@ automation:
   #   condition:
   #     - alias: "Are we home?"
   #       condition: state
-  #       entity_id: group.adults
-  #       state: "home"
+  #       entity_id: binary_sensor.parents_home
+  #       state: "on"
   #   action:
   #     - alias: "Save Current Light State"
   #       service: scene.create
@@ -672,11 +640,8 @@ automation:
           {{ is_state('input_boolean.vacation_mode','off') and (tony >= 90) and (tina >= 90) }}
         id: leave-radius
       - platform: state
-        entity_id: group.adults
-        not_from:
-          - 'unknown'
-          - 'unavailable'
-        to: 'home'
+        entity_id: binary_sensor.parents_home
+        to: 'on'
         id: arrive-home
     condition:
       - condition: state
@@ -846,8 +811,8 @@ script:
     alias: Family Is Away
     sequence:
     - condition: state
-      entity_id: group.adults
-      state: not_home
+      entity_id: binary_sensor.parents_home
+      state: 'off'
     - service: script.text_notify
       data:
         who: >
@@ -864,7 +829,7 @@ script:
           - action: "SKIP_AWAY"
             title: Skip Away Mode
             icon: mdi:debug-step-over
-    - wait_template: "{{ is_state('input_boolean.away_mode_skipped','on') or is_state('group.adults','home') }}"
+    - wait_template: "{{ is_state('input_boolean.away_mode_skipped','on') or is_state('binary_sensor.parents_home','off') }}"
       continue_on_timeout: true
       timeout:
         minutes: 1

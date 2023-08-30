@@ -209,12 +209,9 @@
   description: Runs when family arrives at home
   trigger:
   - platform: state
-    entity_id: sensor.adults_home_fix
-    not_from:
-    - broken
-    - unavailable
-    - unknown
-    to: home
+    entity_id:
+    - binary_sensor.parents_home
+    to: 'on'
   condition:
   - condition: not
     conditions:
@@ -239,12 +236,9 @@
   description: Runs when the family has left home
   trigger:
   - platform: state
-    entity_id: sensor.adults_home_fix
-    not_from:
-    - broken
-    - unavailable
-    - unknown
-    to: not_home
+    entity_id:
+    - binary_sensor.parents_home
+    to: 'off'
   condition:
   - condition: state
     entity_id: input_boolean.guest_mode
@@ -263,8 +257,8 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: group.adults
-    to: not_home
+    entity_id: binary_sensor.parents_home
+    to: 'off'
     for:
       hours: 1
       minutes: 0

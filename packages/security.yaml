@@ -224,8 +224,8 @@ automation:
         id: wakeup
     condition:
       - condition: state
-        entity_id: group.adults
-        state: 'home'
+        entity_id: binary_sensor.parents_home
+        state: 'on'
       - condition: state
         entity_id: input_boolean.vacation_mode
         state: 'off'
@@ -279,8 +279,8 @@ automation:
         at: input_datetime.morning_alarm_rearm
     condition:
       - condition: state
-        entity_id: group.adults
-        state: 'home'
+        entity_id: binary_sensor.parents_home
+        state: 'on'
       - condition: state
         entity_id: input_boolean.vacation_mode
         state: 'off'
@@ -447,8 +447,8 @@ automation:
             notification_id: lockdown_issue
         - if:
           - condition: state
-            entity_id: group.adults
-            state: 'not_home'
+            entity_id: binary_sensor.parents_home
+            state: 'off'
           then:
             - service: alarm_control_panel.alarm_arm_away
               target:
