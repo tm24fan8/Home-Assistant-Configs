@@ -869,7 +869,7 @@ script:
     sequence:
 # Lighting
       - variables:
-          brightness: "{{ state_attr('switch.adaptive_lighting_emma_bedroom','brightness_pct') }}"
+          brightness: "{{ state_attr('switch.adaptive_lighting_emma_bedroom','brightness_pct') | int }}"
       - if:
         - condition: state
           entity_id: binary_sensor.basement_occupied
@@ -914,7 +914,7 @@ script:
         target:
           entity_id: light.emma_bedroom_light
         data:
-          brightness_pct: "{{ brightness }}"
+          brightness_pct: "{{ brightness|default(40) }}"
           transition: >
             {% from 'time.jinja' import timer_duration %}
             {% if is_state('binary_sensor.early_night_mode','on') %}
