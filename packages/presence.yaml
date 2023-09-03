@@ -1075,19 +1075,13 @@ script:
           - input_select.dining_room_lamp_scenes
       data:
         option: Adaptive
-    - service: input_select.select_option
+    - service: script.turn_on
       target:
-        entity_id: input_select.upstairs_bathroom_scenes
-      data:
-        option: Nightlight
+        entity_id: script.evening_on_second_floor
     - service: light.turn_off
       target:
         area_id:
         - furnace_room
-        - kallen_bedroom
-        - emma_bedroom
-        - master_bedroom
-        - upstairs_hallway
         - basement_studio
         - downstairs_bathroom
     mode: single
