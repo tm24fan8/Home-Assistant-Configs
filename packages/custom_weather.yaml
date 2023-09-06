@@ -342,6 +342,15 @@ template:
         {% else %}
           true
         {% endif %}
+      attributes:
+        location: >
+          {% if is_state('binary_sensor.basement_occupied','on') and is_state('input_boolean.master_bedroom_sleeping','on') %}
+            basement
+          {% elif is_state('binary_sensor.people_sleeping','off') %}
+            everywhere
+          {% else %}
+            common
+          {% endif %}
   - sensor:
     - name: Current Forecast
       unique_id: c0faea33-2ac3-40f1-8558-584c3f5d6b16
