@@ -1,3 +1,11 @@
+input_boolean:
+  night_mode:
+    name: Night Mode
+    icon: mdi:lightbulb-night
+  goodnight:
+    name: Goodnight
+    icon: mdi:sleep
+
 sensor:
 - platform: time_date
   display_options:

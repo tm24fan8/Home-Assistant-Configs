@@ -2,6 +2,9 @@ input_boolean:
   spotify_idle_or_paused:
     name: Spotify Idle or Paused
     icon: mdi:spotify
+  shuffle_spotify:
+    name: Spotify Shuffle
+    icon: mdi:spotify
 
 intent_script:
   SetVolume:

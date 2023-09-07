@@ -82,6 +82,15 @@ input_boolean:
   kallen_nightly_briefing:
     name: Kallen Nightly Briefing Ran
     icon: mdi:home-analytics
+  weather_reports:
+    name: Weather Info
+    icon: mdi:weather-cloudy-alert
+  traffic_reports:
+    name: Traffic Reports
+    icon: mdi:traffic-light
+  sun_reports:
+    name: Sun Reports
+    icon: mdi:weather-sunny-alert
 
 intent_script:
   PlayAnnouncement:
