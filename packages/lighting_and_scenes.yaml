@@ -1069,6 +1069,9 @@ automation:
         - condition: trigger
           id: door
         sequence:
+        - service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.audible_notifications
         - service: light.turn_on
           target:
             entity_id:
@@ -1100,6 +1103,18 @@ automation:
             entity_id: input_select.tina_desk_scenes
           data:
             option: Evening Mode
+        - service: timer.start
+          target:
+            entity_id: timer.vacation_helper
+          data:
+            duration: "01:00:00"
+        - service: script.speech_engine
+          data:
+            who: living_room
+            message: >-
+              Welcome, vacation helper. I have turned on every light in the house for you.
+              They will remain on for one hour. Thank you for your help.
+            type: alert
       - conditions:
         - condition: trigger
           id: timer-finished
@@ -1113,6 +1128,9 @@ automation:
         - service: switch.turn_on
           target:
             entity_id: switch.presence_simulation
+        - service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.audible_notifications
 
 script:
   stairwell_led_strip:

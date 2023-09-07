@@ -95,7 +95,7 @@ alarm_control_panel:
                 - input_boolean.lockdown_issue
           - if:
             - condition: template
-              value_template: "{{ silent != 1 }}"
+              value_template: "{{ silent != 1 and is_state('input_boolean.vacation_mode','off') }}"
             then:
             - service: script.status_annc
               data:
@@ -119,7 +119,7 @@ alarm_control_panel:
             entity_id: input_boolean.lockdown_issue
         - if:
           - condition: template
-            value_template: "{{ silent != 1 }}"
+            value_template: "{{ silent != 1 and is_state('input_boolean.vacation_mode','off') }}"
           then:
           - service: script.status_annc
             data:

@@ -1008,9 +1008,6 @@ script:
       - condition: state
         entity_id: binary_sensor.parents_home
         state: 'on'
-      - condition: state
-        entity_id: input_boolean.vacation_mode
-        state: 'off'
       - service: >-
           {% if voice == 'nabu' %}
             script.nabu_voice      
