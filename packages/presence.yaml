@@ -715,10 +715,14 @@ automation:
                 entity_id: switch.presence_simulation
           - service: input_boolean.turn_off
             target:
-              entity_id: input_boolean.front_porch_light_on
+              entity_id:
+                - input_boolean.front_porch_light_on
+                - input_boolean.audible_notifications
           - service: automation.turn_on
             target:
-              entity_id: automation.auto_night_porch_light
+              entity_id:
+                - automation.auto_night_porch_light
+                - automation.vacation_lighting
           - if:
             - condition: state
               entity_id: binary_sensor.early_night_mode
@@ -736,7 +740,9 @@ automation:
               entity_id: input_boolean.front_porch_light_on
           - service: automation.turn_off
             target:
-              entity_id: automation.auto_night_porch_light
+              entity_id:
+                - automation.auto_night_porch_light
+                - automation.vacation_lighting
             data:
               stop_actions: true
           - if:
@@ -776,6 +782,18 @@ automation:
                 entity_id: climate.master_bedroom_aircon
               data:
                 fan_mode: Auto
+          - if:
+            - condition: template
+              value_template: >
+                {% from 'time.jinja' import ct %}
+                {% set begin = state_attr('input_datetime.audible_notification_on','timestamp') %}
+                {% set end = state_attr('input_datetime.audible_notification_off','timestamp') %}
+                {% set ct = ct() %}
+                {{ begin < ct < end }}
+            then:
+            - service: input_boolean.turn_on
+              target:
+                entity_id: input_boolean.audible_notifications
 
   - id: 6d668686-c88e-4eae-9b91-1a2bdebce290
     alias: Auto Night Porch Light

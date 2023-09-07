@@ -339,6 +339,8 @@ template:
           false
         {% elif is_state('input_boolean.kallen_overnight','on') and (states('sensor.people_sleeping_total') | int == 2) %}
           false
+        {% elif is_state('input_boolean.vacation_mode','on') %}
+          false
         {% else %}
           true
         {% endif %}

@@ -18,3 +18,5 @@ Presence Simulation:
   - light.upstairs_bathroom_lights
   - light.downstairs_bathroom_lights
   - light.tina_lamp
+  - light.tina_desk_strip
+  - light.stairwell_led_strip

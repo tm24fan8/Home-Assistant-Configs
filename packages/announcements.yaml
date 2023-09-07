@@ -113,6 +113,10 @@ automation:
     trigger:
       platform: time
       at: input_datetime.audible_notification_on
+    condition:
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'off'
     action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.audible_notifications
@@ -130,6 +134,10 @@ automation:
     trigger:
     - platform: time
       at: input_datetime.audible_notification_off
+    condition:
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'off'
     action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.audible_notifications
@@ -147,6 +155,9 @@ automation:
     condition:
     - condition: state
       entity_id: input_boolean.kallen_overnight
+      state: 'off'
+    - condition: state
+      entity_id: input_boolean.vacation_mode
       state: 'off'
     action:
     - choose:
@@ -183,6 +194,10 @@ automation:
     - platform: time
       at: input_datetime.nightly_briefing
       id: house-nightly
+    condition:
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: 'off'
     action:
     - choose:
       - conditions:
