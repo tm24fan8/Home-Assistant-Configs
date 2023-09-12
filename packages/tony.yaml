@@ -170,36 +170,6 @@ automation:
     action:
       - service: script.tony_stream_today
 
-  - id: 465ec4be-8e6c-444b-bfe7-6d4796888be4
-    alias: Tony Stream Reset
-    initial_state: true
-    trigger:
-      - platform: state
-        entity_id: sensor.twitch_ironnerd24
-        from: 'streaming'
-        to: 'offline'
-        id: offline
-      - platform: time
-        at: "06:00:00"
-        id: time
-    action:
-      - choose:
-        - conditions:
-          - condition: trigger
-            id: offline
-          sequence:
-          - service: script.tony_stream_reset
-        - conditions:
-          - condition: trigger
-            id: time
-          sequence:
-          - if:
-            - condition: state
-              entity_id: sensor.twitch_ironnerd24
-              state: 'offline'
-            then:
-            - service: script.tony_stream_reset
-
 script:
   tony_morning_meds:
     alias: 'Tony Morning Meds'
@@ -431,10 +401,4 @@ script:
             {% from 'time.jinja' import time_from_calendar %}
             {{ time_from_calendar('calendar.tony_s_twitch_schedule','start_time','set') }}
       - service: input_boolean.turn_on
-        entity_id: input_boolean.tony_streaming_today
-
-  tony_stream_reset:
-    alias: 'Tony Stream Reset'
-    sequence:
-      - service: input_boolean.turn_off
         entity_id: input_boolean.tony_streaming_today

@@ -49,7 +49,7 @@ white_noise_living_room:
 white_noise_kallen_bedroom:
   module: whitenoise
   class: WhiteNoise
-  media_player: kallen_bedroom_speaker
+  media_player: kallen_bedroom_google_speaker
   input_boolean: white_noise_kallen_bedroom
   filename: !secret remote_url_oceanwaves
 
@@ -63,7 +63,7 @@ white_noise_kallen_bedroom:
 white_noise_emma_bedroom:
   module: whitenoise
   class: WhiteNoise
-  media_player: emma_bedroom_speaker
+  media_player: emma_bedroom_google_speaker
   input_boolean: white_noise_emma_bedroom
   filename: !secret remote_url_oceanwaves
 

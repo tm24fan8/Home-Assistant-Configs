@@ -276,28 +276,6 @@ automation:
       target:
         entity_id: input_boolean.school_today_ran
 
-  - id: b9028665-401c-4de3-8f13-1099160b011f
-    alias: Kallen School Reset
-    initial_state: true
-    trigger:
-      - platform: time
-        at: input_datetime.kallen_school_day_end
-        id: day_end
-      - platform: time
-        at: 00:00
-        id: midnight
-    action: 
-      - if:
-        - condition: trigger
-          id: day_end
-        then:
-        - service: script.kallen_school_reset
-      - if:
-        - condition: trigger
-          id: midnight
-        then:
-        - service: script.kallen_school_reset_late
-
   - id: 05ee0f8d-5411-4486-8acf-9bfadad2b23a
     alias: End of School Year
     initial_state: true

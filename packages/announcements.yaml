@@ -141,7 +141,6 @@ automation:
     action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.audible_notifications
-    - service: script.reset_annc_switches
 
   - id: 842a1b9a-de3b-4f0a-9ecc-6cfacd92bf5d
     alias: Kallen Briefings

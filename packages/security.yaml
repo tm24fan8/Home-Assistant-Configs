@@ -473,23 +473,6 @@ automation:
             - switch.adaptive_lighting_living_room
             - switch.adaptive_lighting_tina_lamp
 
-  - id: 027f6f05-289f-4f3d-925e-54d95226ea34
-    alias: Security Schedules Reset
-    trigger:
-      - platform: time
-        at: "00:00:00"
-    action:
-      - service: automation.turn_on
-        target:
-          entity_id:
-            - automation.scheduled_alarm_rearm
-            - automation.scheduled_alarm_disarm
-      - service: input_boolean.turn_off
-        target:
-          entity_id:
-            - input_boolean.skip_disarm
-            - input_boolean.skip_rearm
-
   - id: ea52c580-dcf4-4eec-8d25-adda3b9e7cf4
     alias: Alexa Guard Handling
     description: Sync state of Alexa guard with state of main alarm system

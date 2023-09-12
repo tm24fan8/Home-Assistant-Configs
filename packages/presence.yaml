@@ -614,22 +614,6 @@ automation:
         target:
           entity_id: input_boolean.away_mode_skipped
 
-  - id: 11eee604-db2a-4ab2-a372-70026a4f1a6f
-    alias: Door Openings Reset
-    trigger:
-      - platform: time
-        at: 00:00
-    action:
-      - service: input_number.set_value
-        target:
-          entity_id:
-            - input_number.back_door_opened_today
-            - input_number.front_door_opened_today
-            - input_number.basement_studio_door_opened_today
-            - input_number.downstairs_bathroom_door_opened_today
-        data:
-          value: 0
-
   - id: 1061c626-17c1-4f0b-8f55-2afc60ef8a3a
     alias: Vacation Mode
     trigger:
