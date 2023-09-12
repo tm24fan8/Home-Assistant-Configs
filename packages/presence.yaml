@@ -782,7 +782,7 @@ automation:
                 {% from 'time.jinja' import ct %}
                 {% set begin = state_attr('input_datetime.audible_notification_on','timestamp') %}
                 {% set end = state_attr('input_datetime.audible_notification_off','timestamp') %}
-                {% set ct = ct() %}
+                {% set ct = ct() | int %}
                 {{ begin < ct < end }}
             then:
             - service: input_boolean.turn_on
@@ -815,7 +815,7 @@ automation:
         - condition: trigger
           id: night-off
         sequence:
-        - service: light.turn_on
+        - service: light.turn_off
           target:
             entity_id: light.front_porch_light
 
