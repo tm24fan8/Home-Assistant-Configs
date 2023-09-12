@@ -97,6 +97,14 @@ recorder:
       - sensor.win10_vm*
       - sensor.watchman*
       - sensor.*_count
+      - sensor.*memory_available*
+      - sensor.*memory_used*
+      - sensor.*cpu_usage
+      - sensor.*cpu_temperature
+      - sensor.*gpu_temperature
+      - sensor.*gpu_memory_free
+      - sensor.*gpu_vram_usage
+      - sensor.*gpu_core_load
     entities:
       - sensor.avg_ping
       - sensor.max_ping
