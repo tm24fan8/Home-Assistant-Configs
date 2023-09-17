@@ -546,12 +546,55 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% endif %}
 {% endmacro %}
 
+{% macro medReportEmma(type,method) %}
+{% set tylenol_taken = input_datetime_read('input_datetime.emma_tylenol','withdate') | trim %}
+{% set ibuprofen_taken = input_datetime_read('input_datetime.emma_ibuprofen','withdate') | trim %}
+{% set cough_meds_taken = input_datetime_read('input_datetime.emma_cough_meds','withdate') | trim %}
+{% set tylenol_next = input_datetime_read('input_datetime.emma_tylenol_notify','nodate') | trim %}
+{% set ibuprofen_next = input_datetime_read('input_datetime.emma_ibuprofen_notify','nodate') | trim %}
+{% set cough_meds_next = input_datetime_read('input_datetime.emma_cough_meds_notify','nodate') | trim %}
+{% if is_state('input_boolean.emma_alternating_meds_active','on') and
+      is_state('input_boolean.emma_cough_meds_active','on') and
+      is_state('input_boolean.emma_tylenol','off') and
+      is_state('input_boolean.emma_ibuprofen','off') and
+      is_state('input_boolean.emma_cough_meds','off') %}
+  Emma has not taken her ibuprofen, tylenol, or cough meds.
+{% else %}
+  {% if is_state('input_boolean.emma_alternating_meds_active','on') %}
+    {% if is_state('input_boolean.emma_tylenol','off') and is_state('input_boolean.emma_ibuprofen','off') %}
+      Emma has not taken her ibuprofen or her tylenol.
+    {% else %}
+      {% if is_state('input_boolean.emma_tylenol','on') %}
+        Emma has taken her tylenol. Her most recent dose was at {{ tylenol_taken }}. Her next dose is at {{ tylenol_next }}.
+      {% else %}
+        Emma has not taken her tylenol.
+      {% endif %}
+      {% if is_state('input_boolean.emma_ibuprofen','on') %}
+        Emma has taken her ibuprofen. Her most recent dose was at {{ ibuprofen_taken }}. Her next dose is at {{ ibuprofen_next }}.
+      {% else %}
+        Emma has not taken her ibuprofen.
+      {% endif %}
+    {% endif %}
+  {% endif %}
+  {% if is_state('input_boolean.emma_cough_meds_active','on') %}
+    {% if is_state('input_boolean.emma_cough_meds','on') %}
+      Emma has taken her cough meds. Her most recent dose was at {{ cough_meds_taken }}. Her next dose is at {{ cough_meds_next }}.
+    {% else %}
+      Emma has not taken her cough meds.
+    {% endif %}
+  {% endif %}
+{% endif %}
+{% endmacro %}
+
 {% macro emmaStatusReport(type,method) %}
   {% macro data() %}
   {% if type == 'sleep' %}
   {{ emma_sleep(type,method) }}
+  {% elif type == 'meds' %}
+  {{ medReportEmma(type,method) }}
   {% elif type == 'full' %}
   {{ emma_sleep(type,method) }}
+  {{ medReportEmma(type,method) }}
   {% endif %}
   {% endmacro %}
 {{ cleanup(data()) }}
