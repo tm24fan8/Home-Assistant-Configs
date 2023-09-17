@@ -560,7 +560,7 @@ script:
         - service: script.text_notify
           data:
             who: >
-              {% if states('person.christina_stork') in ['Bob Evans','BobEvans'] %}
+              {% if is_state('input_boolean.work_today','on') and states('person.christina_stork') in ['Bob Evans','BobEvans'] %}
                 tony
               {% else %}
                 parents
@@ -689,7 +689,7 @@ script:
         - service: script.text_notify
           data:
             who: >
-              {% if states('person.christina_stork') in ['Bob Evans','BobEvans'] %}
+              {% if is_state('input_boolean.work_today','on') and states('person.christina_stork') in ['Bob Evans','BobEvans'] %}
                 tony
               {% else %}
                 parents
@@ -817,7 +817,7 @@ script:
         - service: script.text_notify
           data:
             who: >
-              {% if states('person.christina_stork') in ['Bob Evans','BobEvans'] %}
+              {% if is_state('input_boolean.work_today','on') and states('person.christina_stork') in ['Bob Evans','BobEvans'] %}
                 tony
               {% else %}
                 parents
