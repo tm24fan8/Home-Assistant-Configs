@@ -470,15 +470,21 @@ automation:
     - platform: time
       at: input_datetime.emma_cough_meds_notify
       id: cough-notify
-    condition:
-    - condition: or
-      conditions:
-      - condition: state
-        entity_id: input_boolean.emma_alternating_meds_active
-        state: 'on'
-      - condition: state
-        entity_id: input_boolean.emma_cough_meds_active
-        state: 'on'
+    - platform: state
+      entity_id: input_boolean.emma_ibuprofen
+      from: 'off'
+      to: 'on'
+      id: ibuprofen-on
+    - platform: state
+      entity_id: input_boolean.emma_tylenol
+      from: 'off'
+      to: 'on'
+      id: tylenol-on
+    - platform: state
+      entity_id: input_boolean.emma_cough_meds
+      from: 'off'
+      to: 'on'
+      id: cough-on
     action:
     - choose:
       - conditions:
@@ -552,7 +558,7 @@ script:
     max: 10
     sequence:
     - choose:
-      - conditions: "{{ reason == 'ibuprofen-notify' }}"
+      - conditions: "{{ reason == 'ibuprofen-notify' and is_state('input_boolean.emma_sleeping','off') }}"
         sequence:
         - service: input_boolean.turn_off
           target:
@@ -571,11 +577,11 @@ script:
             tag: emma-ibuprofen
             actions:
               - action: "EMMA_IBUPROFEN_GIVEN"
-                name: Given
+                title: Given
               - action: "EMMA_IBUPROFEN_SKIPPED"
-                name: Skipped
+                title: Skipped
               - action: "EMMA_IBUPROFEN_ASK_LATER"
-                name: Ask Later
+                title: Ask Later
         - wait_for_trigger:
           - platform: event
             event_type: ios.notification_action_fired
@@ -656,8 +662,8 @@ script:
             entity_id: input_datetime.emma_ibuprofen
           data:
             datetime: >
-              {% from 'time.jinja' import set_datetime %}
-              {{ set_datetime(0) }}
+              {% from 'time.jinja' import current_time %}
+              {{ current_time(24,'withdate') }}
         - service: input_datetime.set_datetime
           target:
             entity_id: input_datetime.emma_ibuprofen_notify
@@ -681,7 +687,7 @@ script:
     max: 10
     sequence:
     - choose:
-      - conditions: "{{ reason == 'tylenol-notify' }}"
+      - conditions: "{{ reason == 'tylenol-notify' and is_state('input_boolean.emma_sleeping','off') }}"
         sequence:
         - service: input_boolean.turn_off
           target:
@@ -700,11 +706,11 @@ script:
             tag: emma-tylenol
             actions:
               - action: "EMMA_TYLENOL_GIVEN"
-                name: Given
+                title: Given
               - action: "EMMA_TYLENOL_SKIPPED"
-                name: Skipped
+                title: Skipped
               - action: "EMMA_TYLENOL_ASK_LATER"
-                name: Ask Later
+                title: Ask Later
         - wait_for_trigger:
           - platform: event
             event_type: ios.notification_action_fired
@@ -758,7 +764,7 @@ script:
                   {{ set_datetime(0,30) }}
             - service: input_datetime.set_datetime
               target:
-                entity_id: input_datetime.emma_ibuprofen_notify
+                entity_id: input_datetime.emma_tylenol_notify
               data:
                 datetime: >
                   {% from 'time.jinja' import set_datetime %}
@@ -785,8 +791,8 @@ script:
             entity_id: input_datetime.emma_tylenol
           data:
             datetime: >
-              {% from 'time.jinja' import set_datetime %}
-              {{ set_datetime(0) }}
+              {% from 'time.jinja' import current_time %}
+              {{ current_time(24,'withdate') }}
         - service: input_datetime.set_datetime
           target:
             entity_id: input_datetime.emma_tylenol_notify
@@ -809,7 +815,7 @@ script:
     max: 10
     sequence:
     - choose:
-      - conditions: "{{ reason == 'cough-notify' }}"
+      - conditions: "{{ reason == 'cough-notify' and is_state('input_boolean.emma_sleeping','off') }}"
         sequence:
         - service: input_boolean.turn_off
           target:
@@ -828,11 +834,11 @@ script:
             tag: emma-cough
             actions:
               - action: "EMMA_COUGH_GIVEN"
-                name: Given
+                title: Given
               - action: "EMMA_COUGH_SKIPPED"
-                name: Skipped
+                title: Skipped
               - action: "EMMA_COUGH_ASK_LATER"
-                name: Ask Later
+                title: Ask Later
         - wait_for_trigger:
           - platform: event
             event_type: ios.notification_action_fired
@@ -906,8 +912,8 @@ script:
             entity_id: input_datetime.emma_cough_meds
           data:
             datetime: >
-              {% from 'time.jinja' import set_datetime %}
-              {{ set_datetime(0) }}
+              {% from 'time.jinja' import current_time %}
+              {{ current_time(24,'withdate') }}
         - service: input_datetime.set_datetime
           target:
             entity_id: input_datetime.emma_cough_meds_notify
@@ -1046,6 +1052,18 @@ script:
 # Lighting
       - variables:
           brightness: "{{ state_attr('switch.adaptive_lighting_emma_bedroom','brightness_pct') | int }}"
+      - if:
+        - condition: state
+          entity_id: input_boolean.emma_cough_meds_active
+          state: 'on'
+        then:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.emma_cough_meds_notify
+          data:
+            datetime: >
+              {% from 'time.jinja' import set_datetime %}
+              {{ set_datetime(0,1) }}
       - if:
         - condition: state
           entity_id: binary_sensor.basement_occupied
