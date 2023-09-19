@@ -390,17 +390,38 @@ automation:
             
             Doors:{% if is_state('binary_sensor.exterior_doors','on') %} {{ extdoors }} {% else %} None {% endif %}
             Windows:{% if is_state('binary_sensor.windows','on') %} {{ windows }} {% else %} None {% endif %}
-      - service: scene.create
-        data:
-          scene_id: light_state_before_lockdown_issue
-          snapshot_entities:
-            - light.living_room_color_1
-            - light.living_room_color_2
-            - light.living_room_color_3
-            - light.tina_lamp_side
-            - light.tina_lamp_top
-            - light.tina_desk_strip
-            - light.stairwell_led_strip
+      - if:
+        - condition: state
+          entity_id: binary_sensor.basement_occupied
+          state: 'on'
+        then:
+        - service: scene.create
+          data:
+            scene_id: light_state_before_lockdown_issue
+            snapshot_entities:
+              - light.living_room_color_1
+              - light.living_room_color_2
+              - light.living_room_color_3
+              - light.tina_lamp_side
+              - light.tina_lamp_top
+              - light.tina_desk_strip
+              - light.stairwell_led_strip
+              - light.basement_stairwell
+              - light.basement_tall_lamp
+              - light.basement_short_lamp
+              - light.basement_led_strip_1
+        else:
+        - service: scene.create
+          data:
+            scene_id: light_state_before_lockdown_issue
+            snapshot_entities:
+              - light.living_room_color_1
+              - light.living_room_color_2
+              - light.living_room_color_3
+              - light.tina_lamp_side
+              - light.tina_lamp_top
+              - light.tina_desk_strip
+              - light.stairwell_led_strip
       - delay:
           seconds: 1
       - service: switch.turn_off
@@ -408,16 +429,34 @@ automation:
           entity_id:
             - switch.adaptive_lighting_living_room
             - switch.adaptive_lighting_tina_lamp
-      - service: light.turn_on
-        target:
-          entity_id:
-            - light.living_room_lights
-            - light.tina_lamp
-            - light.tina_desk_strip
-            - light.stairwell_led_strip
-        data:
-          color_name: red
-          brightness_pct: 100
+            - switch.adaptive_lighting_basement_studio
+      - if:
+        - condition: state
+          entity_id: binary_sensor.basement_occupied
+          state: 'on'
+        then:
+        - service: light.turn_on
+          target:
+            entity_id:
+              - light.living_room_lights
+              - light.tina_lamp
+              - light.tina_desk_strip
+              - light.stairwell_led_strip
+              - light.basement_studio_lights
+          data:
+            color_name: red
+            brightness_pct: 100
+        else:
+        - service: light.turn_on
+          target:
+            entity_id:
+              - light.living_room_lights
+              - light.tina_lamp
+              - light.tina_desk_strip
+              - light.stairwell_led_strip
+          data:
+            color_name: red
+            brightness_pct: 100
       - service: script.status_annc
         data:
           who: common
@@ -472,6 +511,7 @@ automation:
           entity_id:
             - switch.adaptive_lighting_living_room
             - switch.adaptive_lighting_tina_lamp
+            - switch.adaptive_lighting_basement_studio
 
   - id: ea52c580-dcf4-4eec-8d25-adda3b9e7cf4
     alias: Alexa Guard Handling
