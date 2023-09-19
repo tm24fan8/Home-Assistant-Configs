@@ -1053,9 +1053,12 @@ script:
       - variables:
           brightness: "{{ state_attr('switch.adaptive_lighting_emma_bedroom','brightness_pct') | int }}"
       - if:
-        - condition: state
-          entity_id: input_boolean.emma_cough_meds_active
-          state: 'on'
+        - condition: template
+          value_template: >
+            {% set current = as_timestamp(now()) | int %}
+            {% set lastdose = state_attr('input_datetime.emma_cough_meds','timestamp') | int %}
+            {% set diff = current - lastdose %}
+            {{ is_state('input_boolean.emma_cough_meds_active','on') and diff > 14400 }}
         then:
         - service: input_datetime.set_datetime
           target:
