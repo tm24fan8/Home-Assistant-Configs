@@ -117,10 +117,12 @@ input_text:
     name: Text Notification
     icon: mdi:text
     initial: Type your notification here
+    max: 255
   text_notification_title:
     name: Text Notification Title
     icon: mdi:text
     initial: Type your title here
+    max: 255
 
 input_number:
   basement_echo_dot_day_volume:

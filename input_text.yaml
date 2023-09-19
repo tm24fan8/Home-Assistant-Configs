@@ -1,5 +1,6 @@
 report_system:
   name: Report System
   initial: Type your report here
+  max: 255
 text_testing:
   name: Text Testing

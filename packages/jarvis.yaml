@@ -50,6 +50,7 @@ input_text:
   tts_message:
     name: TTS Message
     initial: Type your message here
+    max: 255
 
 script:
   alexa_interjection:
