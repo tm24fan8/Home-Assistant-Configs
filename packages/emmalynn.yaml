@@ -557,12 +557,12 @@ script:
     mode: queued
     max: 10
     sequence:
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.emma_ibuprofen
     - choose:
       - conditions: "{{ reason == 'ibuprofen-notify' and is_state('input_boolean.emma_sleeping','off') }}"
         sequence:
-        - service: input_boolean.turn_off
-          target:
-            entity_id: input_boolean.emma_ibuprofen
         - service: script.text_notify
           data:
             who: >
@@ -686,12 +686,12 @@ script:
     mode: queued
     max: 10
     sequence:
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.emma_tylenol
     - choose:
       - conditions: "{{ reason == 'tylenol-notify' and is_state('input_boolean.emma_sleeping','off') }}"
         sequence:
-        - service: input_boolean.turn_off
-          target:
-            entity_id: input_boolean.emma_tylenol
         - service: script.text_notify
           data:
             who: >
@@ -814,12 +814,12 @@ script:
     mode: queued
     max: 10
     sequence:
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.emma_cough_meds
     - choose:
       - conditions: "{{ reason == 'cough-notify' and is_state('input_boolean.emma_sleeping','off') }}"
         sequence:
-        - service: input_boolean.turn_off
-          target:
-            entity_id: input_boolean.emma_cough_meds
         - service: script.text_notify
           data:
             who: >
@@ -933,6 +933,13 @@ script:
           before: '16:00:00'
         then:
         - service: script.emma_bedroom_scheduling_evening
+# Meds
+      - service: script.turn_off
+        target:
+          entity_id:
+            - script.emma_ibuprofen
+            - script.emma_tylenol
+            - script.emma_cough_meds
 # Lighting
       - choose:
         - conditions:
@@ -1066,7 +1073,7 @@ script:
           data:
             datetime: >
               {% from 'time.jinja' import set_datetime %}
-              {{ set_datetime(0,1) }}
+              {{ set_datetime(0,5) }}
       - if:
         - condition: state
           entity_id: binary_sensor.basement_occupied
