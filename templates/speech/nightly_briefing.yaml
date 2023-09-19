@@ -7,7 +7,7 @@
   {% from 'status.jinja' import tonyStatusReport, tinaStatusReport, kallenStatusReport, emmaStatusReport %}
   {% from 'easy_time.jinja' import count_the_days %}
   {% from 'weather.jinja' import weatherReport %}
-  {% from 'sports.jinja' import sports_pregame, sports_main %}
+  {% from 'sports.jinja' import sports_updates %}
     <p>
       {{ greeting() }}
     </p>
@@ -38,59 +38,8 @@
 
     <p>
       {% if is_state('input_boolean.sports_updates','on') %}
-        {% if is_state('binary_sensor.michigan_wolverines_inhibit','off') %}
-          {{ sports_pregame('sensor.michigan_wolverines') }}
-        {% endif %}
-        {% if is_state('binary_sensor.ohio_state_buckeyes_inhibit','off') %}
-          {{ sports_pregame('sensor.ohio_state_buckeyes') }}
-        {% endif %}
-        {% if is_state('binary_sensor.toledo_rockets_inhibit','off') %}
-          {{ sports_pregame('sensor.toledo_rockets') }}
-        {% endif %}
-        {% if is_state('binary_sensor.minnesota_vikings_inhibit','off') %}
-          {{ sports_pregame('sensor.minnesota_vikings') }}
-        {% endif %}
-        {% if is_state('binary_sensor.san_francisco_49ers_inhibit','off') %}
-          {{ sports_pregame('sensor.san_francisco_49ers') }}
-        {% endif %}
-        {% if is_state('binary_sensor.cleveland_guardians_inhibit','off') %}
-          {{ sports_pregame('sensor.cleveland_guardians') }}
-        {% endif %}
-        {% if is_state('binary_sensor.minnesota_twins_inhibit','off') %}
-          {{ sports_pregame('sensor.minnesota_twins') }}
-        {% endif %}
-        {% if is_state('binary_sensor.los_angeles_dodgers_inhibit','off') %}
-          {{ sports_pregame('sensor.los_angeles_dodgers') }}
-        {% endif %}
-      {% endif %}
-    </p>
-
-    <p>
-      {% if is_state('input_boolean.sports_updates','on') %}
-        {% if is_state('binary_sensor.michigan_wolverines_inhibit','off') %}
-          {{ sports_main('sensor.michigan_wolverines') }}
-        {% endif %}
-        {% if is_state('binary_sensor.ohio_state_buckeyes_inhibit','off') %}
-          {{ sports_main('sensor.ohio_state_buckeyes') }}
-        {% endif %}
-        {% if is_state('binary_sensor.toledo_rockets_inhibit','off') %}
-          {{ sports_main('sensor.toledo_rockets') }}
-        {% endif %}
-        {% if is_state('binary_sensor.minnesota_vikings_inhibit','off') %}
-          {{ sports_main('sensor.minnesota_vikings') }}
-        {% endif %}
-        {% if is_state('binary_sensor.san_francisco_49ers_inhibit','off') %}
-          {{ sports_main('sensor.san_francisco_49ers') }}
-        {% endif %}
-        {% if is_state('binary_sensor.cleveland_guardians_inhibit','off') %}
-          {{ sports_main('sensor.cleveland_guardians') }}
-        {% endif %}
-        {% if is_state('binary_sensor.minnesota_twins_inhibit','off') %}
-          {{ sports_main('sensor.minnesota_twins') }}
-        {% endif %}
-        {% if is_state('binary_sensor.los_angeles_dodgers_inhibit','off') %}
-          {{ sports_main('sensor.los_angeles_dodgers') }}
-        {% endif %}
+        {{ sports_updates('pregame') }}
+        {{ sports_updates('main') }}
       {% endif %}
     </p>
 

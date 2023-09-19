@@ -1,6 +1,3 @@
-# Right now this is just to provide binary sensors to control the conditional cards on our dashboard.
-# These are needed in order to prevent cards showing for events that are several months in the future...
-
 input_boolean:
   sports_updates:
     name: Sports Updates
@@ -88,6 +85,16 @@ template:
       state: >
         {% from 'sports.jinja' import sports_today %}
         {{ sports_today('sensor.los_angeles_dodgers') }}
+    - name: Minnesota Wild Inhibit
+      unique_id: 3ef763c4-1959-4292-9729-7ef12a2c862e
+      state: >
+        {% from 'sports.jinja' import sports_inhibit %}
+        {{ sports_inhibit('sensor.minnesota_wild') }}
+    - name: Minnesota Wild Event Today
+      unique_id: ebc02b5c-e002-4fa3-909f-75f2a9b90b21
+      state: >
+        {% from 'sports.jinja' import sports_today %}
+        {{ sports_today('sensor.minnesota_wild') }}
 
 intent_script:
   SportsScore:
