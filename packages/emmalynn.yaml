@@ -557,9 +557,13 @@ script:
     mode: queued
     max: 10
     sequence:
-    - service: input_boolean.turn_off
-      target:
-        entity_id: input_boolean.emma_ibuprofen
+    - if:
+      - condition: template
+        value_template: "{{ reason != 'ibuprofen-on' }}"
+      then:
+      - service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.emma_ibuprofen
     - choose:
       - conditions: "{{ reason == 'ibuprofen-notify' and is_state('input_boolean.emma_sleeping','off') }}"
         sequence:
@@ -686,9 +690,13 @@ script:
     mode: queued
     max: 10
     sequence:
-    - service: input_boolean.turn_off
-      target:
-        entity_id: input_boolean.emma_tylenol
+    - if:
+      - condition: template
+        value_template: "{{ reason != 'tylenol-on' }}"
+      then:
+      - service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.emma_tylenol
     - choose:
       - conditions: "{{ reason == 'tylenol-notify' and is_state('input_boolean.emma_sleeping','off') }}"
         sequence:
@@ -814,9 +822,13 @@ script:
     mode: queued
     max: 10
     sequence:
-    - service: input_boolean.turn_off
-      target:
-        entity_id: input_boolean.emma_cough_meds
+    - if:
+      - condition: template
+        value_template: "{{ reason != 'cough-on' }}"
+      then:
+      - service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.emma_cough_meds
     - choose:
       - conditions: "{{ reason == 'cough-notify' and is_state('input_boolean.emma_sleeping','off') }}"
         sequence:
