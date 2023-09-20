@@ -108,7 +108,7 @@
             "On today's episode of fine dining at school, we have ",
             "Today, your lovely cafeteria workers will be serving up ",
             "If you are wondering what you will be fooding today, it is ",
-          ] | random }} {{ states('sensor.kallen_lunch_menu_items') }}.
+          ] | random }} {{ states('sensor.school_lunch_menu_items') }}.
         {% endif %}
         {% if is_state('input_boolean.kallen_school_today', 'off') %}
           {% if is_state('input_boolean.school_cancelled','on') %}

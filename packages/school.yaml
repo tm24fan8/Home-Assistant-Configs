@@ -136,30 +136,30 @@ template:
       attributes:
         date: "{{ state_attr('input_datetime.spring_break_start','timestamp') | timestamp_custom('%B %d, %Y') }}"
       unit_of_measurement: 'Days'
-    - name: Lunch Menu Week
+    - name: School Lunch Menu Week
       unique_id: 62ba9dcb-3cd3-4875-8e6f-86bebf542c37
       state: >
-        {% if is_state('calendar.elementary_school_lunch','on') %}
-          {{ state_attr('calendar.elementary_school_lunch','message') }}
+        {% if is_state('calendar.defiance_city_schools_lunch','on') %}
+          {{ state_attr('calendar.defiance_city_schools_lunch','message') }}
         {% else %}
           No Menu
         {% endif %}
       icon: >
-        {% if is_state_attr('calendar.elementary_school_lunch','message','First Menu') %}
+        {% if is_state_attr('calendar.defiance_city_schools_lunch','message','First Menu') %}
           mdi:numeric-1-circle
-        {% elif is_state_attr('calendar.elementary_school_lunch','message','Second Menu') %}
+        {% elif is_state_attr('calendar.defiance_city_schools_lunch','message','Second Menu') %}
           mdi:numeric-2-circle
-        {% elif is_state_attr('calendar.elementary_school_lunch','message','Third Menu') %}
+        {% elif is_state_attr('calendar.defiance_city_schools_lunch','message','Third Menu') %}
           mdi:numeric-3-circle
-        {% elif is_state_attr('calendar.elementary_school_lunch','message','Fourth Menu') %}
+        {% elif is_state_attr('calendar.defiance_city_schools_lunch','message','Fourth Menu') %}
           mdi:numeric-4-circle
         {% else %}
           mdi:calendar-end
         {% endif %}
-    - name: Lunch Menu Items
+    - name: School Lunch Menu Items
       unique_id: a2cb62d7-ae9f-4bab-81c1-81f2006391b2
       icon: >
-        {% set week = states('sensor.kallen_lunch_menu_week') %}
+        {% set week = states('sensor.school_lunch_menu_week') %}
         {% if week == 'First Menu' %}
           mdi:numeric-1-circle
         {% elif week == 'Second Menu' %}
@@ -174,55 +174,55 @@ template:
       state: >
         {% from 'formatting.jinja' import cleanup %}
         {%- macro getReport() -%}
-          {% set week = states('sensor.kallen_lunch_menu_week') %}
+          {% set week = states('sensor.school_lunch_menu_week') %}
           {% set dow = now().strftime('%A') %}
           {% if week == 'First Menu' %}
             {% if dow == 'Monday' %}
-              Sloppy Joe, tomatoes or dip, green beans, mixed fruit, and milk.
+              Popcorn chicken, mashed potatoes, corn, apples, corn bread, and milk.
             {% elif dow == 'Tuesday' %}
-              Beef, taco salad, refried beans, spanish rice, peaches, and milk.
+              Beef taco or taco salad, refried beans, spanish rice, peaches, and milk.
             {% elif dow == 'Wednesday' %}
-              Optionally, Papa Johns Pizza. Otherwise, pulled pork, steamed broccoli, carrots, apples, and milk.
+              Pulled pork, steamed broccoli, tomatoes, mixed fruit, and milk.
             {% elif dow == 'Thursday' %}
-              Beef Stroganoff, steamed cauliflower, cucumbers, fresh fruit, and milk.
+              Beef Stroganoff, green beans, carrots, fresh fruit, bread, and milk.
             {% elif dow == 'Friday' %}
-              Hamburger, spinach salad, oven potatoes, applesauce, and milk.
+              Optionally, Papa Johns Pizza. Otherwise, hamburger, spinach salad, oven potatoes, applesauce, and milk.
             {% endif %}
           {% elif week == 'Second Menu' %}
             {% if dow == 'Monday' %}
-              Popcorn chicken, mashed potatoes, corn, pears, bread, and milk.
+              Pizza, spinach salad, tomatoes, fruit, and milk.
             {% elif dow == 'Tuesday' %}
-              Lasagna, garlic bread, celery, tomatoes, apple crisp, and milk.
+              Lasagna, garlic bread, steamed cauliflower, celery, apple crisp, and milk.
             {% elif dow == 'Wednesday' %}
-              Optionally, Papa Johns Pizza. Otherwise, hot ham and cheese, spinach salad, broccoli, fresh fruit, and milk.
+              Chicken patty, oven potatoes, broccoli, pears, and milk.
             {% elif dow == 'Thursday' %}
-              Turkey and noodles, mashed potatoes, carrots, peaches, bread, and milk.
+              Turkey and noodles, mashed potatoes, green beans, peaches, breadstick, and milk.
             {% elif down == 'Friday' %}
-              Hot dog with chili sauce, oven potatoes, backed beans, mixed fruit, and milk.
+              Optionally, Papa Johns Pizza. Otherwise, hot dog with chili sauce, carrots, baked beans, mixed fruit, and milk.
             {% endif %}
           {% elif week == 'Third Menu' %}
             {% if dow == 'Monday' %}
-              Bosco sticks with pizza sauce, black bean salad, oven potatoes, peach crisp, and milk.
+              Popcorn chicken, au gratin potatoes, corn, mixed fruit, corn bread, milk.
             {% elif dow == 'Tuesday' %}
-              Toasted cheese, tomato soup, mixed vegetables, fresh fruit, treat, and milk.
+              Beef taco or taco salad, refried beans, spanish rice, peaches, and milk.
             {% elif dow == 'Wednesday' %}
-              Optionally, Papa Johns Pizza. Otherwise, popcorn chicken, mashed potatoes, carrots, apples, corn bread, and milk.
+              Hamburger, oven potatoes, celery, applesauce, and milk.
             {% elif dow == 'Thursday' %}
-              Spaghetti, broccoli, green beans, fresh fruit, breadsticks, and milk.
+              Mac and cheese, steamed broccoli, tomatoes, pears, bread, and milk.
             {% elif dow == 'Friday' %}
-              Cold cut sub, spinach salad, tomatoes, pears, and milk.
+              Optionally, Papa Johns Pizza. Otherwise, sloppy joe, carrots, spinach salad, fruit, and milk.
             {% endif %}
           {% elif week == 'Fourth Menu' %}
             {% if dow == 'Monday' %}
-              Chicken patty, baked beans, celery, mixed fruit, and milk.
+              Toasted cheese, tomato soup, mixed vegetables, fresh fruit, treat, and milk.
             {% elif dow == 'Tuesday' %}
               Omelet or french toast, sausage, hash browns, tomatoes, orange, and milk.
             {% elif dow == 'Wednesday' %}
-              Optionally, Papa Johns Pizza. Otherwise, hamburger, green beans, cauliflower, apple crisp, and milk.
+              Bosco sticks with pizza sauce, carrots, oven potatoes, peach crisp, and milk.
             {% elif dow == 'Thursday' %}
-              Mac and cheese, steamed broccoli, carrots, pears, bread, and milk.
+              Spaghetti, broccoli, green beans, fresh fruit, breadstick, and milk.
             {% elif dow == 'Friday' %}
-              Hot dog, spinach salad, oven potatoes, fresh fruit, and milk.
+              Optionally, Papa Johns Pizza. Otherwise, hot dog, baked beans, cauliflower, applesauce, and milk.
             {% endif %}
           {% else %}
             No menu for the current day.
