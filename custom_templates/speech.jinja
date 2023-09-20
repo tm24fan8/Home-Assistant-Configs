@@ -154,3 +154,28 @@ It is {{ now().strftime("%I:%M %p") }}.
 "Be the energy you want to attract."
 ] | random }}
 {% endmacro %}
+
+{% macro kallenSleepMsg() %}
+{% set schedMode = states('input_select.scheduled_climate_mode_kallen_fan') %}
+{% if schedMode == 'White Noise' %}
+{{ [
+    "No fan in Collin's room tonight. Too cold outside. Brr. Enjoy your white noise.",
+    "It is a little too cold for a fan tonight. I will play white noise for Collin",
+    "Collin will not need any help staying cool tonight. I will play white noise instead.",
+    "My sources are telling me that it is not fan weather tonight. White noise it is."
+] | random }} Goodnight!
+{% elif schedMode == 'Fan' %}
+{{ [
+    "Collin's fan is now on. Stay cool!",
+    "It is rather warm outside, so I am turning on Collin's fan.",
+    "To prevent an ocean of sweat from drowning us all, I have enabled Collin's fan.",
+    "My sensors indicate that for optimal comfort, a cooling device is needed for Collin tonight.",
+    "I am a fan of Collin. So I have turned on a fan for Collin."
+] | random }} Goodnight!
+{% else %}
+{{ [
+    "Lights are now on in Collin's bedroom.",
+    "Collin, your bedroom lights are now on."
+] | random }} Goodnight!
+{% endif %}
+{% endmacro %}
