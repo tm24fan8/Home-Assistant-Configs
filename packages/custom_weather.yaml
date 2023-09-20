@@ -183,7 +183,7 @@ binary_sensor:
         to_state: "rain"
       - entity_id: "sensor.tomorrow_io_stratton_ave_precipitation_type"
         prob_given_true: 0.99
-        prob_given_false: 0.005
+        prob_given_false: 0.2
         platform: "state"
         to_state: "rain"
       - entity_id: "sensor.stratton_ave_precipitation"
