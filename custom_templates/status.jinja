@@ -553,6 +553,10 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% set tylenol_next = input_datetime_read('input_datetime.emma_tylenol_notify','nodate') | trim %}
 {% set ibuprofen_next = input_datetime_read('input_datetime.emma_ibuprofen_notify','nodate') | trim %}
 {% set cough_meds_next = input_datetime_read('input_datetime.emma_cough_meds_notify','nodate') | trim %}
+{% set tylenol_ts = state_attr('input_datetime.emma_tylenol','timestamp') | int %}
+{% set ibuprofen_ts = state_attr('input_datetime.emma_ibuprofen','timestamp') | int %}
+{% set cough_ts = state_attr('input_datetime.emma_cough_meds','timestamp') | int %}
+{% set current = as_timestamp(now()) | int %}
 {% if type == 'meds' %}
   {% set identEmma = 'Emma' %}
 {% else %}
@@ -566,6 +570,10 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
   {{ identEmma }} has not taken her ibuprofen, tylenol, or cough meds.
 {% elif (is_state('input_boolean.emma_alternating_meds_active','on') or is_state('input_boolean.emma_cough_meds_active','on')) and is_state('input_boolean.emma_sleeping','on') %}
   Med tracking is paused during sleep.
+  {% if (is_state('input_boolean.emma_alternating_meds_active','on') and ((current - tylenol_ts >= 28800) or (current - ibuprofen_ts >= 28800))) or
+        (is_state('input_boolean.emma_cough_meds_active','on') and current - cough_ts >= 14400) %}
+    Emma will need meds when she wakes up.
+  {% endif %}
 {% else %}
   {% if is_state('input_boolean.emma_alternating_meds_active','on') %}
     {% if is_state('input_boolean.emma_tylenol','off') and is_state('input_boolean.emma_ibuprofen','off') %}
