@@ -128,6 +128,7 @@ Again, mostly just the ones I'm **using** or **will use soon**...also a few that
 - [Windrose Card](https://github.com/aukedejong/lovelace-windrose-card)
 - [Swipe Card](https://github.com/bramkragten/swipe-card)
 - [Meteoalarm Card](https://github.com/MrBartusek/MeteoalarmCard)
+- [Bubble Card](https://github.com/Clooos/Bubble-Card)
 
 </details>
 
