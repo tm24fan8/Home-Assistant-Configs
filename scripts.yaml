@@ -211,6 +211,11 @@ max_brightness:
     target:
       entity_id: automation.living_room_night_lighting
     alias: Turn off Living Room night automation
+  - service: timer.cancel
+    data: {}
+    target:
+      entity_id: timer.living_room_motion_timer
+    alias: Cancel living room motion timer
   - service: input_boolean.turn_off
     data: {}
     target:
@@ -322,11 +327,6 @@ going_upstairs:
       response_variable: shutdown
       alias: Ask in basement
     alias: Ask about shutting down main computer
-  - service: automation.turn_on
-    data: {}
-    target:
-      entity_id: automation.living_room_night_lighting
-    alias: Turn on motion lighting in living room
   - wait_for_trigger:
     - platform: state
       entity_id:
