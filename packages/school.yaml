@@ -287,68 +287,48 @@ automation:
         target:
           entity_id: input_boolean.school_in_session
 
-  - id: 068c20ee-23ba-4cd5-af31-dcfff7bdbfed
-    alias: Kallen Two Hour Delay
-    initial_state: true
+  - id: 31f766d9-be1d-40bb-8c84-6cb2c57aac3c
+    alias: Kallen School Modifications
+    description: Runs when a two hour delay, cancellation, or alternate pickup is issued.
+    mode: restart
     trigger:
       - platform: state
         entity_id: input_boolean.two_hour_delay
         from: 'off'
         to: 'on'
-    action:
-      - service: script.kallen_scheduling_morning
-      - delay:
-          hours: 0
-          minutes: 0
-          seconds: 2
-          milliseconds: 0
-      - service: script.house_scheduling_morning
-      - delay:
-          hours: 0
-          minutes: 0
-          seconds: 2
-          milliseconds: 0
-      - service: script.master_bedroom_scheduling_morning
-    mode: single
-
-  - id: f8ecfc73-cb78-42b6-9b21-e17ef1e72741
-    alias: Kallen School Cancelled
-    initial_state: true
-    trigger:
+        id: two-hour-delay
       - platform: state
         entity_id: input_boolean.school_cancelled
         from: 'off'
         to: 'on'
+        id: cancelled
+      - platform: state
+        entity_id: input_boolean.kallen_alternate_pickup
+        not_from:
+        - unknown
+        - unavailable
+        not_to:
+        - unknown
+        - unavailable
+        id: alternate-pickup
     action:
-      - service: input_boolean.turn_off
-        target:
-          entity_id:
-          - input_boolean.two_hour_delay
-          - input_boolean.kallen_school_today
-          - input_boolean.kallen_school_early_release
-          - input_boolean.kallen_school_today_extended
-          - input_boolean.kallen_at_school
-          - input_boolean.kallen_alternate_pickup
-          - input_boolean.kallen_school_early_release
+      - if:
+        - condition: trigger
+          id: cancelled
+        then:
+        - service: input_boolean.turn_off
+          target:
+            entity_id:
+            - input_boolean.two_hour_delay
+            - input_boolean.kallen_school_today
+            - input_boolean.kallen_school_early_release
+            - input_boolean.kallen_school_today_extended
+            - input_boolean.kallen_at_school
+            - input_boolean.kallen_alternate_pickup
+            - input_boolean.kallen_school_early_release
       - delay:
-          hours: 0
-          minutes: 0
           seconds: 2
-          milliseconds: 0
-      - service: script.kallen_scheduling_morning
-      - delay:
-          hours: 0
-          minutes: 0
-          seconds: 2
-          milliseconds: 0
-      - service: script.house_scheduling_morning
-      - delay:
-          hours: 0
-          minutes: 0
-          seconds: 2
-          milliseconds: 0
-      - service: script.master_bedroom_scheduling_morning
-    mode: single
+      - service: script.rerun_all_scheduling_morning
 
 script:
   kallen_school_today:

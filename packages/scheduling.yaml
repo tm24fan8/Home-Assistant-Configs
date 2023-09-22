@@ -635,7 +635,7 @@ script:
             time: >
               {% if is_state('input_boolean.kallen_school_today','on') %}
                 {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
-                  14:00
+                  14:30
                 {% elif is_state('input_boolean.kallen_school_early_release','on') %}
                   12:00
                 {% else %}
