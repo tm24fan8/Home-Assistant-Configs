@@ -145,12 +145,6 @@ automation:
             datetime: >
               {% from 'time.jinja' import set_datetime %}
               {{ set_datetime(0) }}
-        - service: logbook.log
-          data:
-            name: Tina Morning Meds
-            message: Taken
-            entity_id: input_boolean.tina_morning_meds_taken
-            domain: input_boolean
       - conditions:
         - condition: and
           conditions:
@@ -177,12 +171,6 @@ automation:
             datetime: >
               {% from 'time.jinja' import set_datetime %}
               {{ set_datetime(0) }}
-        - service: logbook.log
-          data:
-            name: Tina Night Meds
-            message: Taken
-            entity_id: input_boolean.tina_night_meds_taken
-            domain: input_boolean
 
 script:
   tina_work_today:
@@ -327,14 +315,6 @@ script:
         - service: input_boolean.turn_on
           target:
             entity_id: input_boolean.tina_morning_meds_taken
-      - conditions: "{{ wait.trigger.id == 'skipped' }}"
-        sequence:
-        - service: logbook.log
-          data:
-            name: Tina Morning Meds
-            message: Skipped
-            entity_id: input_boolean.tina_morning_meds_taken
-            domain: input_boolean
       - conditions: "{{ wait.trigger.id == 'ask-later' }}"
         sequence:
         - service: input_datetime.set_datetime
@@ -344,12 +324,6 @@ script:
             datetime: >
               {% from 'time.jinja' import set_datetime %}
               {{ set_datetime(0,30) }}
-        - service: logbook.log
-          data:
-            name: Tina Morning Meds
-            message: Delayed for 30 minutes
-            entity_id: input_boolean.tina_morning_meds_taken
-            domain: input_boolean
       - conditions: "{{ wait.trigger.id == 'left' }}"
         sequence:
         - service: script.text_notify
@@ -367,12 +341,6 @@ script:
             datetime: >
               {% from 'time.jinja' import set_datetime %}
               {{ set_datetime(0,1) }}
-        - service: logbook.log
-          data:
-            name: Tina Morning Meds
-            message: No response, delayed for 1 minute
-            entity_id: input_boolean.tina_morning_meds_taken
-            domain: input_boolean
     - service: script.text_notify
       data:
         type: alert
@@ -436,14 +404,6 @@ script:
         - service: input_boolean.turn_on
           target:
             entity_id: input_boolean.tina_night_meds_taken
-      - conditions: "{{ wait.trigger.id in ['skipped','sleeping'] }}"
-        sequence:
-        - service: logbook.log
-          data:
-            name: Tina Night Meds
-            message: Skipped
-            entity_id: input_boolean.tina_night_meds_taken
-            domain: input_boolean
       - conditions: "{{ wait.trigger.id == 'ask-later' }}"
         sequence:
         - service: input_datetime.set_datetime
@@ -453,12 +413,6 @@ script:
             datetime: >
               {% from 'time.jinja' import set_datetime %}
               {{ set_datetime(0,30) }}
-        - service: logbook.log
-          data:
-            name: Tina Night Meds
-            message: Delayed for 30 minutes
-            entity_id: input_boolean.tina_night_meds_taken
-            domain: input_boolean
       - conditions: "{{ wait.trigger == 'none' or wait.trigger.idx is undefined }}"
         sequence:
         - service: input_datetime.set_datetime
@@ -468,12 +422,6 @@ script:
             datetime: >
               {% from 'time.jinja' import set_datetime %}
               {{ set_datetime(0,1) }}
-        - service: logbook.log
-          data:
-            name: Tina Night Meds
-            message: No response, delayed for 1 minute
-            entity_id: input_boolean.tina_night_meds_taken
-            domain: input_boolean
     - service: script.text_notify
       data:
         type: alert

@@ -151,12 +151,6 @@ automation:
             datetime: >
               {% from 'time.jinja' import set_datetime %}
               {{ set_datetime(0) }}
-        - service: logbook.log
-          data:
-            name: Kallen Morning Meds
-            message: Taken
-            entity_id: input_boolean.kallen_morning_meds_taken
-            domain: input_boolean
       - conditions:
         - condition: trigger
           id: boolean-night
@@ -168,12 +162,6 @@ automation:
             datetime: >
               {% from 'time.jinja' import set_datetime %}
               {{ set_datetime(0) }}
-        - service: logbook.log
-          data:
-            name: Kallen Night Meds
-            message: have been taken
-            entity_id: input_boolean.kallen_night_meds_taken
-            domain: input_boolean
 
   - id: 1d552b1f-c0ed-4d80-b8ba-3c085d2c3d3a
     alias: "Kallen Late Bedtime"
@@ -274,14 +262,6 @@ script:
         - service: input_boolean.turn_on
           target:
             entity_id: input_boolean.kallen_morning_meds_taken
-      - conditions: "{{ wait.trigger.id == 'skipped' }}"
-        sequence:
-        - service: logbook.log
-          data:
-            name: Kallen Morning Meds
-            message: Skipped
-            entity_id: input_boolean.kallen_morning_meds_taken
-            domain: input_boolean
       - conditions: "{{ wait.trigger.id == 'ask-later' }}"
         sequence:
         - service: input_datetime.set_datetime
@@ -291,12 +271,6 @@ script:
             datetime: >
               {% from 'time.jinja' import set_datetime %}
               {{ set_datetime(0,5) }}
-        - service: logbook.log
-          data:
-            name: Kallen Morning Meds
-            message: Delayed for 5 minutes
-            entity_id: input_boolean.kallen_morning_meds_taken
-            domain: input_boolean
       - conditions: "{{ wait.trigger.id == 'left' or wait.trigger == 'none' or wait.trigger.idx is undefined }}"
         sequence:
         - if:
@@ -311,19 +285,6 @@ script:
               datetime: >
                 {% from 'time.jinja' import set_datetime %}
                 {{ set_datetime(0,1) }}
-          - service: logbook.log
-            data:
-              name: Kallen Morning Meds
-              message: No response, delayed for 1 minute
-              entity_id: input_boolean.kallen_morning_meds_taken
-              domain: input_boolean
-          else:
-          - service: logbook.log
-            data:
-              name: Kallen Morning Meds
-              message: No response, Kallen has left home, cancelled.
-              entity_id: input_boolean.kallen_morning_meds_taken
-              domain: input_boolean
     - service: script.text_notify
       data:
         type: alert
@@ -406,14 +367,6 @@ script:
         - service: input_boolean.turn_on
           target:
             entity_id: input_boolean.kallen_night_meds_taken
-      - conditions: "{{ wait.trigger.id == 'skipped' }}"
-        sequence:
-        - service: logbook.log
-          data:
-            name: Kallen Night Meds
-            message: have been skipped
-            entity_id: input_boolean.kallen_night_meds_taken
-            domain: input_boolean
       - conditions: "{{ wait.trigger.id == 'ask-later' }}"
         sequence:
         - service: input_datetime.set_datetime
@@ -423,12 +376,6 @@ script:
             datetime: >
               {% from 'time.jinja' import set_datetime %}
               {{ set_datetime(0,15) }}
-        - service: logbook.log
-          data:
-            name: Kallen Night Meds
-            message: Delayed for 15 minutes
-            entity_id: input_boolean.kallen_night_meds_taken
-            domain: input_boolean
       - conditions: "{{ wait.trigger == 'none' or wait.trigger.idx is undefined }}"
         sequence:
         - service: input_datetime.set_datetime
@@ -438,12 +385,6 @@ script:
             datetime: >
               {% from 'time.jinja' import set_datetime %}
               {{ set_datetime(0,1) }}
-        - service: logbook.log
-          data:
-            name: Kallen Night Meds
-            message: No response, delayed for 1 minute
-            entity_id: input_boolean.kallen_night_meds_taken
-            domain: input_boolean
     - service: script.text_notify
       data:
         type: alert
