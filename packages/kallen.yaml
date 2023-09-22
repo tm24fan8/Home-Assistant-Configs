@@ -206,9 +206,6 @@ script:
     icon: mdi:medical-bag
     mode: restart
     sequence:
-    - service: input_boolean.turn_off
-      target:
-        entity_id: input_boolean.kallen_morning_meds_taken
     - service: script.text_notify
       data:
         who: kallen
@@ -303,9 +300,6 @@ script:
     icon: mdi:medical-bag
     mode: restart
     sequence:
-    - service: input_boolean.turn_off
-      target:
-        entity_id: input_boolean.kallen_night_meds_taken
     - service: script.text_notify
       data:
         who: kallen

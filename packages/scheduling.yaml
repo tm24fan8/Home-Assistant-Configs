@@ -169,8 +169,14 @@ automation:
         to: 'offline'
         id: stream-offline
       - platform: time
+        at: "04:00:00"
+        id: 4am
+      - platform: time
+        at: "16:00:00"
+        id: 4pm
+      - platform: time
         at: "06:00:00"
-        id: six
+        id: 6am
     action:
       - choose:
         - conditions:
@@ -217,7 +223,18 @@ automation:
               entity_id: input_boolean.tony_streaming_today
         - conditions:
           - condition: trigger
-            id: six
+            id: 4am
+          sequence:
+          - service: input_boolean.turn_off
+            target:
+              entity_id:
+                - input_boolean.kallen_morning_meds_taken
+                - input_boolean.kallen_night_meds_taken
+                - input_boolean.tony_morning_meds_taken
+                - input_boolean.tina_morning_meds_taken
+        - conditions:
+          - condition: trigger
+            id: 6am
           sequence:
           - if:
             - condition: state
@@ -227,16 +244,20 @@ automation:
             - service: input_boolean.turn_off
               target:
                 entity_id: input_boolean.tony_streaming_today
+        - conditions:
+          - condition: trigger
+            id: 4pm
+          sequence:
+          - service: input_boolean.turn_off
+            target:
+              entity_id:
+                - input_boolean.tony_night_meds_taken
+                - input_boolean.tina_night_meds_taken
 
 script:
   kallen_scheduling_morning:
     alias: 'Kallen Scheduling Morning'
     sequence:
-      - service: input_boolean.turn_off
-        target:
-          entity_id:
-            - input_boolean.kallen_morning_meds_taken
-            - input_boolean.kallen_night_meds_taken
       - if:
         - condition: state
           entity_id: input_boolean.school_in_session
@@ -661,11 +682,6 @@ script:
             {% else %}
               {{ states('input_datetime.master_bedroom_wakeup') }}
             {% endif %}
-      - service: input_boolean.turn_off
-        target:
-          entity_id:
-            - input_boolean.tony_morning_meds_taken
-            - input_boolean.tina_morning_meds_taken
       - service: input_boolean.turn_on
         target:
           entity_id: input_boolean.master_bedroom_scheduling_morning_ran
@@ -735,11 +751,6 @@ script:
               {% else %}
                 N/A
               {% endif %}
-        - service: input_boolean.turn_off
-          target:
-            entity_id:
-              - input_boolean.tony_night_meds_taken
-              - input_boolean.tina_night_meds_taken
         - service: input_datetime.set_datetime
           target:
             entity_id: input_datetime.tina_night_meds_notify

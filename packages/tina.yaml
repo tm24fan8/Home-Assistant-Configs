@@ -266,9 +266,6 @@ script:
     icon: mdi:medical-bag
     mode: restart
     sequence:
-    - service: input_boolean.turn_off
-      target:
-        entity_id: input_boolean.tina_morning_meds_taken
     - service: script.text_notify
       data:
         who: tina
@@ -353,9 +350,6 @@ script:
     icon: mdi:medical-bag
     mode: restart
     sequence:
-    - service: input_boolean.turn_off
-      target:
-        entity_id: input_boolean.tina_night_meds_taken
     - service: script.text_notify
       data:
         who: tina
