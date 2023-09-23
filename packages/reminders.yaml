@@ -1,0 +1,45 @@
+input_boolean:
+  washer_finished:
+    name: Washer Finished
+    icon: mdi:washing-machine-alert
+  dryer_finished:
+    name: Dryer Finished
+    icon: mdi:tumble-dryer-alert
+
+input_datetime:
+  washer_started:
+    name: Washer Started
+    has_date: true
+    has_time: true
+    icon: mdi:clock-start
+  dryer_started:
+    name: Dryer Started
+    has_date: true
+    has_time: true
+    icon: mdi:clock-start
+  washer_finished:
+    name: Washer Finished
+    has_date: true
+    has_time: true
+    icon: mdi:clock-end
+  dryer_finished:
+    name: Dryer Finished
+    has_date: true
+    has_time: true
+    icon: mdi:clock-end
+
+input_number:
+  washer_cycle_length:
+    name: Washer Cycle Length
+    min: 0
+    max: 70
+    step: 5
+    unit_of_measurement: minutes
+    icon: mdi:timer
+  dryer_cycle_length:
+    name: Dryer Cycle Length
+    min: 0
+    max: 70
+    step: 5
+    unit_of_measurement: minutes
+    icon: mdi:timer
