@@ -10,16 +10,6 @@ input_boolean:
     icon: mdi:bell
 
 input_datetime:
-  washer_started:
-    name: Washer Started
-    has_date: true
-    has_time: true
-    icon: mdi:clock-start
-  dryer_started:
-    name: Dryer Started
-    has_date: true
-    has_time: true
-    icon: mdi:clock-start
   washer_finished:
     name: Washer Finished
     has_date: true
