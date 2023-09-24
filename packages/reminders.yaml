@@ -5,6 +5,9 @@ input_boolean:
   dryer_finished:
     name: Dryer Finished
     icon: mdi:tumble-dryer-alert
+  laundry_notifications_text:
+    name: Laundry Notifications - Text
+    icon: mdi:bell
 
 input_datetime:
   washer_started:
