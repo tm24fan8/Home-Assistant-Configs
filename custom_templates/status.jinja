@@ -4,6 +4,31 @@
 {% from 'lighting.jinja' import lightsOn %}
 {% set ct = ct() | int %}
 
+{% macro laundryReport(type,method) %}
+  {% macro data() %}
+  {% set washerTimer = states('timer.washer_timer') %}
+  {% set dryerTimer = states('timer.dryer_timer') %}
+  {% set washerFinished = states('input_boolean.washer_finished') %}
+  {% set dryerFinished = states('input_boolean.dryer_finished') %}
+  {% set washerDateTime = 'input_datetime.washer_finished' %}
+  {% set dryerDateTime = 'input_datetime.dryer_finished' %}
+  {% if washerTimer == 'active' and dryerTimer == 'active' %}
+    The washer and dryer are both running.
+  {% elif washerTimer == 'active' %}
+    The washer is running.
+  {% elif dryerTimer == 'active' %}
+    The dryer is running.
+  {% endif %}
+  {% if washerFinished == 'on' %}
+    The washer finished its cycle at {{ input_datetime_read(washerDateTime,'withdate') | trim }}.
+  {% endif %}
+  {% if dryerFinished == 'on' %}
+    The dryer finished its cycle at {{ input_datetime_read(dryerDateTime,'withdate') | trim }}.
+  {% endif %}
+  {% endmacro %}
+{{ cleanup(data()) }}
+{% endmacro %}
+
 {% macro climateDevices(type,method) %}
 {% set total = states('sensor.climate_devices_running') | int %}
 {% set fans = states('sensor.fans_running') | int %}
