@@ -12,12 +12,28 @@
   {% set dryerFinished = states('input_boolean.dryer_finished') %}
   {% set washerDateTime = 'input_datetime.washer_finished' %}
   {% set dryerDateTime = 'input_datetime.dryer_finished' %}
+  {% set w = state_attr('timer.washer_timer','finishes_at') %}
+  {% set d = state_attr('timer.dryer_timer','finishes_at') %}
+  {% set wH = 0 if w == none else (as_datetime(w) - now()).total_seconds() | timestamp_custom('%H', false) | int %}
+  {% set dH = 0 if d == none else (as_datetime(d) - now()).total_seconds() | timestamp_custom('%H', false) | int %}
+  {% set wM = 0 if w == none else (as_datetime(w) - now()).total_seconds() | timestamp_custom('%M', false) | int %}
+  {% set dM = 0 if d == none else (as_datetime(d) - now()).total_seconds() | timestamp_custom('%M', false) | int %}
+  {% if wH > 0 %}
+    {% set washerStr = wH ~ ' hour and ' ~ wM ~ ' minutes' %}
+  {% else %}
+    {% set washerStr = wM ~ ' minutes' %}
+  {% endif %}
+  {% if dH > 0 %}
+    {% set dryerStr = dH ~ ' hour and ' ~ dM ~ ' minutes' %}
+  {% else %}
+    {% set dryerStr = dM ~ ' minutes' %}
+  {% endif %}
   {% if washerTimer == 'active' and dryerTimer == 'active' %}
-    The washer and dryer are both running.
+    The washer and dryer are both running. The washer finishes in {{ washerStr }}. The dryer finishes in {{ dryerStr }}.
   {% elif washerTimer == 'active' %}
-    The washer is running.
+    The washer is running. It will finish in {{ washerStr }}.
   {% elif dryerTimer == 'active' %}
-    The dryer is running.
+    The dryer is running. It will finish in {{ dryerStr }}.
   {% endif %}
   {% if washerFinished == 'on' %}
     The washer finished its cycle at {{ input_datetime_read(washerDateTime,'withdate') | trim }}.
