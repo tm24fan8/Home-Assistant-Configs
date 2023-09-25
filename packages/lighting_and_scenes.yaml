@@ -653,7 +653,17 @@ automation:
         - service: script.stairwell_led_strip
           data:
             color_temp_kelvin: 2000
-            brightness: 50
+            brightness: "{{ 50 if is_state('binary_sensor.early_night_mode','on') else 255 }}"
+        - delay:
+            seconds: 5
+        - if:
+          - condition: state
+            entity_id: binary_sensor.early_night_mode
+            state: 'off'
+          then:
+          - service: light.turn_off
+            target:
+              entity_id: light.stairwell_led_strip
 
   - id: b897d714-bbf2-44ce-afaf-63cf3694351c
     alias: Tina Desk Lights Handler
