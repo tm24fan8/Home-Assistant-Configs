@@ -803,6 +803,25 @@ automation:
           target:
             entity_id: light.front_porch_light
 
+  - id: 6017b580-44bc-48f2-adfe-52540eb9c1e2
+    alias: Echo Dot Room Presence
+    description: This is mostly so that if I go into the basement before everybody wakes up, it unmutes the echo dot
+    mode: restart
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.basement_occupied
+        from: 'off'
+        to: 'on'
+        id: basement-occupied
+    condition:
+      - condition: state
+        entity_id: binary_sensor.people_sleeping
+        state: 'on'
+    action:
+      - service: switch.turn_off
+        target:
+          entity_id: switch.basement_echo_dot_do_not_disturb_switch
+
 script:
   family_is_away:
     alias: Family Is Away

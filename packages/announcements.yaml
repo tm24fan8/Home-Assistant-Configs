@@ -123,7 +123,6 @@ automation:
     - service: switch.turn_off
       target:
         entity_id:
-          - switch.basement_echo_dot_do_not_disturb_switch
           - switch.living_room_echo_dot_do_not_disturb_switch
     - service: script.volume_reset
 
