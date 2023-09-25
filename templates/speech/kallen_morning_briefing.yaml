@@ -76,7 +76,7 @@
             {{ [
               'I regret to inform you that your school is running on time today. ',
               'My sensors detect that your school expects you at the usual time today. ',
-              'Unfortunately, your school has not decided to embrace to power of sleep. They are running on time today. ',
+              'Unfortunately, your school has not decided to embrace the power of sleep. They are running on time today. ',
             ] | random }}
           {% endif %}
           {% if is_state('input_boolean.kallen_school_early_release','on') %}
