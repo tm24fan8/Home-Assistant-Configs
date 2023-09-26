@@ -593,14 +593,7 @@ automation:
       state: 'off'
     action:
     - choose:
-      - conditions:
-        - condition: and
-          conditions:
-          - condition: trigger
-            id: motion-on
-          - condition: state
-            entity_id: input_boolean.night_mode
-            state: 'on'
+      - conditions: "{{ (trigger.id == 'motion-on' and is_state('input_boolean.night_mode','on')) and (is_state('input_boolean.kallen_sleeping','on') or is_state('input_boolean.kallen_overnight','on')) }}"
         sequence:
         - service: timer.cancel
           target:
@@ -622,14 +615,7 @@ automation:
               - input_select.dining_room_lamp_scenes
           data:
             option: Adaptive
-      - conditions:
-        - condition: and
-          conditions:
-          - condition: trigger
-            id: motion-off
-          - condition: state
-            entity_id: input_boolean.night_mode
-            state: 'on'
+      - conditions: "{{ (trigger.id == 'motion-off' and is_state('input_boolean.night_mode','on')) and (is_state('input_boolean.kallen_sleeping','on') or is_state('input_boolean.kallen_overnight','on')) }}"
         sequence:
         - service: timer.start
           target:
