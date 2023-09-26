@@ -18,10 +18,10 @@ input_boolean:
     icon: mdi:weather-night
   kallen_morning_meds_taken:
     name: Kallen Morning Meds Taken
-    icon: mdi:medical-bag
+    icon: mdi:medication
   kallen_night_meds_taken:
     name: Kallen Night Meds Taken
-    icon: mdi:medical-bag
+    icon: mdi:medication
   kallen_alarm_clock:
     name: Kallen Alarm Clock
     icon: mdi:alarm
@@ -56,22 +56,22 @@ input_datetime:
     name: Kallen Morning Meds Taken
     has_date: true
     has_time: true
-    icon: mdi:medical-bag
+    icon: mdi:medication
   kallen_night_meds_taken:
     name: Kallen Night Meds Taken
     has_date: true
     has_time: true
-    icon: mdi:medical-bag
+    icon: mdi:medication
   kallen_morning_meds_notify:
     name: Kallen Morning Meds Notify
     has_date: false
     has_time: true
-    icon: mdi:medical-bag
+    icon: mdi:medication
   kallen_night_meds_notify:
     name: Kallen Night Meds Notify
     has_date: false
     has_time: true
-    icon: mdi:medical-bag
+    icon: mdi:medication
   kallen_alarm_clock:
     name: Kallen Alarm Clock
     has_date: false
@@ -203,7 +203,7 @@ automation:
 script:
   kallen_morning_meds:
     alias: 'Kallen Morning Meds'
-    icon: mdi:medical-bag
+    icon: mdi:medication
     mode: restart
     sequence:
     - service: script.text_notify
@@ -297,7 +297,7 @@ script:
 
   kallen_night_meds:
     alias: 'Kallen Night Meds'
-    icon: mdi:medical-bag
+    icon: mdi:medication
     mode: restart
     sequence:
     - service: script.text_notify

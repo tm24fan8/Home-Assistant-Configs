@@ -9,10 +9,10 @@ input_boolean:
     icon: mdi:briefcase-plus
   tina_morning_meds_taken:
     name: Tina Morning Meds Taken
-    icon: mdi:medical-bag
+    icon: mdi:medication
   tina_night_meds_taken:
     name: Tina Night Meds Taken
-    icon: mdi:medical-bag
+    icon: mdi:medication
 
 input_datetime:
   tina_workday_start:
@@ -29,22 +29,22 @@ input_datetime:
     name: Tina Morning Meds Taken
     has_date: true
     has_time: true
-    icon: mdi:medical-bag
+    icon: mdi:medication
   tina_morning_meds_notify:
     name: Tina Morning Meds Notify
     has_date: false
     has_time: true
-    icon: mdi:medical-bag
+    icon: mdi:medication
   tina_night_meds_taken:
     name: Tina Night Meds Taken
     has_date: true
     has_time: true
-    icon: mdi:medical-bag
+    icon: mdi:medication
   tina_night_meds_notify:
     name: Tina Night Meds Notify
     has_date: false
     has_time: true
-    icon: mdi:medical-bag
+    icon: mdi:medication
 
 automation:
   - id: cd9f921f-71c7-4e29-9aee-7421ef19bdd3
@@ -263,7 +263,7 @@ script:
 
   tina_morning_meds:
     alias: 'Tina Morning Meds'
-    icon: mdi:medical-bag
+    icon: mdi:medication
     mode: restart
     sequence:
     - service: script.text_notify
@@ -347,7 +347,7 @@ script:
 
   tina_night_meds:
     alias: 'Tina Night Meds'
-    icon: mdi:medical-bag
+    icon: mdi:medication
     mode: restart
     sequence:
     - service: script.text_notify

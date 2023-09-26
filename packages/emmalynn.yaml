@@ -9,19 +9,19 @@ input_boolean:
     icon: mdi:check
   emma_alternating_meds_active:
     name: Emma Alternating Meds Active
-    icon: mdi:medical-bag
+    icon: mdi:medication
   emma_cough_meds_active:
     name: Emma Cough Meds Active
-    icon: mdi:medical-bag
+    icon: mdi:medication
   emma_ibuprofen:
     name: Emma Ibuprofen
-    icon: mdi:medical-bag
+    icon: mdi:medication
   emma_tylenol:
     name: Emma Tylenol
-    icon: mdi:medical-bag
+    icon: mdi:medication
   emma_cough_meds:
     name: Emma Cough Meds
-    icon: mdi:medical-bag
+    icon: mdi:medication
   emma_alarm_clock:
     name: Emma Alarm Clock
     icon: mdi:alarm
@@ -62,32 +62,32 @@ input_datetime:
     name: Emma Ibuprofen
     has_date: true
     has_time: true
-    icon: mdi:medical-bag
+    icon: mdi:medication
   emma_ibuprofen_notify:
     name: Emma Ibuprofen Notify
     has_date: false
     has_time: true
-    icon: mdi:medical-bag
+    icon: mdi:medication
   emma_tylenol:
     name: Emma Tylenol
     has_date: true
     has_time: true
-    icon: mdi:medical-bag
+    icon: mdi:medication
   emma_tylenol_notify:
     name: Emma Tylenol Notify
     has_date: false
     has_time: true
-    icon: mdi:medical-bag
+    icon: mdi:medication
   emma_cough_meds:
     name: Emma Cough Meds
     has_date: true
     has_time: true
-    icon: mdi:medical-bag
+    icon: mdi:medication
   emma_cough_meds_notify:
     name: Emma Cough Meds Notify
     has_date: false
     has_time: true
-    icon: mdi:medical-bag
+    icon: mdi:medication
   emma_alarm_clock:
     name: Emma Alarm Clock
     has_date: false
@@ -553,7 +553,7 @@ automation:
 script:
   emma_ibuprofen:
     alias: Emma Ibuprofen
-    icon: mdi:medical-bag
+    icon: mdi:medication
     mode: queued
     max: 10
     sequence:
@@ -686,7 +686,7 @@ script:
 
   emma_tylenol:
     alias: Emma Tylenol
-    icon: mdi:medical-bag
+    icon: mdi:medication
     mode: queued
     max: 10
     sequence:
@@ -818,7 +818,7 @@ script:
 
   emma_cough_meds:
     alias: Emma Cough Meds
-    icon: mdi:medical-bag
+    icon: mdi:medication
     mode: queued
     max: 10
     sequence:

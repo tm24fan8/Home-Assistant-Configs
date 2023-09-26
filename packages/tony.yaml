@@ -6,10 +6,10 @@ input_boolean:
     icon: mdi:twitch
   tony_morning_meds_taken:
     name: Tony Morning Meds Taken
-    icon: mdi:medical-bag
+    icon: mdi:medication
   tony_night_meds_taken:
     name: Tony Night Meds Taken
-    icon: mdi:medical-bag
+    icon: mdi:medication
 
 input_datetime:
   tony_streaming_start_time:
@@ -21,22 +21,22 @@ input_datetime:
     name: Tony Morning Meds Taken
     has_date: true
     has_time: true
-    icon: mdi:medical-bag
+    icon: mdi:medication
   tony_night_meds_taken:
     name: Tony Night Meds Taken
     has_date: true
     has_time: true
-    icon: mdi:medical-bag
+    icon: mdi:medication
   tony_morning_meds_notify:
     name: Tony Morning Meds Notify
     has_date: false
     has_time: true
-    icon: mdi:medical-bag
+    icon: mdi:medication
   tony_night_meds_notify:
     name: Tony Night Meds Notify
     has_date: false
     has_time: true
-    icon: mdi:medical-bag
+    icon: mdi:medication
 
 sensor:
 - platform: rest
@@ -155,7 +155,7 @@ automation:
 script:
   tony_morning_meds:
     alias: 'Tony Morning Meds'
-    icon: mdi:medical-bag
+    icon: mdi:medication
     mode: restart
     sequence:
     - service: script.text_notify
@@ -239,7 +239,7 @@ script:
 
   tony_night_meds:
     alias: 'Tony Night Meds'
-    icon: mdi:medical-bag
+    icon: mdi:medication
     mode: restart
     sequence:
     - service: script.text_notify
