@@ -127,6 +127,10 @@ script:
             entity_id: input_text.master_bedroom_selected_scene
           data:
             value: Adaptive
+        - service: adaptive_lighting.set_manual_control
+          data:
+            manual_control: false
+            entity_id: switch.adaptive_lighting_master_bedroom
 
   master_bedroom_sleep:
     alias: 'Master Bedroom Sleep'
@@ -147,5 +151,9 @@ script:
         entity_id: input_text.master_bedroom_selected_scene
       data:
         value: Adaptive
+    - service: adaptive_lighting.set_manual_control
+      data:
+        manual_control: false
+        entity_id: switch.adaptive_lighting_master_bedroom
 
 # TODO: Figure out which actions to move here, and which ones to keep in Node-RED
