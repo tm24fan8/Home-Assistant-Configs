@@ -7,6 +7,9 @@ input_boolean:
     icon: mdi:tumble-dryer-alert
   laundry_notifications_text:
     name: Laundry Notifications - Text
+    icon: mdi:message
+  laundry_notifications_tts:
+    name: Laundry Notifications - TTS
     icon: mdi:bell
 
 input_datetime:
