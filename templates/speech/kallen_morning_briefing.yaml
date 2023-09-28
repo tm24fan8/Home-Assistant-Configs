@@ -88,7 +88,7 @@
             ] | random }}
           {% endif %}
           <s>School today starts at {{ input_datetime_read('input_datetime.kallen_school_day_start') }}</s>
-          {% if is_state('binary_sensor.raining_bayesian','on') %}
+          {% if is_state('binary_sensor.raining','on') %}
             It appears to be raining right now, so you might get wet on your way to school.
           {% endif %}
           {% if is_state('input_boolean.kallen_alternate_pickup','on') %}

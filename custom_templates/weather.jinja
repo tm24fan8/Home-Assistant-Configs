@@ -26,7 +26,7 @@
       {% set ltgdist = (states('sensor.blitzortung_lightning_distance') | int) / 1.609 | round %}
         There is lightning in the area. Nearest strike is {{ ltgdist }} miles away.
     {% endif %}
-    {% if is_state('binary_sensor.raining_bayesian','on') %}
+    {% if is_state('binary_sensor.raining','on') %}
       It is currently raining. Make sure all doors and windows are closed!
     {% endif %}
     {% if state_attr('weather.iron_nerd_weather_station','visibility') | int < 3 %}
@@ -65,7 +65,7 @@
       ] | random }}
       "The nearest lightning strike is {{ ltgdist }} miles away. "
     {% endif %}
-    {% if is_state('binary_sensor.raining_bayesian','on') %}
+    {% if is_state('binary_sensor.raining','on') %}
       {{ [
         "I have looked outside and determined that it is raining. ",
         "If you look outside the window, you will notice, it wainin. ",

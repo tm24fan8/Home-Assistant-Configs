@@ -1593,7 +1593,7 @@ automation:
     alias: Rain Window Warning
     trigger:
       - platform: state
-        entity_id: binary_sensor.raining_bayesian
+        entity_id: binary_sensor.raining
         from: 'off'
         to: 'on'
     condition:
@@ -1626,13 +1626,13 @@ automation:
           who: everywhere
           type: weather
           message: "It is raining and there are windows open in the house. Please close them!"
-      - wait_template: "{{ is_state('binary_sensor.windows','off') or is_state('binary_sensor.raining_bayesian','off') }}"
+      - wait_template: "{{ is_state('binary_sensor.windows','off') or is_state('binary_sensor.raining','off') }}"
         timeout: "00:15:00"
         continue_on_timeout: true
       - choose:
         - conditions:
           - condition: template
-            value_template: "{{ is_state('binary_sensor.windows','off') and is_state('binary_sensor.raining_bayesian','on') }}"
+            value_template: "{{ is_state('binary_sensor.windows','off') and is_state('binary_sensor.raining','on') }}"
           sequence:
           - service: script.text_notify
             data:
@@ -1647,7 +1647,7 @@ automation:
               message: "Windows are now closed. Thank you, and enjoy your dry house."
         - conditions:
           - condition: template
-            value_template: "{{ is_state('binary_sensor.raining_bayesian','off') }}"
+            value_template: "{{ is_state('binary_sensor.raining','off') }}"
           sequence:
           - service: script.text_notify
             data:
