@@ -3,16 +3,16 @@ weather:
     name: "Iron Nerd Weather Station"
     condition_template: >
       {% set stations = [
-        states.weather.iron_nerd_studios,
         states.weather.kdfi_daynight,
+        states.weather.iron_nerd_studios,
         states.weather.openweathermap
       ] %}
       {% set result = stations | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
       {{ states(result) }}
     temperature_template: >
       {% set temps = [
-        states.sensor.pirateweather_temperature,
         states.sensor.kdfi_temperature,
+        states.sensor.pirateweather_temperature,
         states.sensor.openweathermap_temperature,
         states.sensor.myradar_temperature
       ] %}
@@ -21,16 +21,16 @@ weather:
     temperature_unit: °F
     humidity_template: >
       {% set humidity = [
-        states.sensor.pirateweather_humidity,
         states.sensor.kdfi_relative_humidity,
+        states.sensor.pirateweather_humidity,
         states.sensor.openweathermap_humidity
       ] %}
       {% set result = humidity | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
       {{ states(result) | float }}
     forecast_template: >
       {% set forecasts = [
-        states.weather.iron_nerd_studios.attributes,
         states.weather.kdfi_daynight.attributes,
+        states.weather.iron_nerd_studios.attributes,
         states.weather.openweathermap.attributes,
         states.weather.weatherapi_stratton_ave.attributes
       ] %}
@@ -84,6 +84,7 @@ weather:
     name: "Iron Nerd Weather Station - Hourly"
     condition_template: >
       {% set stations = [
+        states.weather.tomorrow_io_stratton_ave_hourly,
         states.weather.iron_nerd_studios,
         states.weather.kdfi_daynight,
         states.weather.openweathermap
@@ -92,8 +93,8 @@ weather:
       {{ states(result) }}
     temperature_template: >
       {% set temps = [
-        states.sensor.pirateweather_temperature,
         states.sensor.kdfi_temperature,
+        states.sensor.pirateweather_temperature,
         states.sensor.openweathermap_temperature,
         states.sensor.myradar_temperature
       ] %}
@@ -102,14 +103,15 @@ weather:
     temperature_unit: °F
     humidity_template: >
       {% set humidity = [
-        states.sensor.pirateweather_humidity,
         states.sensor.kdfi_relative_humidity,
+        states.sensor.pirateweather_humidity,
         states.sensor.openweathermap_humidity
       ] %}
       {% set result = humidity | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
       {{ states(result) | float }}
     forecast_template: >
       {% set forecasts = [
+        states.weather.tomorrow_io_stratton_ave_hourly.attributes,
         states.weather.kdfi_hourly.attributes,
         states.weather.iron_nerd_studios_hourly
       ] %}
