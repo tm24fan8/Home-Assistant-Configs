@@ -1221,3 +1221,355 @@
     target:
       entity_id: input_boolean.hot_day
   mode: restart
+- id: '1696285290316'
+  alias: Scheduled Alarm Disarm
+  description: ''
+  trigger:
+  - platform: time
+    at: input_datetime.morning_alarm_disarm
+    id: morning
+  - platform: time
+    at: input_datetime.master_bedroom_wakeup
+    id: wakeup
+  condition:
+  - condition: state
+    entity_id: binary_sensor.parents_home
+    state: 'on'
+  - condition: state
+    entity_id: input_boolean.vacation_mode
+    state: 'off'
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: 'off'
+  - condition: template
+    value_template: '{{ states(''alarm_control_panel.stratton_ave_alarm'') not in
+      [''disarmed'',''unavailable'',''unknown''] }}'
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.skip_disarm
+        state: 'on'
+      sequence:
+      - service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.skip_disarm
+        data: {}
+      - service: persistent_notification.create
+        data:
+          title: Security Information
+          message: Scheduled security disarm has been skipped
+          notification_id: security_disarm_skipped
+    - conditions:
+      - condition: trigger
+        id: morning
+      sequence:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: input_boolean.work_today
+          state: 'on'
+        - condition: state
+          entity_id: input_boolean.kallen_school_today
+          state: 'on'
+      - service: alarm_control_panel.alarm_disarm
+        target:
+          entity_id: alarm_control_panel.nerdhome_alarm_panel
+        data: {}
+    - conditions:
+      - condition: trigger
+        id: wakeup
+      sequence:
+      - service: alarm_control_panel.alarm_disarm
+        target:
+          entity_id: alarm_control_panel.nerdhome_alarm_panel
+        data: {}
+  mode: single
+- id: '1696285375998'
+  alias: Scheduled Alarm Rearm
+  description: ''
+  trigger:
+  - platform: time
+    at: input_datetime.morning_alarm_rearm
+  condition:
+  - condition: state
+    entity_id: binary_sensor.parents_home
+    state: 'on'
+  - condition: state
+    entity_id: input_boolean.vacation_mode
+    state: 'off'
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: 'off'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_boolean.work_today
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.kallen_school_today
+      state: 'on'
+  - condition: template
+    value_template: '{% set rearm = state_attr(''input_datetime.morning_alarm_rearm'',''timestamp'')
+      %} {% set wake = state_attr(''input_datetime.master_bedroom_wakeup'',''timestamp'')
+      %} {% set diff = wake - rearm %} {{ diff > 1800 }}
+
+      '
+  action:
+  - if:
+    - condition: state
+      entity_id: input_boolean.work_today
+      state: 'on'
+    then:
+    - service: script.security_scheduling
+      data: {}
+  - if:
+    - condition: state
+      entity_id: input_boolean.skip_rearm
+      state: 'on'
+    then:
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.skip_rearm
+      data: {}
+    - service: persistent_notification.create
+      data:
+        title: Security Information
+        message: Scheduled security rearm has been skipped
+        notification_id: security_rearm_skipped
+    - stop: Skipped
+  - if:
+    - condition: and
+      conditions:
+      - condition: time
+        before: '14:00:00'
+        after: '12:00:00'
+        weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+      - condition: state
+        entity_id: input_boolean.kallen_school_early_release
+        state: 'on'
+    then:
+    - stop: School early release
+  - if:
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: alarm_control_panel.stratton_ave_alarm
+        state: disarmed
+      - condition: time
+        after: 04:15:00
+        before: '13:30:00'
+    then:
+    - service: alarm_control_panel.alarm_arm_home
+      target:
+        entity_id: alarm_control_panel.nerdhome_alarm_panel
+      data: {}
+  mode: single
+- id: '1696285629788'
+  alias: Lockdown Issue
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.lockdown_issue
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - service: persistent_notification.create
+    data:
+      title: Lockdown Issue
+      notification_id: lockdown_issue
+      message: '{% set extdoors = expand(''binary_sensor.exterior_doors'') | selectattr(''state'',''eq'',''on'')
+        | map(attribute=''name'') | list | join('', '') %} {% set windows = expand(''binary_sensor.windows'')
+        | selectattr(''state'',''eq'',''on'') | map(attribute=''name'') | list | join('',
+        '') %} A lockdown issue has been caused by the following sensors:
+
+        Doors:{% if is_state(''binary_sensor.exterior_doors'',''on'') %} {{ extdoors
+        }} {% else %} None {% endif %} Windows:{% if is_state(''binary_sensor.windows'',''on'')
+        %} {{ windows }} {% else %} None {% endif %}'
+  - service: script.text_notify
+    data:
+      type: critical
+      who: "{% if states('person.christina_stork') in ['Bob Evans','BobEvans','unavailable','unknown']
+        %}\n  tony\n{% else %}\n  parents\n{% endif %}"
+      title: Security Not Armed!
+      tag: lockdown-issue
+      message: '{% set extdoors = expand(''binary_sensor.exterior_doors'') | selectattr(''state'',''eq'',''on'')
+        | map(attribute=''name'') | list | join('', '') %} {% set windows = expand(''binary_sensor.windows'')
+        | selectattr(''state'',''eq'',''on'') | map(attribute=''name'') | list | join('',
+        '') %} A lockdown issue has been caused by the following sensors:
+
+        Doors:{% if is_state(''binary_sensor.exterior_doors'',''on'') %} {{ extdoors
+        }} {% else %} None {% endif %} Windows:{% if is_state(''binary_sensor.windows'',''on'')
+        %} {{ windows }} {% else %} None {% endif %}'
+  - if:
+    - condition: state
+      entity_id: binary_sensor.basement_occupied
+      state: 'on'
+    then:
+    - service: scene.create
+      data:
+        scene_id: light_state_before_lockdown_issue
+        snapshot_entities:
+        - light.living_room_color_1
+        - light.living_room_color_2
+        - light.living_room_color_3
+        - light.tina_lamp_side
+        - light.tina_lamp_top
+        - light.tina_desk_strip
+        - light.stairwell_led_strip
+        - light.basement_stairwell
+        - light.basement_tall_lamp
+        - light.basement_short_lamp
+        - light.basement_led_strip_1
+    else:
+    - service: scene.create
+      data:
+        scene_id: light_state_before_lockdown_issue
+        snapshot_entities:
+        - light.living_room_color_1
+        - light.living_room_color_2
+        - light.living_room_color_3
+        - light.tina_lamp_side
+        - light.tina_lamp_top
+        - light.tina_desk_strip
+        - light.stairwell_led_strip
+  - delay:
+      seconds: 1
+  - service: switch.turn_off
+    target:
+      entity_id:
+      - switch.adaptive_lighting_living_room
+      - switch.adaptive_lighting_tina_lamp
+      - switch.adaptive_lighting_basement_studio
+    data: {}
+  - if:
+    - condition: state
+      entity_id: binary_sensor.basement_occupied
+      state: 'on'
+    then:
+    - service: light.turn_on
+      target:
+        entity_id:
+        - light.living_room_lights
+        - light.tina_lamp
+        - light.tina_desk_strip
+        - light.stairwell_led_strip
+        - light.basement_studio_lights
+      data:
+        color_name: red
+        brightness_pct: 100
+    else:
+    - service: light.turn_on
+      target:
+        entity_id:
+        - light.living_room_lights
+        - light.tina_lamp
+        - light.tina_desk_strip
+        - light.stairwell_led_strip
+      data:
+        color_name: red
+        brightness_pct: 100
+  - service: script.status_annc
+    data:
+      who: common
+      call_interruption: 1
+      call_lockdown_issue: 1
+  - wait_template: '{{ is_state(''binary_sensor.security_faults'',''off'') or is_state(''input_boolean.lockdown_issue'',''off'')
+      }}'
+    timeout:
+      minutes: 10
+  - service: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.lockdown_issue
+    data: {}
+  - delay:
+      seconds: 3
+  - if:
+    - condition: state
+      entity_id: binary_sensor.security_faults
+      state: 'off'
+    then:
+    - service: script.text_notify
+      data:
+        type: alert
+        who: all
+        message: clear_notification
+        tag: lockdown-issue
+    - service: persistent_notification.dismiss
+      data:
+        notification_id: lockdown_issue
+    - if:
+      - condition: state
+        entity_id: binary_sensor.parents_home
+        state: 'off'
+      then:
+      - service: alarm_control_panel.alarm_arm_away
+        target:
+          entity_id: alarm_control_panel.nerdhome_alarm_panel
+        data: {}
+      else:
+      - service: alarm_control_panel.alarm_arm_home
+        target:
+          entity_id: alarm_control_panel.nerdhome_alarm_panel
+        data: {}
+    else:
+    - service: script.speech_engine
+      data:
+        who: common
+        message: I am unable to resolve the security issue, so I am giving up. Please
+          report the issue to Tony if applicable.
+  - service: scene.turn_on
+    target:
+      entity_id: scene.light_state_before_lockdown_issue
+    data: {}
+  - delay:
+      seconds: 3
+  - service: switch.turn_on
+    target:
+      entity_id:
+      - switch.adaptive_lighting_living_room
+      - switch.adaptive_lighting_tina_lamp
+      - switch.adaptive_lighting_basement_studio
+    data: {}
+  mode: single
+- id: '1696285738109'
+  alias: Alexa Guard Handling
+  description: Sync state of Alexa guard with state of main alarm system
+  trigger:
+  - platform: state
+    entity_id: alarm_control_panel.stratton_ave_alarm
+    to: armed_away
+    id: away
+  - platform: state
+    entity_id: alarm_control_panel.stratton_ave_alarm
+    to: disarmed
+    id: disarmed
+  condition:
+  - condition: state
+    entity_id: input_boolean.lockdown_issue
+    state: 'off'
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: away
+      sequence:
+      - service: alarm_control_panel.alarm_arm_away
+        target:
+          entity_id: alarm_control_panel.alexa_guard_9ee3b
+        data: {}
+    - conditions:
+      - condition: trigger
+        id: disarmed
+      sequence:
+      - service: alarm_control_panel.alarm_disarm
+        target:
+          entity_id: alarm_control_panel.alexa_guard_9ee3b
+        data: {}
+  mode: restart
