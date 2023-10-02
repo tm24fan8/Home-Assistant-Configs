@@ -1209,27 +1209,6 @@ input_boolean:
   #     - service: input_boolean.turn_off
   #       entity_id: input_boolean.freeze_warning
 
-automation:
-  - id: bae55746-c571-4a5d-88e0-8c83aea8110b
-    alias: Fix High Temperature
-    description: Gotta make up for one of a few shortcomings in Pirateweather
-    mode: single
-    trigger:
-    - platform: time_pattern
-      minutes: "/5"
-    condition:
-    - condition: template
-      value_template: >
-        {% from 'time.jinja' import ct %}
-        {% set ct = ct() | int %}
-        {{ ct <= 63900 }}
-    action:
-    - service: input_number.set_value
-      target:
-        entity_id: input_number.today_corrected_high_temp
-      data:
-        value: "{{ states('sensor.todays_high_temp') | int }}"
-
 script:
 
   # refresh_weather_alert_sensors:

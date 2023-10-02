@@ -2182,3 +2182,22 @@
           entity_id: input_boolean.audible_notifications
         data: {}
   mode: restart
+- id: '1696288503650'
+  alias: Fix High Temperature
+  description: Gotta make up for one of a few shortcomings in Pirateweather
+  trigger:
+  - platform: time_pattern
+    minutes: /5
+  condition:
+  - condition: template
+    value_template: '{% from ''time.jinja'' import ct %} {% set ct = ct() | int %}
+      {{ ct <= 63900 }}
+
+      '
+  action:
+  - service: input_number.set_value
+    target:
+      entity_id: input_number.today_corrected_high_temp
+    data:
+      value: '{{ states(''sensor.todays_high_temp'') | int }}'
+  mode: single
