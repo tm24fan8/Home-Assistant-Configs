@@ -828,3 +828,953 @@ basement_shutdown:
     alias: Cancel the door timer since the lights are already off
   mode: restart
   icon: mdi:power
+'1696286918470':
+  alias: Stairwell LED Strip
+  sequence:
+  - variables:
+      brt1: 50
+      brt2: 100
+      brt3: 150
+      brtmax: 255
+      colortemp: "{% if is_state('input_boolean.goodnight','off') and\n      is_state('input_boolean.give_me_darkness','off')
+        and\n      is_state('binary_sensor.early_night_mode','off')\n%}\n  4000\n{%
+        else %}\n  2000\n{% endif %}\n"
+  - if:
+    - condition: template
+      value_template: '{{ brightness == ''reset'' }}'
+    then:
+    - service: light.turn_on
+      target:
+        entity_id: light.stairwell_led_strip
+      data:
+        brightness: "{% if is_state('input_boolean.goodnight','on') %}\n  {{ brt1
+          }}\n{% elif is_state('input_boolean.give_me_darkness','on') %}\n  {{ brt2
+          }}\n{% elif is_state('binary_sensor.early_night_mode','on') %}\n  {{ brt3
+          }}\n{% else %}\n  {{ brtmax }}\n{% endif %}\n"
+        color_temp_kelvin: '{{ colortemp }}'
+    else:
+    - service: light.turn_on
+      target:
+        entity_id: light.stairwell_led_strip
+      data:
+        brightness: '{{ brightness|default(brt3) }}'
+        color_temp_kelvin: '{{ color_temp_kelvin|default(colortemp) }}'
+  description: This script handles a few settings for the stairwell LED strip, for
+    convenience
+  mode: restart
+adaptive_on_first_floor_2:
+  alias: Adaptive on First Floor
+  sequence:
+  - if:
+    - condition: state
+      entity_id: light.living_room_lights
+      state: 'on'
+    then:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.living_room_scenes
+      data:
+        option: Adaptive
+      alias: Set adaptive
+    else:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.adaptive_lighting_living_room
+      data: {}
+    - service: switch.turn_off
+      target:
+        entity_id: switch.adaptive_lighting_sleep_mode_living_room
+      data: {}
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.living_room_selected_scene
+      data:
+        value: Adaptive
+    alias: If living room lights are on
+  - if:
+    - condition: state
+      entity_id: light.dining_room_lamp
+      state: 'on'
+    then:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.dining_room_lamp_scenes
+      data:
+        option: Adaptive
+      alias: Set adaptive
+    else:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.adaptive_lighting_dining_room_lamp
+      data: {}
+    - service: switch.turn_off
+      target:
+        entity_id: switch.adaptive_lighting_sleep_mode_dining_room_lamp
+      data: {}
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.dining_room_lamp_selected_scene
+      data:
+        value: Adaptive
+    alias: If dining room lamp is on
+  - if:
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: light.tina_lamp
+        state: 'on'
+      - condition: state
+        entity_id: light.tina_desk_strip
+        state: 'on'
+    then:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.tina_desk_scenes
+      data:
+        option: Reset
+      alias: Set Adaptive
+    else:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.adaptive_lighting_tina_lamp
+      data: {}
+    - service: switch.turn_off
+      target:
+        entity_id: switch.adaptive_lighting_sleep_mode_tina_lamp
+      data: {}
+    alias: If Tina's desk lights are on
+  - if:
+    - condition: state
+      entity_id: light.downstairs_bathroom_lights
+      state: 'on'
+    then:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.downstairs_bathroom_scenes
+      data:
+        option: Adaptive
+      alias: Set adaptive
+    else:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.adaptive_lighting_downstairs_bathroom
+      data: {}
+    - service: switch.turn_off
+      target:
+        entity_id: switch.adaptive_lighting_sleep_mode_downstairs_bathroom
+      data: {}
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.downstairs_bathroom_selected_scene
+      data:
+        value: Adaptive
+    alias: If downstairs bathroom lights are on
+  - if:
+    - condition: state
+      entity_id: light.mud_room_overhead
+      state: 'on'
+    then:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.mud_room_scenes
+      data:
+        option: Adaptive
+      alias: Set adaptive
+    else:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.adaptive_lighting_mud_room
+      data: {}
+    - service: switch.turn_off
+      target:
+        entity_id: switch.adaptive_lighting_sleep_mode_mud_room
+      data: {}
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.mud_room_selected_scene
+      data:
+        value: Adaptive
+    alias: If mud room light is on
+  mode: single
+'1696287200179':
+  alias: Adaptive on Second Floor
+  sequence:
+  - if:
+    - condition: state
+      entity_id: binary_sensor.early_night_mode
+      state: 'on'
+    then:
+    - service: script.stairwell_led_strip
+      data:
+        brightness: reset
+    alias: If early night mode is on
+  - if:
+    - condition: state
+      entity_id: light.hallway_overhead
+      state: 'on'
+    then:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.upstairs_hallway_scenes
+      data:
+        option: Adaptive
+      alias: Set adaptive
+    else:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.adaptive_lighting_upstairs_hallway
+      data: {}
+    - service: switch.turn_off
+      target:
+        entity_id: switch.adaptive_lighting_sleep_mode_upstairs_hallway
+      data: {}
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.upstairs_hallway_selected_scene
+      data:
+        value: Adaptive
+    alias: If hallway light is on
+  - if:
+    - condition: state
+      entity_id: light.master_bedroom_lights
+      state: 'on'
+    then:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.master_bedroom_scenes
+      data:
+        option: Adaptive
+      alias: Set adaptive
+    else:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.adaptive_lighting_master_bedroom
+      data: {}
+    - service: switch.turn_off
+      target:
+        entity_id: switch.adaptive_lighting_sleep_mode_master_bedroom
+      data: {}
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.master_bedroom_selected_scene
+      data:
+        value: Adaptive
+    alias: If master bedroom lights are on
+  - if:
+    - condition: state
+      entity_id: light.kallen_bedroom_lights
+      state: 'on'
+    then:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.kallen_bedroom_scenes
+      data:
+        option: Adaptive
+      alias: Set adaptive
+    else:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.adaptive_lighting_kallen_bedroom
+      data: {}
+    - service: switch.turn_off
+      target:
+        entity_id: switch.adaptive_lighting_sleep_mode_kallen_bedroom
+      data: {}
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.kallen_bedroom_selected_scene
+      data:
+        value: Adaptive
+    alias: If Kallen's bedroom lights are on
+  - if:
+    - condition: state
+      entity_id: light.emma_bedroom_light
+      state: 'on'
+    then:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.emma_bedroom_scenes
+      data:
+        option: Adaptive
+      alias: Set adaptive
+    else:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.adaptive_lighting_emma_bedroom
+      data: {}
+    - service: switch.turn_off
+      target:
+        entity_id: switch.adaptive_lighting_sleep_mode_emma_bedroom
+      data: {}
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.emma_bedroom_selected_scene
+      data:
+        value: Adaptive
+    alias: If Emma's bedroom light is on
+  - if:
+    - condition: state
+      entity_id: input_boolean.shower_mode
+      state: 'off'
+    then:
+    - if:
+      - condition: state
+        entity_id: binary_sensor.upstairs_bathroom_occupied
+        state: 'on'
+      then:
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.upstairs_bathroom_scenes
+        data:
+          option: Adaptive
+      else:
+      - if:
+        - condition: state
+          entity_id: binary_sensor.early_night_mode
+          state: 'on'
+        then:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.upstairs_bathroom_scenes
+          data:
+            option: Nightlight
+        else:
+        - service: light.turn_off
+          target:
+            entity_id: light.upstairs_bathroom_lights
+          data: {}
+        - service: switch.turn_on
+          target:
+            entity_id: switch.adaptive_lighting_upstairs_bathroom
+          data: {}
+        - service: switch.turn_off
+          target:
+            entity_id: switch.adaptive_lighting_sleep_mode_upstairs_bathroom
+          data: {}
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.upstairs_bathroom_selected_scene
+          data:
+            value: Adaptive
+    alias: Upstairs bathroom handling
+'1696287373796':
+  alias: Bright on First Floor
+  sequence:
+  - service: light.turn_on
+    target:
+      entity_id:
+      - light.living_room_lights
+      - light.downstairs_bathroom_lights
+      - light.dining_room_lamp
+      - light.mud_room_overhead
+    data: {}
+  - service: input_boolean.turn_on
+    target:
+      entity_id: input_boolean.tina_desk_lights
+    data: {}
+  - delay:
+      seconds: 1
+  - service: input_select.select_option
+    target:
+      entity_id:
+      - input_select.living_room_scenes
+      - input_select.downstairs_bathroom_scenes
+      - input_select.mud_room_scenes
+      - input_select.dining_room_lamp_scenes
+    data:
+      option: Bright
+  - service: light.turn_on
+    target:
+      entity_id:
+      - light.tina_desk_strip
+      - light.tina_lamp
+    data:
+      color_temp_kelvin: 2700
+  - service: light.turn_on
+    target:
+      entity_id:
+      - light.tina_lamp
+      - light.tina_desk_strip
+    data:
+      brightness: 255
+'1696287429248':
+  alias: Bright on Second Floor
+  sequence:
+  - service: script.stairwell_led_strip
+    data:
+      brightness: 255
+  - service: light.turn_on
+    target:
+      entity_id:
+      - light.hallway_overhead
+      - light.master_bedroom_lights
+    data: {}
+  - if:
+    - condition: state
+      entity_id: input_boolean.shower_mode
+      state: 'off'
+    then:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.upstairs_bathroom_scenes
+      data:
+        option: Bright
+  - if:
+    - condition: state
+      entity_id: input_boolean.kallen_sleeping
+      state: 'off'
+    then:
+    - service: light.turn_on
+      target:
+        entity_id: light.kallen_bedroom_lights
+      data: {}
+  - if:
+    - condition: state
+      entity_id: input_boolean.emma_sleeping
+      state: 'off'
+    then:
+    - service: light.turn_on
+      target:
+        entity_id: light.emma_bedroom_light
+      data: {}
+  - delay:
+      seconds: 1
+  - service: input_select.select_option
+    target:
+      entity_id:
+      - input_select.upstairs_hallway_scenes
+      - input_select.master_bedroom_scenes
+    data:
+      option: Bright
+  - if:
+    - condition: state
+      entity_id: input_boolean.shower_mode
+      state: 'off'
+    then:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.upstairs_bathroom_scenes
+      data:
+        option: Bright
+  - if:
+    - condition: template
+      value_template: '{{ is_state(''input_boolean.kallen_sleeping'',''off'') or (is_state(''input_boolean.kallen_sleeping'',''on'')
+        and is_state(''light.kallen_bedroom_lights'',''on'')) }}'
+    then:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.kallen_bedroom_scenes
+      data:
+        option: Bright
+  - if:
+    - condition: template
+      value_template: '{{ is_state(''input_boolean.emma_sleeping'',''off'') or (is_state(''input_boolean.emma_sleeping'',''on'')
+        and is_state(''light.emma_bedroom_light'',''on'')) }}'
+    then:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.emma_bedroom_scenes
+      data:
+        option: Bright
+'1696287564414':
+  alias: Evening on First Floor
+  sequence:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.early_night_mode
+        state: 'off'
+      sequence:
+      - stop: This scene does nothing during daytime
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.give_me_darkness
+        state: 'on'
+      sequence:
+      - if:
+        - condition: state
+          entity_id: person.christina_stork
+          state: home
+        then:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.tina_desk_scenes
+          data:
+            option: Night Mode
+      - choose:
+        - conditions:
+          - condition: state
+            entity_id: input_boolean.guest_mode
+            state: 'off'
+          sequence:
+          - if:
+            - condition: template
+              value_template: '{{ give_me_darkness == 1 }}'
+            then:
+            - if:
+              - condition: state
+                entity_id: timer.downstairs_bathroom_lights_timer
+                state: idle
+              then:
+              - service: light.turn_off
+                target:
+                  entity_id:
+                  - light.downstairs_bathroom_lights
+                data: {}
+            - service: input_select.select_option
+              target:
+                entity_id:
+                - input_select.mud_room_scenes
+              data:
+                option: Nightlight
+            else:
+            - service: light.turn_off
+              target:
+                entity_id:
+                - light.living_room_lights
+              data: {}
+            - if:
+              - condition: state
+                entity_id: timer.downstairs_bathroom_lights_timer
+                state: idle
+              then:
+              - service: light.turn_off
+                target:
+                  entity_id:
+                  - light.downstairs_bathroom_lights
+                data: {}
+            - service: input_select.select_option
+              target:
+                entity_id:
+                - input_select.mud_room_scenes
+                - input_select.dining_room_lamp_scenes
+              data:
+                option: Nightlight
+        - conditions:
+          - condition: state
+            entity_id: input_boolean.guest_mode
+            state: 'on'
+          sequence:
+          - if:
+            - condition: state
+              entity_id: timer.downstairs_bathroom_lights_timer
+              state: idle
+            then:
+            - service: light.turn_off
+              target:
+                entity_id:
+                - light.downstairs_bathroom_lights
+              data: {}
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.give_me_darkness
+        state: 'off'
+      sequence:
+      - if:
+        - condition: template
+          value_template: '{{ sunset_lights == 1 }}'
+        then:
+        - service: light.turn_on
+          target:
+            entity_id:
+            - light.living_room_lights
+            - light.mud_room_overhead
+          data: {}
+        - service: input_select.select_option
+          target:
+            entity_id:
+            - input_select.living_room_scenes
+            - input_select.mud_room_scenes
+          data:
+            option: Adaptive
+        else:
+        - service: light.turn_off
+          target:
+            entity_id:
+            - light.dining_room_lamp
+          data: {}
+        - if:
+          - condition: state
+            entity_id: timer.downstairs_bathroom_lights_timer
+            state: idle
+          then:
+          - service: light.turn_off
+            target:
+              entity_id: light.downstairs_bathroom_lights
+            data: {}
+        - service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.tina_desk_lights
+          data: {}
+        - service: light.turn_on
+          target:
+            entity_id:
+            - light.living_room_lights
+            - light.mud_room_overhead
+          data: {}
+        - service: input_select.select_option
+          target:
+            entity_id:
+            - input_select.living_room_scenes
+            - input_select.mud_room_scenes
+          data:
+            option: Adaptive
+'1696287633054':
+  alias: Evening on Second Floor
+  sequence:
+  - condition: state
+    entity_id: binary_sensor.early_night_mode
+    state: 'on'
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.give_me_darkness
+        state: 'on'
+      sequence:
+      - service: script.stairwell_led_strip
+        data:
+          color_temp_kelvin: 2000
+          brightness: 100
+      - service: input_select.select_option
+        target:
+          entity_id:
+          - input_select.upstairs_hallway_scenes
+        data:
+          option: Nightlight
+      - if:
+        - condition: state
+          entity_id: input_boolean.shower_mode
+          state: 'off'
+        then:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.upstairs_bathroom_scenes
+          data:
+            option: "{% if is_state('binary_sensor.upstairs_bathroom_occupied','on')
+              %}\n  Adaptive\n{% else %}\n  Nightlight\n{% endif %}\n"
+      - service: light.turn_off
+        target:
+          area_id:
+          - kallen_bedroom
+          - master_bedroom
+          - emma_bedroom
+        data: {}
+      - delay:
+          seconds: 1
+      - service: switch.turn_on
+        target:
+          entity_id:
+          - switch.adaptive_lighting_kallen_bedroom
+          - switch.adaptive_lighting_master_bedroom
+          - switch.adaptive_lighting_emma_bedroom
+        data: {}
+      - service: switch.turn_off
+        target:
+          entity_id:
+          - switch.adaptive_lighting_sleep_mode_kallen_bedroom
+          - switch.adaptive_lighting_sleep_mode_master_bedroom
+          - switch.adaptive_lighting_sleep_mode_emma_bedroom
+        data: {}
+      - service: input_text.set_value
+        target:
+          entity_id:
+          - input_text.kallen_bedroom_selected_scene
+          - input_text.master_bedroom_selected_scene
+          - input_text.emma_bedroom_selected_scene
+        data:
+          value: Adaptive
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.give_me_darkness
+        state: 'off'
+      sequence:
+      - service: script.stairwell_led_strip
+        data:
+          color_temp_kelvin: 2000
+          brightness: 150
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.upstairs_hallway_scenes
+        data:
+          option: Nightlight
+      - if:
+        - condition: state
+          entity_id: input_boolean.shower_mode
+          state: 'off'
+        then:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.upstairs_bathroom_scenes
+          data:
+            option: "{% if is_state('binary_sensor.upstairs_bathroom_occupied','on')
+              %}\n  Adaptive\n{% else %}\n  Nightlight\n{% endif %}\n"
+      - if:
+        - condition: template
+          value_template: '{{ sunset_lights == 1 }}'
+        then:
+        - stop: Sunset lights don't mess with bedroom light states before bedtime
+        else:
+        - service: light.turn_off
+          target:
+            area_id:
+            - master_bedroom
+            - kallen_bedroom
+            - emma_bedroom
+          data: {}
+        - delay:
+            seconds: 1
+        - service: switch.turn_on
+          target:
+            entity_id:
+            - switch.adaptive_lighting_kallen_bedroom
+            - switch.adaptive_lighting_master_bedroom
+            - switch.adaptive_lighting_emma_bedroom
+          data: {}
+        - service: switch.turn_off
+          target:
+            entity_id:
+            - switch.adaptive_lighting_sleep_mode_kallen_bedroom
+            - switch.adaptive_lighting_sleep_mode_master_bedroom
+            - switch.adaptive_lighting_sleep_mode_emma_bedroom
+          data: {}
+        - service: input_text.set_value
+          target:
+            entity_id:
+            - input_text.kallen_bedroom_selected_scene
+            - input_text.master_bedroom_selected_scene
+            - input_text.emma_bedroom_selected_scene
+          data:
+            value: Adaptive
+'1696287683022':
+  alias: Goodnight in Basement
+  sequence:
+  - service: light.turn_off
+    target:
+      area_id:
+      - basement_studio
+      - furnace_room
+    data: {}
+  - service: fan.turn_off
+    target:
+      entity_id: fan.basement_fan
+    data: {}
+'1696287713844':
+  alias: Goodnight on First Floor
+  sequence:
+  - if:
+    - condition: state
+      entity_id: input_boolean.guest_mode
+      state: 'on'
+    then:
+    - service: light.turn_off
+      target:
+        area_id:
+        - dining_room
+        - downstairs_bathroom
+        - living_room
+        - tina_desk
+      data: {}
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.mud_room_scenes
+      data:
+        option: Nightlight
+    else:
+    - service: light.turn_off
+      target:
+        area_id:
+        - dining_room
+        - downstairs_bathroom
+        - living_room
+        - mud_room
+        - tina_desk
+      data: {}
+'1696287748896':
+  alias: Goodnight on Second Floor
+  sequence:
+  - service: light.turn_off
+    target:
+      area_id:
+      - emma_bedroom
+      - kallen_bedroom
+      - master_bedroom
+      - master_bedroom_closet
+    data: {}
+  - if:
+    - condition: state
+      entity_id: input_boolean.guest_mode
+      state: 'on'
+    then:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.upstairs_hallway_scenes
+      data:
+        option: Nightlight
+    else:
+    - service: light.turn_off
+      target:
+        entity_id: light.hallway_overhead
+      data: {}
+  - if:
+    - condition: state
+      entity_id: input_boolean.kallen_overnight
+      state: 'on'
+    then:
+    - service: light.turn_off
+      target:
+        area_id: upstairs_bathroom
+      data: {}
+    else:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.upstairs_bathroom_scenes
+      data:
+        option: Single Nightlight
+  - service: script.stairwell_led_strip
+    data:
+      color_temp_kelvin: 2000
+      brightness: 50
+'1696287826909':
+  alias: Morning Scene
+  sequence:
+  - service: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.master_bedroom_sleeping
+    data: {}
+  - if:
+    - condition: template
+      value_template: '{% set weather = states(''weather.iron_nerd_weather_station'')
+        %} {{ weather in [''cloudy'',''partlycloudy'',''rainy'',''snowy'',''hail'',''lightning'',''lightning-rainy'',''pouring'',''snowy-rainy'']
+        }}
+
+        '
+    then:
+    - if:
+      - condition: template
+        value_template: '{{ is_state(''input_boolean.kallen_sleeping'',''off'') and
+          is_state(''person.kallen_stork'',''home'') }}'
+      then:
+      - service: light.turn_on
+        target:
+          entity_id: light.kallen_bedroom_lights
+        data: {}
+    - if:
+      - condition: state
+        entity_id: input_boolean.emma_sleeping
+        state: 'off'
+      then:
+      - service: light.turn_on
+        target:
+          entity_id: light.emma_bedroom_light
+        data: {}
+'1696287949240':
+  alias: Day Mode in Tina Desk
+  sequence:
+  - parallel:
+    - service: light.turn_on
+      target:
+        entity_id: light.tina_lamp_top
+      data: {}
+    - service: light.turn_off
+      target:
+        entity_id: light.tina_lamp_side
+      data: {}
+    - service: light.turn_on
+      target:
+        entity_id: light.tina_desk_strip
+      data:
+        rgb_color:
+        - 0
+        - 255
+        - 255
+        brightness: 89
+  - wait_template: '{{ is_state(''light.tina_lamp_side'',''off'') }}'
+    timeout:
+      seconds: 15
+    continue_on_timeout: true
+  - service: switch.turn_on
+    target:
+      entity_id: switch.adaptive_lighting_tina_lamp
+    data: {}
+  mode: restart
+  icon: mdi:palette
+'1696288097687':
+  alias: Evening Mode in Tina Desk
+  sequence:
+  - parallel:
+    - service: light.turn_on
+      target:
+        entity_id: light.tina_lamp
+      data: {}
+    - service: light.turn_on
+      target:
+        entity_id: light.tina_desk_strip
+      data:
+        rgb_color:
+        - 127
+        - 0
+        - 255
+        brightness: 128
+  - service: input_select.select_option
+    target:
+      entity_id: input_select.tina_lamp_scenes
+    data:
+      option: Adaptive
+  mode: restart
+  icon: mdi:palette
+'1696288151029':
+  alias: Night Mode in Tina Desk
+  sequence:
+  - service: switch.turn_off
+    target:
+      entity_id: switch.adaptive_lighting_tina_lamp
+    data: {}
+  - parallel:
+    - service: light.turn_on
+      target:
+        entity_id: light.tina_lamp
+      data:
+        rgb_color:
+        - 127
+        - 0
+        - 255
+        brightness: 128
+    - service: light.turn_on
+      target:
+        entity_id: light.tina_desk_strip
+      data:
+        rgb_color:
+        - 127
+        - 0
+        - 255
+        brightness: 128
+  mode: restart
+  icon: mdi:palette
+'1696288192634':
+  alias: Bright Mode in Tina Desk
+  sequence:
+  - service: switch.turn_off
+    target:
+      entity_id: switch.adaptive_lighting_tina_lamp
+    data: {}
+  - parallel:
+    - service: light.turn_on
+      target:
+        entity_id: light.tina_lamp
+      data:
+        rgb_color:
+        - 255
+        - 210
+        - 175
+        brightness: 255
+    - service: light.turn_on
+      target:
+        entity_id: light.tina_desk_strip
+      data:
+        rgb_color:
+        - 255
+        - 210
+        - 175
+        brightness: 255
+  mode: restart
+  icon: mdi:palette
