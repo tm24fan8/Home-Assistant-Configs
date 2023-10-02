@@ -1204,3 +1204,20 @@
           - automation.family_has_arrived
           - automation.family_has_left
   mode: restart
+- id: '1696284855902'
+  alias: Hot Day Activate
+  description: If excessive heat is forecast after the scheduler has already run,
+    turn on the hot day boolean
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.heat_warning
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.hot_day
+  mode: restart
