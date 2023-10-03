@@ -2337,3 +2337,123 @@
           message: The timer for the kitchen is finished
   mode: queued
   max: 10
+- id: '1696356974829'
+  alias: Scheduled Reset
+  description: Reset all context entities for the next day at the appropriate times
+  trigger:
+  - platform: time
+    at: 00:00:00
+    id: midnight
+  - platform: time
+    at: input_datetime.audible_notification_off
+    id: audible-off
+  - platform: time
+    at: input_datetime.kallen_school_day_end
+    id: school-end
+  - platform: state
+    entity_id: sensor.twitch_ironnerd24
+    from: streaming
+    to: offline
+    id: stream-offline
+  - platform: time
+    at: 04:00:00
+    id: 4am
+  - platform: time
+    at: '16:00:00'
+    id: 4pm
+  - platform: time
+    at: 06:00:00
+    id: 6am
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: midnight
+      sequence:
+      - service: script.scheduling_reset
+        data: {}
+      - service: script.kallen_school_reset_late
+        data: {}
+      - service: automation.turn_on
+        target:
+          entity_id:
+          - automation.scheduled_alarm_rearm
+          - automation.scheduled_alarm_disarm
+        data: {}
+      - service: input_boolean.turn_off
+        target:
+          entity_id:
+          - input_boolean.skip_disarm
+          - input_boolean.skip_rearm
+        data: {}
+      - service: input_number.set_value
+        data:
+          value: '{{ states(''input_number.tomorrow_corrected_high_temp'') | int }}'
+        target:
+          entity_id: input_number.today_corrected_high_temp
+    - conditions:
+      - condition: trigger
+        id: audible-off
+      sequence:
+      - service: script.reset_annc_switches
+        data: {}
+      - service: input_number.set_value
+        target:
+          entity_id:
+          - input_number.back_door_opened_today
+          - input_number.front_door_opened_today
+          - input_number.basement_studio_door_opened_today
+          - input_number.downstairs_bathroom_door_opened_today
+        data:
+          value: 0
+    - conditions:
+      - condition: trigger
+        id: school-end
+      sequence:
+      - service: script.kallen_school_reset
+        data: {}
+    - conditions:
+      - condition: trigger
+        id: stream-offline
+      sequence:
+      - service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.tony_streaming_today
+        data: {}
+    - conditions:
+      - condition: trigger
+        id: 4am
+      sequence:
+      - service: input_boolean.turn_off
+        target:
+          entity_id:
+          - input_boolean.kallen_morning_meds_taken
+          - input_boolean.kallen_night_meds_taken
+          - input_boolean.tony_morning_meds_taken
+          - input_boolean.tina_morning_meds_taken
+        data: {}
+    - conditions:
+      - condition: trigger
+        id: 6am
+      sequence:
+      - if:
+        - condition: state
+          entity_id: sensor.twitch_ironnerd24
+          state: offline
+        then:
+        - service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.tony_streaming_today
+          data: {}
+    - conditions:
+      - condition: trigger
+        id: 4pm
+      sequence:
+      - service: input_boolean.turn_off
+        target:
+          entity_id:
+          - input_boolean.tony_night_meds_taken
+          - input_boolean.tina_night_meds_taken
+        data: {}
+  mode: restart
