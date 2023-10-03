@@ -836,6 +836,13 @@ template:
       state: >-
         {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
         {{ forecast.temperature }}
+    - name: "Tomorrow's High Temp"
+      unique_id: b9dfc26a-d557-46b4-a6eb-a215c7bbe494
+      unit_of_measurement: '°F'
+      device_class: temperature
+      state: >-
+        {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[2] %}
+        {{ forecast.temperature }}
     - name: "Tonight's Low Temp"
       unique_id: 8ddc55b6-4728-4897-a32f-90be970f744b
       unit_of_measurement: '°F'
@@ -1139,6 +1146,14 @@ input_number:
     name: Today Corrected Low Temp
     min: -100
     max: 150
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
+    mode: box
+  tomorrow_corrected_high_temp:
+    name: Tomorrow Corrected High Temp
+    min: -150
+    max: 100
     step: 1
     unit_of_measurement: °F
     icon: mdi:thermometer

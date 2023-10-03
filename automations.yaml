@@ -2189,17 +2189,25 @@
   - platform: time_pattern
     minutes: /5
   condition:
-  - condition: template
-    value_template: '{% from ''time.jinja'' import ct %} {% set ct = ct() | int %}
-      {{ ct <= 63900 }}
-
-      '
+  - condition: time
+    before: '18:00:00'
   action:
   - service: input_number.set_value
     target:
       entity_id: input_number.today_corrected_high_temp
     data:
       value: '{{ states(''sensor.todays_high_temp'') | int }}'
+    alias: Update corrected high temp for today
+  - if:
+    - condition: time
+      after: 06:10:00
+    then:
+    - service: input_number.set_value
+      data:
+        value: '{{ states(''sensor.tomorrow_s_high_temp'') | int }}'
+      target:
+        entity_id: input_number.tomorrow_corrected_high_temp
+    alias: If after 6:10am, also update high temp for tomorrow
   mode: single
 - id: '1696288846954'
   alias: Tony Meds Handler
