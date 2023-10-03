@@ -828,7 +828,7 @@ basement_shutdown:
     alias: Cancel the door timer since the lights are already off
   mode: restart
   icon: mdi:power
-'1696286918470':
+stairwell_led_strip:
   alias: Stairwell LED Strip
   sequence:
   - variables:
@@ -862,7 +862,7 @@ basement_shutdown:
   description: This script handles a few settings for the stairwell LED strip, for
     convenience
   mode: restart
-adaptive_on_first_floor_2:
+adaptive_on_first_floor:
   alias: Adaptive on First Floor
   sequence:
   - if:
@@ -996,7 +996,7 @@ adaptive_on_first_floor_2:
         value: Adaptive
     alias: If mud room light is on
   mode: single
-'1696287200179':
+adaptive_on_second_floor:
   alias: Adaptive on Second Floor
   sequence:
   - if:
@@ -1157,7 +1157,7 @@ adaptive_on_first_floor_2:
           data:
             value: Adaptive
     alias: Upstairs bathroom handling
-'1696287373796':
+bright_on_first_floor:
   alias: Bright on First Floor
   sequence:
   - service: light.turn_on
@@ -1197,7 +1197,7 @@ adaptive_on_first_floor_2:
       - light.tina_desk_strip
     data:
       brightness: 255
-'1696287429248':
+bright_on_second_floor:
   alias: Bright on Second Floor
   sequence:
   - service: script.stairwell_led_strip
@@ -1276,7 +1276,7 @@ adaptive_on_first_floor_2:
         entity_id: input_select.emma_bedroom_scenes
       data:
         option: Bright
-'1696287564414':
+evening_on_first_floor:
   alias: Evening on First Floor
   sequence:
   - choose:
@@ -1419,7 +1419,7 @@ adaptive_on_first_floor_2:
             - input_select.mud_room_scenes
           data:
             option: Adaptive
-'1696287633054':
+evening_on_second_floor:
   alias: Evening on Second Floor
   sequence:
   - condition: state
@@ -1545,7 +1545,7 @@ adaptive_on_first_floor_2:
             - input_text.emma_bedroom_selected_scene
           data:
             value: Adaptive
-'1696287683022':
+goodnight_in_basement:
   alias: Goodnight in Basement
   sequence:
   - service: light.turn_off
@@ -1558,7 +1558,7 @@ adaptive_on_first_floor_2:
     target:
       entity_id: fan.basement_fan
     data: {}
-'1696287713844':
+goodnight_on_first_floor:
   alias: Goodnight on First Floor
   sequence:
   - if:
@@ -1589,7 +1589,7 @@ adaptive_on_first_floor_2:
         - mud_room
         - tina_desk
       data: {}
-'1696287748896':
+goodnight_on_second_floor:
   alias: Goodnight on Second Floor
   sequence:
   - service: light.turn_off
@@ -1634,7 +1634,7 @@ adaptive_on_first_floor_2:
     data:
       color_temp_kelvin: 2000
       brightness: 50
-'1696287826909':
+morning_scene:
   alias: Morning Scene
   sequence:
   - service: input_boolean.turn_off
@@ -1667,7 +1667,7 @@ adaptive_on_first_floor_2:
         target:
           entity_id: light.emma_bedroom_light
         data: {}
-'1696287949240':
+day_mode_in_tina_desk:
   alias: Day Mode in Tina Desk
   sequence:
   - parallel:
@@ -1698,7 +1698,7 @@ adaptive_on_first_floor_2:
     data: {}
   mode: restart
   icon: mdi:palette
-'1696288097687':
+evening_mode_in_tina_desk:
   alias: Evening Mode in Tina Desk
   sequence:
   - parallel:
@@ -1722,7 +1722,7 @@ adaptive_on_first_floor_2:
       option: Adaptive
   mode: restart
   icon: mdi:palette
-'1696288151029':
+night_mode_in_tina_desk:
   alias: Night Mode in Tina Desk
   sequence:
   - service: switch.turn_off
@@ -1750,7 +1750,7 @@ adaptive_on_first_floor_2:
         brightness: 128
   mode: restart
   icon: mdi:palette
-'1696288192634':
+bright_mode_in_tina_desk:
   alias: Bright Mode in Tina Desk
   sequence:
   - service: switch.turn_off
