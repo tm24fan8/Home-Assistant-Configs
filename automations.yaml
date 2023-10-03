@@ -2201,6 +2201,112 @@
     data:
       value: '{{ states(''sensor.todays_high_temp'') | int }}'
   mode: single
+- id: '1696288846954'
+  alias: Tony Meds Handler
+  description: Make sure Tony has taken his meds in the morning and at night
+  trigger:
+  - platform: time
+    at: input_datetime.tony_morning_meds_notify
+    id: wakeup
+  - platform: time
+    at: input_datetime.tony_night_meds_notify
+    id: sleep
+  - platform: state
+    entity_id: input_boolean.tony_morning_meds_taken
+    to: 'on'
+    id: boolean-morning
+  - platform: state
+    entity_id: input_boolean.tony_night_meds_taken
+    to: 'on'
+    id: boolean-night
+  - platform: state
+    entity_id: input_boolean.master_bedroom_sleeping
+    to: 'off'
+    id: sleep-off
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: and
+        conditions:
+        - condition: trigger
+          id: wakeup
+        - condition: state
+          entity_id: input_boolean.tony_morning_meds_taken
+          state: 'off'
+      sequence:
+      - service: script.turn_on
+        target:
+          entity_id: script.tony_morning_meds
+        data: {}
+    - conditions:
+      - condition: and
+        conditions:
+        - condition: trigger
+          id: sleep
+        - condition: state
+          entity_id: input_boolean.tony_night_meds_taken
+          state: 'off'
+      sequence:
+      - service: script.turn_on
+        target:
+          entity_id: script.tony_night_meds
+        data: {}
+    - conditions:
+      - condition: trigger
+        id: boolean-morning
+      sequence:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.tony_morning_meds_taken
+        data:
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0)
+            }}
+
+            '
+    - conditions:
+      - condition: trigger
+        id: boolean-night
+      sequence:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.tony_night_meds_taken
+        data:
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0)
+            }}
+
+            '
+    - conditions:
+      - condition: trigger
+        id: sleep-off
+      sequence:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.tony_morning_meds_notify
+        data:
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,1)
+            }}
+
+            '
+  mode: parallel
+  max: 4
+- id: '1696288939707'
+  alias: Tony Stream Today
+  description: ''
+  trigger:
+  - platform: time
+    at: 08:00:00
+  condition:
+  - condition: template
+    value_template: '{% from ''time.jinja'' import calendar_event_today %} {{ calendar_event_today(''calendar.tony_s_twitch_schedule'')
+      }}
+
+      '
+  action:
+  - service: script.tony_stream_today
+    data: {}
+  mode: single
+  initial_state: true
 - id: '1696293127764'
   alias: Timer Handling
   description: This automation will handle when house timers (usually set by voice)
