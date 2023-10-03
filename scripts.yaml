@@ -1778,3 +1778,24 @@ bright_mode_in_tina_desk:
         brightness: 255
   mode: restart
   icon: mdi:palette
+timer_modify:
+  alias: Timer Modify
+  description: For adding/subtracting time from a running timer
+  mode: restart
+  sequence:
+  - service: timer.pause
+    target:
+      entity_id: '{{ timer }}'
+  - delay:
+      seconds: 1
+  - variables:
+      modify: '{% set x = state_attr(timer, ''remaining'') ~ ''-0000'' %} {% set y
+        = strptime(x, ''%H:%M:%S%z'') %} {{ (as_timestamp(y) + change) | timestamp_custom(''%H:%M:%S'',
+        false) }}
+
+        '
+  - service: timer.start
+    target:
+      entity_id: '{{ timer }}'
+    data:
+      duration: '{{ modify }}'

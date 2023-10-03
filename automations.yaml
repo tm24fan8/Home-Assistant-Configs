@@ -2201,3 +2201,25 @@
     data:
       value: '{{ states(''sensor.todays_high_temp'') | int }}'
   mode: single
+- id: '1696293127764'
+  alias: Timer Handling
+  description: This automation will handle when house timers (usually set by voice)
+    are finished
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.kitchen_timer
+    id: kitchen-finished
+  condition: []
+  action:
+  - choose:
+    - conditions: '{{ trigger.id == ''kitchen-finished'' }}'
+      sequence:
+      - service: script.speech_engine
+        data:
+          type: normal
+          who: common
+          message: The timer for the kitchen is finished
+  mode: queued
+  max: 10
