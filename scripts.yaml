@@ -2015,3 +2015,114 @@ timer_modify:
       entity_id: '{{ timer }}'
     data:
       duration: '{{ modify }}'
+tony_custom_meds:
+  alias: Tony Custom Meds
+  sequence:
+  - variables:
+      reason: '{{ reason }}'
+      num: '{{ num }}'
+      active: '{{ ''input_boolean.tony_custom_meds_tracker_'' + num }}'
+      taken: '{{ ''input_boolean.tony_custom_meds_taken_'' + num }}'
+      taken_at: '{{ ''input_datetime.tony_custom_meds_taken_'' + num }}'
+      notify_at: '{{ ''input_datetime.tony_custom_meds_notify_'' + num }}'
+      type: '{{ states(''input_select.tony_custom_meds_type_'' + num) }}'
+      name: '{{ states(''input_text.tony_custom_med_name_'' + num) }}'
+      interval: '{{ states(''input_number.tony_custom_meds_interval_'' + num) }}'
+      tag: '{{ ''tony-custom-meds-'' + num }}'
+    alias: Set Variables
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ reason == ''notify'' }}'
+        alias: Notify
+      sequence:
+      - service: script.text_notify
+        data:
+          who: tony
+          type: alert
+          title: '{{ name + '' Tracker'' }}'
+          message: You need to take your {{ name }}
+          tag: '{{ tag }}'
+        alias: Send text notification
+      - wait_for_trigger:
+        - platform: state
+          entity_id:
+          - person.tony_stork
+          id: left
+          alias: Left
+          from: home
+        - platform: template
+          value_template: '{{ is_state(taken,''on'') }}'
+          alias: Manual
+          id: manual
+        timeout: 00:30:00
+        continue_on_timeout: true
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ wait.trigger.id in [''manual'',''left''] }}'
+            alias: Manual or Left
+          sequence:
+          - stop: Automation cancelled
+        - conditions:
+          - condition: template
+            value_template: '{{ wait.trigger == ''none'' or wait.trigger.idx is undefined
+              }}'
+            alias: None or undefined
+          sequence:
+          - service: script.text_notify
+            data:
+              who: tony
+              type: alert
+              message: clear_notification
+              tag: '{{ tag }}'
+            alias: Clear Notification
+          - service: input_datetime.set_datetime
+            target:
+              entity_id: input_datetime.tony_custom_meds_notify_p1
+            data:
+              datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,1)
+                }}
+
+                '
+            alias: Reset notification time
+        alias: Choose depending on the wait trigger
+    - conditions:
+      - condition: template
+        value_template: '{{ reason == ''taken'' }}'
+        alias: Taken
+      sequence:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: '{{ taken_at }}'
+        data:
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0)
+            }}
+
+            '
+        alias: Set time the meds were taken
+      - if:
+        - condition: template
+          value_template: '{{ type == ''Interval'' }}'
+          alias: Is it an interval med?
+        then:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: '{{ notify_at }}'
+          data:
+            datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(interval)
+              }}
+
+              '
+          alias: Set notification for next dose
+        alias: If an interval med, then set time for next dose
+      - service: script.text_notify
+        data:
+          who: tony
+          type: alert
+          message: clear_notification
+          tag: '{{ tag }}'
+        alias: Clear Notification
+    alias: Routing
+  icon: mdi:medication
+  mode: parallel
