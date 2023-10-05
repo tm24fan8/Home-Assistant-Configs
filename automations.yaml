@@ -2221,22 +2221,33 @@
   trigger:
   - platform: time
     at: input_datetime.tony_morning_meds_notify
-    id: wakeup
+    id: morning-notify
+    alias: Morning Notify
   - platform: time
     at: input_datetime.tony_night_meds_notify
-    id: sleep
+    id: night-notify
+    alias: Night Notify
   - platform: state
-    entity_id: input_boolean.tony_morning_meds_taken
+    entity_id:
+    - input_boolean.tony_morning_meds_taken
     to: 'on'
     id: boolean-morning
+    alias: Morning Taken
+    from: 'off'
   - platform: state
-    entity_id: input_boolean.tony_night_meds_taken
-    to: 'on'
+    entity_id:
+    - input_boolean.tony_night_meds_taken
     id: boolean-night
+    alias: Night Taken
+    from: 'off'
+    to: 'on'
   - platform: state
-    entity_id: input_boolean.master_bedroom_sleeping
-    to: 'off'
+    entity_id:
+    - input_boolean.master_bedroom_sleeping
     id: sleep-off
+    alias: Sleep Off
+    from: 'on'
+    to: 'off'
   condition: []
   action:
   - choose:
@@ -2244,31 +2255,37 @@
       - condition: and
         conditions:
         - condition: trigger
-          id: wakeup
+          id: morning-notify
         - condition: state
           entity_id: input_boolean.tony_morning_meds_taken
           state: 'off'
+        alias: Morning Notify
       sequence:
       - service: script.turn_on
         target:
           entity_id: script.tony_morning_meds
         data: {}
+        alias: Run morning meds script
     - conditions:
       - condition: and
         conditions:
         - condition: trigger
-          id: sleep
+          id:
+          - night-notify
         - condition: state
           entity_id: input_boolean.tony_night_meds_taken
           state: 'off'
+        alias: Night Notify
       sequence:
       - service: script.turn_on
         target:
           entity_id: script.tony_night_meds
         data: {}
+        alias: Run night meds script
     - conditions:
       - condition: trigger
         id: boolean-morning
+        alias: Morning Taken
       sequence:
       - service: input_datetime.set_datetime
         target:
@@ -2278,9 +2295,11 @@
             }}
 
             '
+        alias: Set time morning meds were taken
     - conditions:
       - condition: trigger
         id: boolean-night
+        alias: Night Taken
       sequence:
       - service: input_datetime.set_datetime
         target:
@@ -2290,9 +2309,11 @@
             }}
 
             '
+        alias: Set time night meds were taken
     - conditions:
       - condition: trigger
         id: sleep-off
+        alias: Sleep Off
       sequence:
       - service: input_datetime.set_datetime
         target:
@@ -2302,8 +2323,10 @@
             }}
 
             '
+        alias: Set time to start notifying for morning meds
+    alias: Routing
   mode: parallel
-  max: 4
+  max: 10
 - id: '1696288939707'
   alias: Tony Stream Today
   description: ''
@@ -2657,3 +2680,51 @@
       entity_id: input_select.kallen_morning_briefing_location
     alias: Move morning briefing to common areas
   mode: single
+- id: '1696539209438'
+  alias: Tony Custom Meds Handler
+  description: ''
+  trigger:
+  - platform: time
+    at: input_datetime.tony_custom_meds_notify_p1
+    alias: Notify 1
+    id: p1-notify
+  - platform: state
+    entity_id:
+    - input_boolean.tony_custom_meds_taken_p1
+    from: 'off'
+    to: 'on'
+    id: p1-taken
+    alias: Taken 1
+  condition: []
+  action:
+  - variables:
+      trigger: '{{ trigger.id }}'
+      num: '{{ trigger[:2] }}'
+      reason: '{{ trigger.split(''-'')[1] }}'
+  - if:
+    - condition: template
+      value_template: '{% set active = ''input_boolean.tony_custom_meds_tracker_''
+        + num %}
+
+        {{ is_state(active,''on'') }}'
+      alias: Check tracker
+    then:
+    - if:
+      - condition: template
+        value_template: '{{ reason == ''notify'' }}'
+        alias: Is this a notification
+      then:
+      - service: input_boolean.turn_off
+        data: {}
+        target:
+          entity_id: '{{ ''input_boolean.tony_custom_meds_taken_'' + num }}'
+        alias: Turn off "taken" boolean
+      alias: Turn off "taken" boolean if this is a notification
+    - service: script.tony_custom_meds
+      data:
+        num: '{{ num }}'
+        reason: '{{ reason }}'
+      alias: Run custom meds script
+    alias: Run custom meds script if tracker is active
+  mode: parallel
+  max: 10

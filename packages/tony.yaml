@@ -10,6 +10,12 @@ input_boolean:
   tony_night_meds_taken:
     name: Tony Night Meds Taken
     icon: mdi:medication
+  tony_custom_meds_tracker_p1:
+    name: Tony Custom Meds Tracker P1
+    icon: mdi:medication
+  tony_custom_meds_taken_p1:
+    name: Tony Custom Meds Taken P1
+    icon: mdi:medication
 
 input_datetime:
   tony_streaming_start_time:
@@ -36,6 +42,39 @@ input_datetime:
     name: Tony Night Meds Notify
     has_date: false
     has_time: true
+    icon: mdi:medication
+  tony_custom_meds_taken_p1:
+    name: Tony Custom Meds Taken P1
+    has_date: true
+    has_time: true
+    icon: mdi:medication
+  tony_custom_meds_notify_p1:
+    name: Tony Custom Meds Notify P1
+    has_date: false
+    has_time: true
+    icon: mdi:medication
+
+input_number:
+  tony_custom_meds_interval_p1:
+    name: Tony Custom Meds Interval P1
+    min: 0
+    max: 24
+    step: 1
+    icon: mdi:medication
+
+input_text:
+  tony_custom_med_name_p1:
+    name: Tony Custom Med Name P1
+    icon: mdi:medication
+
+input_select:
+  tony_custom_meds_type_p1:
+    name: Tony Custom Meds Type P1
+    options:
+      - Wakeup
+      - Bedtime
+      - Other Time
+      - Interval
     icon: mdi:medication
 
 sensor:
