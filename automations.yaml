@@ -2221,22 +2221,44 @@
   trigger:
   - platform: time
     at: input_datetime.tony_morning_meds_notify
-    id: wakeup
+    id: morning-notify
+    alias: Morning Notify
   - platform: time
     at: input_datetime.tony_night_meds_notify
-    id: sleep
+    id: night-notify
+    alias: Night Notify
+  - platform: time
+    at: input_datetime.tony_custom_meds_notify_1
+    alias: Custom Notify 1
+    id: custom-1
   - platform: state
-    entity_id: input_boolean.tony_morning_meds_taken
+    entity_id:
+    - input_boolean.tony_morning_meds_taken
     to: 'on'
     id: boolean-morning
+    alias: Morning Taken
+    from: 'off'
   - platform: state
-    entity_id: input_boolean.tony_night_meds_taken
-    to: 'on'
+    entity_id:
+    - input_boolean.tony_night_meds_taken
     id: boolean-night
+    alias: Night Taken
+    from: 'off'
+    to: 'on'
   - platform: state
-    entity_id: input_boolean.master_bedroom_sleeping
-    to: 'off'
+    entity_id:
+    - input_boolean.tony_custom_meds_taken_1
+    from: 'off'
+    to: 'on'
+    id: boolean-custom-1
+    alias: Custom 1 Taken
+  - platform: state
+    entity_id:
+    - input_boolean.master_bedroom_sleeping
     id: sleep-off
+    alias: Sleep Off
+    from: 'on'
+    to: 'off'
   condition: []
   action:
   - choose:
@@ -2244,31 +2266,37 @@
       - condition: and
         conditions:
         - condition: trigger
-          id: wakeup
+          id: morning-notify
         - condition: state
           entity_id: input_boolean.tony_morning_meds_taken
           state: 'off'
+        alias: Morning Notify
       sequence:
       - service: script.turn_on
         target:
           entity_id: script.tony_morning_meds
         data: {}
+        alias: Run morning meds script
     - conditions:
       - condition: and
         conditions:
         - condition: trigger
-          id: sleep
+          id:
+          - night-notify
         - condition: state
           entity_id: input_boolean.tony_night_meds_taken
           state: 'off'
+        alias: Night Notify
       sequence:
       - service: script.turn_on
         target:
           entity_id: script.tony_night_meds
         data: {}
+        alias: Run night meds script
     - conditions:
       - condition: trigger
         id: boolean-morning
+        alias: Morning Taken
       sequence:
       - service: input_datetime.set_datetime
         target:
@@ -2278,9 +2306,11 @@
             }}
 
             '
+        alias: Set time morning meds were taken
     - conditions:
       - condition: trigger
         id: boolean-night
+        alias: Night Taken
       sequence:
       - service: input_datetime.set_datetime
         target:
@@ -2290,9 +2320,26 @@
             }}
 
             '
+        alias: Set time night meds were taken
+    - conditions:
+      - condition: trigger
+        id:
+        - boolean-custom-1
+        alias: Custom 1 Taken
+      sequence:
+      - service: input_datetime.set_datetime
+        data:
+          datetime: '{% from ''time.jinja'' import current_time %} {{ current_time(24,''withdate'')
+            }}
+
+            '
+        target:
+          entity_id: input_datetime.tony_custom_meds_taken_1
+        alias: Set time custom meds 1 were taken
     - conditions:
       - condition: trigger
         id: sleep-off
+        alias: Sleep Off
       sequence:
       - service: input_datetime.set_datetime
         target:
@@ -2302,6 +2349,8 @@
             }}
 
             '
+        alias: Set time to start notifying for morning meds
+    alias: Routing
   mode: parallel
   max: 4
 - id: '1696288939707'
