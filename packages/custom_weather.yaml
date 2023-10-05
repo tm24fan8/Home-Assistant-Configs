@@ -395,7 +395,11 @@ template:
           {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
           {{ forecast.wind_speed }}
         precipitation: >-
-          {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
+          {% if state_attr('weather.iron_nerd_weather_station','precipitation') %}
+            {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
+          {% else %}
+            {% set forecast = state_attr('weather.iron_nerd_studios','forecast')[0] %}
+          {% endif %}
           {{ forecast.precipitation }}
         friendly: >-
           {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
