@@ -51,7 +51,7 @@ white_noise_kallen_bedroom:
   class: WhiteNoise
   media_player: kallen_bedroom_google_speaker
   input_boolean: white_noise_kallen_bedroom
-  filename: !secret remote_url_oceanwaves
+  filename: !secret remote_url_moonbeach
 
 # white_noise_master_bedroom:
 #   module: whitenoise
@@ -65,7 +65,7 @@ white_noise_emma_bedroom:
   class: WhiteNoise
   media_player: emma_bedroom_google_speaker
   input_boolean: white_noise_emma_bedroom
-  filename: !secret remote_url_oceanwaves
+  filename: !secret remote_url_moonbeach
 
 # alexa_door_window_announce:
 #   module: alexa_door_window_announce
