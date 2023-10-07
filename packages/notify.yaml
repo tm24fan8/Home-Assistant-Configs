@@ -129,73 +129,73 @@ input_number:
     name: Basement Echo Dot Day Volume
     min: 0
     max: 1.0
-    step: 0.01
+    step: 0.05
     icon: mdi:knob
   basement_echo_dot_night_volume:
     name: Basement Echo Dot Night Volume
     min: 0
     max: 1.0
-    step: 0.01
+    step: 0.05
     icon: mdi:knob
   basement_google_speaker_day_volume:
     name: Basement Google Speaker Day Volume
     min: 0
     max: 1.0
-    step: 0.01
+    step: 0.05
     icon: mdi:knob
   basement_google_speaker_night_volume:
     name: Basement Google Speaker Night Volume
     min: 0
     max: 1.0
-    step: 0.01
+    step: 0.05
     icon: mdi:knob
   living_room_echo_dot_day_volume:
     name: Living Room Echo Dot Day Volume
     min: 0
     max: 1.0
-    step: 0.01
+    step: 0.05
     icon: mdi:knob
   living_room_echo_dot_night_volume:
     name: Living Room Echo Dot Night Volume
     min: 0
     max: 1.0
-    step: 0.01
+    step: 0.05
     icon: mdi:knob
   master_bedroom_echo_dot_day_volume:
     name: Master Bedroom Echo Dot Day Volume
     min: 0
     max: 1.0
-    step: 0.01
+    step: 0.05
     icon: mdi:knob
   master_bedroom_echo_dot_night_volume:
     name: Master Bedroom Echo Dot Night Volume
     min: 0
     max: 1.0
-    step: 0.01
+    step: 0.05
     icon: mdi:knob
   emma_bedroom_google_speaker_day_volume:
     name: Emma Bedroom Google Speaker Day Volume
     min: 0
     max: 1.0
-    step: 0.01
+    step: 0.05
     icon: mdi:knob
   emma_bedroom_google_speaker_night_volume:
     name: Emma Bedroom Google Speaker Night Volume
     min: 0
     max: 1.0
-    step: 0.01
+    step: 0.05
     icon: mdi:knob
   kallen_bedroom_google_speaker_day_volume:
     name: Kallen Bedroom Google Speaker Day Volume
     min: 0
     max: 1.0
-    step: 0.01
+    step: 0.05
     icon: mdi:knob
   kallen_bedroom_google_speaker_night_volume:
     name: Kallen Bedroom Google Speaker Night Volume
     min: 0
     max: 1.0
-    step: 0.01
+    step: 0.05
     icon: mdi:knob
 
 # Amazon Polly Sensors to see last message and location of audible notification
