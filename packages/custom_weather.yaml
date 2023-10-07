@@ -363,6 +363,7 @@ template:
   - sensor:
     - name: Total Rain Sensors
       unique_id: b7c2e709-8f5c-4263-aa1d-fa8280afcddb
+      unit_of_measurement: 'sensors'
       state: >
         {% set sensors = [
           states.sensor.pirateweather_precip,
