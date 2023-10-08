@@ -32,41 +32,6 @@ media_lights_sync_basement:
     entity: input_boolean.sync_tv_lights_basement
     state: "on"
 
-white_noise_basement:
-  module: whitenoise
-  class: WhiteNoise
-  media_player: basement_google_speaker
-  input_boolean: white_noise_basement
-  filename: !secret remote_url_thunderstorm
-
-white_noise_living_room:
-  module: whitenoise
-  class: WhiteNoise
-  media_player: living_room_tv_chromecast
-  input_boolean: white_noise_living_room
-  filename: !secret remote_url_thunderstorm
-
-white_noise_kallen_bedroom:
-  module: whitenoise
-  class: WhiteNoise
-  media_player: kallen_bedroom_google_speaker
-  input_boolean: white_noise_kallen_bedroom
-  filename: !secret remote_url_moonbeach
-
-# white_noise_master_bedroom:
-#   module: whitenoise
-#   class: WhiteNoise
-#   media_player: master_bedroom_firetv
-#   input_boolean: white_noise_master_bedroom
-#   filename: !secret remote_url_thunderstorm
-
-white_noise_emma_bedroom:
-  module: whitenoise
-  class: WhiteNoise
-  media_player: emma_bedroom_google_speaker
-  input_boolean: white_noise_emma_bedroom
-  filename: !secret remote_url_moonbeach
-
 # alexa_door_window_announce:
 #   module: alexa_door_window_announce
 #   class: AlexaDoorWindowAnnounce

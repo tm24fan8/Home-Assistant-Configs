@@ -514,7 +514,7 @@
     - stop: Tornado alert re-activated
   mode: single
 - id: '1667341156218'
-  alias: White Noise Volume
+  alias: White Noise
   description: ''
   trigger:
   - platform: state
@@ -540,10 +540,6 @@
     - input_boolean.white_noise_emma_bedroom
     from: 'on'
     to: 'off'
-    for:
-      hours: 0
-      minutes: 5
-      seconds: 0
     id: emma-off
   - platform: state
     entity_id:
@@ -551,19 +547,11 @@
     from: 'on'
     to: 'off'
     id: basement-off
-    for:
-      hours: 0
-      minutes: 0
-      seconds: 5
   - platform: state
     entity_id:
     - input_boolean.white_noise_kallen_bedroom
     from: 'on'
     to: 'off'
-    for:
-      hours: 0
-      minutes: 15
-      seconds: 0
     id: kallen-off
   condition: []
   action:
@@ -572,36 +560,56 @@
       - condition: trigger
         id: emma-on
       sequence:
+      - service: google_assistant_sdk.send_text_command
+        data:
+          command: give me river sounds on emma bedroom speaker
+        alias: Start river sounds
       - service: media_player.volume_set
         data:
           volume_level: '{{ states(''input_number.emma_bedroom_google_speaker_night_volume'')
             }}'
         target:
           entity_id: media_player.emma_bedroom_google_speaker
+        alias: Set volume
     - conditions:
       - condition: trigger
         id: basement-on
       sequence:
+      - alias: Start river sounds
+        service: google_assistant_sdk.send_text_command
+        data:
+          command: give me thunderstorm sounds on basement studio speaker
       - service: media_player.volume_set
         data:
           volume_level: '{{ states(''input_number.basement_google_speaker_night_volume'')
             }}'
         target:
           entity_id: media_player.basement_google_speaker
+        alias: Set volume
     - conditions:
       - condition: trigger
         id: kallen-on
       sequence:
+      - alias: Start river sounds
+        service: google_assistant_sdk.send_text_command
+        data:
+          command: give me river sounds on kallen bedroom speaker
       - service: media_player.volume_set
         data:
           volume_level: '{{ states(''input_number.kallen_bedroom_google_speaker_night_volume'')
             }}'
         target:
           entity_id: media_player.kallen_bedroom_google_speaker
+        alias: Set volume
     - conditions:
       - condition: trigger
         id: emma-off
       sequence:
+      - service: media_player.turn_off
+        data: {}
+        target:
+          entity_id: media_player.emma_bedroom_google_speaker
+        alias: Turn off speaker
       - if:
         - condition: state
           entity_id: input_boolean.emma_sleeping
@@ -615,10 +623,16 @@
               }}\n{% endif %}\n"
           target:
             entity_id: media_player.emma_bedroom_google_speaker
+        alias: If Emma is awake, reset volume
     - conditions:
       - condition: trigger
         id: basement-off
       sequence:
+      - service: media_player.turn_off
+        data: {}
+        target:
+          entity_id: media_player.basement_google_speaker
+        alias: Turn off speaker
       - service: media_player.volume_set
         data:
           volume_level: "{% if is_state('input_boolean.give_me_darkness','on') %}\n
@@ -627,10 +641,16 @@
             }}\n{% endif %}\n"
         target:
           entity_id: media_player.basement_google_speaker
+        alias: Reset volume
     - conditions:
       - condition: trigger
         id: kallen-off
       sequence:
+      - service: media_player.turn_off
+        data: {}
+        target:
+          entity_id: media_player.kallen_bedroom_google_speaker
+        alias: Turn off speaker
       - if:
         - condition: and
           conditions:
@@ -649,6 +669,7 @@
               }}\n{% endif %}\n"
           target:
             entity_id: media_player.kallen_bedroom_google_speaker
+        alias: If Kallen is awake, reset volume
   mode: parallel
   max: 10
 - id: '1671584633378'
