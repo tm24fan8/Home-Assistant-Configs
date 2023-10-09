@@ -105,6 +105,7 @@ recorder:
       - sensor.*gpu_memory_free
       - sensor.*gpu_vram_usage
       - sensor.*gpu_core_load
+      - sensor.portainer*
     entities:
       - sensor.avg_ping
       - sensor.max_ping
@@ -227,6 +228,7 @@ influxdb:
       - sensor.win10_vm*
       - sensor.home_assistant_glances*
       - sensor.watchman_missing*
+      - sensor.portainer*
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
@@ -367,6 +369,7 @@ prometheus:
       - sensor.win10_vm*
       - sensor.home_assistant_glances*
       - sensor.watchman_missing*
+      - sensor.portainer*
     include_entities:
       - media_player.living_room_tv
       - media_player.basement_tv
