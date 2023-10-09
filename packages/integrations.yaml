@@ -63,3 +63,5 @@ pyscript:
   hass_is_global: true
 
 animated_scenes:
+
+grad_vol:
