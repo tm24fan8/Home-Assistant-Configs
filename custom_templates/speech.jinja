@@ -1,4 +1,4 @@
-{% macro greeting() %}
+{% macro greeting(date) %}
 {% if now().strftime('%H')|int < 12 %}
   {{ [
     "Good morning. ",
@@ -18,43 +18,33 @@
     "The grandest of evenings to you. "
   ] | random }}
 {% endif %}
-{% if is_state('binary_sensor.morning','on') %}
-  Today is {{ states('sensor.today_is') }}, {{ as_timestamp(now()) | timestamp_custom('%B %d %Y') }}.
+{% if is_state('binary_sensor.morning','on') and date == 'date' %}
+  Today's date is {{ as_timestamp(now()) | timestamp_custom('%B %d %Y') }}.
 {% endif %}
 It is {{ now().strftime("%I:%M %p") }}.
 {% endmacro %}
 
-{% macro greeting_nodate() %}
-{% if now().strftime('%H')|int < 12 %}
-  {{ [
-    "Good morning. ",
-    "Top of the morning to you laddy. ",
-  ] | random }}
-{% elif now().strftime('%H')|int >= 12 and now().strftime('%H')|int < 17 %}
-  {{ [
-    "Greetings earthling. ",
-    "Good afternoon. ",
-    "How do you do, fellow kids? ",
-    "Howdy partner. ",
-    "Greetings, human overlords. ",
-  ] | random }}
-{% else %}
-  {{ [
-    "Good evening. ",
-    "The grandest of evenings to you. "
-  ] | random }}
-{% endif %}
-It is {{ now().strftime("%I:%M %p") }}.
+{% macro today_is() %}
+{{ [
+    'Today is ',
+    'If you have not been keeping track today is ',
+    'Do you know what day of the week it is? Today is',
+    'I hate to be the bearer of bad news, but today is ',
+    'In case you do not own a calendar, today is ',
+    'If you have forgotten the order in which the week progresses, today is ',
+    'Because we all forget sometimes, today is ',
+    'What day is today? Oh, right, it is '
+]|random }}
+{{ states('sensor.today_is') }}.
 {% endmacro %}
 
 {% macro dadjoke() %}
 {{ [
 "Here is a random dad joke ",
 "In case you hadn't had enough idiotic humor today, here is a little more ",
-"For further proof that the developer responsible for my existence is an idiot, I present the following joke ",
-"I like jokes. I particularly like stupid jokes. Here is an example ",
 "The best jokes are the dumb ones like this one ",
 "And now for todays episode of humor for morons ",
+"We are all dead inside, so here is another idiotic joke ",
 ] | random }}<break time="1s"/> {{ states('sensor.random_joke') }}
 {% endmacro %}
 

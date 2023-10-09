@@ -2,13 +2,17 @@
   {# Daily Briefing #}
   {% from 'formatting.jinja' import cleanup %}
   {%- macro getReport() -%}
-  {% from 'speech.jinja' import greeting, dadjoke, inspirational_quote %}
+  {% from 'speech.jinja' import greeting, dadjoke, inspirational_quote, today_is %}
   {% from 'status.jinja' import houseStatusReport, tonyStatusReport, tinaStatusReport, kallenStatusReport, emmaStatusReport %}
   {% from 'easy_time.jinja' import count_the_days %}
   {% from 'weather.jinja' import weatherReport %}
   {% from 'sports.jinja' import sports_updates %}
       <p>
-        {{ greeting() }}
+        {{ greeting('date') }}
+      </p>
+
+      <p>
+        {{ today_is() }}
       </p>
 
       <p>

@@ -2,22 +2,16 @@
   {# Morning Briefing #}
   {% from 'formatting.jinja' import cleanup %}
   {%- macro getReport() -%}
-  {% from 'speech.jinja' import greeting_nodate, dadjoke, inspirational_quote %}
+  {% from 'speech.jinja' import greeting, dadjoke, inspirational_quote, today_is %}
   {% from 'status.jinja' import tonyStatusReport, tinaStatusReport, kallenStatusReport, emmaStatusReport %}
   {% from 'easy_time.jinja' import count_the_days %}
   {% from 'weather.jinja' import weatherReport %}
   {% from 'sports.jinja' import sports_updates %}
     <p>
-      {{ greeting_nodate() }}
+      {{ greeting('nodate') }}
     </p>
     <p>
-      {{ [
-          'Today is ',
-          'If you have not been keeping track today is ',
-          'Do you know what day of the week it is? Today is',
-          'I hate to be the bearer of bad news, but today is '
-      ]|random }}
-      {{states.sensor.today_is.state }}.
+      {{ today_is() }}
     </p>
 
     <p>

@@ -9,7 +9,7 @@
   {% from 'weather.jinja' import weatherReport %}
   {% from 'sports.jinja' import sports_updates %}
     <p>
-      {{ greeting() }}
+      {{ greeting('date') }}
     </p>
     <p>
       {{ [
