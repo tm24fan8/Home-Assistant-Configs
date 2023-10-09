@@ -264,6 +264,26 @@ going_upstairs:
     target:
       entity_id: input_boolean.studio_quiet
     alias: Turn off Studio Quiet
+  - alias: Thermostat reminder
+    if:
+    - alias: If triggered from basement
+      condition: state
+      entity_id: sensor.last_alexa_name
+      state: Basement Echo Dot
+    then:
+    - alias: Remind in basement
+      service: script.speech_engine
+      data:
+        who: basement
+        message: Remember to set the thermostat for the night
+        type: alert
+    else:
+    - alias: Remind in living room
+      service: script.speech_engine
+      data:
+        who: living_room
+        message: Remember to set the thermostat for the night
+        type: alert
   - if:
     - condition: not
       conditions:
@@ -409,11 +429,15 @@ going_upstairs:
         milliseconds: 0
       alias: Wait for response to notification
     - choose:
-      - conditions: '{{ wait.trigger.id == ''shutdown-yes'' }}'
+      - conditions:
+        - condition: template
+          value_template: '{{ wait.trigger.id == ''shutdown-yes'' }}'
         sequence:
         - service: script.tony_desktop_shutdown
           data: {}
-      - conditions: '{{ wait.trigger.id == ''shutdown-lock'' }}'
+      - conditions:
+        - condition: template
+          value_template: '{{ wait.trigger.id == ''shutdown-lock'' }}'
         sequence:
         - service: script.tony_desktop_lock
           data: {}
@@ -453,14 +477,18 @@ going_upstairs:
     alias: Wait until I am in the bathroom, or in bed, or the lights are manually
       turned on
   - choose:
-    - conditions: '{{ wait.trigger.id == ''bathroom'' }}'
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger.id == ''bathroom'' }}'
       sequence:
       - service: input_select.select_option
         data:
           option: Side Nightlight
         target:
           entity_id: input_select.master_bedroom_scenes
-    - conditions: '{{ wait.trigger.id in [''lights'',''goodnight''] }}'
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger.id in [''lights'',''goodnight''] }}'
       sequence:
       - variables:
           stop_reason: '{{ wait.trigger.id }}'
