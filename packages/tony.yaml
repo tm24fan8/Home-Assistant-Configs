@@ -16,6 +16,9 @@ input_boolean:
   tony_custom_meds_taken_p1:
     name: Tony Custom Meds Taken P1
     icon: mdi:medication
+  tony_awake:
+    name: Tony Awake
+    icon: mdi:eye-check
 
 input_datetime:
   tony_streaming_start_time:

@@ -1,0 +1,51 @@
+>
+  {# Master Bedroom Wakeup #}
+  {%- macro getReport() -%}
+  {% from 'speech.jinja' import greeting, today_is %}
+  {% from 'status.jinja' import tonyStatusReport, tinaStatusReport, kallenStatusReport, emmaStatusReport %}
+  {% from 'weather.jinja' import weatherReport %}
+    <p>
+      {{ greeting('date') }}
+    <p>
+
+    <p>
+      {{ today_is() }}
+    <p>
+
+    <p>
+      {{ weatherReport('alerts','tts','day') }}
+
+      {{ tonyStatusReport('full','tts') }}
+
+      {{ tinaStatusReport('full','tts') }}
+
+      {{ kallenStatusReport('full','tts') }}
+
+      {{ emmaStatusReport('full','tts') }}
+    </p>
+
+    <p>
+      Do not forget to set the living room thermostat to your desired daytime temperature!
+    </p>
+
+    <p>
+      {% if is_state('input_boolean.briefing_extras','on') %}
+        "And now we have the following extra information to pass along. {{ states('input_text.briefing_extras') }} "
+      {% endif %}
+    </p>
+
+  {%- endmacro -%}
+
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+  {%- macro cleanup(data) -%}
+    {%- for item in data.split("\n")  if item | trim != "" -%}
+      {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+
+  {# a macro to call all macros :)  #}
+  {%- macro mother_of_all_macros() -%}
+    {{ getReport() }}
+  {%- endmacro -%}
+  
+  {# Call the macro  #}
+  {{- cleanup(mother_of_all_macros()) -}}

@@ -250,6 +250,14 @@ script:
           message: !include ../templates/speech/welcome_home.yaml
     mode: restart
 
+  master_bedroom_wakeup_briefing:
+    alias: Master Bedroom Wakeup Briefing
+    sequence:
+      - service: script.speech_engine
+        data:
+          who: "{{ who|default('master_bedroom') }}"
+          message: !include ../templates/speech/master_bedroom_wakeup.yaml
+
   birthday_announcement:
     alias: 'Birthday Announcement'
     sequence:
