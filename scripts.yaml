@@ -284,6 +284,7 @@ going_upstairs:
         who: living_room
         message: Remember to set the thermostat for the night
         type: alert
+    enabled: false
   - if:
     - condition: not
       conditions:
