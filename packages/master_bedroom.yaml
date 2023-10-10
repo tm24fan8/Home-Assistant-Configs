@@ -157,3 +157,12 @@ script:
         entity_id: switch.adaptive_lighting_master_bedroom
 
 # TODO: Figure out which actions to move here, and which ones to keep in Node-RED
+
+  master_bedroom_wakeup_briefing:
+    alias: Master Bedroom Wakeup Briefing
+    mode: single
+    sequence:
+      - service: script.speech_engine
+        data:
+          who: "{{ who|default('master_bedroom') }}"
+          message: !include ../templates/speech/master_bedroom_wakeup.yaml
