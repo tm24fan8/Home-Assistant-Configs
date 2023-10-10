@@ -64,25 +64,25 @@ template:
     - name: Tony Desktop On
       unique_id: 82ce673a-96ad-4af5-a8d1-be9ca9fa9c36
       state: "{{ states('sensor.tony_desktop_power') | int > 10 }}"
-      device_class: power
+      device_class: running
       attributes:
         power_usage: "{{ states('sensor.tony_desktop_power') | int }}W"
     - name: Tina Desktop On
       unique_id: 8484dbd4-2fae-4368-a4bc-d1bdc09e003f
       state: "{{ states('sensor.tina_desktop_power') | int > 10 }}"
-      device_class: power
+      device_class: running
       attributes:
         power_usage: "{{ states('sensor.tina_desktop_power') | int }}W"
     - name: Kallen Desktop On
       unique_id: ccc25d75-4915-449d-9b2e-09ad14ffac29
       state: "{{ states('sensor.kallen_desktop_power') | int > 10 }}"
-      device_class: power
+      device_class: running
       attributes:
         power_usage: "{{ states('sensor.kallen_desktop_power') | int }}W"
     - name: Basement Server On
       unique_id: e6df7d98-d3ba-4e01-bae2-2ebafc8d78d6
       state: "{{ states('sensor.basement_server_power') | int > 10 }}"
-      device_class: power
+      device_class: running
       attributes:
         power_usage: "{{ states('sensor.basement_server_power') | int }}W"
     - name: Tony Desktop Idle
