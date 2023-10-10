@@ -182,6 +182,7 @@ template:
       device_class: presence
     - name: "Basement Occupied"
       unique_id: 20039c29-8b9d-436d-ba6c-8f2c2bda1db0
+      device_class: occupancy
       state: >
         {% if is_state('binary_sensor.tony_desktop_on','off') and is_state('binary_sensor.kallen_desktop_on','off') %}
           false
@@ -196,6 +197,7 @@ template:
         {% endif %}
     - name: "Upstairs Bathroom Occupied"
       unique_id: 7ec69a26-1013-4b0d-8662-a91ab9f040ca
+      device_class: occupancy
       state: "{{ is_state('timer.upstairs_bathroom_motion_timer','active') or is_state('binary_sensor.upstairs_bathroom_motion','on') or is_state('input_boolean.shower_mode','on') }}"
     - name: "People Sleeping"
       unique_id: 3f0a1504-fd01-4967-a6fb-0309813d31e3
