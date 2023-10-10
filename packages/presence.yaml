@@ -186,11 +186,14 @@ template:
       state: >
         {% if is_state('binary_sensor.tony_desktop_on','off') and is_state('binary_sensor.kallen_desktop_on','off') %}
           false
-        {% elif is_state('binary_sensor.tony_desktop_idle','on') and is_state('binary_sensor.kallen_desktop_idle','on') %}
+        {% elif (is_state('binary_sensor.tony_desktop_idle','on') or states('sensor.tony_asus_current_username') in ['unavailable','unknown','NotPresent']) and 
+                  is_state('binary_sensor.kallen_desktop_idle','on') %}
           false
-        {% elif is_state('binary_sensor.tony_desktop_idle','on') and is_state('binary_sensor.kallen_desktop_on','off') %}
+        {% elif (is_state('binary_sensor.tony_desktop_idle','on') or states('sensor.tony_asus_current_username') in ['unavailable','unknown','NotPresent']) and
+                  is_state('binary_sensor.kallen_desktop_on','off') %}
           false
-        {% elif is_state('binary_sensor.kallen_desktop_idle','on') and is_state('binary_sensor.tony_desktop_on','off') %}
+        {% elif (is_state('binary_sensor.kallen_desktop_idle','on') or states('sensor.kallen_desktop_current_username') in ['unavailable','unknown','NotPresent']) and
+                  is_state('binary_sensor.tony_desktop_on','off') %}
           false
         {% else %}
           true
