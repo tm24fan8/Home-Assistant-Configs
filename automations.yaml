@@ -2874,6 +2874,78 @@
       alias: TTS notification
     alias: After wait completed
   mode: single
+- id: '1696884613752'
+  alias: Tony Sleep Handling
+  description: Awareness of when Tony is asleep or wakes up
+  trigger:
+  - platform: event
+    event_type: wakeup_event
+    event_data:
+      who: tony
+      type: alarm
+    context:
+      user_id:
+      - c3909d27048140729f002aaef0391775
+    alias: Any Alarm
+    id: wake-alarm
+  - platform: event
+    event_type: wakeup_event
+    event_data:
+      who: tony
+      type: wakeup
+    context:
+      user_id:
+      - c3909d27048140729f002aaef0391775
+    alias: Wakeup
+    id: wake-sched
+  - platform: zone
+    entity_id: person.tony_stork
+    zone: zone.home
+    event: leave
+    alias: Leave Home
+    id: wake-leave
+  - platform: conversation
+    command: Tony is awake
+    id: wake-sentence
+    alias: Sentence
+  - platform: state
+    entity_id:
+    - binary_sensor.tony_s_iphone_focus
+    from: 'on'
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 30
+    alias: Focus off
+    id: wake-focus
+  - platform: state
+    entity_id:
+    - binary_sensor.tony_desktop_on
+    from: 'off'
+    to: 'on'
+    alias: Computer
+    id: wake-computer
+  condition: []
+  action:
+  - variables:
+      trigger: '{{ trigger.id }}'
+      type: '{{ trigger.split(''-'')[0] }}'
+      reason: '{{ trigger.split(''-'')[1] }}'
+    alias: Define variables
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ type == ''wake'' }}'
+        alias: Wakeup
+      sequence:
+      - service: input_boolean.turn_on
+        data: {}
+        target:
+          entity_id: input_boolean.tony_awake
+        alias: Set context that I am awake
+    alias: Routing
+  mode: restart
 - id: '1696985389177'
   alias: Master Bedroom Adaptive Resync
   description: Deals with situations where the master bedroom lights should be adaptive

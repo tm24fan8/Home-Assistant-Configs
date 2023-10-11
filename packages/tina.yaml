@@ -13,6 +13,9 @@ input_boolean:
   tina_night_meds_taken:
     name: Tina Night Meds Taken
     icon: mdi:medication
+  tina_awake:
+    name: Tina Awake
+    icon: mdi:eye-check
 
 input_datetime:
   tina_workday_start:
