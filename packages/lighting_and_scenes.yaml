@@ -403,6 +403,33 @@ template:
           {% endif %}
       device_class: problem
       delay_on: "00:00:10"
+    - name: Master Bedroom Sync Issue
+      unique_id: 5f4a04ee-7e97-4035-91bf-4f0778023d18
+      state: >
+        {% set brightness = states('sensor.master_bedroom_lights_brightness_diff') | float(0) %}
+        {% if is_state('light.master_bedroom_lights','on') %}
+          {% if is_state('switch.adaptive_lighting_master_bedroom','on') and is_state('switch.adaptive_lighting_sleep_mode_master_bedroom','off') and is_state('switch.adaptive_lighting_adapt_brightness_master_bedroom','on') %}
+            {{ brightness > 5 or brightness < -5 }}
+          {% endif %}
+        {% endif %}
+      attributes:
+        brightness_diff: >
+          {% set brightness = states('sensor.master_bedroom_lights_brightness_diff') | float(0) %}
+          {% if is_state('light.master_bedroom_lights','on') %}
+            {% if is_state('switch.adaptive_lighting_master_bedroom','on') and is_state('switch.adaptive_lighting_sleep_mode_master_bedroom','off') %}
+              {% if is_state('switch.adaptive_lighting_adapt_brightness_master_bedroom','on') %}
+                {{ states('sensor.master_bedroom_lights_brightness_diff') }}
+              {% else %}
+                Brightness Off
+              {% endif %}
+            {% else %}
+              Adaptive Off
+            {% endif %}
+          {% else %}
+            Lights Off
+          {% endif %}
+      device_class: problem
+      delay_on: "00:00:10"
   - sensor:
     - name: "Basement Studio Lights - Brightness Actual"
       unique_id: dee4dc84-a6a0-4150-903e-5b8bd436d962
@@ -492,6 +519,29 @@ template:
       availability: "{{ is_state('light.living_room_lights','on') and is_state('switch.adaptive_lighting_living_room','on') }}"
       unit_of_measurement: 'K'
       icon: mdi:thermometer-lines
+    - name: "Master Bedroom Lights - Brightness Actual"
+      unique_id: 50b9d6d3-196c-41d5-aa4e-1b1b9eaf6e89
+      state: >
+        {% from 'lighting.jinja' import get_brightness_pct %}
+        {{ get_brightness_pct('light.master_bedroom_lights') }}
+      availability: "{{ is_state('light.master_bedroom_lights','on') }}"
+      unit_of_measurement: '%'
+      icon: mdi:brightness-percent
+    - name: "Master Bedroom Lights - Brightness Intended"
+      unique_id: 1de567ff-0cc3-446a-b330-167a61c0fbbb
+      state: "{{ state_attr('switch.adaptive_lighting_master_bedroom','brightness_pct') | float | round(2) }}"
+      availability: "{{ is_state('switch.adaptive_lighting_master_bedroom','on') }}"
+      unit_of_measurement: '%'
+      icon: mdi:brightness-percent
+    - name: "Master Bedroom Lights - Brightness Diff"
+      unique_id: f761be5c-8d2b-4d39-acbd-8d03bf2275de
+      state: >
+        {% set current = states('sensor.master_bedroom_lights_brightness_actual') | float %}
+        {% set intended = states('sensor.master_bedroom_lights_brightness_intended') | float %}
+        {{ (current - intended) | float | round(2) }}
+      availability: "{{ is_state('light.master_bedroom_lights','on') and is_state('switch.adaptive_lighting_master_bedroom','on') }}"
+      unit_of_measurement: '%'
+      icon: mdi:brightness-percent
     - name: "Basement LED Strip Resets"
       unique_id: 0d016f09-a89b-4616-83b7-934580612d00
       state: "{{ states('input_number.basement_led_strip_resets') | int }}"

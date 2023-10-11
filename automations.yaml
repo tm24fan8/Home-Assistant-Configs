@@ -2874,3 +2874,21 @@
       alias: TTS notification
     alias: After wait completed
   mode: single
+- id: '1696985389177'
+  alias: Master Bedroom Adaptive Resync
+  description: Deals with situations where the master bedroom lights should be adaptive
+    but end up out of sync
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.master_bedroom_sync_issue
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - service: adaptive_lighting.apply
+    data:
+      entity_id: switch.adaptive_lighting_living_room
+      adapt_brightness: '{{ is_state(''switch.adaptive_lighting_adapt_brightness_master_bedroom'',''on'')
+        }}'
+  mode: restart
