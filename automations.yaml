@@ -2960,7 +2960,7 @@
   action:
   - service: adaptive_lighting.apply
     data:
-      entity_id: switch.adaptive_lighting_living_room
+      entity_id: switch.adaptive_lighting_master_bedroom
       adapt_brightness: '{{ is_state(''switch.adaptive_lighting_adapt_brightness_master_bedroom'',''on'')
         }}'
   mode: restart
