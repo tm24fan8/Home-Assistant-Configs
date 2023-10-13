@@ -305,7 +305,7 @@ input_text:
 
 template:
   - binary_sensor:
-    - name: Basement Lights Sync Issue
+    - name: Basement Studio Sync Issue
       unique_id: 781d7a1e-ade3-44c3-b0f2-a15a5188107e
       state: >
         {% set colortemp = states('sensor.basement_studio_lights_colortemp_diff') | float(0) %}
