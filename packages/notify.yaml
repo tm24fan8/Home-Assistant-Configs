@@ -1095,10 +1095,12 @@ script:
                 common
               {% endif %}
             {% elif who in ['alexa_everywhere','Alexa Everywhere'] %}
-              {% if is_state('input_boolean.master_bedroom_sleeping','on') and is_state('input_boolean.studio_quiet','on') %}
-                living_room
-              {% elif is_state('input_boolean.master_bedroom_sleeping','on') %}
-                common
+              {% if is_state('input_boolean.master_bedroom_sleeping','on') %}
+                {% if is_state('input_boolean.studio_quiet','on') %}
+                  living_room
+                {% elif is_state('binary_sensor.people_sleeping','on') %}
+                  common
+                {% endif %}
               {% elif is_state('input_boolean.studio_quiet','on') %}
                 alexa_no_basement
               {% else %}
