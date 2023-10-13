@@ -425,6 +425,9 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
         'But there was a two hour delay. '
       {% endif %}
     {% endif %}
+    {% if is_state('input_boolean.kallen_btb','on') %}
+      Collin has Beyond The Bells today after school.
+    {% endif %}
     {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
       {{ states('input_text.kallen_pickup') }} will be picking Collin up from school today. 
     {% else %}
@@ -490,6 +493,9 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
         School is currently under a two hour delay.
       {% elif is_state('input_boolean.kallen_at_school','on') %}
         {{ identKallen }} is at school right now.
+        {% if is_state('input_boolean.kallen_btb','on') %}
+          {{ identKallen }} has Beyond The Bells after school today.
+        {% endif %}
         {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
           {{ states('input_text.kallen_pickup') }} will be picking him up from school today.
         {% elif is_state('input_boolean.kallen_school_early_release','on') %}
@@ -508,6 +514,9 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
       {% endif %}
     {% elif is_state ('binary_sensor.early_night_mode','on') and is_state('binary_sensor.kallen_school_tomorrow','on') %}
       {{ identKallen }} has school tomorrow.
+      {% if is_state('binary_sensor.kallen_btb_tomorrow','on') %}
+        {{ identKallen }} will have BTB tomorrow after school.
+      {% endif %}
     {% elif is_state('binary_sensor.after_midnight','off') %}
       {{ identKallen }} does not have school today.
     {% endif %}

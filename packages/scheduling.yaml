@@ -407,7 +407,7 @@ script:
             time: >
               {% from 'time.jinja' import time_from_calendar %}
               {% if is_state('input_boolean.kallen_school_today','on') %}
-                {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
+                {% if is_state('input_boolean.kallen_alternate_pickup','on') or is_state('input_boolean.kallen_btb','on') %}
                   15:00
                 {% else %}
                   {{ time_from_calendar('calendar.kallen_school_days','end_time','set','subtract',1) }}
@@ -550,7 +550,7 @@ script:
           data:
             time: >
               {% if is_state('input_boolean.kallen_school_today','on') %}
-                {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
+                {% if is_state('input_boolean.kallen_alternate_pickup','on') or is_state('input_boolean.kallen_btb','on') %}
                   14:30
                 {% elif is_state('input_boolean.kallen_school_early_release','on') %}
                   12:00

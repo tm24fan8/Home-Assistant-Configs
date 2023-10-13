@@ -19,6 +19,12 @@
           'Because you have to get up early tomorrow for school.',
           'Because you want to be ready for school tomorrow.'
         ] | random }}
+        {% if is_state('binary_sensor.kallen_btb_tomorrow','on') %}
+          {{ [ 'You have Beyond The Bells tomorrow after school. ',
+              'You will be staying a little later after school tomorrow to further your learning endeavors. ',
+              'Tomorrow is a BTB day. '
+        ] | random }}
+        {% endif %}
       {% else %}
         {% set month=states("sensor.date").split('-')[1] | int %}
         {%- if is_state('input_boolean.school_in_session', 'off') -%}

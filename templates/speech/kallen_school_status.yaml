@@ -23,6 +23,9 @@
         {% if is_state('input_boolean.kallen_school_early_release','on') %}
           "There will be early dismissal today. "
         {% endif %}
+        {% if is_state('input_boolean.kallen_btb','on') %}
+          "You have Beyond The Bells today after school. "
+        {% endif %}
         "Your school day will end at {{ input_datetime_read('input_datetime.kallen_school_day_end') }}. "
       {% endif %}
     </p>

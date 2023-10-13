@@ -14,6 +14,9 @@ input_boolean:
   kallen_school_today_extended:
     name: Kallen School Today Extended
     icon: mdi:bus-school
+  kallen_btb:
+    name: Kallen BTB
+    icon: mdi:bus-clock
   two_hour_delay:
     name: Kallen Two Hour Delay
     icon: mdi:bus-clock
@@ -85,6 +88,11 @@ template:
             off
           {% endif %}
       icon: mdi:school
+    - name: Kallen BTB Tomorrow
+      unique_id: 68d8eb9c-d96c-4c76-a8e8-23125f1162db
+      state: >-
+        {%- set test=(as_timestamp(now()) + (86400)) | timestamp_custom("%Y-%m-%d",true) %}
+        {{ states.calendar.kallen_school_days.attributes.end_time == test + " 16:30:00" }}
   - sensor:
     - name: School Start Days2go
       unique_id: 94a53e67-c00f-4cc7-9309-f9033a9482f9
@@ -326,6 +334,7 @@ automation:
             - input_boolean.kallen_at_school
             - input_boolean.kallen_alternate_pickup
             - input_boolean.kallen_school_early_release
+            - input_boolean.kallen_btb
       - delay:
           seconds: 2
       - service: script.rerun_all_scheduling_morning
@@ -365,6 +374,16 @@ script:
             {% else %}
               {{ time_from_calendar('calendar.kallen_school_days','start_time','set') }}
             {% endif %}
+      - if:
+        - condition: template
+          value_template: >
+            {% from 'time.jinja' import time_from_calendar %}
+            {% set cal = time_from_calendar('calendar.kallen_school_days','end_time','read') | trim %}
+            {{ cal == '4:30 PM' }}
+        then:
+        - service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.kallen_btb
       - service: input_boolean.turn_on
         entity_id: 
           - input_boolean.kallen_school_today
@@ -388,3 +407,4 @@ script:
         entity_id: 
           - input_boolean.kallen_school_today_extended
           - input_boolean.kallen_school_early_release
+          - input_boolean.kallen_btb
