@@ -198,6 +198,17 @@ template:
         {% else %}
           true
         {% endif %}
+    - name: "Tina Desk Occupied"
+      unique_id: 09969610-28ed-4f06-87c7-eabe5412d954
+      device_class: occupancy
+      state: >
+        {% if is_state('binary_sensor.tina_desktop_on','off') %}
+          false
+        {% elif is_state('binary_sensor.tina_desktop_idle','on') or states('sensor.xia_desktop_current_username') in ['unavailable','unknown','NotPresent'] %}
+          false
+        {% else %}
+          true
+        {% endif %}
     - name: "Upstairs Bathroom Occupied"
       unique_id: 7ec69a26-1013-4b0d-8662-a91ab9f040ca
       device_class: occupancy
@@ -206,6 +217,37 @@ template:
       unique_id: 3f0a1504-fd01-4967-a6fb-0309813d31e3
       state: "{{ is_state('input_boolean.emma_sleeping','on') or is_state('input_boolean.kallen_sleeping','on') or is_state('input_boolean.master_bedroom_sleeping','on') }}"
       icon: mdi:sleep
+    - name: "Master Bedroom Occupied"
+      unique_id: 407911c0-f2d3-41f5-8f1c-09fbfb10a49d
+      device_class: occupancy
+      state: >
+        {{ is_state('light.master_bedroom_lights','on') or 
+            is_state('light.master_bedroom_closet','on') or 
+            is_state('input_boolean.master_bedroom_sleeping','on') or
+            not is_state('media_player.master_bedroom_firetv','off') }}
+    - name: "Kallen Bedroom Occupied"
+      unique_id: d3fdbaee-48bd-44df-820e-6cbfd3d24c11
+      device_class: occupancy
+      state: >
+        {{ is_state('light.kallen_bedroom_lights','on') or
+            is_state('input_boolean.kallen_sleeping','on') }}
+    - name: "Emma Bedroom Occupied"
+      unique_id: d775db9a-187d-4c4b-a49d-f0e5a1e6ce3b
+      device_class: occupancy
+      state: >
+        {{ is_state('light.emma_bedroom_light','on') or
+            is_state('input_boolean.emma_sleeping','on') }}
+    - name: "Living Room Occupied"
+      unique_id: 25623e3d-d74f-471e-8c2d-abce16646282
+      device_class: occupancy
+      state: >
+        {{ is_state('binary_sensor.living_room_motion','on') }}
+      delay_off: "00:30:00"
+    - name: "Downstairs Bathroom Occupied"
+      unique_id: fad33281-1c1a-4362-93e6-398334358027
+      device_class: occupancy
+      state: >
+        {{ is_state('light.downstairs_bathroom_lights','on') }}
   - sensor:
     - unique_id: people_at_home
       name: People at Home
