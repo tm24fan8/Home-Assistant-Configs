@@ -229,6 +229,14 @@ influxdb:
       - sensor.home_assistant_glances*
       - sensor.watchman_missing*
       - sensor.portainer*
+      - sensor.*brightness_intended
+      - sensor.*brightness_actual
+      - sensor.*colortemp_intended
+      - sensor.*colortemp_actual
+      - sensor.*brightness_diff
+      - sensor.*colortemp_diff
+      - binary_sensor.*sync_issue
+      - switch.adaptive_lighting*
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
@@ -370,6 +378,14 @@ prometheus:
       - sensor.home_assistant_glances*
       - sensor.watchman_missing*
       - sensor.portainer*
+      - sensor.*brightness_intended
+      - sensor.*brightness_actual
+      - sensor.*colortemp_intended
+      - sensor.*colortemp_actual
+      - sensor.*brightness_diff
+      - sensor.*colortemp_diff
+      - binary_sensor.*sync_issue
+      - switch.adaptive_lighting*
     include_entities:
       - media_player.living_room_tv
       - media_player.basement_tv
