@@ -156,6 +156,7 @@ influxdb:
     source: HA
   tags_attributes:
     - friendly_name
+    - device_class
   ignore_attributes:
     - icon
   exclude:
@@ -237,6 +238,7 @@ influxdb:
       - sensor.*colortemp_diff
       - binary_sensor.*sync_issue
       - switch.adaptive_lighting*
+      - binary_sensor.*occupied*
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
@@ -386,6 +388,7 @@ prometheus:
       - sensor.*colortemp_diff
       - binary_sensor.*sync_issue
       - switch.adaptive_lighting*
+      - binary_sensor.*occupied*
     include_entities:
       - media_player.living_room_tv
       - media_player.basement_tv
