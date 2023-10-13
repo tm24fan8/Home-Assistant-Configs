@@ -6,11 +6,11 @@
   {% from 'weather.jinja' import weatherReport %}
     <p>
       {{ greeting('date') }}
-    <p>
+    </p>
 
     <p>
       {{ today_is() }}
-    <p>
+    </p>
 
     <p>
       {{ weatherReport('alerts','tts','day') }}
