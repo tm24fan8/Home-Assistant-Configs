@@ -25,6 +25,9 @@ input_boolean:
   emma_alarm_clock:
     name: Emma Alarm Clock
     icon: mdi:alarm
+  emma_awake:
+    name: Emma Awake
+    icon: mdi:eye-check
 
 input_datetime:
   emma_bedtime:
