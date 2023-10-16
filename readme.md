@@ -41,9 +41,7 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [HASS.Agent Notifier](https://github.com/LAB02-Research/HASS.Agent-Notifier)
 - [HASS.Agent Media Player](https://github.com/LAB02-Research/HASS.Agent-MediaPlayer)
 - [Music Assistant](https://github.com/music-assistant/hass-music-assistant)
-- [Wyze](https://github.com/JoshuaMulliken/ha-wyzeapi)
 - [Blitzortung Lightning Detector](https://github.com/mrk-its/homeassistant-blitzortung)
-- [LIFX Beta](https://github.com/Djelibeybi/ha-lifx-beta)
 - [Midea Air Conditioning](https://github.com/mill1000/midea-ac-py)
 - [WeatherAPI](https://github.com/iprak/weatherapi)
 - [Browser Mod](https://github.com/thomasloven/hass-browser_mod)
@@ -82,7 +80,6 @@ Again, mostly just the ones I'm **using** or **will use soon**...also a few that
 - [Plotly Graph Card](https://github.com/dbuezas/lovelace-plotly-graph-card)
 - [Mushroom](https://github.com/piitaya/lovelace-mushroom)
 - [Todoist Card](https://github.com/tm24fan8/todoist-card)
-- [TV Remote Card](https://github.com/marrobHD/tv-card)
 - [Apexcharts Card](https://github.com/RomRider/apexcharts-card)
 - [Auto Entities Card](https://github.com/thomasloven/lovelace-auto-entities)
 - [Header Cards](https://github.com/gadgetchnnel/lovelace-header-cards)
@@ -113,12 +110,9 @@ Again, mostly just the ones I'm **using** or **will use soon**...also a few that
 - [Card Templater](https://github.com/gadgetchnnel/lovelace-card-templater)
 - [Energy Overview Card](https://github.com/Sese-Schneider/ha-energy-overview-card)
 - [Button Card](https://github.com/custom-cards/button-card)
-- [Surveillance Card](https://github.com/custom-cards/surveillance-card)
 - [Number Box Card](https://github.com/htmltiger/numberbox-card)
 - [Restriction Card](https://github.com/iantrich/restriction-card)
-- [Steam Card](https://github.com/Kibibit/kb-steam-card)
 - [Timer Bar Card](https://github.com/rianadon/timer-bar-card)
-- [History Explorer Card](https://github.com/alexarch21/history-explorer-card)
 - [Minimalistic Area Card](https://github.com/junalmeida/homeassistant-minimalistic-area-card)
 - [Sankey Chart Card](https://github.com/MindFreeze/ha-sankey-chart)
 - [Hourly Weather Card](https://github.com/decompil3d/lovelace-hourly-weather)
@@ -129,17 +123,6 @@ Again, mostly just the ones I'm **using** or **will use soon**...also a few that
 - [Swipe Card](https://github.com/bramkragten/swipe-card)
 - [Meteoalarm Card](https://github.com/MrBartusek/MeteoalarmCard)
 - [Bubble Card](https://github.com/Clooos/Bubble-Card)
-
-</details>
-
-## AppDaemon Apps
-
-<details>
-<summary>Click here</summary>
-
-- [White Noise](https://github.com/apop880/White-Noise)
-- [Follow Me](https://github.com/aneisch/follow_me_appdaemon)
-- [Alexa Door and Window Announcer](https://github.com/UbhiTS/ad-alexadoorwindowannounce)
 
 </details>
 
