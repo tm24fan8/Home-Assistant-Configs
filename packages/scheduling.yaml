@@ -110,7 +110,7 @@ automation:
         at: '04:00:00'
         id: morning-scheduling
       - platform: time
-        at: '16:00:00'
+        at: '17:00:00'
         id: evening-scheduling
     action:
       - choose:
