@@ -106,6 +106,7 @@ recorder:
       - sensor.*gpu_vram_usage
       - sensor.*gpu_core_load
       - sensor.portainer*
+      - sensor.mosquitto*
     entities:
       - sensor.avg_ping
       - sensor.max_ping
@@ -239,6 +240,7 @@ influxdb:
       - binary_sensor.*sync_issue
       - switch.adaptive_lighting*
       - binary_sensor.*occupied*
+      - sensor.mosquitto*
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
@@ -389,6 +391,7 @@ prometheus:
       - binary_sensor.*sync_issue
       - switch.adaptive_lighting*
       - binary_sensor.*occupied*
+      - sensor.mosquitto*
     include_entities:
       - media_player.living_room_tv
       - media_player.basement_tv
