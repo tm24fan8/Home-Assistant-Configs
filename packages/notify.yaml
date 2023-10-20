@@ -1776,6 +1776,17 @@ script:
               </p>
             {% endmacro %}
 
+            {% macro give_me_darkness() %}
+              {{ [
+                'Automated give me darkness activation routine initiated. ',
+                'You have not run the give me darkness script yet, so I will do it for you. ',
+                'I am not sure why it is still so bright in here. Allow me to give you darkness. ',
+                'It is dark outside. How about we make it dark inside as well. '
+                'Outdoor darkness detected. I will now provide indoor darkness. ',
+                'Here is some automated darkness to accentuate our blackened souls. ',
+              ] | random }}
+            {% endmacro %}
+
             {% macro server_maintenance() %}
               {{ [
                 'The server will be going down for maintenance shortly. Prepare to activate caveman mode!',
@@ -1900,6 +1911,10 @@ script:
 
               {% if call_kallen_dressed_reminder == 1 %}
                 {{ kallen_dressed_reminder() }}
+              {% endif %}
+
+              {% if call_give_me_darkness == 1 %}
+                {{ give_me_darkness() }}
               {% endif %}
 
               {% if call_server_maintenance == 1 %}

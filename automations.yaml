@@ -2997,7 +2997,18 @@
     state: 'on'
     alias: We are home
   action:
+  - alias: Announce activation
+    service: script.status_annc
+    data:
+      call_interruption: 1
+      call_give_me_darkness: 1
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
   - service: script.give_me_darkness
     data:
       auto: 1
+    alias: Run the original Give Me Darkness script
   mode: single
