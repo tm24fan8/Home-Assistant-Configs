@@ -157,9 +157,9 @@ automation:
                 type: alert
                 title: Emma Sleeping
                 message: >
-                  {% from 'status.jinja' import emma_sleep_notification %}
+                  {% from 'status.jinja' import emmaSleepNotification %}
                   {% from 'formatting.jinja' import cleanup %}
-                  {{ cleanup(emma_sleep_notification()) }}
+                  {{ cleanup(emmaSleepNotification()) }}
                 tag: emma-sleep
         - conditions:
           - condition: trigger
@@ -209,9 +209,9 @@ automation:
                 type: alert
                 title: Emma Awakens
                 message: >
-                  {% from 'status.jinja' import emma_sleep_notification %}
+                  {% from 'status.jinja' import emmaSleepNotification %}
                   {% from 'formatting.jinja' import cleanup %}
-                  {{ cleanup(emma_sleep_notification()) }}
+                  {{ cleanup(emmaSleepNotification()) }}
                 tag: emma-wake
             - service: script.emma_wakeup
 

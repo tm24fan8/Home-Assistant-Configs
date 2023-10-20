@@ -577,7 +577,7 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% endif %}
 {% endmacro %}
 
-{% macro emma_sleep_notification(type,method) %}
+{% macro emmaSleepNotification(type,method) %}
 {% set asleep = state_attr('input_datetime.emma_down_for_nap','timestamp') | int %}
 {% set wakeup = state_attr('input_datetime.emma_up_from_nap','timestamp') | int %}
 {% set day = now().strftime("%-d") %}
