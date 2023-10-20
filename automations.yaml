@@ -3232,9 +3232,10 @@
     event_data:
       basement: true
       first_floor: true
-      type: red
+      color: red
       divide: half
       duration: 10
+      lifx: move
   mode: restart
 - id: '1697819133179'
   alias: Give Me Darkness
