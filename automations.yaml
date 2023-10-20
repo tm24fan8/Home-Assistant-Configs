@@ -2974,3 +2974,30 @@
       adapt_brightness: '{{ is_state(''switch.adaptive_lighting_adapt_brightness_master_bedroom'',''on'')
         }}'
   mode: restart
+- id: '1697819133179'
+  alias: Give Me Darkness
+  description: Automatically trigger Give Me Darkness if it has not already happened
+  trigger:
+  - platform: template
+    value_template: '{% from ''time.jinja'' import ct %}
+
+      {% set ct = ct() | int %}
+
+      {% set bedtime = states(''input_datetime.kallen_bedtime'') | int + 1800 %}
+
+      {{ ct >= bedtime }}'
+    alias: When it is half an hour past K's bedtime
+  condition:
+  - condition: state
+    entity_id: input_boolean.give_me_darkness
+    state: 'off'
+    alias: Give Me Darkness isn't already on
+  - condition: state
+    entity_id: binary_sensor.parents_home
+    state: 'on'
+    alias: We are home
+  action:
+  - service: script.give_me_darkness
+    data:
+      auto: 1
+  mode: single

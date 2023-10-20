@@ -44,17 +44,36 @@ give_me_darkness:
       retain: true
       topic: house/time/give_me_darkness
       payload: 'on'
-  - if:
-    - condition: state
-      entity_id: input_boolean.guest_mode
-      state: 'off'
+  - alias: Security decision
+    if:
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: person.tony_stork
+        state: home
+      - condition: state
+        entity_id: person.christina_stork
+        state: home
+      - condition: state
+        entity_id: input_boolean.guest_mode
+        state: 'off'
+      - condition: state
+        entity_id: alarm_control_panel.nerdhome_alarm_panel
+        state: disarmed
+      alias: Both adults are home, guest mode off, security disarmed
     then:
-    - if:
+    - alias: Auto or manual trigger?
+      if:
       - condition: template
-        value_template: '{{ is_state(''person.tony_stork'',''home'') and is_state(''person.christina_stork'',''home'')
-          }}'
-        alias: Both adults are home
+        value_template: '{{ auto == 1 }}'
+        alias: Triggered by automation
       then:
+      - service: alarm_control_panel.alarm_arm_home
+        data: {}
+        target:
+          entity_id: alarm_control_panel.nerdhome_alarm_panel
+        alias: Arm security
+      else:
       - service: script.activate_alexa_actionable_notification
         data:
           text: <voice name='Joanna'><prosody rate='150%'>Would you like me to arm
@@ -62,8 +81,6 @@ give_me_darkness:
           event_id: actionable_notification_night_security_arm
           alexa_device: '{{ states(''sensor.last_alexa_entity_id'') }}'
         alias: Ask to arm security
-      alias: Ask to arm security if both adults are home
-    alias: If guest mode is off
   mode: single
   icon: mdi:weather-night
 start_youtube:
