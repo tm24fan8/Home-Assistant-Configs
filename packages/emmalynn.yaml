@@ -1173,7 +1173,7 @@ script:
               5
             {% endif %}
       - choose:
-        - conditions: "{{ wait.trigger == 'adaptive' }}"
+        - conditions: "{{ wait.trigger.id == 'adaptive' }}"
           sequence:
           - service: adaptive_lighting.set_manual_control
             data:
