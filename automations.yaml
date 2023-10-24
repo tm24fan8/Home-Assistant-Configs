@@ -2084,8 +2084,8 @@
         - conditions:
           - alias: Nothing
             condition: template
-            value_template: '{{ wait.trigger == ''none'' or wait.trigger.idx is
-              undefined }}'
+            value_template: '{{ wait.trigger == ''none'' or wait.trigger.idx is undefined
+              }}'
           sequence:
           - service: input_select.select_option
             data:
@@ -3117,3 +3117,47 @@
       auto: 1
     alias: Run the original Give Me Darkness script
   mode: single
+- id: '1698169213378'
+  alias: Speedtest Update
+  description: Update the speedtest sensors, with exceptions for considerate network
+    usage
+  trigger:
+  - platform: time_pattern
+    hours: /1
+  condition:
+  - condition: state
+    entity_id: sensor.twitch_ironnerd24
+    state: offline
+  - condition: state
+    entity_id: input_boolean.studio_quiet
+    state: 'off'
+  - condition: state
+    entity_id: input_boolean.gaming_mode
+    state: 'off'
+  action:
+  - service: homeassistant.update_entity
+    data: {}
+    target:
+      entity_id: sensor.speedtest_download
+    alias: Speedtest Download
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 15
+      milliseconds: 0
+  - service: homeassistant.update_entity
+    data: {}
+    target:
+      entity_id: sensor.speedtest_upload
+    alias: Speedtest Upload
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 15
+      milliseconds: 0
+  - service: homeassistant.update_entity
+    data: {}
+    target:
+      entity_id: sensor.speedtest_ping
+    alias: Speedtest Ping
+  mode: restart
