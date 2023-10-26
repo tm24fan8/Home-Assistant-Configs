@@ -170,7 +170,7 @@ automation:
         then:
         - service: script.status_annc
           data:
-            who: "{{ states('sensor.last_alexa_entity_id') }}"
+            who: "living_room"
             call_security_not_armed: 1
 
 script:

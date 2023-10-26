@@ -79,7 +79,7 @@ give_me_darkness:
           text: <voice name='Joanna'><prosody rate='150%'>Would you like me to arm
             the security system?</prosody></voice>
           event_id: actionable_notification_night_security_arm
-          alexa_device: '{{ states(''sensor.last_alexa_entity_id'') }}'
+          alexa_device: media_player.living_room_echo_dot
         alias: Ask to arm security
   mode: single
   icon: mdi:weather-night
