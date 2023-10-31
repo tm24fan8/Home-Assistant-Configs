@@ -249,11 +249,11 @@
     unit_of_measurement: A
     state: >
       {% set outlets = [
-        states.sensor.master_bedroom_fan_current.state,
-        states.sensor.master_bedroom_aircon_current.state,
-        states.sensor.kallen_bedroom_fan_current.state,
-        states.sensor.emma_air_conditioner_current.state
-      ] | map('float') | list %}
+        states.sensor.master_bedroom_fan_current,
+        states.sensor.master_bedroom_aircon_current,
+        states.sensor.kallen_bedroom_fan_current,
+        states.sensor.emma_air_conditioner_current
+      ] | rejectattr('state','eq','unavailable') | map(attribute='state') | map('float') | list %}
       {{ outlets | sum | round(2) }}
     icon: mdi:lightning-bolt-circle
   - name: First Floor Plugs Current
@@ -261,8 +261,8 @@
     unit_of_measurement: A
     state: >
       {% set outlets = [
-        states.sensor.tina_desktop_current.state
-      ] | map('float') | list %}
+        states.sensor.tina_desktop_current
+      ] | rejectattr('state','eq','unavailable') | map(attribute='state') | map('float') | list %}
       {{ outlets | sum | round(2) }}
     icon: mdi:lightning-bolt-circle
   - name: Basement Plugs Current
@@ -270,11 +270,11 @@
     unit_of_measurement: A
     state: >
       {% set outlets = [
-        states.sensor.basement_fan_current.state,
-        states.sensor.basement_led_strip_current.state,
-        states.sensor.basement_server_current.state,
-        states.sensor.kallen_desktop_current.state,
-        states.sensor.tony_desktop_current.state
-      ] | map('float') | list %}
+        states.sensor.basement_fan_current,
+        states.sensor.basement_led_strip_current,
+        states.sensor.basement_server_current,
+        states.sensor.kallen_desktop_current,
+        states.sensor.tony_desktop_current
+      ] | rejectattr('state','eq','unavailable') | map(attribute='state') | map('float') | list %}
       {{ outlets | sum | round(2) }}
     icon: mdi:lightning-bolt-circle
