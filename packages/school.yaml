@@ -312,13 +312,14 @@ automation:
         id: cancelled
       - platform: state
         entity_id: input_boolean.kallen_alternate_pickup
-        not_from:
-        - unknown
-        - unavailable
-        not_to:
-        - unknown
-        - unavailable
-        id: alternate-pickup
+        from: 'off'
+        to: 'on'
+        id: alternate-pickup-on
+      - platform: state
+        entity_id: input_boolean.kallen_alternate_pickup
+        from: 'on'
+        to: 'off'
+        id: alternate-pickup-off
     action:
       - if:
         - condition: trigger
@@ -337,7 +338,21 @@ automation:
             - input_boolean.kallen_btb
       - delay:
           seconds: 2
-      - service: script.rerun_all_scheduling_morning
+      - if:
+        - condition: and
+          conditions:
+          - condition: trigger
+            id: alternate-pickup-off
+          - condition: template
+            value_template: >
+              {% from 'time.jinja' import ct %}
+              {% set ct = ct() | int %}
+              {% set cutoff = state_attr('input_datetime.kallen_school_day_end','timestamp') | int - 3600 %}
+              {{ ct >= cutoff }}
+        then:
+        - stop: After cutoff
+        else:
+        - service: script.rerun_all_scheduling_morning
 
 script:
   kallen_school_today:
