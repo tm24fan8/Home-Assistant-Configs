@@ -2897,7 +2897,7 @@
     alias: Windows are open
   action:
   - variables:
-      porch: '{{ true if states(''sensor.windows_open'') == ''1'' and is_state(''binary_sensor.front_window_near'',''on'')
+      porch: '{{ true if states(''sensor.windows_open'') == ''1'' and is_state(''binary_sensor.front_window_1'',''on'')
         else false }}'
       message: "{% if porch == true %}\n  It is raining and a window by the porch
         is open. This is generally acceptable, but please close it if the wind is

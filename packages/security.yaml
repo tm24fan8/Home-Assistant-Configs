@@ -133,7 +133,7 @@ template:
       unit_of_measurement: 'open'
       state: >-
         {% set windows = [
-          states.binary_sensor.front_window_near,
+          states.binary_sensor.front_window_1,
           states.binary_sensor.kitchen_big_window,
           states.binary_sensor.mud_room_window,
           states.binary_sensor.stairway_window_lower,
@@ -142,7 +142,7 @@ template:
         {{ windows_open }}
       icon: >-
         {% set windows = [
-          states.binary_sensor.front_window_near,
+          states.binary_sensor.front_window_1,
           states.binary_sensor.kitchen_big_window,
           states.binary_sensor.mud_room_window,
           states.binary_sensor.stairway_window_lower,

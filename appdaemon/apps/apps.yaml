@@ -39,7 +39,7 @@ media_lights_sync_basement:
 #     - media_player.living_room_echo_dot
 #   doors_windows:
 #     - binary_sensor.kitchen_big_window
-#     - binary_sensor.front_window_near
+#     - binary_sensor.front_window_1
 #     - binary_sensor.stairway_window_lower
 #     - binary_sensor.mud_room_window
 #   announcements:
