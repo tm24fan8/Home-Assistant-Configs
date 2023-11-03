@@ -2576,7 +2576,6 @@
           - input_number.back_door_opened_today
           - input_number.front_door_opened_today
           - input_number.basement_studio_door_opened_today
-          - input_number.downstairs_bathroom_door_opened_today
         data:
           value: 0
     - conditions:

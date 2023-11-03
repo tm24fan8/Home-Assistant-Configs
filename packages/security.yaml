@@ -179,15 +179,13 @@ template:
       unit_of_measurement: 'open'
       state: >-
         {% set doors = [
-          states.binary_sensor.basement_studio_door,
-          states.binary_sensor.downstairs_bathroom_door,
+          states.binary_sensor.basement_studio_door
           ] %}
         {% set doors_open = doors | selectattr('state','eq','on') | list | count %}
         {{ doors_open }}
       icon: >-
         {% set doors = [
-          states.binary_sensor.basement_studio_door,
-          states.binary_sensor.downstairs_bathroom_door,
+          states.binary_sensor.basement_studio_door
           ] %}
         {% set doors_open = doors | selectattr('state','eq','on') | list | count %}
         {% if doors_open == 0 %}

@@ -42,13 +42,6 @@ input_number:
     step: 1
     unit_of_measurement: times
     icon: mdi:door-open
-  downstairs_bathroom_door_opened_today:
-    name: Downstairs Bathroom Door Opened Today
-    min: 0
-    max: 200
-    step: 1
-    unit_of_measurement: times
-    icon: mdi:door-open
 
 proximity:
   home_tony:
@@ -247,7 +240,7 @@ template:
       unique_id: fad33281-1c1a-4362-93e6-398334358027
       device_class: occupancy
       state: >
-        {{ is_state('light.downstairs_bathroom_lights','on') }}
+        {{ is_state('timer.downstairs_bathroom_lights_timer','active') or is_state('binary_sensor.downstairs_bathroom_sensor_motion','on') }}
   - sensor:
     - unique_id: people_at_home
       name: People at Home
@@ -423,17 +416,6 @@ template:
         {{ states('input_number.basement_studio_door_opened_today') | int }}
       icon: >-
         {% if states('input_number.basement_studio_door_opened_today') | int > 0 %}
-          mdi:door-open
-        {% else %}
-          mdi:door-closed
-        {% endif %}
-    - unique_id: cdc850bc-3747-405d-8b16-3b79ba9fbc87
-      name: "Downstairs Bathroom Door Opened Today"
-      unit_of_measurement: 'times'
-      state: >-
-        {{ states('input_number.downstairs_bathroom_door_opened_today') | int }}
-      icon: >-
-        {% if states('input_number.downstairs_bathroom_door_opened_today') | int > 0 %}
           mdi:door-open
         {% else %}
           mdi:door-closed
