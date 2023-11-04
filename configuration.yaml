@@ -158,6 +158,7 @@ influxdb:
   tags_attributes:
     - friendly_name
     - device_class
+    - state_class
   ignore_attributes:
     - icon
   exclude:
