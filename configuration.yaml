@@ -242,6 +242,7 @@ influxdb:
       - switch.adaptive_lighting*
       - binary_sensor.*occupied*
       - sensor.mosquitto*
+      - sensor.*illuminance
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
@@ -393,6 +394,7 @@ prometheus:
       - switch.adaptive_lighting*
       - binary_sensor.*occupied*
       - sensor.mosquitto*
+      - sensor.*illuminance
     include_entities:
       - media_player.living_room_tv
       - media_player.basement_tv
