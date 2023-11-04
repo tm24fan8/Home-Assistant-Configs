@@ -240,7 +240,7 @@ template:
       unique_id: fad33281-1c1a-4362-93e6-398334358027
       device_class: occupancy
       state: >
-        {{ is_state('timer.downstairs_bathroom_lights_timer','active') or is_state('binary_sensor.downstairs_bathroom_sensor_motion','on') }}
+        {{ is_state('timer.downstairs_bathroom_lights_timer','active') or is_state('binary_sensor.downstairs_bathroom_motion','on') }}
   - sensor:
     - unique_id: people_at_home
       name: People at Home
