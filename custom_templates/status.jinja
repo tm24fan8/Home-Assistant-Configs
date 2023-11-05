@@ -36,10 +36,10 @@
     The dryer is running. It will finish in {{ dryerStr }}.
   {% endif %}
   {% if washerFinished == 'on' %}
-    The washer finished its cycle at {{ input_datetime_read(washerDateTime,'withdate') | trim }}.
+    The washer finished its cycle at {{ input_datetime_read(washerDateTime) | trim }}.
   {% endif %}
   {% if dryerFinished == 'on' %}
-    The dryer finished its cycle at {{ input_datetime_read(dryerDateTime,'withdate') | trim }}.
+    The dryer finished its cycle at {{ input_datetime_read(dryerDateTime) | trim }}.
   {% endif %}
   {% endmacro %}
 {{ cleanup(data()) }}
@@ -154,7 +154,7 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% endif %}
 {% if is_state('binary_sensor.overnight','off') %}
   {% if is_state('input_boolean.tony_morning_meds_taken','on') %}
-    {{ identTony }} took his morning meds at {{ input_datetime_read('input_datetime.tony_morning_meds_taken','withdate') | trim }}.
+    {{ identTony }} took his morning meds at {{ input_datetime_read('input_datetime.tony_morning_meds_taken') | trim }}.
   {% elif is_state('input_boolean.tony_morning_meds_taken','off') and ct >= 21600 %}
     {{ identTony }} has not taken his morning meds.
     {% if ct < state_attr('input_datetime.tony_morning_meds_notify','timestamp') | int %}
@@ -181,7 +181,7 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
   {% set identTony = 'He' %}
 {% endif %}
 {% if is_state('input_boolean.tony_night_meds_taken','on') and (is_state('binary_sensor.overnight','on') or ct < 43200) %}
-  {{ identTony }} took his night meds at {{ input_datetime_read('input_datetime.tony_night_meds_taken','withdate') | trim }}.
+  {{ identTony }} took his night meds at {{ input_datetime_read('input_datetime.tony_night_meds_taken') | trim }}.
 {% elif is_state('input_boolean.tony_night_meds_taken','off') and is_state('binary_sensor.overnight','on') %}
   {{ identTony }} has not taken his night meds.
   {% if method == 'tts' %}
@@ -220,7 +220,7 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% macro tina_morning_meds(type,method) %}
 {% if is_state('binary_sensor.overnight','off') %}
   {% if is_state('input_boolean.tina_morning_meds_taken','on') %}
-    Tina took her morning meds at {{ input_datetime_read('input_datetime.tina_morning_meds_taken','withdate') | trim }}.
+    Tina took her morning meds at {{ input_datetime_read('input_datetime.tina_morning_meds_taken') | trim }}.
   {% elif is_state('input_boolean.tina_morning_meds_taken','off') and is_state('binary_sensor.after_midnight','off') %}
     Tina has not taken her morning meds.
     {% if ct < state_attr('input_datetime.tina_morning_meds_notify','timestamp') | int %}
@@ -240,7 +240,7 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 
 {% macro tina_night_meds(type,method) %}
 {% if is_state('input_boolean.tina_night_meds_taken','on') and (is_state('binary_sensor.overnight','on') or ct < 43200) %}
-  Tina took her night meds at {{ input_datetime_read('input_datetime.tina_night_meds_taken','withdate') | trim }}.
+  Tina took her night meds at {{ input_datetime_read('input_datetime.tina_night_meds_taken') | trim }}.
 {% elif is_state('input_boolean.tina_night_meds_taken','off') and is_state('binary_sensor.overnight','on') %}
   Tina has not taken her night meds.
   {% if method == 'tts' %}
@@ -352,7 +352,7 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% endif %}
 {% if wakeup <= ct <= bedtime %}
   {% if is_state('input_boolean.kallen_morning_meds_taken','on') %}
-    {{ identKallen }} took his morning meds at {{ input_datetime_read('input_datetime.kallen_morning_meds_taken','withdate') | trim }}.
+    {{ identKallen }} took his morning meds at {{ input_datetime_read('input_datetime.kallen_morning_meds_taken') | trim }}.
   {% else %}
     {{ identKallen }} has not taken his morning meds.
     {% if ct < state_attr('input_datetime.kallen_morning_meds_notify','timestamp') | int %}
@@ -380,7 +380,7 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% endif %}
 {% if is_state('input_boolean.kallen_night_meds_taken','on') %}
   {% if (ct >= bedtime) or (ct < wakeup) %}
-    {{ identKallen }} took his night meds at {{ input_datetime_read('input_datetime.kallen_night_meds_taken','withdate') | trim }}.
+    {{ identKallen }} took his night meds at {{ input_datetime_read('input_datetime.kallen_night_meds_taken') | trim }}.
   {% endif %}
 {% else %}
   {% if diff <= 3600 %}
@@ -563,9 +563,9 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% set asleep_day = asleep | timestamp_custom("%-d") %}
 {% set wakeup_day = wakeup | timestamp_custom("%-d") %}
 {% if is_state('input_boolean.emma_sleeping','off') and (is_state('input_boolean.emma_has_napped','on') or ((asleep_day == day) and (wakeup > asleep))) %}
-  Emma napped today for {{ custom_time_between('input_datetime.emma_down_for_nap','input_datetime.emma_up_from_nap','hour,minute') }}. She was retrieved from her room at around {{ input_datetime_read('input_datetime.emma_up_from_nap','withdate') | trim }}.
+  Emma napped today for {{ custom_time_between('input_datetime.emma_down_for_nap','input_datetime.emma_up_from_nap','hour,minute') }}. She was retrieved from her room at around {{ input_datetime_read('input_datetime.emma_up_from_nap') | trim }}.
 {% elif (is_state('input_boolean.emma_has_napped','off') and (((asleep_day == day) and (wakeup_day != day)) or wakeup < asleep)) and is_state('input_boolean.emma_sleeping','on') %}
-  Emma is down for nap. She was put down at around {{ input_datetime_read('input_datetime.emma_down_for_nap','withdate') | trim }}. She has been asleep for {{ custom_time('input_datetime.emma_down_for_nap','hour,minute') }}.
+  Emma is down for nap. She was put down at around {{ input_datetime_read('input_datetime.emma_down_for_nap') | trim }}. She has been asleep for {{ custom_time('input_datetime.emma_down_for_nap','hour,minute') }}.
 {% elif is_state('input_boolean.emma_sleeping','on') %}
   {% if is_state('binary_sensor.early_night_mode','on') %}
     Emma is asleep for the night. She went to bed at {{ input_datetime_read('input_datetime.emma_asleep_at') | trim }}.
@@ -597,12 +597,12 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% endmacro %}
 
 {% macro medReportEmma(type,method) %}
-{% set tylenol_taken = input_datetime_read('input_datetime.emma_tylenol','withdate') | trim %}
-{% set ibuprofen_taken = input_datetime_read('input_datetime.emma_ibuprofen','withdate') | trim %}
-{% set cough_meds_taken = input_datetime_read('input_datetime.emma_cough_meds','withdate') | trim %}
-{% set tylenol_next = input_datetime_read('input_datetime.emma_tylenol_notify','nodate') | trim %}
-{% set ibuprofen_next = input_datetime_read('input_datetime.emma_ibuprofen_notify','nodate') | trim %}
-{% set cough_meds_next = input_datetime_read('input_datetime.emma_cough_meds_notify','nodate') | trim %}
+{% set tylenol_taken = input_datetime_read('input_datetime.emma_tylenol') | trim %}
+{% set ibuprofen_taken = input_datetime_read('input_datetime.emma_ibuprofen') | trim %}
+{% set cough_meds_taken = input_datetime_read('input_datetime.emma_cough_meds') | trim %}
+{% set tylenol_next = input_datetime_read('input_datetime.emma_tylenol_notify') | trim %}
+{% set ibuprofen_next = input_datetime_read('input_datetime.emma_ibuprofen_notify') | trim %}
+{% set cough_meds_next = input_datetime_read('input_datetime.emma_cough_meds_notify') | trim %}
 {% set tylenol_ts = state_attr('input_datetime.emma_tylenol','timestamp') | int %}
 {% set ibuprofen_ts = state_attr('input_datetime.emma_ibuprofen','timestamp') | int %}
 {% set cough_ts = state_attr('input_datetime.emma_cough_meds','timestamp') | int %}

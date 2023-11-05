@@ -24,15 +24,11 @@
 {{ now().strftime('%Y-%m-%d') }}
 {% endmacro %}
 
-{% macro input_datetime_read(entity,type) %}
-{% if type is defined %}
-  {% if type == 'withdate' %}
-    {{ state_attr(entity,'timestamp') | int | timestamp_custom('%-I:%M %p') }}
-  {% elif type == 'nodate' %}
-    {{ state_attr(entity,'timestamp') | int | timestamp_custom('%-I:%M %p', False) }}
-  {% endif %}
-{% else %}
-{{ state_attr(entity,'timestamp') | int | timestamp_custom('%-I:%M %p', False) }}
+{% macro input_datetime_read(entity) %}
+{% if state_attr(entity,'has_date') == true %}
+  {{ state_attr(entity,'timestamp') | int | timestamp_custom('%-I:%M %p') }}
+{% elif state_attr(entity,'has_date') == false %}
+  {{ state_attr(entity,'timestamp') | int | timestamp_custom('%-I:%M %p', False) }}
 {% endif %}
 {% endmacro %}
 
