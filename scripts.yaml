@@ -2175,3 +2175,109 @@ tony_custom_meds:
     alias: Routing
   icon: mdi:medication
   mode: parallel
+tony_afternoon_meds:
+  alias: Tony Afternoon Meds
+  sequence:
+  - service: script.text_notify
+    data:
+      who: tony
+      type: alert
+      title: Afternoon Meds
+      message: You need to take your afternoon meds
+      tag: tony-afternoon-meds
+      actions:
+      - action: TONY_AFTERNOON_MEDS_TAKEN
+        title: Taken
+      - action: TONY_AFTERNOON_MEDS_SKIPPED
+        title: Skip
+      - action: TONY_AFTERNOON_MEDS_ASK_LATER
+        title: Ask Later
+  - wait_for_trigger:
+    - alias: Taken
+      platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: TONY_AFTERNOON_MEDS_TAKEN
+      id: taken
+    - alias: Skipped
+      platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: TONY_AFTERNOON_MEDS_SKIPPED
+      id: skipped
+    - alias: Ask Later
+      platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: TONY_AFTERNOON_MEDS_ASK_LATER
+      id: ask-later
+    - platform: state
+      entity_id: person.tony_stork
+      from: home
+      id: left
+      alias: Left
+    - alias: Manual
+      platform: state
+      entity_id:
+      - input_boolean.tony_afternoon_meds_taken
+      to: 'on'
+      id: manual
+      from: 'off'
+    timeout: 00:30:00
+    continue_on_timeout: true
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger.id in [''taken'',''manual''] }}'
+        alias: Taken, Manual
+      sequence:
+      - service: input_boolean.turn_on
+        data: {}
+        target:
+          entity_id: input_boolean.tony_afternoon_meds_taken
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger.id == ''ask-later'' }}'
+        alias: Ask Later
+      sequence:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.tony_afternoon_meds_notify
+        data:
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,30)
+            }}
+
+            '
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger.id == ''left'' }}'
+        alias: Left
+      sequence:
+      - service: script.text_notify
+        data:
+          who: tony
+          type: critical
+          title: HEY DUMBASS
+          message: YOU FORGOT TO TAKE YOUR AFTERNOON MEDS!!!!!
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger == ''none'' or wait.trigger.idx is undefined
+          }}'
+        alias: None or undefined
+      sequence:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.tony_afternoon_meds_notify
+        data:
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,1)
+            }}
+
+            '
+  - service: script.text_notify
+    data:
+      type: alert
+      who: tony
+      message: clear_notification
+      tag: tony-afternoon-meds
+  icon: mdi:medication
+  mode: restart

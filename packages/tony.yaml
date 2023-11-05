@@ -7,6 +7,9 @@ input_boolean:
   tony_morning_meds_taken:
     name: Tony Morning Meds Taken
     icon: mdi:medication
+  tony_afternoon_meds_taken:
+    name: Tony Afternoon Meds Taken
+    icon: mdi:medication
   tony_night_meds_taken:
     name: Tony Night Meds Taken
     icon: mdi:medication
@@ -31,6 +34,11 @@ input_datetime:
     has_date: true
     has_time: true
     icon: mdi:medication
+  tony_afternoon_meds_taken:
+    name: Tony Afternoon Meds Taken
+    has_date: true
+    has_time: true
+    icon: mdi:medication
   tony_night_meds_taken:
     name: Tony Night Meds Taken
     has_date: true
@@ -38,6 +46,11 @@ input_datetime:
     icon: mdi:medication
   tony_morning_meds_notify:
     name: Tony Morning Meds Notify
+    has_date: false
+    has_time: true
+    icon: mdi:medication
+  tony_afternoon_meds_notify:
+    name: Tony Afternoon Meds Notify
     has_date: false
     has_time: true
     icon: mdi:medication

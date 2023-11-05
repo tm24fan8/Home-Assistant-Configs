@@ -172,10 +172,37 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 {% endif %}
 {% endmacro %}
 
-{% macro tony_night_meds(type,method) %}
+{% macro tony_afternoon_meds(type,method) %}
 {% set streamBlock = twitchStreamInfo(type,method) | trim == '' %}
 {% set morningBlock = tony_morning_meds(type,method) | trim != '' %}
 {% if type == 'meds' or streamBlock == true or morningBlock == true %}
+  {% set identTony = 'Tony' %}
+{% else %}
+  {% set identTony = 'He' %}
+{% endif %}
+{% if is_state('input_boolean.tony_afternoon_meds_taken','on') and is_state('input_boolean.tony_awake','on') %}
+  {{ identTony }} took his afternoon meds at {{ input_datetime_read('input_datetime.tony_afternoon_meds_taken') | trim }}.
+{% elif is_state('input_boolean.tony_afternoon_meds_taken','off') and ct >= 61200 %}
+  {{ identTony }} has not taken his afternoon meds.
+  {% if ct < state_attr('input_datetime.tony_afternoon_meds_notify','timestamp') | int %}
+    {% if method == 'tts' %}
+      {{ ['He has a reminder scheduled for',
+          'Rest assured that I will pester him mercilessly about this, starting at',
+          'This is absolutely essential, and I will remind him to do it at',
+          'Since nobody including Tony himself likes him without his meds, I will remind him at',
+        ] | random }} {{ input_datetime_read('input_datetime.tony_afternoon_meds_notify') | trim }}. 
+    {% else %}
+      He will be reminded at {{ input_datetime_read('input_datetime.tony_afternoon_meds_notify') | trim }}.
+    {% endif %}
+  {% endif %}
+{% endif %}
+{% endmacro %}
+
+{% macro tony_night_meds(type,method) %}
+{% set streamBlock = twitchStreamInfo(type,method) | trim == '' %}
+{% set morningBlock = tony_morning_meds(type,method) | trim != '' %}
+{% set afternoonBlock = tony_afternoon_meds(type,method) | trim != '' %}
+{% if type == 'meds' or streamBlock == true or (morningBlock == true and afternoonBlock == true) %}
   {% set identTony = 'Tony' %}
 {% else %}
   {% set identTony = 'He' %}
@@ -198,6 +225,7 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 
 {% macro medReportTony(type,method) %}
 {{ tony_morning_meds(type,method) }}
+{{ tony_afternoon_meds(type,method) }}
 {{ tony_night_meds(type,method) }}
 {% endmacro %}
 

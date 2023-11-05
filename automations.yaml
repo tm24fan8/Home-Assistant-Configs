@@ -2360,12 +2360,16 @@
   mode: single
 - id: '1696288846954'
   alias: Tony Meds Handler
-  description: Make sure Tony has taken his meds in the morning and at night
+  description: Make sure Tony has taken his meds at the scheduled times
   trigger:
   - platform: time
     at: input_datetime.tony_morning_meds_notify
     id: morning-notify
     alias: Morning Notify
+  - platform: time
+    at: input_datetime.tony_afternoon_meds_notify
+    id: afternoon-notify
+    alias: Afternoon Notify
   - platform: time
     at: input_datetime.tony_night_meds_notify
     id: night-notify
@@ -2377,6 +2381,13 @@
     id: boolean-morning
     alias: Morning Taken
     from: 'off'
+  - platform: state
+    entity_id:
+    - input_boolean.tony_afternoon_meds_taken
+    id: boolean-afternoon
+    from: 'off'
+    to: 'on'
+    alias: Afternoon Taken
   - platform: state
     entity_id:
     - input_boolean.tony_night_meds_taken
@@ -2393,7 +2404,8 @@
     to: 'off'
   condition: []
   action:
-  - choose:
+  - alias: Routing
+    choose:
     - conditions:
       - condition: and
         conditions:
@@ -2409,6 +2421,20 @@
           entity_id: script.tony_morning_meds
         data: {}
         alias: Run morning meds script
+    - conditions:
+      - alias: Afternoon Notify
+        condition: and
+        conditions:
+        - condition: trigger
+          id:
+          - afternoon-notify
+        - condition: state
+          entity_id: input_boolean.tony_afternoon_meds_taken
+          state: 'off'
+      sequence:
+      - service: script.tony_afternoon_meds
+        data: {}
+        alias: Run afternoon meds script
     - conditions:
       - condition: and
         conditions:
@@ -2439,6 +2465,30 @@
 
             '
         alias: Set time morning meds were taken
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.tony_afternoon_meds_notify
+        data:
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(6)
+            }}
+
+            '
+        alias: Adjust afternoon meds reminder
+    - conditions:
+      - condition: trigger
+        id:
+        - boolean-afternoon
+        alias: Afternoon Taken
+      sequence:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.tony_afternoon_meds_taken
+        data:
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0)
+            }}
+
+            '
+        alias: Set time afternoon meds were taken
     - conditions:
       - condition: trigger
         id: boolean-night
@@ -2467,7 +2517,6 @@
 
             '
         alias: Set time to start notifying for morning meds
-    alias: Routing
   mode: parallel
   max: 10
 - id: '1696288939707'
@@ -2564,12 +2613,6 @@
           value: '{{ states(''input_number.tomorrow_corrected_high_temp'') | int }}'
         target:
           entity_id: input_number.today_corrected_high_temp
-    - conditions:
-      - condition: trigger
-        id: audible-off
-      sequence:
-      - service: script.reset_annc_switches
-        data: {}
       - service: input_number.set_value
         target:
           entity_id:
@@ -2578,6 +2621,12 @@
           - input_number.basement_studio_door_opened_today
         data:
           value: 0
+    - conditions:
+      - condition: trigger
+        id: audible-off
+      sequence:
+      - service: script.reset_annc_switches
+        data: {}
     - conditions:
       - condition: trigger
         id: school-end
@@ -2603,6 +2652,7 @@
           - input_boolean.kallen_night_meds_taken
           - input_boolean.tony_morning_meds_taken
           - input_boolean.tina_morning_meds_taken
+          - input_boolean.tony_afternoon_meds_taken
         data: {}
     - conditions:
       - condition: trigger
