@@ -174,7 +174,7 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 
 {% macro tony_afternoon_meds(type,method) %}
 {% set streamBlock = twitchStreamInfo(type,method) | trim == '' %}
-{% set morningBlock = tony_morning_meds(type,method) | trim != '' %}
+{% set morningBlock = tony_morning_meds(type,method) | trim == '' %}
 {% if type == 'meds' or streamBlock == true or morningBlock == true %}
   {% set identTony = 'Tony' %}
 {% else %}
@@ -200,8 +200,8 @@ Tony is currently streaming. The current stream category is {{ game }}. The curr
 
 {% macro tony_night_meds(type,method) %}
 {% set streamBlock = twitchStreamInfo(type,method) | trim == '' %}
-{% set morningBlock = tony_morning_meds(type,method) | trim != '' %}
-{% set afternoonBlock = tony_afternoon_meds(type,method) | trim != '' %}
+{% set morningBlock = tony_morning_meds(type,method) | trim == '' %}
+{% set afternoonBlock = tony_afternoon_meds(type,method) | trim == '' %}
 {% if type == 'meds' or streamBlock == true or (morningBlock == true and afternoonBlock == true) %}
   {% set identTony = 'Tony' %}
 {% else %}
