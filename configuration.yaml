@@ -243,6 +243,7 @@ influxdb:
       - binary_sensor.*occupied*
       - sensor.mosquitto*
       - sensor.*illuminance
+      - sensor.*temp_change
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
@@ -395,6 +396,7 @@ prometheus:
       - binary_sensor.*occupied*
       - sensor.mosquitto*
       - sensor.*illuminance
+      - sensor.*temp_change
     include_entities:
       - media_player.living_room_tv
       - media_player.basement_tv
