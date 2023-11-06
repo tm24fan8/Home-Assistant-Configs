@@ -1965,10 +1965,6 @@
           - input_boolean.white_noise_basement
           - input_boolean.studio_quiet
         data: {}
-      - service: script.turn_on
-        target:
-          entity_id: script.asus_laptop_displays_off
-        data: {}
       - if:
         - condition: template
           value_template: "{% if is_state('media_player.basement_tv','playing') %}\n
@@ -2025,24 +2021,6 @@
           - input_boolean.studio_quiet
         data: {}
         alias: Turn off the quiet switch
-      - alias: If my computer is on, turn the screens back on
-        if:
-        - condition: template
-          value_template: '{{ is_state(''binary_sensor.tony_desktop_on'',''on'') or
-            states(''sensor.tony_asus_current_username'') not in [''unavailable'',''unknown'']
-            }}'
-        then:
-        - service: script.turn_on
-          target:
-            entity_id:
-            - script.tony_desktop_displays_on
-            - script.asus_laptop_displays_on
-          data: {}
-          alias: Turn the screens back on
-      - service: media_player.turn_on
-        target:
-          entity_id: media_player.basement_tv
-        data: {}
       - service: light.turn_on
         data:
           brightness_pct: '{{ brightness|default(70) }}'
@@ -2053,7 +2031,8 @@
         target:
           entity_id: light.basement_studio_lights
         alias: Fade the lights in gradually
-      - wait_for_trigger:
+      - alias: Wait for lights to fade in unless interrupted
+        wait_for_trigger:
         - platform: state
           entity_id:
           - light.basement_studio_lights
@@ -2064,13 +2043,19 @@
           - input_select.basement_studio_scenes
           to: Adaptive
           id: adaptive
+        - platform: state
+          entity_id:
+          - binary_sensor.tony_desktop_idle
+          from: 'on'
+          to: 'off'
+          id: computer
         timeout:
           minutes: "{% if is_state('binary_sensor.early_night_mode','on') %}\n  {{
             states('input_number.wakeup_lights_fade_night') }}\n{% else %}\n  {{ states('input_number.wakeup_lights_fade_day')
             }}\n{% endif %}\n"
         continue_on_timeout: true
-        alias: Wait for lights to fade in unless interrupted
-      - choose:
+      - alias: Take action after timeout or interruption
+        choose:
         - conditions:
           - alias: Adaptive
             condition: template
@@ -2114,13 +2099,29 @@
               manual_control: false
               entity_id: switch.adaptive_lighting_basement_studio
             alias: Reset manual control
-        alias: Take action after timeout or interruption
       - service: input_boolean.turn_off
         target:
           entity_id:
           - input_boolean.white_noise_basement
         data: {}
         alias: Turn off white noise
+      - alias: If my computer is on, turn the screens back on
+        if:
+        - condition: template
+          value_template: '{{ is_state(''binary_sensor.tony_desktop_on'',''on'') or
+            states(''sensor.tony_asus_current_username'') not in [''unavailable'',''unknown'']
+            }}'
+        then:
+        - alias: Turn the screens back on
+          service: script.turn_on
+          target:
+            entity_id:
+            - script.tony_desktop_displays_on
+          data: {}
+      - service: media_player.turn_on
+        target:
+          entity_id: media_player.basement_tv
+        data: {}
   mode: restart
 - id: '1696286540644'
   alias: Basement Lights Adaptive Resync
