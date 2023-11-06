@@ -140,7 +140,7 @@ automation:
                 data:
                   datetime: >
                     {% from 'time.jinja' import current_time %}
-                    {{ current_time(24,'withdate') }}
+                    {{ current_time('datetime',24) }}
               else:
               - service: input_datetime.set_datetime
                 target:
@@ -148,7 +148,7 @@ automation:
                 data:
                   time: >
                     {% from 'time.jinja' import current_time %}
-                    {{ current_time(24) }}
+                    {{ current_time('time',24) }}
             - delay:
                 seconds: 1
             - service: script.text_notify
@@ -180,7 +180,7 @@ automation:
                 data:
                   datetime: >
                     {% from 'time.jinja' import current_time %}
-                    {{ current_time(24,'withdate') }}
+                    {{ current_time('datetime',24) }}
               - delay:
                   milliseconds: 500
               - if:
@@ -371,7 +371,7 @@ automation:
                 data:
                   datetime: >
                     {% from 'time.jinja' import current_time %}
-                    {{ current_time(24,'withdate') }}
+                    {{ current_time('datetime',24) }}
             - conditions:
               - condition: or
                 conditions:
@@ -388,7 +388,7 @@ automation:
                 data:
                   time: >
                     {% from 'time.jinja' import current_time %}
-                    {{ current_time(24) }}
+                    {{ current_time('time',24) }}
       - conditions:
         - condition: trigger
           id: naptime-timer-finished
@@ -412,7 +412,7 @@ automation:
             data:
               datetime: >
                 {% from 'time.jinja' import current_time %}
-                {{ current_time(24,'withdate') }}
+                {{ current_time('datetime',24) }}
       - conditions:
         - condition: trigger
           id: bedtime-timer-finished
@@ -436,7 +436,7 @@ automation:
             data:
               datetime: >
                 {% from 'time.jinja' import current_time %}
-                {{ current_time(24) }}
+                {{ current_time('time',24) }}
 
   - id: e59f638a-519f-4619-bf7d-b13251b3a374
     alias: Emma Meds Handler
@@ -670,7 +670,7 @@ script:
           data:
             datetime: >
               {% from 'time.jinja' import current_time %}
-              {{ current_time(24,'withdate') }}
+              {{ current_time('datetime',24) }}
         - service: input_datetime.set_datetime
           target:
             entity_id: input_datetime.emma_ibuprofen_notify
@@ -803,7 +803,7 @@ script:
           data:
             datetime: >
               {% from 'time.jinja' import current_time %}
-              {{ current_time(24,'withdate') }}
+              {{ current_time('datetime',24) }}
         - service: input_datetime.set_datetime
           target:
             entity_id: input_datetime.emma_tylenol_notify
@@ -928,7 +928,7 @@ script:
           data:
             datetime: >
               {% from 'time.jinja' import current_time %}
-              {{ current_time(24,'withdate') }}
+              {{ current_time('datetime',24) }}
         - service: input_datetime.set_datetime
           target:
             entity_id: input_datetime.emma_cough_meds_notify
@@ -1124,7 +1124,7 @@ script:
           data:
             time: >
               {% from 'time.jinja' import current_time %}
-              {{ current_time(24) }}
+              {{ current_time('time',24) }}
       - if:
         - condition: state
           entity_id: binary_sensor.early_night_mode

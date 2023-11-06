@@ -149,8 +149,8 @@ automation:
             entity_id: input_datetime.kallen_morning_meds_taken
           data:
             datetime: >
-              {% from 'time.jinja' import set_datetime %}
-              {{ set_datetime(0) }}
+              {% from 'time.jinja' import current_time %}
+              {{ current_time('datetime',24) }}
       - conditions:
         - condition: trigger
           id: boolean-night
@@ -160,8 +160,8 @@ automation:
             entity_id: input_datetime.kallen_night_meds_taken
           data:
             datetime: >
-              {% from 'time.jinja' import set_datetime %}
-              {{ set_datetime(0) }}
+              {% from 'time.jinja' import current_time %}
+              {{ current_time('datetime',24) }}
 
   - id: 1d552b1f-c0ed-4d80-b8ba-3c085d2c3d3a
     alias: "Kallen Late Bedtime"

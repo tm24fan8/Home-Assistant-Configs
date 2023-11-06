@@ -146,8 +146,8 @@ automation:
             entity_id: input_datetime.tina_morning_meds_taken
           data:
             datetime: >
-              {% from 'time.jinja' import set_datetime %}
-              {{ set_datetime(0) }}
+              {% from 'time.jinja' import current_time %}
+              {{ current_time('datetime',24) }}
       - conditions:
         - condition: and
           conditions:
@@ -172,8 +172,8 @@ automation:
             entity_id: input_datetime.tina_night_meds_taken
           data:
             datetime: >
-              {% from 'time.jinja' import set_datetime %}
-              {{ set_datetime(0) }}
+              {% from 'time.jinja' import current_time %}
+              {{ current_time('datetime',24) }}
 
 script:
   tina_work_today:

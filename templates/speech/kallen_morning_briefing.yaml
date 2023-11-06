@@ -17,7 +17,7 @@
       {% if is_state('binary_sensor.morning','on') %}
         <s>Today is {{ current_date_readout() }}.</s>
       {% else %}
-        <s>It is {{ current_time(12) }}.</s>
+        <s>It is {{ current_time('time',12) }}.</s>
       {% endif %}
 
       {% if is_state('sensor.anniversary_kallen_s_birthday', '0') %}

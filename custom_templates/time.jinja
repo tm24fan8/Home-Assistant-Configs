@@ -4,19 +4,22 @@
 {{ (states(input_number)) | int * 60 }}
 {% endmacro %}
 
-{% macro current_time(hr,date) %}
-{% if hr == 12 %}
-{{ now().strftime('%-I:%M %p') }}
-{% elif hr == 24 %}
-  {% if date is defined %}
-    {% if date == 'withdate' %}
-      {{ now().strftime('%Y-%m-%d %H:%M:%S') }}
-    {% elif date == 'nodate' %}
-      {{ now().strftime('%H:%M') }}
-    {% endif %}
-  {% else %}
-    {{ now().strftime('%H:%M') }}
+{% macro current_time(type,hr) %}
+{% set hr = hr|default(24) %}
+{% if type == 'datetime' %}
+  {% if hr == 12 %}
+    {{ now().strftime('%Y-%m-%d %-I:%M %p') }}
+  {% elif hr == 24 %}
+    {{ now().strftime('%Y-%m-%d %H:%M:%S') }}
   {% endif %}
+{% elif type == 'time' %}
+  {% if hr == 12 %}
+    {{ now().strftime('%-I:%M %p') }}
+  {% elif hr == 24 %}
+    {{ now().strftime('%H:%M:%S') }}
+  {% endif %}
+{% elif type == 'date' %}
+  {{ now().strftime('%Y-%m-%d') }}
 {% endif %}
 {% endmacro %}
 
