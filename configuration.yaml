@@ -3,6 +3,8 @@ homeassistant:
     external_url: !secret remote_url
     internal_url: !secret local_url
     country: US
+    media_dirs:
+      local: /media
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
