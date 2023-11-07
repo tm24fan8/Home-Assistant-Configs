@@ -2012,8 +2012,8 @@
           seconds: 0
           milliseconds: 500
       - variables:
-          brightness: '{{ state_attr(''switch.adaptive_lighting_basement_studio'')
-            }}'
+          brightness: '{{ state_attr(''switch.adaptive_lighting_basement_studio'',''brightness_pct'')
+            | int }}'
         alias: Set intended brightness
       - service: input_boolean.turn_off
         target:
