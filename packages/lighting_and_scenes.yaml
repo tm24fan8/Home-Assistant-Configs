@@ -102,6 +102,13 @@ input_number:
     step: 1
     unit_of_measurement: resets
     icon: mdi:restore
+  downstairs_bathroom_lux_threshold:
+    name: Downstairs Bathroom Lux Threshold
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: lx
+    icon: mdi:sun-wireless
 
 input_select:
   living_room_scenes:
