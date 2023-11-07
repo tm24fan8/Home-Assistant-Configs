@@ -675,6 +675,11 @@ script:
           entity_id: input_datetime.emma_wakeup
           data:
             time: "{{ states('input_datetime.master_bedroom_wakeup') }}"
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.naptime_climate_mode_emma_aircon
+        data:
+          option: "{{ states('input_select.scheduled_climate_mode_emma_aircon') }}"
       - service: input_boolean.turn_on
         target:
           entity_id: input_boolean.emma_scheduling_morning_ran

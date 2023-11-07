@@ -265,6 +265,9 @@ automation:
     - condition: state
       entity_id: input_boolean.emma_bedroom_climate_override
       state: 'off'
+    - condition: state
+      entity_id: input_boolean.emma_bedroom_aircon_installed
+      state: 'on'
     action:
     - service: input_select.select_option
       target:
