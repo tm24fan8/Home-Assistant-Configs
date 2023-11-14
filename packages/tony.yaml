@@ -71,6 +71,13 @@ input_datetime:
     icon: mdi:medication
 
 input_number:
+  tony_afternoon_meds_interval:
+    name: Tony Afternoon Meds Interval
+    min: 0
+    max: 12
+    step: 1
+    unit_of_measurement: hours
+    icon: mdi:medication
   tony_custom_meds_interval_p1:
     name: Tony Custom Meds Interval P1
     min: 0

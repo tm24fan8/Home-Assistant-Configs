@@ -2470,7 +2470,8 @@
         target:
           entity_id: input_datetime.tony_afternoon_meds_notify
         data:
-          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(6)
+          datetime: '{% from ''time.jinja'' import set_datetime %} {% set interval
+            = states(''input_number.tony_afternoon_meds_interval'') | int %} {{ set_datetime(interval)
             }}
 
             '
