@@ -29,6 +29,15 @@ input_boolean:
     name: Emma Awake
     icon: mdi:eye-check
 
+input_number:
+  emma_cough_meds_interval:
+    name: Emma Cough Meds Interval
+    min: 2
+    max: 12
+    step: 1
+    unit_of_measurement: hours
+    icon: mdi:medication
+
 input_datetime:
   emma_bedtime:
     name: Emma Bedtime
@@ -689,7 +698,6 @@ script:
               {% from 'time.jinja' import set_datetime %}
               {{ set_datetime(4) }}
 
-
   emma_tylenol:
     alias: Emma Tylenol
     icon: mdi:medication
@@ -938,7 +946,8 @@ script:
           data:
             datetime: >
               {% from 'time.jinja' import set_datetime %}
-              {{ set_datetime(4) }}
+              {% set interval = states('input_number.emma_cough_meds_interval') | int %}
+              {{ set_datetime(interval) }}
 
   emma_sleep:
     alias: 'Emma Sleep'
