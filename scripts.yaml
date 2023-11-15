@@ -196,7 +196,8 @@ max_brightness:
       entity_id: input_boolean.tina_desk_lights
     data: {}
     alias: Turn on Tina Desk Lights
-  - service: switch.turn_off
+  - alias: Turn off Adaptive Lighting
+    service: switch.turn_off
     target:
       entity_id:
       - switch.adaptive_lighting_basement_studio
@@ -210,29 +211,26 @@ max_brightness:
       - switch.adaptive_lighting_upstairs_bathroom
       - switch.adaptive_lighting_downstairs_bathroom
       - switch.adaptive_lighting_tina_lamp
+      - switch.adaptive_lighting_front_porch
     data: {}
-    alias: Turn off Adaptive Lighting
   - delay:
       hours: 0
       minutes: 0
       seconds: 1
       milliseconds: 0
-  - service: input_boolean.turn_on
-    data: {}
-    target:
-      entity_id: input_boolean.shower_mode
-    alias: Turn on Shower Mode
   - service: automation.turn_off
     data:
       stop_actions: true
     target:
       entity_id: automation.living_room_night_lighting
     alias: Turn off Living Room night automation
-  - service: timer.cancel
+  - alias: Cancel living room motion timer
+    service: timer.cancel
     data: {}
     target:
-      entity_id: timer.living_room_motion_timer
-    alias: Cancel living room motion timer
+      entity_id:
+      - timer.living_room_motion_timer
+      - timer.upstairs_bathroom_motion_timer
   - service: input_boolean.turn_off
     data: {}
     target:
@@ -600,17 +598,17 @@ stop_spotify_basement:
 max_brightness_cleanup:
   alias: Max Brightness Cleanup
   sequence:
-  - service: input_boolean.turn_off
-    data: {}
-    target:
-      entity_id:
-      - input_boolean.shower_mode
-    alias: Turn off Shower Mode
   - service: input_boolean.turn_on
     data: {}
     target:
       entity_id: input_boolean.front_porch_light_on
     alias: Turn on Front Porch automation
+  - alias: Turn on Adaptive Lighting on front porch
+    service: switch.turn_on
+    target:
+      entity_id:
+      - switch.adaptive_lighting_front_porch
+    data: {}
   - service: automation.turn_on
     data: {}
     target:
@@ -618,8 +616,16 @@ max_brightness_cleanup:
     alias: Turn on Living Room night automation
   - service: script.adaptive_on_first_floor
     data: {}
+    alias: Adaptive on first floor
   - service: script.adaptive_on_second_floor
     data: {}
+    alias: Adaptive on second floor
+  - service: input_select.select_option
+    data:
+      option: Adaptive
+    target:
+      entity_id: input_select.basement_studio_scenes
+    alias: Set basement lights to adaptive
   mode: single
   icon: mdi:broom
 cleanup_crash:

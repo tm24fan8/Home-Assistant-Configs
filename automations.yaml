@@ -23,8 +23,9 @@
       - input_boolean.white_noise_basement
       - input_boolean.white_noise_emma_bedroom
     alias: Turn off white noise
-  - service: script.max_brightness
-    data: {}
+  - service: script.turn_on
+    target:
+      entity_id: script.max_brightness
   - service: script.text_notify
     data:
       type: critical
