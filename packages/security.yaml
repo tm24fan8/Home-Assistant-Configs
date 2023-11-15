@@ -127,13 +127,35 @@ alarm_control_panel:
               call_security_not_armed: 1
 
 template:
+  - binary_sensor:
+    - name: Living Room Windows
+      unique_id: fb4ab414-3ceb-44d2-8276-66027a936329
+      device_class: window
+      state: >
+        {% set windows_open = states.binary_sensor | 
+          selectattr('entity_id','in',area_entities('living_room')) |
+          selectattr('attributes.device_class','eq','window') |
+          selectattr('state','eq','on') |
+          map(attribute='attributes.friendly_name') |
+          list | count %}
+        {{ windows_open > 0 }}
+      attributes:
+        windows_open: >
+          {% set windows_open = states.binary_sensor | 
+            selectattr('entity_id','in',area_entities('living_room')) |
+            selectattr('attributes.device_class','eq','window') |
+            selectattr('state','eq','on') |
+            map(attribute='attributes.friendly_name') |
+            list %}
+          {{ windows_open }}
   - sensor:
-    - name: "Windows"
+    - name: "Windows Open"
       unique_id: 780770d2-8b5a-4c96-aee4-459281cc3471
       unit_of_measurement: 'open'
       state: >-
         {% set windows = [
           states.binary_sensor.front_window_1,
+          states.binary_sensor.front_window_2,
           states.binary_sensor.kitchen_big_window,
           states.binary_sensor.mud_room_window,
           states.binary_sensor.stairway_window_lower,
@@ -143,11 +165,56 @@ template:
       icon: >-
         {% set windows = [
           states.binary_sensor.front_window_1,
+          states.binary_sensor.front_window_2,
           states.binary_sensor.kitchen_big_window,
           states.binary_sensor.mud_room_window,
           states.binary_sensor.stairway_window_lower,
           ] %}
         {% set windows_open = windows | selectattr('state','eq','on') | list | count %}
+        {% if windows_open == 0 %}
+          mdi:window-closed
+        {% else %}
+          mdi:window-open
+        {% endif %}
+    - name: "Front Windows Open"
+      unique_id: ff8a0e1b-806d-44c5-a5b9-2be0b4c0f893
+      unit_of_measurement: 'open'
+      state: >-
+        {% set windows = [
+          states.binary_sensor.front_window_1,
+          states.binary_sensor.front_window_2
+          ] %}
+        {% set windows_open = windows | selectattr('state','eq','on') | list | count %}
+        {{ windows_open }}
+      icon: >-
+        {% set windows = [
+          states.binary_sensor.front_window_1,
+          states.binary_sensor.front_window_2
+          ] %}
+        {% set windows_open = windows | selectattr('state','eq','on') | list | count %}
+        {% if windows_open == 0 %}
+          mdi:window-closed
+        {% else %}
+          mdi:window-open
+        {% endif %}
+    - name: "Living Room Windows Open"
+      unique_id: d7b12353-3017-4640-b871-323425ea62d1
+      unit_of_measurement: 'open'
+      state: >-
+        {% set windows_open = states.binary_sensor | 
+          selectattr('entity_id','in',area_entities('living_room')) |
+          selectattr('attributes.device_class','eq','window') |
+          selectattr('state','eq','on') |
+          map(attribute='entity_id') |
+          list | count %}
+        {{ windows_open }}
+      icon: >
+        {% set windows_open = states.binary_sensor | 
+          selectattr('entity_id','in',area_entities('living_room')) |
+          selectattr('attributes.device_class','eq','window') |
+          selectattr('state','eq','on') |
+          map(attribute='entity_id') |
+          list | count %}
         {% if windows_open == 0 %}
           mdi:window-closed
         {% else %}
