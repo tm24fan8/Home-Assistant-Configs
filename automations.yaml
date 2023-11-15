@@ -2948,44 +2948,47 @@
     alias: Windows are open
   action:
   - variables:
-      porch: '{{ true if states(''sensor.windows_open'') == ''1'' and is_state(''binary_sensor.front_window_1'',''on'')
-        else false }}'
-      message: "{% if porch == true %}\n  It is raining and a window by the porch
+      porch: "{% set windows = states('sensor.windows_open') | int %}  {% set front
+        = states('sensor.front_windows_open') | int %} {% if windows == front %}\n
+        \ true\n{% else %}\n  false\n{% endif %}"
+      message: "{% if porch == 'true' %}\n  It is raining and a window by the porch
         is open. This is generally acceptable, but please close it if the wind is
         blowing in.\n{% else %}\n  It is raining and there are windows open in the
         house. Please close them!\n{% endif %}\n"
     alias: Define variables
-  - service: script.text_notify
-    data:
-      type: alert
-      who: all
-      title: WINDOWS ARE OPEN!
-      message: '{{ message }}'
-      tag: rain-window-warning
-    alias: Send text notification
-  - service: script.living_room_lights_alert
-    data:
-      type: blue
-      duration: 10
-    alias: Light alert in living room
-  - if:
-    - condition: state
-      entity_id: binary_sensor.basement_occupied
-      state: 'on'
-      alias: Basement is occupied
-    then:
-    - service: script.basement_lights_alert
+  - parallel:
+    - service: script.text_notify
+      data:
+        type: alert
+        who: all
+        title: WINDOWS ARE OPEN!
+        message: '{{ message }}'
+        tag: rain-window-warning
+      alias: Send text notification
+    - service: script.speech_engine
+      data:
+        who: everywhere
+        type: weather
+        message: '{{ message }}'
+      alias: TTS notification
+    - service: script.living_room_lights_alert
       data:
         type: blue
         duration: 10
-      alias: Light alert in basement
-    alias: Light alert in basement, if occupied
-  - service: script.speech_engine
-    data:
-      who: everywhere
-      type: weather
-      message: '{{ message }}'
-    alias: TTS notification
+      alias: Light alert in living room
+    - if:
+      - condition: state
+        entity_id: binary_sensor.basement_occupied
+        state: 'on'
+        alias: Basement is occupied
+      then:
+      - service: script.basement_lights_alert
+        data:
+          type: blue
+          duration: 10
+        alias: Light alert in basement
+      alias: Light alert in basement, if occupied
+    alias: Send the various alerts
   - wait_template: '{{ is_state(''binary_sensor.windows'',''off'') or is_state(''binary_sensor.raining'',''off'')
       }}'
     timeout: 00:15:00
