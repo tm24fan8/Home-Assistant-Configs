@@ -1747,20 +1747,38 @@ day_mode_in_tina_desk:
     timeout:
       seconds: 15
     continue_on_timeout: true
-  - service: switch.turn_on
-    target:
+  - alias: Apply adaptive lighting to lamp
+    if:
+    - condition: state
       entity_id: switch.adaptive_lighting_tina_lamp
-    data: {}
+      state: 'off'
+      alias: If switch is off
+    then:
+    - service: switch.turn_on
+      data: {}
+      target:
+        entity_id: switch.adaptive_lighting_tina_lamp
+      alias: Turn on the switch
+    else:
+    - alias: Apply adaptive lighting
+      service: adaptive_lighting.apply
+      data:
+        entity_id: switch.adaptive_lighting_tina_lamp
+        adapt_brightness: true
+        adapt_color: true
   mode: restart
   icon: mdi:palette
 evening_mode_in_tina_desk:
   alias: Evening Mode in Tina Desk
   sequence:
-  - parallel:
+  - alias: Turn on all lights
+    parallel:
     - service: light.turn_on
-      target:
-        entity_id: light.tina_lamp
       data: {}
+      target:
+        entity_id:
+        - light.tina_lamp_top
+        - light.tina_lamp_side
     - service: light.turn_on
       target:
         entity_id: light.tina_desk_strip
@@ -1770,11 +1788,26 @@ evening_mode_in_tina_desk:
         - 0
         - 255
         brightness: 128
-  - service: input_select.select_option
-    target:
-      entity_id: input_select.tina_lamp_scenes
-    data:
-      option: Adaptive
+  - alias: Apply adaptive lighting to lamp
+    if:
+    - condition: state
+      entity_id: switch.adaptive_lighting_tina_lamp
+      state: 'off'
+      alias: If switch is off
+    then:
+    - service: switch.turn_on
+      data: {}
+      target:
+        entity_id: switch.adaptive_lighting_tina_lamp
+      alias: Turn on the switch
+    else:
+    - service: adaptive_lighting.apply
+      data:
+        entity_id: switch.adaptive_lighting_tina_lamp
+        adapt_brightness: true
+        adapt_color: true
+        turn_on_lights: true
+      alias: Apply adaptive lighting
   mode: restart
   icon: mdi:palette
 night_mode_in_tina_desk:
