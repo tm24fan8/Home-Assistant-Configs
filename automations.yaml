@@ -1429,10 +1429,12 @@
     data:
       title: Lockdown Issue
       notification_id: lockdown_issue
-      message: '{% set extdoors = expand(''binary_sensor.exterior_doors'') | selectattr(''state'',''eq'',''on'')
-        | map(attribute=''name'') | list | join('', '') %} {% set windows = expand(''binary_sensor.windows'')
+      message: 'I fucked up this notification, will fix later, but you still gotta
+        issue, okbyeeeee {% set extdoors = expand(''binary_sensor.exterior_doors'')
         | selectattr(''state'',''eq'',''on'') | map(attribute=''name'') | list | join('',
-        '') %} A lockdown issue has been caused by the following sensors:
+        '') %} {% set windows = expand(''binary_sensor.windows'') | selectattr(''state'',''eq'',''on'')
+        | map(attribute=''name'') | list | join('', '') %} A lockdown issue has been
+        caused by the following sensors:
 
         Doors:{% if is_state(''binary_sensor.exterior_doors'',''on'') %} {{ extdoors
         }} {% else %} None {% endif %} Windows:{% if is_state(''binary_sensor.windows'',''on'')
@@ -1444,10 +1446,12 @@
         %}\n  tony\n{% else %}\n  parents\n{% endif %}"
       title: Security Not Armed!
       tag: lockdown-issue
-      message: '{% set extdoors = expand(''binary_sensor.exterior_doors'') | selectattr(''state'',''eq'',''on'')
-        | map(attribute=''name'') | list | join('', '') %} {% set windows = expand(''binary_sensor.windows'')
+      message: 'I fucked up this notification, will fix later, but you still gotta
+        issue, okbyeeeee {% set extdoors = expand(''binary_sensor.exterior_doors'')
         | selectattr(''state'',''eq'',''on'') | map(attribute=''name'') | list | join('',
-        '') %} A lockdown issue has been caused by the following sensors:
+        '') %} {% set windows = expand(''binary_sensor.windows'') | selectattr(''state'',''eq'',''on'')
+        | map(attribute=''name'') | list | join('', '') %} A lockdown issue has been
+        caused by the following sensors:
 
         Doors:{% if is_state(''binary_sensor.exterior_doors'',''on'') %} {{ extdoors
         }} {% else %} None {% endif %} Windows:{% if is_state(''binary_sensor.windows'',''on'')

@@ -148,30 +148,97 @@ template:
             map(attribute='attributes.friendly_name') |
             list %}
           {{ windows_open }}
+    - name: Security Faults
+      unique_id: fe4e7867-6abb-43c5-adde-67971b64cc08
+      device_class: problem
+      state: >
+        {% set faults = states('sensor.total_faults') | int %}
+        {{ faults > 0 }}
   - sensor:
+    - name: "Bypassed Sensors"
+      unique_id: 612f1314-494b-40f8-8c20-d5310aa17ab4
+      state: >-
+        {{ states.select |
+          selectattr('state','in',['Faulted','Always']) |
+          map(attribute='entity_id') |
+          map('device_id') |
+          list }}
+    - name: "Window Faults"
+      unique_id: 79b8ffe8-3f7c-4d4e-9809-b2023da1d497
+      unit_of_measurement: 'faults'
+      state: >-
+        {% set bypass = states('sensor.bypassed_sensors') %}
+        {% set window_sensors = states.binary_sensor |
+          selectattr('attributes.device_class','eq','window') |
+          selectattr('attributes.entity_id','eq',null) |
+          rejectattr('entity_id','search','windows') |
+          list %}
+        {% set windows_open = window_sensors |
+          selectattr('state','eq','on') |
+          map(attribute='entity_id') |
+          map('device_id') |
+          list %}
+        {% set id = namespace(devices=[]) %}
+        {% for device_id in windows_open %}
+          {% if device_id in bypass %}
+            {% set id.devices = id.devices + [device_id] %}
+          {% endif %}
+        {% endfor %}
+        {% set window_faults = windows_open |
+          reject('in',id.devices) |
+          list |
+          count %}
+        {{ window_faults }}
+      icon: >-
+        {% if states('sensor.window_faults') | int > 0 %}
+          mdi:window-open
+        {% else %}
+          mdi:window-closed
+        {% endif %}
+    - name: "Door Faults"
+      unique_id: 22421a5a-e650-409d-8ec7-53ca06ca8c0c
+      unit_of_measurement: faults
+      state: >-
+        {% set bypass = states('sensor.bypassed_sensors') %}
+        {% set door_sensors = states.binary_sensor |
+          selectattr('attributes.device_class','eq','door') |
+          selectattr('attributes.entity_id','eq',null) |
+          rejectattr('entity_id','search','doors') |
+          list %}
+        {% set doors_open = door_sensors |
+          selectattr('state','eq','on') |
+          map(attribute='entity_id') |
+          map('device_id') |
+          list %}
+        {% set id = namespace(devices=[]) %}
+        {% for device_id in doors_open %}
+          {% if device_id in bypass %}
+            {% set id.devices = id.devices + [device_id] %}
+          {% endif %}
+        {% endfor %}
+        {% set door_faults = doors_open |
+          reject('in',id.devices) |
+          list |
+          count %}
+        {{ door_faults }}
+      icon: >-
+        {% if states('sensor.door_faults') | int > 0 %}
+          mdi:door-open
+        {% else %}
+          mdi:door-closed
+        {% endif %}
     - name: "Windows Open"
       unique_id: 780770d2-8b5a-4c96-aee4-459281cc3471
       unit_of_measurement: 'open'
       state: >-
-        {% set windows = [
-          states.binary_sensor.front_window_1,
-          states.binary_sensor.front_window_2,
-          states.binary_sensor.kitchen_big_window,
-          states.binary_sensor.mud_room_window,
-          states.binary_sensor.stairway_window_lower,
-          ] %}
+        {% set windows = states.binary_sensor |
+          selectattr('attributes.device_class','eq','window') |
+          selectattr('attributes.entity_id','eq',null) |
+          rejectattr('entity_id','search','windows') %}
         {% set windows_open = windows | selectattr('state','eq','on') | list | count %}
         {{ windows_open }}
       icon: >-
-        {% set windows = [
-          states.binary_sensor.front_window_1,
-          states.binary_sensor.front_window_2,
-          states.binary_sensor.kitchen_big_window,
-          states.binary_sensor.mud_room_window,
-          states.binary_sensor.stairway_window_lower,
-          ] %}
-        {% set windows_open = windows | selectattr('state','eq','on') | list | count %}
-        {% if windows_open == 0 %}
+        {% if states('sensor.windows_open') | int == 0 %}
           mdi:window-closed
         {% else %}
           mdi:window-open
@@ -187,12 +254,7 @@ template:
         {% set windows_open = windows | selectattr('state','eq','on') | list | count %}
         {{ windows_open }}
       icon: >-
-        {% set windows = [
-          states.binary_sensor.front_window_1,
-          states.binary_sensor.front_window_2
-          ] %}
-        {% set windows_open = windows | selectattr('state','eq','on') | list | count %}
-        {% if windows_open == 0 %}
+        {% if states('sensor.front_windows_open') | int == 0 %}
           mdi:window-closed
         {% else %}
           mdi:window-open
@@ -209,13 +271,7 @@ template:
           list | count %}
         {{ windows_open }}
       icon: >
-        {% set windows_open = states.binary_sensor | 
-          selectattr('entity_id','in',area_entities('living_room')) |
-          selectattr('attributes.device_class','eq','window') |
-          selectattr('state','eq','on') |
-          map(attribute='entity_id') |
-          list | count %}
-        {% if windows_open == 0 %}
+        {% if states('sensor.living_room_windows_open') | int == 0 %}
           mdi:window-closed
         {% else %}
           mdi:window-open
@@ -231,12 +287,7 @@ template:
         {% set doors_open = doors | selectattr('state','eq','on') | list | count %}
         {{ doors_open }}
       icon: >-
-        {% set doors = [
-          states.binary_sensor.front_door,
-          states.binary_sensor.back_door,
-          ] %}
-        {% set doors_open = doors | selectattr('state','eq','on') | list | count %}
-        {% if doors_open == 0 %}
+        {% if states('sensor.doors_open') | int == 0 %}
           mdi:door-closed
         {% else %}
           mdi:door-open
@@ -251,28 +302,34 @@ template:
         {% set doors_open = doors | selectattr('state','eq','on') | list | count %}
         {{ doors_open }}
       icon: >-
-        {% set doors = [
-          states.binary_sensor.basement_studio_door
-          ] %}
-        {% set doors_open = doors | selectattr('state','eq','on') | list | count %}
-        {% if doors_open == 0 %}
+        {% if states('sensor.interior_doors_open') | int == 0 %}
           mdi:door-closed
         {% else %}
           mdi:door-open
         {% endif %}
     - name: Faults
       unique_id: 1629a83a-a46c-4041-9e49-8e54c5195388
+      unit_of_measurement: 'faults'
+      state: >-
+        {% set window_faults = states('sensor.window_faults') | int %}
+        {% set door_faults = states('sensor.door_faults') | int %}
+        {{ door_faults + window_faults }}
+      icon: >-
+        {% if states('sensor.total_faults') | int == 0 %}
+          mdi:shield-home
+        {% else %}
+          mdi:shield-off
+        {% endif %}
+    - name: Air Leaks
+      unique_id: e0a7b343-1d67-447c-a543-85a4b93d3d93
       unit_of_measurement: 'open'
       state: >-
         {% set windows_open = states('sensor.windows_open') | int %}
         {% set doors_open = states('sensor.doors_open') | int %}
         {{ doors_open + windows_open }}
       icon: >-
-        {% set windows_open = states('sensor.windows_open') | int %}
-        {% set doors_open = states('sensor.doors_open') | int %}
-        {% set faults = ( doors_open + windows_open ) %}
-        {% if faults == 0 %}
-          mdi:shield-home
+        {% if states('sensor.air_leaks') | int == 0 %}
+          mdi:leak-off
         {% else %}
-          mdi:shield-off
+          mdi:leak
         {% endif %}

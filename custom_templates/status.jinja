@@ -66,10 +66,10 @@
 {% macro airLeaks(type,method) %}
 {% set windows = states('sensor.windows_open') %}
 {% set doors = states('sensor.doors_open') %}
-{% if states('sensor.total_faults') > '0' %}
+{% if states('sensor.air_leaks') > '0' %}
   {% if method == 'tts' %}
     {% if type == 'full' %}
-      {% if states('sensor.total_faults') > '0' %}
+      {% if states('sensor.air_leaks') > '0' %}
         "Additionally, "
         {% if windows > '0' and doors > '0' %}
           "There are currently {{ states('sensor.windows_open') }} {% if windows == '1' %}window {% else %}windows {% endif %}and {{ states('sensor.doors_open') }} {% if doors == '1' %}door {% else %}doors {% endif %}open. "

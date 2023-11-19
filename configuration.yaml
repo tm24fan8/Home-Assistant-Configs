@@ -123,6 +123,7 @@ recorder:
       - sensor.mariadb_database_size
       - sensor.internet_time
       - sensor.random_joke
+      - sensor.bypassed_sensors
   include:
     entities:
       - media_player.living_room_tv
@@ -246,6 +247,7 @@ influxdb:
       - sensor.mosquitto*
       - sensor.*illuminance
       - sensor.*temp_change
+      - sensor.*_faults
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
@@ -295,6 +297,7 @@ influxdb:
       - sensor.aircons_running
       - sensor.fans_running
       - sensor.climate_devices_running
+      - sensor.bypassed_sensors
 
 logbook:
   include:
@@ -399,6 +402,7 @@ prometheus:
       - sensor.mosquitto*
       - sensor.*illuminance
       - sensor.*temp_change
+      - sensor.*_faults
     include_entities:
       - media_player.living_room_tv
       - media_player.basement_tv
@@ -448,3 +452,4 @@ prometheus:
       - sensor.aircons_running
       - sensor.fans_running
       - sensor.climate_devices_running
+      - sensor.bypassed_sensors
