@@ -2837,10 +2837,11 @@
         alias: Daily Briefing
       sequence:
       - service: script.daily_briefing
-        data: '{{ ''alexa_everywhere'' if is_state(''binary_sensor.master_bedroom_occupied'',''on'')
-          else ''common'' }}
+        data:
+          who: '{{ ''alexa_everywhere'' if is_state(''binary_sensor.master_bedroom_occupied'',''on'')
+            else ''common'' }}
 
-          '
+            '
         alias: Run daily briefing script
     - conditions:
       - condition: and
@@ -2853,10 +2854,11 @@
         alias: Nightly Briefing
       sequence:
       - service: script.nightly_briefing
-        data: '{{ ''alexa_everywhere'' if is_state(''binary_sensor.master_bedroom_occupied'',''on'')
-          else ''common'' }}
+        data:
+          who: '{{ ''alexa_everywhere'' if is_state(''binary_sensor.master_bedroom_occupied'',''on'')
+            else ''common'' }}
 
-          '
+            '
         alias: Run nightly briefing script
   mode: single
 - id: '1696362140540'
