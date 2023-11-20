@@ -3222,3 +3222,733 @@
       entity_id: sensor.speedtest_ping
     alias: Speedtest Ping
   mode: restart
+- id: '1700520648880'
+  alias: Adaptive Lighting Adjustments - Living Room
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+    id: boot
+    alias: On boot
+  - platform: state
+    not_from:
+    - unavailable
+    - unknown
+    entity_id:
+    - input_number.daytime_colortemp_living_room
+    id: day-colortemp
+    alias: Day Colortemp
+  - platform: state
+    not_from:
+    - unavailable
+    - unknown
+    entity_id:
+    - input_number.nighttime_colortemp_living_room
+    id: night-colortemp
+    alias: Night Colortemp
+  - platform: state
+    not_from:
+    - unavailable
+    - unknown
+    entity_id:
+    - input_number.nighttime_brightness_living_room
+    id: night-brightness
+    alias: Night Brightness
+  condition:
+  - condition: state
+    entity_id: input_boolean.adaptive_lighting_adjustments
+    state: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - boot
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: configuration
+          entity_id: switch.adaptive_lighting_living_room
+          min_brightness: '{{ states(''input_number.nighttime_brightness_living_room'')
+            }}'
+          min_color_temp: '{{ states(''input_number.nighttime_colortemp_living_room'')
+            }}'
+          max_color_temp: '{{ states(''input_number.daytime_colortemp_living_room'')
+            }}'
+      alias: Boot
+    - conditions:
+      - condition: trigger
+        id:
+        - day-colortemp
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: current
+          entity_id: switch.adaptive_lighting_living_room
+          max_color_temp: '{{ states(''input_number.daytime_colortemp_living_room'')
+            }}'
+      alias: Day Colortemp
+    - conditions:
+      - condition: trigger
+        id:
+        - night-colortemp
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: current
+          entity_id: switch.adaptive_lighting_living_room
+          min_color_temp: '{{ states(''input_number.nighttime_colortemp_living_room'')
+            }}'
+      alias: Night Colortemp
+    - conditions:
+      - condition: trigger
+        id:
+        - night-brightness
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: current
+          entity_id: switch.adaptive_lighting_living_room
+          min_brightness: '{{ states(''input_number.nighttime_brightness_living_room'')
+            }}'
+      alias: Night Brightness
+  mode: queued
+  max: 10
+- id: '1700520841783'
+  alias: Adaptive Lighting Adjustments - Tina Lamp
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+    id: boot
+    alias: On boot
+  - platform: state
+    not_from:
+    - unavailable
+    - unknown
+    entity_id:
+    - input_number.daytime_colortemp_tina_lamp
+    id: day-colortemp
+    alias: Day Colortemp
+  - platform: state
+    not_from:
+    - unavailable
+    - unknown
+    entity_id:
+    - input_number.nighttime_colortemp_tina_lamp
+    id: night-colortemp
+    alias: Night Colortemp
+  - platform: state
+    not_from:
+    - unavailable
+    - unknown
+    entity_id:
+    - input_number.nighttime_brightness_tina_lamp
+    id: night-brightness
+    alias: Night Brightness
+  condition:
+  - condition: state
+    entity_id: input_boolean.adaptive_lighting_adjustments
+    state: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - boot
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: configuration
+          entity_id: switch.adaptive_lighting_tina_lamp
+          min_brightness: '{{ states(''input_number.nighttime_brightness_tina_lamp'')
+            }}'
+          min_color_temp: '{{ states(''input_number.nighttime_colortemp_tina_lamp'')
+            }}'
+          max_color_temp: '{{ states(''input_number.daytime_colortemp_tina_lamp'')
+            }}'
+      alias: Boot
+    - conditions:
+      - condition: trigger
+        id:
+        - day-colortemp
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: current
+          entity_id: switch.adaptive_lighting_tina_lamp
+          max_color_temp: '{{ states(''input_number.daytime_colortemp_tina_lamp'')
+            }}'
+      alias: Day Colortemp
+    - conditions:
+      - condition: trigger
+        id:
+        - night-colortemp
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: current
+          entity_id: switch.adaptive_lighting_tina_lamp
+          min_color_temp: '{{ states(''input_number.nighttime_colortemp_tina_lamp'')
+            }}'
+      alias: Night Colortemp
+    - conditions:
+      - condition: trigger
+        id:
+        - night-brightness
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: current
+          entity_id: switch.adaptive_lighting_tina_lamp
+          min_brightness: '{{ states(''input_number.nighttime_brightness_tina_lamp'')
+            }}'
+      alias: Night Brightness
+  mode: queued
+  max: 10
+- id: '1700520887617'
+  alias: Adaptive Lighting Adjustments - Front Porch
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+    id: boot
+    alias: On boot
+  - platform: state
+    not_from:
+    - unavailable
+    - unknown
+    entity_id:
+    - input_number.daytime_colortemp_front_porch
+    id: day-colortemp
+    alias: Day Colortemp
+  - platform: state
+    not_from:
+    - unavailable
+    - unknown
+    entity_id:
+    - input_number.nighttime_colortemp_front_porch
+    id: night-colortemp
+    alias: Night Colortemp
+  condition:
+  - condition: state
+    entity_id: input_boolean.adaptive_lighting_adjustments
+    state: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - boot
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: configuration
+          entity_id: switch.adaptive_lighting_front_porch
+          min_color_temp: '{{ states(''input_number.nighttime_colortemp_front_porch'')
+            }}'
+          max_color_temp: '{{ states(''input_number.daytime_colortemp_front_porch'')
+            }}'
+      alias: Boot
+    - conditions:
+      - condition: trigger
+        id:
+        - day-colortemp
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: current
+          entity_id: switch.adaptive_lighting_front_porch
+          max_color_temp: '{{ states(''input_number.daytime_colortemp_front_porch'')
+            }}'
+      alias: Day Colortemp
+    - conditions:
+      - condition: trigger
+        id:
+        - night-colortemp
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: current
+          entity_id: switch.adaptive_lighting_front_porch
+          min_color_temp: '{{ states(''input_number.nighttime_colortemp_front_porch'')
+            }}'
+      alias: Night Colortemp
+  mode: queued
+  max: 10
+- id: '1700520948177'
+  alias: Adaptive Lighting Adjustments - Basement Studio
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+    id: boot
+    alias: On boot
+  - platform: state
+    not_from:
+    - unavailable
+    - unknown
+    entity_id:
+    - input_number.daytime_colortemp_basement_studio
+    id: day-colortemp
+    alias: Day Colortemp
+  - platform: state
+    not_from:
+    - unavailable
+    - unknown
+    entity_id:
+    - input_number.nighttime_colortemp_basement_studio
+    id: night-colortemp
+    alias: Night Colortemp
+  - platform: state
+    not_from:
+    - unavailable
+    - unknown
+    entity_id:
+    - input_number.nighttime_brightness_basement_studio
+    id: night-brightness
+    alias: Night Brightness
+  condition:
+  - condition: state
+    entity_id: input_boolean.adaptive_lighting_adjustments
+    state: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - boot
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: configuration
+          entity_id: switch.adaptive_lighting_basement_studio
+          min_brightness: '{{ states(''input_number.nighttime_brightness_basement_studio'')
+            }}'
+          min_color_temp: '{{ states(''input_number.nighttime_colortemp_basement_studio'')
+            }}'
+          max_color_temp: '{{ states(''input_number.daytime_colortemp_basement_studio'')
+            }}'
+      alias: Boot
+    - conditions:
+      - condition: trigger
+        id:
+        - day-colortemp
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: current
+          entity_id: switch.adaptive_lighting_basement_studio
+          max_color_temp: '{{ states(''input_number.daytime_colortemp_basement_studio'')
+            }}'
+      alias: Day Colortemp
+    - conditions:
+      - condition: trigger
+        id:
+        - night-colortemp
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: current
+          entity_id: switch.adaptive_lighting_basement_studio
+          min_color_temp: '{{ states(''input_number.nighttime_colortemp_basement_studio'')
+            }}'
+      alias: Night Colortemp
+    - conditions:
+      - condition: trigger
+        id:
+        - night-brightness
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: current
+          entity_id: switch.adaptive_lighting_basement_studio
+          min_brightness: '{{ states(''input_number.nighttime_brightness_basement_studio'')
+            }}'
+      alias: Night Brightness
+  mode: queued
+  max: 10
+- id: '1700521061505'
+  alias: Adaptive Lighting Adjustments - Downstairs Bathroom
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+    id: boot
+    alias: On boot
+  - platform: state
+    not_from:
+    - unavailable
+    - unknown
+    entity_id:
+    - input_number.nighttime_brightness_downstairs_bathroom
+    id: night-brightness
+    alias: Night Brightness
+  condition:
+  - condition: state
+    entity_id: input_boolean.adaptive_lighting_adjustments
+    state: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - boot
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: configuration
+          entity_id: switch.adaptive_lighting_downstairs_bathroom
+          min_brightness: '{{ states(''input_number.nighttime_brightness_downstairs_bathroom'')
+            }}'
+      alias: Boot
+    - conditions:
+      - condition: trigger
+        id:
+        - night-brightness
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: current
+          entity_id: switch.adaptive_lighting_downstairs_bathroom
+          min_brightness: '{{ states(''input_number.nighttime_brightness_downstairs_bathroom'')
+            }}'
+      alias: Night Brightness
+  mode: queued
+  max: 10
+- id: '1700521116867'
+  alias: Adaptive Lighting Adjustments - Dining Room Lamp
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+    id: boot
+    alias: On boot
+  - platform: state
+    not_from:
+    - unavailable
+    - unknown
+    entity_id:
+    - input_number.nighttime_brightness_dining_room_lamp
+    id: night-brightness
+    alias: Night Brightness
+  condition:
+  - condition: state
+    entity_id: input_boolean.adaptive_lighting_adjustments
+    state: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - boot
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: configuration
+          entity_id: switch.adaptive_lighting_dining_room_lamp
+          min_brightness: '{{ states(''input_number.nighttime_brightness_dining_room_lamp'')
+            }}'
+      alias: Boot
+    - conditions:
+      - condition: trigger
+        id:
+        - night-brightness
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: current
+          entity_id: switch.adaptive_lighting_dining_room_lamp
+          min_brightness: '{{ states(''input_number.nighttime_brightness_dining_room_lamp'')
+            }}'
+      alias: Night Brightness
+  mode: queued
+  max: 10
+- id: '1700521158381'
+  alias: Adaptive Lighting Adjustments - Mud Room
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+    id: boot
+    alias: On boot
+  - platform: state
+    not_from:
+    - unavailable
+    - unknown
+    entity_id:
+    - input_number.nighttime_brightness_mud_room
+    id: night-brightness
+    alias: Night Brightness
+  condition:
+  - condition: state
+    entity_id: input_boolean.adaptive_lighting_adjustments
+    state: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - boot
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: configuration
+          entity_id: switch.adaptive_lighting_mud_room
+          min_brightness: '{{ states(''input_number.nighttime_brightness_mud_room'')
+            }}'
+      alias: Boot
+    - conditions:
+      - condition: trigger
+        id:
+        - night-brightness
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: current
+          entity_id: switch.adaptive_lighting_mud_room
+          min_brightness: '{{ states(''input_number.nighttime_brightness_mud_room'')
+            }}'
+      alias: Night Brightness
+  mode: queued
+  max: 10
+- id: '1700521207350'
+  alias: Adaptive Lighting Adjustments - Upstairs Hallway
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+    id: boot
+    alias: On boot
+  - platform: state
+    not_from:
+    - unavailable
+    - unknown
+    entity_id:
+    - input_number.nighttime_brightness_upstairs_hallway
+    id: night-brightness
+    alias: Night Brightness
+  condition:
+  - condition: state
+    entity_id: input_boolean.adaptive_lighting_adjustments
+    state: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - boot
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: configuration
+          entity_id: switch.adaptive_lighting_upstairs_hallway
+          min_brightness: '{{ states(''input_number.nighttime_brightness_upstairs_hallway'')
+            }}'
+      alias: Boot
+    - conditions:
+      - condition: trigger
+        id:
+        - night-brightness
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: current
+          entity_id: switch.adaptive_lighting_upstairs_hallway
+          min_brightness: '{{ states(''input_number.nighttime_brightness_upstairs_hallway'')
+            }}'
+      alias: Night Brightness
+  mode: queued
+  max: 10
+- id: '1700521280914'
+  alias: Adaptive Lighting Adjustments - Upstairs Bathroom
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+    id: boot
+    alias: On boot
+  - platform: state
+    not_from:
+    - unavailable
+    - unknown
+    entity_id:
+    - input_number.nighttime_brightness_upstairs_bathroom
+    id: night-brightness
+    alias: Night Brightness
+  condition:
+  - condition: state
+    entity_id: input_boolean.adaptive_lighting_adjustments
+    state: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - boot
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: configuration
+          entity_id: switch.adaptive_lighting_upstairs_bathroom
+          min_brightness: '{{ states(''input_number.nighttime_brightness_upstairs_bathroom'')
+            }}'
+      alias: Boot
+    - conditions:
+      - condition: trigger
+        id:
+        - night-brightness
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: current
+          entity_id: switch.adaptive_lighting_upstairs_bathroom
+          min_brightness: '{{ states(''input_number.nighttime_brightness_upstairs_bathroom'')
+            }}'
+      alias: Night Brightness
+  mode: queued
+  max: 10
+- id: '1700521311592'
+  alias: Adaptive Lighting Adjustments - Master Bedroom
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+    id: boot
+    alias: On boot
+  - platform: state
+    not_from:
+    - unavailable
+    - unknown
+    entity_id:
+    - input_number.nighttime_brightness_master_bedroom
+    id: night-brightness
+    alias: Night Brightness
+  condition:
+  - condition: state
+    entity_id: input_boolean.adaptive_lighting_adjustments
+    state: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - boot
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: configuration
+          entity_id: switch.adaptive_lighting_master_bedroom
+          min_brightness: '{{ states(''input_number.nighttime_brightness_master_bedroom'')
+            }}'
+      alias: Boot
+    - conditions:
+      - condition: trigger
+        id:
+        - night-brightness
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: current
+          entity_id: switch.adaptive_lighting_master_bedroom
+          min_brightness: '{{ states(''input_number.nighttime_brightness_master_bedroom'')
+            }}'
+      alias: Night Brightness
+  mode: queued
+  max: 10
+- id: '1700521354163'
+  alias: Adaptive Lighting Adjustments - Kallen Bedroom
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+    id: boot
+    alias: On boot
+  - platform: state
+    not_from:
+    - unavailable
+    - unknown
+    entity_id:
+    - input_number.nighttime_brightness_kallen_bedroom
+    id: night-brightness
+    alias: Night Brightness
+  condition:
+  - condition: state
+    entity_id: input_boolean.adaptive_lighting_adjustments
+    state: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - boot
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: configuration
+          entity_id: switch.adaptive_lighting_kallen_bedroom
+          min_brightness: '{{ states(''input_number.nighttime_brightness_kallen_bedroom'')
+            }}'
+      alias: Boot
+    - conditions:
+      - condition: trigger
+        id:
+        - night-brightness
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: current
+          entity_id: switch.adaptive_lighting_kallen_bedroom
+          min_brightness: '{{ states(''input_number.nighttime_brightness_kallen_bedroom'')
+            }}'
+      alias: Night Brightness
+  mode: queued
+  max: 10
+- id: '1700521397256'
+  alias: Adaptive Lighting Adjustments - Emma Bedroom
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+    id: boot
+    alias: On boot
+  - platform: state
+    not_from:
+    - unavailable
+    - unknown
+    entity_id:
+    - input_number.nighttime_brightness_emma_bedroom
+    id: night-brightness
+    alias: Night Brightness
+  condition:
+  - condition: state
+    entity_id: input_boolean.adaptive_lighting_adjustments
+    state: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - boot
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: configuration
+          entity_id: switch.adaptive_lighting_emma_bedroom
+          min_brightness: '{{ states(''input_number.nighttime_brightness_emma_bedroom'')
+            }}'
+      alias: Boot
+    - conditions:
+      - condition: trigger
+        id:
+        - night-brightness
+      sequence:
+      - service: adaptive_lighting.change_switch_settings
+        data:
+          use_defaults: current
+          entity_id: switch.adaptive_lighting_emma_bedroom
+          min_brightness: '{{ states(''input_number.nighttime_brightness_emma_bedroom'')
+            }}'
+      alias: Night Brightness
+  mode: queued
+  max: 10
