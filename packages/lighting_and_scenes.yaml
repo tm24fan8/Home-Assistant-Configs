@@ -44,6 +44,9 @@ input_boolean:
   recliner_mode:
     name: Recliner Mode
     icon: mdi:seat-recline-extra
+  adaptive_lighting_adjustments:
+    name: Adaptive Lighting Adjustments
+    icon: mdi:knob
 
 input_number:
   upstairs_bathroom_motion_off_delay:
@@ -109,6 +112,141 @@ input_number:
     step: 5
     unit_of_measurement: lx
     icon: mdi:sun-wireless
+
+  # Settings for adaptive adjustments
+  daytime_colortemp_front_porch:
+    name: Daytime Colortemp Front Porch
+    min: 2000
+    max: 6500
+    step: 100
+    unit_of_measurement: K
+    icon: mdi:temperature-kelvin
+  daytime_colortemp_basement_studio:
+    name: Daytime Colortemp Basement Studio
+    min: 2000
+    max: 6500
+    step: 100
+    unit_of_measurement: K
+    icon: mdi:temperature-kelvin
+  daytime_colortemp_living_room:
+    name: Daytime Colortemp Living Room
+    min: 2000
+    max: 6500
+    step: 100
+    unit_of_measurement: K
+    icon: mdi:temperature-kelvin
+  daytime_colortemp_tina_lamp:
+    name: Daytime Colortemp Tina Lamp
+    min: 2000
+    max: 6500
+    step: 100
+    unit_of_measurement: K
+    icon: mdi:temperature-kelvin
+  nighttime_colortemp_front_porch:
+    name: Nighttime Colortemp Front Porch
+    min: 2000
+    max: 6500
+    step: 100
+    unit_of_measurement: K
+    icon: mdi:temperature-kelvin
+  nighttime_colortemp_basement_studio:
+    name: Nighttime Colortemp Basement Studio
+    min: 2000
+    max: 6500
+    step: 100
+    unit_of_measurement: K
+    icon: mdi:temperature-kelvin
+  nighttime_colortemp_living_room:
+    name: Nighttime Colortemp Living Room
+    min: 2000
+    max: 6500
+    step: 100
+    unit_of_measurement: K
+    icon: mdi:temperature-kelvin
+  nighttime_colortemp_tina_lamp:
+    name: Nighttime Colortemp Tina Lamp
+    min: 2000
+    max: 6500
+    step: 100
+    unit_of_measurement: K
+    icon: mdi:temperature-kelvin
+  nighttime_brightness_basement_studio:
+    name: Nighttime Brightness Basement Studio
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: '%'
+    icon: mdi:brightness-percent
+  nighttime_brightness_living_room:
+    name: Nighttime Brightness Living Room
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: '%'
+    icon: mdi:brightness-percent
+  nighttime_brightness_downstairs_bathroom:
+    name: Nighttime Brightness Downstairs Bathroom
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: '%'
+    icon: mdi:brightness-percent
+  nighttime_brightness_dining_room_lamp:
+    name: Nighttime Brightness Dining Room Lamp
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: '%'
+    icon: mdi:brightness-percent
+  nighttime_brightness_tina_lamp:
+    name: Nighttime Brightness Tina Lamp
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: '%'
+    icon: mdi:brightness-percent
+  nighttime_brightness_mud_room:
+    name: Nighttime Brightness Mud Room
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: '%'
+    icon: mdi:brightness-percent
+  nighttime_brightness_upstairs_hallway:
+    name: Nighttime Brightness Upstairs Hallway
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: '%'
+    icon: mdi:brightness-percent
+  nighttime_brightness_upstairs_bathroom:
+    name: Nighttime Brightness Upstairs Bathroom
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: '%'
+    icon: mdi:brightness-percent
+  nighttime_brightness_master_bedroom:
+    name: Nighttime Brightness Master Bedroom
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: '%'
+    icon: mdi:brightness-percent
+  nighttime_brightness_kallen_bedroom:
+    name: Nighttime Brightness Kallen Bedroom
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: '%'
+    icon: mdi:brightness-percent
+  nighttime_brightness_emma_bedroom:
+    name: Nighttime Brightness Emma Bedroom
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: '%'
+    icon: mdi:brightness-percent
 
 input_select:
   living_room_scenes:
