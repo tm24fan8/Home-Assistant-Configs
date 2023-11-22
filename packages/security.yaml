@@ -408,6 +408,7 @@ template:
           selectattr('state','eq','on') |
           list |
           count %}
+        {{ interior }}
       attributes:
         open: >
           {% set exterior = expand('binary_sensor.exterior_doors') |
@@ -420,8 +421,9 @@ template:
             selectattr('state','eq','on') |
             map(attribute='attributes.friendly_name') |
             list %}
+          {{ interior }}
       icon: >-
-        {% if states('sensor.interior_doors_open') | int == 0 %}
+        {% if states('sensor.interior_doors') | int == 0 %}
           mdi:door-closed
         {% else %}
           mdi:door-open
