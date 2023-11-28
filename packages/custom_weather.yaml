@@ -547,7 +547,7 @@ template:
             'For the next day ',
             'Tomorrow '
             ] | random }}
-          expect a high of {{ state_attr('sensor.tomorrow_forecast','high_temp') }}
+          expect a high of {{ state_attr('sensor.tomorrow_forecast','high_temp') }} degrees. 
           {%- if states('sensor.tomorrow_forecast') == 'sunny' %}
             {{ [
                 'and sunny. ',
@@ -720,7 +720,7 @@ template:
               ] | random }}
             {% endif %}
           {% else %}
-            and {{ states.weather.iron_nerd_weather_station.state }}
+            and {{ states.weather.iron_nerd_weather_station.state }}. 
           {% endif %}
           {%- if is_state('binary_sensor.early_night_mode','off')%}
             {{ [
