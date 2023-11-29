@@ -164,7 +164,7 @@
   - service: script.speech_engine
     data:
       who: common
-      message: Happy new year! Heres to 2023!
+      message: Happy new year! Heres to 2024!
     alias: Send TTS notification to the common areas
   - delay:
       hours: 0
