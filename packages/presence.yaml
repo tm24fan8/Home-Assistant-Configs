@@ -550,6 +550,10 @@ automation:
           message: "Kallen has been picked up from school."
           title: "Kallen Location Alert"
           tag: kallen-pickup
+      - service: script.speech_engine
+        data:
+          who: alexa_everywhere
+          message: "Collin has been picked up from school."
     initial_state: true
 
   # - id: 395ebb76-83e4-4a7c-913e-2598fef3d5c1
