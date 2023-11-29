@@ -2871,6 +2871,9 @@
     entity_id: input_boolean.kallen_overnight
     state: 'off'
     alias: Kallen did not stay overnight elsewhere
+  - condition: time
+    before: input_datetime.kallen_wakeup_time
+    alias: It is before Kallen's scheduled wakeup time
   action:
   - service: input_select.select_option
     data:
