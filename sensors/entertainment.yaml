@@ -18,8 +18,8 @@
   - name: 'Master Bedroom TV Current App'
     unique_id: 4bf4bef3-fc81-4259-a75c-6693ceba0926
     state: >-
-      {% if is_state('media_player.master_bedroom_firetv','off') %}
+      {% if is_state('media_player.master_bedroom_chromecast','off') %}
         Off
       {% else %}
-        {{ state_attr('media_player.master_bedroom_firetv','app_name') }}
+        {{ state_attr('media_player.master_bedroom_chromecast','app_name') }}
       {% endif %}

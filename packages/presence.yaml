@@ -217,7 +217,7 @@ template:
         {{ is_state('light.master_bedroom_lights','on') or 
             is_state('light.master_bedroom_closet','on') or 
             is_state('input_boolean.master_bedroom_sleeping','on') or
-            not is_state('media_player.master_bedroom_firetv','off') }}
+            states('media_player.master_bedroom_chromecast') not in ['off','unavailable','unknown'] }}
       delay_off: "00:00:15"
     - name: "Kallen Bedroom Occupied"
       unique_id: d3fdbaee-48bd-44df-820e-6cbfd3d24c11

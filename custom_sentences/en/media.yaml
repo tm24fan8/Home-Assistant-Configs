@@ -19,7 +19,7 @@ lists:
       - in: "basement tv"
         out: "media_player.basement_tv"
       - in: "master bedroom tv"
-        out: "media_player.master_bedroom_firetv"
+        out: "media_player.master_bedroom_chromecast"
   volume:
     range:
       from: 0

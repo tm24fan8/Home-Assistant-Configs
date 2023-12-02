@@ -128,7 +128,8 @@ recorder:
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
-      - media_player.master_bedroom_firetv
+      - media_player.master_bedroom_chromecast
+      - media_player.master_bedroom_chromecast_remote
       - media_player.everywhere
       - media_player.basement_echo_dot
       - media_player.living_room_echo_dot
@@ -251,7 +252,8 @@ influxdb:
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
-      - media_player.master_bedroom_firetv
+      - media_player.master_bedroom_chromecast
+      - media_player.master_bedroom_chromecast_remote
       - sensor.doors_open
       - sensor.windows_open
       - sensor.total_faults
@@ -406,7 +408,8 @@ prometheus:
     include_entities:
       - media_player.living_room_tv
       - media_player.basement_tv
-      - media_player.master_bedroom_firetv
+      - media_player.master_bedroom_chromecast
+      - media_player.master_bedroom_chromecast_remote
       - sensor.doors_open
       - sensor.windows_open
       - sensor.total_faults

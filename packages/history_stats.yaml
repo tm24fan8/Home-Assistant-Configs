@@ -33,7 +33,7 @@ sensor:
     hours: 24
 - platform: history_stats
   name: Master Bedroom TV Time
-  entity_id: media_player.master_bedroom_firetv
+  entity_id: media_player.master_bedroom_chromecast
   state: 'playing'
   type: time
   end: '{{ now() }}'
