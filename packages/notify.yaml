@@ -322,6 +322,8 @@ script:
         - condition: state
           entity_id: input_boolean.studio_quiet
           state: 'off'
+        - condition: template
+          value_template: "{{ states('media_player.basement_echo_dot') not in ['unavailable','unknown'] }}"
       then:
       - if:
         - condition: template
@@ -355,6 +357,8 @@ script:
         - condition: state
           entity_id: input_boolean.studio_quiet
           state: 'off'
+        - condition: template
+          value_template: "{{ states('media_player.basement_google_speaker') not in ['unavailable','unknown'] }}"
       then:
       - if:
         - condition: template
@@ -399,31 +403,37 @@ script:
 # Living Room Echo Dot
     - if:
       - condition: template
-        value_template: >
-          {% set current = state_attr('media_player.living_room_echo_dot','volume_level') | float %}
-          {% set night = states('input_number.living_room_echo_dot_night_volume') | float %}
-          {% set day = states('input_number.living_room_echo_dot_day_volume') | float %}
-          {% if is_state('input_boolean.give_me_darkness','on') %}
-            {{ current != night }}
-          {% else %}
-            {{ current != day }}
-          {% endif %}
+        value_template: "{{ states('media_player.living_room_echo_dot') not in ['unavailable','unknown'] }}"
       then:
-      - service: media_player.volume_set
-        target:
-          entity_id: media_player.living_room_echo_dot
-        data:
-          volume_level: >
+      - if:
+        - condition: template
+          value_template: >
+            {% set current = state_attr('media_player.living_room_echo_dot','volume_level') | float %}
+            {% set night = states('input_number.living_room_echo_dot_night_volume') | float %}
+            {% set day = states('input_number.living_room_echo_dot_day_volume') | float %}
             {% if is_state('input_boolean.give_me_darkness','on') %}
-              {{ states('input_number.living_room_echo_dot_night_volume') }}
+              {{ current != night }}
             {% else %}
-              {{ states('input_number.living_room_echo_dot_day_volume') }}
+              {{ current != day }}
             {% endif %}
+        then:
+        - service: media_player.volume_set
+          target:
+            entity_id: media_player.living_room_echo_dot
+          data:
+            volume_level: >
+              {% if is_state('input_boolean.give_me_darkness','on') %}
+                {{ states('input_number.living_room_echo_dot_night_volume') }}
+              {% else %}
+                {{ states('input_number.living_room_echo_dot_day_volume') }}
+              {% endif %}
 # Master Bedroom Echo Dot
     - if:
       - condition: state
         entity_id: input_boolean.master_bedroom_sleeping
         state: 'off'
+      - condition: template
+        value_template: "{{ states('media_player.master_bedroom_echo_dot') not in ['unavailable','unknown'] }}"
       then:
       - if:
         - condition: template
@@ -457,6 +467,8 @@ script:
         - condition: state
           entity_id: input_boolean.kallen_sleeping
           state: 'off'
+        - condition: template
+          value_template: "{{ states('media_player.kallen_bedroom_google_speaker') not in ['unavailable','unknown'] }}"
       then:
       - if:
         - condition: template
@@ -508,6 +520,8 @@ script:
         - condition: state
           entity_id: input_boolean.emma_sleeping
           state: 'off'
+        - condition: template
+          value_template: "{{ states('media_player.emma_bedroom_google_speaker') not in ['unavailable','unknown'] }}"
       then:
       - if:
         - condition: template
