@@ -2396,6 +2396,12 @@
     alias: Sleep Off
     from: 'on'
     to: 'off'
+  - platform: state
+    entity_id:
+    - input_number.tony_afternoon_meds_interval
+    - input_datetime.tony_morning_meds_taken
+    alias: Afternoon Update
+    id: afternoon-update
   condition: []
   action:
   - alias: Routing
@@ -2459,16 +2465,6 @@
 
             '
         alias: Set time morning meds were taken
-      - service: input_datetime.set_datetime
-        target:
-          entity_id: input_datetime.tony_afternoon_meds_notify
-        data:
-          datetime: '{% from ''time.jinja'' import set_datetime %} {% set interval
-            = states(''input_number.tony_afternoon_meds_interval'') | int %} {{ set_datetime(interval)
-            }}
-
-            '
-        alias: Adjust afternoon meds reminder
     - conditions:
       - condition: trigger
         id:
@@ -2512,6 +2508,23 @@
 
             '
         alias: Set time to start notifying for morning meds
+    - conditions:
+      - condition: trigger
+        id:
+        - afternoon-update
+        alias: Afternoon Update
+      sequence:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.tony_afternoon_meds_notify
+        data:
+          time: '{% from ''time.jinja'' import set_datetime %} {% set morning = state_attr(''input_datetime.tony_morning_meds_taken'',''timestamp'')
+            | int %} {% set interval = states(''input_number.tony_afternoon_meds_interval'')
+            | int %} {% set math = (interval * 60) * 60 %} {% set newtime = morning
+            + math %} {{ newtime | timestamp_custom(''%H:%M'') }}
+
+            '
+        alias: Update notification
   mode: parallel
   max: 10
 - id: '1696288939707'
