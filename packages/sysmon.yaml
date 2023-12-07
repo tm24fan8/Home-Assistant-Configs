@@ -138,13 +138,6 @@ template:
   #       where: '"database"=''homeassistant'' AND time > now() - 5m'
   #       field: diskBytes
 
-
-binary_sensor:
-  - platform: ping
-    name: Internet
-    host: 8.8.8.8
-    scan_interval: 30
-
 automation:
   - id: 22b034d3-a7c2-4499-9db5-6e36dd1c8be4
     alias: Log Level
