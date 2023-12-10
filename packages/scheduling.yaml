@@ -239,7 +239,7 @@ script:
           data:
             time: >
               {% if is_state('input_boolean.kallen_school_early_release','on') %}
-                12:45
+                13:00
               {% else %}
                 {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 5400) | timestamp_custom('%H:%M', false) }}
               {% endif %}
@@ -408,12 +408,12 @@ script:
               {% from 'time.jinja' import time_from_calendar %}
               {% if is_state('input_boolean.kallen_school_today','on') %}
                 {% if is_state('input_boolean.kallen_alternate_pickup','on') or is_state('input_boolean.kallen_btb','on') %}
-                  15:00
+                  15:30
                 {% else %}
                   {{ time_from_calendar('calendar.kallen_school_days','end_time','set','subtract',1) }}
                 {% endif %}
               {% elif is_state('input_boolean.kallen_school_today','off') and is_state('input_boolean.work_today','off') %}
-                15:00
+                15:30
               {% else %}
                 {% if (state_attr('input_datetime.tina_workday_end','timestamp')) > 61200 %}
                   16:00
@@ -553,7 +553,7 @@ script:
                 {% if is_state('input_boolean.kallen_alternate_pickup','on') or is_state('input_boolean.kallen_btb','on') %}
                   14:30
                 {% elif is_state('input_boolean.kallen_school_early_release','on') %}
-                  12:00
+                  12:30
                 {% else %}
                   13:00
                 {% endif %}
