@@ -97,7 +97,7 @@ automation:
         state: 'on'
       - condition: time
         after: "15:00:00"
-        before: "00:00:00"
+        before: "01:00:00"
     action: 
       - service: script.tina_work_reset
         data:
