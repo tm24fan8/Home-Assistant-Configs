@@ -182,6 +182,7 @@ automation:
                   state: 'off'
                 - condition: time
                   after: "15:30:00"
+                  before: "01:00:00"
               then:
               - service: input_datetime.set_datetime
                 target:
