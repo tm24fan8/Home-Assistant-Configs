@@ -2506,13 +2506,20 @@
     alias: Night Taken
     from: 'off'
     to: 'on'
-  - platform: state
+  - alias: Sleep Off
+    platform: state
     entity_id:
     - input_boolean.master_bedroom_sleeping
     id: sleep-off
-    alias: Sleep Off
     from: 'on'
     to: 'off'
+  - platform: state
+    entity_id:
+    - input_boolean.tony_awake
+    from: 'off'
+    to: 'on'
+    id: awake-on
+    alias: Awake On
   - platform: state
     entity_id:
     - input_number.tony_afternoon_meds_interval
@@ -2612,19 +2619,28 @@
             '
         alias: Set time night meds were taken
     - conditions:
-      - condition: trigger
-        id: sleep-off
-        alias: Sleep Off
+      - alias: Wakeup
+        condition: trigger
+        id:
+        - sleep-off
+        - awake-on
       sequence:
-      - service: input_datetime.set_datetime
-        target:
-          entity_id: input_datetime.tony_morning_meds_notify
-        data:
-          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,1)
-            }}
+      - if:
+        - condition: state
+          entity_id: input_boolean.tony_morning_meds_taken
+          state: 'off'
+          alias: If I haven't already taken my meds
+        then:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.tony_morning_meds_notify
+          data:
+            datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,1)
+              }}
 
-            '
-        alias: Set time to start notifying for morning meds
+              '
+          alias: Set time to start notifying for morning meds
+        alias: Set morning meds notification time
     - conditions:
       - condition: trigger
         id:
