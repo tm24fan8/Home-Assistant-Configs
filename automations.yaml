@@ -4209,3 +4209,51 @@
         - light.first_floor_lights
       data: {}
   mode: single
+- id: '1702451783588'
+  alias: Christmas Tree
+  description: ''
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.sunset_lighting_timer
+    alias: When sunset lights timer is finished
+    id: timer-finished
+  - alias: At sunrise
+    platform: state
+    entity_id:
+    - sun.sun
+    id: sunrise
+    from: below_horizon
+    to: above_horizon
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+  condition: []
+  action:
+  - alias: Processing
+    choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - timer-finished
+        alias: Timer finished
+      sequence:
+      - service: light.turn_on
+        target:
+          entity_id: light.christmas_tree
+        data: {}
+        alias: Turn on Christmas tree
+    - conditions:
+      - condition: trigger
+        id:
+        - sunrise
+        alias: Sunrise
+      sequence:
+      - service: light.turn_off
+        target:
+          entity_id: light.christmas_tree
+        data: {}
+        alias: Turn off Christmas tree
+  mode: single
