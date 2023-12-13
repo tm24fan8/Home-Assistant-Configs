@@ -1626,8 +1626,8 @@ goodnight_on_first_floor:
         area_id:
         - dining_room
         - downstairs_bathroom
-        - living_room
         - tina_desk
+        entity_id: light.living_room_lights
       data: {}
     - service: input_select.select_option
       target:
@@ -1640,9 +1640,9 @@ goodnight_on_first_floor:
         area_id:
         - dining_room
         - downstairs_bathroom
-        - living_room
         - mud_room
         - tina_desk
+        entity_id: light.living_room_lights
       data: {}
 goodnight_on_second_floor:
   alias: Goodnight on Second Floor
