@@ -163,34 +163,6 @@ automation:
               {% from 'time.jinja' import current_time %}
               {{ current_time('datetime',24) }}
 
-  - id: 1d552b1f-c0ed-4d80-b8ba-3c085d2c3d3a
-    alias: "Kallen Late Bedtime"
-    description: "For those nights we want to let Kallen stay up later for whatever reason"
-    mode: restart
-    trigger:
-    - platform: state
-      entity_id: input_boolean.kallen_late_bedtime
-      from: 'off'
-      to: 'on'
-      id: late-on
-    - platform: state
-      entity_id: input_boolean.kallen_late_bedtime
-      from: 'on'
-      to: 'off'
-      id: late-off
-    condition:
-    - condition: time
-      after: input_datetime.kallen_wakeup_time
-      before: input_datetime.kallen_bedtime
-    action:
-    - if:
-      - condition: state
-        entity_id: input_boolean.kallen_scheduling_evening_ran
-        state: 'on'
-      then:
-      - service: script.kallen_scheduling_evening
-      - service: script.house_scheduling_evening
-
   - id: 94b57d79-efe0-4f34-b5e3-baeaa5eea9f4
     alias: Kallen Asleep
     trigger:

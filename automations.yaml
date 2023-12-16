@@ -4240,20 +4240,57 @@
         - timer-finished
         alias: Timer finished
       sequence:
-      - service: light.turn_on
+      - alias: Turn on Christmas lights
+        service: light.turn_on
         target:
-          entity_id: light.christmas_tree
+          entity_id:
+          - light.christmas_tree
+          - light.christmas_lights_front_window
         data: {}
-        alias: Turn on Christmas tree
     - conditions:
       - condition: trigger
         id:
         - sunrise
         alias: Sunrise
       sequence:
-      - service: light.turn_off
+      - alias: Turn off Christmas tree
+        service: light.turn_off
         target:
-          entity_id: light.christmas_tree
+          entity_id:
+          - light.christmas_tree
+          - light.christmas_lights_front_window
         data: {}
-        alias: Turn off Christmas tree
   mode: single
+- id: '1702697525835'
+  alias: Kallen Late Bedtime
+  description: For those nights we want to let Kallen stay up later for whatever reason
+  trigger:
+  - platform: state
+    entity_id: input_boolean.kallen_late_bedtime
+    from: 'off'
+    to: 'on'
+    id: late-on
+    alias: Late Bedtime On
+  - platform: state
+    entity_id: input_boolean.kallen_late_bedtime
+    from: 'on'
+    to: 'off'
+    id: late-off
+    alias: Late Bedtime Off
+  condition:
+  - condition: time
+    after: input_datetime.kallen_wakeup_time
+    before: input_datetime.kallen_bedtime
+    alias: Time is between wakeup and bedtime
+  action:
+  - if:
+    - condition: state
+      entity_id: input_boolean.kallen_scheduling_evening_ran
+      state: 'on'
+    then:
+    - service: script.kallen_scheduling_evening
+      data: {}
+    - service: script.house_scheduling_evening
+      data: {}
+    alias: If scheduling has already run, set the new times
+  mode: restart
