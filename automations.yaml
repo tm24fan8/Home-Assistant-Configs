@@ -2540,6 +2540,11 @@
           state: 'off'
         alias: Morning Notify
       sequence:
+      - service: counter.increment
+        target:
+          entity_id: counter.tony_morning_meds_reminder_count
+        data: {}
+        alias: Increment counter
       - service: script.turn_on
         target:
           entity_id: script.tony_morning_meds
@@ -2556,6 +2561,11 @@
           entity_id: input_boolean.tony_afternoon_meds_taken
           state: 'off'
       sequence:
+      - service: counter.increment
+        target:
+          entity_id: counter.tony_afternoon_meds_reminder_count
+        data: {}
+        alias: Increment counter
       - service: script.tony_afternoon_meds
         data: {}
         alias: Run afternoon meds script
@@ -2794,6 +2804,12 @@
           - input_boolean.tony_morning_meds_taken
           - input_boolean.tina_morning_meds_taken
           - input_boolean.tony_afternoon_meds_taken
+        data: {}
+      - service: counter.reset
+        target:
+          entity_id:
+          - counter.tony_morning_meds_reminder_count
+          - counter.tony_afternoon_meds_reminder_count
         data: {}
     - conditions:
       - condition: trigger

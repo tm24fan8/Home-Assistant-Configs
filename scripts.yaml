@@ -1871,20 +1871,32 @@ tony_morning_meds:
   icon: mdi:medication
   mode: restart
   sequence:
-  - service: script.text_notify
-    data:
-      who: tony
-      type: alert
-      title: Morning Meds
-      message: You need to take your morning meds
-      tag: tony-morning-meds
-      actions:
-      - action: TONY_MORNING_MEDS_TAKEN
-        title: Taken
-      - action: TONY_MORNING_MEDS_SKIPPED
-        title: Skip
-      - action: TONY_MORNING_MEDS_ASK_LATER
-        title: Ask Later
+  - parallel:
+    - if:
+      - condition: numeric_state
+        entity_id: counter.tony_morning_meds_reminder_count
+        above: 2
+      then:
+      - service: script.speech_engine
+        data:
+          who: common_areas
+          type: alert
+          message: Tony, you need to take your morning meds. This is reminder number
+            {{ states('counter.tony_morning_meds_reminder_count') }} for today.
+    - service: script.text_notify
+      data:
+        who: tony
+        type: alert
+        title: Morning Meds
+        message: You need to take your morning meds
+        tag: tony-morning-meds
+        actions:
+        - action: TONY_MORNING_MEDS_TAKEN
+          title: Taken
+        - action: TONY_MORNING_MEDS_SKIPPED
+          title: Skip
+        - action: TONY_MORNING_MEDS_ASK_LATER
+          title: Ask Later
   - wait_for_trigger:
     - platform: event
       event_type: ios.notification_action_fired
@@ -2217,20 +2229,32 @@ tony_custom_meds:
 tony_afternoon_meds:
   alias: Tony Afternoon Meds
   sequence:
-  - service: script.text_notify
-    data:
-      who: tony
-      type: alert
-      title: Afternoon Meds
-      message: You need to take your afternoon meds
-      tag: tony-afternoon-meds
-      actions:
-      - action: TONY_AFTERNOON_MEDS_TAKEN
-        title: Taken
-      - action: TONY_AFTERNOON_MEDS_SKIPPED
-        title: Skip
-      - action: TONY_AFTERNOON_MEDS_ASK_LATER
-        title: Ask Later
+  - parallel:
+    - if:
+      - condition: numeric_state
+        entity_id: counter.tony_afternoon_meds_reminder_count
+        above: 2
+      then:
+      - service: script.speech_engine
+        data:
+          who: common_areas
+          type: alert
+          message: Tony, you need to take your afternoon meds. This is reminder number
+            {{ states('counter.tony_afternoon_meds_reminder_count') }} for today.
+    - service: script.text_notify
+      data:
+        who: tony
+        type: alert
+        title: Afternoon Meds
+        message: You need to take your afternoon meds
+        tag: tony-afternoon-meds
+        actions:
+        - action: TONY_AFTERNOON_MEDS_TAKEN
+          title: Taken
+        - action: TONY_AFTERNOON_MEDS_SKIPPED
+          title: Skip
+        - action: TONY_AFTERNOON_MEDS_ASK_LATER
+          title: Ask Later
   - wait_for_trigger:
     - alias: Taken
       platform: event
