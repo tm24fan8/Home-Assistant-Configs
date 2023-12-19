@@ -20,29 +20,6 @@ input_boolean:
     name: Away Mode Skipped
     icon: mdi:debug-step-over
 
-input_number:
-  front_door_opened_today:
-    name: Front Door Opened Today
-    min: 0
-    max: 200
-    step: 1
-    unit_of_measurement: times
-    icon: mdi:door-open
-  back_door_opened_today:
-    name: Back Door Opened Today
-    min: 0
-    max: 200
-    step: 1
-    unit_of_measurement: times
-    icon: mdi:door-open
-  basement_studio_door_opened_today:
-    name: Basement Studio Door Opened Today
-    min: 0
-    max: 200
-    step: 1
-    unit_of_measurement: times
-    icon: mdi:door-open
-
 proximity:
   home_tony:
     devices:
@@ -391,39 +368,6 @@ template:
           states.person.kallen_stork,
           ] %}
         {{ people | selectattr('state','ne','home') | list | count }}
-    - unique_id: 6a8bb32e-5f4e-4d1f-8e17-77f07e5b174a
-      name: "Front Door Opened Today"
-      unit_of_measurement: 'times'
-      state: >-
-        {{ states('input_number.front_door_opened_today') | int }}
-      icon: >-
-        {% if states('input_number.front_door_opened_today') | int > 0 %}
-          mdi:door-open
-        {% else %}
-          mdi:door-closed
-        {% endif %}
-    - unique_id: 77786cc9-64de-4035-a635-e831a3b0ef63
-      name: "Back Door Opened Today"
-      unit_of_measurement: 'times'
-      state: >-
-        {{ states('input_number.back_door_opened_today') | int }}
-      icon: >-
-        {% if states('input_number.back_door_opened_today') | int > 0 %}
-          mdi:door-open
-        {% else %}
-          mdi:door-closed
-        {% endif %}
-    - unique_id: 3d74efd0-2df5-438e-a015-26ac1ce2c4ee
-      name: "Basement Studio Door Opened Today"
-      unit_of_measurement: 'times'
-      state: >-
-        {{ states('input_number.basement_studio_door_opened_today') | int }}
-      icon: >-
-        {% if states('input_number.basement_studio_door_opened_today') | int > 0 %}
-          mdi:door-open
-        {% else %}
-          mdi:door-closed
-        {% endif %}
 
 mqtt:
   sensor:

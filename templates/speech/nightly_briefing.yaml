@@ -125,16 +125,16 @@
         "In case you had a burning desire to know, ",
         "Since I know everyone lays awake at night wondering the answer to this question, ",
       ] | random }}
-      {% if (states('sensor.front_door_opened_today') | int) > 0 %}
-        "Today, the front door was opened {{ states('sensor.front_door_opened_today') }} times. "
+      {% if (states('counter.front_door_opened_today') | int) > 0 %}
+        "Today, the front door was opened {{ states('counter.front_door_opened_today') }} times. "
       {% else %}
         "Today, the front door was never opened at all. Wow, did you people seriously not go anywhere? "
       {% endif %}
-      {% if (states('sensor.back_door_opened_today') | int) > 0 %}
-        {% if (states('sensor.back_door_opened_today') | int) == 1 %}
+      {% if (states('counter.back_door_opened_today') | int) > 0 %}
+        {% if (states('counter.back_door_opened_today') | int) == 1 %}
           "And in a rare and shocking incident, the back door was also opened today! But only just once. There's no telling what could happen otherwise! "
         {% else %}
-          "In what has to be considered a near catastrophic incident, the back door was opened multiple times today! {{ states('sensor.back_door_opened_today') }} times, to be precise! "
+          "In what has to be considered a near catastrophic incident, the back door was opened multiple times today! {{ states('counter.back_door_opened_today') }} times, to be precise! "
         {% endif %}
       {% endif %}
     </p>

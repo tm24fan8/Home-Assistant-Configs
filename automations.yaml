@@ -2764,14 +2764,13 @@
           value: '{{ states(''input_number.tomorrow_corrected_high_temp'') | int }}'
         target:
           entity_id: input_number.today_corrected_high_temp
-      - service: input_number.set_value
+      - service: counter.reset
         target:
           entity_id:
-          - input_number.back_door_opened_today
-          - input_number.front_door_opened_today
-          - input_number.basement_studio_door_opened_today
-        data:
-          value: 0
+          - counter.back_door_opened_today
+          - counter.front_door_opened_today
+          - counter.basement_studio_door_opened_today
+        data: {}
     - conditions:
       - condition: trigger
         id: audible-off
