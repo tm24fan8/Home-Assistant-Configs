@@ -2274,59 +2274,36 @@
     - unavailable
     - unknown
     id: button
-  - platform: time
-    at: 00:00:00
-    id: midnight
-  condition: []
+  condition:
+  - condition: template
+    value_template: '{{ is_state(''input_boolean.studio_quiet'',''off'') and is_state(''sensor.twitch_ironnerd24'',''offline'')
+      and states(''switch.basement_led_strip'') not in [''unknown'',''unavailable'']
+      }}'
   action:
-  - choose:
-    - conditions:
-      - condition: and
-        conditions:
-        - condition: trigger
-          id:
-          - offline
-          - button
+  - repeat:
+      while:
+      - condition: state
+        entity_id: light.basement_led_strip_1
+        state: unavailable
+      - condition: template
+        value_template: '{{ repeat.index <= 10 }}'
       sequence:
-      - if:
-        - condition: template
-          value_template: '{{ is_state(''input_boolean.studio_quiet'',''off'') and
-            is_state(''sensor.twitch_ironnerd24'',''offline'') and states(''switch.basement_led_strip'')
-            not in [''unknown'',''unavailable''] }}'
-        then:
-        - repeat:
-            while:
-            - condition: state
-              entity_id: light.basement_led_strip_1
-              state: unavailable
-            - condition: template
-              value_template: '{{ repeat.index <= 10 }}'
-            sequence:
-            - service: input_number.increment
-              target:
-                entity_id: input_number.basement_led_strip_resets
-              data: {}
-            - service: switch.turn_off
-              target:
-                entity_id: switch.basement_led_strip
-              data: {}
-            - delay:
-                seconds: 20
-            - service: switch.turn_on
-              target:
-                entity_id: switch.basement_led_strip
-              data: {}
-            - delay:
-                seconds: 30
-    - conditions:
-      - condition: trigger
-        id: midnight
-      sequence:
-      - service: input_number.set_value
+      - service: counter.increment
         target:
-          entity_id: input_number.basement_led_strip_resets
-        data:
-          value: 0
+          entity_id: counter.basement_led_strip_resets
+        data: {}
+      - service: switch.turn_off
+        target:
+          entity_id: switch.basement_led_strip
+        data: {}
+      - delay:
+          seconds: 20
+      - service: switch.turn_on
+        target:
+          entity_id: switch.basement_led_strip
+        data: {}
+      - delay:
+          seconds: 30
   mode: single
 - id: '1696286732266'
   alias: Living Room Lights Adaptive Resync
@@ -2770,6 +2747,7 @@
           - counter.back_door_opened_today
           - counter.front_door_opened_today
           - counter.basement_studio_door_opened_today
+          - counter.basement_led_strip_resets
         data: {}
     - conditions:
       - condition: trigger

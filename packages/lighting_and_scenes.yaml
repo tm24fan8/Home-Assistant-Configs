@@ -98,13 +98,6 @@ input_number:
     step: 1
     unit_of_measurement: minutes
     icon: mdi:timer
-  basement_led_strip_resets:
-    name: Basement LED Strip Resets
-    min: 0
-    max: 500
-    step: 1
-    unit_of_measurement: resets
-    icon: mdi:restore
   downstairs_bathroom_lux_threshold:
     name: Downstairs Bathroom Lux Threshold
     min: 0
@@ -687,11 +680,6 @@ template:
       availability: "{{ is_state('light.master_bedroom_lights','on') and is_state('switch.adaptive_lighting_master_bedroom','on') }}"
       unit_of_measurement: '%'
       icon: mdi:brightness-percent
-    - name: "Basement LED Strip Resets"
-      unique_id: 0d016f09-a89b-4616-83b7-934580612d00
-      state: "{{ states('input_number.basement_led_strip_resets') | int }}"
-      unit_of_measurement: 'resets'
-      icon: mdi:restore
     - name: Tina Desk Scene
       unique_id: 0d94ba35-bc9d-40a2-aa77-776d26bc3538
       state: >
