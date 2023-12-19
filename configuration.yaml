@@ -189,6 +189,7 @@ influxdb:
       - climate
       - fan
       - person
+      - counter
     entity_globs:
       - sensor.*power
       - sensor.*energy
@@ -345,6 +346,7 @@ prometheus:
       - climate
       - fan
       - person
+      - counter
     include_entity_globs:
       - sensor.*power
       - sensor.*energy
