@@ -19,11 +19,6 @@ spotcast:
   sp_dc: !secret sp_dc
   sp_key: !secret sp_key
 
-device_tracker:
-  - platform: icloud3
-    username: !secret userIcloud
-    password: !secret passIcloud2
-
 tts:
   - platform: google_translate
     cache: true
