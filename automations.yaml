@@ -4282,3 +4282,66 @@
       data: {}
     alias: If scheduling has already run, set the new times
   mode: restart
+- id: '1703110817378'
+  alias: Tony Pain Meds Handler
+  description: ''
+  trigger:
+  - platform: time
+    at: input_datetime.tony_ibuprofen_notify
+    id: ibuprofen-notify
+    alias: Ibuprofen Notify
+  - alias: Tylenol Notify
+    platform: time
+    at: input_datetime.tony_tylenol_notify
+    id: tylenol-notify
+  - platform: state
+    entity_id:
+    - input_boolean.tony_ibuprofen_taken
+    from: 'off'
+    to: 'on'
+    id: ibuprofen-taken
+    alias: Ibuprofen Taken
+  - alias: Tylenol Taken
+    platform: state
+    entity_id:
+    - input_boolean.tony_tylenol_taken
+    from: 'off'
+    to: 'on'
+    id: tylenol-taken
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: and
+        conditions:
+        - condition: trigger
+          id:
+          - ibuprofen-notify
+          - ibuprofen-taken
+        - condition: state
+          entity_id: input_boolean.tony_ibuprofen_active
+          state: 'on'
+        alias: Ibuprofen
+      sequence:
+      - service: script.tony_ibuprofen
+        data:
+          reason: '{{ trigger.id }}'
+        alias: Call ibuprofen script
+    - conditions:
+      - condition: and
+        conditions:
+        - condition: trigger
+          id:
+          - tylenol-notify
+          - tylenol-taken
+        - condition: state
+          entity_id: input_boolean.tony_tylenol_active
+          state: 'on'
+        alias: Tylenol
+      sequence:
+      - service: script.tony_tylenol
+        data:
+          reason: '{{ trigger.id }}'
+        alias: Call tylenol script
+  mode: parallel
+  max: 10

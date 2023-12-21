@@ -2344,3 +2344,363 @@ tony_afternoon_meds:
       tag: tony-afternoon-meds
   icon: mdi:medication
   mode: restart
+tony_ibuprofen:
+  alias: Tony Ibuprofen
+  sequence:
+  - alias: Turn off boolean if this is a notification
+    if:
+    - condition: template
+      value_template: '{{ reason != ''ibuprofen-taken'' }}'
+      alias: If reason is not ibuprofen-taken
+    then:
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.tony_ibuprofen_taken
+      data: {}
+      alias: Turn off boolean
+  - alias: Routing
+    choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ reason == ''ibuprofen-notify'' }}'
+        alias: Ibuprofen Notify
+      sequence:
+      - service: script.text_notify
+        data:
+          type: alert
+          who: tony
+          title: Tony Ibuprofen Time
+          message: It is time to take your next dose of Ibuprofen
+          tag: tony-ibuprofen
+          actions:
+          - action: TONY_IBUPROFEN_TAKEN
+            title: Taken
+          - action: TONY_IBUPROFEN_SKIPPED
+            title: Skipped
+          - action: TONY_IBUPROFEN_ASK_LATER
+            title: Ask Later
+        alias: Send actionable text notification
+      - wait_for_trigger:
+        - platform: event
+          event_type: ios.notification_action_fired
+          event_data:
+            actionName: TONY_IBUPROFEN_TAKEN
+          id: ibuprofen-taken
+          alias: Ibuprofen Taken
+        - alias: Ibuprofen Skipped
+          platform: event
+          event_type: ios.notification_action_fired
+          event_data:
+            actionName: TONY_IBUPROFEN_SKIPPED
+          id: ibuprofen-skipped
+        - alias: Ibuprofen Ask Later
+          platform: event
+          event_type: ios.notification_action_fired
+          event_data:
+            actionName: TONY_IBUPROFEN_ASK_LATER
+          id: ibuprofen-ask-later
+        - platform: state
+          entity_id:
+          - input_boolean.tony_ibuprofen_taken
+          from: 'off'
+          to: 'on'
+          id: ibuprofen-manual
+          alias: Manual
+        - platform: state
+          entity_id:
+          - input_boolean.tony_ibuprofen_active
+          from: 'on'
+          to: 'off'
+          id: cancel
+        timeout:
+          hours: 0
+          minutes: 30
+          seconds: 0
+          milliseconds: 0
+        continue_on_timeout: true
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ wait.trigger.id == ''ibuprofen-taken'' }}'
+            alias: Ibuprofen Taken
+          sequence:
+          - service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.tony_ibuprofen_taken
+            data: {}
+            alias: Turn on boolean
+        - conditions:
+          - alias: Ibuprofen Skipped
+            condition: template
+            value_template: '{{ wait.trigger.id == ''ibuprofen-skipped'' }}'
+          sequence:
+          - service: input_datetime.set_datetime
+            target:
+              entity_id: input_datetime.tony_ibuprofen_notify
+            data:
+              datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(8)
+                }}
+
+                '
+            alias: Set notification time
+        - conditions:
+          - alias: Ibuprofen Ask Later
+            condition: template
+            value_template: '{{ wait.trigger.id == ''ibuprofen-ask-later'' }}'
+          sequence:
+          - service: input_datetime.set_datetime
+            target:
+              entity_id: input_datetime.tony_ibuprofen_notify
+            data:
+              datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,30)
+                }}
+
+                '
+            alias: Set ibuprofen notification time
+          - service: input_datetime.set_datetime
+            target:
+              entity_id: input_datetime.tony_ibuprofen_notify
+            data:
+              datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(4,30)
+                }}
+
+                '
+            alias: Set ibuprofen notification time
+        - conditions:
+          - condition: template
+            value_template: '{{ wait.trigger == ''none'' or wait.trigger.idx is undefined
+              }}'
+            alias: No response
+          sequence:
+          - service: input_datetime.set_datetime
+            target:
+              entity_id: input_datetime.tony_ibuprofen_notify
+            data:
+              datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,30)
+                }}
+
+                '
+            alias: Set notification time
+        alias: Act on wait triggers
+      - service: script.text_notify
+        data:
+          type: alert
+          who: tony
+          message: clear_notification
+          tag: tony-ibuprofen
+        alias: Clear actionable text notification
+    - conditions:
+      - condition: template
+        value_template: '{{ reason == ''ibuprofen-taken'' }}'
+        alias: Ibuprofen Taken
+      sequence:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.tony_ibuprofen_taken
+        data:
+          datetime: '{% from ''time.jinja'' import current_time %} {{ current_time(''datetime'',24)
+            }}
+
+            '
+        alias: Set time taken
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.tony_ibuprofen_notify
+        data:
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(8)
+            }}
+
+            '
+        alias: Set ibuprofen notification time
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.tony_tylenol_notify
+        data:
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(4)
+            }}
+
+            '
+        alias: Set tylenol notification time
+  mode: queued
+  icon: mdi:medication
+  max: 10
+tony_tylenol:
+  alias: Tony Tylenol
+  sequence:
+  - alias: Turn off boolean if this is a notification
+    if:
+    - condition: template
+      value_template: '{{ reason != ''tylenol-taken'' }}'
+      alias: If reason is not tylenol-taken
+    then:
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.tony_tylenol_taken
+      data: {}
+      alias: Turn off boolean
+  - alias: Routing
+    choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ reason == ''tylenol-notify'' }}'
+        alias: Tylenol Notify
+      sequence:
+      - service: script.text_notify
+        data:
+          type: alert
+          who: tony
+          title: Tony Tylenol Time
+          message: It is time to take your next dose of Tylenol
+          tag: tony-tylenol
+          actions:
+          - action: TONY_TYLENOL_TAKEN
+            title: Taken
+          - action: TONY_TYLENOL_SKIPPED
+            title: Skipped
+          - action: TONY_TYLENOL_ASK_LATER
+            title: Ask Later
+        alias: Send actionable text notification
+      - wait_for_trigger:
+        - platform: event
+          event_type: ios.notification_action_fired
+          event_data:
+            actionName: TONY_TYLENOL_TAKEN
+          id: tylenol-taken
+          alias: Tylenol Taken
+        - alias: Tylenol Skipped
+          platform: event
+          event_type: ios.notification_action_fired
+          event_data:
+            actionName: TONY_TYLENOL_SKIPPED
+          id: tylenol-skipped
+        - alias: Tylenol Ask Later
+          platform: event
+          event_type: ios.notification_action_fired
+          event_data:
+            actionName: TONY_TYLENOL_ASK_LATER
+          id: tylenol-ask-later
+        - platform: state
+          entity_id:
+          - input_boolean.tony_tylenol_taken
+          from: 'off'
+          to: 'on'
+          id: tylenol-manual
+          alias: Manual
+        - platform: state
+          entity_id:
+          - input_boolean.tony_tylenol_active
+          from: 'on'
+          to: 'off'
+          id: cancel
+        timeout:
+          hours: 0
+          minutes: 30
+          seconds: 0
+          milliseconds: 0
+        continue_on_timeout: true
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ wait.trigger.id == ''tylenol-taken'' }}'
+            alias: Tylenol Taken
+          sequence:
+          - service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.tony_tylenol_taken
+            data: {}
+            alias: Turn on boolean
+        - conditions:
+          - alias: Tylenol Skipped
+            condition: template
+            value_template: '{{ wait.trigger.id == ''tylenol-skipped'' }}'
+          sequence:
+          - service: input_datetime.set_datetime
+            target:
+              entity_id: input_datetime.tony_tylenol_notify
+            data:
+              datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(8)
+                }}
+
+                '
+            alias: Set notification time
+        - conditions:
+          - alias: Tylenol Ask Later
+            condition: template
+            value_template: '{{ wait.trigger.id == ''tylenol-ask-later'' }}'
+          sequence:
+          - service: input_datetime.set_datetime
+            target:
+              entity_id: input_datetime.tony_tylenol_notify
+            data:
+              datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,30)
+                }}
+
+                '
+            alias: Set tylenol notification time
+          - service: input_datetime.set_datetime
+            target:
+              entity_id: input_datetime.tony_tylenol_notify
+            data:
+              datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(4,30)
+                }}
+
+                '
+            alias: Set tylenol notification time
+        - conditions:
+          - condition: template
+            value_template: '{{ wait.trigger == ''none'' or wait.trigger.idx is undefined
+              }}'
+            alias: No response
+          sequence:
+          - service: input_datetime.set_datetime
+            target:
+              entity_id: input_datetime.tony_tylenol_notify
+            data:
+              datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,30)
+                }}
+
+                '
+            alias: Set notification time
+        alias: Act on wait triggers
+      - service: script.text_notify
+        data:
+          type: alert
+          who: tony
+          message: clear_notification
+          tag: tony-tylenol
+        alias: Clear actionable text notification
+    - conditions:
+      - condition: template
+        value_template: '{{ reason == ''tylenol-taken'' }}'
+        alias: Tylenol Taken
+      sequence:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.tony_tylenol_taken
+        data:
+          datetime: '{% from ''time.jinja'' import current_time %} {{ current_time(''datetime'',24)
+            }}
+
+            '
+        alias: Set time taken
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.tony_tylenol_notify
+        data:
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(8)
+            }}
+
+            '
+        alias: Set tylenol notification time
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.tony_ibuprofen_notify
+        data:
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(4)
+            }}
+
+            '
+        alias: Set ibuprofen notification time
+  mode: queued
+  icon: mdi:medication
+  max: 10

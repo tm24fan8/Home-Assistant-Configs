@@ -13,6 +13,18 @@ input_boolean:
   tony_night_meds_taken:
     name: Tony Night Meds Taken
     icon: mdi:medication
+  tony_ibuprofen_active:
+    name: Tony Ibuprofen Active
+    icon: mdi:medication
+  tony_ibuprofen_taken:
+    name: Tony Ibuprofen Taken
+    icon: mdi:medication
+  tony_tylenol_active:
+    name: Tony Tylenol Active
+    icon: mdi:medication
+  tony_tylenol_taken:
+    name: Tony Tylenol Taken
+    icon: mdi:medication
   tony_custom_meds_tracker_p1:
     name: Tony Custom Meds Tracker P1
     icon: mdi:medication
@@ -66,6 +78,26 @@ input_datetime:
     icon: mdi:medication
   tony_custom_meds_notify_p1:
     name: Tony Custom Meds Notify P1
+    has_date: false
+    has_time: true
+    icon: mdi:medication
+  tony_ibuprofen_taken:
+    name: Tony Ibuprofen Taken
+    has_date: true
+    has_time: true
+    icon: mdi:medication
+  tony_ibuprofen_notify:
+    name: Tony Ibuprofen Notify
+    has_date: false
+    has_time: true
+    icon: mdi:medication
+  tony_tylenol_taken:
+    name: Tony Tylenol Taken
+    has_date: true
+    has_time: true
+    icon: mdi:medication
+  tony_tylenol_notify:
+    name: Tony Tylenol Notify
     has_date: false
     has_time: true
     icon: mdi:medication
