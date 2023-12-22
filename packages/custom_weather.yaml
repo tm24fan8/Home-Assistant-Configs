@@ -13,8 +13,7 @@ weather:
       {% set temps = [
         states.sensor.kdfi_temperature,
         states.sensor.pirateweather_temperature,
-        states.sensor.openweathermap_temperature,
-        states.sensor.myradar_temperature
+        states.sensor.openweathermap_temperature
       ] %}
       {% set sensor = temps | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
       {{ states(sensor) | float }}
@@ -37,8 +36,7 @@ weather:
       {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
     pressure_template: >
       {% set pressures = [
-        states.sensor.kdfi_barometric_pressure,
-        states.sensor.myradar_pressure
+        states.sensor.kdfi_barometric_pressure
       ] %}
       {% set result = pressures | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
       {{ states(result) | float }}
@@ -47,8 +45,7 @@ weather:
       {% set windspeeds = [
         states.sensor.pirateweather_wind_speed,
         states.sensor.kdfi_wind_speed,
-        states.sensor.openweathermap_wind_speed,
-        states.sensor.myradar_wind_speed
+        states.sensor.openweathermap_wind_speed
       ] %}
       {% set result = windspeeds | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
       {{ states(result) | float }}
@@ -56,8 +53,7 @@ weather:
     wind_bearing_template: >
       {% set windbearings = [
         states.sensor.pirateweather_wind_bearing,
-        states.sensor.openweathermap_wind_bearing,
-        states.sensor.myradar_wind_bearing
+        states.sensor.openweathermap_wind_bearing
       ] %}
       {% set result = windbearings | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
       {{ states(result) | float }}
@@ -73,8 +69,7 @@ weather:
     attribution_template: "Daily weather data from Iron Nerd's custom weather station template"
     ozone_template: >
       {% set ozones = [
-        states.sensor.pirateweather_ozone,
-        states.sensor.myradar_ozone
+        states.sensor.pirateweather_ozone
       ] %}
       {% set result = ozones | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
       {{ states(result) | float }}
@@ -95,8 +90,7 @@ weather:
       {% set temps = [
         states.sensor.kdfi_temperature,
         states.sensor.pirateweather_temperature,
-        states.sensor.openweathermap_temperature,
-        states.sensor.myradar_temperature
+        states.sensor.openweathermap_temperature
       ] %}
       {% set sensor = temps | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
       {{ states(sensor) | float }}
@@ -118,8 +112,7 @@ weather:
       {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
     pressure_template: >
       {% set pressures = [
-        states.sensor.kdfi_barometric_pressure,
-        states.sensor.myradar_pressure
+        states.sensor.kdfi_barometric_pressure
       ] %}
       {% set result = pressures | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
       {{ states(result) | float }}
@@ -128,8 +121,7 @@ weather:
       {% set windspeeds = [
         states.sensor.pirateweather_wind_speed,
         states.sensor.kdfi_wind_speed,
-        states.sensor.openweathermap_wind_speed,
-        states.sensor.myradar_wind_speed
+        states.sensor.openweathermap_wind_speed
       ] %}
       {% set result = windspeeds | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
       {{ states(result) | float }}
@@ -137,8 +129,7 @@ weather:
     wind_bearing_template: >
       {% set windbearings = [
         states.sensor.pirateweather_wind_bearing,
-        states.sensor.openweathermap_wind_bearing,
-        states.sensor.myradar_wind_bearing
+        states.sensor.openweathermap_wind_bearing
       ] %}
       {% set result = windbearings | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
       {{ states(result) | float }}
@@ -154,8 +145,7 @@ weather:
     attribution_template: "Hourly weather data from Iron Nerd's custom weather station template"
     ozone_template: >
       {% set ozones = [
-        states.sensor.pirateweather_ozone,
-        states.sensor.myradar_ozone
+        states.sensor.pirateweather_ozone
       ] %}
       {% set result = ozones | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
       {{ states(result) | float }}
@@ -168,11 +158,6 @@ weather:
 #     prior: 0.17
 #     probability_threshold: 0.6
 #     observations:
-#       - entity_id: "sensor.myradar_precip"
-#         prob_given_true: 0.99
-#         prob_given_false: 0.45
-#         platform: "state"
-#         to_state: "rain"
 #       - entity_id: "sensor.pirateweather_precip"
 #         prob_given_true: 0.13
 #         prob_given_false: 0.005
