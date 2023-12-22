@@ -281,7 +281,7 @@
     to: ●● PAUSED ●●
   condition: []
   action:
-  - service: device_tracker.icloud3_restart
+  - service: icloud3.restart
     data: {}
   mode: single
 - id: '1645738561470'
