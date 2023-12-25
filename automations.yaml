@@ -850,7 +850,8 @@
     id: stop-show
   condition: []
   action:
-  - if:
+  - alias: If starting show
+    if:
     - condition: trigger
       id: start-show
     then:
@@ -861,35 +862,63 @@
         - switch.adaptive_lighting_living_room
         - switch.adaptive_lighting_tina_lamp
       alias: Turn off adaptive lighting
-    - service: switch.turn_on
-      data: {}
-      target:
-        entity_id: switch.animated_scene_christmas_day
-      alias: Turn on Christmas Day scene
-    - service: script.speech_engine
+    - alias: Start light show
+      parallel:
+      - service: light.turn_off
+        target:
+          entity_id: light.dining_room_lamp
+        data: {}
+        alias: Turn off dining room lamp
+      - service: lifx.effect_move
+        target:
+          entity_id: light.basement_led_strip_1
+        data:
+          speed: 4
+          direction: right
+          theme: christmas
+          power_on: true
+        alias: Run effect on Living Room LED Strip
+      - service: switch.turn_on
+        data: {}
+        target:
+          entity_id: switch.animated_scene_christmas_day
+        alias: Turn on Christmas Day scene
+    - alias: TTS Announcement
+      service: script.speech_engine
       data:
         who: living_room
         message: Merry Christmas everyone. And now, let us enjoy some awesome Christmas
           music!
-      alias: TTS Announcement
+        type: alert
     - delay:
         hours: 0
         minutes: 0
         seconds: 5
         milliseconds: 0
       alias: Give TTS time to finish
+      enabled: true
+    - alias: Play music via built-in Chromecast on Living Room TV
+      service: media_player.play_media
+      data:
+        media_content_type: cast
+        media_content_id: ' { "app_name": "youtube", "media_id": "9yZEwvKdGTY", "playlist_id":
+          "PLPggnb95lN4n2rQBKYK-qBn1PNqpDfq4y" }'
+      target:
+        entity_id: media_player.living_room_tv_chromecast
     - service: media_player.select_source
       data:
         source: Living Room TV
       target:
         entity_id: media_player.spotify_iron_nerd
       alias: Set source to Living Room TV
+      enabled: false
     - delay:
         hours: 0
         minutes: 0
         seconds: 2
         milliseconds: 0
       alias: Make sure that took effect
+      enabled: false
     - service: media_player.play_media
       data:
         media_content_id: https://open.spotify.com/track/7LPOnS3OvbF6DGrt9fQ7x9?si=3c7e28d623324a80
@@ -897,13 +926,15 @@
       target:
         entity_id: media_player.spotify_iron_nerd
       alias: Play my Christmas Music playlist
+      enabled: false
     - service: media_player.media_play
       data: {}
       target:
         entity_id: media_player.spotify_iron_nerd
       alias: Actually play the music
-    alias: If starting show
-  - if:
+      enabled: false
+  - alias: If stopping show
+    if:
     - condition: trigger
       id: stop-show
     then:
@@ -912,36 +943,61 @@
       target:
         entity_id: media_player.spotify_iron_nerd
       alias: Stop the music
+      enabled: false
+    - service: media_player.media_pause
+      target:
+        entity_id: media_player.living_room_tv_chromecast
+      data: {}
+      alias: Pause music
     - service: switch.turn_off
       data: {}
       target:
         entity_id: switch.animated_scene_christmas_day
       alias: Turn off Christmas Day scene
-    - service: switch.turn_on
-      data: {}
-      target:
-        entity_id: switch.animated_scene_christmas
-      alias: Turn on Front Porch Christmas scene
-    - service: input_select.select_option
-      data:
-        option: Adaptive
-      target:
-        entity_id: input_select.living_room_scenes
-      alias: Set living room back to adaptive
-    - service: input_select.select_option
-      data:
-        option: Reset
-      target:
-        entity_id: input_select.tina_desk_scenes
-      alias: Reset Tina desk scene
-    - service: script.speech_engine
+    - alias: Reset lights
+      parallel:
+      - service: input_select.select_option
+        data:
+          option: Adaptive
+        target:
+          entity_id: input_select.living_room_scenes
+        alias: Set living room back to adaptive
+      - service: input_select.select_option
+        data:
+          option: Reset
+        target:
+          entity_id: input_select.tina_desk_scenes
+        alias: Reset Tina desk scene
+      - service: light.turn_on
+        target:
+          entity_id: light.dining_room_lamp
+        data: {}
+        alias: Turn on dining room lamp
+      - service: switch.turn_on
+        data: {}
+        target:
+          entity_id: switch.animated_scene_christmas
+        alias: Turn on Front Porch Christmas scene
+    - alias: TTS Announcement
+      service: script.speech_engine
       data:
         who: living_room
         message: Thats all folks, enjoy the rest of your Christmas Day! Eat lots of
           food and have lots of fun! And hey, maybe you could bring me some cake?
           I love cake!
-      alias: TTS Announcement
-    alias: If stopping show
+        type: alert
+    - alias: Give TTS time to finish
+      delay:
+        hours: 0
+        minutes: 0
+        seconds: 10
+        milliseconds: 0
+      enabled: true
+    - service: media_player.media_play
+      target:
+        entity_id: media_player.living_room_tv_chromecast
+      data: {}
+      alias: Resume music
   mode: restart
 - id: '1678225060371'
   alias: Tornado Watch Handling
@@ -4218,7 +4274,10 @@
       toggle: 'off'
     id: toggle-off
     alias: Toggle off
-  condition: []
+  condition:
+  - condition: state
+    entity_id: input_boolean.holiday_mode_hold
+    state: 'off'
   action:
   - alias: Processing
     choose:
