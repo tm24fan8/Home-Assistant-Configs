@@ -323,9 +323,6 @@ going_upstairs:
       data: {}
       alias: Shut down Kallen desktop
     alias: Shutdown Kallen Desktop, unless it is updating
-  - service: script.asus_laptop_shutdown
-    data: {}
-    alias: Shut down laptop
   - choose:
     - conditions:
       - condition: state
@@ -804,12 +801,6 @@ basement_shutdown:
       target:
         entity_id: media_player.basement_tv
     alias: If TV is not being used, turn it off
-  - service: script.turn_on
-    data: {}
-    target:
-      entity_id:
-      - script.asus_laptop_shutdown
-    alias: Shut down the laptop
   - if:
     - condition: state
       entity_id: input_boolean.kallen_computer_updates
