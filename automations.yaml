@@ -2295,7 +2295,8 @@
     but end up out of sync
   trigger:
   - platform: state
-    entity_id: binary_sensor.basement_lights_sync_issue
+    entity_id:
+    - binary_sensor.basement_studio_sync_issue
     from: 'off'
     to: 'on'
   condition:
