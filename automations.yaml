@@ -869,15 +869,15 @@
           entity_id: light.dining_room_lamp
         data: {}
         alias: Turn off dining room lamp
-      - service: lifx.effect_move
-        target:
-          entity_id: light.basement_led_strip_1
+      - alias: Run effect on Living Room LED Strip
+        service: lifx.effect_move
         data:
           speed: 4
           direction: right
           theme: christmas
           power_on: true
-        alias: Run effect on Living Room LED Strip
+        target:
+          entity_id: light.living_room_led_strip
       - service: switch.turn_on
         data: {}
         target:
