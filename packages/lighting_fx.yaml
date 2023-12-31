@@ -29,6 +29,12 @@ script:
           number:
             min: 1
             max: 30
+      flash:
+        name: 'Flash'
+        description: 'Flash any lights capable of doing so'
+        required: false
+        selector:
+          boolean:
     sequence:
     # Setup and processing
       - variables:
@@ -79,6 +85,18 @@ script:
         data:
           color_name: "{{ 'red' if type == 'police' else type }}"
           brightness: 255
+      - if:
+        - condition: template
+          value_template: "{{ flash == true }}"
+        then:
+        - service: light.turn_on
+          target:
+            entity_id:
+            - light.basement_short_lamp
+            - light.basement_tall_lamp
+            - light.basement_stairwell
+          data:
+            flash: long
       - service: lifx.effect_move
         target:
           entity_id: light.basement_led_strip_1
@@ -215,6 +233,12 @@ script:
           number:
             min: 1
             max: 30
+      flash:
+        name: 'Flash'
+        description: 'Flash any lights capable of doing so'
+        required: false
+        selector:
+          boolean:
     sequence:
     # Setup and processing
       - variables:
@@ -261,6 +285,16 @@ script:
         data:
           color_name: "{{ 'red' if type == 'police' else type }}"
           brightness: 255
+      - if:
+        - condition: template
+          value_template: "{{ flash == true }}"
+        then:
+        - service: light.turn_on
+          target:
+            entity_id:
+              - light.living_room_overhead
+          data:
+            flash: long
       - service: lifx.effect_move
         target:
           entity_id: light.living_room_led_strip
