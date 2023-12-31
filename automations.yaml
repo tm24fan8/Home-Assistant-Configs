@@ -91,7 +91,8 @@
     target:
       entity_id: light.dining_room_lamp
     alias: Turn off dining room lamp
-  - service: switch.turn_off
+  - alias: Prepare affected lighting areas
+    service: switch.turn_off
     target:
       entity_id:
       - switch.adaptive_lighting_basement_studio
@@ -102,108 +103,116 @@
       - switch.adaptive_lighting_upstairs_hallway
       - switch.adaptive_lighting_tina_lamp
       - switch.animated_scene_christmas
+      - switch.adaptive_lighting_emma_bedroom
+      - switch.adaptive_lighting_downstairs_bathroom
+      - switch.adaptive_lighting_upstairs_bathroom
+      - switch.adaptive_lighting_front_porch
     data: {}
-    alias: Prepare affected lighting areas
   - delay:
       hours: 0
       minutes: 0
       seconds: 1
       milliseconds: 0
     alias: Delay to make sure all switches turn off
-  - service: light.turn_on
+  - alias: Turn on lights, change to red for capable bulbs
+    service: light.turn_on
     target:
       entity_id:
       - light.hallway_overhead
       - light.kallen_bedroom_lights
-      - light.living_room_color_1
-      - light.living_room_color_2
-      - light.living_room_color_3
-      - light.master_bedroom_front
-      - light.master_bedroom_side
       - light.mud_room_overhead
-      - light.tina_desk_strip
+      - light.front_porch_light
+      - light.emma_bedroom_light
+      - light.downstairs_bathroom_lights
+      - light.upstairs_bathroom_lights
+      - light.living_room_lights
+      - light.master_bedroom_lights
+      - light.basement_studio_lights
       - light.tina_lamp_top
       - light.tina_lamp_side
-      - light.basement_led_strip_1
-      - light.basement_short_lamp
-      - light.basement_stairwell
-      - light.basement_tall_lamp
-      - light.front_porch_light
+      - light.tina_desk_strip
+      - light.stairwell_led_strip
     data:
       color_name: red
       brightness_pct: 100
-    alias: Turn on lights, change to red for capable bulbs
   - delay:
       hours: 0
       minutes: 0
       seconds: 2
       milliseconds: 0
     alias: Delay to wait for lights to turn on
-  - service: light.turn_on
+  - alias: Flash lights and send TTS notification
+    parallel:
+    - alias: Flash lights
+      service: light.turn_on
+      target:
+        entity_id:
+        - light.hallway_overhead
+        - light.kallen_bedroom_lights
+        - light.mud_room_overhead
+        - light.front_porch_light
+        - light.emma_bedroom_light
+        - light.downstairs_bathroom_lights
+        - light.upstairs_bathroom_lights
+        - light.master_bedroom_lights
+        - light.tina_lamp_top
+        - light.tina_lamp_side
+        - light.tina_desk_strip
+      data:
+        flash: long
+    - alias: Send TTS notification to the common areas
+      service: script.speech_engine
+      data:
+        who: common_areas
+        message: Happy new year! Heres to 2024!
+        type: alert
+    - alias: Basement Lights Alert
+      service: script.basement_lights_alert
+      data:
+        type: police
+        duration: 30
+        flash: true
+    - alias: Living Room Lights Alert
+      service: script.living_room_lights_alert
+      data:
+        type: police
+        duration: 30
+        flash: true
+  - alias: Restore previous functionality
+    service: switch.turn_on
     target:
       entity_id:
-      - light.hallway_overhead
-      - light.kallen_bedroom_lights
-      - light.living_room_color_1
-      - light.living_room_color_2
-      - light.living_room_color_3
-      - light.master_bedroom_front
-      - light.master_bedroom_side
-      - light.mud_room_overhead
-      - light.tina_desk_strip
-      - light.tina_lamp_top
-      - light.tina_lamp_side
-      - light.basement_led_strip_1
-      - light.basement_short_lamp
-      - light.basement_stairwell
-      - light.basement_tall_lamp
-      - light.front_porch_light
-    data:
-      flash: long
-    alias: Flash lights
-  - service: script.speech_engine
-    data:
-      who: common
-      message: Happy new year! Heres to 2024!
-    alias: Send TTS notification to the common areas
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 30
-      milliseconds: 0
-    alias: Let the things happen
-  - service: switch.turn_on
-    target:
-      entity_id:
-      - switch.adaptive_lighting_basement_studio
-      - switch.adaptive_lighting_kallen_bedroom
-      - switch.adaptive_lighting_master_bedroom
-      - switch.adaptive_lighting_upstairs_hallway
       - switch.animated_scene_christmas
     data: {}
-    alias: Restore previous functionality on second floor and front porch
-  - service: scene.turn_on
-    data: {}
+  - alias: Return to evening mode
+    service: script.turn_on
     target:
-      entity_id: scene.adaptive_on_first_floor
-    alias: Return first floor to adaptive lighting
+      entity_id:
+      - script.evening_on_first_floor
+      - script.evening_on_second_floor
+    data: {}
   - delay:
       hours: 0
       minutes: 0
       seconds: 1
       milliseconds: 0
     alias: Delay because adaptive lighting is stupid sometimes
-  - service: scene.turn_on
-    data: {}
-    target:
-      entity_id: scene.night_mode_on_second_floor
-    alias: Return second floor to night mode
   - service: input_select.select_option
     data:
       option: Reset
     target:
       entity_id: input_select.tina_desk_scenes
     alias: Reset Tina desk scene
+  - service: light.turn_on
+    target:
+      entity_id: light.dining_room_lamp
+    data: {}
+    alias: Turn on dining room lamp
+  - service: light.turn_off
+    target:
+      entity_id: light.downstairs_bathroom_lights
+    data: {}
+    alias: Turn off downstairs bathroom lights
   mode: single
 - id: '1641101491581'
   alias: Family Has Arrived
