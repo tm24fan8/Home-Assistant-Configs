@@ -4288,6 +4288,9 @@
   - condition: state
     entity_id: input_boolean.holiday_mode_hold
     state: 'off'
+  - condition: state
+    entity_id: input_boolean.holiday_mode
+    state: 'on'
   action:
   - alias: Processing
     choose:
