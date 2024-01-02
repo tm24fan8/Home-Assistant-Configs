@@ -1759,7 +1759,15 @@ script:
                 'Can a human be so kind and close it?',
                 'The air quality in this house has actually improved.',
                 'Closing the door would improve the security of the house.',
-                'Hey. The door was just opened and this is crazy. But now you know. So. Close it maybe.'
+                'Hey. The door was just opened and this is crazy. But now you know. So close it maybe.'
+                ] | random }}
+            {%- endmacro -%}
+
+            {%- macro snark_door_closed() -%}
+              {{ [
+                'Thank you for finally closing the door. The outside world is grateful.',
+                'The door has been closed. Thank you for paying attention.',
+                'You have closed the door. Nerd Home Incorporated thanks you for singlehandedly saving the planet.',
                 ] | random }}
             {%- endmacro -%}
 
@@ -1917,6 +1925,10 @@ script:
 
               {% if call_snark_door_open == 1 %}
                 {{ snark_door_open() }}
+              {% endif %}
+
+              {% if call_snark_door_closed == 1 %}
+                {{ snark_door_closed () }}
               {% endif %}
 
               {% if call_school_pickup_reminder == 1 %}

@@ -4417,3 +4417,103 @@
         alias: Call tylenol script
   mode: parallel
   max: 10
+- id: '1704233489587'
+  alias: Door Open Alert
+  description: ''
+  trigger:
+  - alias: Front door open
+    platform: state
+    entity_id:
+    - binary_sensor.front_door
+    from: 'off'
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+    id: front_door
+  - alias: Back door open
+    platform: state
+    entity_id:
+    - binary_sensor.back_door
+    from: 'off'
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+    id: back_door
+  condition: []
+  action:
+  - variables:
+      sensor: '{{ "binary_sensor." + trigger.id }}'
+    alias: Set entity ID for the repeat loop
+  - alias: Repeat loop while triggered door is open
+    repeat:
+      sequence:
+      - alias: Decide announcements and light alerts
+        if:
+        - condition: template
+          value_template: '{{ repeat.first == ''true'' }}'
+          alias: If this is the first repeat
+        then:
+        - alias: Wait 2 minutes, break out if door is closed
+          wait_for_trigger:
+          - platform: template
+            value_template: '{{ is_state(sensor,''off'') }}'
+            alias: Triggered door closed
+          timeout:
+            hours: 0
+            minutes: 2
+            seconds: 0
+            milliseconds: 0
+        else:
+        - parallel:
+          - if:
+            - condition: template
+              value_template: '{{ repeat.index > 2 }}'
+              alias: If this is the third or higher repeat
+            then:
+            - parallel:
+              - alias: Living Room Lights Alert
+                service: script.living_room_lights_alert
+                data:
+                  duration: 10
+                  type: red
+                  flash: true
+              - service: script.basement_lights_alert
+                data:
+                  type: red
+                  duration: 10
+                  flash: true
+                alias: Basement Lights Alert
+              alias: Light alerts
+            alias: Light alert starts at 3rd repeat
+          - service: script.status_annc
+            data:
+              who: living_room
+              call_interruption: 1
+              call_snark_door_open: 1
+            alias: Play announcement
+          alias: Run announcement and, if applicable, light alerts
+        - alias: Wait 2 minutes, break out if door is closed
+          wait_for_trigger:
+          - platform: template
+            value_template: '{{ is_state(sensor,''off'') }}'
+            alias: Triggered door closed
+          timeout:
+            hours: 0
+            minutes: 1
+            seconds: 50
+            milliseconds: 0
+      while:
+      - alias: Triggered door is open
+        condition: template
+        value_template: '{{ is_state(sensor,''on'') }}'
+  - alias: Play announcement
+    service: script.status_annc
+    data:
+      who: living_room
+      call_snark_door_closed: 1
+  mode: parallel
+  max: 5
