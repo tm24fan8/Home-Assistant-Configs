@@ -4448,72 +4448,87 @@
   - variables:
       sensor: '{{ "binary_sensor." + trigger.id }}'
     alias: Set entity ID for the repeat loop
-  - alias: Repeat loop while triggered door is open
+  - alias: Repeat loop until door is closed
     repeat:
       sequence:
-      - alias: Decide announcements and light alerts
-        if:
-        - condition: template
-          value_template: '{{ repeat.first == ''true'' }}'
-          alias: If this is the first repeat
-        then:
-        - alias: Wait 2 minutes, break out if door is closed
-          wait_for_trigger:
-          - platform: template
-            value_template: '{{ is_state(sensor,''off'') }}'
-            alias: Triggered door closed
-          timeout:
-            hours: 0
-            minutes: 2
-            seconds: 0
-            milliseconds: 0
-        else:
-        - parallel:
-          - if:
-            - condition: template
-              value_template: '{{ repeat.index > 2 }}'
-              alias: If this is the third or higher repeat
+      - alias: Wait for door to close, limit 1 minute
+        wait_for_trigger:
+        - platform: template
+          value_template: '{{ is_state(sensor,''off'') }}'
+          alias: Triggered door closed
+          id: door_closed
+        timeout:
+          hours: 0
+          minutes: 1
+          seconds: 0
+          milliseconds: 0
+      - alias: Run the appropriate notification actions
+        choose:
+        - conditions:
+          - alias: Triggered door is open
+            condition: template
+            value_template: '{{ is_state(sensor,''on'') or wait.trigger == ''none''
+              }}'
+          sequence:
+          - alias: Run door open announcement and, if applicable, light alerts
+            parallel:
+            - alias: Light alert starts at 2nd repeat
+              if:
+              - alias: If this is the 2nd or higher repeat
+                condition: template
+                value_template: '{{ repeat.index >= 2 }}'
+              then:
+              - alias: Light alerts
+                parallel:
+                - alias: Living Room Lights Alert
+                  service: script.living_room_lights_alert
+                  data:
+                    duration: 12
+                    type: red
+                    flash: true
+                - alias: Basement Lights Alert
+                  service: script.basement_lights_alert
+                  data:
+                    type: red
+                    duration: 12
+                    flash: true
+            - alias: Play announcement
+              service: script.status_annc
+              data:
+                who: common
+                call_interruption: 1
+                call_snark_door_open: 1
+          - alias: Check if door is closed, play announcement if it is
+            if:
+            - alias: Triggered door is closed
+              condition: template
+              value_template: '{{ is_state(sensor,''off'') }}'
             then:
-            - parallel:
-              - alias: Living Room Lights Alert
-                service: script.living_room_lights_alert
-                data:
-                  duration: 10
-                  type: red
-                  flash: true
-              - service: script.basement_lights_alert
-                data:
-                  type: red
-                  duration: 10
-                  flash: true
-                alias: Basement Lights Alert
-              alias: Light alerts
-            alias: Light alert starts at 3rd repeat
-          - service: script.status_annc
-            data:
-              who: living_room
-              call_interruption: 1
-              call_snark_door_open: 1
-            alias: Play announcement
-          alias: Run announcement and, if applicable, light alerts
-        - alias: Wait 2 minutes, break out if door is closed
-          wait_for_trigger:
-          - platform: template
-            value_template: '{{ is_state(sensor,''off'') }}'
-            alias: Triggered door closed
-          timeout:
-            hours: 0
-            minutes: 1
-            seconds: 50
-            milliseconds: 0
-      while:
-      - alias: Triggered door is open
+            - alias: Play door closed announcement
+              service: script.status_annc
+              data:
+                who: common
+                call_snark_door_closed: 1
+        - conditions:
+          - alias: Triggered door is closed
+            condition: template
+            value_template: '{{ wait.trigger.id == ''door_closed'' or is_state(sensor,''off'')
+              }}'
+          sequence:
+          - alias: Play door closed announcement if alert was triggered previously
+            if:
+            - condition: template
+              value_template: '{{ repeat.index > 1 }}'
+              alias: If this is not the first repeat
+            then:
+            - alias: Play door closed announcement
+              service: script.status_annc
+              data:
+                who: common
+                call_snark_door_closed: 1
+      until:
+      - alias: Triggered door is closed
         condition: template
-        value_template: '{{ is_state(sensor,''on'') }}'
-  - alias: Play announcement
-    service: script.status_annc
-    data:
-      who: living_room
-      call_snark_door_closed: 1
+        value_template: '{{ is_state(sensor,''off'') }}'
   mode: parallel
   max: 5
