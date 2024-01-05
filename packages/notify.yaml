@@ -1753,14 +1753,25 @@ script:
             {%- endmacro -%}
 
             {%- macro snark_door_open() -%}
-              {{ [
-                'Would you like me to calulate how much air conditioning is being wasted? Spoiler Alert, you are not going to like the answer.',
-                'I have detected a large number of insects entering the house.',
-                'Can a human be so kind and close it?',
-                'The air quality in this house has actually improved.',
-                'Closing the door would improve the security of the house.',
-                'Hey. The door was just opened and this is crazy. But now you know. So close it maybe.'
-                ] | random }}
+              {% if is_state('binary_sensor.front_door','on') and is_state('binary_sensor.back_door','on') %}
+                {% set door = 'front door and back door' %}
+              {% elif is_state('binary_sensor.front_door','on') %}
+                {% set door = 'front door' %}
+              {% elif is_state('binary_sensor.back_door','on') %}
+                {% set door = 'back door' %}
+              {% endif %}
+              {% if door is defined %}
+                {{ [
+                  'Would you like me to calulate how much air conditioning is being wasted? Spoiler Alert, you are not going to like the answer. Close the ' + door + '.',
+                  'I have detected a large number of insects entering the house. You may want to close the ' + door + '.',
+                  'The ' + door + ' is open. Can a human be so kind as to close it?',
+                  'The air quality in this house has actually improved. But you will probably want to close the ' + door + ' anyway.',
+                  'Closing the ' + door + ' would improve the security of the house.',
+                  'Hey. The ' + door + ' was just opened and this is crazy. But now you know. So close it maybe.'
+                  ] | random }}
+              {% else %}
+                Apparently there is a door open somewhere that should not be. Do not ask me. I just work here.
+              {% endif %}
             {%- endmacro -%}
 
             {%- macro snark_door_closed() -%}
