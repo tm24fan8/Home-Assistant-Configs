@@ -429,7 +429,7 @@
       time: '11:00:00'
       exclude:
         entity_id:
-        - sensor.iphone_battery_level
+        - sensor.tinas_iphone_battery_level
         - sensor.kallen_iphone_battery_level
         - sensor.tinas_ipad_battery_level
         - sensor.tony_s_iphone_battery_level

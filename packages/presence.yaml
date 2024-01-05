@@ -91,7 +91,7 @@ binary_sensor:
         platform: "state"
         to_state: "home"
       - platform: template
-        value_template: "{{ states('sensor.iphone_ssid') in ['deltaforce-5G','deltaforce-2G','studio-5G','studio-2G'] }}"
+        value_template: "{{ states('sensor.tinas_iphone_ssid') in ['deltaforce-5G','deltaforce-2G','studio-5G','studio-2G'] }}"
         prob_given_true: 0.99
         prob_given_false: 0.01
   - platform: bayesian
