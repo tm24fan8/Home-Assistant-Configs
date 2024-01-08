@@ -4532,3 +4532,22 @@
         value_template: '{{ is_state(sensor,''off'') }}'
   mode: parallel
   max: 5
+- id: '1704743623656'
+  alias: Stairwell LED Strip
+  description: Run stairwell LED strip script automatically when the strip is turned
+    on
+  trigger:
+  - platform: state
+    entity_id:
+    - light.stairwell_led_strip
+    from: 'off'
+    to: 'on'
+    id: light-on
+    alias: When stairwell LED strip turns on
+  condition: []
+  action:
+  - service: script.stairwell_led_strip
+    metadata: {}
+    data: {}
+    alias: Run stairwell LED strip script
+  mode: restart
