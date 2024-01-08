@@ -885,9 +885,11 @@ stairwell_led_strip:
       colortemp: "{% if is_state('input_boolean.goodnight','off') and\n      is_state('input_boolean.give_me_darkness','off')
         and\n      is_state('binary_sensor.early_night_mode','off')\n%}\n  4000\n{%
         else %}\n  2000\n{% endif %}\n"
-  - if:
+  - alias: Reset or apply proper settings
+    if:
     - condition: template
       value_template: '{{ brightness == ''reset'' }}'
+      alias: If this is a reset
     then:
     - service: light.turn_on
       target:
@@ -898,6 +900,7 @@ stairwell_led_strip:
           }}\n{% elif is_state('binary_sensor.early_night_mode','on') %}\n  {{ brt3
           }}\n{% else %}\n  {{ brtmax }}\n{% endif %}\n"
         color_temp_kelvin: '{{ colortemp }}'
+      alias: Set brightness and colortemp
     else:
     - service: light.turn_on
       target:
