@@ -115,131 +115,103 @@
 {{ cleanup(data()) }}
 {% endmacro %}
 
-{% macro twitchStreamInfo(type,method) %}
-{% if is_state('input_boolean.tony_streaming_today','on') or calendar_event_today('calendar.tony_s_twitch_schedule') == 'false' %}
-  {% set streamstart = state_attr('input_datetime.tony_streaming_start_time','timestamp') | timestamp_custom('%-I:%M %p',false) %}
-{% elif calendar_event_today('calendar.tony_s_twitch_schedule') == 'true' %}
-  {% set streamstart = as_timestamp(state_attr('calendar.tony_s_twitch_schedule','start_time')) | int | timestamp_custom('%-I:%M %p') %}
-{% endif %}
-{% set game = state_attr('sensor.twitch_ironnerd24','game') %}
-{% set viewers = state_attr('sensor.twitch_ironnerd24','viewers') %}
-{% if is_state('sensor.twitch_ironnerd24','streaming') %}
-Tony is currently streaming. The current stream category is {{ game }}. The current viewer count is {{ viewers }}.
-{% elif is_state('input_boolean.tony_streaming_today','on') or calendar_event_today('calendar.tony_s_twitch_schedule') == 'true' %}
-  {% if method == 'tts' %}
-    Tony
-    {{ [
-    " will be pretending to be a real content creator tonight. ",
-    " will be doing his best to defeat his impostor syndrome tonight. ",
-    " will be playing video games and yelling into a microphone tonight. ",
-    " will be scraping out the nickels and dimes tonight for the sake of entertainment. ",
-    " is not really all that funny, but tonight he will present himself to a crowd of questionable individuals who seem to think that he is. "
-  ] | random }} The studio is scheduled to go online at {{ streamstart }}. "
-  {% elif method == 'text' %}
-    Tony will be streaming today. Stream starts at {{ streamstart }}.
+{% macro tonyStatusReport(type,method) %}
+  {% macro data() %}
+  {% if type == 'full' %}
+    {% if is_state('input_boolean.tony_awake','on') %}
+      Tony is awake.
+    {% else %}
+      Tony is asleep.
+    {% endif %}
   {% endif %}
-{% elif state_attr('calendar.tony_s_twitch_schedule','start_time') != none %}
-  {% if count_the_days('calendar.tony_s_twitch_schedule','start_time') | int == 1 %}
-    Tony will be streaming at {{ time_from_calendar('calendar.tony_s_twitch_schedule','start_time','read') }} tomorrow.
-  {% endif %}
-{% endif %}
-{% endmacro %}
-
-{% macro tony_morning_meds(type,method) %}
-{% set streamBlock = twitchStreamInfo(type,method) | trim == '' %}
-{% if type == 'meds' or streamBlock == true %}
-  {% set identTony = 'Tony' %}
-{% else %}
-  {% set identTony = 'He' %}
-{% endif %}
-{% if is_state('binary_sensor.overnight','off') %}
-  {% if is_state('input_boolean.tony_morning_meds_taken','on') %}
-    {{ identTony }} took his morning meds at {{ input_datetime_read('input_datetime.tony_morning_meds_taken') | trim }}.
-  {% elif is_state('input_boolean.tony_morning_meds_taken','off') and ct >= 21600 %}
-    {{ identTony }} has not taken his morning meds.
-    {% if ct < state_attr('input_datetime.tony_morning_meds_notify','timestamp') | int %}
+  {% if type in ['stream','full'] %}
+    {% if type == 'stream' %}
+      {% set identTonyStream = 'Tony' %}
+    {% else %}
+      {% set identTonyStream = 'He' %}
+    {% endif %}
+    {% if is_state('input_boolean.tony_streaming_today','on') or calendar_event_today('calendar.tony_s_twitch_schedule') == 'false' %}
+      {% set streamstart = state_attr('input_datetime.tony_streaming_start_time','timestamp') | timestamp_custom('%-I:%M %p',false) %}
+    {% elif calendar_event_today('calendar.tony_s_twitch_schedule') == 'true' %}
+      {% set streamstart = as_timestamp(state_attr('calendar.tony_s_twitch_schedule','start_time')) | int | timestamp_custom('%-I:%M %p') %}
+    {% endif %}
+    {% set game = state_attr('sensor.twitch_ironnerd24','game') %}
+    {% set viewers = state_attr('sensor.twitch_ironnerd24','viewers') %}
+    {% if is_state('sensor.twitch_ironnerd24','streaming') %}
+    Iron Nerd Gaming is currently streaming {{ game }} to {{ viewers }} viewers.
+    {% elif is_state('input_boolean.tony_streaming_today','on') or calendar_event_today('calendar.tony_s_twitch_schedule') == 'true' %}
       {% if method == 'tts' %}
-        {{ ['He has a reminder scheduled for',
-            'Rest assured that I will pester him mercilessly about this, starting at',
-            'This is absolutely essential, and I will remind him to do it at',
-            'Since nobody including Tony himself likes him without his meds, I will remind him at',
-          ] | random }} {{ input_datetime_read('input_datetime.tony_morning_meds_notify') | trim }}. 
-      {% else %}
-        He will be reminded at {{ input_datetime_read('input_datetime.tony_morning_meds_notify') | trim }}.
+        {{ identTonyStream }}
+        {{ [
+        " will be pretending to be a real content creator tonight. ",
+        " will be doing his best to defeat his impostor syndrome tonight. ",
+        " will be playing video games and yelling into a microphone tonight. ",
+        " will be scraping out the nickels and dimes tonight for the sake of entertainment. ",
+        " is not really all that funny, but tonight he will present himself to a crowd of questionable individuals who seem to think that he is. "
+      ] | random }} The studio is scheduled to go online at {{ streamstart }}. "
+      {% elif method == 'text' %}
+        Iron Nerd Gaming will be live today at {{ streamstart }}.
+      {% endif %}
+    {% elif state_attr('calendar.tony_s_twitch_schedule','start_time') != none %}
+      {% if count_the_days('calendar.tony_s_twitch_schedule','start_time') | int == 1 %}
+        Iron Nerd Gaming will be streaming at {{ time_from_calendar('calendar.tony_s_twitch_schedule','start_time','read') }} tomorrow.
       {% endif %}
     {% endif %}
   {% endif %}
-{% endif %}
-{% endmacro %}
-
-{% macro tony_afternoon_meds(type,method) %}
-{% set streamBlock = twitchStreamInfo(type,method) | trim == '' %}
-{% set morningBlock = tony_morning_meds(type,method) | trim == '' %}
-{% if type == 'meds' or streamBlock == true or morningBlock == true %}
-  {% set identTony = 'Tony' %}
-{% else %}
-  {% set identTony = 'He' %}
-{% endif %}
-{% if is_state('input_boolean.tony_afternoon_meds_taken','on') and is_state('input_boolean.tony_awake','on') %}
-  {{ identTony }} took his afternoon meds at {{ input_datetime_read('input_datetime.tony_afternoon_meds_taken') | trim }}.
-{% elif is_state('input_boolean.tony_afternoon_meds_taken','off') and ct >= 61200 %}
-  {{ identTony }} has not taken his afternoon meds.
-  {% if ct < state_attr('input_datetime.tony_afternoon_meds_notify','timestamp') | int %}
-    {% if method == 'tts' %}
-      {{ ['He has a reminder scheduled for',
-          'Rest assured that I will pester him mercilessly about this, starting at',
-          'This is absolutely essential, and I will remind him to do it at',
-          'Since nobody including Tony himself likes him without his meds, I will remind him at',
-        ] | random }} {{ input_datetime_read('input_datetime.tony_afternoon_meds_notify') | trim }}. 
+  {% if type in ['meds','full'] %}
+    {% if type == 'meds' %}
+      {% set identTonyMeds = 'Tony' %}
     {% else %}
-      He will be reminded at {{ input_datetime_read('input_datetime.tony_afternoon_meds_notify') | trim }}.
+      {% set identTonyMeds = 'He' %}
     {% endif %}
-  {% endif %}
-{% endif %}
-{% endmacro %}
-
-{% macro tony_night_meds(type,method) %}
-{% set streamBlock = twitchStreamInfo(type,method) | trim == '' %}
-{% set morningBlock = tony_morning_meds(type,method) | trim == '' %}
-{% set afternoonBlock = tony_afternoon_meds(type,method) | trim == '' %}
-{% if type == 'meds' or streamBlock == true or (morningBlock == true and afternoonBlock == true) %}
-  {% set identTony = 'Tony' %}
-{% else %}
-  {% set identTony = 'He' %}
-{% endif %}
-{% if is_state('input_boolean.tony_night_meds_taken','on') and (is_state('binary_sensor.overnight','on') or ct < 43200) %}
-  {{ identTony }} took his night meds at {{ input_datetime_read('input_datetime.tony_night_meds_taken') | trim }}.
-{% elif is_state('input_boolean.tony_night_meds_taken','off') and is_state('binary_sensor.overnight','on') %}
-  {{ identTony }} has not taken his night meds.
-  {% if method == 'tts' %}
-    {{ ['He will be reminded when he goes to bed.',
-        'I will make sure he is reminded when it is time.',
-        'This will be rectified whenever he drags his ass to bed.',
-        'All in due time, of course.'
-      ] | random }}
-  {% else %}
-    He will be reminded when he goes to bed.
-  {% endif %}
-{% endif %}
-{% endmacro %}
-
-{% macro medReportTony(type,method) %}
-{{ tony_morning_meds(type,method) }}
-{{ tony_afternoon_meds(type,method) }}
-{{ tony_night_meds(type,method) }}
-{% endmacro %}
-
-{% macro tonyStatusReport(type,method) %}
-  {% macro data() %}
-  {% if type == 'meds' %}
-  {{ medReportTony(type,method) }}
-  {% endif %}
-  {% if type == 'stream' %}
-  {{ twitchStreamInfo(type,method) }}
-  {% endif %}
-  {% if type == 'full' %}
-  {{ twitchStreamInfo(type,method) }}
-  {{ medReportTony(type,method) }}
+    {% if is_state('binary_sensor.overnight','off') %}
+      {% if is_state('input_boolean.tony_morning_meds_taken','on') %}
+        {{ identTonyMeds }} took his morning meds at {{ input_datetime_read('input_datetime.tony_morning_meds_taken') | trim }}.
+      {% elif is_state('input_boolean.tony_morning_meds_taken','off') and is_state('input_boolean.tony_awake','on') %}
+        {{ identTonyMeds }} has not taken his morning meds.
+        {% if ct < state_attr('input_datetime.tony_morning_meds_notify','timestamp') | int %}
+          {% if method == 'tts' %}
+            {{ ['He has a reminder scheduled for',
+                'Rest assured that I will pester him mercilessly about this, starting at',
+                'This is absolutely essential, and I will remind him to do it at',
+                'Since nobody including Tony himself likes him without his meds, I will remind him at',
+              ] | random }} {{ input_datetime_read('input_datetime.tony_morning_meds_notify') | trim }}. 
+          {% else %}
+            He will be reminded at {{ input_datetime_read('input_datetime.tony_morning_meds_notify') | trim }}.
+          {% endif %}
+        {% endif %}
+      {% endif %}
+    {% endif %}
+    {% if is_state('input_boolean.tony_afternoon_meds_taken','on') and is_state('input_boolean.tony_awake','on') %}
+      {{ identTonyMeds }} took his afternoon meds at {{ input_datetime_read('input_datetime.tony_afternoon_meds_taken') | trim }}.
+    {% elif is_state('input_boolean.tony_afternoon_meds_taken','off') and ct >= 61200 %}
+      {{ identTonyMeds }} has not taken his afternoon meds.
+      {% if ct < state_attr('input_datetime.tony_afternoon_meds_notify','timestamp') | int %}
+        {% if method == 'tts' %}
+          {{ ['He has a reminder scheduled for',
+              'Rest assured that I will pester him mercilessly about this, starting at',
+              'This is absolutely essential, and I will remind him to do it at',
+              'Since nobody including Tony himself likes him without his meds, I will remind him at',
+            ] | random }} {{ input_datetime_read('input_datetime.tony_afternoon_meds_notify') | trim }}. 
+        {% else %}
+          He will be reminded at {{ input_datetime_read('input_datetime.tony_afternoon_meds_notify') | trim }}.
+        {% endif %}
+      {% endif %}
+    {% endif %}
+    {% if is_state('input_boolean.tony_night_meds_taken','on') and (is_state('binary_sensor.overnight','on') or ct < 43200) %}
+      {{ identTonyMeds }} took his night meds at {{ input_datetime_read('input_datetime.tony_night_meds_taken') | trim }}.
+    {% elif is_state('input_boolean.tony_night_meds_taken','off') and is_state('binary_sensor.overnight','on') %}
+      {{ identTonyMeds }} has not taken his night meds.
+      {% if method == 'tts' %}
+        {{ ['He will be reminded when he goes to bed.',
+            'I will make sure he is reminded when it is time.',
+            'This will be rectified whenever he drags his ass to bed.',
+            'All in due time, of course.'
+          ] | random }}
+      {% else %}
+        He will be reminded when he goes to bed.
+      {% endif %}
+    {% endif %}
   {% endif %}
   {% endmacro %}
 {{ cleanup(data()) }}
