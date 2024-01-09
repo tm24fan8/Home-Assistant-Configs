@@ -2694,6 +2694,15 @@
               '
           alias: Set time to start notifying for morning meds
         alias: Set morning meds notification time
+      - alias: Turn off all meds taken
+        service: input_boolean.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id:
+          - input_boolean.tony_morning_meds_taken
+          - input_boolean.tony_afternoon_meds_taken
+          - input_boolean.tony_night_meds_taken
     - conditions:
       - condition: trigger
         id:
@@ -2844,9 +2853,7 @@
           entity_id:
           - input_boolean.kallen_morning_meds_taken
           - input_boolean.kallen_night_meds_taken
-          - input_boolean.tony_morning_meds_taken
           - input_boolean.tina_morning_meds_taken
-          - input_boolean.tony_afternoon_meds_taken
         data: {}
       - service: counter.reset
         target:
@@ -2874,7 +2881,6 @@
       - service: input_boolean.turn_off
         target:
           entity_id:
-          - input_boolean.tony_night_meds_taken
           - input_boolean.tina_night_meds_taken
         data: {}
   mode: restart
