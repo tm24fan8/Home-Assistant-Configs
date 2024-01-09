@@ -164,12 +164,13 @@
     {% else %}
       {% set identTonyMeds = 'He' %}
     {% endif %}
-    {% if is_state('binary_sensor.overnight','off') %}
+    {% set morningNotifyTimestamp = state_attr('input_datetime.tony_morning_meds_notify','timestamp') | int %}
+    {% if is_state('binary_sensor.overnight','off') and is_state('input_boolean.tony_awake','on') %}
       {% if is_state('input_boolean.tony_morning_meds_taken','on') %}
         {{ identTonyMeds }} took his morning meds at {{ input_datetime_read('input_datetime.tony_morning_meds_taken') | trim }}.
-      {% elif is_state('input_boolean.tony_morning_meds_taken','off') and is_state('input_boolean.tony_awake','on') %}
+      {% elif is_state('input_boolean.tony_morning_meds_taken','off') %}
         {{ identTonyMeds }} has not taken his morning meds.
-        {% if ct < state_attr('input_datetime.tony_morning_meds_notify','timestamp') | int %}
+        {% if ct < morningNotifyTimestamp %}
           {% if method == 'tts' %}
             {{ ['He has a reminder scheduled for',
                 'Rest assured that I will pester him mercilessly about this, starting at',
@@ -182,11 +183,13 @@
         {% endif %}
       {% endif %}
     {% endif %}
+    {% set afternoonNotifyTimestamp = state_attr('input_datetime.tony_afternoon_meds_notify','timestamp') | int %}
     {% if is_state('input_boolean.tony_afternoon_meds_taken','on') and is_state('input_boolean.tony_awake','on') %}
       {{ identTonyMeds }} took his afternoon meds at {{ input_datetime_read('input_datetime.tony_afternoon_meds_taken') | trim }}.
-    {% elif is_state('input_boolean.tony_afternoon_meds_taken','off') and ct >= 61200 %}
+    {% elif is_state('input_boolean.tony_afternoon_meds_taken','off') and
+        (afternoonNotifyTimestamp - ct) < 7200 and ct < 86400 %}
       {{ identTonyMeds }} has not taken his afternoon meds.
-      {% if ct < state_attr('input_datetime.tony_afternoon_meds_notify','timestamp') | int %}
+      {% if ct < afternoonNotifyTimestamp %}
         {% if method == 'tts' %}
           {{ ['He has a reminder scheduled for',
               'Rest assured that I will pester him mercilessly about this, starting at',
@@ -198,9 +201,9 @@
         {% endif %}
       {% endif %}
     {% endif %}
-    {% if is_state('input_boolean.tony_night_meds_taken','on') and (is_state('binary_sensor.overnight','on') or ct < 43200) %}
+    {% if is_state('input_boolean.tony_night_meds_taken','on') and (is_state('input_boolean.tony_awake','off') or is_state('input_boolean.night_mode','on')) %}
       {{ identTonyMeds }} took his night meds at {{ input_datetime_read('input_datetime.tony_night_meds_taken') | trim }}.
-    {% elif is_state('input_boolean.tony_night_meds_taken','off') and is_state('binary_sensor.overnight','on') %}
+    {% elif is_state('input_boolean.tony_night_meds_taken','off') and is_state('input_boolean.night_mode','on') %}
       {{ identTonyMeds }} has not taken his night meds.
       {% if method == 'tts' %}
         {{ ['He will be reminded when he goes to bed.',
