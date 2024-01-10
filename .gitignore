@@ -69,6 +69,7 @@
 **ages_old.yaml
 **jsconfig*
 .markdownlint.json
+**test.jinja
 
 # exceptions
 !/appdaemon/apps/
