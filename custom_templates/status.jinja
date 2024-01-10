@@ -194,8 +194,7 @@
     {% set afternoonNotifyTimestamp = state_attr('input_datetime.tony_afternoon_meds_notify','timestamp') | int %}
     {% if is_state('input_boolean.tony_afternoon_meds_taken','on') and is_state('input_boolean.tony_awake','on') %}
       {{ identTony }} took his afternoon meds at {{ input_datetime_read('input_datetime.tony_afternoon_meds_taken') | trim }}.
-    {% elif is_state('input_boolean.tony_afternoon_meds_taken','off') and
-        (afternoonNotifyTimestamp - ct) < 7200 and ct < 86400 %}
+    {% elif is_state('input_boolean.tony_afternoon_meds_taken','off') and (0 < (afternoonNotifyTimestamp - ct) < 3600 or ct > afternoonNotifyTimestamp) %}
       {{ identTony }} has not taken his afternoon meds.
       {% if ct < afternoonNotifyTimestamp %}
         {% if method == 'tts' %}
