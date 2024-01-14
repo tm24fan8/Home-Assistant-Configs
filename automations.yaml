@@ -1836,10 +1836,6 @@
         target:
           entity_id: light.first_floor_lights
         data: {}
-      - service: script.stairwell_led_strip
-        data:
-          color_temp_kelvin: 2000
-          brightness: 255
       - service: input_select.select_option
         target:
           entity_id:
@@ -1879,22 +1875,6 @@
           - light.downstairs_bathroom_lights
           - light.dining_room_lamp
         data: {}
-      - service: script.stairwell_led_strip
-        data:
-          color_temp_kelvin: 2000
-          brightness: '{{ 50 if is_state(''binary_sensor.early_night_mode'',''on'')
-            else 255 }}'
-      - delay:
-          seconds: 5
-      - if:
-        - condition: state
-          entity_id: binary_sensor.early_night_mode
-          state: 'off'
-        then:
-        - service: light.turn_off
-          target:
-            entity_id: light.stairwell_led_strip
-          data: {}
   mode: restart
 - id: '1696286192013'
   alias: Tina Desk Lights Handler

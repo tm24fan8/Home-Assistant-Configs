@@ -267,10 +267,6 @@ going_upstairs:
       - input_select.upstairs_hallway_scenes
       - input_select.living_room_scenes
     alias: Set scenes
-  - service: script.stairwell_led_strip
-    data:
-      brightness: 255
-    alias: Turn up the stairwell LED strip
   - service: input_boolean.turn_on
     entity_id: input_boolean.night_mode
     alias: Turn on Night Mode
@@ -1050,15 +1046,6 @@ adaptive_on_second_floor:
   sequence:
   - if:
     - condition: state
-      entity_id: binary_sensor.early_night_mode
-      state: 'on'
-    then:
-    - service: script.stairwell_led_strip
-      data:
-        brightness: reset
-    alias: If early night mode is on
-  - if:
-    - condition: state
       entity_id: light.hallway_overhead
       state: 'on'
     then:
@@ -1249,9 +1236,6 @@ bright_on_first_floor:
 bright_on_second_floor:
   alias: Bright on Second Floor
   sequence:
-  - service: script.stairwell_led_strip
-    data:
-      brightness: 255
   - service: light.turn_on
     target:
       entity_id:
@@ -1480,10 +1464,6 @@ evening_on_second_floor:
         entity_id: input_boolean.give_me_darkness
         state: 'on'
       sequence:
-      - service: script.stairwell_led_strip
-        data:
-          color_temp_kelvin: 2000
-          brightness: 100
       - service: input_select.select_option
         target:
           entity_id:
@@ -1537,10 +1517,6 @@ evening_on_second_floor:
         entity_id: input_boolean.give_me_darkness
         state: 'off'
       sequence:
-      - service: script.stairwell_led_strip
-        data:
-          color_temp_kelvin: 2000
-          brightness: 150
       - service: input_select.select_option
         target:
           entity_id: input_select.upstairs_hallway_scenes
@@ -1679,10 +1655,6 @@ goodnight_on_second_floor:
         entity_id: input_select.upstairs_bathroom_scenes
       data:
         option: Single Nightlight
-  - service: script.stairwell_led_strip
-    data:
-      color_temp_kelvin: 2000
-      brightness: 50
 morning_scene:
   alias: Morning Scene
   sequence:
