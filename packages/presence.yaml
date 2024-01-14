@@ -208,7 +208,9 @@ template:
       device_class: occupancy
       state: >
         {{ is_state('light.emma_bedroom_light','on') or
-            is_state('input_boolean.emma_sleeping','on') }}
+            is_state('input_boolean.emma_sleeping','on') or
+            is_state('binary_sensor.emma_bedroom_motion','on') or
+            is_state('timer.emma_bedroom_motion','active') }}
       delay_off: "00:00:15"
     - name: "Living Room Occupied"
       unique_id: 25623e3d-d74f-471e-8c2d-abce16646282
@@ -222,6 +224,12 @@ template:
       state: >
         {{ is_state('binary_sensor.downstairs_bathroom_motion','on') or is_state('timer.downstairs_bathroom_lights_timer','active') }}
       delay_off: "00:00:15"
+    - name: "Stairwell Occupied"
+      unique_id: ab80b307-820e-4f82-86f2-c08f97245107
+      device_class: occupancy
+      state: >
+        {{ is_state('binary_sensor.stairwell_bottom_motion','on') or
+            is_state('timer.stairwell_motion_timer','active') }}
   - sensor:
     - unique_id: people_at_home
       name: People at Home

@@ -84,6 +84,20 @@ input_number:
     step: 1
     unit_of_measurement: minutes
     icon: mdi:timer
+  emma_bedroom_lights_off_delay:
+    name: Emma Bedroom Lights Off Delay
+    min: 0
+    max: 30
+    step: 1
+    unit_of_measurement: minutes
+    icon: mdi:timer
+  stairwell_lights_off_delay:
+    name: Stairwell Lights Off Delay
+    min: 0
+    max: 30
+    step: 1
+    unit_of_measurement: minutes
+    icon: mdi:timer
   wakeup_lights_fade_day:
     name: Wakeup Lights Fade Day
     min: 0
@@ -100,6 +114,34 @@ input_number:
     icon: mdi:timer
   downstairs_bathroom_lux_threshold:
     name: Downstairs Bathroom Lux Threshold
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: lx
+    icon: mdi:sun-wireless
+  upstairs_bathroom_lux_threshold:
+    name: Upstairs Bathroom Lux Threshold
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: lx
+    icon: mdi:sun-wireless
+  emma_bedroom_lux_threshold:
+    name: Emma Bedroom Lux Threshold
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: lx
+    icon: mdi:sun-wireless
+  stairwell_lux_threshold:
+    name: Stairwell Lux Threshold
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: lx
+    icon: mdi:sun-wireless
+  living_room_lux_threshold:
+    name: Living Room Lux Threshold
     min: 0
     max: 100
     step: 5
