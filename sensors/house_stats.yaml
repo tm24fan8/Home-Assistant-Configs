@@ -278,3 +278,61 @@
       ] | rejectattr('state','eq','unavailable') | map(attribute='state') | map('float') | list %}
       {{ outlets | sum | round(2) }}
     icon: mdi:lightning-bolt-circle
+  - name: Average Room Temperature
+    unique_id: 0b418e22-8013-4646-b178-0140d790f2a5
+    unit_of_measurement: °F
+    state: >
+      {% set rooms = [
+        states.sensor.living_room_temperature,
+        states.sensor.downstairs_bathroom_temperature,
+        states.sensor.stairwell_bottom_temperature,
+        states.sensor.upstairs_bathroom_temperature,
+        states.sensor.emma_bedroom_temperature
+      ] | rejectattr('state','eq','unavailable') | map(attribute='state') | map('float') | list %}
+      {{ ((rooms | sum) / (rooms | count)) | round(1) }}
+  - name: Coldest Room Temperature
+    unique_id: 18bf948b-e49f-42e1-97b8-e0d7ac9b8232
+    unit_of_measurement: °F
+    state: >
+      {% set rooms = [
+        states.sensor.living_room_temperature,
+        states.sensor.downstairs_bathroom_temperature,
+        states.sensor.stairwell_bottom_temperature,
+        states.sensor.upstairs_bathroom_temperature,
+        states.sensor.emma_bedroom_temperature
+      ] | rejectattr('state','eq','unavailable') | sort(attribute='state') %}
+      {{ rooms[0].state }}
+    attributes:
+      room: >
+        {% set rooms = [
+          states.sensor.living_room_temperature,
+          states.sensor.downstairs_bathroom_temperature,
+          states.sensor.stairwell_bottom_temperature,
+          states.sensor.upstairs_bathroom_temperature,
+          states.sensor.emma_bedroom_temperature
+        ] | rejectattr('state','eq','unavailable') | sort(attribute='state') %}
+        {{ rooms[0].attributes.friendly_name | regex_replace(find='Temperature', replace='', ignorecase=False) }}
+  - name: Warmest Room Temperature
+    unique_id: d42ec756-6837-444a-95c6-60b8c2518054
+    unit_of_measurement: °F
+    state: >
+      {% set rooms = [
+        states.sensor.living_room_temperature,
+        states.sensor.downstairs_bathroom_temperature,
+        states.sensor.stairwell_bottom_temperature,
+        states.sensor.upstairs_bathroom_temperature,
+        states.sensor.emma_bedroom_temperature
+      ] | rejectattr('state','eq','unavailable') | sort(attribute='state') %}
+      {% set count = rooms | count - 1 %}
+      {{ rooms[count].state }}
+    attributes:
+      room: >
+        {% set rooms = [
+          states.sensor.living_room_temperature,
+          states.sensor.downstairs_bathroom_temperature,
+          states.sensor.stairwell_bottom_temperature,
+          states.sensor.upstairs_bathroom_temperature,
+          states.sensor.emma_bedroom_temperature
+        ] | rejectattr('state','eq','unavailable') | sort(attribute='state') %}
+        {% set count = rooms | count - 1 %}
+        {{ rooms[count].attributes.friendly_name | regex_replace(find='Temperature', replace='', ignorecase=False) }}
