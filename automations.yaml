@@ -4434,3 +4434,44 @@
         value_template: '{{ is_state(sensor,''off'') }}'
   mode: parallel
   max: 5
+- id: '1705287598804'
+  alias: Tony Napping
+  description: ''
+  trigger:
+  - platform: event
+    event_type: nap_event
+    event_data:
+      who: tony
+      type: start
+    id: start
+    alias: Nap Start
+  - alias: Nap End
+    platform: event
+    event_type: nap_event
+    event_data:
+      who: tony
+      type: end
+    id: end
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - start
+      sequence:
+      - service: input_boolean.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.tony_awake
+    - conditions:
+      - condition: trigger
+        id:
+        - end
+      sequence:
+      - service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.tony_awake
+        data: {}
+  mode: restart
