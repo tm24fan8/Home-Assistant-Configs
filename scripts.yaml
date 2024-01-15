@@ -870,43 +870,6 @@ basement_shutdown:
     alias: Cancel the door timer since the lights are already off
   mode: restart
   icon: mdi:power
-stairwell_led_strip:
-  alias: Stairwell LED Strip
-  sequence:
-  - variables:
-      brt1: 50
-      brt2: 100
-      brt3: 150
-      brtmax: 255
-      colortemp: "{% if is_state('input_boolean.goodnight','off') and\n      is_state('input_boolean.give_me_darkness','off')
-        and\n      is_state('binary_sensor.early_night_mode','off')\n%}\n  4000\n{%
-        else %}\n  2000\n{% endif %}\n"
-  - alias: Reset or apply proper settings
-    if:
-    - condition: template
-      value_template: '{{ brightness == ''reset'' }}'
-      alias: If this is a reset
-    then:
-    - service: light.turn_on
-      target:
-        entity_id: light.stairwell_led_strip
-      data:
-        brightness: "{% if is_state('input_boolean.goodnight','on') %}\n  {{ brt1
-          }}\n{% elif is_state('input_boolean.give_me_darkness','on') %}\n  {{ brt2
-          }}\n{% elif is_state('binary_sensor.early_night_mode','on') %}\n  {{ brt3
-          }}\n{% else %}\n  {{ brtmax }}\n{% endif %}\n"
-        color_temp_kelvin: '{{ colortemp }}'
-      alias: Set brightness and colortemp
-    else:
-    - service: light.turn_on
-      target:
-        entity_id: light.stairwell_led_strip
-      data:
-        brightness: '{{ brightness|default(brt3) }}'
-        color_temp_kelvin: '{{ color_temp_kelvin|default(colortemp) }}'
-  description: This script handles a few settings for the stairwell LED strip, for
-    convenience
-  mode: restart
 adaptive_on_first_floor:
   alias: Adaptive on First Floor
   sequence:
