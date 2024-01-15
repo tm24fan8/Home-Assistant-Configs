@@ -322,9 +322,8 @@
         states.sensor.stairwell_bottom_temperature,
         states.sensor.upstairs_bathroom_temperature,
         states.sensor.emma_bedroom_temperature
-      ] | rejectattr('state','eq','unavailable') | sort(attribute='state') %}
-      {% set count = rooms | count - 1 %}
-      {{ rooms[count].state }}
+      ] | rejectattr('state','eq','unavailable') | sort(attribute='state',reverse=true) %}
+      {{ rooms[0].state }}
     attributes:
       room: >
         {% set rooms = [
@@ -333,6 +332,64 @@
           states.sensor.stairwell_bottom_temperature,
           states.sensor.upstairs_bathroom_temperature,
           states.sensor.emma_bedroom_temperature
-        ] | rejectattr('state','eq','unavailable') | sort(attribute='state') %}
-        {% set count = rooms | count - 1 %}
-        {{ rooms[count].attributes.friendly_name | regex_replace(find='Temperature', replace='', ignorecase=False) }}
+        ] | rejectattr('state','eq','unavailable') | sort(attribute='state',reverse=true) %}
+        {{ rooms[0].attributes.friendly_name | regex_replace(find='Temperature', replace='', ignorecase=False) }}
+  - name: Average Room Illuminance
+    unique_id: 15e68597-9966-4d72-a9ee-b6313989524c
+    unit_of_measurement: lx
+    icon: mdi:brightness-5
+    state: >
+      {% set entity_list = [
+          {'friendly_name': state_attr('sensor.living_room_illuminance','friendly_name'), 'state': states('sensor.living_room_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.downstairs_bathroom_illuminance','friendly_name'), 'state': states('sensor.downstairs_bathroom_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.stairwell_bottom_illuminance','friendly_name'), 'state': states('sensor.stairwell_bottom_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.upstairs_bathroom_illuminance','friendly_name'), 'state': states('sensor.upstairs_bathroom_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.emma_bedroom_illuminance','friendly_name'), 'state': states('sensor.emma_bedroom_illuminance') | default(0) | int }] %}
+      {% set states_list = entity_list | sort(attribute='state') | map(attribute='state') | list %}
+      {{ ((states_list | sum) / (states_list | count)) | round(0) }}
+  - name: Dimmest Room
+    unique_id: 1c457d6b-8045-48bb-8638-d1cd16a75421
+    unit_of_measurement: lx
+    icon: mdi:brightness-5
+    state: >
+      {% set entity_list = [
+          {'friendly_name': state_attr('sensor.living_room_illuminance','friendly_name'), 'state': states('sensor.living_room_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.downstairs_bathroom_illuminance','friendly_name'), 'state': states('sensor.downstairs_bathroom_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.stairwell_bottom_illuminance','friendly_name'), 'state': states('sensor.stairwell_bottom_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.upstairs_bathroom_illuminance','friendly_name'), 'state': states('sensor.upstairs_bathroom_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.emma_bedroom_illuminance','friendly_name'), 'state': states('sensor.emma_bedroom_illuminance') | default(0) | int }] %}
+      {% set states_list = entity_list | sort(attribute='state') | map(attribute='state') | list %}
+      {{ states_list[0] }}
+    attributes:
+      room: >
+        {% set entity_list = [
+            {'friendly_name': state_attr('sensor.living_room_illuminance','friendly_name'), 'state': states('sensor.living_room_illuminance') | default(0) | int },
+            {'friendly_name': state_attr('sensor.downstairs_bathroom_illuminance','friendly_name'), 'state': states('sensor.downstairs_bathroom_illuminance') | default(0) | int },
+            {'friendly_name': state_attr('sensor.stairwell_bottom_illuminance','friendly_name'), 'state': states('sensor.stairwell_bottom_illuminance') | default(0) | int },
+            {'friendly_name': state_attr('sensor.upstairs_bathroom_illuminance','friendly_name'), 'state': states('sensor.upstairs_bathroom_illuminance') | default(0) | int },
+            {'friendly_name': state_attr('sensor.emma_bedroom_illuminance','friendly_name'), 'state': states('sensor.emma_bedroom_illuminance') | default(0) | int }] %}
+        {% set names_list = entity_list | sort(attribute='state') | map(attribute='friendly_name') | list %}
+        {{ names_list[0] | regex_replace(find='Illuminance', replace='', ignorecase=False) }}
+  - name: Brightest Room
+    unique_id: 7052d576-019a-4c81-8e53-6332b7027b7b
+    unit_of_measurement: lx
+    icon: mdi:brightness-5
+    state: >
+      {% set entity_list = [
+          {'friendly_name': state_attr('sensor.living_room_illuminance','friendly_name'), 'state': states('sensor.living_room_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.downstairs_bathroom_illuminance','friendly_name'), 'state': states('sensor.downstairs_bathroom_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.stairwell_bottom_illuminance','friendly_name'), 'state': states('sensor.stairwell_bottom_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.upstairs_bathroom_illuminance','friendly_name'), 'state': states('sensor.upstairs_bathroom_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.emma_bedroom_illuminance','friendly_name'), 'state': states('sensor.emma_bedroom_illuminance') | default(0) | int }] %}
+      {% set states_list = entity_list | sort(attribute='state',reverse=true) | map(attribute='state') | list %}
+      {{ states_list[0] }}
+    attributes:
+      room: >
+        {% set entity_list = [
+            {'friendly_name': state_attr('sensor.living_room_illuminance','friendly_name'), 'state': states('sensor.living_room_illuminance') | default(0) | int },
+            {'friendly_name': state_attr('sensor.downstairs_bathroom_illuminance','friendly_name'), 'state': states('sensor.downstairs_bathroom_illuminance') | default(0) | int },
+            {'friendly_name': state_attr('sensor.stairwell_bottom_illuminance','friendly_name'), 'state': states('sensor.stairwell_bottom_illuminance') | default(0) | int },
+            {'friendly_name': state_attr('sensor.upstairs_bathroom_illuminance','friendly_name'), 'state': states('sensor.upstairs_bathroom_illuminance') | default(0) | int },
+            {'friendly_name': state_attr('sensor.emma_bedroom_illuminance','friendly_name'), 'state': states('sensor.emma_bedroom_illuminance') | default(0) | int }] %}
+        {% set names_list = entity_list | sort(attribute='state',reverse=true) | map(attribute='friendly_name') | list %}
+        {{ names_list[0] | regex_replace(find='Illuminance', replace='', ignorecase=False) }}
