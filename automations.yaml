@@ -4475,3 +4475,89 @@
           entity_id: input_boolean.tony_awake
         data: {}
   mode: restart
+- id: '1705524332116'
+  alias: Downstairs Bathroom Temperature Alert
+  description: This room has no HVAC, so the door needs to be left open in extreme
+    temperature conditions. This automation will alert us when the temperature exceeds
+    limits.
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.downstairs_bathroom_cold
+    from: 'off'
+    to: 'on'
+    id: cold-on
+  - platform: state
+    entity_id:
+    - binary_sensor.downstairs_bathroom_cold
+    from: 'on'
+    to: 'off'
+    id: cold-off
+  - platform: state
+    entity_id:
+    - binary_sensor.downstairs_bathroom_hot
+    from: 'off'
+    to: 'on'
+    id: hot-on
+  - platform: state
+    entity_id:
+    - binary_sensor.downstairs_bathroom_hot
+    from: 'on'
+    to: 'off'
+    id: hot-off
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - cold-on
+      sequence:
+      - service: script.text_notify
+        metadata: {}
+        data:
+          type: normal
+          who: all
+          title: Downstairs Bathroom Cold
+          message: The downstairs bathroom is very cold. Please make sure the door
+            is NOT closed!
+          tag: downstairs-bathroom-cold
+    - conditions:
+      - condition: trigger
+        id:
+        - cold-off
+      sequence:
+      - service: script.text_notify
+        metadata: {}
+        data:
+          type: alert
+          who: all
+          message: clear_notification
+          tag: downstairs-bathroom-cold
+    - conditions:
+      - condition: trigger
+        id:
+        - hot-on
+      sequence:
+      - service: script.text_notify
+        metadata: {}
+        data:
+          type: normal
+          who: all
+          title: Downstairs Bathroom Hot
+          message: The downstairs bathroom is very hot. Please make sure the door
+            is NOT closed!
+          tag: downstairs-bathroom-hot
+    - conditions:
+      - condition: trigger
+        id:
+        - hot-off
+      sequence:
+      - service: script.text_notify
+        metadata: {}
+        data:
+          type: alert
+          who: all
+          message: clear_notification
+          tag: downstairs-bathroom-hot
+  mode: restart
