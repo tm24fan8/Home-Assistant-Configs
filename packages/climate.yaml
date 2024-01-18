@@ -53,11 +53,11 @@ template:
       device_class: cold
     - name: Emma Bedroom Hot
       unique_id: b453e23a-f3c9-4fab-bf82-d08af05e8a94
-      state: "{{ states('sensor.living_room_temperature') | float >= 75 }}"
+      state: "{{ states('sensor.emma_bedroom_temperature') | float >= 75 }}"
       device_class: heat
     - name: Emma Bedroom Cold
       unique_id: 41174b21-a46f-4deb-8dbc-61a356b33db1
-      state: "{{ states('sensor.living_room_temperature') | float <= 60 }}"
+      state: "{{ states('sensor.emma_bedroom_temperature') | float <= 60 }}"
       device_class: cold
   - sensor:
     - name: "Master Bedroom Target Temp"
