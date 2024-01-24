@@ -24,7 +24,7 @@ mqtt:
 
     - name: "Tony Desktop - Storage C Temperature"
       unique_id: 26822d74-0fa9-46b7-865c-74a29baf8735
-      state_topic: "iotlink/workgroup/tony-asus/monitor/stats/storages/ct1000p1ssd8/temperatue"
+      state_topic: "iotlink/workgroup/tony-asus/monitor/stats/storages/wd_black_sn770_2tb/temperatue"
       unit_of_measurement: 'C'
       icon: mdi:thermometer
       value_template: "{{ value }}"
@@ -57,7 +57,7 @@ mqtt:
 
     - name: "Tony Desktop - Storage E Temperature"
       unique_id: 723c308f-535f-4624-8e46-d7e4f344079c
-      state_topic: "iotlink/workgroup/tony-asus/monitor/stats/storages/wdc_wd20earx-00pasb0/temperatue"
+      state_topic: "iotlink/workgroup/tony-asus/monitor/stats/storages/ct1000p1ssd8/temperatue"
       unit_of_measurement: 'C'
       icon: mdi:thermometer
       value_template: "{{ value }}"
