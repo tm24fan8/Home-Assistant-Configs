@@ -31,6 +31,12 @@ input_boolean:
   tony_custom_meds_taken_p1:
     name: Tony Custom Meds Taken P1
     icon: mdi:medication
+  tony_custom_meds_tracker_p2:
+    name: Tony Custom Meds Tracker P2
+    icon: mdi:medication
+  tony_custom_meds_taken_p2:
+    name: Tony Custom Meds Taken P2
+    icon: mdi:medication
   tony_awake:
     name: Tony Awake
     icon: mdi:eye-check
@@ -81,6 +87,16 @@ input_datetime:
     has_date: false
     has_time: true
     icon: mdi:medication
+  tony_custom_meds_taken_p2:
+    name: Tony Custom Meds Taken P2
+    has_date: true
+    has_time: true
+    icon: mdi:medication
+  tony_custom_meds_notify_p2:
+    name: Tony Custom Meds Notify P2
+    has_date: false
+    has_time: true
+    icon: mdi:medication
   tony_ibuprofen_taken:
     name: Tony Ibuprofen Taken
     has_date: true
@@ -116,15 +132,32 @@ input_number:
     max: 24
     step: 1
     icon: mdi:medication
+  tony_custom_meds_interval_p2:
+    name: Tony Custom Meds Interval P2
+    min: 0
+    max: 24
+    step: 1
+    icon: mdi:medication
 
 input_text:
   tony_custom_med_name_p1:
     name: Tony Custom Med Name P1
     icon: mdi:medication
+  tony_custom_med_name_p2:
+    name: Tony Custom Med Name P2
+    icon: mdi:medication
 
 input_select:
   tony_custom_meds_type_p1:
     name: Tony Custom Meds Type P1
+    options:
+      - Wakeup
+      - Bedtime
+      - Other Time
+      - Interval
+    icon: mdi:medication
+  tony_custom_meds_type_p2:
+    name: Tony Custom Meds Type P2
     options:
       - Wakeup
       - Bedtime
