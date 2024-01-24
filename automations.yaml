@@ -2317,6 +2317,11 @@
         target:
           entity_id: input_boolean.audible_notifications
         data: {}
+      - service: switch.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: switch.stairwell_motion_lighting
       - service: light.turn_on
         target:
           entity_id:
@@ -2365,6 +2370,11 @@
       - condition: trigger
         id: timer-finished
       sequence:
+      - service: switch.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: switch.stairwell_motion_lighting
       - service: light.turn_off
         target:
           entity_id:
