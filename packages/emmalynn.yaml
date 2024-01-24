@@ -979,14 +979,12 @@ script:
             target:
               entity_id:
                 - light.emma_bedroom_light
-                - light.hallway_overhead
           - delay:
               seconds: 1
           - service: input_select.select_option
             target:
               entity_id:
                 - input_select.emma_bedroom_scenes
-                - input_select.upstairs_hallway_scenes
             data:
               option: Adaptive
           - service: adaptive_lighting.set_manual_control
@@ -1135,20 +1133,6 @@ script:
             time: >
               {% from 'time.jinja' import current_time %}
               {{ current_time('time',24) }}
-      - if:
-        - condition: state
-          entity_id: binary_sensor.early_night_mode
-          state: 'on'
-        then:
-        - service: light.turn_on
-          target:
-            entity_id: light.hallway_overhead
-        - service: input_select.select_option
-          target:
-            entity_id:
-              - input_select.upstairs_hallway_scenes
-          data:
-            option: Adaptive
       - service: switch.turn_off
         target:
           entity_id: switch.adaptive_lighting_emma_bedroom

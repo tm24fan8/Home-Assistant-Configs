@@ -264,7 +264,6 @@ going_upstairs:
       - input_select.basement_studio_scenes
       - input_select.tina_lamp_scenes
       - input_select.mud_room_scenes
-      - input_select.upstairs_hallway_scenes
       - input_select.living_room_scenes
     alias: Set scenes
   - service: input_boolean.turn_on
@@ -1587,22 +1586,8 @@ goodnight_on_second_floor:
       - kallen_bedroom
       - master_bedroom
       - master_bedroom_closet
+      - upstairs_hallway
     data: {}
-  - if:
-    - condition: state
-      entity_id: input_boolean.guest_mode
-      state: 'on'
-    then:
-    - service: input_select.select_option
-      target:
-        entity_id: input_select.upstairs_hallway_scenes
-      data:
-        option: Nightlight
-    else:
-    - service: light.turn_off
-      target:
-        entity_id: light.hallway_overhead
-      data: {}
   - if:
     - condition: state
       entity_id: input_boolean.kallen_overnight
