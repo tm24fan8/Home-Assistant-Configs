@@ -2455,13 +2455,16 @@
     alias: Night Taken
     from: 'off'
     to: 'on'
-  - platform: state
-    entity_id:
-    - input_boolean.tony_awake
-    from: 'off'
-    to: 'on'
-    id: awake-on
-    alias: Awake On
+  - platform: event
+    event_type: wakeup_event
+    event_data:
+      who: tony
+      type: wakeup
+    context:
+      user_id:
+      - c3909d27048140729f002aaef0391775
+    alias: Wakeup
+    id: wakeup
   - platform: state
     entity_id:
     - input_number.tony_afternoon_meds_interval
@@ -2574,7 +2577,7 @@
       - alias: Wakeup
         condition: trigger
         id:
-        - awake-on
+        - wakeup
       sequence:
       - if:
         - condition: state
