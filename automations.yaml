@@ -2465,6 +2465,15 @@
       - c3909d27048140729f002aaef0391775
     alias: Wakeup
     id: wakeup
+  - platform: event
+    event_type: ios.action_fired
+    id: manual-wakeup
+    event_data:
+      actionName: Manual Wakeup
+    context:
+      user_id:
+      - c3909d27048140729f002aaef0391775
+    alias: Manual Wakeup
   - platform: state
     entity_id:
     - input_number.tony_afternoon_meds_interval
@@ -2578,6 +2587,11 @@
         condition: trigger
         id:
         - wakeup
+        - manual-wakeup
+      - condition: state
+        entity_id: input_boolean.tony_awake
+        state: 'off'
+        alias: If I am not already awake
       sequence:
       - if:
         - condition: state
@@ -3212,18 +3226,23 @@
       type: '{{ trigger.split(''-'')[0] }}'
       reason: '{{ trigger.split(''-'')[1] }}'
     alias: Define variables
-  - choose:
+  - alias: Routing
+    choose:
     - conditions:
       - condition: template
         value_template: '{{ type == ''wake'' }}'
         alias: Wakeup
       sequence:
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 5
+          milliseconds: 0
       - service: input_boolean.turn_on
         data: {}
         target:
           entity_id: input_boolean.tony_awake
         alias: Set context that I am awake
-    alias: Routing
   mode: restart
 - id: '1696985389177'
   alias: Master Bedroom Adaptive Resync
