@@ -2588,10 +2588,6 @@
         id:
         - wakeup
         - manual-wakeup
-      - condition: state
-        entity_id: input_boolean.tony_awake
-        state: 'off'
-        alias: If I am not already awake
       sequence:
       - if:
         - condition: state
