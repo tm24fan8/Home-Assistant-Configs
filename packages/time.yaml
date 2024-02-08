@@ -14,7 +14,6 @@ sensor:
   - 'date_time'
   - 'time_date'
   - 'time_utc'
-  - 'beat'
 
 intent_script:
   SetTimer:
