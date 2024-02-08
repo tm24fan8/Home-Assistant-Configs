@@ -22,7 +22,6 @@
 /appdaemon/apps/*
 /glances/
 /downloads/
-/life360
 
 # ignore any of these files no matter where they are using double *
 **.DS_Store

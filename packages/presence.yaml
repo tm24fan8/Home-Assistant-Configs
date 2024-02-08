@@ -49,11 +49,6 @@ binary_sensor:
     prior: 0.83
     probability_threshold: 0.9
     observations:
-      - entity_id: "device_tracker.life360_tony_stork"
-        prob_given_true: 0.8
-        prob_given_false: 0.2
-        platform: "state"
-        to_state: "home"
       - entity_id: "device_tracker.tony_s_iphone"
         prob_given_true: 0.8
         prob_given_false: 0.5
@@ -75,11 +70,6 @@ binary_sensor:
     prior: 0.1
     probability_threshold: 0.9
     observations:
-      - entity_id: "device_tracker.life360_christina_stork"
-        prob_given_true: 0.8
-        prob_given_false: 0.2
-        platform: "state"
-        to_state: "home"
       - entity_id: "device_tracker.tinas_iphone"
         prob_given_true: 0.8
         prob_given_false: 0.6
@@ -101,11 +91,6 @@ binary_sensor:
     prior: 0.1
     probability_threshold: 0.9
     observations:
-      - entity_id: "device_tracker.life360_kallen_stork"
-        prob_given_true: 0.8
-        prob_given_false: 0.2
-        platform: "state"
-        to_state: "home"
       - entity_id: "device_tracker.kallen_iphone"
         prob_given_true: 0.8
         prob_given_false: 0.6
@@ -128,15 +113,15 @@ template:
         {{ is_state('person.tony_stork', 'home') or is_state('person.christina_stork', 'home') }}
     - name: "Tony Home"
       unique_id: 4f0d8c3d-dc49-4b7a-a1fc-5d286b4a954d
-      state: "{{ is_state('device_tracker.tony_s_iphone', 'home') or is_state('device_tracker.life360_tony_stork','home') }}"
+      state: "{{ is_state('device_tracker.tony_s_iphone', 'home') }}" # Add new tracker when we have one
       device_class: presence
     - name: "Tina Home"
       unique_id: 3d90e515-b204-4510-af0c-6c784fda2bd4
-      state: "{{ is_state('device_tracker.tinas_iphone', 'home') or is_state('device_tracker.life360_christina_stork','home') }}"
+      state: "{{ is_state('device_tracker.tinas_iphone', 'home') }}" # Add new tracker when we have one
       device_class: presence
     - name: "Kallen Home"
       unique_id: 2419e826-b276-434c-b5c6-e42c065a73ff
-      state: "{{ is_state('device_tracker.kallen_iphone','home') or is_state('device_tracker.life360_kallen_stork','home') }}"
+      state: "{{ is_state('device_tracker.kallen_iphone','home') }}" # Add new tracker when we have one
       device_class: presence
     - name: "Parents Home"
       unique_id: 8de02d19-60a6-436d-9187-1cfc70d6c297
@@ -296,11 +281,7 @@ template:
         {% elif person in ['Rite Aid'] %}
           Pharmacy
         {% else %}
-          {% if person in ['not_home','Stationary'] %}
-            {{ state_attr('device_tracker.life360_tony_stork','address') }} 
-          {% else %}
-            {{ states('person.tony_stork') }}
-          {%- endif %}
+          {{ states('person.tony_stork') }}
         {%- endif %}
       icon: >-
         {% set person = states.person.tony_stork.state %}
@@ -322,11 +303,7 @@ template:
         {% elif person in ['Bob Evans','BobEvans'] and is_state('input_boolean.work_today','on') %}
           Work
         {% else %}
-          {% if person in ['not_home','Stationary'] %}
-            {{ state_attr('device_tracker.life360_christina_stork','address') }} 
-          {% else %}
-            {{ states('person.christina_stork') }}
-          {%- endif %}
+          {{ states('person.christina_stork') }}
         {%- endif %}
       icon: >-
         {% set person = states.person.christina_stork.state %}
@@ -348,11 +325,7 @@ template:
         {% elif person in ['Rite Aid'] %}
           Pharmacy
         {% else %}
-          {% if person in ['not_home','Stationary'] %}
-            {{ state_attr('device_tracker.life360_kallen_stork','address') }} 
-          {% else %}
-            {{ states('person.kallen_stork') }}
-          {%- endif %}
+          {{ states('person.kallen_stork') }}
         {%- endif %}
       icon: >-
         {% set person = states.person.kallen_stork.state %}
