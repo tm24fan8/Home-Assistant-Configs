@@ -20,27 +20,6 @@ input_boolean:
     name: Away Mode Skipped
     icon: mdi:debug-step-over
 
-proximity:
-  home_tony:
-    devices:
-      - device_tracker.tony_s_iphone
-    zone: home
-    tolerance: 5
-    unit_of_measurement: mi
-  home_tina:
-    devices:
-      - device_tracker.tinas_iphone
-    zone: home
-    tolerance: 5
-    unit_of_measurement: mi
-  home:
-    devices:
-      - device_tracker.tony_s_iphone
-      - device_tracker.tinas_iphone
-    zone: home
-    tolerance: 5
-    unit_of_measurement: mi
-
 binary_sensor:
   - platform: bayesian
     unique_id: a159dd2e-d8dc-469b-aaeb-bd774be07e1a
