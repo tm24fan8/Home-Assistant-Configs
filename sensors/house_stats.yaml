@@ -287,7 +287,13 @@
         states.sensor.downstairs_bathroom_temperature,
         states.sensor.stairwell_bottom_temperature,
         states.sensor.upstairs_bathroom_temperature,
-        states.sensor.emma_bedroom_temperature
+        states.sensor.emma_bedroom_temperature,
+        states.sensor.basement_studio_temperature,
+        states.sensor.dining_room_temperature,
+        states.sensor.mud_room_temperature,
+        states.sensor.stairwell_top_temperature,
+        states.sensor.kallen_bedroom_temperature,
+        states.sensor.master_bedroom_temperature
       ] | rejectattr('state','eq','unavailable') | map(attribute='state') | map('float') | list %}
       {{ ((rooms | sum) / (rooms | count)) | round(1) }}
   - name: Coldest Room Temperature
@@ -299,7 +305,13 @@
         states.sensor.downstairs_bathroom_temperature,
         states.sensor.stairwell_bottom_temperature,
         states.sensor.upstairs_bathroom_temperature,
-        states.sensor.emma_bedroom_temperature
+        states.sensor.emma_bedroom_temperature,
+        states.sensor.basement_studio_temperature,
+        states.sensor.dining_room_temperature,
+        states.sensor.mud_room_temperature,
+        states.sensor.stairwell_top_temperature,
+        states.sensor.kallen_bedroom_temperature,
+        states.sensor.master_bedroom_temperature
       ] | rejectattr('state','eq','unavailable') | sort(attribute='state') %}
       {{ rooms[0].state }}
     attributes:
@@ -309,7 +321,13 @@
           states.sensor.downstairs_bathroom_temperature,
           states.sensor.stairwell_bottom_temperature,
           states.sensor.upstairs_bathroom_temperature,
-          states.sensor.emma_bedroom_temperature
+          states.sensor.emma_bedroom_temperature,
+          states.sensor.basement_studio_temperature,
+          states.sensor.dining_room_temperature,
+          states.sensor.mud_room_temperature,
+          states.sensor.stairwell_top_temperature,
+          states.sensor.kallen_bedroom_temperature,
+          states.sensor.master_bedroom_temperature
         ] | rejectattr('state','eq','unavailable') | sort(attribute='state') %}
         {{ rooms[0].attributes.friendly_name | regex_replace(find='Temperature', replace='', ignorecase=False) }}
   - name: Warmest Room Temperature
@@ -321,7 +339,13 @@
         states.sensor.downstairs_bathroom_temperature,
         states.sensor.stairwell_bottom_temperature,
         states.sensor.upstairs_bathroom_temperature,
-        states.sensor.emma_bedroom_temperature
+        states.sensor.emma_bedroom_temperature,
+        states.sensor.basement_studio_temperature,
+        states.sensor.dining_room_temperature,
+        states.sensor.mud_room_temperature,
+        states.sensor.stairwell_top_temperature,
+        states.sensor.kallen_bedroom_temperature,
+        states.sensor.master_bedroom_temperature
       ] | rejectattr('state','eq','unavailable') | sort(attribute='state',reverse=true) %}
       {{ rooms[0].state }}
     attributes:
@@ -331,7 +355,13 @@
           states.sensor.downstairs_bathroom_temperature,
           states.sensor.stairwell_bottom_temperature,
           states.sensor.upstairs_bathroom_temperature,
-          states.sensor.emma_bedroom_temperature
+          states.sensor.emma_bedroom_temperature,
+          states.sensor.basement_studio_temperature,
+          states.sensor.dining_room_temperature,
+          states.sensor.mud_room_temperature,
+          states.sensor.stairwell_top_temperature,
+          states.sensor.kallen_bedroom_temperature,
+          states.sensor.master_bedroom_temperature
         ] | rejectattr('state','eq','unavailable') | sort(attribute='state',reverse=true) %}
         {{ rooms[0].attributes.friendly_name | regex_replace(find='Temperature', replace='', ignorecase=False) }}
   - name: Average Room Illuminance
@@ -344,7 +374,13 @@
           {'friendly_name': state_attr('sensor.downstairs_bathroom_illuminance','friendly_name'), 'state': states('sensor.downstairs_bathroom_illuminance') | default(0) | int },
           {'friendly_name': state_attr('sensor.stairwell_bottom_illuminance','friendly_name'), 'state': states('sensor.stairwell_bottom_illuminance') | default(0) | int },
           {'friendly_name': state_attr('sensor.upstairs_bathroom_illuminance','friendly_name'), 'state': states('sensor.upstairs_bathroom_illuminance') | default(0) | int },
-          {'friendly_name': state_attr('sensor.emma_bedroom_illuminance','friendly_name'), 'state': states('sensor.emma_bedroom_illuminance') | default(0) | int }] %}
+          {'friendly_name': state_attr('sensor.emma_bedroom_illuminance','friendly_name'), 'state': states('sensor.emma_bedroom_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.basement_studio_illuminance','friendly_name'), 'state': states('sensor.basement_studio_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.dining_room_illuminance','friendly_name'), 'state': states('sensor.dining_room_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.mud_room_illuminance','friendly_name'), 'state': states('sensor.mud_room_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.stairwell_top_illuminance','friendly_name'), 'state': states('sensor.stairwell_top_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.kallen_bedroom_illuminance','friendly_name'), 'state': states('sensor.kallen_bedroom_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.master_bedroom_illuminance','friendly_name'), 'state': states('sensor.master_bedroom_illuminance') | default(0) | int }] %}
       {% set states_list = entity_list | sort(attribute='state') | map(attribute='state') | list %}
       {{ ((states_list | sum) / (states_list | count)) | round(0) }}
   - name: Dimmest Room
@@ -357,7 +393,13 @@
           {'friendly_name': state_attr('sensor.downstairs_bathroom_illuminance','friendly_name'), 'state': states('sensor.downstairs_bathroom_illuminance') | default(0) | int },
           {'friendly_name': state_attr('sensor.stairwell_bottom_illuminance','friendly_name'), 'state': states('sensor.stairwell_bottom_illuminance') | default(0) | int },
           {'friendly_name': state_attr('sensor.upstairs_bathroom_illuminance','friendly_name'), 'state': states('sensor.upstairs_bathroom_illuminance') | default(0) | int },
-          {'friendly_name': state_attr('sensor.emma_bedroom_illuminance','friendly_name'), 'state': states('sensor.emma_bedroom_illuminance') | default(0) | int }] %}
+          {'friendly_name': state_attr('sensor.emma_bedroom_illuminance','friendly_name'), 'state': states('sensor.emma_bedroom_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.basement_studio_illuminance','friendly_name'), 'state': states('sensor.basement_studio_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.dining_room_illuminance','friendly_name'), 'state': states('sensor.dining_room_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.mud_room_illuminance','friendly_name'), 'state': states('sensor.mud_room_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.stairwell_top_illuminance','friendly_name'), 'state': states('sensor.stairwell_top_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.kallen_bedroom_illuminance','friendly_name'), 'state': states('sensor.kallen_bedroom_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.master_bedroom_illuminance','friendly_name'), 'state': states('sensor.master_bedroom_illuminance') | default(0) | int }] %}
       {% set states_list = entity_list | sort(attribute='state') | map(attribute='state') | list %}
       {{ states_list[0] }}
     attributes:
@@ -367,7 +409,13 @@
             {'friendly_name': state_attr('sensor.downstairs_bathroom_illuminance','friendly_name'), 'state': states('sensor.downstairs_bathroom_illuminance') | default(0) | int },
             {'friendly_name': state_attr('sensor.stairwell_bottom_illuminance','friendly_name'), 'state': states('sensor.stairwell_bottom_illuminance') | default(0) | int },
             {'friendly_name': state_attr('sensor.upstairs_bathroom_illuminance','friendly_name'), 'state': states('sensor.upstairs_bathroom_illuminance') | default(0) | int },
-            {'friendly_name': state_attr('sensor.emma_bedroom_illuminance','friendly_name'), 'state': states('sensor.emma_bedroom_illuminance') | default(0) | int }] %}
+            {'friendly_name': state_attr('sensor.emma_bedroom_illuminance','friendly_name'), 'state': states('sensor.emma_bedroom_illuminance') | default(0) | int },
+            {'friendly_name': state_attr('sensor.basement_studio_illuminance','friendly_name'), 'state': states('sensor.basement_studio_illuminance') | default(0) | int },
+            {'friendly_name': state_attr('sensor.dining_room_illuminance','friendly_name'), 'state': states('sensor.dining_room_illuminance') | default(0) | int },
+            {'friendly_name': state_attr('sensor.mud_room_illuminance','friendly_name'), 'state': states('sensor.mud_room_illuminance') | default(0) | int },
+            {'friendly_name': state_attr('sensor.stairwell_top_illuminance','friendly_name'), 'state': states('sensor.stairwell_top_illuminance') | default(0) | int },
+            {'friendly_name': state_attr('sensor.kallen_bedroom_illuminance','friendly_name'), 'state': states('sensor.kallen_bedroom_illuminance') | default(0) | int },
+            {'friendly_name': state_attr('sensor.master_bedroom_illuminance','friendly_name'), 'state': states('sensor.master_bedroom_illuminance') | default(0) | int }] %}
         {% set names_list = entity_list | sort(attribute='state') | map(attribute='friendly_name') | list %}
         {{ names_list[0] | regex_replace(find='Illuminance', replace='', ignorecase=False) }}
   - name: Brightest Room
@@ -380,7 +428,13 @@
           {'friendly_name': state_attr('sensor.downstairs_bathroom_illuminance','friendly_name'), 'state': states('sensor.downstairs_bathroom_illuminance') | default(0) | int },
           {'friendly_name': state_attr('sensor.stairwell_bottom_illuminance','friendly_name'), 'state': states('sensor.stairwell_bottom_illuminance') | default(0) | int },
           {'friendly_name': state_attr('sensor.upstairs_bathroom_illuminance','friendly_name'), 'state': states('sensor.upstairs_bathroom_illuminance') | default(0) | int },
-          {'friendly_name': state_attr('sensor.emma_bedroom_illuminance','friendly_name'), 'state': states('sensor.emma_bedroom_illuminance') | default(0) | int }] %}
+          {'friendly_name': state_attr('sensor.emma_bedroom_illuminance','friendly_name'), 'state': states('sensor.emma_bedroom_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.basement_studio_illuminance','friendly_name'), 'state': states('sensor.basement_studio_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.dining_room_illuminance','friendly_name'), 'state': states('sensor.dining_room_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.mud_room_illuminance','friendly_name'), 'state': states('sensor.mud_room_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.stairwell_top_illuminance','friendly_name'), 'state': states('sensor.stairwell_top_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.kallen_bedroom_illuminance','friendly_name'), 'state': states('sensor.kallen_bedroom_illuminance') | default(0) | int },
+          {'friendly_name': state_attr('sensor.master_bedroom_illuminance','friendly_name'), 'state': states('sensor.master_bedroom_illuminance') | default(0) | int }] %}
       {% set states_list = entity_list | sort(attribute='state',reverse=true) | map(attribute='state') | list %}
       {{ states_list[0] }}
     attributes:
@@ -390,6 +444,12 @@
             {'friendly_name': state_attr('sensor.downstairs_bathroom_illuminance','friendly_name'), 'state': states('sensor.downstairs_bathroom_illuminance') | default(0) | int },
             {'friendly_name': state_attr('sensor.stairwell_bottom_illuminance','friendly_name'), 'state': states('sensor.stairwell_bottom_illuminance') | default(0) | int },
             {'friendly_name': state_attr('sensor.upstairs_bathroom_illuminance','friendly_name'), 'state': states('sensor.upstairs_bathroom_illuminance') | default(0) | int },
-            {'friendly_name': state_attr('sensor.emma_bedroom_illuminance','friendly_name'), 'state': states('sensor.emma_bedroom_illuminance') | default(0) | int }] %}
+            {'friendly_name': state_attr('sensor.emma_bedroom_illuminance','friendly_name'), 'state': states('sensor.emma_bedroom_illuminance') | default(0) | int },
+            {'friendly_name': state_attr('sensor.basement_studio_illuminance','friendly_name'), 'state': states('sensor.basement_studio_illuminance') | default(0) | int },
+            {'friendly_name': state_attr('sensor.dining_room_illuminance','friendly_name'), 'state': states('sensor.dining_room_illuminance') | default(0) | int },
+            {'friendly_name': state_attr('sensor.mud_room_illuminance','friendly_name'), 'state': states('sensor.mud_room_illuminance') | default(0) | int },
+            {'friendly_name': state_attr('sensor.stairwell_top_illuminance','friendly_name'), 'state': states('sensor.stairwell_top_illuminance') | default(0) | int },
+            {'friendly_name': state_attr('sensor.kallen_bedroom_illuminance','friendly_name'), 'state': states('sensor.kallen_bedroom_illuminance') | default(0) | int },
+            {'friendly_name': state_attr('sensor.master_bedroom_illuminance','friendly_name'), 'state': states('sensor.master_bedroom_illuminance') | default(0) | int }] %}
         {% set names_list = entity_list | sort(attribute='state',reverse=true) | map(attribute='friendly_name') | list %}
         {{ names_list[0] | regex_replace(find='Illuminance', replace='', ignorecase=False) }}

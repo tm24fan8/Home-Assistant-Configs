@@ -59,6 +59,54 @@ template:
       unique_id: 41174b21-a46f-4deb-8dbc-61a356b33db1
       state: "{{ states('sensor.emma_bedroom_temperature') | float <= 60 }}"
       device_class: cold
+    - name: Basement Studio Hot
+      unique_id: 2c5626e9-9a3f-43b0-9595-3a15c9434b0f
+      state: "{{ states('sensor.basement_studio_temperature') | float >= 80 }}"
+      device_class: heat
+    - name: Basement Studio Cold
+      unique_id: 985f4f8c-2297-4d32-ace7-818534c5e4b5
+      state: "{{ states('sensor.basement_studio_temperature') | float <= 60 }}"
+      device_class: cold
+    - name: Dining Room Hot
+      unique_id: 2d1a67a5-ea39-470c-9a3c-b449e0d90bdb
+      state: "{{ states('sensor.dining_room_temperature') | float >= 80 }}"
+      device_class: heat
+    - name: Dining Room Cold
+      unique_id: ce183fac-642a-402c-8f43-de82da75f0b0
+      state: "{{ states('sensor.dining_room_temperature') | float <= 60 }}"
+      device_class: cold
+    - name: Mud Room Hot
+      unique_id: 920fa45e-8c6e-4518-9aea-5141e15a4350
+      state: "{{ states('sensor.mud_room_temperature') | float >= 80 }}"
+      device_class: heat
+    - name: Mud Room Cold
+      unique_id: 459998f5-7011-4e96-aa8a-076591a1b1ce
+      state: "{{ states('sensor.mud_room_temperature') | float <= 60 }}"
+      device_class: cold
+    - name: Stairwell Top Hot
+      unique_id: 22d325db-e213-4d7b-81a8-a7ba3798e751
+      state: "{{ states('sensor.stairwell_top_temperature') | float >= 80 }}"
+      device_class: heat
+    - name: Stairwell Top Cold
+      unique_id: 925bf2d5-cfa6-4508-98c4-b7ad185ddbc1
+      state: "{{ states('sensor.stairwell_top_temperature') | float <= 60 }}"
+      device_class: cold
+    - name: Kallen Bedroom Hot
+      unique_id: e47ba60f-e9b2-48d4-899b-f16fdb146e75
+      state: "{{ states('sensor.kallen_bedroom_temperature') | float >= 75 }}"
+      device_class: heat
+    - name: Kallen Bedroom Cold
+      unique_id: 69115462-c159-4f5b-b047-ff8a2600fa7d
+      state: "{{ states('sensor.kallen_bedroom_temperature') | float <= 60 }}"
+      device_class: cold
+    - name: Master Bedroom Hot
+      unique_id: ca7c96e5-ea83-4698-a43c-16e09af6d6fd
+      state: "{{ states('sensor.master_bedroom_temperature') | float >= 75 }}"
+      device_class: heat
+    - name: Master Bedroom Cold
+      unique_id: 1577cb2c-234d-41c8-a12e-5111a77df958
+      state: "{{ states('sensor.master_bedroom_temperature') | float <= 60 }}"
+      device_class: cold
   - sensor:
     - name: "Master Bedroom Target Temp"
       unique_id: 2ce31844-b115-42b8-8213-feccf24e236c

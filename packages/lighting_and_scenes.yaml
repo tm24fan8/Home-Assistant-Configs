@@ -98,6 +98,41 @@ input_number:
     step: 1
     unit_of_measurement: minutes
     icon: mdi:timer
+  dining_room_lights_off_delay:
+    name: Dining Room Lights Off Delay
+    min: 0
+    max: 30
+    step: 1
+    unit_of_measurement: minutes
+    icon: mdi:timer
+  mud_room_lights_off_delay:
+    name: Mud Room Lights Off Delay
+    min: 0
+    max: 30
+    step: 1
+    unit_of_measurement: minutes
+    icon: mdi:timer
+  kallen_bedroom_lights_off_delay:
+    name: Kallen Bedroom Lights Off Delay
+    min: 0
+    max: 30
+    step: 1
+    unit_of_measurement: minutes
+    icon: mdi:timer
+  master_bedroom_lights_off_delay:
+    name: Master Bedroom Lights Off Delay
+    min: 0
+    max: 30
+    step: 1
+    unit_of_measurement: minutes
+    icon: mdi:timer
+  upstairs_hallway_lights_off_delay:
+    name: Upstairs Hallway Lights Off Delay
+    min: 0
+    max: 30
+    step: 1
+    unit_of_measurement: minutes
+    icon: mdi:timer
   wakeup_lights_fade_day:
     name: Wakeup Lights Fade Day
     min: 0
@@ -142,6 +177,48 @@ input_number:
     icon: mdi:sun-wireless
   living_room_lux_threshold:
     name: Living Room Lux Threshold
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: lx
+    icon: mdi:sun-wireless
+  dining_room_lux_threshold:
+    name: Dining Room Lux Threshold
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: lx
+    icon: mdi:sun-wireless
+  mud_room_lux_threshold:
+    name: Mud Room Lux Threshold
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: lx
+    icon: mdi:sun-wireless
+  stairwell_top_lux_threshold:
+    name: Stairwell Top Lux Threshold
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: lx
+    icon: mdi:sun-wireless
+  kallen_bedroom_lux_threshold:
+    name: Kallen Bedroom Lux Threshold
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: lx
+    icon: mdi:sun-wireless
+  master_bedroom_lux_threshold:
+    name: Master Bedroom Lux Threshold
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: lx
+    icon: mdi:sun-wireless
+  upstairs_hallway_lux_threshold:
+    name: Upstairs Hallway Lux Threshold
     min: 0
     max: 100
     step: 5

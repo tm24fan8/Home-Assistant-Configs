@@ -114,6 +114,10 @@ template:
       unique_id: 2672a6a2-4be4-495c-b479-ffc7c6df67d2
       state: "{{ is_state('binary_sensor.tony_home','on') or is_state('binary_sensor.kallen_home','on') }}"
       device_class: presence
+    - name: "People Sleeping"
+      unique_id: 3f0a1504-fd01-4967-a6fb-0309813d31e3
+      state: "{{ is_state('input_boolean.emma_sleeping','on') or is_state('input_boolean.kallen_sleeping','on') or is_state('input_boolean.master_bedroom_sleeping','on') }}"
+      icon: mdi:sleep
     - name: "Basement Occupied"
       unique_id: 20039c29-8b9d-436d-ba6c-8f2c2bda1db0
       device_class: occupancy
@@ -147,15 +151,12 @@ template:
       unique_id: 7ec69a26-1013-4b0d-8662-a91ab9f040ca
       device_class: occupancy
       state: "{{ is_state('timer.upstairs_bathroom_motion_timer','active') or is_state('binary_sensor.upstairs_bathroom_motion','on') or is_state('input_boolean.shower_mode','on') }}"
-    - name: "People Sleeping"
-      unique_id: 3f0a1504-fd01-4967-a6fb-0309813d31e3
-      state: "{{ is_state('input_boolean.emma_sleeping','on') or is_state('input_boolean.kallen_sleeping','on') or is_state('input_boolean.master_bedroom_sleeping','on') }}"
-      icon: mdi:sleep
     - name: "Master Bedroom Occupied"
       unique_id: 407911c0-f2d3-41f5-8f1c-09fbfb10a49d
       device_class: occupancy
       state: >
-        {{ is_state('light.master_bedroom_lights','on') or 
+        {{ is_state('binary_sensor.master_bedroom_motion','on') or
+            is_state('light.master_bedroom_lights','on') or 
             is_state('light.master_bedroom_closet','on') or 
             is_state('input_boolean.master_bedroom_sleeping','on') or
             states('media_player.master_bedroom_chromecast') not in ['off','unavailable','unknown'] }}
@@ -164,7 +165,8 @@ template:
       unique_id: d3fdbaee-48bd-44df-820e-6cbfd3d24c11
       device_class: occupancy
       state: >
-        {{ is_state('light.kallen_bedroom_lights','on') or
+        {{ is_state('binary_sensor.kallen_bedroom_motion','on') or
+            is_state('light.kallen_bedroom_lights','on') or
             is_state('input_boolean.kallen_sleeping','on') }}
       delay_off: "00:00:15"
     - name: "Emma Bedroom Occupied"
@@ -181,7 +183,14 @@ template:
       device_class: occupancy
       state: >
         {{ is_state('binary_sensor.living_room_motion','on') }}
-      delay_off: "00:30:00"
+      delay_off: "00:15:00"
+    - name: Dining Room Occupied
+      unique_id: 6ac3017a-98f8-4e84-bcd7-6a9b2ab5b0e2
+      device_class: occupancy
+      state: >
+        {{ is_state('binary_sensor.dining_room_motion','on') or
+            is_state('binary_sensor.tina_desk_occupied','on') }}
+      delay_off: "00:15:00"
     - name: "Downstairs Bathroom Occupied"
       unique_id: fad33281-1c1a-4362-93e6-398334358027
       device_class: occupancy
@@ -192,8 +201,20 @@ template:
       unique_id: ab80b307-820e-4f82-86f2-c08f97245107
       device_class: occupancy
       state: >
-        {{ is_state('binary_sensor.stairwell_bottom_motion','on') or
+        {{ is_state('binary_sensor.stairwell_motion','on') or
             is_state('timer.stairwell_motion_timer','active') }}
+    - name: "Mud Room Occupied"
+      unique_id: 6498e6d9-01ea-48fc-ae36-d8c0c18e45b7
+      device_class: occupancy
+      state: >
+        {{ is_state('binary_sensor.mud_room_motion','on') or
+            is_state('timer.mud_room_motion_timer','active') }}
+    - name: "Upstairs Hallway Occupied"
+      unique_id: c4e5514a-d959-451d-984c-6235492a46f4
+      device_class: occupancy
+      state: >
+        {{ is_state('binary_sensor.stairwell_top_motion','on') }}
+      delay_off: "00:00:15"
   - sensor:
     - unique_id: people_at_home
       name: People at Home
