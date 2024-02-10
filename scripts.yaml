@@ -1281,6 +1281,7 @@ evening_on_first_floor:
         state: 'off'
       sequence:
       - stop: This scene does nothing during daytime
+      alias: Early Night Mode off
     - conditions:
       - condition: state
         entity_id: input_boolean.give_me_darkness
@@ -1296,78 +1297,70 @@ evening_on_first_floor:
             entity_id: input_select.tina_desk_scenes
           data:
             option: Night Mode
-      - choose:
-        - conditions:
+        alias: If Tina is home, turn on desk lights
+      - alias: Check if script is being called by Give Me Darkness automation
+        if:
+        - condition: template
+          value_template: '{{ give_me_darkness == 1 }}'
+          alias: If give_me_darkness = 1
+        then:
+        - alias: Set mud room light to nightlight
+          if:
           - condition: state
-            entity_id: input_boolean.guest_mode
-            state: 'off'
-          sequence:
-          - if:
-            - condition: template
-              value_template: '{{ give_me_darkness == 1 }}'
-            then:
-            - if:
-              - condition: state
-                entity_id: timer.downstairs_bathroom_lights_timer
-                state: idle
-              then:
-              - service: light.turn_off
-                target:
-                  entity_id:
-                  - light.downstairs_bathroom_lights
-                data: {}
-            - service: input_select.select_option
-              target:
-                entity_id:
-                - input_select.mud_room_scenes
-              data:
-                option: Nightlight
-            else:
-            - service: light.turn_off
-              target:
-                entity_id:
-                - light.living_room_lights
-              data: {}
-            - if:
-              - condition: state
-                entity_id: timer.downstairs_bathroom_lights_timer
-                state: idle
-              then:
-              - service: light.turn_off
-                target:
-                  entity_id:
-                  - light.downstairs_bathroom_lights
-                data: {}
-            - service: input_select.select_option
-              target:
-                entity_id:
-                - input_select.mud_room_scenes
-                - input_select.dining_room_lamp_scenes
-              data:
-                option: Nightlight
-        - conditions:
+            entity_id: timer.mud_room_motion_timer
+            state: idle
+          then:
+          - service: light.turn_on
+            metadata: {}
+            data: {}
+            target:
+              entity_id: light.mud_room_overhead
+          - service: input_select.select_option
+            target:
+              entity_id:
+              - input_select.mud_room_scenes
+            data:
+              option: Nightlight
+        else:
+        - service: light.turn_off
+          target:
+            entity_id:
+            - light.living_room_lights
+          data: {}
+        - alias: Set mud room light to nightlight
+          if:
           - condition: state
-            entity_id: input_boolean.guest_mode
-            state: 'on'
-          sequence:
-          - if:
-            - condition: state
-              entity_id: timer.downstairs_bathroom_lights_timer
-              state: idle
-            then:
-            - service: light.turn_off
-              target:
-                entity_id:
-                - light.downstairs_bathroom_lights
-              data: {}
+            entity_id: timer.mud_room_motion_timer
+            state: idle
+          then:
+          - service: light.turn_on
+            metadata: {}
+            data: {}
+            target:
+              entity_id: light.mud_room_overhead
+          - service: input_select.select_option
+            target:
+              entity_id:
+              - input_select.mud_room_scenes
+            data:
+              option: Nightlight
+        - service: input_select.select_option
+          target:
+            entity_id:
+            - input_select.dining_room_lamp_scenes
+          data:
+            option: Nightlight
+      alias: Give Me Darkness on
     - conditions:
       - condition: state
         entity_id: input_boolean.give_me_darkness
         state: 'off'
       sequence:
-      - if:
+      - alias: Check if script is being run by Sunset Lights flow
+        if:
         - condition: template
           value_template: '{{ sunset_lights == 1 }}'
+          alias: If sunset_lights = 1
         then:
         - service: light.turn_on
           target:
@@ -1379,24 +1372,31 @@ evening_on_first_floor:
           target:
             entity_id:
             - input_select.living_room_scenes
-            - input_select.mud_room_scenes
           data:
             option: Adaptive
+        - alias: Set mud room light to nightlight
+          if:
+          - condition: state
+            entity_id: timer.mud_room_motion_timer
+            state: idle
+          then:
+          - service: light.turn_on
+            metadata: {}
+            data: {}
+            target:
+              entity_id: light.mud_room_overhead
+          - service: input_select.select_option
+            target:
+              entity_id:
+              - input_select.mud_room_scenes
+            data:
+              option: Nightlight
         else:
         - service: light.turn_off
           target:
             entity_id:
             - light.dining_room_lamp
           data: {}
-        - if:
-          - condition: state
-            entity_id: timer.downstairs_bathroom_lights_timer
-            state: idle
-          then:
-          - service: light.turn_off
-            target:
-              entity_id: light.downstairs_bathroom_lights
-            data: {}
         - service: input_boolean.turn_off
           target:
             entity_id: input_boolean.tina_desk_lights
@@ -1411,9 +1411,26 @@ evening_on_first_floor:
           target:
             entity_id:
             - input_select.living_room_scenes
-            - input_select.mud_room_scenes
           data:
             option: Adaptive
+        - alias: Set mud room light to nightlight
+          if:
+          - condition: state
+            entity_id: timer.mud_room_motion_timer
+            state: idle
+          then:
+          - service: light.turn_on
+            metadata: {}
+            data: {}
+            target:
+              entity_id: light.mud_room_overhead
+          - service: input_select.select_option
+            target:
+              entity_id:
+              - input_select.mud_room_scenes
+            data:
+              option: Nightlight
+      alias: Give Me Darkness off
 evening_on_second_floor:
   alias: Evening on Second Floor
   sequence:
@@ -1426,12 +1443,25 @@ evening_on_second_floor:
         entity_id: input_boolean.give_me_darkness
         state: 'on'
       sequence:
-      - service: input_select.select_option
-        target:
-          entity_id:
-          - input_select.upstairs_hallway_scenes
-        data:
-          option: Nightlight
+      - alias: Set hallway light to nightlight
+        if:
+        - condition: and
+          conditions:
+          - condition: state
+            entity_id: timer.upstairs_hallway_motion_timer
+            state: idle
+          - condition: state
+            entity_id: timer.stairwell_motion_timer
+            state: idle
+          alias: If hallway and stairwell motion timers are both idle
+        then:
+        - service: input_select.select_option
+          target:
+            entity_id:
+            - input_select.upstairs_hallway_scenes
+          data:
+            option: Nightlight
+          alias: Set hallway light to nightlight
       - if:
         - condition: state
           entity_id: input_boolean.shower_mode
@@ -1443,13 +1473,27 @@ evening_on_second_floor:
           data:
             option: "{% if is_state('binary_sensor.upstairs_bathroom_occupied','on')
               %}\n  Adaptive\n{% else %}\n  Nightlight\n{% endif %}\n"
+        alias: Set upstairs bathroom scene
       - service: light.turn_off
         target:
           area_id:
           - kallen_bedroom
-          - master_bedroom
           - emma_bedroom
         data: {}
+        alias: Turn off kids' bedroom lights
+      - alias: Turn off Master Bedroom Lights
+        if:
+        - condition: state
+          entity_id: timer.master_bedroom_motion_timer
+          state: idle
+        then:
+        - service: light.turn_off
+          metadata: {}
+          data: {}
+          target:
+            area_id:
+            - master_bedroom
+            - master_bedroom_closet
       - delay:
           seconds: 1
       - service: switch.turn_on
@@ -1459,6 +1503,7 @@ evening_on_second_floor:
           - switch.adaptive_lighting_master_bedroom
           - switch.adaptive_lighting_emma_bedroom
         data: {}
+        alias: Re-enable adaptive lighting in bedrooms
       - service: switch.turn_off
         target:
           entity_id:
@@ -1466,6 +1511,7 @@ evening_on_second_floor:
           - switch.adaptive_lighting_sleep_mode_master_bedroom
           - switch.adaptive_lighting_sleep_mode_emma_bedroom
         data: {}
+        alias: Turn off adaptive lighting sleep mode in bedrooms
       - service: input_text.set_value
         target:
           entity_id:
@@ -1474,16 +1520,32 @@ evening_on_second_floor:
           - input_text.emma_bedroom_selected_scene
         data:
           value: Adaptive
+        alias: Set input texts for bedroom scenes back to Adaptive
+      alias: Give Me Darkness on
     - conditions:
       - condition: state
         entity_id: input_boolean.give_me_darkness
         state: 'off'
       sequence:
-      - service: input_select.select_option
-        target:
-          entity_id: input_select.upstairs_hallway_scenes
-        data:
-          option: Nightlight
+      - alias: Set hallway light to nightlight
+        if:
+        - condition: and
+          conditions:
+          - condition: state
+            entity_id: timer.upstairs_hallway_motion_timer
+            state: idle
+          - condition: state
+            entity_id: timer.stairwell_motion_timer
+            state: idle
+          alias: If hallway and stairwell motion timers are both idle
+        then:
+        - service: input_select.select_option
+          target:
+            entity_id:
+            - input_select.upstairs_hallway_scenes
+          data:
+            option: Nightlight
+          alias: Set hallway light to nightlight
       - if:
         - condition: state
           entity_id: input_boolean.shower_mode
@@ -1495,19 +1557,35 @@ evening_on_second_floor:
           data:
             option: "{% if is_state('binary_sensor.upstairs_bathroom_occupied','on')
               %}\n  Adaptive\n{% else %}\n  Nightlight\n{% endif %}\n"
-      - if:
+        alias: Set upstairs bathroom scene
+      - alias: Check if script is being run by Sunset Lights flow
+        if:
         - condition: template
           value_template: '{{ sunset_lights == 1 }}'
+          alias: If sunset_lights = 1
         then:
         - stop: Sunset lights don't mess with bedroom light states before bedtime
         else:
         - service: light.turn_off
           target:
             area_id:
-            - master_bedroom
             - kallen_bedroom
             - emma_bedroom
           data: {}
+          alias: Turn off kids' bedroom lights
+        - alias: Turn off Master Bedroom Lights
+          if:
+          - condition: state
+            entity_id: timer.master_bedroom_motion_timer
+            state: idle
+          then:
+          - service: light.turn_off
+            metadata: {}
+            data: {}
+            target:
+              area_id:
+              - master_bedroom
+              - master_bedroom_closet
         - delay:
             seconds: 1
         - service: switch.turn_on
@@ -1517,6 +1595,7 @@ evening_on_second_floor:
             - switch.adaptive_lighting_master_bedroom
             - switch.adaptive_lighting_emma_bedroom
           data: {}
+          alias: Re-enable adaptive lighting in bedrooms
         - service: switch.turn_off
           target:
             entity_id:
@@ -1524,6 +1603,7 @@ evening_on_second_floor:
             - switch.adaptive_lighting_sleep_mode_master_bedroom
             - switch.adaptive_lighting_sleep_mode_emma_bedroom
           data: {}
+          alias: Turn off adaptive lighting sleep mode in bedrooms
         - service: input_text.set_value
           target:
             entity_id:
@@ -1532,6 +1612,8 @@ evening_on_second_floor:
             - input_text.emma_bedroom_selected_scene
           data:
             value: Adaptive
+          alias: Set input texts for bedroom scenes back to Adaptive
+      alias: Give Me Darkness off
 goodnight_in_basement:
   alias: Goodnight in Basement
   sequence:
