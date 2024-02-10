@@ -5,6 +5,7 @@ homeassistant:
     country: US
     media_dirs:
       local: /media
+    customize: !include customize.yaml
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 

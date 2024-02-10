@@ -1,0 +1,44 @@
+sensor.ridis:
+  device_class: monetary
+
+sensor.kecks:
+  device_class: monetary
+
+sensor.circle_k:
+  device_class: monetary
+
+sensor.the_big_fish:
+  device_class: monetary
+
+sensor.meijer:
+  device_class: monetary
+
+sensor.south_side_shell:
+  device_class: monetary
+
+sensor.kroger:
+  device_class: monetary
+
+sensor.marathon_cleveland_avenue:
+  device_class: monetary
+
+sensor.speedway:
+  device_class: monetary
+
+sensor.shell_ottawa_avenue:
+  device_class: monetary
+
+sensor.the_barn:
+  device_class: monetary
+
+sensor.east_side_shell:
+  device_class: monetary
+
+sensor.local_minimum_gas_price:
+  device_class: monetary
+
+sensor.local_average_gas_price:
+  device_class: monetary
+
+sensor.local_maximum_gas_price:
+  device_class: monetary
