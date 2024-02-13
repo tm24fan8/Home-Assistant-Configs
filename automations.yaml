@@ -4581,3 +4581,88 @@
           message: clear_notification
           tag: downstairs-bathroom-hot
   mode: restart
+- id: '1707601912471'
+  alias: Basement Studio Temperature Alert
+  description: This room has no HVAC, and has a space heater for winter. This automation
+    will alert us when the temperature exceeds limits.
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.basement_studio_cold
+    from: 'off'
+    to: 'on'
+    id: cold-on
+  - platform: state
+    entity_id:
+    - binary_sensor.basement_studio_cold
+    from: 'on'
+    to: 'off'
+    id: cold-off
+  - platform: state
+    entity_id:
+    - binary_sensor.basement_studio_hot
+    from: 'off'
+    to: 'on'
+    id: hot-on
+  - platform: state
+    entity_id:
+    - binary_sensor.basement_studio_hot
+    from: 'on'
+    to: 'off'
+    id: hot-off
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - cold-on
+      sequence:
+      - service: script.text_notify
+        metadata: {}
+        data:
+          type: normal
+          who: all
+          title: Basement Studio Cold
+          message: The basement studio is very cold. You may want to consider turning
+            on the space heater.
+          tag: basement-studio-cold
+    - conditions:
+      - condition: trigger
+        id:
+        - cold-off
+      sequence:
+      - service: script.text_notify
+        metadata: {}
+        data:
+          type: alert
+          who: all
+          message: clear_notification
+          tag: basement-studio-cold
+    - conditions:
+      - condition: trigger
+        id:
+        - hot-on
+      sequence:
+      - service: script.text_notify
+        metadata: {}
+        data:
+          type: normal
+          who: all
+          title: Basement Studio Hot
+          message: The basement studio is very hot. Not much you can do about it,
+            just be aware.
+          tag: basement-studio-hot
+    - conditions:
+      - condition: trigger
+        id:
+        - hot-off
+      sequence:
+      - service: script.text_notify
+        metadata: {}
+        data:
+          type: alert
+          who: all
+          message: clear_notification
+          tag: basement-studio-hot
+  mode: restart
