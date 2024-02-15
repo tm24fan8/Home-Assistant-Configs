@@ -249,7 +249,7 @@ influxdb:
       - binary_sensor.*occupied*
       - sensor.mosquitto*
       - sensor.*illuminance
-      - sensor.*temp_change
+      - sensor.*temp_change*
       - sensor.*_faults
     entities:
       - media_player.living_room_tv
@@ -302,6 +302,7 @@ influxdb:
       - sensor.fans_running
       - sensor.climate_devices_running
       - sensor.bypassed_sensors
+      - input_boolean.shower_mode
 
 logbook:
   include:
@@ -406,7 +407,7 @@ prometheus:
       - binary_sensor.*occupied*
       - sensor.mosquitto*
       - sensor.*illuminance
-      - sensor.*temp_change
+      - sensor.*temp_change*
       - sensor.*_faults
     include_entities:
       - media_player.living_room_tv
@@ -459,3 +460,4 @@ prometheus:
       - sensor.fans_running
       - sensor.climate_devices_running
       - sensor.bypassed_sensors
+      - input_boolean.shower_mode
