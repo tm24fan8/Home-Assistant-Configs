@@ -3,6 +3,18 @@
 {% from 'easy_time.jinja' import count_the_days, custom_time, custom_time_between, clock %}
 {% from 'lighting.jinja' import lightsOn %}
 {% set ct = ct() | int %}
+{% set workTodayRan = is_state('input_boolean.work_today_ran','on') %}
+{% set schoolTodayRan = is_state('input_boolean.school_today_ran','on') %}
+{% set kallenMorningRan = is_state('input_boolean.kallen_scheduling_morning_ran','on') %}
+{% set houseMorningRan = is_state('input_boolean.house_scheduling_morning_ran','on') %}
+{% set emmaMorningRan = is_state('input_boolean.emma_scheduling_morning_ran','on') %}
+{% set masterBedroomMorningRan = is_state('input_boolean.master_bedroom_scheduling_morning','on') %}
+{% set kallenEveningRan = is_state('input_boolean.kallen_scheduling_evening_ran','on') %}
+{% set houseEveningRan = is_state('input_boolean.house_scheduling_evening_ran','on') %}
+{% set masterBedroomEveningRan = is_state('input_boolean.master_bedroom_scheduling_evening_ran','on') %}
+{% set emmaEveningRan = is_state('input_boolean.emma_scheduling_evening_ran','on') %}
+{% set kallenText = 'Kallen' %}
+{% set kallenTTS = 'Collin' %}
 
 {% macro laundryReport(type,method) %}
   {% macro data() %}
@@ -359,7 +371,11 @@
   {% set bedtime = state_attr('input_datetime.kallen_bedtime','timestamp') | int - 900 %}
 {% endif %}
 {% if type == 'meds' %}
-  {% set identKallen = 'Kallen' %}
+  {% if method == 'text' %}
+    {% set identKallen = kallenText %}
+  {% elif method == 'tts' %}
+    {% set identKallen = kallenTTS %}
+  {% endif %}
 {% else %}
   {% set identKallen = 'He' %}
 {% endif %}
@@ -387,7 +403,11 @@
 {% endif %}
 {% set diff = bedtime - ct %}
 {% if type == 'meds' %}
-  {% set identKallen = 'Kallen' %}
+  {% if method == 'text' %}
+    {% set identKallen = kallenText %}
+  {% elif method == 'tts' %}
+    {% set identKallen = kallenTTS %}
+  {% endif %}
 {% else %}
   {% set identKallen = 'He' %}
 {% endif %}
@@ -411,7 +431,11 @@
 {% macro medReportKallen(type,method) %}
 {% if is_state('input_boolean.kallen_overnight','on') %}
 {% if type == 'meds' %}
-  {% set identKallen = 'Kallen' %}
+  {% if method == 'text' %}
+    {% set identKallen = kallenText %}
+  {% elif method == 'tts' %}
+    {% set identKallen = kallenTTS %}
+  {% endif %}
 {% else %}
   {% set identKallen = 'He' %}
 {% endif %}
@@ -496,7 +520,7 @@
   {%- endif %}
 {% elif method == 'text' %}
   {% if type == 'school' %}
-    {% set identKallen = 'Kallen' %}
+    {% set identKallen = kallenText %}
   {% else %}
     {% set identKallen = 'He' %}
   {% endif %}
@@ -541,12 +565,12 @@
 {% set bedtimestamp = state_attr('input_datetime.kallen_bedtime','timestamp') | int %}
 {% if is_state('input_boolean.kallen_sleeping','on') %}
   Kallen went to bed at {{ input_datetime_read('input_datetime.kallen_asleep_at') | trim }}.
-  {% if 14400 < ct < bedtimestamp %}
+  {% if kallenMorningRan == true and ct < bedtimestamp %}
     His scheduled wakeup time is {{ input_datetime_read('input_datetime.kallen_wakeup_time') | trim }}.
   {% endif %}
 {% else %}
   Kallen woke up at {{ input_datetime_read('input_datetime.kallen_awake_at') | trim }}.
-  {% if ct > 57600 %}
+  {% if kallenEveningRan %}
     His scheduled bedtime is {{ input_datetime_read('input_datetime.kallen_bedtime') | trim }}.
   {% endif %}
 {% endif %}
