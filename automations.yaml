@@ -2765,6 +2765,7 @@
           - input_boolean.kallen_morning_meds_taken
           - input_boolean.kallen_night_meds_taken
           - input_boolean.tina_morning_meds_taken
+          - input_boolean.emma_scheduling_evening_ran
         data: {}
       - service: counter.reset
         target:
