@@ -181,7 +181,7 @@ automation:
                   entity_id: input_boolean.emma_has_napped
                   state: 'off'
                 - condition: time
-                  after: "15:30:00"
+                  after: "17:00:00"
                   before: "01:00:00"
               then:
               - service: input_datetime.set_datetime
@@ -1135,7 +1135,9 @@ script:
               {{ current_time('time',24) }}
       - service: switch.turn_off
         target:
-          entity_id: switch.adaptive_lighting_emma_bedroom
+          entity_id:
+            - switch.adaptive_lighting_emma_bedroom
+            - switch.emma_bedroom_motion_lighting
       - delay:
           seconds: 1
       - service: light.turn_on
@@ -1201,6 +1203,9 @@ script:
             data:
               manual_control: false
               entity_id: switch.adaptive_lighting_emma_bedroom
+      - service: switch.turn_on
+        target:
+          entity_id: switch.emma_bedroom_motion_lighting
 # Climate/White Noise
       - service: input_boolean.turn_off
         target:
