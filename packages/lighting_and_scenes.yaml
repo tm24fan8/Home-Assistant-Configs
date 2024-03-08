@@ -446,6 +446,7 @@ input_select:
       - Relax
       - Purple
       - Pink
+      - Red Angry
       - Tokyo
       - Twitch
       - Netflix
@@ -1194,6 +1195,11 @@ scene:
     entities:
       input_select.basement_studio_scenes:
         state: "Pink"
+  - name: Red Angry in Basement Studio
+    icon: mdi:palette
+    entities:
+      input_select.basement_studio_scenes:
+        state: "Red Angry"
   - name: Kallen Reading in Basement Studio
     icon: mdi:palette
     entities:

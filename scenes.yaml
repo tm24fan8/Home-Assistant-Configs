@@ -1270,3 +1270,135 @@
   metadata:
     light.dining_room_lamp:
       entity_only: true
+- id: '1709873675992'
+  name: Basement Studio - Red Angry
+  entities:
+    light.basement_stairwell:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - None
+      - candle
+      - fire
+      - prism
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect: None
+      color_mode: xy
+      brightness: 179
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 0
+      - 100
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      xy_color:
+      - 0.735
+      - 0.265
+      mode: normal
+      dynamics: none
+      icon: hue:wall-lantern
+      friendly_name: Basement Stairwell
+      supported_features: 44
+      state: 'on'
+    light.basement_short_lamp:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - None
+      - candle
+      - fire
+      - prism
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect: None
+      color_mode: xy
+      brightness: 255
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 0
+      - 100
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      xy_color:
+      - 0.735
+      - 0.265
+      mode: normal
+      dynamics: none
+      icon: hue:floor-shade
+      friendly_name: Basement Short Lamp
+      supported_features: 44
+      state: 'on'
+    light.basement_tall_lamp:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - None
+      - candle
+      - fire
+      - prism
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect:
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      mode: normal
+      dynamics: none
+      icon: hue:floor-shade
+      friendly_name: Basement Tall Lamp
+      supported_features: 44
+      state: 'off'
+    light.basement_led_strip_1:
+      min_color_temp_kelvin: 1500
+      max_color_temp_kelvin: 9000
+      min_mireds: 111
+      max_mireds: 666
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_move
+      - effect_stop
+      supported_color_modes:
+      - color_temp
+      - hs
+      effect:
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      friendly_name: Basement LED Strip 1
+      supported_features: 36
+      state: 'off'
+  icon: mdi:palette
+  metadata:
+    light.basement_stairwell:
+      entity_only: true
+    light.basement_short_lamp:
+      entity_only: true
+    light.basement_tall_lamp:
+      entity_only: true
+    light.basement_led_strip_1:
+      entity_only: true
