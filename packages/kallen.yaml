@@ -25,6 +25,9 @@ input_boolean:
   kallen_alarm_clock:
     name: Kallen Alarm Clock
     icon: mdi:alarm
+  kallen_has_phone:
+    name: Kallen Has Phone
+    icon: mdi:cellphone
 
 input_datetime:
   kallen_bedtime:

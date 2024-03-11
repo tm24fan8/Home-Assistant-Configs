@@ -4079,14 +4079,20 @@
     event: leave
     platform: zone
     zone: zone.middle_school
+    id: tony-leave
   - entity_id: person.christina_stork
     event: leave
     platform: zone
     zone: zone.middle_school
+    id: tina-leave
   - entity_id: person.kallen_stork
     event: leave
     platform: zone
     zone: zone.middle_school
+    id: kallen-leave
+  - platform: time
+    at: input_datetime.kallen_school_day_end
+    id: school-end
   condition:
   - condition: time
     after: '11:30:00'
@@ -4100,6 +4106,25 @@
     entity_id: input_boolean.kallen_at_school
     state: 'on'
   action:
+  - alias: If Kallen has his phone, don't run at school end time
+    if:
+    - condition: and
+      conditions:
+      - condition: trigger
+        id:
+        - school-end
+      - alias: If Kallen has his phone, or one of us is picking him up
+        condition: or
+        conditions:
+        - condition: state
+          entity_id: input_boolean.kallen_has_phone
+          state: 'on'
+        - condition: state
+          entity_id: input_boolean.kallen_alternate_pickup
+          state: 'off'
+      alias: Conditions for pickup
+    then:
+    - stop: Will use location triggers instead.
   - service: input_boolean.turn_off
     entity_id: input_boolean.kallen_at_school
     alias: Turn off Kallen At School
@@ -4666,4 +4691,22 @@
           who: all
           message: clear_notification
           tag: basement-studio-hot
+  mode: restart
+- id: '1710180629143'
+  alias: Kallen Has Phone
+  description: Make sure the system knows Kallen has his phone, if his phone leaves
+    the house.
+  trigger:
+  - platform: state
+    entity_id:
+    - person.kallen_stork
+    from: home
+    to: not_home
+  condition: []
+  action:
+  - service: input_boolean.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.kallen_has_phone
   mode: restart
