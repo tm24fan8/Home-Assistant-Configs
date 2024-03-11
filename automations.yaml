@@ -4106,25 +4106,28 @@
     entity_id: input_boolean.kallen_at_school
     state: 'on'
   action:
-  - alias: If Kallen has his phone, don't run at school end time
+  - alias: When triggered by school end
     if:
-    - condition: and
-      conditions:
-      - condition: trigger
-        id:
-        - school-end
-      - alias: If Kallen has his phone, or one of us is picking him up
-        condition: or
-        conditions:
-        - condition: state
-          entity_id: input_boolean.kallen_has_phone
-          state: 'on'
-        - condition: state
-          entity_id: input_boolean.kallen_alternate_pickup
-          state: 'off'
-      alias: Conditions for pickup
+    - condition: trigger
+      id:
+      - school-end
     then:
-    - stop: Will use location triggers instead.
+    - if:
+      - condition: and
+        conditions:
+        - alias: If Kallen has his phone, or one of us is picking him up
+          condition: or
+          conditions:
+          - condition: state
+            entity_id: input_boolean.kallen_has_phone
+            state: 'on'
+          - condition: state
+            entity_id: input_boolean.kallen_alternate_pickup
+            state: 'off'
+        alias: Conditions for pickup
+      then:
+      - stop: Will use location triggers instead.
+      alias: If Kallen has his phone, or we are picking him up
   - service: input_boolean.turn_off
     entity_id: input_boolean.kallen_at_school
     alias: Turn off Kallen At School
