@@ -607,7 +607,7 @@
   {% if is_state('binary_sensor.early_night_mode','on') %}
     Emma is asleep for the night. She went to bed at {{ input_datetime_read('input_datetime.emma_asleep_at') | trim }}.
   {% else %}
-    Emma has not yet awoken for the day. She went to bed at {{ input_datetime_read('input_datetime.emma_asleep_at') | trim }}.
+    Emma has not yet awoken for the day. She went to bed at {{ input_datetime_read('input_datetime.emma_asleep_at') | trim }}. Her wakeup time is scheduled for {{ input_datetime_read('input_datetime.emma_wakeup') | trim }}.
   {% endif %}
 {% else %}
   Emma is awake, and does not appear to have napped yet. She woke up at {{ input_datetime_read('input_datetime.emma_awake_at') | trim }}.
