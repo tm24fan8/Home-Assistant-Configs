@@ -4713,3 +4713,93 @@
     target:
       entity_id: input_boolean.kallen_has_phone
   mode: restart
+- id: '1710611198911'
+  alias: Kallen Meds Handler
+  description: Make sure Kallen has taken his meds in the morning and at night
+  trigger:
+  - platform: time
+    at: input_datetime.kallen_morning_meds_notify
+    id: wakeup
+    alias: Morning Notify
+  - platform: time
+    at: input_datetime.kallen_night_meds_notify
+    id: sleep
+    alias: Night Notify
+  - platform: state
+    entity_id: input_boolean.kallen_morning_meds_taken
+    to: 'on'
+    id: boolean-morning
+    alias: Morning Taken
+  - platform: state
+    entity_id: input_boolean.kallen_night_meds_taken
+    to: 'on'
+    id: boolean-night
+    alias: Night Taken
+  condition:
+  - condition: state
+    entity_id: input_boolean.kallen_overnight
+    state: 'off'
+    alias: Kallen is not staying the night elsewhere
+  action:
+  - alias: Routing
+    choose:
+    - conditions:
+      - condition: and
+        conditions:
+        - condition: trigger
+          id: wakeup
+        - condition: state
+          entity_id: input_boolean.kallen_morning_meds_taken
+          state: 'off'
+        alias: Morning Notify
+      sequence:
+      - service: script.turn_on
+        target:
+          entity_id: script.kallen_morning_meds
+        data: {}
+        alias: Run morning meds script
+    - conditions:
+      - condition: and
+        conditions:
+        - condition: trigger
+          id: sleep
+        - condition: state
+          entity_id: input_boolean.kallen_night_meds_taken
+          state: 'off'
+        alias: Night Notify
+      sequence:
+      - service: script.turn_on
+        target:
+          entity_id: script.kallen_night_meds
+        data: {}
+        alias: Run night meds script
+    - conditions:
+      - condition: trigger
+        id: boolean-morning
+        alias: Morning Taken
+      sequence:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.kallen_morning_meds_taken
+        data:
+          datetime: '{% from ''time.jinja'' import current_time %} {{ current_time(''datetime'',24)
+            }}
+
+            '
+        alias: Set time morning meds were taken
+    - conditions:
+      - condition: trigger
+        id: boolean-night
+        alias: Night Taken
+      sequence:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.kallen_night_meds_taken
+        data:
+          datetime: '{% from ''time.jinja'' import current_time %} {{ current_time(''datetime'',24)
+            }}
+
+            '
+        alias: Set time night meds were taken
+  mode: parallel
+  max: 4
