@@ -1196,6 +1196,12 @@
           option: Side Nightlight
         target:
           entity_id: input_select.master_bedroom_scenes
+      off_short_action:
+      - service: fan.toggle
+        metadata: {}
+        data: {}
+        target:
+          entity_id: fan.master_bedroom_fan
 - id: '1682550357188'
   alias: Emma Bedroom Switch Handler
   description: ''
@@ -1310,44 +1316,11 @@
         target:
           entity_id: input_boolean.kallen_sleeping
       off_short_action:
-      - choose:
-        - conditions:
-          - condition: state
-            entity_id: light.kallen_bedroom_overhead
-            state: 'off'
-          sequence:
-          - service: input_select.select_option
-            data:
-              option: Overhead Nightlight
-            target:
-              entity_id: input_select.kallen_bedroom_scenes
-        - conditions:
-          - condition: state
-            entity_id: light.kallen_bedroom_overhead
-            state: 'on'
-          sequence:
-          - service: light.turn_off
-            data: {}
-            target:
-              entity_id: light.kallen_bedroom_overhead
-          - delay:
-              hours: 0
-              minutes: 0
-              seconds: 2
-              milliseconds: 0
-          - service: input_text.set_value
-            data:
-              value: Adaptive
-            target:
-              entity_id: input_text.kallen_bedroom_selected_scene
-          - service: switch.turn_off
-            data: {}
-            target:
-              entity_id: switch.adaptive_lighting_sleep_mode_kallen_bedroom
-          - service: switch.turn_on
-            data: {}
-            target:
-              entity_id: switch.adaptive_lighting_kallen_bedroom
+      - service: fan.toggle
+        metadata: {}
+        data: {}
+        target:
+          entity_id: fan.kallen_bedroom_fan
 - id: '1682793072646'
   alias: Tina Desk Switch Handler
   description: ''
