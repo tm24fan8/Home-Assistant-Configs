@@ -447,6 +447,7 @@ input_select:
       - Purple
       - Pink
       - Red Angry
+      - Cyberpunk
       - Tokyo
       - Twitch
       - Netflix
@@ -1200,6 +1201,11 @@ scene:
     entities:
       input_select.basement_studio_scenes:
         state: "Red Angry"
+  - name: Cyberpunk in Basement Studio
+    icon: mdi:palette
+    entities:
+      input_select.basement_studio_scenes:
+        state: "Cyberpunk"
   - name: Kallen Reading in Basement Studio
     icon: mdi:palette
     entities:
