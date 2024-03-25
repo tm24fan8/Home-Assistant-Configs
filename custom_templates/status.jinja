@@ -1,7 +1,7 @@
 {% from 'formatting.jinja' import cleanup %}
 {% from 'time.jinja' import input_datetime_read, ct, next_twitch_stream, calendar_event_today, time_from_calendar %}
 {% from 'easy_time.jinja' import count_the_days, custom_time, custom_time_between, clock %}
-{% from 'lighting.jinja' import lightsOn %}
+{% from 'lighting.jinja' import lights_on %}
 {% set ct = ct() | int %}
 {% set workTodayRan = is_state('input_boolean.work_today_ran','on') %}
 {% set schoolTodayRan = is_state('input_boolean.school_today_ran','on') %}
@@ -117,10 +117,10 @@
   {% elif type == 'airleaks' %}
   {{ airLeaks(type,method) }}
   {% elif type == 'lights' %}
-  {{ lightsOn(type,method) }}
+  {{ lights_on(type,method) }}
   {% elif type == 'full' %}
   {{ climateDevices(type,method) }}
-  {{ lightsOn(type,method) }}
+  {{ lights_on(type,method) }}
   {{ airLeaks(type,method) }}
   {% endif %}
   {% endmacro %}
