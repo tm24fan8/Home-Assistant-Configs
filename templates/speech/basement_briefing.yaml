@@ -1,0 +1,48 @@
+>
+  {# Basement Briefing #}
+
+  {% from 'formatting.jinja' import cleanup %}
+  {%- macro getReport() -%}
+  {% from 'speech.jinja' import greeting, today_is %}
+  {% from 'weather.jinja' import weatherReport %}
+  {% from 'sports.jinja' import sports_updates %}
+    <p>
+      {{ greeting('date') }}
+    </p>
+    <p>
+      {{ today_is() }}
+    </p>
+
+    <p>
+      {{ weatherReport('full','tts') }}
+    </p>
+
+    <p>
+      There are {{ states('sensor.services_down') }} services currently offline.
+      {% if states('sensor.services_down') | int > 0 %}
+        They are {{ state_attr('sensor.services_down','services') }}.
+      {% endif %}
+    </p>
+
+    <p>
+      {% if is_state('input_boolean.sports_updates','on') %}
+        {{ sports_updates('pregame') }}
+        {{ sports_updates('main') }}
+      {% endif %}
+    </p>
+
+  {%- endmacro -%}
+
+  {# a macro that removes all newline characters, empty spaces, and returns formatted text  #}
+  {%- macro cleanup(data) -%}
+    {%- for item in data.split("\n")  if item | trim != "" -%}
+      {{ item | trim }} {% endfor -%}
+  {%- endmacro -%}
+
+  {# a macro to call all macros :)  #}
+  {%- macro mother_of_all_macros() -%}
+    {{ getReport() }}
+  {%- endmacro -%}
+  
+  {# Call the macro  #}
+  {{- cleanup(mother_of_all_macros()) -}}

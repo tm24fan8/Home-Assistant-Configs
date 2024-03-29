@@ -82,6 +82,9 @@ input_boolean:
   kallen_nightly_briefing:
     name: Kallen Nightly Briefing Ran
     icon: mdi:home-analytics
+  basement_briefing:
+    name: Basement Briefing Ran
+    icon: mdi:home-analytics
   weather_reports:
     name: Weather Info
     icon: mdi:weather-cloudy-alert
@@ -197,6 +200,17 @@ script:
     - service: input_boolean.turn_on
       target:
         entity_id: input_boolean.good_morning
+
+  basement_briefing:
+    alias: 'Basement Briefing'
+    sequence:
+    - service: script.speech_engine
+      data:
+        who: "{{ who|default('basement') }}"
+        message: !include ../templates/speech/basement_briefing.yaml
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.basement_briefing
 
   dinner_is_ready:
     alias: 'Dinner Is Ready'

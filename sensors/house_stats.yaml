@@ -453,3 +453,22 @@
             {'friendly_name': state_attr('sensor.master_bedroom_illuminance','friendly_name'), 'state': states('sensor.master_bedroom_illuminance') | default(0) | int }] %}
         {% set names_list = entity_list | sort(attribute='state',reverse=true) | map(attribute='friendly_name') | list %}
         {{ names_list[0] | regex_replace(find='Illuminance', replace='', ignorecase=False) }}
+  - name: Services Down
+    unique_id: 1617ede2-c2ee-4159-a0a0-f0ae869325f1
+    unit_of_measurement: ''
+    icon: mdi:close-network-outline
+    state: >
+      {% set uptimekuma = states.binary_sensor |
+          selectattr('entity_id','in',integration_entities('uptime_kuma')) |
+          selectattr('state','eq','off') |
+          map(attribute='attributes.friendly_name') |
+          list %}
+      {{ uptimekuma | count | int }}
+    attributes:
+      services: >
+        {% set uptimekuma = states.binary_sensor |
+            selectattr('entity_id','in',integration_entities('uptime_kuma')) |
+            selectattr('state','eq','off') |
+            map(attribute='attributes.friendly_name') |
+            list %}
+        {{ uptimekuma | join(', ') }}

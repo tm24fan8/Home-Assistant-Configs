@@ -4776,3 +4776,25 @@
         alias: Set time night meds were taken
   mode: parallel
   max: 4
+- id: '1711657679853'
+  alias: Basement Briefing
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.basement_studio_motion
+    from: 'off'
+    to: 'on'
+    id: motion-on
+    alias: Motion is detected in the basement
+  condition:
+  - condition: state
+    entity_id: input_boolean.basement_briefing
+    state: 'off'
+    alias: Basement briefing has not already run for the day
+  action:
+  - service: script.basement_briefing
+    metadata: {}
+    data: {}
+    alias: Run basement briefing script
+  mode: single

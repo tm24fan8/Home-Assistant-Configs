@@ -303,6 +303,7 @@ influxdb:
       - sensor.climate_devices_running
       - sensor.bypassed_sensors
       - input_boolean.shower_mode
+      - sensor.services_down
 
 logbook:
   include:
@@ -461,3 +462,4 @@ prometheus:
       - sensor.climate_devices_running
       - sensor.bypassed_sensors
       - input_boolean.shower_mode
+      - sensor.services_down
