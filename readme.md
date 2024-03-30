@@ -123,6 +123,18 @@ Again, mostly just the ones I'm **using** or **will use soon**...also a few that
 - [Swipe Card](https://github.com/bramkragten/swipe-card)
 - [Meteoalarm Card](https://github.com/MrBartusek/MeteoalarmCard)
 - [Bubble Card](https://github.com/Clooos/Bubble-Card)
+- [Weather Chart Card](https://github.com/mlamberts78/weather-chart-card)
+- [Twitch Followed Live Streams Card](https://github.com/stefmde/HomeAssistant-TwitchFollowedLiveStreamsCard)
+- [Comfortable Environment Card](https://github.com/argaar/comfortable-environment-card)
+
+</details>
+
+## AppDaemon Apps
+
+<details>
+<summary>Click here</summary>
+
+- [Lightwand](https://github.com/Pythm/ad-Lightwand)
 
 </details>
 
