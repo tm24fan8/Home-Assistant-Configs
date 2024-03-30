@@ -2,7 +2,7 @@
   {# Daily Briefing #}
   {% from 'formatting.jinja' import cleanup %}
   {%- macro getReport() -%}
-  {% from 'speech.jinja' import greeting, dadjoke, inspirational_quote, today_is %}
+  {% from 'speech.jinja' import greeting, dadjoke, inspirational_quote, today_is, sun_status %}
   {% from 'status.jinja' import houseStatusReport, tonyStatusReport, tinaStatusReport, kallenStatusReport, emmaStatusReport %}
   {% from 'easy_time.jinja' import count_the_days %}
   {% from 'weather.jinja' import weatherReport %}
@@ -20,35 +20,7 @@
       </p>
 
       <p>
-        {% if is_state('sun.sun','below_horizon') %}
-          You have
-          {% set seconds = as_timestamp(states.sun.sun.attributes.next_rising)-now().timestamp() %}
-          {% set hours = seconds / 60 %}
-          {% if seconds / ( 60 * 60 ) > 1 %}
-            {{ (seconds // ( 60 * 60 )) | int }} hours
-          {% else %}
-            {{ (seconds // 60) | int }} minutes
-          {% endif %}
-          {{ [
-          'until the sun rises.',
-          'until the sun is up',
-          'before the sun officially rises.'
-          ] | random }}
-        {% else %}
-          You have
-          {% set seconds = as_timestamp(states.sun.sun.attributes.next_setting)-now().timestamp() %}
-          {% set hours = seconds / 60 %}
-          {% if seconds / ( 60 * 60 ) > 1 %}
-            {{ (seconds //  ( 60 * 60 )) | int }} hours
-          {% else %}
-            {{ (seconds // 60) | int }} minutes
-          {% endif %}
-          {{ [
-            'until the sun sets for the day.',
-            'until the sun slips below the horizon.',
-            'before the sun officially sets. '
-          ]|random }}
-        {% endif %}
+        {{ sun_status() }}
       </p>
 
       {% set dow = as_timestamp(now()) | timestamp_custom('%A') %}

@@ -3,7 +3,7 @@
 
   {% from 'formatting.jinja' import cleanup %}
   {%- macro getReport() -%}
-  {% from 'speech.jinja' import greeting, today_is %}
+  {% from 'speech.jinja' import greeting, today_is, sun_status %}
   {% from 'weather.jinja' import weatherReport %}
   {% from 'sports.jinja' import sports_updates %}
     <p>
@@ -11,6 +11,10 @@
     </p>
     <p>
       {{ today_is() }}
+    </p>
+
+    <p>
+      {{ sun_status() }}
     </p>
 
     <p>
