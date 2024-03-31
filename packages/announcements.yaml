@@ -109,16 +109,6 @@ intent_script:
 ################################
 
 script:
-  reset_annc_switches:
-    sequence:
-      - service: input_boolean.turn_off
-        entity_id:
-          - input_boolean.good_morning
-          - input_boolean.daily_briefing
-          - input_boolean.nightly_briefing
-          - input_boolean.kallen_morning_briefing
-          - input_boolean.kallen_nightly_briefing
-
   kallen_nightly_briefing:
     alias: 'Kallen Nightly Briefing'
     sequence:

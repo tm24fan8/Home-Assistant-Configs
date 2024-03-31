@@ -2899,3 +2899,18 @@ tony_tylenol:
       tag: kallen-night-meds
   icon: mdi:medication
   mode: restart
+reset_annc_switches:
+  alias: Reset Announcement Switches
+  sequence:
+  - service: input_boolean.turn_off
+    target:
+      entity_id:
+      - input_boolean.good_morning
+      - input_boolean.daily_briefing
+      - input_boolean.nightly_briefing
+      - input_boolean.kallen_morning_briefing
+      - input_boolean.kallen_nightly_briefing
+      - input_boolean.basement_briefing
+    data: {}
+  mode: single
+  icon: mdi:bullhorn-outline
