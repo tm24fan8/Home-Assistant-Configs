@@ -1,23 +1,3 @@
-start_netflix:
-  alias: Start Netflix (Living Room)
-  sequence:
-  - service: media_player.select_source
-    target:
-      entity_id: media_player.living_room_tv
-    data:
-      source: com.netflix.ninja
-  mode: single
-  icon: mdi:netflix
-stop_netflix:
-  alias: Stop Netflix (Living Room)
-  sequence:
-  - service: media_player.select_source
-    target:
-      entity_id: media_player.living_room_tv
-    data:
-      source: '!com.netflix.ninja'
-  mode: single
-  icon: mdi:netflix
 give_me_darkness:
   alias: Give Me Darkness
   sequence:
@@ -83,66 +63,6 @@ give_me_darkness:
         alias: Ask to arm security
   mode: single
   icon: mdi:weather-night
-start_youtube:
-  alias: Start Youtube (Living Room)
-  sequence:
-  - service: media_player.select_source
-    target:
-      entity_id: media_player.living_room_tv
-    data:
-      source: com.google.android.youtube.tv
-  mode: single
-  icon: mdi:youtube
-stop_youtube:
-  alias: Stop Youtube (Living Room)
-  sequence:
-  - service: media_player.select_source
-    target:
-      entity_id: media_player.living_room_tv
-    data:
-      source: '!com.google.android.youtube.tv'
-  mode: single
-  icon: mdi:youtube
-start_twitch:
-  alias: Start Twitch (Living Room)
-  sequence:
-  - service: media_player.select_source
-    target:
-      entity_id: media_player.living_room_tv
-    data:
-      source: tv.twitch.android.app
-  mode: single
-  icon: mdi:twitch
-stop_twitch:
-  alias: Stop Twitch (Living Room)
-  sequence:
-  - service: media_player.select_source
-    data:
-      source: '!tv.twitch.android.app'
-    target:
-      entity_id: media_player.living_room_tv
-  mode: single
-  icon: mdi:twitch
-start_spotify:
-  alias: Start Spotify (Living Room)
-  sequence:
-  - service: media_player.select_source
-    target:
-      entity_id: media_player.living_room_tv
-    data:
-      source: com.spotify.tv.android
-  mode: single
-  icon: mdi:spotify
-stop_spotify:
-  alias: Stop Spotify (Living Room)
-  sequence:
-  - service: media_player.select_source
-    target:
-      entity_id: media_player.living_room_tv
-    data:
-      source: '!com.spotify.tv.android'
-  mode: single
-  icon: mdi:spotify
 alexa_tts_test:
   alias: Alexa TTS Test
   sequence:
@@ -507,86 +427,6 @@ going_upstairs:
     alias: Turn on lights, or not
   mode: single
   icon: hue:room-stairs
-start_youtube_basement:
-  alias: Start Youtube (Basement)
-  sequence:
-  - service: media_player.select_source
-    data:
-      source: com.google.android.youtube.tv
-    target:
-      entity_id: media_player.basement_tv
-  mode: single
-  icon: mdi:youtube
-stop_youtube_basement:
-  alias: Stop Youtube (Basement)
-  sequence:
-  - service: media_player.select_source
-    data:
-      source: '!com.google.android.youtube.tv'
-    target:
-      entity_id: media_player.basement_tv
-  mode: single
-  icon: mdi:youtube
-start_netflix_basement:
-  alias: Start Netflix (Basement)
-  sequence:
-  - service: media_player.select_source
-    data:
-      source: com.netflix.ninja
-    target:
-      entity_id: media_player.basement_tv
-  mode: single
-  icon: mdi:netflix
-stop_netflix_basement:
-  alias: Stop Netflix (Basement)
-  sequence:
-  - service: media_player.select_source
-    data:
-      source: '!com.netflix.ninja'
-    target:
-      entity_id: media_player.basement_tv
-  mode: single
-  icon: mdi:netflix
-start_twitch_basement:
-  alias: Start Twitch (Basement)
-  sequence:
-  - service: media_player.select_source
-    data:
-      source: tv.twitch.android.app
-    target:
-      entity_id: media_player.basement_tv
-  mode: single
-  icon: mdi:twitch
-stop_twitch_basement:
-  alias: Stop Twitch (Basement)
-  sequence:
-  - service: media_player.select_source
-    data:
-      source: '!tv.twitch.android.app'
-    target:
-      entity_id: media_player.basement_tv
-  mode: single
-  icon: mdi:twitch
-start_spotify_basement:
-  alias: Start Spotify (Basement)
-  sequence:
-  - service: media_player.select_source
-    data:
-      source: com.spotify.tv.android
-    target:
-      entity_id: media_player.basement_tv
-  mode: single
-  icon: mdi:spotify
-stop_spotify_basement:
-  alias: Stop Spotify (Basement)
-  sequence:
-  - service: media_player.select_source
-    data:
-      source: '!com.spotify.tv.android'
-    target:
-      entity_id: media_player.basement_tv
-  mode: single
-  icon: mdi:spotify
 max_brightness_cleanup:
   alias: Max Brightness Cleanup
   sequence:
