@@ -2653,8 +2653,8 @@
     at: 00:00:00
     id: midnight
   - platform: time
-    at: input_datetime.audible_notification_off
-    id: audible-off
+    at: input_datetime.audible_notification_on
+    id: audible-on
   - platform: time
     at: input_datetime.kallen_school_day_end
     id: school-end
@@ -2710,7 +2710,8 @@
         data: {}
     - conditions:
       - condition: trigger
-        id: audible-off
+        id:
+        - audible-on
       sequence:
       - service: script.reset_annc_switches
         data: {}
@@ -3208,6 +3209,21 @@
           minutes: 0
           seconds: 5
           milliseconds: 0
+      - alias: On specific triggers, reset basement briefing
+        if:
+        - condition: trigger
+          id:
+          - wake-alarm
+          - wake-sched
+          - wake-sentence
+          alias: When triggered by alarm, schedule, or sentence
+        then:
+        - service: input_boolean.turn_off
+          metadata: {}
+          data: {}
+          target:
+            entity_id: input_boolean.basement_briefing
+          alias: Reset basement briefing
       - service: input_boolean.turn_on
         data: {}
         target:
