@@ -30,11 +30,15 @@ weather:
       {% set forecasts = [
         states.weather.kdfi_daynight.attributes,
         states.sensor.pirateweather_daily_weather_forecast.attributes,
-        states.weather.openweathermap.attributes,
+        states.sensor.openweathermap_daily_weather_forecast.attributes,
         states.weather.weatherapi_stratton_ave.attributes
       ] %}
       {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
-    forecast_hourly_template: "{{ state_attr('sensor.pirateweather_hourly_weather_forecast','forecast') }}"
+    forecast_hourly_template: >
+      {% set forecasts = [
+        states.sensor.pirateweather_hourly_weather_forecast.attributes
+      ] %}
+      {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
     pressure_template: >
       {% set pressures = [
         states.sensor.kdfi_barometric_pressure
@@ -104,13 +108,13 @@ weather:
       ] %}
       {% set result = humidity | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
       {{ states(result) | float }}
-    # forecast_template: >
-    #   {% set forecasts = [
-    #     states.weather.tomorrow_io_stratton_ave_hourly.attributes,
-    #     states.weather.kdfi_hourly.attributes,
-    #     states.weather.iron_nerd_studios_hourly.attributes
-    #   ] %}
-    #   {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
+    forecast_hourly_template: >
+      {% set forecasts = [
+        states.weather.tomorrow_io_stratton_ave_hourly.attributes,
+        states.weather.kdfi_hourly.attributes,
+        states.sensor.pirateweather_hourly_weather_forecast.attributes
+      ] %}
+      {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
     pressure_template: >
       {% set pressures = [
         states.sensor.kdfi_barometric_pressure
@@ -273,6 +277,38 @@ template:
       state: "{{ now().isoformat() }}"
       attributes:
         forecast: "{{ hourly['weather.iron_nerd_studios'].forecast }}"
+  - trigger:
+    - platform: time_pattern
+      minutes: /5
+    - platform: homeassistant
+      event: start
+    action:
+    - service: weather.get_forecasts
+      data:
+        type: daily
+      target:
+        entity_id: weather.openweathermap
+      response_variable: daily
+    - variables:
+        today: "{{ daily['weather.openweathermap'].forecast[0] }}"
+    sensor:
+    - name: OpenWeatherMap Daily Weather Forecast
+      unique_id: ebd3fac7-897f-4d41-ba1a-5eafae38f49e
+      state: "{{ now().isoformat() }}"
+      attributes:
+        forecast: "{{ daily['weather.openweathermap'].forecast }}"
+    - name: OpenWeatherMap High
+      unique_id: 14154c18-dec9-4b6f-b536-cb10c619d5fe
+      state: "{{ today.temperature }}"
+      unit_of_measurement: °F
+    - name: OpenWeatherMap Low
+      unique_id: 2e14e5f3-da1c-433a-8196-f1df0cb6e903
+      state: "{{ today.templow }}"
+      unit_of_measurement: °F
+    - name: OpenWeatherMap Rain Chance Today
+      unique_id: 5bece9ad-2e1e-45a9-a690-93f8ff1d8780
+      state: "{{ today.precipitation_probability }}"
+      unit_of_measurement: "%"
   - binary_sensor:
     - name: Heat Threshold
       unique_id: 849a08bb-d4e6-40e9-ae42-50f7fb71b727
