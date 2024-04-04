@@ -62,9 +62,6 @@ rest_command:
       Authorization: !secret todoist_api_token
     content_type: 'application/x-www-form-urlencoded'
 
-downloader:
-  download_dir: downloads
-
 recorder:
   db_url: !secret mariadb_url
   purge_keep_days: 14
