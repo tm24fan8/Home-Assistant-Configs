@@ -4773,6 +4773,10 @@
     entity_id: input_boolean.basement_briefing
     state: 'off'
     alias: Basement briefing has not already run for the day
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: 'off'
+    alias: There are no guests
   action:
   - service: script.basement_briefing
     metadata: {}
