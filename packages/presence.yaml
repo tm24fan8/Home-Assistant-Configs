@@ -176,7 +176,7 @@ template:
         {{ is_state('light.emma_bedroom_light','on') or
             is_state('input_boolean.emma_sleeping','on') or
             is_state('binary_sensor.emma_bedroom_motion','on') or
-            is_state('timer.emma_bedroom_motion','active') }}
+            is_state('timer.emma_bedroom_motion_timer','active') }}
       delay_off: "00:00:15"
     - name: "Living Room Occupied"
       unique_id: 25623e3d-d74f-471e-8c2d-abce16646282
