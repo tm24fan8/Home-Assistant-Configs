@@ -111,9 +111,6 @@ alarm_control_panel:
             entity_id: alarm_control_panel.stratton_ave_alarm
           data:
             code: !secret ring_alarm_code
-        - service: alarm_control_panel.alarm_disarm
-          target:
-            entity_id: alarm_control_panel.alexa_guard_9ee3b
         - service: input_boolean.turn_off
           target:
             entity_id: input_boolean.lockdown_issue

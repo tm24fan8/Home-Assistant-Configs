@@ -1730,41 +1730,6 @@
       - switch.adaptive_lighting_basement_studio
     data: {}
   mode: single
-- id: '1696285738109'
-  alias: Alexa Guard Handling
-  description: Sync state of Alexa guard with state of main alarm system
-  trigger:
-  - platform: state
-    entity_id: alarm_control_panel.stratton_ave_alarm
-    to: armed_away
-    id: away
-  - platform: state
-    entity_id: alarm_control_panel.stratton_ave_alarm
-    to: disarmed
-    id: disarmed
-  condition:
-  - condition: state
-    entity_id: input_boolean.lockdown_issue
-    state: 'off'
-  action:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: away
-      sequence:
-      - service: alarm_control_panel.alarm_arm_away
-        target:
-          entity_id: alarm_control_panel.alexa_guard_9ee3b
-        data: {}
-    - conditions:
-      - condition: trigger
-        id: disarmed
-      sequence:
-      - service: alarm_control_panel.alarm_disarm
-        target:
-          entity_id: alarm_control_panel.alexa_guard_9ee3b
-        data: {}
-  mode: restart
 - id: '1696286192013'
   alias: Tina Desk Lights Handler
   description: Handles turning on the desk lights with smart scene selection and also
