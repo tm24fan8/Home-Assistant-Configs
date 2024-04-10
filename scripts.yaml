@@ -118,21 +118,9 @@ max_brightness:
     alias: Turn on Tina Desk Lights
   - alias: Turn off Adaptive Lighting
     service: switch.turn_off
-    target:
-      entity_id:
-      - switch.adaptive_lighting_basement_studio
-      - switch.adaptive_lighting_kallen_bedroom
-      - switch.adaptive_lighting_living_room
-      - switch.adaptive_lighting_master_bedroom
-      - switch.adaptive_lighting_mud_room
-      - switch.adaptive_lighting_emma_bedroom
-      - switch.adaptive_lighting_upstairs_hallway
-      - switch.adaptive_lighting_dining_room_lamp
-      - switch.adaptive_lighting_upstairs_bathroom
-      - switch.adaptive_lighting_downstairs_bathroom
-      - switch.adaptive_lighting_tina_lamp
-      - switch.adaptive_lighting_front_porch
     data: {}
+    target:
+      label_id: adaptive_lighting
   - delay:
       hours: 0
       minutes: 0
