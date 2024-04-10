@@ -308,7 +308,6 @@ logbook:
       - switch
       - climate
     entity_globs:
-      - binary_sensor.*_motion
       - binary_sensor.*_occupancy
   exclude:
     domains:
@@ -316,8 +315,7 @@ logbook:
     entity_globs:
       - light.*screen*
       - light.dining_room_lamp_*
-    entities:
-      - binary_sensor.living_room_motion
+      - binary_sensor.*_motion
 
 prometheus:
   filter:
