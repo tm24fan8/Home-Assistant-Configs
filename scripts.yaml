@@ -138,12 +138,6 @@ max_brightness:
       minutes: 0
       seconds: 1
       milliseconds: 0
-  - service: automation.turn_off
-    data:
-      stop_actions: true
-    target:
-      entity_id: automation.living_room_night_lighting
-    alias: Turn off Living Room night automation
   - alias: Cancel living room motion timer
     service: timer.cancel
     data: {}
@@ -441,11 +435,6 @@ max_brightness_cleanup:
       entity_id:
       - switch.adaptive_lighting_front_porch
     data: {}
-  - service: automation.turn_on
-    data: {}
-    target:
-      entity_id: automation.living_room_night_lighting
-    alias: Turn on Living Room night automation
   - service: script.adaptive_on_first_floor
     data: {}
     alias: Adaptive on first floor

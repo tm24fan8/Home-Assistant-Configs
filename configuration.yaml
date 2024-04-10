@@ -119,7 +119,6 @@ recorder:
       - sensor.time_utc
       - sensor.hacs
       - sensor.mariadb_database_size
-      - sensor.internet_time
       - sensor.random_joke
       - sensor.bypassed_sensors
   include:
@@ -178,7 +177,6 @@ influxdb:
       - sensor.xr500_gateway_kib_s_sent
       - light.all_lights
       - fan.all_fans
-      - sensor.internet_time
       - sensor.random_joke
   include:
     domains:
@@ -265,7 +263,6 @@ influxdb:
       - binary_sensor.tina_home
       - binary_sensor.tony_home
       - binary_sensor.kallen_home
-      - sensor.tm24fan8_home_assistant_configs_issues
       - binary_sensor.internet
       - binary_sensor.people_present
       - weather.iron_nerd_weather_station
@@ -338,7 +335,6 @@ prometheus:
       - sensor.xr500_gateway_kib_s_sent
       - light.all_lights
       - fan.all_fans
-      - sensor.internet_time
       - sensor.random_joke
     include_domains:
       - sun
@@ -424,7 +420,6 @@ prometheus:
       - binary_sensor.tina_home
       - binary_sensor.tony_home
       - binary_sensor.kallen_home
-      - sensor.tm24fan8_home_assistant_configs_issues
       - binary_sensor.internet
       - binary_sensor.people_present
       - weather.iron_nerd_weather_station

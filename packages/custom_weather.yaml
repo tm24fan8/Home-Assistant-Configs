@@ -111,7 +111,6 @@ weather:
     forecast_hourly_template: >
       {% set forecasts = [
         states.weather.tomorrow_io_stratton_ave_hourly.attributes,
-        states.weather.kdfi_hourly.attributes,
         states.sensor.pirateweather_hourly_weather_forecast.attributes
       ] %}
       {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
