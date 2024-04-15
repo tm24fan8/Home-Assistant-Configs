@@ -1740,47 +1740,66 @@
     from: 'off'
     to: 'on'
     id: toggle-on
+    alias: Toggle On
   - platform: state
     entity_id: input_boolean.tina_desk_lights
     from: 'on'
     to: 'off'
     id: toggle-off
+    alias: Toggle Off
   - platform: state
     entity_id: input_select.tina_desk_scenes
     to: Reset
     id: reset
+    alias: Reset
   - platform: state
     entity_id: light.tina_desk_lights
     from: 'on'
     to: 'off'
     id: lights-off
+    alias: Lights Off
   - platform: state
     entity_id: light.tina_desk_lights
     from: 'off'
     to: 'on'
     id: lights-on
+    alias: Lights On
   - platform: state
     entity_id: binary_sensor.tina_desktop_on
     from: 'off'
     to: 'on'
     id: computer-on
+    alias: Computer On
   condition: []
   action:
-  - if:
-    - condition: or
+  - alias: Reset
+    if:
+    - alias: Triggered by Toggle On, Reset, or Computer On
+      condition: or
       conditions:
       - condition: trigger
         id: toggle-on
+        alias: Toggle On
       - condition: trigger
         id: reset
-      - condition: trigger
-        id: computer-on
+        alias: Reset
+      - alias: Computer On
+        condition: and
+        conditions:
+        - condition: trigger
+          id: computer-on
+          alias: Triggered by Computer On
+        - alias: Light level below threshold
+          condition: numeric_state
+          entity_id: sensor.dining_room_illuminance
+          below: 40
     then:
     - service: input_select.select_option
       target:
         entity_id: input_select.tina_desk_scenes
       data:
         option: '{{ states(''sensor.tina_desk_scene'') }}'
+      alias: Reset to appropriate default scene
   - if:
     - condition: trigger
       id: toggle-off
@@ -1789,6 +1808,7 @@
       target:
         entity_id: light.tina_desk_lights
       data: {}
+    alias: Toggle Off
   - if:
     - condition: trigger
       id: lights-off
@@ -1802,6 +1822,7 @@
         target:
           entity_id: input_boolean.tina_desk_lights
         data: {}
+    alias: Lights Off
   - if:
     - condition: trigger
       id: lights-on
@@ -1818,6 +1839,7 @@
       - delay:
           seconds: 2
         alias: Prevent script from re-triggering when boolean is turned on
+    alias: Lights On
   mode: single
 - id: '1696286403914'
   alias: Basement Lights Handling
