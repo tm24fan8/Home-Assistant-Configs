@@ -4783,3 +4783,36 @@
     data: {}
     alias: Run basement briefing script
   mode: single
+- id: '1713119318762'
+  alias: Master Bedroom Auto Cooling Threshold
+  description: If the master bedroom reaches the threshold temperature, automatically
+    activate hot day mode and turn on the AC
+  trigger:
+  - platform: numeric_state
+    entity_id:
+    - sensor.master_bedroom_temperature
+    above: input_number.master_bedroom_auto_cooling_threshold
+    alias: Master Bedroom Temp above auto cooling threshold
+  condition:
+  - condition: state
+    entity_id: input_boolean.hot_day
+    state: 'off'
+    alias: Hot day is not already on
+  - condition: state
+    entity_id: input_boolean.master_bedroom_cooling_on
+    state: 'off'
+    alias: Master bedroom cooling is not already running
+  action:
+  - service: input_boolean.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.hot_day
+    alias: Activate hot day mode
+  - service: button.press
+    metadata: {}
+    data: {}
+    target:
+      entity_id: button.master_bedroom_day_mode
+    alias: Activate master bedroom daytime climate mode
+  mode: single

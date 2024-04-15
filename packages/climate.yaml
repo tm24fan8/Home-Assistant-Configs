@@ -256,6 +256,13 @@ input_number:
     step: 1
     unit_of_measurement: °F
     icon: mdi:thermometer
+  master_bedroom_auto_cooling_threshold:
+    name: Master Bedroom Auto Cooling Threshold
+    min: 70
+    max: 90
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
   emma_aircon_threshold:
     name: Emma Aircon Threshold
     min: 40
