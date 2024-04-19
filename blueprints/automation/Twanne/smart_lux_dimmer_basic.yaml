@@ -1,0 +1,119 @@
+blueprint:
+  name: Smart Lux Dimmer (BASIC)
+  description: 'Version 2.0
+
+    Dim or turn off light based on the value of a light sensor
+
+    '
+  source_url: https://gist.github.com/Twanne/b942a7885e5a062dc9b6acfe9d6fe3db
+  domain: automation
+  input:
+    schedule_start:
+      name: Schedule start time
+      description: Automation only runs after this time.
+      selector:
+        time: {}
+    schedule_stop:
+      name: Schedule stop time
+      description: Automation does not run after this time.
+      selector:
+        time: {}
+    schedule_days:
+      name: Run on these days
+      description: 'Days on which the automation will run.
+
+        Write days in short form, seperated by punctuation marks and/or spaces.
+
+        (i.e.: mon, tue, wed,...)
+
+        '
+      selector:
+        text: {}
+    light_sensor_entity:
+      name: Light Sensor
+      selector:
+        entity:
+          domain:
+          - sensor
+          device_class:
+          - illuminance
+          multiple: false
+    max_brightness_value:
+      name: Maximum ambient light value
+      description: Light is turned off above this value.
+      default: 500
+      selector:
+        number:
+          min: 0.0
+          max: 1000.0
+          step: 10.0
+          unit_of_measurement: lx
+          mode: slider
+    min_brightness_value:
+      name: Minimum ambient light value
+      description: The light does not change brightness further under this value.
+      default: 0
+      selector:
+        number:
+          min: 0.0
+          max: 1000.0
+          step: 10.0
+          unit_of_measurement: lx
+          mode: slider
+    light_value_1:
+      name: Dimming value 1
+      description: Brightness of the light at maximum ambient light.
+      default: 0
+      selector:
+        number:
+          min: 0.0
+          max: 100.0
+          step: 1.0
+          mode: slider
+          unit_of_measurement: '%'
+    light_value_2:
+      name: Dimming value 2
+      description: Brightness of the light at minimum ambient light.
+      default: 100
+      selector:
+        number:
+          min: 0.0
+          max: 100.0
+          step: 1.0
+          mode: slider
+          unit_of_measurement: '%'
+    target_light:
+      name: Target lights
+      selector:
+        target:
+          entity:
+          - domain:
+            - light
+mode: single
+variables:
+  light_sensor: !input light_sensor_entity
+  maxB: !input max_brightness_value
+  minB: !input min_brightness_value
+  light1: !input light_value_1
+  light2: !input light_value_2
+  slope: '{{ ( light1 - light2 ) / ( maxB - minB ) }}'
+  constant: '{{ light1 - ( slope * maxB ) }}'
+  days: !input schedule_days
+trigger:
+  platform: state
+  entity_id: !input light_sensor_entity
+condition:
+- condition: numeric_state
+  entity_id: !input light_sensor_entity
+  above: !input min_brightness_value
+- condition: time
+  after: !input schedule_start
+  before: !input schedule_stop
+- condition: template
+  value_template: '{{ now().strftime(''%a'') | lower in days }}'
+action:
+- service: light.turn_on
+  data:
+    brightness_pct: "{% if states(light_sensor)|int > maxB %}\n  0\n{% else %}\n  {{
+      (( slope * states(light_sensor)|int ) + constant)|round }}\n{% endif %}\n"
+  target: !input target_light

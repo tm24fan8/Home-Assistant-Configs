@@ -1,0 +1,413 @@
+blueprint:
+  name: Smart Lux Dimmer
+  author: AntonH
+  description: 'Version 4.1
+
+    Switch or dim lights based on the value of a light sensor.
+
+    Light colors or temperature can be set to a fixed value when inside or outside
+    the measuring range (different values are possible).
+
+    Settings for brightness, color or temperature outside min and max values of the
+    sensor can be set.
+
+    To smoothen out transitions, a time can be set where the light will move from
+    the current to the new brightness.
+
+    '
+  source_url: https://gist.github.com/Twanne/02dfb154084a8b9bf927c29160df4af3
+  domain: automation
+  input:
+    light_sensor_entity:
+      name: Light Sensor
+      description: Which light sensor do you want to use to measure the ambient light
+        value?
+      selector:
+        entity:
+          domain:
+          - sensor
+          device_class:
+          - illuminance
+          multiple: false
+    target_light:
+      name: Target lights
+      description: Which lights do you want to control?
+      selector:
+        target:
+          entity:
+          - domain:
+            - light
+    run_conditions:
+      name: Conditions
+      description: 'Only run when these conditions are met.
+
+        (Remove Time Condition if not needed)
+
+        '
+      default:
+      - condition: time
+      selector:
+        condition: {}
+    max_brightness_value:
+      name: Maximum ambient light value
+      description: Dynamically change the light so long as the ambient light stays
+        under this value.
+      default: 500
+      selector:
+        number:
+          min: 0.0
+          max: 1000.0
+          step: 10.0
+          unit_of_measurement: lx
+          mode: slider
+    min_brightness_value:
+      name: Minimum ambient light value
+      description: Dynamically change the light so long as the ambient light stays
+        above this value.
+      default: 0
+      selector:
+        number:
+          min: 0.0
+          max: 1000.0
+          step: 10.0
+          unit_of_measurement: lx
+          mode: slider
+    light_value_1:
+      name: Brightness at maximum light level
+      description: Brightness of the light at maximum ambient light.
+      default: 0
+      selector:
+        number:
+          min: 0.0
+          max: 100.0
+          step: 1.0
+          mode: slider
+          unit_of_measurement: '%'
+    light_value_2:
+      name: Brightness at minimum light level
+      description: Brightness of the light at minimum ambient light.
+      default: 100
+      selector:
+        number:
+          min: 0.0
+          max: 100.0
+          step: 1.0
+          mode: slider
+          unit_of_measurement: '%'
+    transition_time:
+      name: Transition time
+      description: 'The time it takes for the light to transition from the set value
+        to the next.
+
+        WARNING: this can smoothen the transition, but your light needs to support
+        it.
+
+        '
+      default: 0
+      selector:
+        number:
+          min: 0.0
+          max: 300.0
+          step: 1.0
+          unit_of_measurement: s
+          mode: slider
+    include_color_or_temp:
+      name: Include color or temperature
+      description: Do you want to set a color or temperature value for the light?
+      default: include_no_color_temp
+      selector:
+        select:
+          options:
+          - label: I don't want to set color or temperature
+            value: include_no_color_temp
+          - label: Set color
+            value: include_color
+          - label: Set temperature
+            value: include_temp
+          multiple: false
+          sort: false
+          custom_value: false
+    light_color:
+      name: Light color
+      description: Color of the light when between minimum and maximum ambient light
+        values.
+      selector:
+        color_rgb: {}
+      default:
+      - 255
+      - 255
+      - 255
+    light_temp:
+      name: Light temperature
+      description: Temperature of the light when between minimum and maximum ambient
+        light values.
+      default: 2000
+      selector:
+        color_temp: {}
+    include_brightness_over_under:
+      name: Include brightness values when outside range
+      description: I want the automation to set a brightness when the ambient light
+        goes outside of the set range. (Over maximum and under minimum ambient)
+      default: false
+      selector:
+        boolean: {}
+    light_brightness_over_max:
+      name: Brightness when ambient light value over max.
+      description: Brightness of the light when the ambient light is higher than the
+        set maximum value.
+      default: 0
+      selector:
+        number:
+          min: 0.0
+          max: 100.0
+          step: 1.0
+          mode: slider
+          unit_of_measurement: '%'
+    light_brightness_under_min:
+      name: Brightness when ambient light value under min.
+      description: Brightness of the light when the ambient light is lower than the
+        set minimum value.
+      default: 100
+      selector:
+        number:
+          min: 0.0
+          max: 100.0
+          step: 1.0
+          mode: slider
+          unit_of_measurement: '%'
+    include_color_or_temp_over_under:
+      name: Include color or temperature values when outside range
+      description: 'Set a color or temperature value for the light when over maximum
+        or under minimum ambient light value?
+
+        **''Include values for under min and over max'' MUST BE TRUE**
+
+        '
+      default: include_no_color_temp_outside_range
+      selector:
+        select:
+          options:
+          - label: I don't want to set color or temperature when outside range
+            value: include_no_color_temp_outside_range
+          - label: Set color when outside range
+            value: include_color_outside_range
+          - label: Set temperature when outside range
+            value: include_temp_outside_range
+          multiple: false
+          sort: false
+          custom_value: false
+    light_color_over_max:
+      name: Color when ambient light value over max.
+      description: Color of the light when the ambient light is higher than the set
+        maximum value.
+      selector:
+        color_rgb: {}
+      default:
+      - 255
+      - 255
+      - 255
+    light_color_under_min:
+      name: Color when ambient light value under min.
+      description: Color of the light when the ambient light is lower than the set
+        minimum value.
+      selector:
+        color_rgb: {}
+      default:
+      - 255
+      - 255
+      - 255
+    light_temp_over_max:
+      name: Temperature when ambient light value over max.
+      description: Temperature of the light when the ambient light is higher than
+        the set maximum value.
+      default: 2000
+      selector:
+        color_temp: {}
+    light_temp_under_min:
+      name: Temperature when ambient light value under min.
+      description: Temperature of the light when the ambient light is lower than the
+        set minimum value.
+      default: 2000
+      selector:
+        color_temp: {}
+mode: single
+variables:
+  include_color_or_temp: !input include_color_or_temp
+  include_brightness_over_under: !input include_brightness_over_under
+  include_color_or_temp_over_under: !input include_color_or_temp_over_under
+  light_sensor: !input light_sensor_entity
+  maxB: !input max_brightness_value
+  minB: !input min_brightness_value
+  light1: !input light_value_1
+  light2: !input light_value_2
+  slope: '{{ ( light1 - light2 ) / ( maxB - minB ) }}'
+  constant: '{{ light1 - ( slope * maxB ) }}'
+trigger:
+  platform: state
+  entity_id: !input light_sensor_entity
+condition:
+- condition: !input run_conditions
+action:
+- choose:
+  - conditions:
+    - condition: template
+      value_template: '{{ include_brightness_over_under is false }}'
+    sequence:
+    - choose:
+      - conditions:
+        - condition: template
+          value_template: '{{ include_color_or_temp == "include_no_color_temp" }}'
+        sequence:
+        - service: light.turn_on
+          data:
+            transition: !input transition_time
+            brightness_pct: '{{ (( slope * states(light_sensor)|int ) + constant)|round
+              }}'
+          target: !input target_light
+      - conditions:
+        - condition: template
+          value_template: '{{ include_color_or_temp == "include_color" }}'
+        sequence:
+        - service: light.turn_on
+          data:
+            transition: !input transition_time
+            brightness_pct: '{{ (( slope * states(light_sensor)|int ) + constant)|round
+              }}'
+            rgb_color: !input light_color
+          target: !input target_light
+      - conditions:
+        - condition: template
+          value_template: '{{ include_color_or_temp == "include_temp" }}'
+        sequence:
+        - service: light.turn_on
+          data:
+            transition: !input transition_time
+            brightness_pct: '{{ (( slope * states(light_sensor)|int ) + constant)|round
+              }}'
+            color_temp: !input light_temp
+          target: !input target_light
+  - conditions:
+    - condition: template
+      value_template: '{{ include_brightness_over_under is true }}'
+    sequence:
+    - choose:
+      - conditions:
+        - condition: template
+          value_template: '{{ include_color_or_temp_over_under == "include_no_color_temp_outside_range"
+            }}'
+        sequence:
+        - choose:
+          - conditions:
+            - condition: numeric_state
+              entity_id: !input light_sensor_entity
+              above: !input max_brightness_value
+            sequence:
+            - service: light.turn_on
+              data:
+                transition: !input transition_time
+                brightness_pct: !input light_brightness_over_max
+              target: !input target_light
+          - conditions:
+            - condition: numeric_state
+              entity_id: !input light_sensor_entity
+              below: !input min_brightness_value
+            sequence:
+            - service: light.turn_on
+              data:
+                transition: !input transition_time
+                brightness_pct: !input light_brightness_under_min
+              target: !input target_light
+          - conditions:
+            - condition: numeric_state
+              entity_id: !input light_sensor_entity
+              below: !input max_brightness_value
+              above: !input min_brightness_value
+            sequence:
+            - service: light.turn_on
+              data:
+                transition: !input transition_time
+                brightness_pct: '{{ (( slope * states(light_sensor)|int ) + constant)|round
+                  }}'
+              target: !input target_light
+      - conditions:
+        - condition: template
+          value_template: '{{ include_color_or_temp_over_under == "include_color_outside_range"
+            }}'
+        sequence:
+        - choose:
+          - conditions:
+            - condition: numeric_state
+              entity_id: !input light_sensor_entity
+              above: !input max_brightness_value
+            sequence:
+            - service: light.turn_on
+              data:
+                transition: !input transition_time
+                brightness_pct: !input light_brightness_over_max
+                rgb_color: !input light_color_over_max
+              target: !input target_light
+          - conditions:
+            - condition: numeric_state
+              entity_id: !input light_sensor_entity
+              below: !input min_brightness_value
+            sequence:
+            - service: light.turn_on
+              data:
+                transition: !input transition_time
+                brightness_pct: !input light_brightness_under_min
+                rgb_color: !input light_color_under_min
+              target: !input target_light
+          - conditions:
+            - condition: numeric_state
+              entity_id: !input light_sensor_entity
+              below: !input max_brightness_value
+              above: !input min_brightness_value
+            sequence:
+            - service: light.turn_on
+              data:
+                transition: !input transition_time
+                brightness_pct: '{{ (( slope * states(light_sensor)|int ) + constant)|round
+                  }}'
+                rgb_color: !input light_color
+              target: !input target_light
+      - conditions:
+        - condition: template
+          value_template: '{{ include_color_or_temp_over_under == "include_temp_outside_range"
+            }}'
+        sequence:
+        - choose:
+          - conditions:
+            - condition: numeric_state
+              entity_id: !input light_sensor_entity
+              above: !input max_brightness_value
+            sequence:
+            - service: light.turn_on
+              data:
+                transition: !input transition_time
+                brightness_pct: !input light_brightness_over_max
+                color_temp: !input light_temp_over_max
+              target: !input target_light
+          - conditions:
+            - condition: numeric_state
+              entity_id: !input light_sensor_entity
+              below: !input min_brightness_value
+            sequence:
+            - service: light.turn_on
+              data:
+                transition: !input transition_time
+                brightness_pct: !input light_brightness_under_min
+                color_temp: !input light_temp_under_min
+              target: !input target_light
+          - conditions:
+            - condition: numeric_state
+              entity_id: !input light_sensor_entity
+              below: !input max_brightness_value
+              above: !input min_brightness_value
+            sequence:
+            - service: light.turn_on
+              data:
+                transition: !input transition_time
+                brightness_pct: '{{ (( slope * states(light_sensor)|int ) + constant)|round
+                  }}'
+                color_temp: !input light_temp
+              target: !input target_light
