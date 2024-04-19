@@ -116,23 +116,23 @@ max_brightness:
       entity_id: input_boolean.tina_desk_lights
     data: {}
     alias: Turn on Tina Desk Lights
-  - alias: Turn off Adaptive Lighting
+  - alias: Turn off Adaptive Lighting and Motion Lighting
     service: switch.turn_off
     data: {}
     target:
-      label_id: adaptive_lighting
+      label_id:
+      - adaptive_lighting
+      - motion_lighting
   - delay:
       hours: 0
       minutes: 0
       seconds: 1
       milliseconds: 0
-  - alias: Cancel living room motion timer
+  - alias: Cancel motion timers
     service: timer.cancel
     data: {}
     target:
-      entity_id:
-      - timer.living_room_motion_timer
-      - timer.upstairs_bathroom_motion_timer
+      label_id: motion_lighting
   - service: input_boolean.turn_off
     data: {}
     target:
@@ -435,6 +435,12 @@ max_brightness_cleanup:
     target:
       entity_id: input_select.basement_studio_scenes
     alias: Set basement lights to adaptive
+  - service: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      label_id: motion_lighting
+    alias: Turn on motion lighting
   mode: single
   icon: mdi:broom
 cleanup_crash:
