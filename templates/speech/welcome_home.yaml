@@ -4,7 +4,7 @@
   {%- macro getReport() -%}
   {% from 'speech.jinja' import dadjoke %}
   {% from 'time.jinja' import input_datetime_read %}
-  {% from 'status.jinja' import emmaSleep %}
+  {% from 'status.jinja' import emma_sleep %}
   {% from 'easy_time.jinja' import count_the_days %}
   {% from 'weather.jinja' import weatherReport %}
     <p>
@@ -124,7 +124,7 @@
     </p>
 
     <p>
-      {{ emmaSleep() }}
+      {{ emma_sleep() }}
     </p>
 
     <p>

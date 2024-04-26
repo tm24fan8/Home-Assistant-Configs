@@ -4,7 +4,7 @@
   {%- macro getReport() -%}
   {% from 'speech.jinja' import greeting, dadjoke, inspirational_quote %}
   {% from 'time.jinja' import input_datetime_read, time_from_calendar, next_twitch_stream %}
-  {% from 'status.jinja' import tonyStatusReport, tinaStatusReport, kallenStatusReport, emmaStatusReport %}
+  {% from 'status.jinja' import tony_status_report, tina_status_report, kallen_status_report, emma_status_report %}
   {% from 'easy_time.jinja' import count_the_days %}
   {% from 'weather.jinja' import weatherReport %}
   {% from 'sports.jinja' import sports_updates %}
@@ -26,14 +26,14 @@
     </p>
 
     <p>
-      {{ tonyStatusReport('stream','tts') }}
+      {{ tony_status_report('stream','tts') }}
       {% if is_state('binary_sensor.kallen_school_tomorrow','on') %}
         "Collin has school tomorrow at {{ time_from_calendar('calendar.kallen_school_days','start_time','read') }}. "
       {% else %}
         "Collin does not have school tomorrow. "
       {% endif %}
-      {{ tinaStatusReport('work','tts') }}
-      {{ emmaStatusReport('sleep','tts') }}
+      {{ tina_status_report('work','tts') }}
+      {{ emma_status_report('sleep','tts') }}
     </p>
 
     <p>

@@ -3,7 +3,7 @@
   {% from 'formatting.jinja' import cleanup %}
   {%- macro getReport() -%}
   {% from 'speech.jinja' import greeting, dadjoke, inspirational_quote, today_is, sun_status %}
-  {% from 'status.jinja' import houseStatusReport, tonyStatusReport, tinaStatusReport, kallenStatusReport, emmaStatusReport %}
+  {% from 'status.jinja' import house_status_report, tony_status_report, tina_status_report, kallen_status_report, emma_status_report %}
   {% from 'easy_time.jinja' import count_the_days %}
   {% from 'weather.jinja' import weatherReport %}
   {% from 'sports.jinja' import sports_updates %}
@@ -76,7 +76,7 @@
             Tomorrow is Tony and Christina's wedding anniversary!
           {% endif %}
 
-          {{ tinaStatusReport('work','tts') }}
+          {{ tina_status_report('work','tts') }}
 
         
         {% else %}
@@ -188,19 +188,19 @@
               {%- endif -%}
             {%- endif -%}
 
-            {{ tinaStatusReport('work','tts') }}
+            {{ tina_status_report('work','tts') }}
 
-            {{ tonyStatusReport('stream','tts') }}
+            {{ tony_status_report('stream','tts') }}
 
-            {{ kallenStatusReport('school','tts') }}
+            {{ kallen_status_report('school','tts') }}
 
-            {{ emmaStatusReport('sleep','tts') }}
+            {{ emma_status_report('sleep','tts') }}
           {% endif %}
       </p>
 
 
       <p>
-        {{ houseStatusReport('full','tts') }}
+        {{ house_status_report('full','tts') }}
       </p>
 
       <p>

@@ -16,7 +16,7 @@
 {% set kallenText = 'Kallen' %}
 {% set kallenTTS = 'Collin' %}
 
-{% macro laundryReport(type,method) %}
+{% macro laundry_report(type,method) %}
   {% macro data() %}
   {% set washerTimer = states('timer.washer_timer') %}
   {% set dryerTimer = states('timer.dryer_timer') %}
@@ -57,7 +57,7 @@
 {{ cleanup(data()) }}
 {% endmacro %}
 
-{% macro climateDevices(type,method) %}
+{% macro climate_devices(type,method) %}
 {% set total = states('sensor.climate_devices_running') | int %}
 {% set fans = states('sensor.fans_running') | int %}
 {% set aircons = states('sensor.aircons_running') | int %}
@@ -75,7 +75,7 @@
 {% endif %}
 {% endmacro %}
 
-{% macro airLeaks(type,method) %}
+{% macro air_leaks(type,method) %}
 {% set windows = states('sensor.windows_open') %}
 {% set doors = states('sensor.doors_open') %}
 {% if states('sensor.air_leaks') > '0' %}
@@ -110,24 +110,24 @@
 {% endif %}
 {% endmacro %}
 
-{% macro houseStatusReport(type,method) %}
+{% macro house_status_report(type,method) %}
   {% macro data() %}
   {% if type == 'climate_devices' %}
-  {{ climateDevices(type,method) }}
-  {% elif type == 'airleaks' %}
-  {{ airLeaks(type,method) }}
+  {{ climate_devices(type,method) }}
+  {% elif type == 'air_leaks' %}
+  {{ air_leaks(type,method) }}
   {% elif type == 'lights' %}
   {{ lights_on(type,method) }}
   {% elif type == 'full' %}
-  {{ climateDevices(type,method) }}
+  {{ climate_devices(type,method) }}
   {{ lights_on(type,method) }}
-  {{ airLeaks(type,method) }}
+  {{ air_leaks(type,method) }}
   {% endif %}
   {% endmacro %}
 {{ cleanup(data()) }}
 {% endmacro %}
 
-{% macro tonyStatusReport(type,method) %}
+{% macro tony_status_report(type,method) %}
   {% macro data() %}
   {% if type == 'full' %}
     {% if is_state('input_boolean.tony_awake','on') %}
@@ -274,7 +274,7 @@
 {% endif %}
 {% endmacro %}
 
-{% macro workReportTina(type,method) %}
+{% macro work_report_tina(type,method) %}
 {% set tina = states.person.christina_stork.state %}
 {% set start = (state_attr('binary_sensor.tina_work_tomorrow','start_timestamp') | int) // 1000 %}
 {% set tmrw = (as_timestamp(states('sensor.date')) + 86400) | int %}
@@ -339,20 +339,20 @@
 {% endif %}
 {% endmacro %}
 
-{% macro medReportTina(type,method) %}
+{% macro work_report_tina(type,method) %}
 {{ tina_morning_meds(type,method) }}
 {{ tina_night_meds(type,method) }}
 {% endmacro %}
 
-{% macro tinaStatusReport(type,method) %}
+{% macro tina_status_report(type,method) %}
   {% macro data() %}
   {% if type == 'work' %}
-  {{ workReportTina(type,method) }}
+  {{ work_report_tina(type,method) }}
   {% elif type == 'meds' %}
-  {{ medReportTina(type,method) }}
+  {{ work_report_tina(type,method) }}
   {% elif type == 'full' %}
-  {{ workReportTina(type,method) }}
-  {{ medReportTina(type,method) }}
+  {{ work_report_tina(type,method) }}
+  {{ work_report_tina(type,method) }}
   {% endif %}
   {% endmacro %}
 {{ cleanup(data()) }}
@@ -423,7 +423,7 @@
 {% endif %}
 {% endmacro %}
 
-{% macro medReportKallen(type,method) %}
+{% macro med_report_kallen(type,method) %}
 {% if is_state('input_boolean.kallen_overnight','on') %}
 {% if type == 'meds' %}
   {% if method == 'text' %}
@@ -441,7 +441,7 @@
 {% endif %}
 {% endmacro %}
 
-{% macro schoolReportKallen(type,method) %}
+{% macro school_report_kallen(type,method) %}
 {% set wakeup = state_attr('input_datetime.kallen_wakeup_time','timestamp') %}
 {% set bedtime = state_attr('input_datetime.kallen_bedtime','timestamp') %}
 {% if method == 'tts' %}
@@ -556,7 +556,7 @@
 {% endif %}
 {% endmacro %}
 
-{% macro kallenSleep(type,method) %}
+{% macro kallen_sleep(type,method) %}
 {% set bedtimestamp = state_attr('input_datetime.kallen_bedtime','timestamp') | int %}
 {% if is_state('input_boolean.kallen_sleeping','on') %}
   Kallen went to bed at {{ input_datetime_read('input_datetime.kallen_asleep_at') | trim }}.
@@ -571,24 +571,24 @@
 {% endif %}
 {% endmacro %}
 
-{% macro kallenStatusReport(type,method) %}
+{% macro kallen_status_report(type,method) %}
   {% macro data() %}
   {% if type == 'meds' %}
-  {{ medReportKallen(type,method) }}
+  {{ med_report_kallen(type,method) }}
   {% elif type == 'school' %}
-  {{ schoolReportKallen(type,method) }}
+  {{ school_report_kallen(type,method) }}
   {% elif type == 'sleep' %}
-  {{ kallenSleep(type,method)}}
+  {{ kallen_sleep(type,method)}}
   {% elif type == 'full' %}
-  {{ kallenSleep(type,method) }}
-  {{ medReportKallen(type,method) }}
-  {{ schoolReportKallen(type,method) }}
+  {{ kallen_sleep(type,method) }}
+  {{ med_report_kallen(type,method) }}
+  {{ school_report_kallen(type,method) }}
   {% endif %}
   {% endmacro %}
 {{ cleanup(data()) }}
 {% endmacro %}
 
-{% macro emmaSleep(type,method) %}
+{% macro emma_sleep(type,method) %}
 {% set asleep = state_attr('input_datetime.emma_down_for_nap','timestamp') | int %}
 {% set wakeup = state_attr('input_datetime.emma_up_from_nap','timestamp') | int %}
 {% set day = now().strftime("%-d") %}
@@ -609,7 +609,7 @@
 {% endif %}
 {% endmacro %}
 
-{% macro emmaSleepNotification(type,method) %}
+{% macro emma_sleep_notification(type,method) %}
 {% set asleep = state_attr('input_datetime.emma_down_for_nap','timestamp') | int %}
 {% set wakeup = state_attr('input_datetime.emma_up_from_nap','timestamp') | int %}
 {% set day = now().strftime("%-d") %}
@@ -628,7 +628,7 @@
 {% endif %}
 {% endmacro %}
 
-{% macro medReportEmma(type,method) %}
+{% macro med_report_emma(type,method) %}
 {% set tylenol_taken = input_datetime_read('input_datetime.emma_tylenol') | trim %}
 {% set ibuprofen_taken = input_datetime_read('input_datetime.emma_ibuprofen') | trim %}
 {% set cough_meds_taken = input_datetime_read('input_datetime.emma_cough_meds') | trim %}
@@ -683,15 +683,15 @@
 {% endif %}
 {% endmacro %}
 
-{% macro emmaStatusReport(type,method) %}
+{% macro emma_status_report(type,method) %}
   {% macro data() %}
   {% if type == 'sleep' %}
-  {{ emmaSleep(type,method) }}
+  {{ emma_sleep(type,method) }}
   {% elif type == 'meds' %}
-  {{ medReportEmma(type,method) }}
+  {{ med_report_emma(type,method) }}
   {% elif type == 'full' %}
-  {{ emmaSleep(type,method) }}
-  {{ medReportEmma(type,method) }}
+  {{ emma_sleep(type,method) }}
+  {{ med_report_emma(type,method) }}
   {% endif %}
   {% endmacro %}
 {{ cleanup(data()) }}

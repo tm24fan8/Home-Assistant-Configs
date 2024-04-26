@@ -3,7 +3,7 @@
   {% from 'formatting.jinja' import cleanup %}
   {%- macro getReport() -%}
   {% from 'speech.jinja' import greeting, dadjoke, inspirational_quote, today_is %}
-  {% from 'status.jinja' import tonyStatusReport, tinaStatusReport, kallenStatusReport, emmaStatusReport %}
+  {% from 'status.jinja' import tony_status_report, tina_status_report, kallen_status_report, emma_status_report %}
   {% from 'easy_time.jinja' import count_the_days %}
   {% from 'weather.jinja' import weatherReport %}
   {% from 'sports.jinja' import sports_updates %}
@@ -53,7 +53,7 @@
       {% endif %}
     </p>
     <p>
-      {{ tinaStatusReport('work','tts') }}
+      {{ tina_status_report('work','tts') }}
     </p>
     <p>
       {% if is_state('input_boolean.kallen_school_today','on') and is_state('input_boolean.work_today','on') %}
@@ -92,7 +92,7 @@
     </p>
 
     <p>
-      {{ tonyStatusReport('stream','tts') }}
+      {{ tony_status_report('stream','tts') }}
     </p>
 
     <p>

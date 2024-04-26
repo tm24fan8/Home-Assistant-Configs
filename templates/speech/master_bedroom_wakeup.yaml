@@ -2,7 +2,7 @@
   {# Master Bedroom Wakeup #}
   {%- macro getReport() -%}
   {% from 'speech.jinja' import greeting, today_is %}
-  {% from 'status.jinja' import tonyStatusReport, tinaStatusReport, kallenStatusReport, emmaStatusReport %}
+  {% from 'status.jinja' import tony_status_report, tina_status_report, kallen_status_report, emma_status_report %}
   {% from 'weather.jinja' import weatherReport %}
     <p>
       {{ greeting('date') }}
@@ -15,13 +15,13 @@
     <p>
       {{ weatherReport('alerts','tts','day') }}
 
-      {{ tonyStatusReport('full','tts') }}
+      {{ tony_status_report('full','tts') }}
 
-      {{ tinaStatusReport('full','tts') }}
+      {{ tina_status_report('full','tts') }}
 
-      {{ kallenStatusReport('full','tts') }}
+      {{ kallen_status_report('full','tts') }}
 
-      {{ emmaStatusReport('full','tts') }}
+      {{ emma_status_report('full','tts') }}
     </p>
 
     <p>
