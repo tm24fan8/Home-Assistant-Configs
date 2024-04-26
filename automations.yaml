@@ -4838,3 +4838,186 @@
       entity_id: button.master_bedroom_day_mode
     alias: Activate master bedroom daytime climate mode
   mode: single
+- id: '1714075850756'
+  alias: Rabbit Tracker
+  description: Automation for tracking various aspects of caring for our pet rabbit
+  trigger:
+  - platform: time
+    at: input_datetime.rabbit_feeding_notify
+    alias: Feeding Notify
+    id: feeding-notify
+  - platform: time
+    at: input_datetime.rabbit_hutch_cleaning_notify
+    alias: Cleaning Notify
+    id: cleaning-notify
+  - platform: state
+    entity_id:
+    - input_boolean.rabbit_fed
+    from: 'off'
+    to: 'on'
+    alias: Rabbit Fed
+    id: rabbit-fed
+  - platform: state
+    entity_id:
+    - input_boolean.rabbit_hutch_cleaned
+    from: 'off'
+    to: 'on'
+    alias: Hutch Cleaned
+    id: hutch-cleaned
+  - alias: Feeding Interval Update
+    platform: state
+    entity_id:
+    - input_number.rabbit_feeding_interval
+    - input_datetime.rabbit_fed
+    id: feeding-interval-update
+  - alias: Cleaning Interval Update
+    platform: state
+    entity_id:
+    - input_number.rabbit_hutch_cleaning_interval
+    - input_datetime.rabbit_hutch_cleaned
+    id: cleaning-interval-update
+  condition:
+  - condition: state
+    entity_id: input_boolean.vacation_mode
+    state: 'off'
+    alias: Vacation Mode is off
+  action:
+  - alias: Routing
+    choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - feeding-notify
+        alias: Feeding Notify
+      sequence:
+      - alias: Turn off boolean on first reminder
+        if:
+        - alias: If this is the first reminder
+          condition: numeric_state
+          entity_id: counter.rabbit_feeding_reminder_count
+          below: 1
+        then:
+        - alias: Turn off feeding boolean
+          service: input_boolean.turn_off
+          metadata: {}
+          data: {}
+          target:
+            entity_id: input_boolean.rabbit_fed
+      - service: counter.increment
+        metadata: {}
+        data: {}
+        target:
+          entity_id: counter.rabbit_feeding_reminder_count
+        alias: Increment counter
+      - service: script.rabbit_feeding
+        metadata: {}
+        data: {}
+        alias: Run rabbit feeding script
+    - conditions:
+      - condition: trigger
+        id:
+        - cleaning-notify
+        alias: Cleaning Notify
+      sequence:
+      - alias: Turn off boolean on first reminder
+        if:
+        - condition: numeric_state
+          entity_id: counter.rabbit_hutch_cleaning_reminder_count
+          below: 1
+          alias: If this is the first reminder
+        then:
+        - service: input_boolean.turn_off
+          metadata: {}
+          data: {}
+          target:
+            entity_id: input_boolean.rabbit_hutch_cleaned
+          alias: Turn off cleaning boolean
+      - service: counter.increment
+        metadata: {}
+        data: {}
+        target:
+          entity_id: counter.rabbit_hutch_cleaning_reminder_count
+        alias: Increment counter
+      - service: script.rabbit_hutch_cleaning
+        metadata: {}
+        data: {}
+        alias: Run rabbit hutch cleaning script
+    - conditions:
+      - condition: trigger
+        id:
+        - rabbit-fed
+        alias: Rabbit Fed
+      sequence:
+      - service: input_datetime.set_datetime
+        alias: Set time rabbit was fed
+        data:
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0)
+            }}
+
+            '
+        target:
+          entity_id: input_datetime.rabbit_fed
+      - service: counter.reset
+        metadata: {}
+        data: {}
+        target:
+          entity_id: counter.rabbit_feeding_reminder_count
+        alias: Reset feeding reminder counter
+    - conditions:
+      - condition: trigger
+        id:
+        - hutch-cleaned
+        alias: Hutch Cleaned
+      sequence:
+      - service: input_datetime.set_datetime
+        alias: Set time rabbit hutch was cleaned
+        data:
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0)
+            }}
+
+            '
+        target:
+          entity_id: input_datetime.rabbit_hutch_cleaned
+      - service: counter.reset
+        metadata: {}
+        data: {}
+        target:
+          entity_id: counter.rabbit_hutch_cleaning_reminder_count
+        alias: Reset cleaning reminder counter
+    - conditions:
+      - alias: Feeding Interval Update
+        condition: trigger
+        id:
+        - feeding-interval-update
+      sequence:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.rabbit_feeding_notify
+        data:
+          time: '{% set fed = state_attr(''input_datetime.rabbit_fed'',''timestamp'')
+            | int %} {% set interval = states(''input_number.rabbit_feeding_interval'')
+            | int %} {% set math = (interval * 60) * 60 %} {% set newtime = fed +
+            math %} {{ newtime | timestamp_custom(''%H:%M'') }}
+
+            '
+        alias: Update Notification
+    - conditions:
+      - alias: Cleaning Interval Update
+        condition: trigger
+        id:
+        - cleaning-interval-update
+      sequence:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.rabbit_hutch_cleaning_notify
+        data:
+          datetime: '{% set cleaned = state_attr(''input_datetime.rabbit_hutch_cleaned'',''timestamp'')
+            | int %} {% set interval = states(''input_number.rabbit_hutch_cleaning_interval'')
+            | int %} {% set math = ((interval * 24) * 60) * 60 %} {% set newtime =
+            cleaned + math %} {{ newtime | timestamp_custom(''%Y-%m-%d %H:%M:%S'')
+            }}
+
+            '
+        alias: Update Notification
+  mode: parallel
+  max: 10

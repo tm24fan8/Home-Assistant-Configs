@@ -2737,3 +2737,269 @@ reset_annc_switches:
     data: {}
   mode: single
   icon: mdi:bullhorn-outline
+rabbit_feeding:
+  alias: Rabbit Feeding
+  sequence:
+  - alias: Send notifications
+    parallel:
+    - alias: Play TTS if this is the 3rd or higher reminder
+      if:
+      - condition: numeric_state
+        entity_id: counter.rabbit_feeding_reminder_count
+        above: 2
+      then:
+      - service: script.speech_engine
+        data:
+          who: common_areas
+          type: alert
+          message: Zeus needs to be fed. This is reminder number {{ states('counter.rabbit_feeding_reminder_count')
+            }} for today.
+        alias: Play TTS announcement
+    - service: script.text_notify
+      metadata: {}
+      data:
+        type: alert
+        who: parents
+        title: Rabbit Feeding
+        message: Zeus needs to be fed, please do this ASAP!
+        tag: rabbit-feeding
+        actions:
+        - action: RABBIT_FEEDING_DONE
+          name: Fed
+        - action: RABBIT_FEEDING_SKIPPED
+          name: Skip
+        - action: RABBIT_FEEDING_ASK_LATER
+          name: Ask Later
+      alias: Send phone notifications
+  - wait_for_trigger:
+    - platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: RABBIT_FEEDING_DONE
+      alias: Done
+      id: done
+    - alias: Skipped
+      platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: RABBIT_FEEDING_SKIPPED
+      id: skipped
+    - alias: Ask Later
+      platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: RABBIT_FEEDING_ASK_LATER
+      id: ask-later
+    - platform: state
+      entity_id:
+      - binary_sensor.parents_home
+      from: 'on'
+      to: 'off'
+      id: left
+      alias: Left
+    - platform: state
+      entity_id:
+      - input_boolean.rabbit_fed
+      from: 'off'
+      to: 'on'
+      alias: Manual
+      id: manual
+    timeout:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+    alias: Triggers
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger.id in [''done'',''manual''] }}'
+        alias: Feeding done
+      sequence:
+      - service: input_boolean.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.rabbit_fed
+        alias: Turn on input boolean
+      - service: script.text_notify
+        metadata: {}
+        data:
+          type: alert
+          who: parents
+          message: clear_notification
+          tag: rabbit-feeding-critical
+        alias: Clear critical notification, if it was sent
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger.id == ''ask-later'' }}'
+        alias: Ask later
+      sequence:
+      - service: input_datetime.set_datetime
+        data:
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(1)
+            }}
+
+            '
+        target:
+          entity_id: input_datetime.rabbit_feeding_notify
+        alias: Bump feeding notification by an hour
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger.id == ''left'' }}'
+        alias: Left
+      sequence:
+      - service: script.text_notify
+        metadata: {}
+        data:
+          type: critical
+          who: parents
+          title: YOU DICK
+          message: YOU FORGOT TO FEED THE RABBIT!
+          tag: rabbit-feeding-critical
+        alias: Send critical text notification
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger == ''none'' or wait.trigger.idx is undefined
+          }}'
+        alias: None or undefined
+      sequence:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.rabbit_feeding_notify
+        data:
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,1)
+            }}
+
+            '
+        alias: Notify again
+    alias: Routing
+  - service: script.text_notify
+    metadata: {}
+    data:
+      type: alert
+      who: parents
+      message: clear_notification
+      tag: rabbit-feeding
+    alias: Clear notification
+  mode: restart
+  icon: mdi:rabbit
+rabbit_hutch_cleaning:
+  alias: Rabbit Hutch Cleaning
+  sequence:
+  - alias: Send notifications
+    parallel:
+    - alias: Play TTS if this is the 3rd or higher reminder
+      if:
+      - condition: numeric_state
+        entity_id: counter.rabbit_hutch_cleaning_reminder_count
+        above: 2
+      then:
+      - service: script.speech_engine
+        data:
+          who: common_areas
+          type: normal
+          message: The rabbit hutch is in need of cleaning. This is reminder number
+            {{ states('counter.rabbit_hutch_cleaning_reminder_count') }} for today.
+        alias: Play TTS announcement
+    - alias: Send phone notifications
+      service: script.text_notify
+      metadata: {}
+      data:
+        type: alert
+        who: parents
+        title: Rabbit Hutch Cleaning
+        message: The rabbit hutch is in need of cleaning. For the sake of smell, please
+          do this ASAP!
+        tag: rabbit-hutch-cleaning
+        actions:
+        - action: RABBIT_HUTCH_CLEANING_DONE
+          name: Cleaned
+        - action: RABBIT_HUTCH_CLEANING_SKIPPED
+          name: Skip
+        - action: RABBIT_HUTCH_CLEANING_ASK_LATER
+          name: Ask Later
+  - alias: Triggers
+    wait_for_trigger:
+    - alias: Done
+      platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: RABBIT_HUTCH_CLEANING_DONE
+      id: done
+    - alias: Skipped
+      platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: RABBIT_HUTCH_CLEANING_SKIPPED
+      id: skipped
+    - alias: Ask Later
+      platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: RABBIT_HUTCH_CLEANING_ASK_LATER
+      id: ask-later
+    - alias: Manual
+      platform: state
+      entity_id:
+      - input_boolean.rabbit_hutch_cleaned
+      from: 'off'
+      to: 'on'
+      id: manual
+    timeout:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - alias: Routing
+    choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger.id in [''done'',''manual''] }}'
+        alias: Cleaning done
+      sequence:
+      - alias: Turn on input boolean
+        service: input_boolean.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.rabbit_hutch_cleaned
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger.id == ''ask-later'' }}'
+        alias: Ask later
+      sequence:
+      - service: input_datetime.set_datetime
+        data:
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(1)
+            }}
+
+            '
+        target:
+          entity_id: input_datetime.rabbit_hutch_cleaning_notify
+        alias: Bump cleaning notification by an hour
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger == ''none'' or wait.trigger.idx is undefined
+          }}'
+        alias: None or undefined
+      sequence:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.rabbit_hutch_cleaning_notify
+        data:
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,1)
+            }}
+
+            '
+        alias: Notify again
+  - alias: Clear notification
+    service: script.text_notify
+    metadata: {}
+    data:
+      type: alert
+      who: parents
+      message: clear_notification
+      tag: rabbit-hutch-cleaning
+  mode: restart
+  icon: mdi:rabbit

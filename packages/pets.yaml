@@ -1,0 +1,45 @@
+input_boolean:
+  rabbit_fed:
+    name: Rabbit Fed
+    icon: mdi:rabbit
+  rabbit_hutch_cleaned:
+    name: Rabbit Hutch Cleaned
+    icon: mdi:rabbit
+
+input_datetime:
+  rabbit_fed:
+    name: Rabbit Fed
+    has_date: true
+    has_time: true
+    icon: mdi:rabbit
+  rabbit_feeding_notify:
+    name: Rabbit Feeding Notify
+    has_date: false
+    has_time: true
+    icon: mdi:rabbit
+  rabbit_hutch_cleaned:
+    name: Rabbit Hutch Cleaned
+    has_date: true
+    has_time: true
+    icon: mdi:rabbit
+  rabbit_hutch_cleaning_notify:
+    name: Rabbit Hutch Cleaning Notify
+    has_date: true
+    has_time: true
+    icon: mdi:rabbit
+
+input_number:
+  rabbit_feeding_interval:
+    name: Rabbit Feeding Interval
+    min: 0
+    max: 24
+    step: 1
+    unit_of_measurement: hours
+    icon: mdi:rabbit
+  rabbit_hutch_cleaning_interval:
+    name: Rabbit Hutch Cleaning Interval
+    min: 0
+    max: 3
+    step: 1
+    unit_of_measurement: days
+    icon: mdi:rabbit
