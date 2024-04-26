@@ -56,9 +56,11 @@ input_text:
   briefing_extras:
     name: Briefing Extras
     icon: mdi:plus
+    max: 255
   kallen_briefing_extras:
     name: Kallen Briefing Extras
     icon: mdi:plus
+    max: 255
 
 input_boolean:
   briefing_extras:
