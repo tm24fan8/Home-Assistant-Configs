@@ -166,11 +166,6 @@
         {{ identTony }} will be live today at {{ streamstart }}.
       {% endif %}
       {% set identTony = 'He' %}
-    {% elif state_attr('calendar.tony_s_twitch_schedule','start_time') != none %}
-      {% if count_the_days('calendar.tony_s_twitch_schedule','start_time') | int == 1 %}
-        {{ identTony }} will be streaming at {{ time_from_calendar('calendar.tony_s_twitch_schedule','start_time','read') }} tomorrow.
-      {% endif %}
-      {% set identTony = 'He' %}
     {% else %}
       {% set identTony = 'Tony' %}
     {% endif %}
