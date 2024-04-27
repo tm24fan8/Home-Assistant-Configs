@@ -2889,7 +2889,8 @@ rabbit_feeding:
           message: Zeus needs to be fed. This is reminder number {{ states('counter.rabbit_feeding_reminder_count')
             }} for today.
         alias: Play TTS announcement
-    - service: script.text_notify
+    - alias: Send phone notifications
+      service: script.text_notify
       metadata: {}
       data:
         type: alert
@@ -2899,12 +2900,11 @@ rabbit_feeding:
         tag: rabbit-feeding
         actions:
         - action: RABBIT_FEEDING_DONE
-          name: Fed
+          title: Fed
         - action: RABBIT_FEEDING_SKIPPED
-          name: Skip
+          title: Skip
         - action: RABBIT_FEEDING_ASK_LATER
-          name: Ask Later
-      alias: Send phone notifications
+          title: Ask Later
   - wait_for_trigger:
     - platform: event
       event_type: ios.notification_action_fired
@@ -3048,11 +3048,11 @@ rabbit_hutch_cleaning:
         tag: rabbit-hutch-cleaning
         actions:
         - action: RABBIT_HUTCH_CLEANING_DONE
-          name: Cleaned
+          title: Cleaned
         - action: RABBIT_HUTCH_CLEANING_SKIPPED
-          name: Skip
+          title: Skip
         - action: RABBIT_HUTCH_CLEANING_ASK_LATER
-          name: Ask Later
+          title: Ask Later
   - alias: Triggers
     wait_for_trigger:
     - alias: Done
