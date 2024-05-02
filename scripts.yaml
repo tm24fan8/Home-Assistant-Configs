@@ -2894,7 +2894,7 @@ rabbit_feeding:
       metadata: {}
       data:
         type: alert
-        who: parents
+        who: all
         title: Rabbit Feeding
         message: Zeus needs to be fed, please do this ASAP!
         tag: rabbit-feeding
@@ -2944,7 +2944,8 @@ rabbit_feeding:
       seconds: 0
       milliseconds: 0
     alias: Triggers
-  - choose:
+  - alias: Routing
+    choose:
     - conditions:
       - condition: template
         value_template: '{{ wait.trigger.id in [''done'',''manual''] }}'
@@ -2956,14 +2957,14 @@ rabbit_feeding:
         target:
           entity_id: input_boolean.rabbit_fed
         alias: Turn on input boolean
-      - service: script.text_notify
+      - alias: Clear critical notification, if it was sent
+        service: script.text_notify
         metadata: {}
         data:
           type: alert
-          who: parents
+          who: all
           message: clear_notification
           tag: rabbit-feeding-critical
-        alias: Clear critical notification, if it was sent
     - conditions:
       - condition: template
         value_template: '{{ wait.trigger.id == ''ask-later'' }}'
@@ -3007,15 +3008,14 @@ rabbit_feeding:
 
             '
         alias: Notify again
-    alias: Routing
-  - service: script.text_notify
+  - alias: Clear notification
+    service: script.text_notify
     metadata: {}
     data:
       type: alert
-      who: parents
+      who: all
       message: clear_notification
       tag: rabbit-feeding
-    alias: Clear notification
   mode: restart
   icon: mdi:rabbit
 rabbit_hutch_cleaning:
