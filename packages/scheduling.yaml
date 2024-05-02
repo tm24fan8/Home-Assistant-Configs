@@ -699,16 +699,7 @@ script:
         - service: input_datetime.set_datetime
           entity_id: input_datetime.emma_bedtime
           data:
-            time: >
-              {% set high = states('sensor.todays_high_temp') | int %}
-              {% set low = states('sensor.overnight_lowest_temperature') | int %}
-              {% if is_state('input_boolean.hot_day','on') %}
-                22:00
-              {% elif high >= 80 or low >= 60 %}
-                23:00
-              {% else %}
-                23:45
-              {% endif %}
+            time: 02:00
       - if:
         - condition: state
           entity_id: input_boolean.emma_bedroom_climate_override
@@ -727,6 +718,20 @@ script:
                 {% endif %}
               {% else %}
                 White Noise
+              {% endif %}
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.emma_bedroom_cooling
+          data:
+            time: >
+              {% set high = states('sensor.todays_high_temp') | int %}
+              {% set low = states('sensor.overnight_lowest_temperature') | int %}
+              {% if is_state('input_boolean.hot_day','on') %}
+                23:00
+              {% elif high >= 80 or low >= 60 %}
+                00:00
+              {% else %}
+                01:00
               {% endif %}
       - service: input_boolean.turn_on
         target:

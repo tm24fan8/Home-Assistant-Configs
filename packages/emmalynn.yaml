@@ -44,6 +44,11 @@ input_datetime:
     has_date: false
     has_time: true
     icon: mdi:fan-auto
+  emma_bedroom_cooling:
+    name: Emma Bedroom Cooling
+    has_date: false
+    has_time: true
+    icon: mdi:fan-auto
   emma_wakeup:
     name: Emma Wakeup
     has_date: false
@@ -181,7 +186,7 @@ automation:
                   entity_id: input_boolean.emma_has_napped
                   state: 'off'
                 - condition: time
-                  after: "17:00:00"
+                  after: "17:30:00"
                   before: "01:00:00"
               then:
               - service: input_datetime.set_datetime
@@ -208,6 +213,13 @@ automation:
                     entity_id: input_datetime.emma_bedtime
                   data:
                     time: "{{ (state_attr('input_datetime.emma_up_from_nap','timestamp') + 14400) | timestamp_custom('%H:%M') }}"
+                - delay:
+                    milliseconds: 500
+                - service: input_datetime.set_datetime
+                  target:
+                    entity_id: input_datetime.emma_bedroom_cooling
+                  data:
+                    time: "{{ state_attr('input_datetime.emma_bedtime','timestamp') | int - 3600 }}"
               - service: input_boolean.turn_on
                 target:
                   entity_id: input_boolean.emma_has_napped
@@ -949,145 +961,6 @@ script:
               {% from 'time.jinja' import set_datetime %}
               {% set interval = states('input_number.emma_cough_meds_interval') | int %}
               {{ set_datetime(interval) }}
-
-  emma_sleep:
-    alias: 'Emma Sleep'
-    icon: mdi:lightbulb-night
-    mode: restart
-    sequence:
-      - if:
-        - condition: time
-          after: '04:00:00'
-          before: '16:00:00'
-        then:
-        - service: script.emma_bedroom_scheduling_evening
-# Meds
-      - service: script.turn_off
-        target:
-          entity_id:
-            - script.emma_ibuprofen
-            - script.emma_tylenol
-            - script.emma_cough_meds
-# Lighting
-      - choose:
-        - conditions:
-          - condition: state
-            entity_id: binary_sensor.early_night_mode
-            state: 'on'
-          sequence:
-          - service: light.turn_on
-            target:
-              entity_id:
-                - light.emma_bedroom_light
-          - delay:
-              seconds: 1
-          - service: input_select.select_option
-            target:
-              entity_id:
-                - input_select.emma_bedroom_scenes
-            data:
-              option: Adaptive
-          - service: adaptive_lighting.set_manual_control
-            data:
-              manual_control: false
-              entity_id: switch.adaptive_lighting_emma_bedroom
-        - conditions:
-          - condition: state
-            entity_id: binary_sensor.early_night_mode
-            state: 'off'
-          sequence:
-          - service: light.turn_on
-            target:
-              entity_id: light.emma_bedroom_light
-          - delay:
-              seconds: 1
-          - service: input_select.select_option
-            target:
-              entity_id: input_select.emma_bedroom_scenes
-            data:
-              option: Adaptive
-          - service: adaptive_lighting.set_manual_control
-            data:
-              manual_control: false
-              entity_id: switch.adaptive_lighting_emma_bedroom
-# Climate
-      - choose:
-        - conditions:
-          - condition: or
-            conditions:
-            - condition: state
-              entity_id: input_boolean.emma_has_napped
-              state: 'on'
-            - condition: time
-              after: "23:00:00"
-              before: "04:00:00"
-          sequence:
-          - choose:
-            - conditions:
-              - condition: state
-                entity_id: input_select.scheduled_climate_mode_emma_aircon
-                state: AC
-              sequence:
-              - service: fan.turn_on
-                target:
-                  entity_id: fan.emma_air_conditioner
-              - service: script.text_notify
-                data:
-                  who: "parents"
-                  title: "Emma Climate Schedule"
-                  message: "The air conditioner in Emma's Bedroom has been activated."
-                  type: normal
-                  tag: emma-climate
-            - conditions:
-              - condition: state
-                entity_id: input_select.scheduled_climate_mode_emma_aircon
-                state: White Noise
-              sequence:
-              - service: input_boolean.turn_on
-                target:
-                  entity_id: input_boolean.white_noise_emma_bedroom
-              - service: script.text_notify
-                data:
-                  who: "parents"
-                  title: "Emma Climate Schedule"
-                  message: "White noise has been activated in Emma's Bedroom."
-                  type: normal
-                  tag: emma-climate
-            default:
-            - service: script.text_notify
-              data:
-                who: "parents"
-                title: "Emma Climate Schedule"
-                message: "No option selected for Emma's climate mode. No devices will be activated."
-                type: normal
-                tag: emma-climate
-        - conditions:
-          - condition: and
-            conditions:
-            - condition: state
-              entity_id: input_boolean.emma_has_napped
-              state: 'off'
-            - condition: time
-              before: "23:00:00"
-              after: "04:00:00"
-          sequence:
-          - choose:
-            - conditions:
-              - condition: state
-                entity_id: input_select.naptime_climate_mode_emma_aircon
-                state: AC
-              sequence:
-              - service: fan.turn_on
-                target:
-                  entity_id: fan.emma_air_conditioner
-            - conditions:
-              - condition: state
-                entity_id: input_select.naptime_climate_mode_emma_aircon
-                state: White Noise
-              sequence:
-              - service: input_boolean.turn_on
-                target:
-                  entity_id: input_boolean.white_noise_emma_bedroom
 
   emma_wakeup:
     alias: 'Emma Wakeup'

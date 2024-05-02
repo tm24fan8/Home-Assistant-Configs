@@ -73,7 +73,7 @@
       {% endif %}
       {% if states('input_select.scheduled_climate_mode_emma_aircon') != 'N/A' %}
         {% if is_state('input_select.scheduled_climate_mode_emma_aircon','AC') and is_state('fan.emma_air_conditioner','off') %}
-          "Emma's air conditioner will be activated at {{ input_datetime_read('input_datetime.emma_bedtime') }}. "
+          "Emma's air conditioner will be activated at {{ input_datetime_read('input_datetime.emma_bedroom_cooling') }}. "
         {% elif is_state('input_select.scheduled_climate_mode_emma_aircon','White Noise') and is_state('input_boolean.white_noise_emma_bedroom','off') %}
           "Emma's white noise generator will activate at {{ input_datetime_read('input_datetime.emma_bedtime') }}. "
         {% endif %}
