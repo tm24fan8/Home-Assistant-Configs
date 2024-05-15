@@ -147,17 +147,17 @@ script:
     alias: 'Master Bedroom Sleep'
     mode: restart
     sequence:
-    - wait_template: "{{ is_state('light.master_bedroom_lights','off') }}"
-      timeout:
-        minutes: 60
-      continue_on_timeout: true
     - if:
       - condition: template
         value_template: "{{ is_state('input_boolean.give_me_darkness','on') and is_state('input_boolean.goodnight','off') }}"
       then:
-      - service: script.turn_on
+      - service: light.turn_off
         target:
-          entity_id: script.goodnight_on_second_floor
+          entity_id: light.master_bedroom_lights
+    - wait_template: "{{ is_state('light.master_bedroom_lights','off') }}"
+      timeout:
+        minutes: 60
+      continue_on_timeout: true
     - service: switch.turn_on
       target:
         entity_id: switch.adaptive_lighting_master_bedroom
