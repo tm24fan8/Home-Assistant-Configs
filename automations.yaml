@@ -3147,16 +3147,17 @@
     id: wake-computer
   condition: []
   action:
-  - variables:
-      trigger: '{{ trigger.id }}'
-      type: '{{ trigger.split(''-'')[0] }}'
-      reason: '{{ trigger.split(''-'')[1] }}'
-    alias: Define variables
   - alias: Routing
     choose:
     - conditions:
-      - condition: template
-        value_template: '{{ type == ''wake'' }}'
+      - condition: trigger
+        id:
+        - wake-alarm
+        - wake-sched
+        - wake-leave
+        - wake-sentence
+        - wake-focus
+        - wake-computer
         alias: Wakeup
       sequence:
       - delay:
