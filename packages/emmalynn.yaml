@@ -37,6 +37,13 @@ input_number:
     step: 1
     unit_of_measurement: hours
     icon: mdi:medication
+  emma_bedtime_hours:
+    name: Emma Bedtime Hours
+    min: 8
+    max: 12
+    step: 1
+    unit_of_measurement: hours
+    icon: mdi:bed-clock
 
 input_datetime:
   emma_bedtime:
@@ -189,6 +196,9 @@ automation:
                   after: "17:30:00"
                   before: "01:00:00"
               then:
+              - service: input_boolean.turn_on
+                target:
+                  entity_id: input_boolean.emma_has_napped
               - service: input_datetime.set_datetime
                 target:
                   entity_id: input_datetime.emma_up_from_nap
@@ -196,33 +206,6 @@ automation:
                   datetime: >
                     {% from 'time.jinja' import current_time %}
                     {{ current_time('datetime',24) }}
-              - delay:
-                  milliseconds: 500
-              - if:
-                - condition: template
-                  value_template: >
-                    {% from 'time.jinja' import ct %}
-                    {% set ct = ct() | int %}
-                    {% set proposed = ct + 10800 %}
-                    {{ proposed < 82800 }}
-                then:
-                - service: script.emma_bedroom_scheduling_evening
-                else:
-                - service: input_datetime.set_datetime
-                  target:
-                    entity_id: input_datetime.emma_bedtime
-                  data:
-                    time: "{{ (state_attr('input_datetime.emma_up_from_nap','timestamp') + 14400) | timestamp_custom('%H:%M') }}"
-                - delay:
-                    milliseconds: 500
-                - service: input_datetime.set_datetime
-                  target:
-                    entity_id: input_datetime.emma_bedroom_cooling
-                  data:
-                    time: "{{ state_attr('input_datetime.emma_bedtime','timestamp') | int - 3600 }}"
-              - service: input_boolean.turn_on
-                target:
-                  entity_id: input_boolean.emma_has_napped
             - delay:
                 seconds: 1
             - service: script.text_notify
@@ -305,7 +288,7 @@ automation:
           {% endif %}
 
   - id: 5b45eeb2-171e-4bac-825b-8ac7aa672dab
-    alias: Emma Bedtime Update
+    alias: Emma Asleep Update
     description: Attempt to make readouts of when Emma went to bed more accurate
     mode: restart
     trigger:

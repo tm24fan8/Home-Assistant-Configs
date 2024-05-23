@@ -5022,3 +5022,35 @@
       tag: emma-climate
     alias: Send AC notification
   mode: restart
+- id: '1716497196985'
+  alias: Emma Bedtime Rescheduler
+  description: Keeps Emma's bedtime up-to-date with reality
+  trigger:
+  - platform: state
+    entity_id:
+    - input_datetime.emma_awake_at
+    id: first-wake
+    alias: First Wake
+  - platform: state
+    entity_id:
+    - input_number.emma_bedtime_hours
+    id: hours-update
+    alias: Hours Update
+  - platform: state
+    entity_id:
+    - input_datetime.emma_up_from_nap
+    id: up-from-nap
+    alias: Up From Nap
+  condition:
+  - condition: state
+    entity_id: input_boolean.emma_sleeping
+    state: 'off'
+  - condition: state
+    entity_id: input_boolean.emma_scheduling_evening_ran
+    state: 'on'
+  action:
+  - service: script.emma_bedroom_scheduling_evening
+    metadata: {}
+    data: {}
+    alias: Run evening scheduling
+  mode: restart
