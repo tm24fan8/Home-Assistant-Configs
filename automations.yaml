@@ -5314,6 +5314,84 @@
         data:
           datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0)
             }}
+- id: '1716580842614'
+  alias: Stairwell and Hallway Motion Lighting
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.stairwell_top_motion
+    to: 'on'
+    from: 'off'
+    id: top-detected
+    alias: Stairwell Top Detected
+  - platform: state
+    entity_id:
+    - binary_sensor.stairwell_bottom_motion
+    from: 'off'
+    to: 'on'
+    id: bottom-detected
+    alias: Stairwell Bottom Detected
+  - platform: state
+    entity_id:
+    - binary_sensor.stairwell_top_motion
+    from: 'on'
+    to: 'off'
+    id: top-clear
+    alias: Stairwell Top Clear
+  - platform: state
+    entity_id:
+    - binary_sensor.stairwell_bottom_motion
+    from: 'on'
+    to: 'off'
+    id: bottom-clear
+    alias: Stairwell Bottom Clear
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.stairwell_motion_timer
+    id: stairwell-timer
+    alias: Stairwell Timer Finished
+  - alias: Hallway Timer Finished
+    platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.upstairs_hallway_motion_timer
+    id: hallway-timer
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - top-detected
+      sequence: []
+    - conditions:
+      - condition: trigger
+        id:
+        - bottom-detected
+      sequence: []
+    - conditions:
+      - condition: trigger
+        id:
+        - top-clear
+      sequence: []
+    - conditions:
+      - condition: trigger
+        id:
+        - bottom-clear
+      sequence: []
+    - conditions:
+      - condition: trigger
+        id:
+        - stairwell-timer
+      sequence: []
+    - conditions:
+      - condition: trigger
+        id:
+        - hallway-timer
+      sequence: []
+  mode: restart
 
             '
         alias: Set time morning meds were taken
