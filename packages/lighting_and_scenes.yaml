@@ -44,6 +44,12 @@ input_boolean:
   adaptive_lighting_adjustments:
     name: Adaptive Lighting Adjustments
     icon: mdi:knob
+  upstairs_hallway_motion_lighting:
+    name: Upstairs Hallway Motion Lighting
+    icon: mdi:motion-sensor
+  stairwell_motion_lighting:
+    name: Stairwell Motion Lighting
+    icon: mdi:motion-sensor
 
 input_number:
   upstairs_bathroom_motion_off_delay:
