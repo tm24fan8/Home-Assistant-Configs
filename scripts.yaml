@@ -108,12 +108,27 @@ global_on:
 max_brightness:
   sequence:
   - alias: Turn off Adaptive Lighting and Motion Lighting
-    data: {}
-    target:
-      label_id:
-      - adaptive_lighting
-      - motion_lighting
-    action: switch.turn_off
+    parallel:
+    - service: automation.turn_off
+      metadata: {}
+      data:
+        stop_actions: true
+      target:
+        label_id: motion_lighting
+      alias: Automations
+    - alias: Switches
+      service: switch.turn_off
+      data: {}
+      target:
+        label_id:
+        - adaptive_lighting
+        - motion_lighting
+    - service: input_boolean.turn_off
+      metadata: {}
+      data: {}
+      target:
+        label_id: motion_lighting
+      alias: Input Booleans
   - delay:
       hours: 0
       minutes: 0
@@ -463,12 +478,26 @@ max_brightness_cleanup:
     target:
       entity_id: input_select.basement_studio_scenes
     alias: Set basement lights to adaptive
-  - service: switch.turn_on
-    metadata: {}
-    data: {}
-    target:
-      label_id: motion_lighting
-    alias: Turn on motion lighting
+  - alias: Turn on motion lighting
+    parallel:
+    - service: input_boolean.turn_on
+      metadata: {}
+      data: {}
+      target:
+        label_id: motion_lighting
+      alias: Input Booleans
+    - service: switch.turn_on
+      metadata: {}
+      data: {}
+      target:
+        label_id: motion_lighting
+      alias: Switches
+    - service: automation.turn_on
+      metadata: {}
+      data: {}
+      target:
+        label_id: motion_lighting
+      alias: Automations
   mode: single
   icon: mdi:broom
 cleanup_crash:
