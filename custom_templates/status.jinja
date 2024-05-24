@@ -339,7 +339,7 @@
 {% endif %}
 {% endmacro %}
 
-{% macro work_report_tina(type,method) %}
+{% macro meds_report_tina(type,method) %}
 {{ tina_morning_meds(type,method) }}
 {{ tina_night_meds(type,method) }}
 {% endmacro %}
@@ -352,7 +352,7 @@
   {{ work_report_tina(type,method) }}
   {% elif type == 'full' %}
   {{ work_report_tina(type,method) }}
-  {{ work_report_tina(type,method) }}
+  {{ meds_report_tina(type,method) }}
   {% endif %}
   {% endmacro %}
 {{ cleanup(data()) }}
