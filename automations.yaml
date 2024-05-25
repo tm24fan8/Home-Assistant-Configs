@@ -5360,37 +5360,99 @@
     id: hallway-timer
   condition: []
   action:
+  - variables:
+      hallway_scene: "{% set people_sleeping = is_state('input_boolean.emma_sleeping','on')
+        or is_state('input_boolean.kallen_sleeping','on') or is_state('input_boolean.master_bedroom_sleeping','on')
+        %} {% if is_state('input_boolean.night_mode','on') or people_sleeping == true
+        %}\n  Nightlight\n{% else %}\n  Adaptive\n{% endif %}\n"
+      hallway_action: "{% set people_sleeping = is_state('input_boolean.emma_sleeping','on')
+        or is_state('input_boolean.kallen_sleeping','on') or is_state('input_boolean.master_bedroom_sleeping','on')
+        %} {% if is_state('input_boolean.goodnight','on') %}\n  off\n{% elif is_state('input_boolean.night_mode','on')
+        or people_sleeping == true or is_state('binary_sensor.early_night_mode','on')
+        %}\n  on\n{% else %}\n  off\n{% endif %}\n"
   - choose:
     - conditions:
       - condition: trigger
         id:
         - top-detected
+      - condition: numeric_state
+        entity_id: sensor.stairwell_top_illuminance
+        below: input_number.upstairs_hallway_lux_threshold
+        alias: Stairwell Top Illuminance is below lux threshold
       sequence: []
+      alias: Stairwell Top Detected
     - conditions:
       - condition: trigger
         id:
         - bottom-detected
+      - alias: Stairwell Bottom Illuminance is below lux threshold
+        condition: numeric_state
+        entity_id: sensor.stairwell_bottom_illuminance
+        below: input_number.stairwell_lux_threshold
       sequence: []
+      alias: Stairwell Bottom Detected
     - conditions:
       - condition: trigger
         id:
         - top-clear
-      sequence: []
+      - alias: Lights are on
+        condition: or
+        conditions:
+        - condition: state
+          entity_id: light.hallway_overhead
+          state: 'on'
+          alias: Hallway Overhead
+        - alias: Stairwell LED Strip
+          condition: state
+          entity_id: light.stairwell_led_strip
+          state: 'on'
+      sequence:
+      - service: timer.start
+        metadata: {}
+        data:
+          duration: '{{ states(''input_number.upstairs_hallway_lights_off_delay'')
+            | int * 60 }}'
+        target:
+          entity_id: timer.upstairs_hallway_motion_timer
+        alias: Start upstairs hallway motion timer
+      alias: Stairwell Top Clear
     - conditions:
       - condition: trigger
         id:
         - bottom-clear
-      sequence: []
-    - conditions:
-      - condition: trigger
-        id:
-        - stairwell-timer
-      sequence: []
+      - alias: Lights are on
+        condition: or
+        conditions:
+        - condition: state
+          entity_id: light.hallway_overhead
+          state: 'on'
+          alias: Hallway Overhead
+        - alias: Stairwell LED Strip
+          condition: state
+          entity_id: light.stairwell_led_strip
+          state: 'on'
+      sequence:
+      - service: timer.start
+        metadata: {}
+        data:
+          duration: '{{ states(''input_number.stairwell_lights_off_delay'') | int
+            * 60 }}'
+        target:
+          entity_id: timer.stairwell_motion_timer
+        alias: Start stairwell motion timer
+      alias: Stairwell Bottom Clear
     - conditions:
       - condition: trigger
         id:
         - hallway-timer
       sequence: []
+      alias: Hallway Timer Finished
+    - conditions:
+      - condition: trigger
+        id:
+        - stairwell-timer
+      sequence: []
+      alias: Stairwell Timer Finished
   mode: restart
 
             '
