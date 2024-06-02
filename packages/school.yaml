@@ -92,7 +92,11 @@ template:
       unique_id: 68d8eb9c-d96c-4c76-a8e8-23125f1162db
       state: >-
         {%- set test=(as_timestamp(now()) + (86400)) | timestamp_custom("%Y-%m-%d",true) %}
-        {{ states.calendar.kallen_school_days.attributes.end_time == test + " 16:30:00" }}
+        {% if is_state('input_boolean.school_in_session','on') %}
+          {{ states.calendar.kallen_school_days.attributes.end_time == test + " 16:30:00" }}
+        {% else %}
+          {{ states.calendar.kallen_school_days.attributes.start_time == test + " 08:00:00" }}
+        {% endif %}
   - sensor:
     - name: School Start Days2go
       unique_id: 94a53e67-c00f-4cc7-9309-f9033a9482f9
@@ -394,7 +398,9 @@ script:
           value_template: >
             {% from 'time.jinja' import time_from_calendar %}
             {% set cal = time_from_calendar('calendar.kallen_school_days','end_time','read') | trim %}
-            {{ cal == '4:30 PM' }}
+            {% set current = as_timestamp(now()) %}
+            {% set lastday = state_attr('input_datetime.school_last_day','timestamp') %}
+            {{ (current > lastday) or (current <= lastday and cal == '4:30 PM') }}
         then:
         - service: input_boolean.turn_on
           target:
@@ -403,7 +409,17 @@ script:
         entity_id: 
           - input_boolean.kallen_school_today
           - input_boolean.kallen_school_today_extended
-          - input_boolean.school_in_session
+      - if:
+        - condition: template
+          value_template: >
+            {% set current = as_timestamp(now()) %}
+            {% set firstday = state_attr('input_datetime.school_first_day','timestamp') %}
+            {% set lastday = state_attr('input_datetime.school_last_day','timestamp') %}
+            {{ firstday <= current <= lastday }}
+        then:
+        - service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.school_in_session
 
   kallen_school_reset:
     alias: 'Kallen School Reset'

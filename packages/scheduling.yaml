@@ -155,7 +155,7 @@ script:
     sequence:
       - if:
         - condition: state
-          entity_id: input_boolean.school_in_session
+          entity_id: input_boolean.kallen_school_today
           state: 'on'
         then:
         - service: input_datetime.set_datetime
@@ -269,12 +269,18 @@ script:
           entity_id: input_datetime.kallen_bedtime
           data:
             time: >
-              {% if is_state('binary_sensor.kallen_school_tomorrow', 'on') %}
-                21:00
-              {% elif is_state('input_boolean.school_in_session','on') %}
-                22:00
+              {% if is_state('input_boolean.school_in_session','on') %}
+                {% if is_state('binary_sensor.kallen_school_tomorrow', 'on') %}
+                  21:00
+                {% else %}
+                  22:00
+                {% endif %}
               {% else %}
-                23:00
+                {% if is_state('binary_sensor.kallen_btb_tomorrow','on') %}
+                  22:00
+                {% else %}
+                  23:00
+                {% endif %}
               {% endif %}
       - delay:
           seconds: 1
