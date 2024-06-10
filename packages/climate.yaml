@@ -19,13 +19,13 @@ template:
     - name: Kallen Fan - Separate Schedule
       unique_id: 3f243861-6a1f-412f-b9e3-933b54793b08
       state: "{{ states('input_datetime.kallen_fan') != states('input_datetime.kallen_bedtime') }}"
-    - name: Living Room Hot
+    - name: Living Room Front Hot
       unique_id: 8fd9db5e-7883-42f3-8918-e78d52c680c6
-      state: "{{ states('sensor.living_room_temperature') | float >= 80 }}"
+      state: "{{ states('sensor.living_room_front_temperature') | float >= 80 }}"
       device_class: heat
-    - name: Living Room Cold
+    - name: Living Room Front Cold
       unique_id: 48494ec8-a63f-4244-b619-ff78c44f28e8
-      state: "{{ states('sensor.living_room_temperature') | float <= 60 }}"
+      state: "{{ states('sensor.living_room_front_temperature') | float <= 60 }}"
       device_class: cold
     - name: Downstairs Bathroom Hot
       unique_id: b68adefa-e30e-4454-be21-2743af0f1674
@@ -67,13 +67,13 @@ template:
       unique_id: 985f4f8c-2297-4d32-ace7-818534c5e4b5
       state: "{{ states('sensor.basement_studio_temperature') | float <= 60 }}"
       device_class: cold
-    - name: Dining Room Hot
-      unique_id: 2d1a67a5-ea39-470c-9a3c-b449e0d90bdb
-      state: "{{ states('sensor.dining_room_temperature') | float >= 80 }}"
+    - name: Living Room Back Hot
+      unique_id: 9a2be430-9322-492b-a0c1-bb0f034979f5
+      state: "{{ states('sensor.living_room_back_temperature') | float >= 80 }}"
       device_class: heat
-    - name: Dining Room Cold
-      unique_id: ce183fac-642a-402c-8f43-de82da75f0b0
-      state: "{{ states('sensor.dining_room_temperature') | float <= 60 }}"
+    - name: Living Room Back Cold
+      unique_id: 524c2ad1-1f44-42c0-b06b-28a40d439832
+      state: "{{ states('sensor.living_room_back_temperature') | float <= 60 }}"
       device_class: cold
     - name: Mud Room Hot
       unique_id: 920fa45e-8c6e-4518-9aea-5141e15a4350

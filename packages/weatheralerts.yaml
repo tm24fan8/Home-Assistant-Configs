@@ -1618,7 +1618,6 @@ script:
   #             - light.tina_lamp_side
   #             - light.tina_lamp_top
   #             - light.tina_desk_strip
-  #             - light.dining_room_lamp
   #             - switch.adaptive_lighting_living_room
   #             - switch.adaptive_lighting_tina_lamp
   #       - service: switch.turn_off
@@ -1635,9 +1634,6 @@ script:
   #             - light.tina_desk_strip
   #         data:
   #           color_name: red
-  #       - service: light.turn_off
-  #         target:
-  #           entity_id: light.dining_room_lamp
   #       - service: script.living_room_lights_alert
   #         data:
   #           type: red

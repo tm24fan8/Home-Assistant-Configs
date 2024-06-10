@@ -270,7 +270,6 @@ script:
             - light.tina_desk_strip
             - light.tina_lamp_side
             - light.tina_lamp_top
-            - light.dining_room_lamp
             - light.mud_room_overhead
             - light.basement_led_strip_1
             - light.basement_tall_lamp
@@ -298,7 +297,6 @@ script:
         service: light.turn_off
         target:
           entity_id:
-            - light.dining_room_lamp
             - light.mud_room_overhead
       - alias: "Set color lights to purple"
         service: light.turn_on

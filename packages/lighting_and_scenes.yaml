@@ -98,13 +98,6 @@ input_number:
     step: 1
     unit_of_measurement: minutes
     icon: mdi:timer
-  dining_room_lights_off_delay:
-    name: Dining Room Lights Off Delay
-    min: 0
-    max: 30
-    step: 1
-    unit_of_measurement: minutes
-    icon: mdi:timer
   mud_room_lights_off_delay:
     name: Mud Room Lights Off Delay
     min: 0
@@ -177,13 +170,6 @@ input_number:
     icon: mdi:sun-wireless
   living_room_lux_threshold:
     name: Living Room Lux Threshold
-    min: 0
-    max: 100
-    step: 5
-    unit_of_measurement: lx
-    icon: mdi:sun-wireless
-  dining_room_lux_threshold:
-    name: Dining Room Lux Threshold
     min: 0
     max: 100
     step: 5
@@ -303,13 +289,6 @@ input_number:
     step: 5
     unit_of_measurement: '%'
     icon: mdi:brightness-percent
-  nighttime_brightness_dining_room_lamp:
-    name: Nighttime Brightness Dining Room Lamp
-    min: 0
-    max: 100
-    step: 5
-    unit_of_measurement: '%'
-    icon: mdi:brightness-percent
   nighttime_brightness_tina_lamp:
     name: Nighttime Brightness Tina Lamp
     min: 0
@@ -391,16 +370,6 @@ input_select:
       - Nightlight
     initial: Select
     icon: hue:room-other
-  dining_room_lamp_scenes:
-    name: Dining Room Lamp Scenes
-    options:
-      - Select
-      - Adaptive
-      - Bright
-      - Dimmed
-      - Nightlight
-    initial: Select
-    icon: mdi:floor-lamp-dual
   upstairs_hallway_scenes:
     name: Upstairs Hallway Scenes
     options:
@@ -539,8 +508,6 @@ input_text:
     name: Living Room Selected Scene
   mud_room_selected_scene:
     name: Mud Room Selected Scene
-  dining_room_lamp_selected_scene:
-    name: Dining Room Lamp Selected Scene
   upstairs_hallway_selected_scene:
     name: Upstairs Hallway Selected Scene
   kallen_bedroom_selected_scene:
@@ -949,26 +916,6 @@ scene:
     icon: mdi:palette
     entities:
       input_select.downstairs_bathroom_scenes:
-        state: "Nightlight"
-  - name: Adaptive in Dining Room Lamp
-    icon: mdi:palette
-    entities:
-      input_select.dining_room_lamp_scenes:
-        state: "Adaptive"
-  - name: Bright in Dining Room Lamp
-    icon: mdi:palette
-    entities:
-      input_select.dining_room_lamp_scenes:
-        state: "Bright"
-  - name: Dimmed in Dining Room Lamp
-    icon: mdi:palette
-    entities:
-      input_select.dining_room_lamp_scenes:
-        state: "Dimmed"
-  - name: Nightlight in Dining Room Lamp
-    icon: mdi:palette
-    entities:
-      input_select.dining_room_lamp_scenes:
         state: "Nightlight"
   - name: Adaptive in Tina Lamp
     icon: mdi:palette

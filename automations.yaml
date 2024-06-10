@@ -86,11 +86,6 @@
     at: 00:00:00
   condition: []
   action:
-  - service: light.turn_off
-    data: {}
-    target:
-      entity_id: light.dining_room_lamp
-    alias: Turn off dining room lamp
   - alias: Prepare affected lighting areas
     service: switch.turn_off
     target:
@@ -203,11 +198,6 @@
     target:
       entity_id: input_select.tina_desk_scenes
     alias: Reset Tina desk scene
-  - service: light.turn_on
-    target:
-      entity_id: light.dining_room_lamp
-    data: {}
-    alias: Turn on dining room lamp
   - service: light.turn_off
     target:
       entity_id: light.downstairs_bathroom_lights
@@ -873,11 +863,6 @@
       alias: Turn off adaptive lighting
     - alias: Start light show
       parallel:
-      - service: light.turn_off
-        target:
-          entity_id: light.dining_room_lamp
-        data: {}
-        alias: Turn off dining room lamp
       - alias: Run effect on Living Room LED Strip
         service: lifx.effect_move
         data:
@@ -977,11 +962,6 @@
         target:
           entity_id: input_select.tina_desk_scenes
         alias: Reset Tina desk scene
-      - service: light.turn_on
-        target:
-          entity_id: light.dining_room_lamp
-        data: {}
-        alias: Turn on dining room lamp
       - service: switch.turn_on
         data: {}
         target:
@@ -1110,7 +1090,6 @@
           target:
             entity_id:
             - light.living_room_lights
-            - light.dining_room_lamp
             - light.tina_desk_lights
             - light.mud_room_overhead
       brightness_up_long_action:
@@ -1138,20 +1117,11 @@
           entity_id: light.living_room_lights
         alias: Brightness Down Large
       off_long_action:
-      - service: light.turn_on
-        data: {}
-        target:
-          entity_id: light.dining_room_lamp
       - service: input_select.select_option
         data:
           option: Reset
         target:
           entity_id: input_select.tina_desk_scenes
-      - service: input_select.select_option
-        data:
-          option: Adaptive
-        target:
-          entity_id: input_select.dining_room_lamp_scenes
       - service: input_select.select_option
         data:
           option: Adaptive
@@ -1329,27 +1299,18 @@
     input:
       dimmer_device: 40c14ccfe958d21d75888a968bbbf908
       on_short_action:
-      - service: light.toggle
-        data: {}
-        target:
-          entity_id: light.dining_room_lamp
-      on_long_action:
-      - service: input_select.select_option
-        data:
-          option: Adaptive
-        target:
-          entity_id: input_select.dining_room_lamp_scenes
-      off_short_action:
       - service: input_boolean.toggle
         data: {}
         target:
           entity_id: input_boolean.tina_desk_lights
-      off_long_action:
+      on_long_action:
       - service: input_select.select_option
         data:
           option: Reset
         target:
           entity_id: input_select.tina_desk_scenes
+      off_short_action: []
+      off_long_action: []
 - id: '1693174941627'
   alias: Presence Disconnect Protection
   description: When the internet drops, sometimes LIfe360 does too. This automation
@@ -1783,16 +1744,9 @@
       - condition: trigger
         id: reset
         alias: Reset
-      - alias: Computer On
-        condition: and
-        conditions:
-        - condition: trigger
-          id: computer-on
-          alias: Triggered by Computer On
-        - alias: Light level below threshold
-          condition: numeric_state
-          entity_id: sensor.dining_room_illuminance
-          below: 40
+      - condition: trigger
+        id: computer-on
+        alias: Computer On
     then:
     - service: input_select.select_option
       target:
@@ -2301,7 +2255,6 @@
           - input_select.basement_studio_scenes
           - input_select.living_room_scenes
           - input_select.downstairs_bathroom_scenes
-          - input_select.dining_room_lamp_scenes
           - input_select.mud_room_scenes
           - input_select.upstairs_hallway_scenes
           - input_select.upstairs_bathroom_scenes
@@ -3676,54 +3629,6 @@
           use_defaults: current
           entity_id: switch.adaptive_lighting_downstairs_bathroom
           min_brightness: '{{ states(''input_number.nighttime_brightness_downstairs_bathroom'')
-            }}'
-      alias: Night Brightness
-  mode: queued
-  max: 10
-- id: '1700521116867'
-  alias: Adaptive Lighting Adjustments - Dining Room Lamp
-  description: ''
-  trigger:
-  - platform: homeassistant
-    event: start
-    id: boot
-    alias: On boot
-  - platform: state
-    not_from:
-    - unavailable
-    - unknown
-    entity_id:
-    - input_number.nighttime_brightness_dining_room_lamp
-    id: night-brightness
-    alias: Night Brightness
-  condition:
-  - condition: state
-    entity_id: input_boolean.adaptive_lighting_adjustments
-    state: 'on'
-  action:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id:
-        - boot
-      sequence:
-      - service: adaptive_lighting.change_switch_settings
-        data:
-          use_defaults: configuration
-          entity_id: switch.adaptive_lighting_dining_room_lamp
-          min_brightness: '{{ states(''input_number.nighttime_brightness_dining_room_lamp'')
-            }}'
-      alias: Boot
-    - conditions:
-      - condition: trigger
-        id:
-        - night-brightness
-      sequence:
-      - service: adaptive_lighting.change_switch_settings
-        data:
-          use_defaults: current
-          entity_id: switch.adaptive_lighting_dining_room_lamp
-          min_brightness: '{{ states(''input_number.nighttime_brightness_dining_room_lamp'')
             }}'
       alias: Night Brightness
   mode: queued

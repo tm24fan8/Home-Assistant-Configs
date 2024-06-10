@@ -186,14 +186,7 @@ template:
       unique_id: 25623e3d-d74f-471e-8c2d-abce16646282
       device_class: occupancy
       state: >
-        {{ is_state('binary_sensor.living_room_motion','on') }}
-      delay_off: "00:15:00"
-    - name: Dining Room Occupied
-      unique_id: 6ac3017a-98f8-4e84-bcd7-6a9b2ab5b0e2
-      device_class: occupancy
-      state: >
-        {{ is_state('binary_sensor.dining_room_motion','on') or
-            is_state('binary_sensor.tina_desk_occupied','on') }}
+        {{ is_state('binary_sensor.living_room_front_motion','on') or is_state('binary_sensor.living_room_back_motion','on')}}
       delay_off: "00:15:00"
     - name: "Downstairs Bathroom Occupied"
       unique_id: fad33281-1c1a-4362-93e6-398334358027
@@ -408,7 +401,6 @@ automation:
   #         snapshot_entities:
   #           - light.living_room_overhead
   #           - light.living_room_led_strip
-  #           - light.dining_room_lamp
   #           - light.tina_lamp_top
   #           - light.tina_lamp_side
   #           - light.tina_desk_strip
@@ -425,10 +417,6 @@ automation:
   #         entity_id:
   #           - switch.adaptive_lighting_tina_lamp
   #           - switch.adaptive_lighting_living_room
-  #     - alias: "Turn dining room lamp off"
-  #       service: light.turn_off
-  #       target:
-  #         entity_id: light.dining_room_lamp
   #     - alias: "Turn Lights On"
   #       service: light.turn_on
   #       target:
@@ -738,7 +726,6 @@ script:
           - mud_room
           - emma_bedroom
           - upstairs_hallway
-          - dining_room
           - downstairs_bathroom
           - upstairs_bathroom
           - tina_desk
@@ -780,7 +767,6 @@ script:
           - switch.adaptive_lighting_basement_studio
           - switch.adaptive_lighting_living_room
           - switch.adaptive_lighting_downstairs_bathroom
-          - switch.adaptive_lighting_dining_room_lamp
           - switch.adaptive_lighting_tina_lamp
           - switch.adaptive_lighting_mud_room
           - switch.adaptive_lighting_upstairs_hallway
@@ -801,7 +787,6 @@ script:
           - input_text.master_bedroom_selected_scene
           - input_text.kallen_bedroom_selected_scene
           - input_text.emma_bedroom_selected_scene
-          - input_text.dining_room_lamp_selected_scene
         data:
           value: Adaptive
       - service: media_player.turn_off
@@ -842,7 +827,6 @@ script:
       target:
         area_id:
         - living_room
-        - dining_room
         - tina_desk
         - mud_room
         - furnace_room
@@ -878,7 +862,6 @@ script:
           area_id:
           - front_porch
           - living_room
-          - dining_room
           - mud_room
       - service: input_boolean.turn_on
         target:
@@ -893,7 +876,6 @@ script:
           entity_id:
             - input_select.living_room_scenes
             - input_select.mud_room_scenes
-            - input_select.dining_room_lamp_scenes
         data:
           option: Adaptive
     mode: single
@@ -940,7 +922,6 @@ script:
       target:
         area_id:
         - living_room
-        - dining_room
         - mud_room
     - service: input_boolean.turn_on
       target:
@@ -955,7 +936,6 @@ script:
         entity_id:
           - input_select.living_room_scenes
           - input_select.mud_room_scenes
-          - input_select.dining_room_lamp_scenes
       data:
         option: Adaptive
     - service: script.turn_on

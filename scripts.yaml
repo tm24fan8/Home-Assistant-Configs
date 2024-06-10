@@ -555,7 +555,6 @@ cleanup_crash:
     target:
       entity_id:
       - switch.adaptive_lighting_basement_studio
-      - switch.adaptive_lighting_dining_room_lamp
       - switch.adaptive_lighting_downstairs_bathroom
       - switch.adaptive_lighting_front_porch
       - switch.adaptive_lighting_kallen_bedroom
@@ -583,7 +582,6 @@ cleanup_crash:
       - input_text.tina_lamp_selected_scene
       - input_text.upstairs_bathroom_selected_scene
       - input_text.upstairs_hallway_selected_scene
-      - input_text.dining_room_lamp_selected_scene
     alias: Reset input texts to adaptive
   - service: script.volume_reset
     data: {}
@@ -721,32 +719,6 @@ adaptive_on_first_floor:
       data:
         value: Adaptive
     alias: If living room lights are on
-  - if:
-    - condition: state
-      entity_id: light.dining_room_lamp
-      state: 'on'
-    then:
-    - service: input_select.select_option
-      target:
-        entity_id: input_select.dining_room_lamp_scenes
-      data:
-        option: Adaptive
-      alias: Set adaptive
-    else:
-    - service: switch.turn_on
-      target:
-        entity_id: switch.adaptive_lighting_dining_room_lamp
-      data: {}
-    - service: switch.turn_off
-      target:
-        entity_id: switch.adaptive_lighting_sleep_mode_dining_room_lamp
-      data: {}
-    - service: input_text.set_value
-      target:
-        entity_id: input_text.dining_room_lamp_selected_scene
-      data:
-        value: Adaptive
-    alias: If dining room lamp is on
   - if:
     - condition: or
       conditions:
@@ -986,7 +958,6 @@ bright_on_first_floor:
       entity_id:
       - light.living_room_lights
       - light.downstairs_bathroom_lights
-      - light.dining_room_lamp
       - light.mud_room_overhead
     data: {}
   - service: input_boolean.turn_on
@@ -1001,7 +972,6 @@ bright_on_first_floor:
       - input_select.living_room_scenes
       - input_select.downstairs_bathroom_scenes
       - input_select.mud_room_scenes
-      - input_select.dining_room_lamp_scenes
     data:
       option: Bright
   - service: light.turn_on
@@ -1167,12 +1137,6 @@ evening_on_first_floor:
               - input_select.mud_room_scenes
             data:
               option: Nightlight
-        - service: input_select.select_option
-          target:
-            entity_id:
-            - input_select.dining_room_lamp_scenes
-          data:
-            option: Nightlight
       alias: Give Me Darkness on
     - conditions:
       - condition: state
@@ -1215,11 +1179,6 @@ evening_on_first_floor:
             data:
               option: Nightlight
         else:
-        - service: light.turn_off
-          target:
-            entity_id:
-            - light.dining_room_lamp
-          data: {}
         - service: input_boolean.turn_off
           target:
             entity_id: input_boolean.tina_desk_lights
@@ -1461,7 +1420,6 @@ goodnight_on_first_floor:
     - service: light.turn_off
       target:
         area_id:
-        - dining_room
         - downstairs_bathroom
         - tina_desk
         entity_id: light.living_room_lights
@@ -1475,7 +1433,6 @@ goodnight_on_first_floor:
     - service: light.turn_off
       target:
         area_id:
-        - dining_room
         - downstairs_bathroom
         - mud_room
         - tina_desk
