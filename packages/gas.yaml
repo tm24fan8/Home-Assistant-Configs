@@ -4,7 +4,7 @@ scrape:
       - name: South Side Shell
         unique_id: b3385058-173c-4446-9f0f-3a45f21715d8
         select: &selector "#root > div > div.Page-module__content___196kn.Page-module__padded___3hQ0U > div > div > div:nth-child(2) > div.grid__column___nhz7X.grid__desktop10___2T18R > div:nth-child(1) > div.grid__column___nhz7X.grid__desktop8___38Y4U > div:nth-child(3) > div > div.GasPriceCollection-module__collectionContainer___29Ngz > div:nth-child(2) > div:nth-child(1) > span"
-        unit_of_measurement: USD
+        device_class: monetary
         value_template: '{{ value | replace("$", "") | float }}'
         icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/59007
@@ -12,7 +12,7 @@ scrape:
       - name: Circle K
         unique_id: 63d947bc-486a-478e-9fbe-7fb2f38a1e1e
         select: *selector
-        unit_of_measurement: USD
+        device_class: monetary
         value_template: '{{ value | replace("$", "") | float }}'
         icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/123478
@@ -20,7 +20,7 @@ scrape:
       - name: Kroger
         unique_id: b705d912-8ef4-4e55-9168-d7e152773ba0
         select: *selector
-        unit_of_measurement: USD
+        device_class: monetary
         value_template: '{{ value | replace("$", "") | float }}'
         icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/59014
@@ -28,7 +28,7 @@ scrape:
       - name: Kecks
         unique_id: 4fa4a7bb-45b1-4d17-ab92-06ebd6a39ebb
         select: *selector
-        unit_of_measurement: USD
+        device_class: monetary
         value_template: '{{ value | replace("$", "") | float }}'
         icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/59006
@@ -36,7 +36,7 @@ scrape:
       - name: The Barn
         unique_id: 51137245-9c4a-4992-aa7c-19cd38bd614d
         select: *selector
-        unit_of_measurement: USD
+        device_class: monetary
         value_template: '{{ value | replace("$", "") | float }}'
         icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/59016
@@ -44,7 +44,7 @@ scrape:
       - name: The Big Fish
         unique_id: d5e057d5-3f7b-4c6b-ad0c-5e6ffa10b861
         select: *selector
-        unit_of_measurement: USD
+        device_class: monetary
         value_template: '{{ value | replace("$", "") | float }}'
         icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/107803
@@ -52,7 +52,7 @@ scrape:
       - name: Marathon Cleveland Avenue
         unique_id: 3ef9c1d0-46b0-4850-8df2-d478c833aa4d
         select: *selector
-        unit_of_measurement: USD
+        device_class: monetary
         value_template: '{{ value | replace("$", "") | float }}'
         icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/59013
@@ -60,7 +60,7 @@ scrape:
       - name: Speedway
         unique_id: 44484541-1a71-4e36-9e81-486eea3882cc
         select: *selector
-        unit_of_measurement: USD
+        device_class: monetary
         value_template: '{{ value | replace("$", "") | float }}'
         icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/59009
@@ -68,7 +68,7 @@ scrape:
       - name: Meijer
         unique_id: dc687fd2-ed4d-4fae-a2b8-38ae7a944a68
         select: *selector
-        unit_of_measurement: USD
+        device_class: monetary
         value_template: '{{ value | replace("$", "") | float }}'
         icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/59012
@@ -76,7 +76,7 @@ scrape:
       - name: East Side Shell
         unique_id: db36f6b4-6f87-48af-a339-1f8e8bbc95e3
         select: *selector
-        unit_of_measurement: USD
+        device_class: monetary
         value_template: '{{ value | replace("$", "") | float }}'
         icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/59011
@@ -84,7 +84,7 @@ scrape:
       - name: Shell Ottawa Avenue
         unique_id: d9508ad6-4298-4262-bac9-931a3bc510df
         select: *selector
-        unit_of_measurement: USD
+        device_class: monetary
         value_template: '{{ value | replace("$", "") | float }}'
         icon: mdi:gas-station
   - resource: https://www.gasbuddy.com/station/71535
@@ -92,7 +92,7 @@ scrape:
       - name: Ridis
         unique_id: 9db2cbc3-39ea-4471-9541-64aa7aa8de71
         select: *selector
-        unit_of_measurement: USD
+        device_class: monetary
         value_template: '{{ value | replace("$", "") | float }}'
         icon: mdi:gas-station
 
