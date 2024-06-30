@@ -18,10 +18,10 @@ input_boolean:
     name: Kallen BTB
     icon: mdi:bus-clock
   two_hour_delay:
-    name: Kallen Two Hour Delay
+    name: Two Hour Delay
     icon: mdi:bus-clock
   school_cancelled:
-    name: Kallen School Cancelled
+    name: School Cancelled
     icon: mdi:calendar-remove
   kallen_alternate_pickup:
     name: Kallen Alternate Pickup
