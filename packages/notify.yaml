@@ -938,6 +938,7 @@ script:
               - living_room
               - basement
               - basement_google
+              - common
               - common_areas
               - master_bedroom
               - kallen_bedroom
