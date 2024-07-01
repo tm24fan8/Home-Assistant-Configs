@@ -145,6 +145,46 @@ template:
             map(attribute='attributes.friendly_name') |
             list %}
           {{ windows_open }}
+    - name: Kitchen Windows
+      unique_id: 55c8c1a9-862b-4844-a34b-f44a11d1935c
+      device_class: window
+      state: >
+        {% set windows_open = states.binary_sensor | 
+          selectattr('entity_id','in',area_entities('kitchen')) |
+          selectattr('attributes.device_class','eq','window') |
+          selectattr('state','eq','on') |
+          map(attribute='attributes.friendly_name') |
+          list | count %}
+        {{ windows_open > 0 }}
+      attributes:
+        windows_open: >
+          {% set windows_open = states.binary_sensor | 
+            selectattr('entity_id','in',area_entities('kitchen')) |
+            selectattr('attributes.device_class','eq','window') |
+            selectattr('state','eq','on') |
+            map(attribute='attributes.friendly_name') |
+            list %}
+          {{ windows_open }}
+    - name: Downstairs Bathroom Windows
+      unique_id: cb3ed72e-d2a2-40f0-8db9-bc834a90f865
+      device_class: window
+      state: >
+        {% set windows_open = states.binary_sensor | 
+          selectattr('entity_id','in',area_entities('downstairs_bathroom')) |
+          selectattr('attributes.device_class','eq','window') |
+          selectattr('state','eq','on') |
+          map(attribute='attributes.friendly_name') |
+          list | count %}
+        {{ windows_open > 0 }}
+      attributes:
+        windows_open: >
+          {% set windows_open = states.binary_sensor | 
+            selectattr('entity_id','in',area_entities('downstairs_bathroom')) |
+            selectattr('attributes.device_class','eq','window') |
+            selectattr('state','eq','on') |
+            map(attribute='attributes.friendly_name') |
+            list %}
+          {{ windows_open }}
     - name: Security Faults
       unique_id: fe4e7867-6abb-43c5-adde-67971b64cc08
       device_class: problem
