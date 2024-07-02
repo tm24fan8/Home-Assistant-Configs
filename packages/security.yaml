@@ -205,49 +205,51 @@ template:
       unit_of_measurement: 'faults'
       state: >-
         {% set bypass = states('sensor.bypassed_sensors') %}
-        {% set window_sensors = states.binary_sensor |
-          selectattr('attributes.device_class','eq','window') |
-          selectattr('attributes.entity_id','eq',null) |
-          rejectattr('entity_id','search','windows') |
-          list %}
-        {% set windows_open = window_sensors |
-          selectattr('state','eq','on') |
-          map(attribute='entity_id') |
-          map('device_id') |
-          list %}
+        {% set window_sensors = states.binary_sensor
+          | selectattr('attributes.device_class','eq','window')
+          | rejectattr('attributes.is_group','eq',true)
+          | rejectattr('entity_id','in',integration_entities('template'))
+          | rejectattr('attributes.entity_id','defined')
+          | list %}
+        {% set windows_open = window_sensors
+          | selectattr('state','eq','on')
+          | map(attribute='entity_id')
+          | map('device_id')
+          | list %}
         {% set id = namespace(devices=[]) %}
         {% for device_id in windows_open %}
           {% if device_id in bypass %}
             {% set id.devices = id.devices + [device_id] %}
           {% endif %}
         {% endfor %}
-        {% set window_faults = windows_open |
-          reject('in',id.devices) |
-          list |
-          count %}
+        {% set window_faults = windows_open
+          | reject('in',id.devices)
+          | list
+          | count %}
         {{ window_faults }}
       attributes:
         faulted: >
           {% set bypass = states('sensor.bypassed_sensors') %}
-          {% set window_sensors = states.binary_sensor |
-            selectattr('attributes.device_class','eq','window') |
-            selectattr('attributes.entity_id','eq',null) |
-            rejectattr('entity_id','search','windows') |
-            list %}
-          {% set windows_open = window_sensors |
-            selectattr('state','eq','on') |
-            map(attribute='entity_id') |
-            map('device_id') |
-            list %}
+          {% set window_sensors = states.binary_sensor
+            | selectattr('attributes.device_class','eq','window')
+            | rejectattr('attributes.is_group','eq',true)
+            | rejectattr('entity_id','in',integration_entities('template'))
+            | rejectattr('attributes.entity_id','defined')
+            | list %}
+          {% set windows_open = window_sensors
+            | selectattr('state','eq','on')
+            | map(attribute='entity_id')
+            | map('device_id')
+            | list %}
           {% set id = namespace(devices=[]) %}
           {% for device_id in windows_open %}
             {% if device_id in bypass %}
               {% set id.devices = id.devices + [device_id] %}
             {% endif %}
           {% endfor %}
-          {% set device_list = windows_open |
-            reject('in',id.devices) |
-            list %}
+          {% set device_list = windows_open
+            | reject('in',id.devices)
+            | list %}
           {% set fn = namespace(friendly=[]) %}
           {% for device_id in device_list %}
             {% if device_id in device_list %}
@@ -267,49 +269,51 @@ template:
       unit_of_measurement: faults
       state: >-
         {% set bypass = states('sensor.bypassed_sensors') %}
-        {% set door_sensors = states.binary_sensor |
-          selectattr('attributes.device_class','eq','door') |
-          selectattr('attributes.entity_id','eq',null) |
-          rejectattr('entity_id','search','doors') |
-          list %}
-        {% set doors_open = door_sensors |
-          selectattr('state','eq','on') |
-          map(attribute='entity_id') |
-          map('device_id') |
-          list %}
+        {% set door_sensors = states.binary_sensor
+          | selectattr('attributes.device_class','eq','door')
+          | rejectattr('attributes.is_group','eq',true)
+          | rejectattr('entity_id','in',integration_entities('template'))
+          | rejectattr('attributes.entity_id','defined')
+          | list %}
+        {% set doors_open = door_sensors
+          | selectattr('state','eq','on')
+          | map(attribute='entity_id')
+          | map('device_id')
+          | list %}
         {% set id = namespace(devices=[]) %}
         {% for device_id in doors_open %}
           {% if device_id in bypass %}
             {% set id.devices = id.devices + [device_id] %}
           {% endif %}
         {% endfor %}
-        {% set door_faults = doors_open |
-          reject('in',id.devices) |
-          list |
-          count %}
+        {% set door_faults = doors_open
+          | reject('in',id.devices)
+          | list
+          | count %}
         {{ door_faults }}
       attributes:
         faulted: >
           {% set bypass = states('sensor.bypassed_sensors') %}
-          {% set door_sensors = states.binary_sensor |
-            selectattr('attributes.device_class','eq','door') |
-            selectattr('attributes.entity_id','eq',null) |
-            rejectattr('entity_id','search','doors') |
-            list %}
-          {% set doors_open = door_sensors |
-            selectattr('state','eq','on') |
-            map(attribute='entity_id') |
-            map('device_id') |
-            list %}
+          {% set door_sensors = states.binary_sensor
+            | selectattr('attributes.device_class','eq','door')
+            | rejectattr('attributes.is_group','eq',true)
+            | rejectattr('entity_id','in',integration_entities('template'))
+            | rejectattr('attributes.entity_id','defined')
+            | list %}
+          {% set doors_open = door_sensors
+            | selectattr('state','eq','on')
+            | map(attribute='entity_id')
+            | map('device_id')
+            | list %}
           {% set id = namespace(devices=[]) %}
           {% for device_id in doors_open %}
             {% if device_id in bypass %}
               {% set id.devices = id.devices + [device_id] %}
             {% endif %}
           {% endfor %}
-          {% set device_list = doors_open |
-            reject('in',id.devices) |
-            list %}
+          {% set device_list = doors_open
+            | reject('in',id.devices)
+            | list %}
           {% set fn = namespace(friendly=[]) %}
           {% for device_id in device_list %}
             {% if device_id in device_list %}
