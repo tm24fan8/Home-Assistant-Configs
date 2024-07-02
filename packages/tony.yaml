@@ -64,17 +64,17 @@ input_datetime:
     icon: mdi:medication
   tony_morning_meds_notify:
     name: Tony Morning Meds Notify
-    has_date: false
+    has_date: true
     has_time: true
     icon: mdi:medication
   tony_afternoon_meds_notify:
     name: Tony Afternoon Meds Notify
-    has_date: false
+    has_date: true
     has_time: true
     icon: mdi:medication
   tony_night_meds_notify:
     name: Tony Night Meds Notify
-    has_date: false
+    has_date: true
     has_time: true
     icon: mdi:medication
   tony_custom_meds_taken_p1:
@@ -84,7 +84,7 @@ input_datetime:
     icon: mdi:medication
   tony_custom_meds_notify_p1:
     name: Tony Custom Meds Notify P1
-    has_date: false
+    has_date: true
     has_time: true
     icon: mdi:medication
   tony_custom_meds_taken_p2:
@@ -94,7 +94,7 @@ input_datetime:
     icon: mdi:medication
   tony_custom_meds_notify_p2:
     name: Tony Custom Meds Notify P2
-    has_date: false
+    has_date: true
     has_time: true
     icon: mdi:medication
   tony_ibuprofen_taken:
@@ -104,7 +104,7 @@ input_datetime:
     icon: mdi:medication
   tony_ibuprofen_notify:
     name: Tony Ibuprofen Notify
-    has_date: false
+    has_date: true
     has_time: true
     icon: mdi:medication
   tony_tylenol_taken:
@@ -114,7 +114,7 @@ input_datetime:
     icon: mdi:medication
   tony_tylenol_notify:
     name: Tony Tylenol Notify
-    has_date: false
+    has_date: true
     has_time: true
     icon: mdi:medication
 
@@ -179,3 +179,33 @@ sensor:
     - project
     - items
   scan_interval: 30
+
+template:
+  - binary_sensor:
+    - name: Tony Morning Meds Needed
+      unique_id: 32f2f158-8c59-486e-bf85-f14909375ff7
+      state: >
+        {% set ct = as_timestamp(now()) %}
+        {% set notify = state_attr('input_datetime.tony_morning_meds_notify','timestamp') %}
+        {{ (ct >= notify) and is_state('input_boolean.tony_morning_meds_taken','off') }}
+      attributes:
+        reminder_time: "{{ states('input_datetime.tony_morning_meds_notify') }}"
+      icon: mdi:medication
+    - name: Tony Afternoon Meds Needed
+      unique_id: 32f2f158-8c59-486e-bf85-f14909375ff7
+      state: >
+        {% set ct = as_timestamp(now()) %}
+        {% set notify = state_attr('input_datetime.tony_afternoon_meds_notify','timestamp') %}
+        {{ (ct >= notify) and is_state('input_boolean.tony_afternoon_meds_taken','off') }}
+      attributes:
+        reminder_time: "{{ states('input_datetime.tony_afternoon_meds_notify') }}"
+      icon: mdi:medication
+    - name: Tony Night Meds Needed
+      unique_id: 32f2f158-8c59-486e-bf85-f14909375ff7
+      state: >
+        {% set ct = as_timestamp(now()) %}
+        {% set notify = state_attr('input_datetime.tony_night_meds_notify','timestamp') %}
+        {{ (ct >= notify) and is_state('input_boolean.tony_night_meds_taken','off') }}
+      attributes:
+        reminder_time: "{{ states('input_datetime.tony_night_meds_notify') }}"
+      icon: mdi:medication
