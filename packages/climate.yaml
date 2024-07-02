@@ -138,6 +138,46 @@ template:
           mdi:fan-off
         {% endif %}
       availability: "{{ states('climate.master_bedroom_aircon') not in ['unavailable','unknown'] }}"
+    - name: Living Room Average Temperature
+      unique_id: c4a901a6-87e2-4257-b60b-2944be8fdf04
+      state: >
+        {{ states.sensor 
+          | selectattr('attributes.device_class','eq','temperature')
+          | selectattr('entity_id','in',label_entities('Indoor Temperature'))
+          | selectattr('entity_id','in',area_entities('living_room'))
+          | rejectattr('entity_id','in',integration_entities('template'))
+          | rejectattr('entity_id','is_hidden_entity')
+          | rejectattr('attributes.is_group','eq',true)
+          | rejectattr('attributes.entity_id','defined')
+          | rejectattr('state','in',['unavailable','unknown'])
+          | map(attribute='state')
+          | map('float',1)
+          | average(0)
+          | round(1) }}
+      icon: mdi:thermometer
+      device_class: temperature
+      unit_of_measurement: °F
+      state_class: measurement
+    - name: Living Room Average Illuminance
+      unique_id: 0b4d9f65-fee3-4f2d-aa8a-207bc9f9ca10
+      state: >
+        {{ states.sensor 
+          | selectattr('attributes.device_class','eq','illuminance')
+          | selectattr('entity_id','in',label_entities('Lux'))
+          | selectattr('entity_id','in',area_entities('living_room'))
+          | rejectattr('entity_id','in',integration_entities('template'))
+          | rejectattr('entity_id','is_hidden_entity')
+          | rejectattr('attributes.is_group','eq',true)
+          | rejectattr('attributes.entity_id','defined')
+          | rejectattr('state','in',['unavailable','unknown'])
+          | map(attribute='state')
+          | map('int')
+          | average(0)
+          | round(0) }}
+      icon: mdi:brightness-5
+      device_class: illuminance
+      unit_of_measurement: lx
+      state_class: measurement
 
 input_boolean:
   master_bedroom_climate_protocol:
