@@ -129,61 +129,61 @@ template:
       unique_id: fb4ab414-3ceb-44d2-8276-66027a936329
       device_class: window
       state: >
-        {% set windows_open = states.binary_sensor | 
-          selectattr('entity_id','in',area_entities('living_room')) |
-          selectattr('attributes.device_class','eq','window') |
-          selectattr('state','eq','on') |
-          map(attribute='attributes.friendly_name') |
-          list | count %}
+        {% set windows_open = states.binary_sensor 
+          | selectattr('entity_id','in',area_entities('living_room'))
+          | selectattr('attributes.device_class','eq','window')
+          | selectattr('state','eq','on')
+          | map(attribute='attributes.friendly_name')
+          | list | count %}
         {{ windows_open > 0 }}
       attributes:
         windows_open: >
-          {% set windows_open = states.binary_sensor | 
-            selectattr('entity_id','in',area_entities('living_room')) |
-            selectattr('attributes.device_class','eq','window') |
-            selectattr('state','eq','on') |
-            map(attribute='attributes.friendly_name') |
-            list %}
+          {% set windows_open = states.binary_sensor
+            | selectattr('entity_id','in',area_entities('living_room'))
+            | selectattr('attributes.device_class','eq','window')
+            | selectattr('state','eq','on')
+            | map(attribute='attributes.friendly_name')
+            | list %}
           {{ windows_open }}
     - name: Kitchen Windows
       unique_id: 55c8c1a9-862b-4844-a34b-f44a11d1935c
       device_class: window
       state: >
-        {% set windows_open = states.binary_sensor | 
-          selectattr('entity_id','in',area_entities('kitchen')) |
-          selectattr('attributes.device_class','eq','window') |
-          selectattr('state','eq','on') |
-          map(attribute='attributes.friendly_name') |
-          list | count %}
+        {% set windows_open = states.binary_sensor
+          | selectattr('entity_id','in',area_entities('kitchen'))
+          | selectattr('attributes.device_class','eq','window')
+          | selectattr('state','eq','on')
+          | map(attribute='attributes.friendly_name')
+          | list | count %}
         {{ windows_open > 0 }}
       attributes:
         windows_open: >
-          {% set windows_open = states.binary_sensor | 
-            selectattr('entity_id','in',area_entities('kitchen')) |
-            selectattr('attributes.device_class','eq','window') |
-            selectattr('state','eq','on') |
-            map(attribute='attributes.friendly_name') |
-            list %}
+          {% set windows_open = states.binary_sensor
+            | selectattr('entity_id','in',area_entities('kitchen'))
+            | selectattr('attributes.device_class','eq','window')
+            | selectattr('state','eq','on')
+            | map(attribute='attributes.friendly_name')
+            | list %}
           {{ windows_open }}
     - name: Downstairs Bathroom Windows
       unique_id: cb3ed72e-d2a2-40f0-8db9-bc834a90f865
       device_class: window
       state: >
-        {% set windows_open = states.binary_sensor | 
-          selectattr('entity_id','in',area_entities('downstairs_bathroom')) |
-          selectattr('attributes.device_class','eq','window') |
-          selectattr('state','eq','on') |
-          map(attribute='attributes.friendly_name') |
-          list | count %}
+        {% set windows_open = states.binary_sensor
+          | selectattr('entity_id','in',area_entities('downstairs_bathroom'))
+          | selectattr('attributes.device_class','eq','window')
+          | selectattr('state','eq','on')
+          | map(attribute='attributes.friendly_name')
+          | list | count %}
         {{ windows_open > 0 }}
       attributes:
         windows_open: >
-          {% set windows_open = states.binary_sensor | 
-            selectattr('entity_id','in',area_entities('downstairs_bathroom')) |
-            selectattr('attributes.device_class','eq','window') |
-            selectattr('state','eq','on') |
-            map(attribute='attributes.friendly_name') |
-            list %}
+          {% set windows_open = states.binary_sensor
+            | selectattr('entity_id','in',area_entities('downstairs_bathroom'))
+            | selectattr('attributes.device_class','eq','window')
+            | selectattr('state','eq','on')
+            | map(attribute='attributes.friendly_name')
+            | list %}
           {{ windows_open }}
     - name: Security Faults
       unique_id: fe4e7867-6abb-43c5-adde-67971b64cc08
@@ -195,11 +195,11 @@ template:
     - name: "Bypassed Sensors"
       unique_id: 612f1314-494b-40f8-8c20-d5310aa17ab4
       state: >-
-        {{ states.select |
-          selectattr('state','in',['Faulted','Always']) |
-          map(attribute='entity_id') |
-          map('device_id') |
-          list }}
+        {{ states.select
+          | selectattr('state','in',['Faulted','Always'])
+          | map(attribute='entity_id')
+          | map('device_id')
+          | list }}
     - name: "Window Faults"
       unique_id: 79b8ffe8-3f7c-4d4e-9809-b2023da1d497
       unit_of_measurement: 'faults'
@@ -332,25 +332,25 @@ template:
       unique_id: 780770d2-8b5a-4c96-aee4-459281cc3471
       unit_of_measurement: 'open'
       state: >-
-        {% set windows = states.binary_sensor |
-          selectattr('attributes.device_class','eq','window') |
-          selectattr('attributes.entity_id','eq',null) |
-          rejectattr('entity_id','search','windows') %}
-        {% set windows_open = windows |
-          selectattr('state','eq','on') |
-          list |
-          count %}
+        {% set windows = states.binary_sensor
+          | selectattr('attributes.device_class','eq','window')
+          | selectattr('attributes.entity_id','eq',null)
+          | rejectattr('entity_id','search','windows') %}
+        {% set windows_open = windows
+          | selectattr('state','eq','on')
+          | list
+          | count %}
         {{ windows_open }}
       attributes:
         open: >
-          {% set windows = states.binary_sensor |
-            selectattr('attributes.device_class','eq','window') |
-            selectattr('attributes.entity_id','eq',null) |
-            rejectattr('entity_id','search','windows') %}
-          {% set window_names = windows |
-            selectattr('state','eq','on') |
-            map(attribute='attributes.friendly_name') |
-            list %}
+          {% set windows = states.binary_sensor
+            | selectattr('attributes.device_class','eq','window')
+            | selectattr('attributes.entity_id','eq',null)
+            | rejectattr('entity_id','search','windows') %}
+          {% set window_names = windows
+            | selectattr('state','eq','on')
+            | map(attribute='attributes.friendly_name')
+            | list %}
           {{ window_names }}
       icon: >-
         {% if states('sensor.windows_open') | int == 0 %}
@@ -374,10 +374,10 @@ template:
             states.binary_sensor.front_window_1,
             states.binary_sensor.front_window_2
             ] %}
-          {% set window_names = windows |
-            selectattr('state','eq','on') |
-            map(attribute='attributes.friendly_name') |
-            list %}
+          {% set window_names = windows
+            | selectattr('state','eq','on')
+            | map(attribute='attributes.friendly_name')
+            | list %}
           {{ window_names }}
       icon: >-
         {% if states('sensor.front_windows_open') | int == 0 %}
@@ -389,21 +389,21 @@ template:
       unique_id: d7b12353-3017-4640-b871-323425ea62d1
       unit_of_measurement: 'open'
       state: >-
-        {% set windows_open = states.binary_sensor | 
-          selectattr('entity_id','in',area_entities('living_room')) |
-          selectattr('attributes.device_class','eq','window') |
-          selectattr('state','eq','on') |
-          map(attribute='entity_id') |
-          list | count %}
+        {% set windows_open = states.binary_sensor
+          | selectattr('entity_id','in',area_entities('living_room'))
+          | selectattr('attributes.device_class','eq','window')
+          | selectattr('state','eq','on')
+          | map(attribute='entity_id')
+          | list | count %}
         {{ windows_open }}
       attributes:
         open: >
-          {% set windows_open = states.binary_sensor | 
-            selectattr('entity_id','in',area_entities('living_room')) |
-            selectattr('attributes.device_class','eq','window') |
-            selectattr('state','eq','on') |
-            map(attribute='entity_id') |
-            list | count %}
+          {% set windows_open = states.binary_sensor
+            | selectattr('entity_id','in',area_entities('living_room'))
+            | selectattr('attributes.device_class','eq','window')
+            | selectattr('state','eq','on')
+            | map(attribute='entity_id')
+            | list | count %}
           {{ windows_open }}
       icon: >
         {% if states('sensor.living_room_windows_open') | int == 0 %}
@@ -416,18 +416,18 @@ template:
       unit_of_measurement: 'open'
       state: >-
         {% set doors = expand('binary_sensor.exterior_doors') %}
-        {% set doors_open = doors |
-          selectattr('state','eq','on') |
-          list |
-          count %}
+        {% set doors_open = doors
+          | selectattr('state','eq','on')
+          | list
+          | count %}
         {{ doors_open }}
       attributes:
         open: >
           {% set doors = expand('binary_sensor.exterior_doors') %}
-          {% set door_names = doors |
-            selectattr('state','eq','on') |
-            map(attribute='attributes.friendly_name') |
-            list %}
+          {% set door_names = doors
+            | selectattr('state','eq','on')
+            | map(attribute='attributes.friendly_name')
+            | list %}
           {{ door_names }}
       icon: >-
         {% if states('sensor.doors_open') | int == 0 %}
@@ -439,29 +439,29 @@ template:
       unique_id: 772aa056-881a-4778-ba5b-19e46afc107a
       unit_of_measurement: 'open'
       state: >-
-        {% set exterior = expand('binary_sensor.exterior_doors') |
-          map(attribute='entity_id') |
-          list %}
-        {% set interior = states.binary_sensor |
-          selectattr('attributes.device_class','eq','door') |
-          rejectattr('entity_id','in',exterior) |
-          rejectattr('entity_id','eq','binary_sensor.exterior_doors') |
-          selectattr('state','eq','on') |
-          list |
-          count %}
+        {% set exterior = expand('binary_sensor.exterior_doors')
+          | map(attribute='entity_id')
+          | list %}
+        {% set interior = states.binary_sensor
+          | selectattr('attributes.device_class','eq','door')
+          | rejectattr('entity_id','in',exterior)
+          | rejectattr('entity_id','eq','binary_sensor.exterior_doors')
+          | selectattr('state','eq','on')
+          | list
+          | count %}
         {{ interior }}
       attributes:
         open: >
-          {% set exterior = expand('binary_sensor.exterior_doors') |
-            map(attribute='entity_id') |
-            list %}
-          {% set interior = states.binary_sensor |
-            selectattr('attributes.device_class','eq','door') |
-            rejectattr('entity_id','in',exterior) |
-            rejectattr('entity_id','eq','binary_sensor.exterior_doors') |
-            selectattr('state','eq','on') |
-            map(attribute='attributes.friendly_name') |
-            list %}
+          {% set exterior = expand('binary_sensor.exterior_doors')
+            | map(attribute='entity_id')
+            | list %}
+          {% set interior = states.binary_sensor
+            | selectattr('attributes.device_class','eq','door')
+            | rejectattr('entity_id','in',exterior)
+            | rejectattr('entity_id','eq','binary_sensor.exterior_doors')
+            | selectattr('state','eq','on')
+            | map(attribute='attributes.friendly_name')
+            | list %}
           {{ interior }}
       icon: >-
         {% if states('sensor.interior_doors') | int == 0 %}
