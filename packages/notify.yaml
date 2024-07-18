@@ -1597,9 +1597,10 @@ script:
             {% macro issue() %}
               <p>
               {{ [
-                  'Houston, We have a problem!',
-                  'You might not like this.',
-                  'There is something that needs your attention.'
+                  "Houston, We have a problem!",
+                  "You might not like this.",
+                  "There is something that needs your attention.",
+                  "I've got a bad feeling about this."
                   ] | random }}
               </p>
             {% endmacro %}
@@ -1665,7 +1666,7 @@ script:
                 {{ [
                   'I have detected lightning within 20 miles of our house.',
                   'Did you see that flash? I did. Lightning is near.',
-                  'If you didnt hear the thunder you will soon. '
+                  'Thunderbolts and lightning, very very frightning, me. Galileo, et cetera. <break time="1s"/> Hey, there is lightning nearby.'
                 ] | random }}
                   If anyone is outside they should seek shelter inside. 
             {% endmacro %}
@@ -1688,7 +1689,8 @@ script:
 
             {% macro tornado_watch() %}
               {{ ['A tornado watch has been issued. Keep an eye on the skies and your local weather experts, and move the cars away from trees!',
-                  'The national weather service has issued a tornado watch. Keep your eyes peeled for rotating clouds, and move your cars away from trees!'
+                  'The national weather service has issued a tornado watch. Keep your eyes peeled for rotating clouds, and move your cars away from trees!',
+                  'A tornado watch has been issued. Remember, this means that the ingredients for burritos exist, it does not mean burritos are imminent!'
               ] | random}}
             {% endmacro %}
 
@@ -1726,7 +1728,8 @@ script:
                   'I am back, sir. Not to worry. ',
                   'I am back online. Nice to see you, sir. ',
                   'Your home assistant is back online, sir. ',
-                  'My systems are back online. Hello, sir. '
+                  'My systems are back online. Hello, sir. ',
+                  'I have awakened from my slumber. I have to pee. But all systems are back online!'
                   ] | random }}
               </p>
             {% endmacro %}
