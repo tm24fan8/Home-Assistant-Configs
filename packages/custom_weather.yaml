@@ -3,6 +3,7 @@ weather:
     name: "Iron Nerd Weather Station"
     condition_template: >
       {% set stations = [
+        states.weather.home,
         states.weather.kdfi_daynight,
         states.weather.iron_nerd_studios,
         states.weather.openweathermap
@@ -11,6 +12,7 @@ weather:
       {{ states(result) }}
     temperature_template: >
       {% set temps = [
+        states.sensor.home_temperature,
         states.sensor.kdfi_temperature,
         states.sensor.pirateweather_temperature,
         states.sensor.openweathermap_temperature
@@ -20,6 +22,7 @@ weather:
     temperature_unit: °F
     humidity_template: >
       {% set humidity = [
+        states.sensor.home_relative_humidity,
         states.sensor.kdfi_relative_humidity,
         states.sensor.pirateweather_humidity,
         states.sensor.openweathermap_humidity
@@ -28,6 +31,7 @@ weather:
       {{ states(result) | float }}
     forecast_daily_template: >
       {% set forecasts = [
+        states.sensor.weather_com_daily_weather_forecast.attributes,
         states.weather.kdfi_daynight.attributes,
         states.sensor.pirateweather_daily_weather_forecast.attributes,
         states.sensor.openweathermap_daily_weather_forecast.attributes,
@@ -36,11 +40,13 @@ weather:
       {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
     forecast_hourly_template: >
       {% set forecasts = [
+        states.sensor.weather_com_hourly_weather_forecast,
         states.sensor.pirateweather_hourly_weather_forecast.attributes
       ] %}
       {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
     pressure_template: >
       {% set pressures = [
+        states.sensor.home_pressure,
         states.sensor.kdfi_barometric_pressure
       ] %}
       {% set result = pressures | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
@@ -48,6 +54,7 @@ weather:
     pressure_unit: inHg
     wind_speed_template: >
       {% set windspeeds = [
+        states.sensor.home_wind_speed,
         states.sensor.pirateweather_wind_speed,
         states.sensor.kdfi_wind_speed,
         states.sensor.openweathermap_wind_speed
@@ -57,6 +64,7 @@ weather:
     wind_speed_unit: mph
     wind_bearing_template: >
       {% set windbearings = [
+        states.sensor.home_wind_direction_degrees,
         states.sensor.pirateweather_wind_bearing,
         states.sensor.openweathermap_wind_bearing
       ] %}
@@ -84,6 +92,7 @@ weather:
     name: "Iron Nerd Weather Station - Hourly"
     condition_template: >
       {% set stations = [
+        states.weather.home,
         states.weather.tomorrow_io_stratton_ave_hourly,
         states.weather.iron_nerd_studios,
         states.weather.kdfi_daynight,
@@ -93,6 +102,7 @@ weather:
       {{ states(result) }}
     temperature_template: >
       {% set temps = [
+        states.sensor.home_temperature,
         states.sensor.kdfi_temperature,
         states.sensor.pirateweather_temperature,
         states.sensor.openweathermap_temperature
@@ -102,6 +112,7 @@ weather:
     temperature_unit: °F
     humidity_template: >
       {% set humidity = [
+        states.sensor.home_relative_humidity,
         states.sensor.kdfi_relative_humidity,
         states.sensor.pirateweather_humidity,
         states.sensor.openweathermap_humidity
@@ -110,12 +121,14 @@ weather:
       {{ states(result) | float }}
     forecast_hourly_template: >
       {% set forecasts = [
+        states.sensor.weather_com_hourly_weather_forecast,
         states.weather.tomorrow_io_stratton_ave_hourly.attributes,
         states.sensor.pirateweather_hourly_weather_forecast.attributes
       ] %}
       {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
     pressure_template: >
       {% set pressures = [
+        states.sensor.home_pressure,
         states.sensor.kdfi_barometric_pressure
       ] %}
       {% set result = pressures | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
@@ -123,6 +136,7 @@ weather:
     pressure_unit: inHg
     wind_speed_template: >
       {% set windspeeds = [
+        states.sensor.home_wind_speed,
         states.sensor.pirateweather_wind_speed,
         states.sensor.kdfi_wind_speed,
         states.sensor.openweathermap_wind_speed
@@ -132,6 +146,7 @@ weather:
     wind_speed_unit: mph
     wind_bearing_template: >
       {% set windbearings = [
+        states.sensor.home_wind_direction_degrees,
         states.sensor.pirateweather_wind_bearing,
         states.sensor.openweathermap_wind_bearing
       ] %}
@@ -228,7 +243,9 @@ sensor:
 template:
   - trigger:
     - platform: time_pattern
-      minutes: /5
+      minutes: /15
+    - platform: state
+      entity_id: weather.iron_nerd_studios
     - platform: homeassistant
       event: start
     action:
@@ -260,7 +277,9 @@ template:
       unit_of_measurement: "%"
   - trigger:
     - platform: time_pattern
-      minutes: /5
+      minutes: /15
+    - platform: state
+      entity_id: weather.iron_nerd_studios
     - platform: homeassistant
       event: start
     action:
@@ -276,6 +295,65 @@ template:
       state: "{{ now().isoformat() }}"
       attributes:
         forecast: "{{ hourly['weather.iron_nerd_studios'].forecast }}"
+  - trigger:
+    - platform: time_pattern
+      minutes: /15
+    - platform: state
+      entity_id: weather.home
+    - platform: homeassistant
+      event: start
+    action:
+    - service: weather.get_forecasts
+      data:
+        type: daily
+      target:
+        entity_id: weather.home
+      response_variable: daily
+    - variables:
+        today: "{{ daily['weather.home'].forecast[0] }}"
+    sensor:
+    - name: Weather.com Daily Weather Forecast
+      unique_id: 6c53fb52-284f-4a12-bea3-ce56fcbbf954
+      state: "{{ now().isoformat() }}"
+      attributes:
+        forecast: "{{ daily['weather.home'].forecast }}"
+    - name: Weather.com High
+      unique_id: eb721062-ef9d-45b4-85d6-10a7a3101d8f
+      state: >
+        {% if is_number(today.temperature) %}
+          {{ today.temperature }}
+        {% else %}
+          {{ state_attr('weather.home','temperature') }}
+        {% endif %}
+      unit_of_measurement: °F
+    - name: Weather.com Low
+      unique_id: cc898dc4-e0ff-4bc1-a538-dea089f4bf07
+      state: "{{ today.templow }}"
+      unit_of_measurement: °F
+    - name: Weather.com Rain Chance Today
+      unique_id: df274a33-baf2-4c64-83f9-550c021e01ec
+      state: "{{ today.precipitation_probability }}"
+      unit_of_measurement: "%"
+  - trigger:
+    - platform: time_pattern
+      minutes: /15
+    - platform: state
+      entity_id: weather.home
+    - platform: homeassistant
+      event: start
+    action:
+    - service: weather.get_forecasts
+      data:
+        type: hourly
+      target:
+        entity_id: weather.home
+      response_variable: hourly
+    sensor:
+    - name: Weather.com Hourly Weather Forecast
+      unique_id: 1b193fbb-331d-40eb-999c-73a45f68716d
+      state: "{{ now().isoformat() }}"
+      attributes:
+        forecast: "{{ hourly['weather.home'].forecast }}"
   - trigger:
     - platform: time_pattern
       minutes: /5
@@ -451,30 +529,30 @@ template:
       unique_id: c0faea33-2ac3-40f1-8558-584c3f5d6b16
       icon: mdi:weather-sunny
       state: >-
-          {% set forecast = state_attr('sensor.pirateweather_daily_weather_forecast','forecast')[0] %}
+          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[0] %}
           {{ forecast.condition }}
       attributes:
         high_temp: >-
-          {% set forecast = state_attr('sensor.pirateweather_daily_weather_forecast','forecast')[0] %}
+          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[0] %}
           {{ forecast.temperature }}
         overnight_low: >-
-          {% set forecast = state_attr('sensor.pirateweather_daily_weather_forecast','forecast')[0] %}
+          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[0] %}
           {{ forecast.templow }}
         wind_bearing: >-
-          {% set forecast = state_attr('sensor.pirateweather_daily_weather_forecast','forecast')[0] %}
+          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[0] %}
           {{ forecast.wind_bearing }}
         wind_speed: >-
-          {% set forecast = state_attr('sensor.pirateweather_daily_weather_forecast','forecast')[0] %}
+          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[0] %}
           {{ forecast.wind_speed }}
         precipitation: >-
           {% if state_attr('weather.iron_nerd_weather_station','precipitation') %}
             {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
           {% else %}
-            {% set forecast = state_attr('sensor.pirateweather_daily_weather_forecast','forecast')[0] %}
+            {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[0] %}
           {% endif %}
           {{ forecast.precipitation }}
         friendly: >-
-          {% set forecast = state_attr('sensor.pirateweather_daily_weather_forecast','forecast')[0] %}
+          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[0] %}
           {{ forecast.condition | replace("partlycloudy","partly cloudy") }}
     - name: Current Forecast Detail
       unique_id: e5ae9864-70b5-402c-9d2f-c4d6a10085df
@@ -589,23 +667,23 @@ template:
       unique_id: a8ae26b0-ed26-4568-bb2b-f7c72707b009
       icon: mdi:weather-sunny
       state: >-
-          {% set forecast = state_attr('sensor.pirateweather_daily_weather_forecast','forecast')[1] %}
+          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[1] %}
           {{ forecast.condition }}
       attributes:
         high_temp: >-
-          {% set forecast = state_attr('sensor.pirateweather_daily_weather_forecast','forecast')[1] %}
+          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[1] %}
           {{ forecast.temperature }}
         overnight_low: >-
-          {% set forecast = state_attr('sensor.pirateweather_daily_weather_forecast','forecast')[1] %}
+          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[1] %}
           {{ forecast.templow }}
         wind_bearing: >-
-          {% set forecast = state_attr('sensor.pirateweather_daily_weather_forecast','forecast')[1] %}
+          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[1] %}
           {{ forecast.wind_bearing }}
         wind_speed: >-
-          {% set forecast = state_attr('sensor.pirateweather_daily_weather_forecast','forecast')[1] %}
+          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[1] %}
           {{ forecast.wind_speed }}
         precipitation: >-
-          {% set forecast = state_attr('sensor.pirateweather_daily_weather_forecast','forecast')[1] %}
+          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[1] %}
           {{ forecast.precipitation }}
     - name: Tomorrow Forecast Detail
       unique_id: 21374ed0-80d1-49ba-817d-3e93eb3865e4
@@ -910,21 +988,25 @@ template:
       unit_of_measurement: '°F'
       device_class: temperature
       state: >-
-        {% set forecast = state_attr('sensor.pirateweather_daily_weather_forecast','forecast')[0] %}
-        {{ forecast.temperature }}
+        {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[0] %}
+        {% if is_number(forecast.temperature) %}
+          {{ forecast.temperature }}
+        {% else %}
+          {{ state_attr('weather.iron_nerd_weather_station','temperature') }}
+        {% endif %}
     - name: "Tomorrow's High Temp"
       unique_id: b9dfc26a-d557-46b4-a6eb-a215c7bbe494
       unit_of_measurement: '°F'
       device_class: temperature
       state: >-
-        {% set forecast = state_attr('sensor.pirateweather_daily_weather_forecast','forecast')[2] %}
+        {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[2] %}
         {{ forecast.temperature }}
     - name: "Tonight's Low Temp"
       unique_id: 8ddc55b6-4728-4897-a32f-90be970f744b
       unit_of_measurement: '°F'
       device_class: temperature
       state: >-
-        {% set forecast = state_attr('sensor.pirateweather_daily_weather_forecast','forecast')[0] %}
+        {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[0] %}
         {{ forecast.templow }}
     - name: "Clothing Forecast"
       unique_id: 8ed2684b-d0ad-402c-bc3c-340cb9b2437a
@@ -1185,8 +1267,8 @@ template:
       unit_of_measurement: '°F'
       state: >
         {% set ns = namespace(temps=[]) %}
-        {% set x = state_attr('sensor.pirateweather_hourly_weather_forecast','forecast')  | count %}
-        {% set pd = state_attr('sensor.pirateweather_hourly_weather_forecast','forecast') %}
+        {% set x = state_attr('sensor.weather_com_hourly_weather_forecast','forecast')  | count %}
+        {% set pd = state_attr('sensor.weather_com_hourly_weather_forecast','forecast') %}
         {% for i in range(0,x) %}
           {% set hr = as_timestamp(as_local(as_datetime(pd[i].datetime))) | timestamp_custom('%H') | int %}
           {% if hr in range(21,24) or hr in range(0,8) %}
