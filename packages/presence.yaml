@@ -122,7 +122,9 @@ template:
       unique_id: 20039c29-8b9d-436d-ba6c-8f2c2bda1db0
       device_class: occupancy
       state: >
-        {% if is_state('binary_sensor.tony_desktop_on','off') and 
+        {% if is_state('binary_sensor.basement_studio_motion','on') %}
+          true
+        {% elif is_state('binary_sensor.tony_desktop_on','off') and 
                   is_state('binary_sensor.kallen_desktop_on','off') %}
           false
         {% elif (is_state('binary_sensor.tony_desktop_idle','on') or
