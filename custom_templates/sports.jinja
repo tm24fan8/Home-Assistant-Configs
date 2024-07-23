@@ -107,11 +107,11 @@
     {% if is_state('binary_sensor.san_francisco_49ers_inhibit','off') %}
       {{ sports_pregame('sensor.san_francisco_49ers') }}
     {% endif %}
-    {% if is_state('binary_sensor.cleveland_guardians_inhibit','off') %}
-      {{ sports_pregame('sensor.cleveland_guardians') }}
-    {% endif %}
     {% if is_state('binary_sensor.minnesota_twins_inhibit','off') %}
       {{ sports_pregame('sensor.minnesota_twins') }}
+    {% endif %}
+    {% if is_state('binary_sensor.cleveland_guardians_inhibit','off') %}
+      {{ sports_pregame('sensor.cleveland_guardians') }}
     {% endif %}
     {% if is_state('binary_sensor.los_angeles_dodgers_inhibit','off') %}
       {{ sports_pregame('sensor.los_angeles_dodgers') }}
@@ -135,11 +135,11 @@
     {% if is_state('binary_sensor.san_francisco_49ers_inhibit','off') %}
       {{ sports_main('sensor.san_francisco_49ers') }}
     {% endif %}
-    {% if is_state('binary_sensor.cleveland_guardians_inhibit','off') %}
-      {{ sports_main('sensor.cleveland_guardians') }}
-    {% endif %}
     {% if is_state('binary_sensor.minnesota_twins_inhibit','off') %}
       {{ sports_main('sensor.minnesota_twins') }}
+    {% endif %}
+    {% if is_state('binary_sensor.cleveland_guardians_inhibit','off') %}
+      {{ sports_main('sensor.cleveland_guardians') }}
     {% endif %}
     {% if is_state('binary_sensor.los_angeles_dodgers_inhibit','off') %}
       {{ sports_main('sensor.los_angeles_dodgers') }}
