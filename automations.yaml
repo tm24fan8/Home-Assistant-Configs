@@ -4976,13 +4976,21 @@
     state: 'on'
     alias: Upstairs bathroom window is open
   action:
-  - if:
+  - alias: If shower mode is turned back on
+    if:
     - condition: trigger
       id:
       - shower-on
     then:
+    - alias: Clear existing text notifications
+      service: script.text_notify
+      metadata: {}
+      data:
+        type: alert
+        who: all
+        message: clear_notification
+        tag: shower-mode-window-alert
     - stop: Shower mode turned back on
-    alias: If shower mode is turned back on
   - alias: Repeat notifications
     repeat:
       sequence:
@@ -5000,6 +5008,14 @@
           minutes: 5
           seconds: 0
           milliseconds: 0
+      - alias: Clear existing text notifications
+        service: script.text_notify
+        metadata: {}
+        data:
+          type: alert
+          who: all
+          message: clear_notification
+          tag: shower-mode-window-alert
       - alias: Run the appropriate notification actions
         choose:
         - conditions:
@@ -5008,18 +5024,38 @@
               or wait.trigger == ''none'' }}'
             alias: Window is still open
           sequence:
-          - service: script.status_annc
-            metadata: {}
-            data:
-              who: common
-              call_interruption: 1
-              call_snark_shower_mode_window: 1
+          - alias: Send notifications
+            parallel:
+            - service: script.status_annc
+              metadata: {}
+              data:
+                who: common
+                call_interruption: 1
+                call_snark_shower_mode_window: 1
+              alias: TTS Announcement
+            - service: script.text_notify
+              metadata: {}
+              data:
+                type: normal
+                who: all
+                title: Shower Mode Window Alert
+                message: If you are done showering, close the upstairs bathroom window!
+                tag: shower-mode-window-alert
+              alias: Text Notify
         - conditions:
           - condition: template
             value_template: '{{ wait.trigger.id == ''window_closed'' or is_state(''binary_sensor.upstairs_bathroom_window'',''off'')
               }}'
             alias: Window is closed
           sequence:
+          - alias: Clear existing text notifications
+            service: script.text_notify
+            metadata: {}
+            data:
+              type: alert
+              who: all
+              message: clear_notification
+              tag: shower-mode-window-alert
           - stop: Window was closed
       until:
       - alias: Window is closed
