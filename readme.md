@@ -67,6 +67,9 @@ Again, mostly just the ones I'm **using** or **will use soon**...also a few that
 <details>
 <summary>Click here</summary>
 
+- [Bubble Card](https://github.com/Clooos/Bubble-Card)
+- [Config Template Card](https://github.com/iantrich/config-template-card)
+- [Decluttering Card](https://github.com/custom-cards/decluttering-card)
 - [Card Tools](https://github.com/thomasloven/lovelace-card-tools) (required for various other cards)
 - [Layout Card](https://github.com/thomasloven/lovelace-layout-card)
 - [Scheduler Card](https://github.com/nielsfaber/scheduler-card) (required for Scheduler component)
@@ -79,22 +82,17 @@ Again, mostly just the ones I'm **using** or **will use soon**...also a few that
 - [Atomic Calendar Revive](https://github.com/totaldebug/atomic-calendar-revive)
 - [Plotly Graph Card](https://github.com/dbuezas/lovelace-plotly-graph-card)
 - [Mushroom](https://github.com/piitaya/lovelace-mushroom)
-- [Todoist Card](https://github.com/tm24fan8/todoist-card)
 - [Apexcharts Card](https://github.com/RomRider/apexcharts-card)
 - [Auto Entities Card](https://github.com/thomasloven/lovelace-auto-entities)
-- [Header Cards](https://github.com/gadgetchnnel/lovelace-header-cards)
-- [Plex Meets Home Assistant](https://github.com/JurajNyiri/PlexMeetsHomeAssistant)
 - [Slider Button Card](https://github.com/custom-cards/slider-button-card)
 - [Weather Radar Card](https://github.com/Makin-Things/weather-radar-card)
 - [Platinum Weather Card](https://github.com/Makin-Things/platinum-weather-card) (Not currently in use, but VERY nicely done)
 - [Stack In Card](https://github.com/custom-cards/stack-in-card)
-- [Canary](https://github.com/jcwillox/lovelace-canary)
 - [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row)
 - [State Switch](https://github.com/thomasloven/lovelace-state-switch)
 - [Multiple Entity Row](https://github.com/benct/lovelace-multiple-entity-row)
 - [Weather Card](https://github.com/bramkragten/weather-card)
 - [Template Entity Row](https://github.com/thomasloven/lovelace-template-entity-row)
-- [Config Template Card](https://github.com/iantrich/config-template-card)
 - [Canvas Gauge Card](https://github.com/custom-cards/canvas-gauge-card)
 - [Datetime Card](https://github.com/a-p-z/datetime-card)
 - [Waze Travel Time](https://github.com/r-renato/ha-card-waze-travel-time)
@@ -122,9 +120,7 @@ Again, mostly just the ones I'm **using** or **will use soon**...also a few that
 - [Windrose Card](https://github.com/aukedejong/lovelace-windrose-card)
 - [Swipe Card](https://github.com/bramkragten/swipe-card)
 - [Meteoalarm Card](https://github.com/MrBartusek/MeteoalarmCard)
-- [Bubble Card](https://github.com/Clooos/Bubble-Card)
 - [Weather Chart Card](https://github.com/mlamberts78/weather-chart-card)
-- [Twitch Followed Live Streams Card](https://github.com/stefmde/HomeAssistant-TwitchFollowedLiveStreamsCard)
 - [Comfortable Environment Card](https://github.com/argaar/comfortable-environment-card)
 
 </details>
