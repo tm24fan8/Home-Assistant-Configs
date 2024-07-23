@@ -4952,3 +4952,78 @@
     data: {}
     alias: Run evening scheduling
   mode: restart
+- id: '1721699562332'
+  alias: Shower Mode Window Alert
+  description: Reminder to close the upstairs bathroom window after a shower
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.shower_mode
+    from: 'on'
+    to: 'off'
+    id: shower-off
+    alias: Shower Mode Off
+  - platform: state
+    entity_id:
+    - input_boolean.shower_mode
+    from: 'off'
+    to: 'on'
+    id: shower-on
+    alias: Shower Mode On
+  condition:
+  - condition: state
+    entity_id: binary_sensor.upstairs_bathroom_window
+    state: 'on'
+    alias: Upstairs bathroom window is open
+  action:
+  - if:
+    - condition: trigger
+      id:
+      - shower-on
+    then:
+    - stop: Shower mode turned back on
+    alias: If shower mode is turned back on
+  - alias: Repeat notifications
+    repeat:
+      sequence:
+      - alias: Wait for window to close, limit 5 minutes
+        wait_for_trigger:
+        - platform: state
+          entity_id:
+          - binary_sensor.upstairs_bathroom_window
+          from: 'on'
+          to: 'off'
+          id: window_closed
+          alias: Window is closed
+        timeout:
+          hours: 0
+          minutes: 5
+          seconds: 0
+          milliseconds: 0
+      - alias: Run the appropriate notification actions
+        choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ is_state(''binary_sensor.upstairs_bathroom_window'',''on'')
+              or wait.trigger == ''none'' }}'
+            alias: Window is still open
+          sequence:
+          - service: script.status_annc
+            metadata: {}
+            data:
+              who: common
+              call_interruption: 1
+              call_snark_shower_mode_window: 1
+        - conditions:
+          - condition: template
+            value_template: '{{ wait.trigger.id == ''window_closed'' or is_state(''binary_sensor.upstairs_bathroom_window'',''off'')
+              }}'
+            alias: Window is closed
+          sequence:
+          - stop: Window was closed
+      until:
+      - alias: Window is closed
+        condition: state
+        entity_id: binary_sensor.upstairs_bathroom_window
+        state: 'off'
+  mode: restart

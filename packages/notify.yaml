@@ -1786,6 +1786,15 @@ script:
                 ] | random }}
             {%- endmacro -%}
 
+            {%- macro snark_shower_mode_window() -%}
+              {{ [
+                'Now that you have finished showering, you may want to consider shutting the upstairs bathroom window.',
+                'As there is no screen in the upstairs bathroom window, you should shut it to prevent bugs and other unwanted creatures from getting into the house.',
+                'Hey, you left the upstairs bathroom window open after your shower. Do something about that ASAP.',
+                'The second floor already has enough trouble maintaining temperature, please close the upstairs bathroom window after your shower.'
+                ] | random }}
+            {%- endmacro -%}
+
             {%- macro school_pickup_reminder() -%}
               {{ [
                 'It is almost time to head to school ',
@@ -1943,7 +1952,11 @@ script:
               {% endif %}
 
               {% if call_snark_door_closed == 1 %}
-                {{ snark_door_closed () }}
+                {{ snark_door_closed() }}
+              {% endif %}
+
+              {% if call_snark_shower_mode_window == 1 %}
+                {{ snark_shower_mode_window() }}
               {% endif %}
 
               {% if call_school_pickup_reminder == 1 %}
