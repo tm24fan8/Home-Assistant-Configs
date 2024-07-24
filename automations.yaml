@@ -4628,6 +4628,12 @@
           state: 'off'
         alias: Morning Notify
       sequence:
+      - service: counter.increment
+        metadata: {}
+        data: {}
+        target:
+          entity_id: counter.kallen_morning_meds_reminder_count
+        alias: Increment counter
       - service: script.turn_on
         target:
           entity_id: script.kallen_morning_meds
@@ -4643,6 +4649,12 @@
           state: 'off'
         alias: Night Notify
       sequence:
+      - alias: Increment counter
+        service: counter.increment
+        metadata: {}
+        data: {}
+        target:
+          entity_id: counter.kallen_night_meds_reminder_count
       - service: script.turn_on
         target:
           entity_id: script.kallen_night_meds
@@ -4653,6 +4665,12 @@
         id: boolean-morning
         alias: Morning Taken
       sequence:
+      - service: counter.reset
+        metadata: {}
+        data: {}
+        target:
+          entity_id: counter.kallen_morning_meds_reminder_count
+        alias: Reset counter
       - service: input_datetime.set_datetime
         target:
           entity_id: input_datetime.kallen_morning_meds_taken
@@ -4667,6 +4685,12 @@
         id: boolean-night
         alias: Night Taken
       sequence:
+      - alias: Reset counter
+        service: counter.reset
+        metadata: {}
+        data: {}
+        target:
+          entity_id: counter.kallen_night_meds_reminder_count
       - service: input_datetime.set_datetime
         target:
           entity_id: input_datetime.kallen_night_meds_taken
