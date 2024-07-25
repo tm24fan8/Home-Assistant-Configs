@@ -192,7 +192,7 @@ template:
         reminder_time: "{{ states('input_datetime.tony_morning_meds_notify') }}"
       icon: mdi:medication
     - name: Tony Afternoon Meds Needed
-      unique_id: 32f2f158-8c59-486e-bf85-f14909375ff7
+      unique_id: 363b5ea0-3ad7-4e98-b0b0-5ff67bbef2f4
       state: >
         {% set ct = as_timestamp(now()) %}
         {% set notify = state_attr('input_datetime.tony_afternoon_meds_notify','timestamp') %}
@@ -201,7 +201,7 @@ template:
         reminder_time: "{{ states('input_datetime.tony_afternoon_meds_notify') }}"
       icon: mdi:medication
     - name: Tony Night Meds Needed
-      unique_id: 32f2f158-8c59-486e-bf85-f14909375ff7
+      unique_id: b927b5a4-27a7-42aa-af4e-fa37a7036d25
       state: >
         {% set ct = as_timestamp(now()) %}
         {% set notify = state_attr('input_datetime.tony_night_meds_notify','timestamp') %}
