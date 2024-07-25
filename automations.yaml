@@ -2308,6 +2308,13 @@
   alias: Tony Meds Handler
   description: Make sure Tony has taken his meds at the scheduled times
   trigger:
+  - platform: homeassistant
+    event: start
+    alias: Reboot
+  - platform: time_pattern
+    minutes: /30
+    id: heartbeat
+    alias: Heartbeat
   - platform: time
     at: input_datetime.tony_morning_meds_notify
     id: morning-notify
