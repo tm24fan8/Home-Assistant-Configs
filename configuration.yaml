@@ -312,6 +312,12 @@ influxdb:
       - sensor.bypassed_sensors
       - input_boolean.shower_mode
       - sensor.services_down
+      - sensor.average_room_temperature
+      - sensor.average_room_illuminance
+      - sensor.brightest_room
+      - sensor.dimmest_room
+      - sensor.warmest_room_temperature
+      - sensor.coldest_room_temperature
 
 logbook:
   include:
@@ -480,3 +486,9 @@ prometheus:
       - sensor.bypassed_sensors
       - input_boolean.shower_mode
       - sensor.services_down
+      - sensor.average_room_temperature
+      - sensor.average_room_illuminance
+      - sensor.brightest_room
+      - sensor.dimmest_room
+      - sensor.warmest_room_temperature
+      - sensor.coldest_room_temperature
