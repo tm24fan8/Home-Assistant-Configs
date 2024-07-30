@@ -2306,15 +2306,12 @@
   mode: restart
 - id: '1696288846954'
   alias: Tony Meds Handler
-  description: Make sure Tony has taken his meds at the scheduled times
+  description: Handles the scheduling of medication reminders for Tony
   trigger:
-  - platform: homeassistant
-    event: start
-    alias: Reboot
   - platform: time_pattern
     minutes: /30
-    id: heartbeat
-    alias: Heartbeat
+    id: trigger30
+    alias: Every 30 minutes
   - platform: time
     at: input_datetime.tony_morning_meds_notify
     id: morning-notify
@@ -2378,6 +2375,44 @@
   - alias: Routing
     choose:
     - conditions:
+      - condition: trigger
+        id:
+        - trigger30
+      sequence:
+      - alias: Check morning reminder switch
+        if:
+        - condition: state
+          entity_id: input_boolean.tony_morning_meds_reminder
+          state: 'on'
+          alias: Morning meds reminder needed
+        then:
+        - service: script.tony_morning_meds
+          metadata: {}
+          data: {}
+          alias: Run morning meds notification script
+      - alias: Check afternoon reminder switch
+        if:
+        - alias: Afternoon meds reminder needed
+          condition: state
+          entity_id: input_boolean.tony_afternoon_meds_reminder
+          state: 'on'
+        then:
+        - alias: Run afternoon meds notification script
+          service: script.tony_afternoon_meds
+          data: {}
+      - alias: Check night reminder switch
+        if:
+        - condition: state
+          entity_id: input_boolean.tony_night_meds_reminder
+          state: 'on'
+          alias: Night meds reminder needed
+        then:
+        - service: script.tony_night_meds
+          metadata: {}
+          data: {}
+          alias: Run night meds notification script
+      alias: Every 30 minutes
+    - conditions:
       - condition: and
         conditions:
         - condition: trigger
@@ -2387,16 +2422,16 @@
           state: 'off'
         alias: Morning Notify
       sequence:
-      - service: counter.increment
-        target:
-          entity_id: counter.tony_morning_meds_reminder_count
+      - service: input_boolean.turn_on
+        metadata: {}
         data: {}
-        alias: Increment counter
-      - service: script.turn_on
         target:
-          entity_id: script.tony_morning_meds
+          entity_id: input_boolean.tony_morning_meds_reminder
+        alias: Activate morning reminders
+      - service: script.tony_morning_meds
+        metadata: {}
         data: {}
-        alias: Run morning meds script
+        alias: Run morning meds notification script
     - conditions:
       - alias: Afternoon Notify
         condition: and
@@ -2408,14 +2443,15 @@
           entity_id: input_boolean.tony_afternoon_meds_taken
           state: 'off'
       sequence:
-      - service: counter.increment
+      - alias: Activate afternoon reminders
+        service: input_boolean.turn_on
+        metadata: {}
+        data: {}
         target:
-          entity_id: counter.tony_afternoon_meds_reminder_count
+          entity_id: input_boolean.tony_afternoon_meds_reminder
+      - alias: Run afternoon meds notification script
+        service: script.tony_afternoon_meds
         data: {}
-        alias: Increment counter
-      - service: script.tony_afternoon_meds
-        data: {}
-        alias: Run afternoon meds script
     - conditions:
       - condition: and
         conditions:
@@ -2427,16 +2463,16 @@
           state: 'off'
         alias: Night Notify
       sequence:
-      - alias: Increment counter
-        service: counter.increment
+      - alias: Activate night reminders
+        service: input_boolean.turn_on
+        metadata: {}
         data: {}
         target:
-          entity_id: counter.tony_night_meds_reminder_count
-      - service: script.turn_on
-        target:
-          entity_id: script.tony_night_meds
+          entity_id: input_boolean.tony_night_meds_reminder
+      - service: script.tony_night_meds
+        metadata: {}
         data: {}
-        alias: Run night meds script
+        alias: Run night meds notification script
     - conditions:
       - condition: trigger
         id: boolean-morning
@@ -2451,12 +2487,12 @@
 
             '
         alias: Set time morning meds were taken
-      - service: counter.reset
+      - service: input_boolean.turn_off
         metadata: {}
         data: {}
         target:
-          entity_id: counter.tony_morning_meds_reminder_count
-        alias: Reset morning counter
+          entity_id: input_boolean.tony_morning_meds_reminder
+        alias: Deactivate morning reminders
     - conditions:
       - condition: trigger
         id:
@@ -2472,12 +2508,12 @@
 
             '
         alias: Set time afternoon meds were taken
-      - service: counter.reset
+      - alias: Deactivate afternoon reminders
+        service: input_boolean.turn_off
         metadata: {}
         data: {}
         target:
-          entity_id: counter.tony_afternoon_meds_reminder_count
-        alias: Reset afternoon counter
+          entity_id: input_boolean.tony_afternoon_meds_reminder
     - conditions:
       - condition: trigger
         id: boolean-night
@@ -2492,12 +2528,12 @@
 
             '
         alias: Set time night meds were taken
-      - alias: Reset night counter
-        service: counter.reset
+      - alias: Deactivate night reminders
+        service: input_boolean.turn_off
         metadata: {}
         data: {}
         target:
-          entity_id: counter.tony_night_meds_reminder_count
+          entity_id: input_boolean.tony_night_meds_reminder
     - conditions:
       - alias: Wakeup
         condition: trigger
@@ -2574,7 +2610,7 @@
             '
         alias: Update notification
   mode: parallel
-  max: 10
+  max: 12
 - id: '1696288939707'
   alias: Tony Stream Today
   description: ''
