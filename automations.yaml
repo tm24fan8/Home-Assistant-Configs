@@ -5299,3 +5299,205 @@
       alias: Night Taken
   mode: parallel
   max: 4
+- id: '1722378602352'
+  alias: Tony Meds Cleanup
+  description: Handles the setting/clearing of medication configs for Tony
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.tony_morning_meds_reminder
+    from: 'on'
+    to: 'off'
+    id: morning-reminders-off
+    alias: Morning reminders off
+  - alias: Afternoon reminders off
+    platform: state
+    entity_id:
+    - input_boolean.tony_afternoon_meds_reminder
+    from: 'on'
+    to: 'off'
+    id: afternoon-reminders-off
+  - alias: Night reminders off
+    platform: state
+    entity_id:
+    - input_boolean.tony_night_meds_reminder
+    from: 'on'
+    to: 'off'
+    id: night-reminders-off
+  - platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: TONY_MORNING_MEDS_TAKEN
+    id: morning-taken
+    alias: Morning taken
+  - alias: Afternoon taken
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: TONY_AFTERNOON_MEDS_TAKEN
+    id: afternoon-taken
+  - alias: Night taken
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: TONY_NIGHT_MEDS_TAKEN
+    id: night-taken
+  - alias: Morning skipped
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: TONY_MORNING_MEDS_SKIPPED
+    id: morning-skipped
+  - alias: Afternoon skipped
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: TONY_AFTERNOON_MEDS_SKIPPED
+    id: afternoon-skipped
+  - alias: Night skipped
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: TONY_NIGHT_MEDS_SKIPPED
+    id: night-skipped
+  - platform: state
+    entity_id:
+    - person.tony_stork
+    from: home
+    id: left
+    alias: Left
+  condition: []
+  action:
+  - alias: Routing
+    choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - morning-reminders-off
+        alias: Morning Reminders Off
+      sequence:
+      - service: counter.reset
+        metadata: {}
+        data: {}
+        target:
+          entity_id: counter.tony_morning_meds_reminder_count
+        alias: Reset morning reminder count
+      - service: script.text_notify
+        data:
+          type: alert
+          who: tony
+          message: clear_notification
+          tag: tony-morning-meds
+        alias: Clear morning notification
+    - conditions:
+      - condition: trigger
+        id:
+        - afternoon-reminders-off
+        alias: Afternoon reminders off
+      sequence:
+      - alias: Reset afternoon reminder count
+        service: counter.reset
+        metadata: {}
+        data: {}
+        target:
+          entity_id: counter.tony_afternoon_meds_reminder_count
+      - service: script.text_notify
+        data:
+          type: alert
+          who: tony
+          message: clear_notification
+          tag: tony-afternoon-meds
+        alias: Clear afternoon notification
+    - conditions:
+      - condition: trigger
+        id:
+        - night-reminders-off
+        alias: Night reminders off
+      sequence:
+      - alias: Reset night reminder count
+        service: counter.reset
+        metadata: {}
+        data: {}
+        target:
+          entity_id: counter.tony_night_meds_reminder_count
+      - service: script.text_notify
+        data:
+          type: alert
+          who: tony
+          message: clear_notification
+          tag: tony-night-meds
+        alias: Clear night notification
+    - conditions:
+      - condition: trigger
+        id:
+        - morning-taken
+        alias: Morning taken
+      sequence:
+      - service: input_boolean.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.tony_morning_meds_taken
+        alias: Turn on morning meds taken
+    - conditions:
+      - condition: trigger
+        id:
+        - afternoon-taken
+        alias: Afternoon taken
+      sequence:
+      - service: input_boolean.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.tony_afternoon_meds_taken
+        alias: Turn on afternoon meds taken
+    - conditions:
+      - condition: trigger
+        id:
+        - night-taken
+        alias: Night taken
+      sequence:
+      - service: input_boolean.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.tony_night_meds_taken
+        alias: Turn on night meds taken
+    - conditions:
+      - condition: trigger
+        id:
+        - morning-skipped
+        alias: Morning skipped
+      sequence:
+      - service: input_boolean.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.tony_morning_meds_reminder
+        alias: Deactivate morning reminders
+    - conditions:
+      - condition: trigger
+        id:
+        - afternoon-skipped
+        alias: Afternoon skipped
+      sequence:
+      - service: input_boolean.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.tony_afternoon_meds_reminder
+        alias: Deactivate afternoon reminders
+    - conditions:
+      - condition: trigger
+        id:
+        - night-skipped
+        alias: Night skipped
+      sequence:
+      - service: input_boolean.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.tony_night_meds_reminder
+        alias: Deactivate night reminders
+  mode: queued
+  max: 10
