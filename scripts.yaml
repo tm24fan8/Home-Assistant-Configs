@@ -1647,6 +1647,12 @@ tony_morning_meds:
   icon: mdi:medication
   mode: restart
   sequence:
+  - service: counter.increment
+    metadata: {}
+    data: {}
+    target:
+      entity_id: counter.tony_morning_meds_reminder_count
+    alias: Increment morning reminder counter
   - service: script.text_notify
     data:
       type: alert
@@ -1688,17 +1694,17 @@ tony_morning_meds:
           message: Tony, you need to take your morning meds. This is reminder number
             {{ states('counter.tony_morning_meds_reminder_count') }} for today.
         alias: Send TTS notification
-  - service: counter.increment
-    metadata: {}
-    data: {}
-    target:
-      entity_id: counter.tony_morning_meds_reminder_count
-    alias: Increment morning reminder counter
 tony_night_meds:
   alias: Tony Night Meds
   icon: mdi:medication
   mode: restart
   sequence:
+  - service: counter.increment
+    metadata: {}
+    data: {}
+    target:
+      entity_id: counter.tony_night_meds_reminder_count
+    alias: Increment night reminder counter
   - service: script.text_notify
     data:
       type: alert
@@ -1740,12 +1746,6 @@ tony_night_meds:
           message: Tony, you need to take your night meds. This is reminder number
             {{ states('counter.tony_night_meds_reminder_count') }} for today.
         alias: Send TTS notification
-  - service: counter.increment
-    metadata: {}
-    data: {}
-    target:
-      entity_id: counter.tony_night_meds_reminder_count
-    alias: Increment night reminder counter
 tony_stream_today:
   alias: Tony Stream Today
   sequence:
@@ -1897,6 +1897,12 @@ tony_afternoon_meds:
   icon: mdi:medication
   mode: restart
   sequence:
+  - service: counter.increment
+    metadata: {}
+    data: {}
+    target:
+      entity_id: counter.tony_afternoon_meds_reminder_count
+    alias: Increment afternoon reminder counter
   - service: script.text_notify
     data:
       type: alert
@@ -1938,12 +1944,6 @@ tony_afternoon_meds:
           message: Tony, you need to take your afternoon meds. This is reminder number
             {{ states('counter.tony_afternoon_meds_reminder_count') }} for today.
         alias: Send TTS notification
-  - service: counter.increment
-    metadata: {}
-    data: {}
-    target:
-      entity_id: counter.tony_afternoon_meds_reminder_count
-    alias: Increment afternoon reminder counter
 tony_ibuprofen:
   alias: Tony Ibuprofen
   sequence:
