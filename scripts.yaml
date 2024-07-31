@@ -3084,3 +3084,77 @@ emma_sleep:
             alias: Turn on white noise
   icon: mdi:lightbulb-night
   mode: restart
+tina_morning_meds:
+  alias: Tina Morning Meds
+  icon: mdi:medication
+  mode: restart
+  sequence:
+  - service: counter.increment
+    metadata: {}
+    data: {}
+    target:
+      entity_id: counter.tina_morning_meds_reminder_count
+    alias: Increment morning reminder counter
+  - service: script.text_notify
+    data:
+      type: alert
+      who: tina
+      message: clear_notification
+      tag: tina-morning-meds
+    alias: Clear previous morning notification
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - alias: Send text notification
+    service: script.text_notify
+    data:
+      who: tina
+      type: alert
+      title: Morning Meds
+      message: You need to take your morning meds
+      tag: tina-morning-meds
+      actions:
+      - action: TINA_MORNING_MEDS_TAKEN
+        title: Taken
+      - action: TINA_MORNING_MEDS_SKIPPED
+        title: Skip
+  description: ''
+tina_night_meds:
+  alias: Tina Night Meds
+  icon: mdi:medication
+  mode: restart
+  sequence:
+  - service: counter.increment
+    metadata: {}
+    data: {}
+    target:
+      entity_id: counter.tina_night_meds_reminder_count
+    alias: Increment night reminder counter
+  - service: script.text_notify
+    data:
+      type: alert
+      who: tina
+      message: clear_notification
+      tag: tina-night-meds
+    alias: Clear previous night notification
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - alias: Send text notification
+    service: script.text_notify
+    data:
+      who: tina
+      type: alert
+      title: Night Meds
+      message: You need to take your night meds
+      tag: tina-night-meds
+      actions:
+      - action: TINA_NIGHT_MEDS_TAKEN
+        title: Taken
+      - action: TINA_NIGHT_MEDS_SKIPPED
+        title: Skip
+  description: ''

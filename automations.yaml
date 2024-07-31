@@ -2493,6 +2493,14 @@
         target:
           entity_id: input_boolean.tony_morning_meds_reminder
         alias: Deactivate morning reminders
+      - service: script.text_notify
+        metadata: {}
+        data:
+          type: alert
+          who: tony
+          message: clear_notification
+          tag: tony-left-meds
+        alias: Clear tony-left-meds notification tag
     - conditions:
       - condition: trigger
         id:
@@ -2514,6 +2522,14 @@
         data: {}
         target:
           entity_id: input_boolean.tony_afternoon_meds_reminder
+      - service: script.text_notify
+        metadata: {}
+        data:
+          type: alert
+          who: tony
+          message: clear_notification
+          tag: tony-left-meds
+        alias: Clear tony-left-meds notification tag
     - conditions:
       - condition: trigger
         id: boolean-night
@@ -2534,6 +2550,14 @@
         data: {}
         target:
           entity_id: input_boolean.tony_night_meds_reminder
+      - service: script.text_notify
+        metadata: {}
+        data:
+          type: alert
+          who: tony
+          message: clear_notification
+          tag: tony-left-meds
+        alias: Clear tony-left-meds notification tag
     - conditions:
       - alias: Wakeup
         condition: trigger
@@ -5188,117 +5212,165 @@
   mode: restart
 - id: '1721782673415'
   alias: Tina Meds Handler
-  description: Make sure Tina has taken her meds in the morning and at night
+  description: Handles the scheduling of medication reminders for Tina
   trigger:
+  - platform: time_pattern
+    minutes: /30
+    id: trigger30
+    alias: Every 30 minutes
   - platform: time
     at: input_datetime.tina_morning_meds_notify
-    id: wakeup
+    id: morning-notify
     alias: Morning Notify
+  - platform: time
+    at: input_datetime.tina_night_meds_notify
+    id: night-notify
+    alias: Night Notify
   - platform: state
-    entity_id: input_boolean.tina_morning_meds_taken
+    entity_id:
+    - input_boolean.tina_morning_meds_taken
     to: 'on'
     id: boolean-morning
     alias: Morning Taken
-  - platform: time
-    at: input_datetime.tina_night_meds_notify
-    id: sleep
-    alias: Night Notify
+    from: 'off'
   - platform: state
-    entity_id: input_boolean.tina_night_meds_taken
-    to: 'on'
+    entity_id:
+    - input_boolean.tina_night_meds_taken
     id: boolean-night
     alias: Night Taken
+    from: 'off'
+    to: 'on'
   condition: []
   action:
   - alias: Routing
     choose:
     - conditions:
+      - condition: trigger
+        id:
+        - trigger30
+      sequence:
+      - alias: Check morning reminder switch
+        if:
+        - condition: state
+          entity_id: input_boolean.tina_morning_meds_reminder
+          state: 'on'
+          alias: Morning meds reminder needed
+        then:
+        - service: script.tina_morning_meds
+          metadata: {}
+          data: {}
+          alias: Run morning meds notification script
+      - alias: Check night reminder switch
+        if:
+        - condition: state
+          entity_id: input_boolean.tina_night_meds_reminder
+          state: 'on'
+          alias: Night meds reminder needed
+        then:
+        - service: script.tina_night_meds
+          metadata: {}
+          data: {}
+          alias: Run night meds notification script
+      alias: Every 30 minutes
+    - conditions:
       - condition: and
         conditions:
         - condition: trigger
-          id: wakeup
+          id: morning-notify
         - condition: state
           entity_id: input_boolean.tina_morning_meds_taken
           state: 'off'
         alias: Morning Notify
       sequence:
-      - service: counter.increment
+      - service: input_boolean.turn_on
         metadata: {}
         data: {}
         target:
-          entity_id: counter.tina_morning_meds_reminder_count
-        alias: Increment counter
-      - service: script.turn_on
-        target:
-          entity_id: script.tina_morning_meds
+          entity_id: input_boolean.tina_morning_meds_reminder
+        alias: Activate morning reminders
+      - service: script.tina_morning_meds
+        metadata: {}
         data: {}
-        alias: Run morning script
+        alias: Run morning meds notification script
+    - conditions:
+      - condition: and
+        conditions:
+        - condition: trigger
+          id:
+          - night-notify
+        - condition: state
+          entity_id: input_boolean.tina_night_meds_taken
+          state: 'off'
+        alias: Night Notify
+      sequence:
+      - alias: Activate night reminders
+        service: input_boolean.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.tina_night_meds_reminder
+      - service: script.tina_night_meds
+        metadata: {}
+        data: {}
+        alias: Run night meds notification script
     - conditions:
       - condition: trigger
         id: boolean-morning
         alias: Morning Taken
       sequence:
-      - service: counter.reset
-        metadata: {}
-        data: {}
-        target:
-          entity_id: counter.tina_morning_meds_reminder_count
-        alias: Reset counter
       - service: input_datetime.set_datetime
         target:
           entity_id: input_datetime.tina_morning_meds_taken
         data:
-          datetime: '{% from ''time.jinja'' import current_time %} {{ current_time(''datetime'',24)
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0)
             }}
 
             '
         alias: Set time morning meds were taken
-    - conditions:
-      - condition: and
-        conditions:
-        - condition: trigger
-          id: sleep
-        - condition: state
-          entity_id: input_boolean.tina_night_meds_taken
-          state: 'off'
-        - condition: state
-          entity_id: input_boolean.master_bedroom_sleeping
-          state: 'off'
-        alias: Night Notify
-      sequence:
-      - alias: Increment counter
-        service: counter.increment
+      - service: input_boolean.turn_off
         metadata: {}
         data: {}
         target:
-          entity_id: counter.tina_night_meds_reminder_count
-      - service: script.turn_on
-        target:
-          entity_id: script.tina_night_meds
-        data: {}
-        alias: Run night script
+          entity_id: input_boolean.tina_morning_meds_reminder
+        alias: Deactivate morning reminders
+      - service: script.text_notify
+        metadata: {}
+        data:
+          type: alert
+          who: tina
+          message: clear_notification
+          tag: tina-left-meds
+        alias: Clear tina-left-meds notification tag
     - conditions:
       - condition: trigger
         id: boolean-night
+        alias: Night Taken
       sequence:
-      - alias: Reset counter
-        service: counter.reset
-        metadata: {}
-        data: {}
-        target:
-          entity_id: counter.tina_night_meds_reminder_count
       - service: input_datetime.set_datetime
         target:
           entity_id: input_datetime.tina_night_meds_taken
         data:
-          datetime: '{% from ''time.jinja'' import current_time %} {{ current_time(''datetime'',24)
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0)
             }}
 
             '
         alias: Set time night meds were taken
-      alias: Night Taken
+      - alias: Deactivate night reminders
+        service: input_boolean.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.tina_night_meds_reminder
+      - service: script.text_notify
+        metadata: {}
+        data:
+          type: alert
+          who: tina
+          message: clear_notification
+          tag: tina-left-meds
+        alias: Clear tina-left-meds notification tag
   mode: parallel
-  max: 4
+  max: 12
 - id: '1722378602352'
   alias: Tony Meds Cleanup
   description: Handles the setting/clearing of medication configs for Tony
@@ -5499,5 +5571,192 @@
         target:
           entity_id: input_boolean.tony_night_meds_reminder
         alias: Deactivate night reminders
+    - conditions:
+      - condition: trigger
+        id:
+        - left
+        alias: Left
+      sequence:
+      - alias: Send critical TTS notification if any meds aren't taken
+        if:
+        - condition: template
+          value_template: "{% set med_reminders = is_state('input_boolean.tony_morning_meds_reminder','on')
+            or\n                        is_state('input_boolean.tony_afternoon_meds_reminder','on')
+            or\n                        is_state('input_boolean.tony_night_meds_reminder','on')
+            %}\n{{ med_reminders == true }}"
+          alias: If any med reminders are currently active
+        then:
+        - alias: Send critical TTS notification
+          service: script.text_notify
+          metadata: {}
+          data:
+            type: critical
+            who: tony
+            title: HEY DUMBASS
+            message: YOU FORGOT TO TAKE YOUR MEDS!!!!!
+            tag: tony-left-meds
+  mode: queued
+  max: 10
+- id: '1722386174249'
+  alias: Tina Meds Cleanup
+  description: Handles the setting/clearing of medication configs for Tina
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.tina_morning_meds_reminder
+    from: 'on'
+    to: 'off'
+    id: morning-reminders-off
+    alias: Morning reminders off
+  - alias: Night reminders off
+    platform: state
+    entity_id:
+    - input_boolean.tina_night_meds_reminder
+    from: 'on'
+    to: 'off'
+    id: night-reminders-off
+  - platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: TINA_MORNING_MEDS_TAKEN
+    id: morning-taken
+    alias: Morning taken
+  - alias: Night taken
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: TINA_NIGHT_MEDS_TAKEN
+    id: night-taken
+  - alias: Morning skipped
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: TINA_MORNING_MEDS_SKIPPED
+    id: morning-skipped
+  - alias: Night skipped
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: TINA_NIGHT_MEDS_SKIPPED
+    id: night-skipped
+  - platform: state
+    entity_id:
+    - person.tina_stork
+    from: home
+    id: left
+    alias: Left
+  condition: []
+  action:
+  - alias: Routing
+    choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - morning-reminders-off
+        alias: Morning Reminders Off
+      sequence:
+      - service: counter.reset
+        metadata: {}
+        data: {}
+        target:
+          entity_id: counter.tina_morning_meds_reminder_count
+        alias: Reset morning reminder count
+      - service: script.text_notify
+        data:
+          type: alert
+          who: tina
+          message: clear_notification
+          tag: tina-morning-meds
+        alias: Clear morning notification
+    - conditions:
+      - condition: trigger
+        id:
+        - night-reminders-off
+        alias: Night reminders off
+      sequence:
+      - alias: Reset night reminder count
+        service: counter.reset
+        metadata: {}
+        data: {}
+        target:
+          entity_id: counter.tina_night_meds_reminder_count
+      - service: script.text_notify
+        data:
+          type: alert
+          who: tina
+          message: clear_notification
+          tag: tina-night-meds
+        alias: Clear night notification
+    - conditions:
+      - condition: trigger
+        id:
+        - morning-taken
+        alias: Morning taken
+      sequence:
+      - service: input_boolean.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.tina_morning_meds_taken
+        alias: Turn on morning meds taken
+    - conditions:
+      - condition: trigger
+        id:
+        - night-taken
+        alias: Night taken
+      sequence:
+      - service: input_boolean.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.tina_night_meds_taken
+        alias: Turn on night meds taken
+    - conditions:
+      - condition: trigger
+        id:
+        - morning-skipped
+        alias: Morning skipped
+      sequence:
+      - service: input_boolean.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.tina_morning_meds_reminder
+        alias: Deactivate morning reminders
+    - conditions:
+      - condition: trigger
+        id:
+        - night-skipped
+        alias: Night skipped
+      sequence:
+      - service: input_boolean.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.tina_night_meds_reminder
+        alias: Deactivate night reminders
+    - conditions:
+      - condition: trigger
+        id:
+        - left
+        alias: Left
+      sequence:
+      - alias: Send critical TTS notification if any meds aren't taken
+        if:
+        - alias: If any med reminders are currently active
+          condition: template
+          value_template: "{% set med_reminders = is_state('input_boolean.tina_morning_meds_reminder','on')
+            or\n                        is_state('input_boolean.tina_night_meds_reminder','on')
+            %}\n{{ med_reminders == true }}"
+        then:
+        - alias: Send critical TTS notification
+          service: script.text_notify
+          metadata: {}
+          data:
+            type: critical
+            who: tina
+            title: HEY DUMBASS
+            message: YOU FORGOT TO TAKE YOUR MEDS!!!!!
+            tag: tina-left-meds
   mode: queued
   max: 10
