@@ -164,7 +164,7 @@ script:
             time: >
               {% from 'time.jinja' import time_from_calendar %}
               {% if is_state('input_boolean.two_hour_delay','on') %}
-                10:00
+                {{ time_from_calendar('calendar.kallen_school_days','start_time','set','add',2)}}
               {% else %}
                 {{ time_from_calendar('calendar.kallen_school_days','start_time','set') }}
               {% endif %}
