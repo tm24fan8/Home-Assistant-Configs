@@ -1717,35 +1717,19 @@ tony_night_meds:
       minutes: 0
       seconds: 5
       milliseconds: 0
-  - alias: Send night notifications via text, and TTS if needed
-    parallel:
-    - alias: Send text notification
-      service: script.text_notify
-      data:
-        who: tony
-        type: alert
-        title: Night Meds
-        message: You need to take your night meds
-        tag: tony-night-meds
-        actions:
-        - action: TONY_NIGHT_MEDS_TAKEN
-          title: Taken
-        - action: TONY_NIGHT_MEDS_SKIPPED
-          title: Skip
-    - alias: Send TTS if reminders > 2
-      if:
-      - condition: numeric_state
-        entity_id: counter.tony_night_meds_reminder_count
-        above: 2
-        alias: When reminder count > 2
-      then:
-      - service: script.speech_engine
-        data:
-          who: common_areas
-          type: alert
-          message: Tony, you need to take your night meds. This is reminder number
-            {{ states('counter.tony_night_meds_reminder_count') }} for today.
-        alias: Send TTS notification
+  - alias: Send text notification
+    service: script.text_notify
+    data:
+      who: tony
+      type: alert
+      title: Night Meds
+      message: You need to take your night meds
+      tag: tony-night-meds
+      actions:
+      - action: TONY_NIGHT_MEDS_TAKEN
+        title: Taken
+      - action: TONY_NIGHT_MEDS_SKIPPED
+        title: Skip
 tony_stream_today:
   alias: Tony Stream Today
   sequence:
@@ -2304,203 +2288,109 @@ tony_tylenol:
   mode: queued
   icon: mdi:medication
   max: 10
-'1710612011154':
+kallen_morning_meds:
   alias: Kallen Morning Meds
   sequence:
-  - service: script.text_notify
-    data:
-      who: kallen
-      type: alert
-      title: Morning Meds
-      message: You need to take your morning meds. Go to mom or dad to confirm.
-      tag: kallen-morning-meds-self
-  - service: script.text_notify
-    data:
-      who: parents
-      type: alert
-      title: Morning Meds
-      message: Kallen needs to take his morning meds
-      tag: kallen-morning-meds-parents
-      actions:
-      - action: KALLEN_MORNING_MEDS_TAKEN
-        title: Taken
-      - action: KALLEN_MORNING_MEDS_SKIPPED
-        title: Skip
-      - action: KALLEN_MORNING_MEDS_ASK_LATER
-        title: Ask Later
-  - wait_for_trigger:
-    - platform: event
-      event_type: ios.notification_action_fired
-      event_data:
-        actionName: KALLEN_MORNING_MEDS_TAKEN
-      id: taken
-    - platform: event
-      event_type: ios.notification_action_fired
-      event_data:
-        actionName: KALLEN_MORNING_MEDS_SKIPPED
-      id: skipped
-    - platform: event
-      event_type: ios.notification_action_fired
-      event_data:
-        actionName: KALLEN_MORNING_MEDS_ASK_LATER
-      id: ask-later
-    - platform: state
-      entity_id: person.kallen_stork
-      from: home
-      id: left
-    - platform: state
-      entity_id: input_boolean.kallen_morning_meds_taken
-      to: 'on'
-      id: manual
-    timeout: 00:10:00
-    continue_on_timeout: true
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ wait.trigger.id in [''taken'',''manual''] }}'
-      sequence:
-      - service: input_boolean.turn_on
-        target:
-          entity_id: input_boolean.kallen_morning_meds_taken
-        data: {}
-    - conditions:
-      - condition: template
-        value_template: '{{ wait.trigger.id == ''ask-later'' }}'
-      sequence:
-      - service: input_datetime.set_datetime
-        target:
-          entity_id: input_datetime.kallen_morning_meds_notify
-        data:
-          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,5)
-            }}
-
-            '
-    - conditions:
-      - condition: template
-        value_template: '{{ wait.trigger.id == ''left'' or wait.trigger == ''none''
-          or wait.trigger.idx is undefined }}'
-      sequence:
-      - if:
-        - condition: state
-          entity_id: person.kallen_stork
-          state: home
-        then:
-        - service: input_datetime.set_datetime
-          target:
-            entity_id: input_datetime.kallen_morning_meds_notify
-          data:
-            datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,1)
-              }}
-
-              '
-  - service: script.text_notify
-    data:
-      type: alert
-      who: kallen
-      message: clear_notification
-      tag: kallen-morning-meds-parents
-  - service: script.text_notify
-    data:
-      type: alert
-      who: kallen
-      message: clear_notification
-      tag: kallen-morning-meds-self
+  - service: counter.increment
+    metadata: {}
+    data: {}
+    target:
+      entity_id: counter.kallen_morning_meds_reminder_count
+    alias: Increment morning reminder counter
+  - alias: Clear previous morning notifications
+    parallel:
+    - service: script.text_notify
+      data:
+        type: alert
+        who: parents
+        message: clear_notification
+        tag: kallen-morning-meds-parents
+      alias: Clear for parents
+    - service: script.text_notify
+      data:
+        type: alert
+        who: kallen
+        message: clear_notification
+        tag: kallen-morning-meds-self
+      alias: Clear for Kallen
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - alias: Send text notifications
+    parallel:
+    - alias: Send to parents
+      service: script.text_notify
+      data:
+        who: parents
+        type: alert
+        title: Morning Meds
+        message: Kallen needs to take his morning meds
+        tag: kallen-morning-meds-parents
+        actions:
+        - action: KALLEN_MORNING_MEDS_TAKEN
+          title: Taken
+        - action: KALLEN_MORNING_MEDS_SKIPPED
+          title: Skip
+    - service: script.text_notify
+      data:
+        who: kallen
+        type: alert
+        title: Morning Meds
+        message: You need to take your morning meds. Go to mom or dad to confirm.
+        tag: kallen-morning-meds-self
+      alias: Send to Kallen
   icon: mdi:medication
   mode: restart
-'1710612164315':
+kallen_night_meds:
   alias: Kallen Night Meds
   sequence:
-  - service: script.text_notify
-    data:
-      who: kallen
-      type: alert
-      title: Night Meds
-      message: You need to take your night meds (melatonin)
-      tag: kallen-night-meds
-      actions:
-      - action: KALLEN_NIGHT_MEDS_TAKEN
-        title: Taken
-      - action: KALLEN_NIGHT_MEDS_SKIPPED
-        title: Skip
-      - action: KALLEN_NIGHT_MEDS_ASK_LATER
-        title: Ask Later
-  - service: script.text_notify
-    data:
-      who: "{% if states('person.christina_stork') in ['Bob Evans','BobEvans'] %}\n
-        \ tony\n{% else %}\n  parents\n{% endif %}\n"
-      type: alert
-      title: Night Meds
-      message: Kallen needs to take his night meds (melatonin)
-      tag: kallen-night-meds
-      actions:
-      - action: KALLEN_NIGHT_MEDS_TAKEN
-        title: Taken
-      - action: KALLEN_NIGHT_MEDS_SKIPPED
-        title: Skip
-      - action: KALLEN_NIGHT_MEDS_ASK_LATER
-        title: Ask Later
-  - wait_for_trigger:
-    - platform: event
-      event_type: ios.notification_action_fired
-      event_data:
-        actionName: KALLEN_NIGHT_MEDS_TAKEN
-      id: taken
-    - platform: event
-      event_type: ios.notification_action_fired
-      event_data:
-        actionName: KALLEN_NIGHT_MEDS_SKIPPED
-      id: skipped
-    - platform: event
-      event_type: ios.notification_action_fired
-      event_data:
-        actionName: KALLEN_NIGHT_MEDS_ASK_LATER
-      id: ask-later
-    - platform: state
-      entity_id: input_boolean.kallen_night_meds_taken
-      to: 'on'
-      id: manual
-    timeout: 00:05:00
-    continue_on_timeout: true
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ wait.trigger.id in [''taken'',''manual''] }}'
-      sequence:
-      - service: input_boolean.turn_on
-        target:
-          entity_id: input_boolean.kallen_night_meds_taken
-        data: {}
-    - conditions:
-      - condition: template
-        value_template: '{{ wait.trigger.id == ''ask-later'' }}'
-      sequence:
-      - service: input_datetime.set_datetime
-        target:
-          entity_id: input_datetime.kallen_night_meds_notify
-        data:
-          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,15)
-            }}
-
-            '
-    - conditions:
-      - condition: template
-        value_template: '{{ wait.trigger == ''none'' or wait.trigger.idx is undefined
-          }}'
-      sequence:
-      - service: input_datetime.set_datetime
-        target:
-          entity_id: input_datetime.kallen_night_meds_notify
-        data:
-          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,1)
-            }}
-
-            '
+  - service: counter.increment
+    metadata: {}
+    data: {}
+    alias: Increment night reminder counter
   - service: script.text_notify
     data:
       type: alert
       who: all
       message: clear_notification
       tag: kallen-night-meds
+    alias: Clear previous night notification
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - parallel:
+    - service: script.text_notify
+      data:
+        who: "{% if states('person.christina_stork') in ['Bob Evans','BobEvans'] %}\n
+          \ tony\n{% else %}\n  parents\n{% endif %}\n"
+        type: alert
+        title: Night Meds
+        message: Kallen needs to take his night meds (melatonin)
+        tag: kallen-night-meds
+        actions:
+        - action: KALLEN_NIGHT_MEDS_TAKEN
+          title: Taken
+        - action: KALLEN_NIGHT_MEDS_SKIPPED
+          title: Skip
+      alias: Send to parents
+    - alias: Send to Kallen
+      service: script.text_notify
+      data:
+        who: kallen
+        type: alert
+        title: Night Meds
+        message: You need to take your night meds (melatonin)
+        tag: kallen-night-meds
+        actions:
+        - action: KALLEN_NIGHT_MEDS_TAKEN
+          title: Taken
+        - action: KALLEN_NIGHT_MEDS_SKIPPED
+          title: Skip
+    alias: Send text notifications
   icon: mdi:medication
   mode: restart
 reset_annc_switches:
