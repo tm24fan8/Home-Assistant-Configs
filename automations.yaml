@@ -5794,11 +5794,17 @@
       sequence:
       - alias: Send critical TTS notification if any meds aren't taken
         if:
-        - alias: If any med reminders are currently active
-          condition: template
-          value_template: "{% set med_reminders = is_state('input_boolean.tina_morning_meds_reminder','on')
-            or\n                        is_state('input_boolean.tina_night_meds_reminder','on')
-            %}\n{{ med_reminders == true }}"
+        - alias: Check if any reminders are active
+          condition: or
+          conditions:
+          - condition: state
+            entity_id: input_boolean.tina_morning_meds_reminder
+            state: 'on'
+            alias: Morning meds reminder active
+          - condition: state
+            entity_id: input_boolean.tina_night_meds_reminder
+            state: 'on'
+            alias: Night meds reminder active
         then:
         - alias: Send critical TTS notification
           service: script.text_notify
