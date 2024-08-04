@@ -68,6 +68,31 @@
 {% endif %}
 {% endmacro %}
 
+{% macro datetime_from_calendar(calendar,start_or_end,action,operator,days,hours,minutes) %}
+{% set base = as_timestamp(strptime(state_attr(calendar,start_or_end), '%Y-%m-%d %H:%M:%S')) | int %}
+{% if minutes is defined %}
+  {% set mod = ((((days * 24) * 60) * 60) + (hours* 60) * 60) + (minutes * 60) | int %}
+{% elif hours is defined %}
+  {% set mod = (((days * 24) * 60) * 60) + (hours* 60) * 60 | int %}
+{% elif days is defined %}
+  {% set mod = ((days * 24) * 60) * 60 | int %}
+{% endif %}
+{% if action == 'set' %}
+  {% set ts = "%Y-%m-%d %H:%M:%S" %}
+{% elif action == 'read' %}
+  {% set ts = "%Y-%m-%d %-I:%M %p" %}
+{% endif %}
+{% if operator is defined %}
+  {% if operator == 'add' %}
+    {{ (base + mod) | timestamp_custom(ts) }}
+  {% elif operator == 'subtract' %}
+    {{ (base - mod) | timestamp_custom(ts) }}
+  {% endif %}
+{% else %}
+  {{ base | timestamp_custom(ts) }}
+{% endif %}
+{% endmacro %}
+
 {% macro set_datetime(hours,minutes,seconds) %}
 {% if seconds is defined %}
 {{ (as_timestamp(now()) + (((hours * 60) * 60) + (minutes * 60)) + seconds) | int | timestamp_custom('%Y-%m-%d %H:%M:%S') }}
