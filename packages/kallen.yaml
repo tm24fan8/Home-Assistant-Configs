@@ -16,8 +16,14 @@ input_boolean:
   kallen_late_bedtime:
     name: Kallen Late Bedtime
     icon: mdi:weather-night
+  kallen_morning_meds_reminder:
+    name: Kallen Morning Meds Reminder
+    icon: mdi:medication
   kallen_morning_meds_taken:
     name: Kallen Morning Meds Taken
+    icon: mdi:medication
+  kallen_night_meds_reminder:
+    name: Kallen Night Meds Reminder
     icon: mdi:medication
   kallen_night_meds_taken:
     name: Kallen Night Meds Taken
@@ -67,12 +73,12 @@ input_datetime:
     icon: mdi:medication
   kallen_morning_meds_notify:
     name: Kallen Morning Meds Notify
-    has_date: false
+    has_date: true
     has_time: true
     icon: mdi:medication
   kallen_night_meds_notify:
     name: Kallen Night Meds Notify
-    has_date: false
+    has_date: true
     has_time: true
     icon: mdi:medication
   kallen_alarm_clock:
