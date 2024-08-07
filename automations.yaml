@@ -5701,7 +5701,7 @@
     id: night-skipped
   - platform: state
     entity_id:
-    - person.tina_stork
+    - person.christina_stork
     from: home
     id: left
     alias: Left
