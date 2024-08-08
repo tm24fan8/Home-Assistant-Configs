@@ -152,4 +152,6 @@
 {{ cleanup(data()) }}
 {% endmacro %}
 
-{{ sports_updates('pregame') }}
+{% macro sports_datetime(team) %}
+{{ as_timestamp(state_attr(team,'date')) | timestamp_custom('%Y-%m-%d %H:%M:%S') }}
+{% endmacro%}

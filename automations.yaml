@@ -5995,3 +5995,103 @@
             tag: kallen-left-meds
   mode: queued
   max: 10
+- id: '1722887275366'
+  alias: Sports Scheduling
+  description: Handle the start times for various sports events, for the purpose of
+    notifications and such
+  trigger:
+  - platform: time
+    at: '11:55:00'
+  condition: []
+  action:
+  - service: input_datetime.set_datetime
+    metadata: {}
+    data:
+      datetime: '{% from ''sports.jinja'' import sports_datetime %} {{ sports_datetime(''sensor.michigan_wolverines'')
+        }}
+
+        '
+    target:
+      entity_id: input_datetime.michigan_wolverines_start
+    alias: Michigan Wolverines Start
+  - service: input_datetime.set_datetime
+    metadata: {}
+    data:
+      datetime: '{% from ''sports.jinja'' import sports_datetime %} {{ sports_datetime(''sensor.ohio_state_buckeyes'')
+        }}
+
+        '
+    target:
+      entity_id: input_datetime.ohio_state_buckeyes_start
+    alias: Ohio State Buckeyes Start
+  - service: input_datetime.set_datetime
+    metadata: {}
+    data:
+      datetime: '{% from ''sports.jinja'' import sports_datetime %} {{ sports_datetime(''sensor.toledo_rockets'')
+        }}
+
+        '
+    target:
+      entity_id: input_datetime.toledo_rockets_start
+    alias: Toledo Rockets Start
+  - service: input_datetime.set_datetime
+    metadata: {}
+    data:
+      datetime: '{% from ''sports.jinja'' import sports_datetime %} {{ sports_datetime(''sensor.minnesota_vikings'')
+        }}
+
+        '
+    target:
+      entity_id: input_datetime.minnesota_vikings_start
+    alias: Minnesota Vikings Start
+  - service: input_datetime.set_datetime
+    metadata: {}
+    data:
+      datetime: '{% from ''sports.jinja'' import sports_datetime %} {{ sports_datetime(''sensor.san_francisco_49ers'')
+        }}
+
+        '
+    target:
+      entity_id: input_datetime.san_francisco_49ers_start
+    alias: San Francisco 49ers Start
+  - service: input_datetime.set_datetime
+    metadata: {}
+    data:
+      datetime: '{% from ''sports.jinja'' import sports_datetime %} {{ sports_datetime(''sensor.minnesota_twins'')
+        }}
+
+        '
+    target:
+      entity_id: input_datetime.minnesota_twins_start
+    alias: Minnesota Twins Start
+  - service: input_datetime.set_datetime
+    metadata: {}
+    data:
+      datetime: '{% from ''sports.jinja'' import sports_datetime %} {{ sports_datetime(''sensor.cleveland_guardians'')
+        }}
+
+        '
+    target:
+      entity_id: input_datetime.cleveland_guardians_start
+    alias: Cleveland Guardians Start
+  - service: input_datetime.set_datetime
+    metadata: {}
+    data:
+      datetime: '{% from ''sports.jinja'' import sports_datetime %} {{ sports_datetime(''sensor.los_angeles_dodgers'')
+        }}
+
+        '
+    target:
+      entity_id: input_datetime.los_angeles_dodgers_start
+    alias: Los Angeles Dodgers Start
+  - service: input_datetime.set_datetime
+    metadata: {}
+    data:
+      datetime: '{% from ''sports.jinja'' import sports_datetime %} {{ sports_datetime(''sensor.minnesota_wild'')
+        }}
+
+        '
+    target:
+      entity_id: input_datetime.minnesota_wild_start
+    alias: Minnesota Wild Start
+  mode: restart

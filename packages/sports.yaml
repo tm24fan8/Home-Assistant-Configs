@@ -3,6 +3,53 @@ input_boolean:
     name: Sports Updates
     icon: mdi:strategy
 
+input_datetime:
+  michigan_wolverines_start:
+    name: Michigan Wolverines Start
+    has_date: true
+    has_time: true
+    icon: mdi:football
+  ohio_state_buckeyes_start:
+    name: Ohio State Buckeyes Start
+    has_date: true
+    has_time: true
+    icon: mdi:football
+  toledo_rockets_start:
+    name: Toledo Rockets Start
+    has_date: true
+    has_time: true
+    icon: mdi:football
+  minnesota_vikings_start:
+    name: Minnesota Vikings Start
+    has_date: true
+    has_time: true
+    icon: mdi:football
+  san_francisco_49ers_start:
+    name: San Francisco 49ers Start
+    has_date: true
+    has_time: true
+    icon: mdi:football
+  minnesota_twins_start:
+    name: Minnesota Twins Start
+    has_date: true
+    has_time: true
+    icon: mdi:baseball
+  cleveland_guardians_start:
+    name: Cleveland Guardians Start
+    has_date: true
+    has_time: true
+    icon: mdi:baseball
+  los_angeles_dodgers_start:
+    name: Los Angeles Dodgers Start
+    has_date: true
+    has_time: true
+    icon: mdi:baseball
+  minnesota_wild_start:
+    name: Minnesota Wild Start
+    has_date: true
+    has_time: true
+    icon: mdi:hockey-puck
+
 template:
   - binary_sensor:
     - name: Michigan Wolverines Inhibit
