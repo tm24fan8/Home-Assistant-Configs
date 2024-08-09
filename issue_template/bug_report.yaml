@@ -20,3 +20,5 @@ body:
       value: "A bug happened!"
     validations:
       required: true
+labels:
+  - needs-response
