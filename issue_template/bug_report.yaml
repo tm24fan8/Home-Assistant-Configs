@@ -1,0 +1,22 @@
+name: Bug Report
+about: Report a bug that you have found
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: markdown
+    attributes:
+      value: |
+        This issue was created by an issue **template**
+    visible: [content]
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Also, what were you expecting to happen?
+      placeholder: Tell me what you saw!
+      value: "A bug happened!"
+    validations:
+      required: true
