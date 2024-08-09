@@ -247,11 +247,14 @@ script:
         target:
           entity_id: input_datetime.kallen_morning_meds_notify
         data:
-          time: >
+          datetime: >
+            {% set date = now().strftime('%Y-%m-%d') %}
+            {% set wakeup = state_attr('input_datetime.kallen_wakeup_time','timestamp') | int %}
+            {% set wakeup_mod = (wakeup + 600) | timestamp_custom('%T',false) %}
             {% if is_state('input_boolean.kallen_school_today','on') %}
-              {{ (state_attr('input_datetime.kallen_wakeup_time','timestamp') + 600) | timestamp_custom('%H:%M', false) }}
+              {{ date + ' ' + wakeup_mod }}
             {% else %}
-              {{ states('input_datetime.kallen_wakeup_time') }}
+              {{ date + ' ' + states('input_datetime.kallen_wakeup_time') }}
             {% endif %}
       - service: input_boolean.turn_on
         target:
@@ -324,7 +327,15 @@ script:
           target:
             entity_id: input_datetime.kallen_night_meds_notify
           data:
-            time: "{{ (state_attr('input_datetime.kallen_bedtime','timestamp') - 600) | timestamp_custom('%H:%M', false) }}"
+            datetime: >
+              {% set bedtime = state_attr('input_datetime.kallen_bedtime','timestamp') | int %}
+              {% set bedtime_mod = (bedtime - 600) | timestamp_custom('%T',false) %}
+              {% if bedtime < 13800 %}
+              {% set date = (as_timestamp(now()) + 86400) | timestamp_custom("%Y-%m-%d", True) %}
+              {% else %}
+                {% set date = now().strftime('%Y-%m-%d') %}
+              {% endif %}
+              {{ date + ' ' + bedtime_mod }}
       - if:
         - condition: state
           entity_id: input_boolean.kallen_late_bedtime
@@ -354,7 +365,7 @@ script:
           target:
             entity_id: input_datetime.kallen_night_meds_notify
           data:
-            time: "{{ (state_attr('input_datetime.kallen_night_meds_notify','timestamp') + 3600) | timestamp_custom('%H:%M', false) }}"
+            datetime: "{{ (state_attr('input_datetime.kallen_night_meds_notify','timestamp') + 3600) | timestamp_custom('%Y-%m-%d %H:%M:%S') }}"
       - service: input_boolean.turn_on
         target:
           entity_id: input_boolean.kallen_scheduling_evening_ran
@@ -586,12 +597,13 @@ script:
         target:
           entity_id: input_datetime.tina_morning_meds_notify
         data:
-          time: >
+          datetime: >
             {% from 'time.jinja' import datetime_from_calendar %}
+            {% set date = now().strftime('%Y-%m-%d') %}
             {% if is_state('input_boolean.work_today','on') %}
               {{ datetime_from_calendar('calendar.family_tinawork','start_time','set','subtract',0,0,30) }}
             {% else %}
-              {{ states('input_datetime.master_bedroom_wakeup') }}
+              {{ date + ' ' + states('input_datetime.master_bedroom_wakeup') }}
             {% endif %}
       - service: input_boolean.turn_on
         target:
@@ -677,7 +689,7 @@ script:
           target:
             entity_id: input_datetime.tina_night_meds_notify
           data:
-            time: '03:00'
+            datetime: "{{ (as_timestamp(now()) + 86400) | timestamp_custom('%Y-%m-%d', True) + ' 03:00:00' }}"
       - service: input_boolean.turn_on
         target:
           entity_id: input_boolean.master_bedroom_scheduling_evening_ran
