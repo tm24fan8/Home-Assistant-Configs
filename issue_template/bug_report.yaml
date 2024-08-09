@@ -21,4 +21,5 @@ body:
     validations:
       required: true
 labels:
+  - type/bug
   - needs-response
