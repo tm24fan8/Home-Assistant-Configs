@@ -288,6 +288,17 @@ automation:
       target:
         entity_id: input_boolean.school_today_ran
 
+  - id: 59ae3bfe-5c58-4ff4-aaf5-7b76fd0ac442
+    alias: Start of School Year
+    initial_state: true
+    trigger:
+      - platform: template
+        value_template: "{{ states('sensor.school_start_days2go') | int == 1 }}"
+    action:
+      - service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.school_in_session
+
   - id: 05ee0f8d-5411-4486-8acf-9bfadad2b23a
     alias: End of School Year
     initial_state: true
