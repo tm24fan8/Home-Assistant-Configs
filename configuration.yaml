@@ -260,6 +260,8 @@ influxdb:
       - binary_sensor.kallen_desktop*
       - sensor.asus_laptop*
       - binary_sensor.asus_laptop*
+      - sensor.*ashland*
+      - sensor.*kasx*
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
@@ -280,6 +282,7 @@ influxdb:
       - binary_sensor.internet
       - binary_sensor.people_present
       - weather.iron_nerd_weather_station
+      - weather.ashland_weather_station
       - sensor.circle_k
       - sensor.kroger
       - sensor.kecks
@@ -434,6 +437,8 @@ prometheus:
       - binary_sensor.kallen_desktop*
       - sensor.asus_laptop*
       - binary_sensor.asus_laptop*
+      - sensor.*ashland*
+      - sensor.*kasx*
     include_entities:
       - media_player.living_room_tv
       - media_player.basement_tv
@@ -454,6 +459,7 @@ prometheus:
       - binary_sensor.internet
       - binary_sensor.people_present
       - weather.iron_nerd_weather_station
+      - weather.ashland_weather_station
       - sensor.circle_k
       - sensor.kroger
       - sensor.kecks

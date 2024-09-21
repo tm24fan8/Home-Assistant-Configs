@@ -170,6 +170,87 @@ weather:
       {{ states(result) | float }}
     precipitation_unit: in
 
+  - platform: template
+    name: "Ashland Weather Station"
+    condition_template: >
+      {% set stations = [
+        states.weather.ashland,
+        states.weather.kasx,
+        states.weather.pirateweather_ashland
+      ] %}
+      {% set result = stations | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+      {{ states(result) }}
+    temperature_template: >
+      {% set temps = [
+        states.sensor.ashland_temperature,
+        states.sensor.kasx_temperature,
+        states.sensor.pirateweather_ashland_temperature
+      ] %}
+      {% set sensor = temps | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+      {{ states(sensor) | float }}
+    temperature_unit: °F
+    humidity_template: >
+      {% set humidity = [
+        states.sensor.ashland_relative_humidity,
+        states.sensor.kasx_relative_humidity,
+        states.sensor.pirateweather_ashland_humidity
+      ] %}
+      {% set result = humidity | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+      {{ states(result) | float }}
+    forecast_daily_template: >
+      {% set forecasts = [
+        states.sensor.weather_com_ashland_daily_weather_forecast.attributes,
+        states.weather.kasx.attributes,
+        states.sensor.pirateweather_ashland_daily_weather_forecast.attributes
+      ] %}
+      {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
+    forecast_hourly_template: >
+      {% set forecasts = [
+        states.sensor.weather_com_ashland_hourly_weather_forecast,
+        states.sensor.pirateweather_ashland_hourly_weather_forecast.attributes
+      ] %}
+      {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
+    pressure_template: >
+      {% set pressures = [
+        states.sensor.ashland_pressure,
+        states.sensor.kasx_barometric_pressure
+      ] %}
+      {% set result = pressures | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+      {{ states(result) | float }}
+    pressure_unit: inHg
+    wind_speed_template: >
+      {% set windspeeds = [
+        states.sensor.ashland_wind_speed,
+        states.sensor.pirateweather_ashland_wind_speed,
+        states.sensor.kasx_wind_speed
+      ] %}
+      {% set result = windspeeds | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+      {{ states(result) | float }}
+    wind_speed_unit: mph
+    wind_bearing_template: >
+      {% set windbearings = [
+        states.sensor.ashland_wind_direction_degrees,
+        states.sensor.pirateweather_ashland_wind_bearing
+      ] %}
+      {% set result = windbearings | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+      {{ states(result) | float }}
+    visibility_template: >
+      {% set vis = [
+        states.sensor.kasx_visibility,
+        states.sensor.pirateweather_ashland_visibility
+      ] %}
+      {% set result = vis | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+      {{ states(result) | float }}
+    visibility_unit: mi
+    attribution_template: "Daily weather data from Iron Nerd's custom weather station template"
+    ozone_template: >
+      {% set ozones = [
+        states.sensor.pirateweather_ashland_ozone
+      ] %}
+      {% set result = ozones | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+      {{ states(result) | float }}
+    precipitation_unit: in
+
 # binary_sensor:
 #   - platform: bayesian
 #     unique_id: 3e9640d9-57a0-4495-8731-e64b34774065
@@ -386,6 +467,119 @@ template:
       unique_id: 5bece9ad-2e1e-45a9-a690-93f8ff1d8780
       state: "{{ today.precipitation_probability }}"
       unit_of_measurement: "%"
+  - trigger:
+    - platform: time_pattern
+      minutes: /15
+    - platform: state
+      entity_id: weather.pirateweather_ashland
+    - platform: homeassistant
+      event: start
+    action:
+    - service: weather.get_forecasts
+      data:
+        type: daily
+      target:
+        entity_id: weather.pirateweather_ashland
+      response_variable: daily
+    - variables:
+        today: "{{ daily['weather.pirateweather_ashland'].forecast[0] }}"
+    sensor:
+    - name: Pirateweather Ashland Daily Weather Forecast
+      unique_id: 9b103d9e-0fa3-4b47-b95d-c0caa4621895
+      state: "{{ now().isoformat() }}"
+      attributes:
+        forecast: "{{ daily['weather.pirateweather_ashland'].forecast }}"
+    - name: Pirateweather Ashland High
+      unique_id: 21bf1e49-c3e3-4cec-8c89-add9e9efe9f3
+      state: "{{ today.temperature }}"
+      unit_of_measurement: °F
+    - name: Pirateweather Ashland Low
+      unique_id: fe06c076-807e-43a1-8413-c31ec389ec08
+      state: "{{ today.templow }}"
+      unit_of_measurement: °F
+    - name: Pirateweather Ashland Rain Chance Today
+      unique_id: 687b2246-ae49-47e0-95f3-f93dd159a43c
+      state: "{{ today.precipitation_probability }}"
+      unit_of_measurement: "%"
+  - trigger:
+    - platform: time_pattern
+      minutes: /15
+    - platform: state
+      entity_id: weather.pirateweather_ashland
+    - platform: homeassistant
+      event: start
+    action:
+    - service: weather.get_forecasts
+      data:
+        type: hourly
+      target:
+        entity_id: weather.pirateweather_ashland
+      response_variable: hourly
+    sensor:
+    - name: Pirateweather Ashland Hourly Weather Forecast
+      unique_id: bcc4ca8c-aee7-4238-a78d-c35dae8c2c2b
+      state: "{{ now().isoformat() }}"
+      attributes:
+        forecast: "{{ hourly['weather.pirateweather_ashland'].forecast }}"
+  - trigger:
+    - platform: time_pattern
+      minutes: /15
+    - platform: state
+      entity_id: weather.ashland
+    - platform: homeassistant
+      event: start
+    action:
+    - service: weather.get_forecasts
+      data:
+        type: daily
+      target:
+        entity_id: weather.ashland
+      response_variable: daily
+    - variables:
+        today: "{{ daily['weather.ashland'].forecast[0] }}"
+    sensor:
+    - name: Weather.com Ashland Daily Weather Forecast
+      unique_id: f658e6ce-26a2-4c0d-9dc1-0bf26e95caf3
+      state: "{{ now().isoformat() }}"
+      attributes:
+        forecast: "{{ daily['weather.ashland'].forecast }}"
+    - name: Weather.com Ashland High
+      unique_id: b5cf81b7-9a24-47c5-a5ee-9f3367251c83
+      state: >
+        {% if is_number(today.temperature) %}
+          {{ today.temperature }}
+        {% else %}
+          {{ state_attr('weather.ashland','temperature') }}
+        {% endif %}
+      unit_of_measurement: °F
+    - name: Weather.com Ashland Low
+      unique_id: 196fb8a5-8ff5-47f1-ada5-dd1d3a69d596
+      state: "{{ today.templow }}"
+      unit_of_measurement: °F
+    - name: Weather.com Ashland Rain Chance Today
+      unique_id: 2e84209b-8d0a-425a-8c24-10ad8cf0c029
+      state: "{{ today.precipitation_probability }}"
+      unit_of_measurement: "%"
+  - trigger:
+    - platform: time_pattern
+      minutes: /15
+    - platform: state
+      entity_id: weather.ashland
+    - platform: homeassistant
+      event: start
+    action:
+    - service: weather.get_forecasts
+      data:
+        type: hourly
+      target:
+        entity_id: weather.ashland
+      response_variable: hourly
+    sensor:
+    - name: Weather.com Ashland Hourly Weather Forecast
+      unique_id: 463cbe89-997c-49cc-a644-9e05ffd804ff
+      state: "{{ now().isoformat() }}"
+      attributes:
+        forecast: "{{ hourly['weather.ashland'].forecast }}"
   - binary_sensor:
     - name: Heat Threshold
       unique_id: 849a08bb-d4e6-40e9-ae42-50f7fb71b727
