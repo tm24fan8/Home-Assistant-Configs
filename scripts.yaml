@@ -1647,19 +1647,19 @@ tony_morning_meds:
   icon: mdi:medication
   mode: restart
   sequence:
-  - service: counter.increment
-    metadata: {}
+  - metadata: {}
     data: {}
     target:
       entity_id: counter.tony_morning_meds_reminder_count
     alias: Increment morning reminder counter
-  - service: script.text_notify
-    data:
+    action: counter.increment
+  - data:
       type: alert
       who: tony
       message: clear_notification
       tag: tony-morning-meds
     alias: Clear previous morning notification
+    action: script.text_notify
   - delay:
       hours: 0
       minutes: 0
@@ -1668,7 +1668,6 @@ tony_morning_meds:
   - alias: Send morning notifications via text, and TTS if needed
     parallel:
     - alias: Send text notification
-      service: script.text_notify
       data:
         who: tony
         type: alert
@@ -1680,20 +1679,28 @@ tony_morning_meds:
           title: Taken
         - action: TONY_MORNING_MEDS_SKIPPED
           title: Skip
-    - alias: Send TTS if reminders > 2
+      action: script.text_notify
+    - alias: Send TTS if reminders > 2 and Tony is home
       if:
-      - condition: numeric_state
-        entity_id: counter.tony_morning_meds_reminder_count
-        above: 2
-        alias: When reminder count > 2
+      - alias: If reminders > 2 and Tony is home
+        condition: and
+        conditions:
+        - condition: numeric_state
+          entity_id: counter.tony_morning_meds_reminder_count
+          above: 2
+          alias: When reminder count > 2
+        - condition: state
+          entity_id: person.tony_stork
+          state: home
+          alias: If Tony is home
       then:
-      - service: script.speech_engine
-        data:
+      - data:
           who: common_areas
           type: alert
           message: Tony, you need to take your morning meds. This is reminder number
             {{ states('counter.tony_morning_meds_reminder_count') }} for today.
         alias: Send TTS notification
+        action: script.speech_engine
 tony_night_meds:
   alias: Tony Night Meds
   icon: mdi:medication
@@ -1881,19 +1888,19 @@ tony_afternoon_meds:
   icon: mdi:medication
   mode: restart
   sequence:
-  - service: counter.increment
-    metadata: {}
+  - metadata: {}
     data: {}
     target:
       entity_id: counter.tony_afternoon_meds_reminder_count
     alias: Increment afternoon reminder counter
-  - service: script.text_notify
-    data:
+    action: counter.increment
+  - data:
       type: alert
       who: tony
       message: clear_notification
       tag: tony-afternoon-meds
     alias: Clear previous afternoon notification
+    action: script.text_notify
   - delay:
       hours: 0
       minutes: 0
@@ -1902,7 +1909,6 @@ tony_afternoon_meds:
   - alias: Send afternoon notifications via text, and TTS if needed
     parallel:
     - alias: Send text notification
-      service: script.text_notify
       data:
         who: tony
         type: alert
@@ -1914,20 +1920,28 @@ tony_afternoon_meds:
           title: Taken
         - action: TONY_AFTERNOON_MEDS_SKIPPED
           title: Skip
-    - alias: Send TTS if reminders > 2
+      action: script.text_notify
+    - alias: Send TTS if reminders > 2 and Tony is home
       if:
-      - condition: numeric_state
-        entity_id: counter.tony_afternoon_meds_reminder_count
-        above: 2
-        alias: When reminder count > 2
+      - alias: When reminders > 2 and Tony is home
+        condition: and
+        conditions:
+        - condition: numeric_state
+          entity_id: counter.tony_afternoon_meds_reminder_count
+          above: 2
+          alias: When reminder count > 2
+        - condition: state
+          entity_id: person.tony_stork
+          state: home
+          alias: If Tony is home
       then:
-      - service: script.speech_engine
-        data:
+      - data:
           who: common_areas
           type: alert
           message: Tony, you need to take your afternoon meds. This is reminder number
             {{ states('counter.tony_afternoon_meds_reminder_count') }} for today.
         alias: Send TTS notification
+        action: script.speech_engine
 tony_ibuprofen:
   alias: Tony Ibuprofen
   sequence:
@@ -2700,15 +2714,14 @@ rabbit_hutch_cleaning:
         entity_id: counter.rabbit_hutch_cleaning_reminder_count
         above: 2
       then:
-      - service: script.speech_engine
-        data:
-          who: common_areas
+      - data:
+          who: living_room
           type: normal
           message: The rabbit hutch is in need of cleaning. This is reminder number
             {{ states('counter.rabbit_hutch_cleaning_reminder_count') }} for today.
         alias: Play TTS announcement
+        action: script.speech_engine
     - alias: Send phone notifications
-      service: script.text_notify
       metadata: {}
       data:
         type: alert
@@ -2724,6 +2737,7 @@ rabbit_hutch_cleaning:
           title: Skip
         - action: RABBIT_HUTCH_CLEANING_ASK_LATER
           title: Ask Later
+      action: script.text_notify
   - alias: Triggers
     wait_for_trigger:
     - alias: Done
@@ -2764,18 +2778,17 @@ rabbit_hutch_cleaning:
         alias: Cleaning done
       sequence:
       - alias: Turn on input boolean
-        service: input_boolean.turn_on
         metadata: {}
         data: {}
         target:
           entity_id: input_boolean.rabbit_hutch_cleaned
+        action: input_boolean.turn_on
     - conditions:
       - condition: template
         value_template: '{{ wait.trigger.id == ''ask-later'' }}'
         alias: Ask later
       sequence:
-      - service: input_datetime.set_datetime
-        data:
+      - data:
           datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(1)
             }}
 
@@ -2783,14 +2796,14 @@ rabbit_hutch_cleaning:
         target:
           entity_id: input_datetime.rabbit_hutch_cleaning_notify
         alias: Bump cleaning notification by an hour
+        action: input_datetime.set_datetime
     - conditions:
       - condition: template
         value_template: '{{ wait.trigger == ''none'' or wait.trigger.idx is undefined
           }}'
         alias: None or undefined
       sequence:
-      - service: input_datetime.set_datetime
-        target:
+      - target:
           entity_id: input_datetime.rabbit_hutch_cleaning_notify
         data:
           datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,1)
@@ -2798,14 +2811,15 @@ rabbit_hutch_cleaning:
 
             '
         alias: Notify again
+        action: input_datetime.set_datetime
   - alias: Clear notification
-    service: script.text_notify
     metadata: {}
     data:
       type: alert
       who: parents
       message: clear_notification
       tag: rabbit-hutch-cleaning
+    action: script.text_notify
   mode: restart
   icon: mdi:rabbit
 emma_sleep:
