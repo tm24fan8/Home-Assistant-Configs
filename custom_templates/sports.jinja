@@ -12,21 +12,49 @@
 {% endif %}
 {% endmacro %}
 
+{% macro period_str(team) %}
+{% if state_attr(team,'league') in ['NFL','NCAAF'] %}
+  quarter
+{% elif state_attr(team,'league') == 'MLB' %}
+  inning
+{% else %}
+  period
+{% endif %}
+{% endmacro %}
+
 {% macro sports_pregame(team) %}
   {% macro data() %}
+  {% if state_attr(team,'opponent_name') %}
+    {% set opponent_name = state_attr(team, 'opponent_name') %}
+    {% if opponent_name.endswith(' St') %}
+      {% set opponent_name = opponent_name | replace(' St', ' State') %}
+    {% endif %}
+  {% endif %}
   {% if is_state(team,'PRE') %}
     {% set date = state_attr(team,'date') | as_timestamp | timestamp_custom('%m-%d') %}
     {% if date == now().strftime('%m-%d') %}
-      The {{ state_attr(team,'friendly_name') }} will be playing today against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ state_attr(team,'opponent_name') }} at {{ state_attr(team,'venue') }}. 
+      The {{ state_attr(team,'friendly_name') }} will be playing today against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ opponent_name }} at {{ state_attr(team,'venue') }}. 
       {{ sports_str(team,'start') }} is at {{ state_attr(team,'date') | as_timestamp | timestamp_custom('%I:%M %p') }}. 
     {% endif %}
   {% endif %}
-  {% endmacro%}
+  {% endmacro %}
 {{ cleanup(data()) }}
 {% endmacro %}
 
 {% macro sports_main(team) %}
   {% macro data() %}
+  {% set game_clock = state_attr(team,'clock') %}
+  {% if ' - ' in game_clock %}
+    {% set clock_time, quarter = game_clock.split(' - ') %}
+  {% else %}
+    {{ game_clock }}
+  {% endif %}
+  {% if state_attr(team,'opponent_name') %}
+    {% set opponent_name = state_attr(team, 'opponent_name') %}
+    {% if opponent_name.endswith(' St') %}
+      {% set opponent_name = opponent_name | replace(' St', ' State') %}
+    {% endif %}
+  {% endif %}
   {% if is_state(team,'POST') %}
     {% set date = state_attr(team,'date') | as_timestamp | timestamp_custom('%m-%d') %}
     {% set yday = (as_timestamp(now()) - (24*3600)) | timestamp_custom('%m-%d') %}
@@ -34,11 +62,11 @@
       {% if state_attr(team,'clock') in ['postponed','Postponed'] %}
         The {{ state_attr(team,'friendly_name') }} had their game postponed today, and it will be played at a later date. 
       {% elif (state_attr(team,'team_score') | int) == state_attr(team,'opponent_score') | int %}
-        The {{ state_attr(team,'friendly_name') }} tied in their game today against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ state_attr(team,'opponent_name') }} by a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}. 
+        The {{ state_attr(team,'friendly_name') }} tied in their game today against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ opponent_name }} by a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}. 
       {% elif state_attr(team,'team_winner') == true %}
-        The {{ state_attr(team,'friendly_name') }} won their game today against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ state_attr(team,'opponent_name') }} by a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}. 
+        The {{ state_attr(team,'friendly_name') }} won their game today against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ opponent_name }} by a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}. 
       {% elif state_attr(team,'opponent_winner') == true %}
-        The {{ state_attr(team,'friendly_name') }} lost their game today against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ state_attr(team,'opponent_name') }} by a score of {{ state_attr(team,'opponent_score') }} to {{ state_attr(team,'team_score') }}. 
+        The {{ state_attr(team,'friendly_name') }} lost their game today against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ opponent_name }} by a score of {{ state_attr(team,'opponent_score') }} to {{ state_attr(team,'team_score') }}. 
       {% endif %}
       {% if state_attr(team,'clock') not in ['postponed','Postponed'] %}
         This brings their record to {{ state_attr(team,'team_record') | replace("-"," and ") }} on the season. 
@@ -47,11 +75,11 @@
       {% if state_attr(team,'clock') in ['postponed','Postponed'] %}
         The {{ state_attr(team,'friendly_name') }} had their game postponed yesterday, and it will be played at a later date. 
       {% elif (state_attr(team,'team_score') | int) == state_attr(team,'opponent_score') | int %}
-        The {{ state_attr(team,'friendly_name') }} tied in their game yesterday against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ state_attr(team,'opponent_name') }} by a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}. 
+        The {{ state_attr(team,'friendly_name') }} tied in their game yesterday against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ opponent_name }} by a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}. 
       {% elif state_attr(team,'team_winner') == true %}
-        The {{ state_attr(team,'friendly_name') }} won their game yesterday against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ state_attr(team,'opponent_name') }} by a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}. 
+        The {{ state_attr(team,'friendly_name') }} won their game yesterday against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ opponent_name }} by a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}. 
       {% elif state_attr(team,'opponent_winner') == true %}
-        The {{ state_attr(team,'friendly_name') }} lost their game yesterday against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ state_attr(team,'opponent_name') }} by a score of {{ state_attr(team,'opponent_score') }} to {{ state_attr(team,'team_score') }}. 
+        The {{ state_attr(team,'friendly_name') }} lost their game yesterday against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ opponent_name }} by a score of {{ state_attr(team,'opponent_score') }} to {{ state_attr(team,'team_score') }}. 
       {% endif %}
       {% if state_attr(team,'clock') not in ['postponed','Postponed'] %}
         This brings their record to {{ state_attr(team,'team_record') | replace("-"," and ") }} on the season. 
@@ -59,11 +87,14 @@
     {% endif %}
   {% elif is_state(team,'IN') %}
     {% if (state_attr(team,'team_score') | int) == (state_attr(team,'opponent_score') | int) %}
-      The {{ state_attr(team,'friendly_name') }} are currently tied in their game against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ state_attr(team,'opponent_name') }} with a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}. 
+      The {{ state_attr(team,'friendly_name') }} are currently tied in their game against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ opponent_name }} with a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}.
+      There is {{ clock_time }} remaining in the {{ quarter }} {{ period_str(team) }}.
     {% elif (state_attr(team,'team_score') | int) > (state_attr(team,'opponent_score') | int) %}
-      The {{ state_attr(team,'friendly_name') }} are currently winning their game against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ state_attr(team,'opponent_name') }} with a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}. 
+      The {{ state_attr(team,'friendly_name') }} are currently winning their game against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ opponent_name }} with a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}. 
+      There is {{ clock_time }} remaining in the {{ quarter }} {{ period_str(team) }}.
     {% else %}
-      The {{ state_attr(team,'friendly_name') }} are currently losing their game against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ state_attr(team,'opponent_name') }} with a score of {{ state_attr(team,'opponent_score') }} to {{ state_attr(team,'team_score') }}. 
+      The {{ state_attr(team,'friendly_name') }} are currently losing their game against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ opponent_name }} with a score of {{ state_attr(team,'opponent_score') }} to {{ state_attr(team,'team_score') }}. 
+      There is {{ clock_time }} remaining in the {{ quarter }} {{ period_str(team) }}.
     {% endif %}
   {% endif %}
   {% endmacro %}
