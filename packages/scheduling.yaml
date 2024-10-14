@@ -274,15 +274,15 @@ script:
             time: >
               {% if is_state('input_boolean.school_in_session','on') %}
                 {% if is_state('binary_sensor.kallen_school_tomorrow', 'on') %}
-                  21:00
-                {% else %}
-                  22:00
-                {% endif %}
-              {% else %}
-                {% if is_state('binary_sensor.kallen_btb_tomorrow','on') %}
                   22:00
                 {% else %}
                   23:00
+                {% endif %}
+              {% else %}
+                {% if is_state('binary_sensor.kallen_btb_tomorrow','on') %}
+                  23:00
+                {% else %}
+                  00:00
                 {% endif %}
               {% endif %}
       - delay:
