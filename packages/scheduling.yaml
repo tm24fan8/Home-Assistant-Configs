@@ -791,16 +791,16 @@ script:
               {% if ct > state_attr('input_datetime.kallen_school_day_start','timestamp') %}
                 {{ (state_attr('input_datetime.tina_workday_start','timestamp') - 1800) | timestamp_custom('%H:%M', false) }}
               {% elif ct > state_attr('input_datetime.tina_workday_start','timestamp') and ct < state_attr('input_datetime.kallen_school_day_start','timestamp') %}
-                {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 2700) | timestamp_custom('%H:%M', false) }}
+                {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 3600) | timestamp_custom('%H:%M', false) }}
               {% elif state_attr('input_datetime.tina_workday_start','timestamp') < (state_attr('input_datetime.kallen_school_day_start','timestamp')) %}
                 {{ (state_attr('input_datetime.tina_workday_start','timestamp') - 1800) | timestamp_custom('%H:%M', false) }}
               {% else %}
-                {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 2700) | timestamp_custom('%H:%M', false) }}
+                {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 3600) | timestamp_custom('%H:%M', false) }}
               {% endif %}
             {% elif is_state('input_boolean.work_today','on') and is_state('input_boolean.kallen_school_today','off') %}
               {{ (state_attr('input_datetime.tina_workday_start', 'timestamp') - 1800) | timestamp_custom('%H:%M', false) }}
             {% elif is_state('input_boolean.kallen_school_today','on') %}
-              {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 2700) | timestamp_custom('%H:%M', false) }}
+              {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 3600) | timestamp_custom('%H:%M', false) }}
             {% else %}
               11:00
             {% endif %}
