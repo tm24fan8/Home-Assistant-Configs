@@ -1,0 +1,25 @@
+name: Adjustment
+about: Request a change/adjustment to an existing feature
+title: "[Adjustment]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this adjustment request!
+  - type: markdown
+    attributes:
+      value: |
+        This issue was created by an issue **template**
+    visible: [content]
+  - type: textarea
+    id: adjustment-request
+    attributes:
+      label: Describe your request
+      description: Which existing feature would you like changed/adjusted?
+      placeholder: Tell me what you want, what you really really want!
+      value: "Request here!"
+    validations:
+      required: true
+labels:
+  - type/adjustment
+  - needs-response
