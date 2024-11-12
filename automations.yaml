@@ -5132,11 +5132,6 @@
     - input_number.emma_bedtime_hours
     id: hours-update
     alias: Hours Update
-  - platform: state
-    entity_id:
-    - input_datetime.emma_up_from_nap
-    id: up-from-nap
-    alias: Up From Nap
   condition:
   - condition: state
     entity_id: input_boolean.emma_sleeping

@@ -238,13 +238,6 @@ input_select:
       - White Noise
       - N/A
     icon: mdi:home-thermometer
-  naptime_climate_mode_emma_aircon:
-    name: Naptime Climate Mode - Emma Aircon
-    options:
-      - AC
-      - White Noise
-      - N/A
-    icon: mdi:home-thermometer
   scheduled_climate_mode_kallen_fan:
     name: Scheduled Climate Mode - Kallen Fan
     options:
@@ -305,13 +298,6 @@ input_number:
     icon: mdi:thermometer
   emma_aircon_threshold:
     name: Emma Aircon Threshold
-    min: 40
-    max: 80
-    step: 1
-    unit_of_measurement: °F
-    icon: mdi:thermometer
-  emma_naptime_aircon_threshold:
-    name: Emma Naptime Aircon Threshold
     min: 40
     max: 80
     step: 1

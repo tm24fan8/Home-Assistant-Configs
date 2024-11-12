@@ -2830,162 +2830,95 @@ emma_sleep:
       after: 04:00:00
       before: '17:00:00'
     then:
-    - service: script.emma_bedroom_scheduling_evening
-      data: {}
+    - data: {}
+      action: script.emma_bedroom_scheduling_evening
     alias: Run scheduling if it hasn't already been run
-  - service: script.turn_off
-    target:
+  - target:
       entity_id:
       - script.emma_ibuprofen
       - script.emma_tylenol
       - script.emma_cough_meds
     data: {}
     alias: Reset med trackers
-  - service: light.turn_on
-    target:
+    action: script.turn_off
+  - target:
       entity_id:
       - light.emma_bedroom_light
     data: {}
     alias: Turn on light
+    action: light.turn_on
   - delay:
       seconds: 1
-  - service: input_select.select_option
-    target:
+  - target:
       entity_id:
       - input_select.emma_bedroom_scenes
     data:
       option: Adaptive
     alias: Set lights to adaptive
-  - alias: Climate Controls
+    action: input_select.select_option
+  - alias: Select climate mode
     choose:
     - conditions:
-      - alias: If Emma has napped or it is clearly bedtime
-        condition: or
-        conditions:
-        - condition: state
-          entity_id: input_boolean.emma_has_napped
-          state: 'on'
-          alias: Emma has napped
-        - condition: time
-          after: '23:00:00'
-          before: 04:00:00
-          alias: It is definitely bedtime
-      sequence:
-      - alias: Select climate mode
-        choose:
-        - conditions:
-          - alias: AC
-            condition: and
-            conditions:
-            - condition: state
-              entity_id: input_select.scheduled_climate_mode_emma_aircon
-              state: AC
-              alias: Scheduled mode is AC
-            - condition: state
-              entity_id: fan.emma_air_conditioner
-              state: 'off'
-              alias: Air conditioner is not already on
-          sequence:
-          - service: fan.turn_on
-            target:
-              entity_id: fan.emma_air_conditioner
-            data: {}
-            alias: Turn on air conditioner
-          - service: script.text_notify
-            data:
-              who: parents
-              title: Emma Climate Schedule
-              message: The air conditioner in Emma's Bedroom has been activated.
-              type: normal
-              tag: emma-climate
-            alias: Send AC notification
-        - conditions:
-          - alias: White Noise
-            condition: and
-            conditions:
-            - condition: state
-              entity_id: input_select.scheduled_climate_mode_emma_aircon
-              state: White Noise
-              alias: Scheduled mode is White Noise
-            - condition: state
-              entity_id: input_boolean.white_noise_emma_bedroom
-              state: 'off'
-              alias: White Noise is not already on
-          sequence:
-          - service: input_boolean.turn_on
-            target:
-              entity_id: input_boolean.white_noise_emma_bedroom
-            data: {}
-            alias: Turn on white noise
-          - service: script.text_notify
-            data:
-              who: parents
-              title: Emma Climate Schedule
-              message: White noise has been activated in Emma's Bedroom.
-              type: normal
-              tag: emma-climate
-            alias: Send white noise notification
-        default:
-        - service: script.text_notify
-          data:
-            who: parents
-            title: Emma Climate Schedule
-            message: No option selected for Emma's climate mode. No devices will be
-              activated.
-            type: normal
-            tag: emma-climate
-          alias: Send notification that no climate mode is selected
-    - conditions:
-      - alias: If Emma has NOT napped and the time is appropriate
+      - alias: AC
         condition: and
         conditions:
         - condition: state
-          entity_id: input_boolean.emma_has_napped
+          entity_id: input_select.scheduled_climate_mode_emma_aircon
+          state: AC
+          alias: Scheduled mode is AC
+        - condition: state
+          entity_id: fan.emma_air_conditioner
           state: 'off'
-          alias: Emma has not napped
-        - condition: time
-          before: '23:00:00'
-          after: 04:00:00
-          alias: It is not bedtime
+          alias: Air conditioner is not already on
       sequence:
-      - alias: Select naptime climate mode
-        choose:
-        - conditions:
-          - alias: AC
-            condition: and
-            conditions:
-            - condition: state
-              entity_id: input_select.naptime_climate_mode_emma_aircon
-              state: AC
-              alias: Scheduled naptime mode is AC
-            - condition: state
-              entity_id: fan.emma_air_conditioner
-              state: 'off'
-              alias: Air conditioner is not already on
-          sequence:
-          - service: fan.turn_on
-            target:
-              entity_id: fan.emma_air_conditioner
-            data: {}
-            alias: Turn on AC
-        - conditions:
-          - alias: White Noise
-            condition: and
-            conditions:
-            - condition: state
-              entity_id: input_select.naptime_climate_mode_emma_aircon
-              state: White Noise
-              alias: Scheduled naptime mode is White Noise
-            - condition: state
-              entity_id: input_boolean.white_noise_emma_bedroom
-              state: 'off'
-              alias: White Noise is not already on
-          sequence:
-          - service: input_boolean.turn_on
-            target:
-              entity_id: input_boolean.white_noise_emma_bedroom
-            data: {}
-            alias: Turn on white noise
+      - target:
+          entity_id: fan.emma_air_conditioner
+        data: {}
+        alias: Turn on air conditioner
+        action: fan.turn_on
+      - data:
+          who: parents
+          title: Emma Climate Schedule
+          message: The air conditioner in Emma's Bedroom has been activated.
+          type: normal
+          tag: emma-climate
+        alias: Send AC notification
+        action: script.text_notify
+    - conditions:
+      - alias: White Noise
+        condition: and
+        conditions:
+        - condition: state
+          entity_id: input_select.scheduled_climate_mode_emma_aircon
+          state: White Noise
+          alias: Scheduled mode is White Noise
+        - condition: state
+          entity_id: input_boolean.white_noise_emma_bedroom
+          state: 'off'
+          alias: White Noise is not already on
+      sequence:
+      - target:
+          entity_id: input_boolean.white_noise_emma_bedroom
+        data: {}
+        alias: Turn on white noise
+        action: input_boolean.turn_on
+      - data:
+          who: parents
+          title: Emma Climate Schedule
+          message: White noise has been activated in Emma's Bedroom.
+          type: normal
+          tag: emma-climate
+        alias: Send white noise notification
+        action: script.text_notify
+    default:
+    - data:
+        who: parents
+        title: Emma Climate Schedule
+        message: No option selected for Emma's climate mode. No devices will be activated.
+        type: normal
+        tag: emma-climate
+      alias: Send notification that no climate mode is selected
+      action: script.text_notify
   icon: mdi:lightbulb-night
   mode: restart
 tina_morning_meds:

@@ -697,9 +697,6 @@ script:
   emma_bedroom_scheduling_morning:
     alias: 'Emma Bedroom Scheduling Morning'
     sequence:
-      - service: input_boolean.turn_off
-        target:
-          entity_id: input_boolean.emma_has_napped
       - if:
         - condition: state
           entity_id: input_boolean.emma_wakeup_override
@@ -709,11 +706,6 @@ script:
           entity_id: input_datetime.emma_wakeup
           data:
             time: "{{ states('input_datetime.master_bedroom_wakeup') }}"
-      - service: input_select.select_option
-        target:
-          entity_id: input_select.naptime_climate_mode_emma_aircon
-        data:
-          option: "{{ states('input_select.scheduled_climate_mode_emma_aircon') }}"
       - service: input_boolean.turn_on
         target:
           entity_id: input_boolean.emma_scheduling_morning_ran
@@ -731,15 +723,9 @@ script:
           data:
             time: >
               {% set awake = state_attr('input_datetime.emma_awake_at','timestamp') | int %}
-              {% set up_from_nap = state_attr('input_datetime.emma_up_from_nap','timestamp') | int %}
               {% set hours = states('input_number.emma_bedtime_hours') | int %}
               {% set math = (hours * 60) * 60 %}
-              {% set math_nap = 14400 %}
-              {% if is_state('input_boolean.emma_has_napped','on') %}
-                {{ (up_from_nap + math_nap) | timestamp_custom('%H:%M') }}
-              {% else %}
-                {{ (awake + math) | timestamp_custom('%H:%M',false) }}
-              {% endif %}
+              {{ (awake + math) | timestamp_custom('%H:%M',false) }}
       - if:
         - condition: state
           entity_id: input_boolean.emma_bedroom_climate_override

@@ -4,9 +4,6 @@ input_boolean:
   emma_sleeping:
     name: Emma Sleeping
     icon: mdi:sleep
-  emma_has_napped:
-    name: Emma Has Napped
-    icon: mdi:check
   emma_alternating_meds_active:
     name: Emma Alternating Meds Active
     icon: mdi:medication
@@ -71,16 +68,6 @@ input_datetime:
     has_date: false
     has_time: true
     icon: mdi:weather-sunset-up
-  emma_down_for_nap:
-    name: Emma Down For Nap
-    has_date: true
-    has_time: true
-    icon: mdi:sleep
-  emma_up_from_nap:
-    name: Emma Up From Nap
-    has_date: true
-    has_time: true
-    icon: mdi:eye
 # These are for use in remembering which medications she has had when she is sick, and when to safely give them again
   emma_ibuprofen:
     name: Emma Ibuprofen
@@ -145,31 +132,13 @@ automation:
             id: sleep-on
           sequence:
             - service: script.emma_sleep
-            - if:
-              - condition: and
-                conditions:
-                - condition: state
-                  entity_id: input_boolean.emma_has_napped
-                  state: 'off'
-                - condition: time
-                  before: "23:00:00"
-                  after: "07:00:00"
-              then:
-              - service: input_datetime.set_datetime
-                target:
-                  entity_id: input_datetime.emma_down_for_nap
-                data:
-                  datetime: >
-                    {% from 'time.jinja' import current_time %}
-                    {{ current_time('datetime',24) }}
-              else:
-              - service: input_datetime.set_datetime
-                target:
-                  entity_id: input_datetime.emma_asleep_at
-                data:
-                  time: >
-                    {% from 'time.jinja' import current_time %}
-                    {{ current_time('time',24) }}
+            - service: input_datetime.set_datetime
+              target:
+                entity_id: input_datetime.emma_asleep_at
+              data:
+                time: >
+                  {% from 'time.jinja' import current_time %}
+                  {{ current_time('time',24) }}
             - delay:
                 seconds: 1
             - service: script.text_notify
@@ -186,28 +155,6 @@ automation:
           - condition: trigger
             id: sleep-off
           sequence:
-            - if:
-              - condition: and
-                conditions:
-                - condition: state
-                  entity_id: input_boolean.emma_has_napped
-                  state: 'off'
-                - condition: time
-                  after: "18:00:00"
-                  before: "01:00:00"
-              then:
-              - service: input_boolean.turn_on
-                target:
-                  entity_id: input_boolean.emma_has_napped
-              - service: input_datetime.set_datetime
-                target:
-                  entity_id: input_datetime.emma_up_from_nap
-                data:
-                  datetime: >
-                    {% from 'time.jinja' import current_time %}
-                    {{ current_time('datetime',24) }}
-            - delay:
-                seconds: 1
             - if:
               - condition: state
                 entity_id: input_boolean.emma_scheduling_evening_ran
@@ -260,41 +207,6 @@ automation:
           target:
             entity_id: input_boolean.emma_sleeping
 
-  - id: e44c2ab8-00cd-40ab-9b42-824511ac20aa
-    alias: Emma Naptime Climate
-    description: Sets the climate mode for when Emma goes down for nap
-    mode: restart
-    trigger:
-    - platform: time_pattern
-      minutes: "/5"
-    - platform: state
-      entity_id: input_number.emma_naptime_aircon_threshold
-    - platform: state
-      entity_id: input_boolean.hot_day
-    condition:
-    - condition: state
-      entity_id: input_boolean.emma_sleeping
-      state: 'off'
-    - condition: state
-      entity_id: input_boolean.emma_bedroom_climate_override
-      state: 'off'
-    - condition: state
-      entity_id: input_boolean.emma_bedroom_aircon_installed
-      state: 'on'
-    action:
-    - service: input_select.select_option
-      target:
-        entity_id: input_select.naptime_climate_mode_emma_aircon
-      data:
-        option: >
-          {% set temp = state_attr('weather.iron_nerd_weather_station','temperature') | int %}
-          {% set threshold = states('input_number.emma_naptime_aircon_threshold') | int %}
-          {% if (temp >= threshold) or is_state('input_boolean.hot_day','on') %}
-            AC
-          {% else %}
-            White Noise
-          {% endif %}
-
   - id: 5b45eeb2-171e-4bac-825b-8ac7aa672dab
     alias: Emma Asleep Update
     description: Attempt to make readouts of when Emma went to bed more accurate
@@ -310,11 +222,6 @@ automation:
       event_data:
         entity_id: timer.emma_bedtime_update
       id: bedtime-timer-finished
-    - platform: event
-      event_type: timer.finished
-      event_data:
-        entity_id: timer.emma_naptime_update
-      id: naptime-timer-finished
     - platform: state
       entity_id: light.emma_bedroom_light
       to: 'off'
@@ -325,37 +232,11 @@ automation:
         - condition: trigger
           id: initial
         sequence:
-        - choose:
-          - conditions:
-            - condition: and
-              conditions:
-              - condition: state
-                entity_id: input_boolean.emma_has_napped
-                state: 'off'
-              - condition: time
-                before: "23:00:00"
-                after: "07:00:00"
-            sequence:
-            - service: timer.start
-              target:
-                entity_id: timer.emma_naptime_update
-              data:
-                duration: "01:00:00"
-          - conditions:
-            - condition: or
-              conditions:
-              - condition: state
-                entity_id: input_boolean.emma_has_napped
-                state: 'on'
-              - condition: time
-                after: "23:00:00"
-                before: "07:00:00"
-            sequence:
-            - service: timer.start
-              target:
-                entity_id: timer.emma_bedtime_update
-              data:
-                duration: "01:00:00"
+        - service: timer.start
+          target:
+            entity_id: timer.emma_bedtime_update
+          data:
+            duration: "01:00:00"
       - conditions:
         - condition: trigger
           id: lights-off
@@ -364,71 +245,18 @@ automation:
           target:
             entity_id:
               - timer.emma_bedtime_update
-              - timer.emma_naptime_update
         - if:
           - condition: state
             entity_id: input_boolean.emma_sleeping
             state: 'on'
           then:
-          - choose:
-            - conditions:
-              - condition: and
-                conditions:
-                - condition: state
-                  entity_id: input_boolean.emma_has_napped
-                  state: 'off'
-                - condition: time
-                  before: "23:00:00"
-                  after: "07:00:00"
-              sequence:
-              - service: input_datetime.set_datetime
-                target:
-                  entity_id: input_datetime.emma_down_for_nap
-                data:
-                  datetime: >
-                    {% from 'time.jinja' import current_time %}
-                    {{ current_time('datetime',24) }}
-            - conditions:
-              - condition: or
-                conditions:
-                - condition: state
-                  entity_id: input_boolean.emma_has_napped
-                  state: 'on'
-                - condition: time
-                  after: "23:00:00"
-                  before: "07:00:00"
-              sequence:
-              - service: input_datetime.set_datetime
-                target:
-                  entity_id: input_datetime.emma_asleep_at
-                data:
-                  time: >
-                    {% from 'time.jinja' import current_time %}
-                    {{ current_time('time',24) }}
-      - conditions:
-        - condition: trigger
-          id: naptime-timer-finished
-        sequence:
-        - if:
-          - condition: state
-            entity_id: light.emma_bedroom_light
-            state: 'on'
-          then:
-          - delay:
-              seconds: 1
-          - service: timer.start
-            target:
-              entity_id: timer.emma_naptime_update
-            data:
-              duration: "01:00:00"
-          else:
           - service: input_datetime.set_datetime
             target:
-              entity_id: input_datetime.emma_down_for_nap
+              entity_id: input_datetime.emma_asleep_at
             data:
-              datetime: >
+              time: >
                 {% from 'time.jinja' import current_time %}
-                {{ current_time('datetime',24) }}
+                {{ current_time('time',24) }}
       - conditions:
         - condition: trigger
           id: bedtime-timer-finished
@@ -986,18 +814,13 @@ script:
             who: basement
             type: normal
             message: Emma has awoken, so it is time to make your way upstairs now
-      - if:
-        - condition: time
-          before: "18:00:00"
-          after: "07:00:00"
-        then:
-        - service: input_datetime.set_datetime
-          target:
-            entity_id: input_datetime.emma_awake_at
-          data:
-            time: >
-              {% from 'time.jinja' import current_time %}
-              {{ current_time('time',24) }}
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.emma_awake_at
+        data:
+          time: >
+            {% from 'time.jinja' import current_time %}
+            {{ current_time('time',24) }}
       - service: switch.turn_off
         target:
           entity_id:
