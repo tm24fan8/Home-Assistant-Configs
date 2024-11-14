@@ -13,8 +13,20 @@
 {% set houseEveningRan = is_state('input_boolean.house_scheduling_evening_ran','on') %}
 {% set masterBedroomEveningRan = is_state('input_boolean.master_bedroom_scheduling_evening_ran','on') %}
 {% set emmaEveningRan = is_state('input_boolean.emma_scheduling_evening_ran','on') %}
+{% set kallenMorningAnnc = is_state('input_boolean.kallen_morning_announcements','on') %}
 {% set kallenText = 'Kallen' %}
 {% set kallenTTS = 'Collin' %}
+
+{% macro morning_annc(type,method) %}
+{% if method == 'text' %}
+  {% set identKallen = kallenText %}
+{% elif method == 'tts' %}
+  {% set identKallen = kallenTTS %}
+{% endif %}
+{% if kallenMorningAnnc %}
+  First things first, we have some announcements for {{ identKallen }}. {{ states('input_text.kallen_morning_announcements') }}
+{% endif %}
+{% endmacro %}
 
 {% macro laundry_report(type,method) %}
   {% macro data() %}

@@ -61,6 +61,10 @@ input_text:
     name: Kallen Briefing Extras
     icon: mdi:plus
     max: 255
+  kallen_morning_announcements:
+    name: Kallen Morning Announcements
+    icon: mdi:bullhorn
+    max: 255
 
 input_boolean:
   briefing_extras:
@@ -69,6 +73,9 @@ input_boolean:
   kallen_briefing_extras:
     name: Kallen Briefing Extras
     icon: mdi:plus
+  kallen_morning_announcements:
+    name: Kallen Morning Announcements
+    icon: mdi:bullhorn
   good_morning:
     name: Good Morning Ran
     icon: mdi:home-analytics
