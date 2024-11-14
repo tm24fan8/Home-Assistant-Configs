@@ -394,7 +394,7 @@ script:
               {% set kallenbriefing = state_attr('input_datetime.kallen_morning_briefing','timestamp') %}
               {% set kallenloc = states('input_select.kallen_morning_briefing_location') %}
               {% if is_state('input_boolean.kallen_school_today','on') %}
-                {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 3300) | timestamp_custom('%H:%M', false) }}
+                {{ (state_attr('input_datetime.kallen_school_day_start','timestamp') - 3600) | timestamp_custom('%H:%M', false) }}
               {% elif is_state('input_boolean.work_today','on') and is_state('input_boolean.kallen_school_today','off') %}
                 {% if (state_attr('input_datetime.tina_workday_start','timestamp')) > 43200 %}
                   {% if kallenloc == 'Common Areas' and kallenbriefing == 43200 %}
