@@ -103,6 +103,15 @@ input_boolean:
   sun_reports:
     name: Sun Reports
     icon: mdi:weather-sunny-alert
+  morning_briefing_allowed:
+    name: Morning Briefing Allowed
+    icon: mdi:bullhorn
+  daily_briefing_allowed:
+    name: Daily Briefing Allowed
+    icon: mdi:bullhorn
+  nightly_briefing_allowed:
+    name: Nightly Briefing Allowed
+    icon: mdi:bullhorn
 
 intent_script:
   PlayAnnouncement:

@@ -2893,36 +2893,39 @@
 - id: '1696362054868'
   alias: House Briefings
   description: ''
-  trigger:
-  - platform: time
-    at: input_datetime.morning_briefing
+  triggers:
+  - at: input_datetime.morning_briefing
     id: house-morning
     alias: Morning Briefing Time
-  - platform: time
-    at: input_datetime.daily_briefing
+    trigger: time
+  - at: input_datetime.daily_briefing
     id: house-daily
     alias: Daily Briefing Time
-  - platform: time
-    at: input_datetime.nightly_briefing
+    trigger: time
+  - at: input_datetime.nightly_briefing
     id: house-nightly
     alias: Nightly Briefing Time
-  condition:
+    trigger: time
+  conditions:
   - condition: state
     entity_id: input_boolean.vacation_mode
     state: 'off'
     alias: We are not on vacation
-  action:
+  actions:
   - alias: Choose briefing
     choose:
     - conditions:
-      - condition: and
+      - alias: Morning Briefing
+        condition: and
         conditions:
         - condition: trigger
           id: house-morning
         - condition: state
+          entity_id: input_boolean.morning_briefing_allowed
+          state: 'on'
+        - condition: state
           entity_id: input_boolean.good_morning
           state: 'off'
-        alias: Morning Briefing
       sequence:
       - alias: Skip if Kallen has school but stayed overnight elsewhere
         if:
@@ -2932,47 +2935,53 @@
             %}\n  true\n{% endif %}\n"
           alias: If Kallen was not elsewhere overnight on a school morning
         then:
-        - service: script.morning_briefing
-          data:
+        - data:
             who: '{{ ''alexa_everywhere'' if is_state(''binary_sensor.master_bedroom_occupied'',''on'')
               else ''common'' }}
 
               '
           alias: Run morning briefing script
+          action: script.morning_briefing
     - conditions:
-      - condition: and
+      - alias: Daily Briefing
+        condition: and
         conditions:
         - condition: trigger
           id: house-daily
         - condition: state
+          entity_id: input_boolean.daily_briefing_allowed
+          state: 'on'
+        - condition: state
           entity_id: input_boolean.daily_briefing
           state: 'off'
-        alias: Daily Briefing
       sequence:
-      - service: script.daily_briefing
-        data:
+      - data:
           who: '{{ ''alexa_everywhere'' if is_state(''binary_sensor.master_bedroom_occupied'',''on'')
             else ''common'' }}
 
             '
         alias: Run daily briefing script
+        action: script.daily_briefing
     - conditions:
-      - condition: and
+      - alias: Nightly Briefing
+        condition: and
         conditions:
         - condition: trigger
           id: house-nightly
         - condition: state
+          entity_id: input_boolean.nightly_briefing_allowed
+          state: 'on'
+        - condition: state
           entity_id: input_boolean.nightly_briefing
           state: 'off'
-        alias: Nightly Briefing
       sequence:
-      - service: script.nightly_briefing
-        data:
+      - data:
           who: '{{ ''alexa_everywhere'' if is_state(''binary_sensor.master_bedroom_occupied'',''on'')
             else ''common'' }}
 
             '
         alias: Run nightly briefing script
+        action: script.nightly_briefing
   mode: single
 - id: '1696362140540'
   alias: Kallen Briefing Location Change
