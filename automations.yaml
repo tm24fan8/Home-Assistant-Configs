@@ -1921,35 +1921,35 @@
 - id: '1696286481890'
   alias: Recliner Mode
   description: For naptime in the basement
-  trigger:
-  - platform: state
-    entity_id: input_boolean.recliner_mode
+  triggers:
+  - entity_id: input_boolean.recliner_mode
     from: 'off'
     to: 'on'
     id: recliner-on
-  - platform: state
-    entity_id: input_boolean.recliner_mode
+    trigger: state
+  - entity_id: input_boolean.recliner_mode
     from: 'on'
     to: 'off'
     id: recliner-off
-  condition: []
-  action:
+    trigger: state
+  conditions: []
+  actions:
   - choose:
     - conditions:
       - condition: trigger
         id: recliner-on
       sequence:
-      - service: input_select.select_option
-        target:
+      - target:
           entity_id: input_select.basement_studio_scenes
         data:
           option: Stairwell
-      - service: input_boolean.turn_on
-        target:
+        action: input_select.select_option
+      - target:
           entity_id:
           - input_boolean.white_noise_basement
           - input_boolean.studio_quiet
         data: {}
+        action: input_boolean.turn_on
       - if:
         - condition: template
           value_template: "{% if is_state('media_player.basement_tv','playing') %}\n
@@ -1957,10 +1957,10 @@
             %}\n  {{ state_attr('media_player.basement_tv','app_name') in ['TV','Android
             TV Launcher'] }}\n{% else %}\n  false\n{% endif %}\n"
         then:
-        - service: media_player.turn_off
-          target:
+        - target:
             entity_id: media_player.basement_tv
           data: {}
+          action: media_player.turn_off
       - if:
         - condition: not
           conditions:
@@ -1968,29 +1968,29 @@
             entity_id: media_player.tony_asus
             state: playing
         then:
-        - service: script.turn_on
-          target:
+        - target:
             entity_id: script.tony_desktop_displays_off
           data: {}
+          action: script.turn_on
     - conditions:
       - condition: trigger
         id: recliner-off
       sequence:
-      - service: light.turn_off
-        data: {}
+      - data: {}
         target:
           entity_id: light.basement_studio_lights
         alias: Turn off the remaining lights
+        action: light.turn_off
       - delay:
           hours: 0
           minutes: 0
           seconds: 0
           milliseconds: 500
-      - service: switch.turn_on
-        data: {}
+      - data: {}
         target:
           entity_id: switch.adaptive_lighting_basement_studio
         alias: Turn on Adaptive Lighting to read the current values
+        action: switch.turn_on
       - delay:
           hours: 0
           minutes: 0
@@ -1999,41 +1999,42 @@
       - variables:
           brightness: '{{ state_attr(''switch.adaptive_lighting_basement_studio'',''brightness_pct'')
             | int }}'
-        alias: Set intended brightness
-      - service: input_boolean.turn_off
-        target:
+          fade_delay: "{% from 'time.jinja' import timer_duration %} {% if is_state('binary_sensor.early_night_mode','on')
+            %}\n  {{ timer_duration('input_number.wakeup_lights_fade_night') }}\n{%
+            else %}\n  {{ timer_duration('input_number.wakeup_lights_fade_day') }}\n{%
+            endif %}"
+        alias: Set intended brightness and fade delay
+      - target:
           entity_id:
           - input_boolean.studio_quiet
         data: {}
         alias: Turn off the quiet switch
-      - service: light.turn_on
-        data:
+        action: input_boolean.turn_off
+      - data:
           brightness_pct: '{{ brightness|default(70) }}'
-          transition: "{% from 'time.jinja' import timer_duration %} {% if is_state('binary_sensor.early_night_mode','on')
-            %}\n  {{ timer_duration('input_number.wakeup_lights_fade_night') }}\n{%
-            else %}\n  {{ timer_duration('input_number.wakeup_lights_fade_day') }}\n{%
-            endif %}\n"
+          transition: '{{ fade_delay|default(300) }}'
         target:
           entity_id: light.basement_studio_lights
         alias: Fade the lights in gradually
+        action: light.turn_on
       - alias: Wait for lights to fade in unless interrupted
         wait_for_trigger:
-        - platform: state
-          entity_id:
+        - entity_id:
           - light.basement_studio_lights
           to: 'off'
           id: lights-off
-        - platform: state
-          entity_id:
+          trigger: state
+        - entity_id:
           - input_select.basement_studio_scenes
           to: Adaptive
           id: adaptive
-        - platform: state
-          entity_id:
+          trigger: state
+        - entity_id:
           - binary_sensor.tony_desktop_idle
           from: 'on'
           to: 'off'
           id: computer
+          trigger: state
         timeout:
           minutes: "{% if is_state('binary_sensor.early_night_mode','on') %}\n  {{
             states('input_number.wakeup_lights_fade_night') }}\n{% else %}\n  {{ states('input_number.wakeup_lights_fade_day')
@@ -2046,50 +2047,50 @@
             condition: template
             value_template: '{{ wait.trigger.id == ''adaptive'' }}'
           sequence:
-          - service: adaptive_lighting.set_manual_control
-            data:
+          - data:
               manual_control: false
               entity_id: switch.adaptive_lighting_basement_studio
             alias: Reset manual control
+            action: adaptive_lighting.set_manual_control
         - conditions:
           - alias: Nothing
             condition: template
             value_template: '{{ wait.trigger == ''none'' or wait.trigger.idx is undefined
               }}'
           sequence:
-          - service: input_select.select_option
-            data:
+          - data:
               option: Adaptive
             target:
               entity_id: input_select.basement_studio_scenes
             alias: Set scene back to adaptive
-          - service: adaptive_lighting.set_manual_control
-            data:
+            action: input_select.select_option
+          - data:
               manual_control: false
               entity_id: switch.adaptive_lighting_basement_studio
             alias: Reset manual control
+            action: adaptive_lighting.set_manual_control
         - conditions:
           - condition: template
             value_template: '{{ wait.trigger.id == ''lights-off'' }}'
             alias: Lights off
           sequence:
-          - service: input_text.set_value
-            data:
+          - data:
               value: Adaptive
             target:
               entity_id: input_text.basement_studio_selected_scene
             alias: Reset selected scene input text
-          - service: adaptive_lighting.set_manual_control
-            data:
+            action: input_text.set_value
+          - data:
               manual_control: false
               entity_id: switch.adaptive_lighting_basement_studio
             alias: Reset manual control
-      - service: input_boolean.turn_off
-        target:
+            action: adaptive_lighting.set_manual_control
+      - target:
           entity_id:
           - input_boolean.white_noise_basement
         data: {}
         alias: Turn off white noise
+        action: input_boolean.turn_off
       - alias: If my computer is on, turn the screens back on
         if:
         - condition: template
@@ -2098,15 +2099,15 @@
             }}'
         then:
         - alias: Turn the screens back on
-          service: script.turn_on
           target:
             entity_id:
             - script.tony_desktop_displays_on
           data: {}
-      - service: media_player.turn_on
-        target:
+          action: script.turn_on
+      - target:
           entity_id: media_player.basement_tv
         data: {}
+        action: media_player.turn_on
   mode: restart
 - id: '1696286540644'
   alias: Basement Lights Adaptive Resync
