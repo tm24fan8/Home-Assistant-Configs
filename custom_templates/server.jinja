@@ -1,0 +1,11 @@
+{% from 'formatting.jinja' import cleanup %}
+
+{% macro services_down() %}
+{% if states('sensor.services_down') | int == 1 %}
+There is one service offline. It is {{ state_attr('sensor.services_down','services') }}.
+{% elif states('sensor.services_down') | int > 1 %}
+There are {{ states('sensor.services_down') }} services currently offline. They are {{ state_attr('sensor.services_down','services') }}.
+{% else %}
+There are no services currently offline.
+{% endif %}
+{% endmacro %}
