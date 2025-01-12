@@ -2308,46 +2308,45 @@
 - id: '1696288846954'
   alias: Tony Meds Handler
   description: Handles the scheduling of medication reminders for Tony
-  trigger:
-  - platform: time_pattern
-    minutes: /30
+  triggers:
+  - minutes: /30
     id: trigger30
     alias: Every 30 minutes
-  - platform: time
-    at: input_datetime.tony_morning_meds_notify
+    trigger: time_pattern
+  - at: input_datetime.tony_morning_meds_notify
     id: morning-notify
     alias: Morning Notify
-  - platform: time
-    at: input_datetime.tony_afternoon_meds_notify
+    trigger: time
+  - at: input_datetime.tony_afternoon_meds_notify
     id: afternoon-notify
     alias: Afternoon Notify
-  - platform: time
-    at: input_datetime.tony_night_meds_notify
+    trigger: time
+  - at: input_datetime.tony_night_meds_notify
     id: night-notify
     alias: Night Notify
-  - platform: state
-    entity_id:
+    trigger: time
+  - entity_id:
     - input_boolean.tony_morning_meds_taken
     to: 'on'
     id: boolean-morning
     alias: Morning Taken
     from: 'off'
-  - platform: state
-    entity_id:
+    trigger: state
+  - entity_id:
     - input_boolean.tony_afternoon_meds_taken
     id: boolean-afternoon
     from: 'off'
     to: 'on'
     alias: Afternoon Taken
-  - platform: state
-    entity_id:
+    trigger: state
+  - entity_id:
     - input_boolean.tony_night_meds_taken
     id: boolean-night
     alias: Night Taken
     from: 'off'
     to: 'on'
-  - platform: event
-    event_type: wakeup_event
+    trigger: state
+  - event_type: wakeup_event
     event_data:
       who: tony
       type: wakeup
@@ -2356,8 +2355,8 @@
       - c3909d27048140729f002aaef0391775
     alias: Wakeup
     id: wakeup
-  - platform: event
-    event_type: ios.action_fired
+    trigger: event
+  - event_type: ios.action_fired
     id: manual-wakeup
     event_data:
       actionName: Manual Wakeup
@@ -2365,14 +2364,15 @@
       user_id:
       - c3909d27048140729f002aaef0391775
     alias: Manual Wakeup
-  - platform: state
-    entity_id:
+    trigger: event
+  - entity_id:
     - input_number.tony_afternoon_meds_interval
     - input_datetime.tony_morning_meds_taken
     alias: Afternoon Update
     id: afternoon-update
-  condition: []
-  action:
+    trigger: state
+  conditions: []
+  actions:
   - alias: Routing
     choose:
     - conditions:
@@ -2387,10 +2387,10 @@
           state: 'on'
           alias: Morning meds reminder needed
         then:
-        - service: script.tony_morning_meds
-          metadata: {}
+        - metadata: {}
           data: {}
           alias: Run morning meds notification script
+          action: script.tony_morning_meds
       - alias: Check afternoon reminder switch
         if:
         - alias: Afternoon meds reminder needed
@@ -2399,8 +2399,8 @@
           state: 'on'
         then:
         - alias: Run afternoon meds notification script
-          service: script.tony_afternoon_meds
           data: {}
+          action: script.tony_afternoon_meds
       - alias: Check night reminder switch
         if:
         - condition: state
@@ -2408,10 +2408,10 @@
           state: 'on'
           alias: Night meds reminder needed
         then:
-        - service: script.tony_night_meds
-          metadata: {}
+        - metadata: {}
           data: {}
           alias: Run night meds notification script
+          action: script.tony_night_meds
       alias: Every 30 minutes
     - conditions:
       - condition: and
@@ -2423,16 +2423,16 @@
           state: 'off'
         alias: Morning Notify
       sequence:
-      - service: input_boolean.turn_on
-        metadata: {}
+      - metadata: {}
         data: {}
         target:
           entity_id: input_boolean.tony_morning_meds_reminder
         alias: Activate morning reminders
-      - service: script.tony_morning_meds
-        metadata: {}
+        action: input_boolean.turn_on
+      - metadata: {}
         data: {}
         alias: Run morning meds notification script
+        action: script.tony_morning_meds
     - conditions:
       - alias: Afternoon Notify
         condition: and
@@ -2445,14 +2445,14 @@
           state: 'off'
       sequence:
       - alias: Activate afternoon reminders
-        service: input_boolean.turn_on
         metadata: {}
         data: {}
         target:
           entity_id: input_boolean.tony_afternoon_meds_reminder
+        action: input_boolean.turn_on
       - alias: Run afternoon meds notification script
-        service: script.tony_afternoon_meds
         data: {}
+        action: script.tony_afternoon_meds
     - conditions:
       - condition: and
         conditions:
@@ -2465,22 +2465,21 @@
         alias: Night Notify
       sequence:
       - alias: Activate night reminders
-        service: input_boolean.turn_on
         metadata: {}
         data: {}
         target:
           entity_id: input_boolean.tony_night_meds_reminder
-      - service: script.tony_night_meds
-        metadata: {}
+        action: input_boolean.turn_on
+      - metadata: {}
         data: {}
         alias: Run night meds notification script
+        action: script.tony_night_meds
     - conditions:
       - condition: trigger
         id: boolean-morning
         alias: Morning Taken
       sequence:
-      - service: input_datetime.set_datetime
-        target:
+      - target:
           entity_id: input_datetime.tony_morning_meds_taken
         data:
           datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0)
@@ -2488,28 +2487,28 @@
 
             '
         alias: Set time morning meds were taken
-      - service: input_boolean.turn_off
-        metadata: {}
+        action: input_datetime.set_datetime
+      - metadata: {}
         data: {}
         target:
           entity_id: input_boolean.tony_morning_meds_reminder
         alias: Deactivate morning reminders
-      - service: script.text_notify
-        metadata: {}
+        action: input_boolean.turn_off
+      - metadata: {}
         data:
           type: alert
           who: tony
           message: clear_notification
           tag: tony-left-meds
         alias: Clear tony-left-meds notification tag
+        action: script.text_notify
     - conditions:
       - condition: trigger
         id:
         - boolean-afternoon
         alias: Afternoon Taken
       sequence:
-      - service: input_datetime.set_datetime
-        target:
+      - target:
           entity_id: input_datetime.tony_afternoon_meds_taken
         data:
           datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0)
@@ -2517,27 +2516,27 @@
 
             '
         alias: Set time afternoon meds were taken
+        action: input_datetime.set_datetime
       - alias: Deactivate afternoon reminders
-        service: input_boolean.turn_off
         metadata: {}
         data: {}
         target:
           entity_id: input_boolean.tony_afternoon_meds_reminder
-      - service: script.text_notify
-        metadata: {}
+        action: input_boolean.turn_off
+      - metadata: {}
         data:
           type: alert
           who: tony
           message: clear_notification
           tag: tony-left-meds
         alias: Clear tony-left-meds notification tag
+        action: script.text_notify
     - conditions:
       - condition: trigger
         id: boolean-night
         alias: Night Taken
       sequence:
-      - service: input_datetime.set_datetime
-        target:
+      - target:
           entity_id: input_datetime.tony_night_meds_taken
         data:
           datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0)
@@ -2545,20 +2544,21 @@
 
             '
         alias: Set time night meds were taken
+        action: input_datetime.set_datetime
       - alias: Deactivate night reminders
-        service: input_boolean.turn_off
         metadata: {}
         data: {}
         target:
           entity_id: input_boolean.tony_night_meds_reminder
-      - service: script.text_notify
-        metadata: {}
+        action: input_boolean.turn_off
+      - metadata: {}
         data:
           type: alert
           who: tony
           message: clear_notification
           tag: tony-left-meds
         alias: Clear tony-left-meds notification tag
+        action: script.text_notify
     - conditions:
       - alias: Wakeup
         condition: trigger
@@ -2566,8 +2566,7 @@
         - wakeup
         - manual-wakeup
       sequence:
-      - service: input_datetime.set_datetime
-        target:
+      - target:
           entity_id: input_datetime.tony_morning_meds_notify
         data:
           datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,1)
@@ -2575,8 +2574,8 @@
 
             '
         alias: Set time to start notifying for morning meds
-      - service: input_datetime.set_datetime
-        target:
+        action: input_datetime.set_datetime
+      - target:
           entity_id: input_datetime.tony_afternoon_meds_notify
         data:
           datetime: '{% from ''time.jinja'' import set_datetime %} {% set morning
@@ -2587,8 +2586,8 @@
 
             '
         alias: Set time to start notifying for afternoon meds
-      - service: input_datetime.set_datetime
-        target:
+        action: input_datetime.set_datetime
+      - target:
           entity_id: input_datetime.tony_night_meds_notify
         data:
           date: '{% from ''time.jinja'' import set_datetime %} {% set current = as_timestamp(now())
@@ -2598,8 +2597,8 @@
             '
           time: 04:00:00
         alias: Set time to start notifying for night meds
-      - alias: Turn off all meds taken
-        service: input_boolean.turn_off
+        action: input_datetime.set_datetime
+      - alias: Turn off all meds booleans
         metadata: {}
         data: {}
         target:
@@ -2607,23 +2606,17 @@
           - input_boolean.tony_morning_meds_taken
           - input_boolean.tony_afternoon_meds_taken
           - input_boolean.tony_night_meds_taken
-      - service: counter.reset
-        metadata: {}
-        data: {}
-        target:
-          entity_id:
-          - counter.tony_morning_meds_reminder_count
-          - counter.tony_afternoon_meds_reminder_count
-          - counter.tony_night_meds_reminder_count
-        alias: Reset all reminder counters
+          - input_boolean.tony_morning_meds_reminder
+          - input_boolean.tony_afternoon_meds_reminder
+          - input_boolean.tony_night_meds_reminder
+        action: input_boolean.turn_off
     - conditions:
       - condition: trigger
         id:
         - afternoon-update
         alias: Afternoon Update
       sequence:
-      - service: input_datetime.set_datetime
-        target:
+      - target:
           entity_id: input_datetime.tony_afternoon_meds_notify
         data:
           datetime: '{% from ''time.jinja'' import set_datetime %} {% set morning
@@ -2634,6 +2627,7 @@
 
             '
         alias: Update notification
+        action: input_datetime.set_datetime
   mode: parallel
   max: 12
 - id: '1696288939707'
