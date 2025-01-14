@@ -217,6 +217,10 @@ input_boolean:
     name: Cold Day
     icon: mdi:snowflake
 
+  basement_studio_heat_allowed:
+    name: Basement Studio Heat Allowed
+    icon: mdi:heating-coil
+
 input_select:
   scheduled_climate_mode_master_bedroom_aircon:
     name: Scheduled Climate Mode - Master Bedroom Aircon
@@ -359,6 +363,37 @@ input_number:
     step: 1
     unit_of_measurement: °F
     icon: mdi:thermometer
+  basement_studio_inactive_temp:
+    name: Basement Studio Inactive Temp
+    min: 50
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
+  basement_studio_active_temp:
+    name: Basement Studio Active Temp
+    min: 50
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
+
+climate:
+  - platform: generic_thermostat
+    unique_id: c2979677-045e-4393-a1cb-e6618978394f
+    name: Basement Studio Thermostat
+    heater: switch.basement_studio_heater
+    target_sensor: sensor.basement_studio_temperature
+    min_temp: 50
+    max_temp: 80
+    target_temp: 62
+    ac_mode: false
+    min_cycle_duration:
+      minutes: 5
+    cold_tolerance: 1
+    hot_tolerance: 1
+    initial_hvac_mode: "off"
+    precision: 1.0
 
 intent_script:
   MasterBedroomModes:

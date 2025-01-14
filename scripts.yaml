@@ -151,15 +151,14 @@ max_brightness:
 going_upstairs:
   alias: Going Upstairs
   sequence:
-  - service: mqtt.publish
-    data:
+  - data:
       qos: '2'
       retain: true
       topic: house/time/night_mode
       payload: 'on'
     alias: Tell MQTT that it is night mode now
-  - service: input_select.select_option
-    data:
+    action: mqtt.publish
+  - data:
       option: Adaptive
     target:
       entity_id:
@@ -168,16 +167,17 @@ going_upstairs:
       - input_select.mud_room_scenes
       - input_select.living_room_scenes
     alias: Set scenes
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.night_mode
+    action: input_select.select_option
+  - entity_id: input_boolean.night_mode
     alias: Turn on Night Mode
+    action: input_boolean.turn_on
   - alias: Turn off Studio Quiet and Gaming Mode
-    service: input_boolean.turn_off
     data: {}
     target:
       entity_id:
       - input_boolean.studio_quiet
       - input_boolean.gaming_mode
+    action: input_boolean.turn_off
   - alias: Thermostat reminder
     if:
     - alias: If triggered from basement
@@ -186,19 +186,51 @@ going_upstairs:
       state: Basement Echo Dot
     then:
     - alias: Remind in basement
-      service: script.speech_engine
       data:
         who: basement
         message: Remember to set the thermostat for the night
         type: alert
+      action: script.speech_engine
     else:
     - alias: Remind in living room
-      service: script.speech_engine
       data:
         who: living_room
         message: Remember to set the thermostat for the night
         type: alert
+      action: script.speech_engine
     enabled: false
+  - alias: Basement Studio Climate
+    if:
+    - condition: state
+      entity_id: input_boolean.basement_studio_heat_allowed
+      state: 'on'
+      alias: Heat Allowed
+    then:
+    - alias: Decide basement studio heater action
+      if:
+      - condition: numeric_state
+        entity_id: weather.iron_nerd_weather_station
+        attribute: temperature
+        below: 32
+        alias: Temperature below freezing
+      then:
+      - action: climate.set_temperature
+        metadata: {}
+        data:
+          hvac_mode: heat
+          temperature: '{{ states(''input_number.basement_studio_inactive_temp'')
+            | int }}'
+        target:
+          entity_id: climate.basement_studio_thermostat
+        alias: Set basement studio heater to inactive temp
+      else:
+      - action: climate.set_hvac_mode
+        metadata: {}
+        data:
+          hvac_mode: 'off'
+        target:
+          entity_id: climate.basement_studio_thermostat
+        alias: Turn basement studio heater off
   - if:
     - condition: not
       conditions:
@@ -206,19 +238,19 @@ going_upstairs:
         entity_id: media_player.basement_tv
         state: playing
     then:
-    - service: media_player.turn_off
-      target:
+    - target:
         entity_id: media_player.basement_tv
       data: {}
+      action: media_player.turn_off
     alias: Turn basement TV off, unless something is playing
   - if:
     - condition: state
       entity_id: input_boolean.kallen_computer_updates
       state: 'off'
     then:
-    - service: script.kallen_desktop_shutdown
-      data: {}
+    - data: {}
       alias: Shut down Kallen desktop
+      action: script.kallen_desktop_shutdown
     alias: Shutdown Kallen Desktop, unless it is updating
   - choose:
     - conditions:
@@ -227,68 +259,67 @@ going_upstairs:
         state: Living Room Echo Dot
         alias: If triggered from living room
       sequence:
-      - service: script.activate_alexa_actionable_notification
-        data:
+      - data:
           text: <voice name='Joanna'><prosody rate='150%'>Would you like me to shut
             down your computer?</prosody></voice>
           event_id: actionable_notification_shutdown_computer
           alexa_device: media_player.living_room_echo_dot
         response_variable: shutdown
         alias: Ask in living room
+        action: script.activate_alexa_actionable_notification
     - conditions:
       - condition: state
         entity_id: sensor.last_alexa_name
         state: Master Bedroom Echo Dot
         alias: If triggered from master bedroom
       sequence:
-      - service: script.activate_alexa_actionable_notification
-        data:
+      - data:
           text: <voice name='Joanna'><prosody rate='150%'>Would you like me to shut
             down your computer?</prosody></voice>
           event_id: actionable_notification_shutdown_computer
           alexa_device: media_player.master_bedroom_echo_dot
         response_variable: shutdown
         alias: Ask in master bedroom
+        action: script.activate_alexa_actionable_notification
     default:
-    - service: script.activate_alexa_actionable_notification
-      data:
+    - data:
         text: <voice name='Joanna'><prosody rate='150%'>Would you like me to shut
           down your computer?</prosody></voice>
         event_id: actionable_notification_shutdown_computer
         alexa_device: media_player.basement_echo_dot
       response_variable: shutdown
       alias: Ask in basement
+      action: script.activate_alexa_actionable_notification
     alias: Ask about shutting down main computer
   - wait_for_trigger:
-    - platform: state
-      entity_id:
+    - entity_id:
       - binary_sensor.basement_studio_door
       from: 'off'
       to: 'on'
       id: door
-    - platform: state
-      entity_id:
+      trigger: state
+    - entity_id:
       - input_boolean.goodnight
       from: 'off'
       to: 'on'
       id: goodnight
-    - platform: state
-      entity_id: light.master_bedroom_lights
+      trigger: state
+    - entity_id: light.master_bedroom_lights
       to: 'on'
       id: lights
+      trigger: state
     timeout:
       hours: 0
       minutes: 30
       seconds: 0
       milliseconds: 0
     alias: Figure out where I am
-  - service: light.turn_off
-    data: {}
+  - data: {}
     target:
       entity_id: light.basement_studio_lights
     alias: Turn off the lights
-  - service: input_datetime.set_datetime
-    data:
+    action: light.turn_off
+  - data:
       datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,2)
         }}
 
@@ -296,12 +327,12 @@ going_upstairs:
     target:
       entity_id: input_datetime.tony_night_meds_notify
     alias: Schedule the night meds notification
+    action: input_datetime.set_datetime
   - if:
     - condition: template
       value_template: '{{ wait.trigger.id in [''goodnight'',''lights''] }}'
     then:
-    - service: script.text_notify
-      data:
+    - data:
         type: alert
         who: tony
         title: Basement Shutdown
@@ -315,25 +346,26 @@ going_upstairs:
         - action: GU_PC_SHUTDOWN_NOTHING
           title: Do Nothing
       alias: Send an actionable notification
+      action: script.text_notify
     - wait_for_trigger:
-      - platform: event
-        event_type: ios.notification_action_fired
+      - event_type: ios.notification_action_fired
         event_data:
           actionName: GU_PC_SHUTDOWN_YES
         id: shutdown-yes
         alias: Shutdown Yes
-      - platform: event
-        event_type: ios.notification_action_fired
+        trigger: event
+      - event_type: ios.notification_action_fired
         event_data:
           actionName: GU_PC_SHUTDOWN_LOCK
         id: shutdown-lock
         alias: Shutdown Lock
-      - platform: event
-        event_type: ios.notification_action_fired
+        trigger: event
+      - event_type: ios.notification_action_fired
         event_data:
           actionName: GU_PC_SHUTDOWN_NOTHING
         alias: Shutdown Nothing
         id: shutdown-nothing
+        trigger: event
       timeout:
         hours: 0
         minutes: 20
@@ -345,41 +377,41 @@ going_upstairs:
         - condition: template
           value_template: '{{ wait.trigger.id == ''shutdown-yes'' }}'
         sequence:
-        - service: script.tony_desktop_shutdown
-          data: {}
+        - data: {}
+          action: script.tony_desktop_shutdown
       - conditions:
         - condition: template
           value_template: '{{ wait.trigger.id == ''shutdown-lock'' }}'
         sequence:
-        - service: script.tony_desktop_lock
-          data: {}
+        - data: {}
+          action: script.tony_desktop_lock
       alias: Run the desired action
-    - service: script.text_notify
-      data:
+    - data:
         type: alert
         who: tony
         message: clear_notification
         tag: going-upstairs-pc-shutdown
       alias: Clear the notification
+      action: script.text_notify
     - stop: Automation steps skipped
     alias: If I was not in the basement, ask about shutdown via text and then skip
       the rest
   - wait_for_trigger:
-    - platform: state
-      entity_id:
+    - entity_id:
       - binary_sensor.upstairs_bathroom_motion
       to: 'on'
       id: bathroom
-    - platform: state
-      entity_id:
+      trigger: state
+    - entity_id:
       - input_boolean.goodnight
       to: 'on'
       id: goodnight
-    - platform: state
-      entity_id:
+      trigger: state
+    - entity_id:
       - light.master_bedroom_lights
       to: 'on'
       id: lights
+      trigger: state
     continue_on_timeout: false
     timeout:
       hours: 0
@@ -393,11 +425,11 @@ going_upstairs:
       - condition: template
         value_template: '{{ wait.trigger.id == ''bathroom'' }}'
       sequence:
-      - service: input_select.select_option
-        data:
+      - data:
           option: Side Nightlight
         target:
           entity_id: input_select.master_bedroom_scenes
+        action: input_select.select_option
     - conditions:
       - condition: template
         value_template: '{{ wait.trigger.id in [''lights'',''goodnight''] }}'
