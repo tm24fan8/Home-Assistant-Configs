@@ -363,20 +363,6 @@ input_number:
     step: 1
     unit_of_measurement: °F
     icon: mdi:thermometer
-  basement_studio_inactive_temp:
-    name: Basement Studio Inactive Temp
-    min: 50
-    max: 80
-    step: 1
-    unit_of_measurement: °F
-    icon: mdi:thermometer
-  basement_studio_active_temp:
-    name: Basement Studio Active Temp
-    min: 50
-    max: 80
-    step: 1
-    unit_of_measurement: °F
-    icon: mdi:thermometer
 
 climate:
   - platform: generic_thermostat
@@ -390,8 +376,8 @@ climate:
     ac_mode: false
     min_cycle_duration:
       minutes: 5
-    cold_tolerance: 1
-    hot_tolerance: 1
+    cold_tolerance: 2
+    hot_tolerance: 0
     initial_hvac_mode: "off"
     precision: 1.0
 

@@ -214,23 +214,21 @@ going_upstairs:
         below: 32
         alias: Temperature below freezing
       then:
-      - action: climate.set_temperature
+      - action: climate.set_preset_mode
         metadata: {}
         data:
-          hvac_mode: heat
-          temperature: '{{ states(''input_number.basement_studio_inactive_temp'')
-            | int }}'
+          preset_mode: frost
         target:
-          entity_id: climate.basement_studio_thermostat
-        alias: Set basement studio heater to inactive temp
+          entity_id: climate.basement_studio_vtherm
+        alias: Set temp to lowest preset
       else:
-      - action: climate.set_hvac_mode
+      - alias: Turn basement studio heater off
+        action: climate.set_hvac_mode
         metadata: {}
         data:
           hvac_mode: 'off'
         target:
-          entity_id: climate.basement_studio_thermostat
-        alias: Turn basement studio heater off
+          entity_id: climate.basement_studio_vtherm
   - if:
     - condition: not
       conditions:
@@ -629,13 +627,13 @@ basement_shutdown:
   alias: Basement Shutdown
   sequence:
   - alias: Turn off any active modes
-    service: input_boolean.turn_off
     data: {}
     target:
       entity_id:
       - input_boolean.studio_quiet
       - input_boolean.recliner_mode
       - input_boolean.gaming_mode
+    action: input_boolean.turn_off
   - if:
     - condition: not
       conditions:
@@ -644,28 +642,61 @@ basement_shutdown:
         state:
         - playing
     then:
-    - service: media_player.turn_off
-      data: {}
+    - data: {}
       target:
         entity_id: media_player.basement_tv
+      action: media_player.turn_off
     alias: If TV is not being used, turn it off
   - if:
     - condition: state
       entity_id: input_boolean.kallen_computer_updates
       state: 'off'
     then:
-    - service: script.kallen_desktop_shutdown
-      data: {}
+    - data: {}
+      action: script.kallen_desktop_shutdown
     else:
-    - service: script.kallen_desktop_lock
-      data: {}
-    - service: input_boolean.turn_off
-      data: {}
+    - data: {}
+      action: script.kallen_desktop_lock
+    - data: {}
       target:
         entity_id: input_boolean.kallen_computer_updates
+      action: input_boolean.turn_off
     alias: Turn off Kallen Desktop unless updates are scheduled
-  - service: script.text_notify
-    data:
+  - data: {}
+    target:
+      entity_id: fan.basement_fan
+    action: fan.turn_off
+  - alias: Basement Studio Climate
+    if:
+    - condition: state
+      entity_id: input_boolean.basement_studio_heat_allowed
+      state: 'on'
+      alias: Heat Allowed
+    then:
+    - alias: Decide basement studio heater action
+      if:
+      - condition: numeric_state
+        entity_id: weather.iron_nerd_weather_station
+        attribute: temperature
+        below: 32
+        alias: Temperature below freezing
+      then:
+      - action: climate.set_preset_mode
+        metadata: {}
+        data:
+          preset_mode: frost
+        target:
+          entity_id: climate.basement_studio_vtherm
+        alias: Set temp to lowest preset
+      else:
+      - alias: Turn basement studio heater off
+        action: climate.set_hvac_mode
+        metadata: {}
+        data:
+          hvac_mode: 'off'
+        target:
+          entity_id: climate.basement_studio_vtherm
+  - data:
       type: alert
       who: tony
       title: Basement Shutting Down
@@ -680,46 +711,43 @@ basement_shutdown:
         title: Do Nothing
     alias: Ask about shutting down main computer
     response_variable: tony_computer
+    action: script.text_notify
   - wait_for_trigger:
-    - platform: state
-      entity_id:
+    - entity_id:
       - binary_sensor.basement_studio_door
       to: 'on'
+      trigger: state
     timeout:
       hours: 0
       minutes: 5
       seconds: 0
       milliseconds: 0
     alias: Wait for the door to open
-  - service: fan.turn_off
-    data: {}
-    target:
-      entity_id: fan.basement_fan
-  - service: light.turn_off
-    data: {}
+  - data: {}
     target:
       entity_id: light.basement_lights
     alias: Turn off the lights
+    action: light.turn_off
   - wait_for_trigger:
-    - platform: state
-      entity_id:
+    - entity_id:
       - binary_sensor.basement_studio_door
       to: 'off'
       for:
         hours: 0
         minutes: 0
         seconds: 10
+      trigger: state
     timeout:
       hours: 0
       minutes: 1
       seconds: 0
       milliseconds: 0
     alias: Wait for the door to close
-  - service: timer.cancel
-    data: {}
+  - data: {}
     target:
       entity_id: timer.basement_studio_door_timer
     alias: Cancel the door timer since the lights are already off
+    action: timer.cancel
   mode: restart
   icon: mdi:power
 adaptive_on_first_floor:
