@@ -61,20 +61,20 @@
         {% endif %}
       {% endif %}
       {% if is_state('input_boolean.kallen_overnight','off') %}
-        {% if not is_state('input_select.scheduled_climate_mode_kallen_fan','N/A') %}
-          {% if is_state('input_select.scheduled_climate_mode_kallen_fan','Fan') and is_state('fan.kallen_bedroom_fan','off') %}
+        {% if not is_state('input_select.scheduled_climate_mode_kallen_bedroom','N/A') %}
+          {% if is_state('input_select.scheduled_climate_mode_kallen_bedroom','Fan') and is_state('fan.kallen_bedroom_fan','off') %}
             "Collin's fan will activate at {{ input_datetime_read('input_datetime.kallen_fan') }}. "
-          {% elif is_state('input_select.scheduled_climate_mode_kallen_fan','White Noise') and is_state('input_boolean.white_noise_kallen_bedroom','off') %}
+          {% elif is_state('input_select.scheduled_climate_mode_kallen_bedroom','White Noise') and is_state('input_boolean.white_noise_kallen_bedroom','off') %}
             "Collin's white noise generator will activate at {{ input_datetime_read('input_datetime.kallen_bedtime') }}. "
           {% endif %}
         {% endif %}
       {% else %}
         "Collin's room will be left alone, as he is spending the night elsewhere tonight. "
       {% endif %}
-      {% if states('input_select.scheduled_climate_mode_emma_aircon') != 'N/A' %}
-        {% if is_state('input_select.scheduled_climate_mode_emma_aircon','AC') and is_state('fan.emma_air_conditioner','off') %}
+      {% if states('input_select.scheduled_climate_mode_emma_bedroom') != 'N/A' %}
+        {% if is_state('input_select.scheduled_climate_mode_emma_bedroom','AC') and is_state('fan.emma_air_conditioner','off') %}
           "Emma's air conditioner will be activated at {{ input_datetime_read('input_datetime.emma_bedroom_cooling') }}. "
-        {% elif is_state('input_select.scheduled_climate_mode_emma_aircon','White Noise') and is_state('input_boolean.white_noise_emma_bedroom','off') %}
+        {% elif is_state('input_select.scheduled_climate_mode_emma_bedroom','White Noise') and is_state('input_boolean.white_noise_emma_bedroom','off') %}
           "Emma's white noise generator will activate at {{ input_datetime_read('input_datetime.emma_bedtime') }}. "
         {% endif %}
       {% endif %}

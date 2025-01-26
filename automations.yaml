@@ -5103,7 +5103,7 @@
     state: 'off'
     alias: If Emma is not already asleep
   - condition: state
-    entity_id: input_select.scheduled_climate_mode_emma_aircon
+    entity_id: input_select.scheduled_climate_mode_emma_bedroom
     state: AC
     alias: If the AC is scheduled to run
   action:

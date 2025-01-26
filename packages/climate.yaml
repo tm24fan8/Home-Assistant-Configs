@@ -239,15 +239,16 @@ input_select:
       - Fan
       - N/A
     icon: mdi:home-thermometer
-  scheduled_climate_mode_emma_aircon:
-    name: Scheduled Climate Mode - Emma Aircon
+  scheduled_climate_mode_emma_bedroom:
+    name: Scheduled Climate Mode - Emma Bedroom
     options:
       - AC
+      - Heat
       - White Noise
       - N/A
     icon: mdi:home-thermometer
-  scheduled_climate_mode_kallen_fan:
-    name: Scheduled Climate Mode - Kallen Fan
+  scheduled_climate_mode_kallen_bedroom:
+    name: Scheduled Climate Mode - Kallen Bedroom
     options:
       - Fan
       - White Noise

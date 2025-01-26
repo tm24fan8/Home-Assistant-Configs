@@ -146,7 +146,7 @@ It is {{ now().strftime("%I:%M %p") }}.
 {% endmacro %}
 
 {% macro kallenSleepMsg() %}
-{% set schedMode = states('input_select.scheduled_climate_mode_kallen_fan') %}
+{% set schedMode = states('input_select.scheduled_climate_mode_kallen_bedroom') %}
 {% if schedMode == 'White Noise' %}
 {{ [
     "No fan in Collin's room tonight. Too cold outside. Brr. Enjoy your white noise.",

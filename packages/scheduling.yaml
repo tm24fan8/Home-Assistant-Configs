@@ -303,7 +303,7 @@ script:
         then:
         - service: input_select.select_option
           target:
-            entity_id: input_select.scheduled_climate_mode_kallen_fan
+            entity_id: input_select.scheduled_climate_mode_kallen_bedroom
           data:
             option: >
               {% if is_state('input_boolean.kallen_overnight','on') %}
@@ -729,7 +729,7 @@ script:
         then:
         - service: input_select.select_option
           target:
-            entity_id: input_select.scheduled_climate_mode_emma_aircon
+            entity_id: input_select.scheduled_climate_mode_emma_bedroom
           data:
             option: >
               {% if is_state('input_boolean.emma_bedroom_aircon_installed','on') %}
