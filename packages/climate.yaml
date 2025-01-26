@@ -221,6 +221,10 @@ input_boolean:
     name: Basement Studio Heat Allowed
     icon: mdi:heating-coil
 
+  emma_bedroom_heater_installed:
+    name: Emma Bedroom Heater Installed
+    icon: mdi:heating-coil
+
 input_select:
   scheduled_climate_mode_master_bedroom_aircon:
     name: Scheduled Climate Mode - Master Bedroom Aircon
@@ -370,6 +374,21 @@ climate:
     name: Basement Studio Thermostat
     heater: switch.basement_studio_heater
     target_sensor: sensor.basement_studio_temperature
+    min_temp: 50
+    max_temp: 80
+    target_temp: 62
+    ac_mode: false
+    min_cycle_duration:
+      minutes: 5
+    cold_tolerance: 2
+    hot_tolerance: 0
+    initial_hvac_mode: "off"
+    precision: 1.0
+  - platform: generic_thermostat
+    unique_id: 52cb7523-155a-4b26-808a-d6037b3ef7e4
+    name: Emma Bedroom Thermostat
+    heater: switch.emma_bedroom_heater
+    target_sensor: sensor.emma_bedroom_temperature
     min_temp: 50
     max_temp: 80
     target_temp: 62
