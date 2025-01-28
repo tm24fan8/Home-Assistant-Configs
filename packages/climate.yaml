@@ -379,8 +379,8 @@ climate:
     target_temp: 62
     ac_mode: false
     min_cycle_duration:
-      minutes: 5
-    cold_tolerance: 2
+      minutes: 2
+    cold_tolerance: 1
     hot_tolerance: 0
     initial_hvac_mode: "off"
     precision: 1.0
@@ -394,8 +394,8 @@ climate:
     target_temp: 62
     ac_mode: false
     min_cycle_duration:
-      minutes: 5
-    cold_tolerance: 2
+      minutes: 2
+    cold_tolerance: 1
     hot_tolerance: 0
     initial_hvac_mode: "off"
     precision: 1.0
