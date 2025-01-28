@@ -866,106 +866,107 @@ adaptive_on_second_floor:
       entity_id: light.hallway_overhead
       state: 'on'
     then:
-    - service: input_select.select_option
-      target:
+    - target:
         entity_id: input_select.upstairs_hallway_scenes
       data:
         option: Adaptive
       alias: Set adaptive
+      action: input_select.select_option
     else:
-    - service: switch.turn_on
-      target:
+    - target:
         entity_id: switch.adaptive_lighting_upstairs_hallway
       data: {}
-    - service: switch.turn_off
-      target:
+      action: switch.turn_on
+    - target:
         entity_id: switch.adaptive_lighting_sleep_mode_upstairs_hallway
       data: {}
-    - service: input_text.set_value
-      target:
+      action: switch.turn_off
+    - target:
         entity_id: input_text.upstairs_hallway_selected_scene
       data:
         value: Adaptive
+      action: input_text.set_value
     alias: If hallway light is on
   - if:
     - condition: state
       entity_id: light.master_bedroom_lights
       state: 'on'
     then:
-    - service: input_select.select_option
-      target:
+    - target:
         entity_id: input_select.master_bedroom_scenes
       data:
         option: Adaptive
       alias: Set adaptive
+      action: input_select.select_option
     else:
-    - service: switch.turn_on
-      target:
+    - target:
         entity_id: switch.adaptive_lighting_master_bedroom
       data: {}
-    - service: switch.turn_off
-      target:
+      action: switch.turn_on
+    - target:
         entity_id: switch.adaptive_lighting_sleep_mode_master_bedroom
       data: {}
-    - service: input_text.set_value
-      target:
+      action: switch.turn_off
+    - target:
         entity_id: input_text.master_bedroom_selected_scene
       data:
         value: Adaptive
+      action: input_text.set_value
     alias: If master bedroom lights are on
   - if:
     - condition: state
       entity_id: light.kallen_bedroom_lights
       state: 'on'
     then:
-    - service: input_select.select_option
-      target:
+    - target:
         entity_id: input_select.kallen_bedroom_scenes
       data:
         option: Adaptive
       alias: Set adaptive
+      action: input_select.select_option
     else:
-    - service: switch.turn_on
-      target:
+    - target:
         entity_id: switch.adaptive_lighting_kallen_bedroom
       data: {}
-    - service: switch.turn_off
-      target:
+      action: switch.turn_on
+    - target:
         entity_id: switch.adaptive_lighting_sleep_mode_kallen_bedroom
       data: {}
-    - service: input_text.set_value
-      target:
+      action: switch.turn_off
+    - target:
         entity_id: input_text.kallen_bedroom_selected_scene
       data:
         value: Adaptive
+      action: input_text.set_value
     alias: If Kallen's bedroom lights are on
   - if:
     - condition: state
       entity_id: light.emma_bedroom_light
       state: 'on'
     then:
-    - service: input_select.select_option
-      target:
+    - target:
         entity_id: input_select.emma_bedroom_scenes
       data:
         option: Adaptive
       alias: Set adaptive
+      action: input_select.select_option
     else:
-    - service: switch.turn_on
-      target:
+    - target:
         entity_id: switch.adaptive_lighting_emma_bedroom
       data: {}
-    - service: switch.turn_off
-      target:
+      action: switch.turn_on
+    - target:
         entity_id: switch.adaptive_lighting_sleep_mode_emma_bedroom
       data: {}
-    - service: input_text.set_value
-      target:
+      action: switch.turn_off
+    - target:
         entity_id: input_text.emma_bedroom_selected_scene
       data:
         value: Adaptive
+      action: input_text.set_value
     alias: If Emma's bedroom light is on
-  - if:
+  - alias: Upstairs bathroom handling
+    if:
     - condition: state
       entity_id: input_boolean.shower_mode
       state: 'off'
@@ -975,41 +976,40 @@ adaptive_on_second_floor:
         entity_id: binary_sensor.upstairs_bathroom_occupied
         state: 'on'
       then:
-      - service: input_select.select_option
-        target:
+      - target:
           entity_id: input_select.upstairs_bathroom_scenes
         data:
           option: Adaptive
+        action: input_select.select_option
       else:
       - if:
         - condition: state
           entity_id: binary_sensor.early_night_mode
           state: 'on'
         then:
-        - service: input_select.select_option
-          target:
+        - target:
             entity_id: input_select.upstairs_bathroom_scenes
           data:
-            option: Nightlight
+            option: Single Nightlight
+          action: input_select.select_option
         else:
-        - service: light.turn_off
-          target:
+        - target:
             entity_id: light.upstairs_bathroom_lights
           data: {}
-        - service: switch.turn_on
-          target:
+          action: light.turn_off
+        - target:
             entity_id: switch.adaptive_lighting_upstairs_bathroom
           data: {}
-        - service: switch.turn_off
-          target:
+          action: switch.turn_on
+        - target:
             entity_id: switch.adaptive_lighting_sleep_mode_upstairs_bathroom
           data: {}
-        - service: input_text.set_value
-          target:
+          action: switch.turn_off
+        - target:
             entity_id: input_text.upstairs_bathroom_selected_scene
           data:
             value: Adaptive
-    alias: Upstairs bathroom handling
+          action: input_text.set_value
 bright_on_first_floor:
   alias: Bright on First Floor
   sequence:
