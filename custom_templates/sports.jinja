@@ -71,7 +71,9 @@
 {% endmacro %}
 
 {% macro sports_inhibit(team) %}
-{% if state_attr(team,'kickoff_in') %}
+{% if is_state(team,'NOT_FOUND') %}
+  true
+{% elif state_attr(team,'kickoff_in') %}
   {{ 'months' in state_attr(team,'kickoff_in') or
     'month' in state_attr(team,'kickoff_in') or 
     'weeks' in state_attr(team,'kickoff_in') }}
