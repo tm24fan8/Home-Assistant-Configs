@@ -1617,7 +1617,6 @@ script:
   #           snapshot_entities:
   #             - light.tina_lamp_side
   #             - light.tina_lamp_top
-  #             - light.tina_desk_strip
   #             - switch.adaptive_lighting_living_room
   #             - switch.adaptive_lighting_tina_lamp
   #       - service: switch.turn_off
@@ -1631,7 +1630,6 @@ script:
   #           entity_id:
   #             - light.tina_lamp_side
   #             - light.tina_lamp_top
-  #             - light.tina_desk_strip
   #         data:
   #           color_name: red
   #       - service: script.living_room_lights_alert

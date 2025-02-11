@@ -819,7 +819,6 @@ switch:
       - light.living_room_color_3
       - light.tina_lamp_top
       - light.tina_lamp_side
-      - light.tina_desk_strip
     colors:
       - color_type: rgb_color
         color: [255,0,0]

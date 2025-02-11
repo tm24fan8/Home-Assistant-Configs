@@ -780,14 +780,9 @@ adaptive_on_first_floor:
         value: Adaptive
     alias: If living room lights are on
   - if:
-    - condition: or
-      conditions:
-      - condition: state
-        entity_id: light.tina_lamp
-        state: 'on'
-      - condition: state
-        entity_id: light.tina_desk_strip
-        state: 'on'
+    - condition: state
+      entity_id: light.tina_lamp
+      state: 'on'
     then:
     - service: input_select.select_option
       target:
@@ -1037,7 +1032,6 @@ bright_on_first_floor:
   - service: light.turn_on
     target:
       entity_id:
-      - light.tina_desk_strip
       - light.tina_lamp
     data:
       color_temp_kelvin: 2700
@@ -1045,7 +1039,6 @@ bright_on_first_floor:
     target:
       entity_id:
       - light.tina_lamp
-      - light.tina_desk_strip
     data:
       brightness: 255
 bright_on_second_floor:
@@ -1569,15 +1562,6 @@ day_mode_in_tina_desk:
       target:
         entity_id: light.tina_lamp_side
       data: {}
-    - service: light.turn_on
-      target:
-        entity_id: light.tina_desk_strip
-      data:
-        rgb_color:
-        - 0
-        - 255
-        - 255
-        brightness: 89
   - wait_template: '{{ is_state(''light.tina_lamp_side'',''off'') }}'
     timeout:
       seconds: 15
@@ -1606,23 +1590,13 @@ day_mode_in_tina_desk:
 evening_mode_in_tina_desk:
   alias: Evening Mode in Tina Desk
   sequence:
-  - alias: Turn on all lights
-    parallel:
-    - service: light.turn_on
-      data: {}
-      target:
-        entity_id:
-        - light.tina_lamp_top
-        - light.tina_lamp_side
-    - service: light.turn_on
-      target:
-        entity_id: light.tina_desk_strip
-      data:
-        rgb_color:
-        - 127
-        - 0
-        - 255
-        brightness: 128
+  - alias: Turn on lamp
+    service: light.turn_on
+    data: {}
+    target:
+      entity_id:
+      - light.tina_lamp_top
+      - light.tina_lamp_side
   - alias: Apply adaptive lighting to lamp
     if:
     - condition: state
@@ -1652,25 +1626,15 @@ night_mode_in_tina_desk:
     target:
       entity_id: switch.adaptive_lighting_tina_lamp
     data: {}
-  - parallel:
-    - service: light.turn_on
-      target:
-        entity_id: light.tina_lamp
-      data:
-        rgb_color:
-        - 127
-        - 0
-        - 255
-        brightness: 128
-    - service: light.turn_on
-      target:
-        entity_id: light.tina_desk_strip
-      data:
-        rgb_color:
-        - 127
-        - 0
-        - 255
-        brightness: 128
+  - service: light.turn_on
+    target:
+      entity_id: light.tina_lamp
+    data:
+      rgb_color:
+      - 127
+      - 0
+      - 255
+      brightness: 128
   mode: restart
   icon: mdi:palette
 bright_mode_in_tina_desk:
@@ -1680,25 +1644,15 @@ bright_mode_in_tina_desk:
     target:
       entity_id: switch.adaptive_lighting_tina_lamp
     data: {}
-  - parallel:
-    - service: light.turn_on
-      target:
-        entity_id: light.tina_lamp
-      data:
-        rgb_color:
-        - 255
-        - 210
-        - 175
-        brightness: 255
-    - service: light.turn_on
-      target:
-        entity_id: light.tina_desk_strip
-      data:
-        rgb_color:
-        - 255
-        - 210
-        - 175
-        brightness: 255
+  - service: light.turn_on
+    target:
+      entity_id: light.tina_lamp
+    data:
+      rgb_color:
+      - 255
+      - 210
+      - 175
+      brightness: 255
   mode: restart
   icon: mdi:palette
 tony_morning_meds:

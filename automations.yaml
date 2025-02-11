@@ -125,7 +125,6 @@
       - light.basement_studio_lights
       - light.tina_lamp_top
       - light.tina_lamp_side
-      - light.tina_desk_strip
       - light.stairwell_led_strip
     data:
       color_name: red
@@ -152,7 +151,6 @@
         - light.master_bedroom_lights
         - light.tina_lamp_top
         - light.tina_lamp_side
-        - light.tina_desk_strip
       data:
         flash: long
     - alias: Send TTS notification to the common areas
@@ -1574,7 +1572,6 @@
         - light.living_room_color_3
         - light.tina_lamp_side
         - light.tina_lamp_top
-        - light.tina_desk_strip
         - light.stairwell_led_strip
         - light.basement_stairwell
         - light.basement_tall_lamp
@@ -1590,7 +1587,6 @@
         - light.living_room_color_3
         - light.tina_lamp_side
         - light.tina_lamp_top
-        - light.tina_desk_strip
         - light.stairwell_led_strip
   - delay:
       seconds: 1
@@ -1611,7 +1607,6 @@
         entity_id:
         - light.living_room_lights
         - light.tina_lamp
-        - light.tina_desk_strip
         - light.stairwell_led_strip
         - light.basement_studio_lights
       data:
@@ -1623,7 +1618,6 @@
         entity_id:
         - light.living_room_lights
         - light.tina_lamp
-        - light.tina_desk_strip
         - light.stairwell_led_strip
       data:
         color_name: red

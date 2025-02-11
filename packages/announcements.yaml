@@ -283,7 +283,6 @@ script:
             - light.living_room_color_1
             - light.living_room_color_2
             - light.living_room_color_3
-            - light.tina_desk_strip
             - light.tina_lamp_side
             - light.tina_lamp_top
             - light.mud_room_overhead
@@ -320,7 +319,6 @@ script:
           entity_id:
             - light.living_room_lights
             - light.tina_lamp
-            - light.tina_desk_strip
             - light.basement_studio_lights
         data:
           color_name: >

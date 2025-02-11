@@ -405,7 +405,6 @@ automation:
   #           - light.living_room_led_strip
   #           - light.tina_lamp_top
   #           - light.tina_lamp_side
-  #           - light.tina_desk_strip
   #     - alias: "Save Current Adaptive State"
   #       service: scene.create
   #       data:
@@ -425,7 +424,6 @@ automation:
   #         entity_id:
   #           - light.living_room_lights
   #           - light.tina_lamp
-  #           - light.tina_desk_strip
   #           - light.living_room_led_strip
   #       data:
   #         color_name: green
