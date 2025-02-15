@@ -124,6 +124,11 @@ template:
       state: >
         {% if is_state('binary_sensor.basement_studio_motion','on') %}
           true
+        {% elif is_state('sensor.xia_desktop_current_username','tm24f') and
+                  (is_state('binary_sensor.kallen_desktop_idle','on') or
+                    states('sensor.kallen_desktop_current_username') in ['unavailable','unknown','NotPresent','SYSTEM'] or
+                    is_state('binary_sensor.kallen_desktop_on','off')) %}
+          false
         {% elif is_state('binary_sensor.tony_desktop_on','off') and 
                   is_state('binary_sensor.kallen_desktop_on','off') %}
           false
