@@ -1297,16 +1297,16 @@
     input:
       dimmer_device: 40c14ccfe958d21d75888a968bbbf908
       on_short_action:
-      - service: input_boolean.toggle
-        data: {}
+      - data: {}
         target:
-          entity_id: input_boolean.tina_desk_lights
+          entity_id: light.tina_desk_lights
+        action: light.turn_on
       on_long_action:
-      - service: input_select.select_option
-        data:
+      - data:
           option: Reset
         target:
           entity_id: input_select.tina_desk_scenes
+        action: input_select.select_option
       off_short_action: []
       off_long_action: []
 - id: '1693174941627'
@@ -1689,52 +1689,25 @@
   alias: Tina Desk Lights Handler
   description: Handles turning on the desk lights with smart scene selection and also
     turning them off
-  trigger:
-  - platform: state
-    entity_id: input_boolean.tina_desk_lights
-    from: 'off'
-    to: 'on'
-    id: toggle-on
-    alias: Toggle On
-  - platform: state
-    entity_id: input_boolean.tina_desk_lights
-    from: 'on'
-    to: 'off'
-    id: toggle-off
-    alias: Toggle Off
-  - platform: state
-    entity_id: input_select.tina_desk_scenes
+  triggers:
+  - entity_id: input_select.tina_desk_scenes
     to: Reset
     id: reset
     alias: Reset
-  - platform: state
-    entity_id: light.tina_desk_lights
-    from: 'on'
-    to: 'off'
-    id: lights-off
-    alias: Lights Off
-  - platform: state
-    entity_id: light.tina_desk_lights
-    from: 'off'
-    to: 'on'
-    id: lights-on
-    alias: Lights On
-  - platform: state
-    entity_id: binary_sensor.tina_desktop_on
+    trigger: state
+  - entity_id: binary_sensor.tina_desktop_on
     from: 'off'
     to: 'on'
     id: computer-on
     alias: Computer On
-  condition: []
-  action:
+    trigger: state
+  conditions: []
+  actions:
   - alias: Reset
     if:
-    - alias: Triggered by Toggle On, Reset, or Computer On
+    - alias: Triggered by Reset or Computer On
       condition: or
       conditions:
-      - condition: trigger
-        id: toggle-on
-        alias: Toggle On
       - condition: trigger
         id: reset
         alias: Reset
@@ -1742,52 +1715,12 @@
         id: computer-on
         alias: Computer On
     then:
-    - service: input_select.select_option
-      target:
+    - target:
         entity_id: input_select.tina_desk_scenes
       data:
         option: '{{ states(''sensor.tina_desk_scene'') }}'
       alias: Reset to appropriate default scene
-  - if:
-    - condition: trigger
-      id: toggle-off
-    then:
-    - service: light.turn_off
-      target:
-        entity_id: light.tina_desk_lights
-      data: {}
-    alias: Toggle Off
-  - if:
-    - condition: trigger
-      id: lights-off
-    then:
-    - if:
-      - condition: state
-        entity_id: input_boolean.tina_desk_lights
-        state: 'on'
-      then:
-      - service: input_boolean.turn_off
-        target:
-          entity_id: input_boolean.tina_desk_lights
-        data: {}
-    alias: Lights Off
-  - if:
-    - condition: trigger
-      id: lights-on
-    then:
-    - if:
-      - condition: state
-        entity_id: input_boolean.tina_desk_lights
-        state: 'off'
-      then:
-      - service: input_boolean.turn_on
-        target:
-          entity_id: input_boolean.tina_desk_lights
-        data: {}
-      - delay:
-          seconds: 2
-        alias: Prevent script from re-triggering when boolean is turned on
-    alias: Lights On
+      action: input_select.select_option
   mode: single
 - id: '1696286403914'
   alias: Basement Lights Handling

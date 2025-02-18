@@ -86,18 +86,14 @@ kallen_timer_cancel:
 global_off:
   alias: Global Off
   sequence:
-  - service: light.turn_off
-    data: {}
+  - data: {}
     target:
       entity_id: all
-  - service: fan.turn_off
-    data: {}
+    action: light.turn_off
+  - data: {}
     target:
       entity_id: all
-  - service: input_boolean.turn_off
-    data: {}
-    target:
-      entity_id: input_boolean.tina_desk_lights
+    action: fan.turn_off
   mode: single
   icon: mdi:earth-off
 global_on:
@@ -111,40 +107,35 @@ global_on:
   icon: mdi:earth
 max_brightness:
   sequence:
-  - service: input_boolean.turn_on
-    target:
-      entity_id: input_boolean.tina_desk_lights
-    data: {}
-    alias: Turn on Tina Desk Lights
   - alias: Turn off Adaptive Lighting and Motion Lighting
-    service: switch.turn_off
     data: {}
     target:
       label_id:
       - adaptive_lighting
       - motion_lighting
+    action: switch.turn_off
   - delay:
       hours: 0
       minutes: 0
       seconds: 1
       milliseconds: 0
   - alias: Cancel motion timers
-    service: timer.cancel
     data: {}
     target:
       label_id: motion_lighting
-  - service: input_boolean.turn_off
-    data: {}
+    action: timer.cancel
+  - data: {}
     target:
       entity_id: input_boolean.front_porch_light_on
     alias: Turn off Front Porch automation
-  - service: light.turn_on
-    data:
+    action: input_boolean.turn_off
+  - data:
       kelvin: 5000
       brightness_pct: 100
     target:
       entity_id: all
     alias: Turn on ALL LIGHTS to maximum brightness
+    action: light.turn_on
   mode: single
   alias: Max Brightness
   icon: mdi:brightness-7
@@ -1008,39 +999,35 @@ adaptive_on_second_floor:
 bright_on_first_floor:
   alias: Bright on First Floor
   sequence:
-  - service: light.turn_on
-    target:
+  - target:
       entity_id:
       - light.living_room_lights
       - light.downstairs_bathroom_lights
       - light.mud_room_overhead
     data: {}
-  - service: input_boolean.turn_on
-    target:
-      entity_id: input_boolean.tina_desk_lights
-    data: {}
+    action: light.turn_on
   - delay:
       seconds: 1
-  - service: input_select.select_option
-    target:
+  - target:
       entity_id:
       - input_select.living_room_scenes
       - input_select.downstairs_bathroom_scenes
       - input_select.mud_room_scenes
     data:
       option: Bright
-  - service: light.turn_on
-    target:
+    action: input_select.select_option
+  - target:
       entity_id:
       - light.tina_lamp
     data:
       color_temp_kelvin: 2700
-  - service: light.turn_on
-    target:
+    action: light.turn_on
+  - target:
       entity_id:
       - light.tina_lamp
     data:
       brightness: 255
+    action: light.turn_on
 bright_on_second_floor:
   alias: Bright on Second Floor
   sequence:
@@ -1138,11 +1125,11 @@ evening_on_first_floor:
           entity_id: person.christina_stork
           state: home
         then:
-        - service: input_select.select_option
-          target:
+        - target:
             entity_id: input_select.tina_desk_scenes
           data:
             option: Night Mode
+          action: input_select.select_option
         alias: If Tina is home, turn on desk lights
       - alias: Check if script is being called by Give Me Darkness automation
         if:
@@ -1156,40 +1143,40 @@ evening_on_first_floor:
             entity_id: timer.mud_room_motion_timer
             state: idle
           then:
-          - service: light.turn_on
-            metadata: {}
+          - metadata: {}
             data: {}
             target:
               entity_id: light.mud_room_overhead
-          - service: input_select.select_option
-            target:
+            action: light.turn_on
+          - target:
               entity_id:
               - input_select.mud_room_scenes
             data:
               option: Nightlight
+            action: input_select.select_option
         else:
-        - service: light.turn_off
-          target:
+        - target:
             entity_id:
             - light.living_room_lights
           data: {}
+          action: light.turn_off
         - alias: Set mud room light to nightlight
           if:
           - condition: state
             entity_id: timer.mud_room_motion_timer
             state: idle
           then:
-          - service: light.turn_on
-            metadata: {}
+          - metadata: {}
             data: {}
             target:
               entity_id: light.mud_room_overhead
-          - service: input_select.select_option
-            target:
+            action: light.turn_on
+          - target:
               entity_id:
               - input_select.mud_room_scenes
             data:
               option: Nightlight
+            action: input_select.select_option
       alias: Give Me Darkness on
     - conditions:
       - condition: state
@@ -1202,69 +1189,65 @@ evening_on_first_floor:
           value_template: '{{ sunset_lights == 1 }}'
           alias: If sunset_lights = 1
         then:
-        - service: light.turn_on
-          target:
+        - target:
             entity_id:
             - light.living_room_lights
             - light.mud_room_overhead
           data: {}
-        - service: input_select.select_option
-          target:
+          action: light.turn_on
+        - target:
             entity_id:
             - input_select.living_room_scenes
           data:
             option: Adaptive
+          action: input_select.select_option
         - alias: Set mud room light to nightlight
           if:
           - condition: state
             entity_id: timer.mud_room_motion_timer
             state: idle
           then:
-          - service: light.turn_on
-            metadata: {}
+          - metadata: {}
             data: {}
             target:
               entity_id: light.mud_room_overhead
-          - service: input_select.select_option
-            target:
+            action: light.turn_on
+          - target:
               entity_id:
               - input_select.mud_room_scenes
             data:
               option: Nightlight
+            action: input_select.select_option
         else:
-        - service: input_boolean.turn_off
-          target:
-            entity_id: input_boolean.tina_desk_lights
-          data: {}
-        - service: light.turn_on
-          target:
+        - target:
             entity_id:
             - light.living_room_lights
             - light.mud_room_overhead
           data: {}
-        - service: input_select.select_option
-          target:
+          action: light.turn_on
+        - target:
             entity_id:
             - input_select.living_room_scenes
           data:
             option: Adaptive
+          action: input_select.select_option
         - alias: Set mud room light to nightlight
           if:
           - condition: state
             entity_id: timer.mud_room_motion_timer
             state: idle
           then:
-          - service: light.turn_on
-            metadata: {}
+          - metadata: {}
             data: {}
             target:
               entity_id: light.mud_room_overhead
-          - service: input_select.select_option
-            target:
+            action: light.turn_on
+          - target:
               entity_id:
               - input_select.mud_room_scenes
             data:
               option: Nightlight
+            action: input_select.select_option
       alias: Give Me Darkness off
 evening_on_second_floor:
   alias: Evening on Second Floor
