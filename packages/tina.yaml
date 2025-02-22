@@ -19,6 +19,18 @@ input_boolean:
   tina_night_meds_taken:
     name: Tina Night Meds Taken
     icon: mdi:medication
+  tina_ibuprofen_active:
+    name: Tina Ibuprofen Active
+    icon: mdi:medication
+  tina_ibuprofen_taken:
+    name: Tina Ibuprofen Taken
+    icon: mdi:medication
+  tina_tylenol_active:
+    name: Tina Tylenol Active
+    icon: mdi:medication
+  tina_tylenol_taken:
+    name: Tina Tylenol Taken
+    icon: mdi:medication
   tina_awake:
     name: Tina Awake
     icon: mdi:eye-check
@@ -51,6 +63,26 @@ input_datetime:
     icon: mdi:medication
   tina_night_meds_notify:
     name: Tina Night Meds Notify
+    has_date: true
+    has_time: true
+    icon: mdi:medication
+  tina_ibuprofen_taken:
+    name: Tina Ibuprofen Taken
+    has_date: true
+    has_time: true
+    icon: mdi:medication
+  tina_ibuprofen_notify:
+    name: Tina Ibuprofen Notify
+    has_date: true
+    has_time: true
+    icon: mdi:medication
+  tina_tylenol_taken:
+    name: Tina Tylenol Taken
+    has_date: true
+    has_time: true
+    icon: mdi:medication
+  tina_tylenol_notify:
+    name: Tina Tylenol Notify
     has_date: true
     has_time: true
     icon: mdi:medication

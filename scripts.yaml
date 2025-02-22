@@ -2991,3 +2991,365 @@ tina_night_meds:
       - action: TINA_NIGHT_MEDS_SKIPPED
         title: Skip
   description: ''
+tina_ibuprofen:
+  sequence:
+  - alias: Turn off boolean if this is a notification
+    if:
+    - condition: template
+      value_template: '{{ reason != ''ibuprofen-taken'' }}'
+      alias: If reason is not ibuprofen-taken
+    then:
+    - target:
+        entity_id: input_boolean.tina_ibuprofen_taken
+      data: {}
+      alias: Turn off boolean
+      action: input_boolean.turn_off
+  - alias: Routing
+    choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ reason == ''ibuprofen-notify'' }}'
+        alias: Ibuprofen Notify
+      sequence:
+      - data:
+          type: alert
+          who: tina
+          title: Tina Ibuprofen Time
+          message: It is time to take your next dose of Ibuprofen
+          tag: tina-ibuprofen
+          actions:
+          - action: TINA_IBUPROFEN_TAKEN
+            title: Taken
+          - action: TINA_IBUPROFEN_SKIPPED
+            title: Skipped
+          - action: TINA_IBUPROFEN_ASK_LATER
+            title: Ask Later
+        alias: Send actionable text notification
+        action: script.text_notify
+      - wait_for_trigger:
+        - platform: event
+          event_type: ios.notification_action_fired
+          event_data:
+            actionName: TINA_IBUPROFEN_TAKEN
+          id: ibuprofen-taken
+          alias: Ibuprofen Taken
+        - alias: Ibuprofen Skipped
+          platform: event
+          event_type: ios.notification_action_fired
+          event_data:
+            actionName: TINA_IBUPROFEN_SKIPPED
+          id: ibuprofen-skipped
+        - alias: Ibuprofen Ask Later
+          platform: event
+          event_type: ios.notification_action_fired
+          event_data:
+            actionName: TINA_IBUPROFEN_ASK_LATER
+          id: ibuprofen-ask-later
+        - platform: state
+          entity_id:
+          - input_boolean.tina_ibuprofen_taken
+          from: 'off'
+          to: 'on'
+          id: ibuprofen-manual
+          alias: Manual
+        - platform: state
+          entity_id:
+          - input_boolean.tina_ibuprofen_active
+          from: 'on'
+          to: 'off'
+          id: cancel
+        timeout:
+          hours: 0
+          minutes: 30
+          seconds: 0
+          milliseconds: 0
+        continue_on_timeout: true
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ wait.trigger.id == ''ibuprofen-taken'' }}'
+            alias: Ibuprofen Taken
+          sequence:
+          - target:
+              entity_id: input_boolean.tina_ibuprofen_taken
+            data: {}
+            alias: Turn on boolean
+            action: input_boolean.turn_on
+        - conditions:
+          - alias: Ibuprofen Skipped
+            condition: template
+            value_template: '{{ wait.trigger.id == ''ibuprofen-skipped'' }}'
+          sequence:
+          - target:
+              entity_id: input_datetime.tina_ibuprofen_notify
+            data:
+              datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(8)
+                }}
+
+                '
+            alias: Set notification time
+            action: input_datetime.set_datetime
+        - conditions:
+          - alias: Ibuprofen Ask Later
+            condition: template
+            value_template: '{{ wait.trigger.id == ''ibuprofen-ask-later'' }}'
+          sequence:
+          - target:
+              entity_id: input_datetime.tina_ibuprofen_notify
+            data:
+              datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,30)
+                }}
+
+                '
+            alias: Set ibuprofen notification time
+            action: input_datetime.set_datetime
+          - target:
+              entity_id: input_datetime.tina_ibuprofen_notify
+            data:
+              datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(4,30)
+                }}
+
+                '
+            alias: Set ibuprofen notification time
+            action: input_datetime.set_datetime
+        - conditions:
+          - condition: template
+            value_template: '{{ wait.trigger == ''none'' or wait.trigger.idx is undefined
+              }}'
+            alias: No response
+          sequence:
+          - target:
+              entity_id: input_datetime.tina_ibuprofen_notify
+            data:
+              datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,30)
+                }}
+
+                '
+            alias: Set notification time
+            action: input_datetime.set_datetime
+        alias: Act on wait triggers
+      - data:
+          type: alert
+          who: tina
+          message: clear_notification
+          tag: tina-ibuprofen
+        alias: Clear actionable text notification
+        action: script.text_notify
+    - conditions:
+      - condition: template
+        value_template: '{{ reason == ''ibuprofen-taken'' }}'
+        alias: Ibuprofen Taken
+      sequence:
+      - target:
+          entity_id: input_datetime.tina_ibuprofen_taken
+        data:
+          datetime: '{% from ''time.jinja'' import current_time %} {{ current_time(''datetime'',24)
+            }}
+
+            '
+        alias: Set time taken
+        action: input_datetime.set_datetime
+      - target:
+          entity_id: input_datetime.tina_ibuprofen_notify
+        data:
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(8)
+            }}
+
+            '
+        alias: Set ibuprofen notification time
+        action: input_datetime.set_datetime
+      - target:
+          entity_id: input_datetime.tina_tylenol_notify
+        data:
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(4)
+            }}
+
+            '
+        alias: Set tylenol notification time
+        action: input_datetime.set_datetime
+  alias: Tina Ibuprofen
+  mode: queued
+  icon: mdi:medication
+  max: 10
+  description: ''
+tina_tylenol:
+  sequence:
+  - alias: Turn off boolean if this is a notification
+    if:
+    - condition: template
+      value_template: '{{ reason != ''tylenol-taken'' }}'
+      alias: If reason is not tylenol-taken
+    then:
+    - target:
+        entity_id: input_boolean.tina_tylenol_taken
+      data: {}
+      alias: Turn off boolean
+      action: input_boolean.turn_off
+  - alias: Routing
+    choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ reason == ''tylenol-notify'' }}'
+        alias: Tylenol Notify
+      sequence:
+      - data:
+          type: alert
+          who: tina
+          title: Tina Tylenol Time
+          message: It is time to take your next dose of Tylenol
+          tag: tina-tylenol
+          actions:
+          - action: TINA_TYLENOL_TAKEN
+            title: Taken
+          - action: TINA_TYLENOL_SKIPPED
+            title: Skipped
+          - action: TINA_TYLENOL_ASK_LATER
+            title: Ask Later
+        alias: Send actionable text notification
+        action: script.text_notify
+      - wait_for_trigger:
+        - platform: event
+          event_type: ios.notification_action_fired
+          event_data:
+            actionName: TINA_TYLENOL_TAKEN
+          id: tylenol-taken
+          alias: Tylenol Taken
+        - alias: Tylenol Skipped
+          platform: event
+          event_type: ios.notification_action_fired
+          event_data:
+            actionName: TINA_TYLENOL_SKIPPED
+          id: tylenol-skipped
+        - alias: Tylenol Ask Later
+          platform: event
+          event_type: ios.notification_action_fired
+          event_data:
+            actionName: TINA_TYLENOL_ASK_LATER
+          id: tylenol-ask-later
+        - platform: state
+          entity_id:
+          - input_boolean.tina_tylenol_taken
+          from: 'off'
+          to: 'on'
+          id: tylenol-manual
+          alias: Manual
+        - platform: state
+          entity_id:
+          - input_boolean.tina_tylenol_active
+          from: 'on'
+          to: 'off'
+          id: cancel
+        timeout:
+          hours: 0
+          minutes: 30
+          seconds: 0
+          milliseconds: 0
+        continue_on_timeout: true
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ wait.trigger.id == ''tylenol-taken'' }}'
+            alias: Tylenol Taken
+          sequence:
+          - target:
+              entity_id: input_boolean.tina_tylenol_taken
+            data: {}
+            alias: Turn on boolean
+            action: input_boolean.turn_on
+        - conditions:
+          - alias: Tylenol Skipped
+            condition: template
+            value_template: '{{ wait.trigger.id == ''tylenol-skipped'' }}'
+          sequence:
+          - target:
+              entity_id: input_datetime.tina_tylenol_notify
+            data:
+              datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(8)
+                }}
+
+                '
+            alias: Set notification time
+            action: input_datetime.set_datetime
+        - conditions:
+          - alias: Tylenol Ask Later
+            condition: template
+            value_template: '{{ wait.trigger.id == ''tylenol-ask-later'' }}'
+          sequence:
+          - target:
+              entity_id: input_datetime.tina_tylenol_notify
+            data:
+              datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,30)
+                }}
+
+                '
+            alias: Set tylenol notification time
+            action: input_datetime.set_datetime
+          - target:
+              entity_id: input_datetime.tina_tylenol_notify
+            data:
+              datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(4,30)
+                }}
+
+                '
+            alias: Set tylenol notification time
+            action: input_datetime.set_datetime
+        - conditions:
+          - condition: template
+            value_template: '{{ wait.trigger == ''none'' or wait.trigger.idx is undefined
+              }}'
+            alias: No response
+          sequence:
+          - target:
+              entity_id: input_datetime.tina_tylenol_notify
+            data:
+              datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,30)
+                }}
+
+                '
+            alias: Set notification time
+            action: input_datetime.set_datetime
+        alias: Act on wait triggers
+      - data:
+          type: alert
+          who: tina
+          message: clear_notification
+          tag: tina-tylenol
+        alias: Clear actionable text notification
+        action: script.text_notify
+    - conditions:
+      - condition: template
+        value_template: '{{ reason == ''tylenol-taken'' }}'
+        alias: Tylenol Taken
+      sequence:
+      - target:
+          entity_id: input_datetime.tina_tylenol_taken
+        data:
+          datetime: '{% from ''time.jinja'' import current_time %} {{ current_time(''datetime'',24)
+            }}
+
+            '
+        alias: Set time taken
+        action: input_datetime.set_datetime
+      - target:
+          entity_id: input_datetime.tina_tylenol_notify
+        data:
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(8)
+            }}
+
+            '
+        alias: Set tylenol notification time
+        action: input_datetime.set_datetime
+      - target:
+          entity_id: input_datetime.tina_ibuprofen_notify
+        data:
+          datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(4)
+            }}
+
+            '
+        alias: Set ibuprofen notification time
+        action: input_datetime.set_datetime
+  alias: Tina Tylenol
+  mode: queued
+  icon: mdi:medication
+  max: 10
+  description: ''

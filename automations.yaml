@@ -6021,3 +6021,66 @@
       entity_id: input_datetime.minnesota_wild_start
     alias: Minnesota Wild Start
   mode: restart
+- id: '1740098474888'
+  alias: Tina Pain Meds Handler
+  description: ''
+  triggers:
+  - at: input_datetime.tina_ibuprofen_notify
+    id: ibuprofen-notify
+    alias: Ibuprofen Notify
+    trigger: time
+  - alias: Tylenol Notify
+    at: input_datetime.tina_tylenol_notify
+    id: tylenol-notify
+    trigger: time
+  - entity_id:
+    - input_boolean.tina_ibuprofen_taken
+    from: 'off'
+    to: 'on'
+    id: ibuprofen-taken
+    alias: Ibuprofen Taken
+    trigger: state
+  - alias: Tylenol Taken
+    entity_id:
+    - input_boolean.tina_tylenol_taken
+    from: 'off'
+    to: 'on'
+    id: tylenol-taken
+    trigger: state
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: and
+        conditions:
+        - condition: trigger
+          id:
+          - ibuprofen-notify
+          - ibuprofen-taken
+        - condition: state
+          entity_id: input_boolean.tina_ibuprofen_active
+          state: 'on'
+        alias: Ibuprofen
+      sequence:
+      - data:
+          reason: '{{ trigger.id }}'
+        alias: Call ibuprofen script
+        action: script.tina_ibuprofen
+    - conditions:
+      - condition: and
+        conditions:
+        - condition: trigger
+          id:
+          - tylenol-notify
+          - tylenol-taken
+        - condition: state
+          entity_id: input_boolean.tina_tylenol_active
+          state: 'on'
+        alias: Tylenol
+      sequence:
+      - data:
+          reason: '{{ trigger.id }}'
+        alias: Call tylenol script
+        action: script.tina_tylenol
+  mode: parallel
+  max: 10
