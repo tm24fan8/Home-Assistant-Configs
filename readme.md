@@ -57,6 +57,7 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [Powercalc](https://github.com/bramstroker/homeassistant-powercalc)
 - [Govee LAN Control](https://github.com/wez/govee-lan-hass)
 - [Discord Game](https://github.com/LordBoos/discord_game)
+- [Versatile Thermostat](https://github.com/jmcollin78/versatile_thermostat)
 
 </details>
 
@@ -67,7 +68,7 @@ Again, mostly just the ones I'm **using** or **will use soon**...also a few that
 <details>
 <summary>Click here</summary>
 
-- [Bubble Card](https://github.com/Clooos/Bubble-Card)
+- [Bubble Card](https://github.com/Clooos/Bubble-Card) Backbone of the new mobile dashboard
 - [Config Template Card](https://github.com/iantrich/config-template-card)
 - [Decluttering Card](https://github.com/custom-cards/decluttering-card)
 - [Card Tools](https://github.com/thomasloven/lovelace-card-tools) (required for various other cards)
@@ -86,7 +87,6 @@ Again, mostly just the ones I'm **using** or **will use soon**...also a few that
 - [Auto Entities Card](https://github.com/thomasloven/lovelace-auto-entities)
 - [Slider Button Card](https://github.com/custom-cards/slider-button-card)
 - [Weather Radar Card](https://github.com/Makin-Things/weather-radar-card)
-- [Platinum Weather Card](https://github.com/Makin-Things/platinum-weather-card) (Not currently in use, but VERY nicely done)
 - [Stack In Card](https://github.com/custom-cards/stack-in-card)
 - [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row)
 - [State Switch](https://github.com/thomasloven/lovelace-state-switch)
@@ -122,6 +122,7 @@ Again, mostly just the ones I'm **using** or **will use soon**...also a few that
 - [Meteoalarm Card](https://github.com/MrBartusek/MeteoalarmCard)
 - [Weather Chart Card](https://github.com/mlamberts78/weather-chart-card)
 - [Comfortable Environment Card](https://github.com/argaar/comfortable-environment-card)
+- [Versatile Thermostat UI Card](https://github.com/jmcollin78/versatile-thermostat-ui-card)
 
 </details>
 
