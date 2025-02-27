@@ -1149,10 +1149,23 @@
           entity_id: switch.adaptive_lighting_master_bedroom
         action: switch.turn_off
       brightness_down_short_action:
-      - data: {}
-        target:
-          entity_id: switch.adaptive_lighting_master_bedroom
-        action: switch.turn_off
+      - if:
+        - condition: state
+          entity_id: light.master_bedroom_lights
+          state: 'off'
+        then:
+        - action: input_select.select_option
+          metadata: {}
+          data:
+            option: Nightlight
+          target:
+            entity_id: input_select.master_bedroom_scenes
+        else:
+        - data: {}
+          target:
+            entity_id: switch.adaptive_lighting_master_bedroom
+          action: switch.turn_off
+        alias: Activate nightlight if lights are off, otherwise act normal
       brightness_down_long_action:
       - data: {}
         target:
