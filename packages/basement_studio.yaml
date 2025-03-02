@@ -1,0 +1,4 @@
+input_boolean:
+  do_not_enter_basement_studio:
+    name: Do Not Enter - Basement Studio
+    icon: mdi:minus-circle
