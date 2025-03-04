@@ -309,3 +309,121 @@ get_state_attribute:
                 label: "Attribute"
                 selector:
                     attribute: {}
+
+# Temperature
+temperature_colouring:
+  name: "Temperature colouring"
+  version: "v1.0"
+  creator: "Timmy"
+
+  unsupported:
+    - horizontal-buttons-stack
+    - media-player
+
+  description: |
+    This module provides dynamic colouring based on temperature sensor values.
+    Colour adjustments are applied to selected sub-buttons and/or state display elements.
+
+    Required entities:
+    - A temperature sensor
+
+    You can configure which elements should receive dynamic colouring:
+    - Sub-buttons (1-6)
+    - State display
+
+    Example YAML configuration:
+
+    temperature_colouring:
+      temperature_sensor: sensor.kitchen_temperature
+      elements:
+        sub_buttons: [1, 3, 5]  # Apply to sub-buttons 1, 3, and 5
+        state_display: true     # Apply to state display element
+
+  code: |
+    ${(() => {
+      const temperature = parseFloat(hass?.states[this.config?.temperature_colouring?.temperature_sensor]?.state || 0);
+      const elements = this.config?.temperature_colouring?.elements || {};
+      
+      let color;
+      if (temperature <= 32) {
+          color = 'rgba(0,0,139,0.8)';
+      } else if (temperature <= 41) {
+          color = 'rgba(0,71,171,0.8)';
+      } else if (temperature <= 50) {
+          color = 'rgba(30,144,255,0.8)';
+      } else if (temperature <= 59) {
+          color = 'rgba(100,149,237,0.8)';
+      } else if (temperature <= 68) {
+          color = 'rgba(60,179,113,0.8)';
+      } else if (temperature <= 73) {
+          color = 'rgba(152,251,152,0.8)';
+      } else if (temperature <= 78) {
+          color = 'rgba(255,223,186,0.8)';
+      } else if (temperature <= 82) {
+          color = 'rgba(255,215,0,0.8)';
+      } else if (temperature <= 95) {
+          color = 'rgba(178,34,34,0.8)';
+      } else {
+          color = 'rgba(139,0,0,0.8)';
+      }
+
+      // Apply colour to selected sub-buttons
+      if (elements.sub_buttons) {
+        const subButtons = Array.isArray(elements.sub_buttons) ? elements.sub_buttons : [];
+        subButtons.forEach(num => {
+          if (num >= 1 && num <= 6) {
+            const subButton = card?.querySelector(`.bubble-sub-button-${num} ha-icon`);
+            if (subButton) {
+              subButton.style.color = color;
+            }
+          }
+        });
+      }
+
+      // Apply colour to state display if enabled
+      if (elements.state_display) {
+        const stateElement = card?.querySelector('.bubble-state.state.display-state');
+        if (stateElement) {
+          stateElement.style.color = color;
+        }
+      }
+
+      return '';  // No CSS needed as we're applying styles directly to elements
+    })()}
+
+  editor:
+    - type: expandable
+      title: "Entity Configuration"
+      icon: "mdi:thermometer"
+      schema:
+        - name: temperature_sensor
+          label: "Temperature Sensor (Required)"
+          selector:
+            entity:
+              device_class: temperature
+          required: true
+        - name: elements
+          type: grid
+          schema:
+            - name: sub_buttons
+              label: "Sub-buttons to Style"
+              selector:
+                select:
+                  multiple: true
+                  options:
+                    - label: "Sub-button 1"
+                      value: 1
+                    - label: "Sub-button 2"
+                      value: 2
+                    - label: "Sub-button 3"
+                      value: 3
+                    - label: "Sub-button 4"
+                      value: 4
+                    - label: "Sub-button 5"
+                      value: 5
+                    - label: "Sub-button 6"
+                      value: 6
+            - name: state_display
+              label: "State Display"
+              selector:
+                boolean: {}
