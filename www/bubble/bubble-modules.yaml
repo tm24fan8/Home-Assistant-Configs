@@ -351,7 +351,7 @@ temperature_colouring:
           color = 'rgba(0,71,171,0.8)';
       } else if (temperature <= 50) {
           color = 'rgba(30,144,255,0.8)';
-      } else if (temperature <= 59) {
+      } else if (temperature <= 61) {
           color = 'rgba(100,149,237,0.8)';
       } else if (temperature <= 68) {
           color = 'rgba(60,179,113,0.8)';
@@ -359,7 +359,7 @@ temperature_colouring:
           color = 'rgba(152,251,152,0.8)';
       } else if (temperature <= 78) {
           color = 'rgba(255,223,186,0.8)';
-      } else if (temperature <= 82) {
+      } else if (temperature <= 80) {
           color = 'rgba(255,215,0,0.8)';
       } else if (temperature <= 95) {
           color = 'rgba(178,34,34,0.8)';
