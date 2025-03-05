@@ -101,7 +101,10 @@
 
 {% macro weatherReport(type,method,time) %}
   {% macro data() %}
-  {{ weatherInfo(type,method,time) | replace('clear-night','clear') | replace('partlycloudy','partly cloudy') }}
+  {{ weatherInfo(type,method,time) |
+      replace('clear-night','clear') |
+      replace('partlycloudy','partly cloudy') |
+      replace('snowy-rainy','a mix of rain and snow') }}
   {% endmacro %}
 {{ cleanup(data()) }}
 {% endmacro %}
