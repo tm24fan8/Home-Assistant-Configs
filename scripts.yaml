@@ -199,11 +199,18 @@ going_upstairs:
     then:
     - alias: Decide basement studio heater action
       if:
-      - condition: numeric_state
-        entity_id: weather.iron_nerd_weather_station
-        attribute: temperature
-        below: 32
-        alias: Temperature below freezing
+      - alias: If temp below freezing and heat is on
+        condition: and
+        conditions:
+        - condition: numeric_state
+          entity_id: weather.iron_nerd_weather_station
+          attribute: temperature
+          below: 32
+          alias: Temperature below freezing
+        - condition: state
+          entity_id: climate.basement_studio_vtherm
+          state: heat
+          alias: Heat on
       then:
       - action: climate.set_preset_mode
         metadata: {}
