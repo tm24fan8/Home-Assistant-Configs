@@ -2308,56 +2308,37 @@ tony_tylenol:
 kallen_morning_meds:
   alias: Kallen Morning Meds
   sequence:
-  - service: counter.increment
-    metadata: {}
+  - metadata: {}
     data: {}
     target:
       entity_id: counter.kallen_morning_meds_reminder_count
     alias: Increment morning reminder counter
-  - alias: Clear previous morning notifications
-    parallel:
-    - service: script.text_notify
-      data:
-        type: alert
-        who: parents
-        message: clear_notification
-        tag: kallen-morning-meds-parents
-      alias: Clear for parents
-    - service: script.text_notify
-      data:
-        type: alert
-        who: kallen
-        message: clear_notification
-        tag: kallen-morning-meds-self
-      alias: Clear for Kallen
+    action: counter.increment
+  - alias: Clear previous text notifications
+    data:
+      type: alert
+      who: all
+      message: clear_notification
+      tag: kallen-morning-meds
+    action: script.text_notify
   - delay:
       hours: 0
       minutes: 0
       seconds: 5
       milliseconds: 0
-  - alias: Send text notifications
-    parallel:
-    - alias: Send to parents
-      service: script.text_notify
-      data:
-        who: parents
-        type: alert
-        title: Morning Meds
-        message: Kallen needs to take his morning meds
-        tag: kallen-morning-meds-parents
-        actions:
-        - action: KALLEN_MORNING_MEDS_TAKEN
-          title: Taken
-        - action: KALLEN_MORNING_MEDS_SKIPPED
-          title: Skip
-    - service: script.text_notify
-      data:
-        who: kallen
-        type: alert
-        title: Morning Meds
-        message: You need to take your morning meds. Go to mom or dad to confirm.
-        tag: kallen-morning-meds-self
-      alias: Send to Kallen
+  - alias: Send text notification
+    data:
+      who: all
+      type: alert
+      title: Morning Meds
+      message: Kallen needs to take his morning meds
+      tag: kallen-morning-meds
+      actions:
+      - action: KALLEN_MORNING_MEDS_TAKEN
+        title: Taken
+      - action: KALLEN_MORNING_MEDS_SKIPPED
+        title: Skip
+    action: script.text_notify
   icon: mdi:medication
   mode: restart
 kallen_night_meds:
