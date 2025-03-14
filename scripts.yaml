@@ -1663,47 +1663,113 @@ tony_morning_meds:
       tag: tony-morning-meds
     alias: Clear previous morning notification
     action: script.text_notify
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 5
-      milliseconds: 0
-  - alias: Send morning notifications via text, and TTS if needed
-    parallel:
-    - alias: Send text notification
-      data:
-        who: tony
-        type: alert
-        title: Morning Meds
-        message: You need to take your morning meds
-        tag: tony-morning-meds
-        actions:
-        - action: TONY_MORNING_MEDS_TAKEN
-          title: Taken
-        - action: TONY_MORNING_MEDS_SKIPPED
-          title: Skip
-      action: script.text_notify
-    - alias: Send TTS if reminders > 2 and Tony is home
+  - alias: Send notifications, using AI if internet is connected
+    if:
+    - condition: state
+      entity_id: binary_sensor.internet
+      state: 'on'
+    then:
+    - alias: Generate reminder, be snarky if it's been several times
       if:
-      - alias: If reminders > 2 and Tony is home
-        condition: and
-        conditions:
-        - condition: numeric_state
-          entity_id: counter.tony_morning_meds_reminder_count
-          above: 2
-          alias: When reminder count > 2
-        - condition: state
-          entity_id: person.tony_stork
-          state: home
-          alias: If Tony is home
+      - condition: numeric_state
+        entity_id: counter.tony_morning_meds_reminder_count
+        above: 2
       then:
-      - data:
-          who: common_areas
+      - action: google_generative_ai_conversation.generate_content
+        metadata: {}
+        data:
+          prompt: Remind Tony to take his morning meds. Use a maximum of two lines.
+            Be snarky, because at this point he's been reminded multiple times.
+        response_variable: response
+        alias: Generate snarky reminder
+      else:
+      - action: google_generative_ai_conversation.generate_content
+        metadata: {}
+        data:
+          prompt: Remind Tony to take his morning meds. Use a maximum of two lines.
+        response_variable: response
+        alias: Generate reminder
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 5
+        milliseconds: 0
+    - alias: Send morning notifications via text, and TTS if needed
+      parallel:
+      - alias: Send text notification
+        data:
+          who: tony
           type: alert
-          message: Tony, you need to take your morning meds. This is reminder number
-            {{ states('counter.tony_morning_meds_reminder_count') }} for today.
-        alias: Send TTS notification
-        action: script.speech_engine
+          title: Morning Meds
+          message: '{{ response.text }}'
+          tag: tony-morning-meds
+          actions:
+          - action: TONY_MORNING_MEDS_TAKEN
+            title: Taken
+          - action: TONY_MORNING_MEDS_SKIPPED
+            title: Skip
+        action: script.text_notify
+      - alias: Send TTS if reminders > 2 and Tony is home
+        if:
+        - alias: When reminders > 2 and Tony is home
+          condition: and
+          conditions:
+          - condition: numeric_state
+            entity_id: counter.tony_morning_meds_reminder_count
+            above: 2
+            alias: When reminder count > 2
+          - condition: state
+            entity_id: person.tony_stork
+            state: home
+            alias: If Tony is home
+        then:
+        - data:
+            who: common_areas
+            type: alert
+            message: '{{ response.text }}'
+          alias: Send TTS notification
+          action: script.speech_engine
+    else:
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 5
+        milliseconds: 0
+    - alias: Send morning notifications via text, and TTS if needed
+      parallel:
+      - alias: Send text notification
+        data:
+          who: tony
+          type: alert
+          title: Morning Meds
+          tag: tony-morning-meds
+          actions:
+          - action: TONY_MORNING_MEDS_TAKEN
+            title: Taken
+          - action: TONY_MORNING_MEDS_SKIPPED
+            title: Skip
+          message: You need to take your morning meds
+        action: script.text_notify
+      - alias: Send TTS if reminders > 2 and Tony is home
+        if:
+        - alias: When reminders > 2 and Tony is home
+          condition: and
+          conditions:
+          - condition: numeric_state
+            entity_id: counter.tony_morning_meds_reminder_count
+            above: 2
+            alias: When reminder count > 2
+          - condition: state
+            entity_id: person.tony_stork
+            state: home
+            alias: If Tony is home
+        then:
+        - alias: Send TTS notification
+          data:
+            who: common_areas
+            type: alert
+            message: Tony, you need to take your morning meds
+          action: script.speech_engine
 tony_night_meds:
   alias: Tony Night Meds
   icon: mdi:medication
@@ -1904,47 +1970,113 @@ tony_afternoon_meds:
       tag: tony-afternoon-meds
     alias: Clear previous afternoon notification
     action: script.text_notify
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 5
-      milliseconds: 0
-  - alias: Send afternoon notifications via text, and TTS if needed
-    parallel:
-    - alias: Send text notification
-      data:
-        who: tony
-        type: alert
-        title: Afternoon Meds
-        message: You need to take your afternoon meds
-        tag: tony-afternoon-meds
-        actions:
-        - action: TONY_AFTERNOON_MEDS_TAKEN
-          title: Taken
-        - action: TONY_AFTERNOON_MEDS_SKIPPED
-          title: Skip
-      action: script.text_notify
-    - alias: Send TTS if reminders > 2 and Tony is home
+  - alias: Send notifications, using AI if internet is connected
+    if:
+    - condition: state
+      entity_id: binary_sensor.internet
+      state: 'on'
+    then:
+    - alias: Generate reminder, be snarky if it's been several times
       if:
-      - alias: When reminders > 2 and Tony is home
-        condition: and
-        conditions:
-        - condition: numeric_state
-          entity_id: counter.tony_afternoon_meds_reminder_count
-          above: 2
-          alias: When reminder count > 2
-        - condition: state
-          entity_id: person.tony_stork
-          state: home
-          alias: If Tony is home
+      - condition: numeric_state
+        entity_id: counter.tony_afternoon_meds_reminder_count
+        above: 2
       then:
-      - data:
-          who: common_areas
+      - action: google_generative_ai_conversation.generate_content
+        metadata: {}
+        data:
+          prompt: Remind Tony to take his afternoon meds. Use a maximum of two lines.
+            Be snarky, because at this point he's been reminded multiple times.
+        response_variable: response
+        alias: Generate snarky reminder
+      else:
+      - action: google_generative_ai_conversation.generate_content
+        metadata: {}
+        data:
+          prompt: Remind Tony to take his afternoon meds. Use a maximum of two lines.
+        response_variable: response
+        alias: Generate reminder
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 5
+        milliseconds: 0
+    - alias: Send afternoon notifications via text, and TTS if needed
+      parallel:
+      - alias: Send text notification
+        data:
+          who: tony
           type: alert
-          message: Tony, you need to take your afternoon meds. This is reminder number
-            {{ states('counter.tony_afternoon_meds_reminder_count') }} for today.
-        alias: Send TTS notification
-        action: script.speech_engine
+          title: Afternoon Meds
+          message: '{{ response.text }}'
+          tag: tony-afternoon-meds
+          actions:
+          - action: TONY_AFTERNOON_MEDS_TAKEN
+            title: Taken
+          - action: TONY_AFTERNOON_MEDS_SKIPPED
+            title: Skip
+        action: script.text_notify
+      - alias: Send TTS if reminders > 2 and Tony is home
+        if:
+        - alias: When reminders > 2 and Tony is home
+          condition: and
+          conditions:
+          - condition: numeric_state
+            entity_id: counter.tony_afternoon_meds_reminder_count
+            above: 2
+            alias: When reminder count > 2
+          - condition: state
+            entity_id: person.tony_stork
+            state: home
+            alias: If Tony is home
+        then:
+        - data:
+            who: common_areas
+            type: alert
+            message: '{{ response.text }}'
+          alias: Send TTS notification
+          action: script.speech_engine
+    else:
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 5
+        milliseconds: 0
+    - alias: Send afternoon notifications via text, and TTS if needed
+      parallel:
+      - alias: Send text notification
+        data:
+          who: tony
+          type: alert
+          title: Afternoon Meds
+          tag: tony-afternoon-meds
+          actions:
+          - action: TONY_AFTERNOON_MEDS_TAKEN
+            title: Taken
+          - action: TONY_AFTERNOON_MEDS_SKIPPED
+            title: Skip
+          message: You need to take your afternoon meds
+        action: script.text_notify
+      - alias: Send TTS if reminders > 2 and Tony is home
+        if:
+        - alias: When reminders > 2 and Tony is home
+          condition: and
+          conditions:
+          - condition: numeric_state
+            entity_id: counter.tony_afternoon_meds_reminder_count
+            above: 2
+            alias: When reminder count > 2
+          - condition: state
+            entity_id: person.tony_stork
+            state: home
+            alias: If Tony is home
+        then:
+        - alias: Send TTS notification
+          data:
+            who: common_areas
+            type: alert
+            message: Tony, you need to take your afternoon meds
+          action: script.speech_engine
 tony_ibuprofen:
   alias: Tony Ibuprofen
   sequence:
@@ -2910,75 +3042,163 @@ tina_morning_meds:
   icon: mdi:medication
   mode: restart
   sequence:
-  - service: counter.increment
-    metadata: {}
+  - metadata: {}
     data: {}
     target:
       entity_id: counter.tina_morning_meds_reminder_count
     alias: Increment morning reminder counter
-  - service: script.text_notify
-    data:
+    action: counter.increment
+  - data:
       type: alert
       who: tina
       message: clear_notification
       tag: tina-morning-meds
     alias: Clear previous morning notification
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 5
-      milliseconds: 0
-  - alias: Send text notification
-    service: script.text_notify
-    data:
-      who: tina
-      type: alert
-      title: Morning Meds
-      message: You need to take your morning meds
-      tag: tina-morning-meds
-      actions:
-      - action: TINA_MORNING_MEDS_TAKEN
-        title: Taken
-      - action: TINA_MORNING_MEDS_SKIPPED
-        title: Skip
-  description: ''
+    action: script.text_notify
+  - alias: Send notifications, using AI if internet is connected
+    if:
+    - condition: state
+      entity_id: binary_sensor.internet
+      state: 'on'
+    then:
+    - if:
+      - condition: numeric_state
+        entity_id: counter.tina_morning_meds_reminder_count
+        above: 2
+      then:
+      - action: google_generative_ai_conversation.generate_content
+        metadata: {}
+        data:
+          prompt: Remind Tina to take her morning meds. Use a maximum of two lines.
+            Be snarky, because at this point she's been reminded multiple times.
+        response_variable: response
+        alias: Generate snarky reminder
+      else:
+      - action: google_generative_ai_conversation.generate_content
+        metadata: {}
+        data:
+          prompt: Remind Tina to take her morning meds. Use a maximum of two lines.
+        response_variable: response
+        alias: Generate reminder
+      alias: Generate reminder, be snarky if it's been several times
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 5
+        milliseconds: 0
+    - alias: Send text notification
+      data:
+        who: tina
+        type: alert
+        title: Morning Meds
+        message: '{{ response.text }}'
+        tag: tina-morning-meds
+        actions:
+        - action: TINA_MORNING_MEDS_TAKEN
+          title: Taken
+        - action: TINA_MORNING_MEDS_SKIPPED
+          title: Skip
+      action: script.text_notify
+    else:
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 5
+        milliseconds: 0
+    - alias: Send text notification
+      data:
+        who: tina
+        type: alert
+        title: Morning Meds
+        tag: tina-morning-meds
+        actions:
+        - action: TINA_MORNING_MEDS_TAKEN
+          title: Taken
+        - action: TINA_MORNING_MEDS_SKIPPED
+          title: Skip
+        message: You need to take your morning meds
+      action: script.text_notify
 tina_night_meds:
   alias: Tina Night Meds
   icon: mdi:medication
   mode: restart
   sequence:
-  - service: counter.increment
-    metadata: {}
+  - metadata: {}
     data: {}
     target:
       entity_id: counter.tina_night_meds_reminder_count
     alias: Increment night reminder counter
-  - service: script.text_notify
-    data:
+    action: counter.increment
+  - data:
       type: alert
       who: tina
       message: clear_notification
       tag: tina-night-meds
     alias: Clear previous night notification
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 5
-      milliseconds: 0
-  - alias: Send text notification
-    service: script.text_notify
-    data:
-      who: tina
-      type: alert
-      title: Night Meds
-      message: You need to take your night meds
-      tag: tina-night-meds
-      actions:
-      - action: TINA_NIGHT_MEDS_TAKEN
-        title: Taken
-      - action: TINA_NIGHT_MEDS_SKIPPED
-        title: Skip
-  description: ''
+    action: script.text_notify
+  - alias: Send notifications, using AI if internet is connected
+    if:
+    - condition: state
+      entity_id: binary_sensor.internet
+      state: 'on'
+    then:
+    - if:
+      - condition: numeric_state
+        entity_id: counter.tina_night_meds_reminder_count
+        above: 2
+      then:
+      - action: google_generative_ai_conversation.generate_content
+        metadata: {}
+        data:
+          prompt: Remind Tina to take her night meds. Use a maximum of two lines.
+            Be snarky, because at this point she's been reminded multiple times.
+        response_variable: response
+        alias: Generate snarky reminder
+      else:
+      - action: google_generative_ai_conversation.generate_content
+        metadata: {}
+        data:
+          prompt: Remind Tina to take her night meds. Use a maximum of two lines.
+        response_variable: response
+        alias: Generate reminder
+      alias: Generate reminder, be snarky if it's been several times
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 5
+        milliseconds: 0
+    - alias: Send text notification
+      data:
+        who: tina
+        type: alert
+        title: Night Meds
+        message: '{{ response.text }}'
+        tag: tina-night-meds
+        actions:
+        - action: TINA_NIGHT_MEDS_TAKEN
+          title: Taken
+        - action: TINA_NIGHT_MEDS_SKIPPED
+          title: Skip
+      action: script.text_notify
+    else:
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 5
+        milliseconds: 0
+    - alias: Send text notification
+      data:
+        who: tina
+        type: alert
+        title: Night Meds
+        tag: tina-night-meds
+        actions:
+        - action: TINA_NIGHT_MEDS_TAKEN
+          title: Taken
+        - action: TINA_NIGHT_MEDS_SKIPPED
+          title: Skip
+        message: You need to take your night meds
+      action: script.text_notify
 tina_ibuprofen:
   sequence:
   - alias: Turn off boolean if this is a notification
