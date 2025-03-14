@@ -2,19 +2,23 @@ template:
   - binary_sensor:
     - name: Emma Aircon - Compressor
       unique_id: 21bcbb62-823c-43ff-8c2c-26e940324ee6
-      state: "{{ is_state('fan.emma_air_conditioner','on') and states('sensor.emma_air_conditioner_power') | int > 150 }}"
+      state: "{{ states('sensor.emma_air_conditioner_power') | int > 150 }}"
+      availability: "{{ states('fan.emma_air_conditioner') not in ['unknown','unavailable'] }}"
       device_class: running
     - name: Emma Aircon - Fan
       unique_id: 9e3054cf-8f7e-4fef-9da4-5b2f2bc99c9d
-      state: "{{ is_state('fan.emma_air_conditioner','on') and states('sensor.emma_air_conditioner_power') | int > 20 }}"
+      state: "{{ states('sensor.emma_air_conditioner_power') | int > 20 }}"
+      availability: "{{ states('fan.emma_air_conditioner') not in ['unknown','unavailable'] }}"
       device_class: running
     - name: Master Bedroom Aircon - Compressor
       unique_id: 87051957-1dbc-4d65-b138-e8469728f58f
-      state: "{{ states('climate.master_bedroom_aircon') not in ['off','unknown','unavailable'] and states('sensor.master_bedroom_aircon_power') | int > 150 }}"
+      state: "{{ states('sensor.master_bedroom_aircon_power') | int > 150 }}"
+      availability: "{{ states('climate.master_bedroom_aircon') not in ['unknown','unavailable'] }}"
       device_class: running
     - name: Master Bedroom Aircon - Fan
       unique_id: ae893dd6-129c-4886-a966-a89b958d9f08
-      state: "{{ states('climate.master_bedroom_aircon') not in ['off','unknown','unavailable'] and states('sensor.master_bedroom_aircon_power') | int > 20 }}"
+      state: "{{ states('sensor.master_bedroom_aircon_power') | int > 20 }}"
+      availability: "{{ states('climate.master_bedroom_aircon') not in ['unknown','unavailable'] }}"
       device_class: running
     - name: Kallen Fan - Separate Schedule
       unique_id: 3f243861-6a1f-412f-b9e3-933b54793b08
