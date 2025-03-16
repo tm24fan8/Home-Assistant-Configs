@@ -75,28 +75,26 @@
 
     <p>
       {% if (states('sensor.climate_devices_installed') | int) > 0 %}
-          {% if is_state('input_boolean.master_bedroom_aircon_installed','on') %}
-            "the master bedroom temperature is {{ states('sensor.master_bedroom_aircon_indoor_temperature') | int }} degrees. "
-              {% if not is_state('climate.master_bedroom_aircon','off') %}
-                {% if is_state('climate.master_bedroom_aircon','cool') %}
-                  "and the master bedroom air conditioner is set for cooling to {{ state_attr('climate.master_bedroom_aircon','temperature') }} degrees. "
-                {% elif is_state('climate.master_bedroom_aircon','fan_only') %}
-                  "and the master bedroom air conditioner is in fan only mode. "
-                {% elif is_state('climate.master_bedroom_aircon','dry') %}
-                  "and the master bedroom air conditioner is moonlighting as a dehumidifier. "
-                {% elif is_state('climate.master_bedroom_aircon','auto') %}
-                  "and the master bedroom air conditioner is making its own decisions. Be afraid, be very afraid. "
-                {% else %}
-                  "and the master bedroom air conditioner is currently not speaking to me. Was it something I said? "
-                {% endif %}
+        {% if is_state('input_boolean.master_bedroom_aircon_installed','on') %}
+          "the master bedroom temperature is {{ states('sensor.master_bedroom_temperature') | int }} degrees. "
+            {% if not is_state('climate.master_bedroom_aircon','off') %}
+              {% if is_state('climate.master_bedroom_aircon','cool') %}
+                "and the master bedroom air conditioner is set for cooling to {{ state_attr('climate.master_bedroom_aircon','temperature') }} degrees. "
+              {% elif is_state('climate.master_bedroom_aircon','fan_only') %}
+                "and the master bedroom air conditioner is in fan only mode. "
+              {% elif is_state('climate.master_bedroom_aircon','dry') %}
+                "and the master bedroom air conditioner is moonlighting as a dehumidifier. "
+              {% elif is_state('climate.master_bedroom_aircon','auto') %}
+                "and the master bedroom air conditioner is making its own decisions. Be afraid, be very afraid. "
+              {% else %}
+                "and the master bedroom air conditioner is currently not speaking to me. Was it something I said? "
               {% endif %}
-          {% elif is_state('input_boolean.master_bedroom_aircon_installed','off') %}
-            "There is no air conditioner or temperature sensor installed in the master bedroom. "
-          {% endif %}
-          {% if is_state('input_boolean.emma_bedroom_aircon_installed','on') and is_state('fan.emma_air_conditioner','on') %}
-            "Emma's air conditioner is {{ states('fan.emma_air_conditioner') }}. "
-          {% endif %}
+            {% endif %}
         {% endif %}
+        {% if is_state('input_boolean.emma_bedroom_aircon_installed','on') and is_state('fan.emma_air_conditioner','on') %}
+          "Emma's air conditioner is {{ states('fan.emma_air_conditioner') }}. "
+        {% endif %}
+      {% endif %}
     </p>
 
     <p>
