@@ -106,7 +106,8 @@
   {{ weatherInfo(type,method,time) |
       replace('clear-night','clear') |
       replace('partlycloudy','partly cloudy') |
-      replace('snowy-rainy','a mix of rain and snow') }}
+      replace('snowy-rainy','a mix of rain and snow') |
+      replace('lightning-rainy','stormy') }}
   {% endmacro %}
 {{ cleanup(data()) }}
 {% endmacro %}
