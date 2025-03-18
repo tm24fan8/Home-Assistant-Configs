@@ -321,6 +321,9 @@ influxdb:
       - sensor.dimmest_room
       - sensor.warmest_room_temperature
       - sensor.coldest_room_temperature
+      - sensor.national_tornado_warnings
+      - sensor.national_severe_thunderstorm_warnings
+      - binary_sensor.severe_thunderstorm_warning
 
 logbook:
   include:
@@ -498,3 +501,6 @@ prometheus:
       - sensor.dimmest_room
       - sensor.warmest_room_temperature
       - sensor.coldest_room_temperature
+      - sensor.national_tornado_warnings
+      - sensor.national_severe_thunderstorm_warnings
+      - binary_sensor.severe_thunderstorm_warning
