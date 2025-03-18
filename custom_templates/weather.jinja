@@ -19,6 +19,11 @@
   {% if type in ['alerts','full'] %}
     {% if is_state('input_boolean.tornado_alarm','on') %}
       We are under a tornado warning. If you are not already in shelter, you should be. Get on it!
+    {% elif is_state('binary_sensor.severe_thunderstorm_warning','on') %}
+      We are under a severe thunderstorm warning.
+      {% if state_attr('binary_sensor.severe_thunderstorm_warning','tornado_possible' == true) %}
+        The incoming storm has the potential to produce a tornado, so please pay attention and prepare to take shelter!
+      {% endif %}
     {% elif states('sensor.weatheralerts_active_alerts') > '0' and method != 'dashboard' %}
       Current weather alerts: {{ states('sensor.weather_alert_string') }}.
     {% endif %}
@@ -49,6 +54,11 @@
     {% endif %}
     {% if is_state('input_boolean.tornado_alarm','on') %}
       "We are under a tornado warning. If you are not already in shelter, you should be. Get on it! "
+    {% elif is_state('binary_sensor.severe_thunderstorm_warning','on') %}
+      "We are under a severe thunderstorm warning. "
+      {% if state_attr('binary_sensor.severe_thunderstorm_warning','tornado_possible' == true) %}
+        "The incoming storm has the potential to produce a tornado, so please pay attention and prepare to take shelter! "
+      {% endif %}
     {% elif is_state('input_boolean.tornado_watch','on') %}
       {{ [
         "There is currently a tornado watch active. Please keep an eye on the sky and your local weather reports. ",
