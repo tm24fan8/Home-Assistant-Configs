@@ -19,10 +19,16 @@
   {% if type in ['alerts','full'] %}
     {% if is_state('input_boolean.tornado_alarm','on') %}
       We are under a tornado warning. If you are not already in shelter, you should be. Get on it!
+      {% if state_attr('binary_sensor.tornado_warning','confirmed' == true) %}
+        A tornado has been confirmed in the area. Please take shelter immediately!
+      {% endif %}
     {% elif is_state('binary_sensor.severe_thunderstorm_warning','on') %}
       We are under a severe thunderstorm warning.
       {% if state_attr('binary_sensor.severe_thunderstorm_warning','tornado_possible' == true) %}
         The incoming storm has the potential to produce a tornado, so please pay attention and prepare to take shelter!
+      {% endif %}
+      {% if state_attr('binary_sensor.severe_thunderstorm_warning','considerable_destructive' == true) %}
+        This storm has the potential to cause considerable damage. Please take shelter and stay safe!
       {% endif %}
     {% elif states('sensor.weatheralerts_active_alerts') > '0' and method != 'dashboard' %}
       Current weather alerts: {{ states('sensor.weather_alert_string') }}.
@@ -54,10 +60,16 @@
     {% endif %}
     {% if is_state('input_boolean.tornado_alarm','on') %}
       "We are under a tornado warning. If you are not already in shelter, you should be. Get on it! "
+      {% if state_attr('binary_sensor.tornado_warning','confirmed' == true) %}
+        "A tornado has been confirmed in the area. Please take shelter immediately! "
+      {% endif %}
     {% elif is_state('binary_sensor.severe_thunderstorm_warning','on') %}
       "We are under a severe thunderstorm warning. "
       {% if state_attr('binary_sensor.severe_thunderstorm_warning','tornado_possible' == true) %}
         "The incoming storm has the potential to produce a tornado, so please pay attention and prepare to take shelter! "
+      {% endif %}
+      {% if state_attr('binary_sensor.severe_thunderstorm_warning','considerable_destructive' == true) %}
+        "This storm has the potential to cause considerable damage. Please take shelter and stay safe! "
       {% endif %}
     {% elif is_state('input_boolean.tornado_watch','on') %}
       {{ [
