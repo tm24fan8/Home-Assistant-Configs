@@ -473,12 +473,11 @@
       Collin has Beyond The Bells today after school.
     {% endif %}
     {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
-      {{ states('input_text.kallen_pickup') }} will be picking Collin up from school today. 
-    {% else %}
-      Pickup today will be at {{ input_datetime_read('input_datetime.kallen_school_day_end') | trim }}.
+      {{ states('input_text.kallen_pickup') }} will be picking Collin up from school today.
       {% if is_state('input_boolean.kallen_school_early_release','on') %}
-        And It is early release!
+        Today is an early release day!
       {% endif %}
+      Pickup today will be at {{ input_datetime_read('input_datetime.kallen_school_day_end') | trim }}.
     {% endif %}
     {% if states('sensor.windows_open') | int > 0 %}
       'I detect that there are windows open. Make sure you close them before you leave, or else the security system will not arm. '
@@ -544,10 +543,11 @@
         {% endif %}
         {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
           {{ states('input_text.kallen_pickup') }} will be picking him up from school today.
-        {% elif is_state('input_boolean.kallen_school_early_release','on') %}
-          The school is on an early release schedule, pickup is at {{ input_datetime_read('input_datetime.kallen_school_day_end') | trim }}.
-        {% else %}
-          His pickup time is {{ input_datetime_read('input_datetime.kallen_school_day_end') | trim }}.
+          {% if is_state('input_boolean.kallen_school_early_release','on') %}
+            The school is on an early release schedule, pickup is at {{ input_datetime_read('input_datetime.kallen_school_day_end') | trim }}.
+          {% else %}
+            His pickup time is {{ input_datetime_read('input_datetime.kallen_school_day_end') | trim }}.
+          {% endif %}
         {% endif %}
       {% else %}
         {{ identKallen }} has school at {{ input_datetime_read('input_datetime.kallen_school_day_start') | trim }} today.
