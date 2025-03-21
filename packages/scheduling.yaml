@@ -418,21 +418,14 @@ script:
           entity_id: input_datetime.daily_briefing
           data:
             time: >
-              {% from 'time.jinja' import time_from_calendar %}
-              {% if is_state('input_boolean.kallen_school_today','on') %}
-                {% if is_state('input_boolean.kallen_alternate_pickup','on') or is_state('input_boolean.kallen_btb','on') %}
-                  15:30
-                {% else %}
-                  {{ time_from_calendar('calendar.kallen_school_days','end_time','set','subtract',1) }}
-                {% endif %}
-              {% elif is_state('input_boolean.kallen_school_today','off') and is_state('input_boolean.work_today','off') %}
-                15:30
-              {% else %}
+              {% if is_state('input_boolean.kallen_school_today','off') and is_state('input_boolean.work_today','on') %}
                 {% if (state_attr('input_datetime.tina_workday_end','timestamp')) > 61200 %}
                   16:00
                 {% else %}
                   {{ (state_attr('input_datetime.tina_workday_end', 'timestamp') + 3600) | timestamp_custom('%H:%M', false) }}
                 {% endif %}
+              {% else %}
+                15:30
               {% endif %}
       - if:
         - condition: state
@@ -561,18 +554,7 @@ script:
         - service: input_datetime.set_datetime
           entity_id: input_datetime.master_bedroom_wakeup
           data:
-            time: >
-              {% if is_state('input_boolean.kallen_school_today','on') %}
-                {% if is_state('input_boolean.kallen_alternate_pickup','on') or is_state('input_boolean.kallen_btb','on') %}
-                  16:30
-                {% elif is_state('input_boolean.kallen_school_early_release','on') %}
-                  12:30
-                {% else %}
-                  13:00
-                {% endif %}
-              {% else %}
-                16:30
-              {% endif %}
+            time: "16:30"
       - delay:
           milliseconds: 500
       - service: input_datetime.set_datetime
