@@ -115,7 +115,7 @@
         "Tina has work today. "
       {% endif %}
       {% if is_state('input_boolean.kallen_at_school','on') %}
-        "Collin is at school right now. His pickup time will be at {{ input_datetime_read('input_datetime.kallen_school_day_end') }}. "
+        "Collin is at school right now. His school day ends at {{ input_datetime_read('input_datetime.kallen_school_day_end') }}. "
       {% elif is_state('input_boolean.kallen_school_today','on') %}
         "Collin has school today. "
       {% endif %}

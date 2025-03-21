@@ -98,12 +98,7 @@
           {% endif %}
           {% if is_state('input_boolean.kallen_alternate_pickup','on') %}
             Today, you will be picked up from school by {{ states('input_text.kallen_pickup') }}.
-          {% elif is_state('input_boolean.work_today','off') %}
-            Today, you will be picked up from school by your parents.
-          {% else %}
-            Today, you will be picked up from school by your dad.
           {% endif %}
-          <s>Pickup today will be at {{ input_datetime_read('input_datetime.kallen_school_day_end') }}</s>
           {% if count_the_days('input_datetime.school_last_day') | int == 0 -%}
             But today is the last day of School! 
           {%- endif %}
