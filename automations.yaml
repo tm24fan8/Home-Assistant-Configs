@@ -6097,3 +6097,30 @@
         action: script.tina_tylenol
   mode: parallel
   max: 10
+- id: '1742799079017'
+  alias: Emma Sleep Handling
+  description: Awareness of when Emma is asleep or wakes up
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_boolean.emma_sleeping
+    from: 'on'
+    to: 'off'
+    id: sleep-off
+    alias: Sleep Off
+  - trigger: state
+    entity_id:
+    - binary_sensor.family_home
+    from: 'on'
+    to: 'off'
+    id: family-left
+    alias: Family Left
+  conditions: []
+  actions:
+  - action: input_boolean.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.emma_awake
+    alias: Turn on Emma Awake
+  mode: restart

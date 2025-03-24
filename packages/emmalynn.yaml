@@ -257,6 +257,9 @@ automation:
               time: >
                 {% from 'time.jinja' import current_time %}
                 {{ current_time('time',24) }}
+          - service: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.emma_awake
       - conditions:
         - condition: trigger
           id: bedtime-timer-finished
@@ -281,6 +284,9 @@ automation:
               datetime: >
                 {% from 'time.jinja' import current_time %}
                 {{ current_time('time',24) }}
+          - service: input_boolean.turn_off
+            target:
+              entity_id: input_boolean.emma_awake
 
   - id: e59f638a-519f-4619-bf7d-b13251b3a374
     alias: Emma Meds Handler
