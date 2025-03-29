@@ -1,14 +1,14 @@
 template:
   - binary_sensor:
-    - name: Emma Aircon - Compressor
+    - name: Emma Bedroom Aircon - Compressor
       unique_id: 21bcbb62-823c-43ff-8c2c-26e940324ee6
-      state: "{{ states('sensor.emma_air_conditioner_power') | int > 150 }}"
-      availability: "{{ states('fan.emma_air_conditioner') not in ['unknown','unavailable'] }}"
+      state: "{{ states('sensor.emma_bedroom_aircon_power') | int > 150 }}"
+      availability: "{{ states('climate.emma_bedroom_aircon') not in ['unknown','unavailable'] }}"
       device_class: running
-    - name: Emma Aircon - Fan
+    - name: Emma Bedroom Aircon - Fan
       unique_id: 9e3054cf-8f7e-4fef-9da4-5b2f2bc99c9d
-      state: "{{ states('sensor.emma_air_conditioner_power') | int > 20 }}"
-      availability: "{{ states('fan.emma_air_conditioner') not in ['unknown','unavailable'] }}"
+      state: "{{ states('sensor.emma_bedroom_aircon_power') | int > 20 }}"
+      availability: "{{ states('climate.emma_bedroom_aircon') not in ['unknown','unavailable'] }}"
       device_class: running
     - name: Master Bedroom Aircon - Compressor
       unique_id: 87051957-1dbc-4d65-b138-e8469728f58f
@@ -142,6 +142,36 @@ template:
           mdi:fan-off
         {% endif %}
       availability: "{{ states('climate.master_bedroom_aircon') not in ['unavailable','unknown'] }}"
+    - name: "Emma Bedroom Target Temp"
+      unique_id: b81152a1-d4d9-4e3e-8a78-6039de2884ad
+      state: "{{ state_attr('climate.emma_bedroom_aircon','temperature') | float }}"
+      availability: "{{ states('climate.emma_bedroom_aircon') not in ['unavailable','unknown'] }}"
+    - name: "Emma Bedroom Eco Mode"
+      unique_id: 4b6fc8fc-4152-4d8b-ad8d-80f97fcabe44
+      state: "{{ is_state_attr('climate.emma_bedroom_aircon','preset_mode','eco') }}"
+      icon: >-
+        {% if is_state_attr('climate.emma_bedroom_aircon','preset_mode','eco') %}
+          mdi:home-lightning-bolt
+        {% else %}
+          mdi:home-lightning-bolt-outline
+        {% endif %}
+      availability: "{{ states('climate.emma_bedroom_aircon') not in ['unavailable','unknown'] }}"
+    - name: "Emma Bedroom Aircon Fan Mode"
+      unique_id: d678eb2e-be5b-4626-913d-fc1e32941ead
+      state: "{{ state_attr('climate.emma_bedroom_aircon','fan_mode') }}"
+      icon: >
+        {% if is_state_attr('climate.emma_bedroom_aircon','fan_mode','Auto') %}
+          mdi:fan-auto
+        {% elif is_state_attr('climate.emma_bedroom_aircon','fan_mode','Low') %}
+          mdi:fan-speed-1
+        {% elif is_state_attr('climate.emma_bedroom_aircon','fan_mode','Medium') %}
+          mdi:fan-speed-2
+        {% elif is_state_attr('climate.emma_bedroom_aircon','fan_mode','High') %}
+          mdi:fan-speed-3
+        {% else %}
+          mdi:fan-off
+        {% endif %}
+      availability: "{{ states('climate.emma_bedroom_aircon') not in ['unavailable','unknown'] }}"
     - name: Living Room Average Temperature
       unique_id: c4a901a6-87e2-4257-b60b-2944be8fdf04
       state: >
@@ -187,16 +217,17 @@ input_boolean:
   master_bedroom_climate_protocol:
     name: Master Bedroom Climate Protocol
     icon: mdi:lightbulb-night
+  emma_bedroom_climate_protocol:
+    name: Emma Bedroom Climate Protocol
+    icon: mdi:lightbulb-night
   kallen_bedtime_protocol:
     name: Kallen Bedtime Protocol
     icon: mdi:lightbulb-night
 
-  # Turn on when master bedroom air conditioner is installed, turn off in winter when we take it out, for smarter automations
+  # Turn on when air conditioners are installed, turn off in winter when we take them out
   master_bedroom_aircon_installed:
     name: Master Bedroom Aircon Installed
     icon: mdi:tools
-
-  # Same thing, but for Emma's bedroom air conditioner
   emma_bedroom_aircon_installed:
     name: Emma Bedroom Aircon Installed
     icon: mdi:tools
@@ -204,6 +235,9 @@ input_boolean:
   # Used internally for automations to know if cooling time has passed or not
   master_bedroom_cooling_on:
     name: Master Bedroom Cooling On
+    icon: mdi:snowflake
+  emma_bedroom_cooling_on:
+    name: Emma Bedroom Cooling On
     icon: mdi:snowflake
 
   # Activated if the day will be excessively hot. For use with automations for daytime climate control.
@@ -247,6 +281,7 @@ input_select:
     name: Scheduled Climate Mode - Emma Bedroom
     options:
       - AC
+      - Fan
       - Heat
       - White Noise
       - N/A
@@ -309,10 +344,52 @@ input_number:
     step: 1
     unit_of_measurement: °F
     icon: mdi:thermometer
-  emma_aircon_threshold:
-    name: Emma Aircon Threshold
+  emma_bedroom_daytime_temp:
+    name: Emma Bedroom Daytime Temp
+    min: 65
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
+  emma_bedroom_night_temp:
+    name: Emma Bedroom Night Temp
+    min: 65
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
+  emma_bedroom_bedtime_temp:
+    name: Emma Bedroom Bedtime Temp
+    min: 65
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
+  emma_bedroom_aircon_run_threshold:
+    name: Emma Bedroom Aircon Run Threshold
     min: 40
     max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
+  emma_bedroom_aircon_mode_threshold:
+    name: Emma Bedroom Aircon Mode Threshold
+    min: 40
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
+  emma_bedroom_fan_threshold:
+    name: Emma Bedroom Fan Threshold
+    min: 30
+    max: 70
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
+  emma_bedroom_auto_cooling_threshold:
+    name: Emma Bedroom Auto Cooling Threshold
+    min: 70
+    max: 90
     step: 1
     unit_of_measurement: °F
     icon: mdi:thermometer

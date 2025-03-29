@@ -17,8 +17,8 @@ sensor:
     entity_id: switch.tina_desktop
     power_sensor_id: sensor.tina_desktop_power
   - platform: powercalc
-    entity_id: fan.emma_air_conditioner
-    power_sensor_id: sensor.emma_air_conditioner_power
+    entity_id: switch.emma_bedroom_aircon
+    power_sensor_id: sensor.emma_bedroom_aircon_power
   - platform: powercalc
     entity_id: switch.master_bedroom_aircon
     power_sensor_id: sensor.master_bedroom_aircon_power

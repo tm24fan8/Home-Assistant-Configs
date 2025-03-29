@@ -613,7 +613,6 @@ automation:
               target:
                 entity_id:
                   - fan.kallen_bedroom_fan
-                  - fan.emma_air_conditioner
           - service: button.press
             target:
               entity_id: button.master_bedroom_climate_reset

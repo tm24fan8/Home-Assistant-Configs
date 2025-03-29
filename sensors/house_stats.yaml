@@ -168,7 +168,7 @@
     unit_of_measurement: ''
     state: >-
       {% set compressors = [
-        states.binary_sensor.emma_aircon_compressor,
+        states.binary_sensor.emma_bedroom_aircon_compressor,
         states.binary_sensor.master_bedroom_aircon_compressor
       ] %}
       {{ compressors | selectattr('state','eq','on') | list | count | int }}
@@ -177,7 +177,7 @@
     unit_of_measurement: ''
     state: >-
       {% set fans = [
-        states.binary_sensor.emma_aircon_fan,
+        states.binary_sensor.emma_bedroom_aircon_fan,
         states.binary_sensor.master_bedroom_aircon_fan
       ] %}
       {{ fans | selectattr('state','eq','on') | list | count | int }}
@@ -196,11 +196,7 @@
     unit_of_measurement: ''
     state: >-
       {% set climate = states.climate | selectattr('state','ne','off') | rejectattr('state','eq','unavailable') | rejectattr('state','eq','unknown') | list | count | int %}
-      {% set fans = [
-        states.fan.emma_air_conditioner
-      ] %}
-      {% set fans_on = fans | selectattr('state','eq','on') | list | count | int %}
-      {{ climate + fans_on | int }}
+      {{ climate | int }}
   - name: Climate Devices Running
     unique_id: 3c61c756-2934-4294-8085-7d3855b692dd
     unit_of_measurement: ''

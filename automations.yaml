@@ -5030,38 +5030,6 @@
         alias: Update Notification
   mode: parallel
   max: 10
-- id: '1714595577405'
-  alias: Emma Bedroom Cooling
-  description: ''
-  trigger:
-  - platform: time
-    at: input_datetime.emma_bedroom_cooling
-    alias: At the scheduled cooling time
-  condition:
-  - condition: state
-    entity_id: input_boolean.emma_sleeping
-    state: 'off'
-    alias: If Emma is not already asleep
-  - condition: state
-    entity_id: input_select.scheduled_climate_mode_emma_bedroom
-    state: AC
-    alias: If the AC is scheduled to run
-  action:
-  - service: fan.turn_on
-    metadata: {}
-    data: {}
-    target:
-      entity_id: fan.emma_air_conditioner
-    alias: Turn on Emma's air conditioner
-  - service: script.text_notify
-    data:
-      who: parents
-      title: Emma Climate Schedule
-      message: The air conditioner in Emma's Bedroom has been activated.
-      type: normal
-      tag: emma-climate
-    alias: Send AC notification
-  mode: restart
 - id: '1716497196985'
   alias: Emma Bedtime Rescheduler
   description: Keeps Emma's bedtime up-to-date with reality

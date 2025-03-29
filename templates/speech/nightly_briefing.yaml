@@ -71,9 +71,13 @@
       {% else %}
         "Collin's room will be left alone, as he is spending the night elsewhere tonight. "
       {% endif %}
-      {% if states('input_select.scheduled_climate_mode_emma_bedroom') != 'N/A' %}
-        {% if is_state('input_select.scheduled_climate_mode_emma_bedroom','AC') and is_state('fan.emma_air_conditioner','off') %}
-          "Emma's air conditioner will be activated at {{ input_datetime_read('input_datetime.emma_bedroom_cooling') }}. "
+      {% if states('input_select.scheduled_climate_mode_emma_bedroom_aircon') != 'N/A' %}
+        {% if is_state('input_select.scheduled_climate_mode_emma_bedroom_aircon','AC') and is_state('input_boolean.hot_day','on') %}
+          "Today was a hot day, so Emma's bedroom air conditioner will start cooling a bit earlier tonight at {{ input_datetime_read('input_datetime.emma_bedroom_cooling') }}. "
+        {% elif is_state('input_select.scheduled_climate_mode_emma_bedroom_aircon','AC') %}
+          "Emma's bedroom air conditioner will start cooling at {{ input_datetime_read('input_datetime.emma_bedroom_cooling') }}. "
+        {% elif is_state('input_select.scheduled_climate_mode_emma_bedroom_aircon','Fan') %}
+          "Emma's bedroom air conditioner will activate fan only mode at {{ input_datetime_read('input_datetime.emma_bedroom_cooling') }}. "
         {% elif is_state('input_select.scheduled_climate_mode_emma_bedroom','White Noise') and is_state('input_boolean.white_noise_emma_bedroom','off') %}
           "Emma's white noise generator will activate at {{ input_datetime_read('input_datetime.emma_bedtime') }}. "
         {% endif %}
