@@ -732,11 +732,11 @@ script:
               {% set low = states('sensor.overnight_lowest_temperature') | int %}
               {% set bedtime = state_attr('input_datetime.emma_bedtime','timestamp') | int %}
               {% if is_state('input_boolean.hot_day','on') %}
-                {{ (bedtime - 7200) | timestamp_custom('%H:%M',false) }}
-              {% elif high >= 80 or low >= 60 %}
                 {{ (bedtime - 5400) | timestamp_custom('%H:%M',false) }}
-              {% else %}
+              {% elif high >= 80 or low >= 60 %}
                 {{ (bedtime - 3600) | timestamp_custom('%H:%M',false) }}
+              {% else %}
+                {{ (bedtime - 1800) | timestamp_custom('%H:%M',false) }}
               {% endif %}
       - service: input_boolean.turn_on
         target:
