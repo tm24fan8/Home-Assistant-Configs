@@ -810,16 +810,11 @@ script:
             datetime: >
               {% from 'time.jinja' import set_datetime %}
               {{ set_datetime(0,5) }}
-      - if:
-        - condition: state
-          entity_id: binary_sensor.basement_occupied
-          state: 'on'
-        then:
-        - service: script.speech_engine
-          data:
-            who: basement
-            type: normal
-            message: Emma has awoken, so it is time to make your way upstairs now
+      - service: script.speech_engine
+        data:
+          who: common
+          type: normal
+          message: Emma has awoken, so it is time to make your way upstairs now
       - service: input_datetime.set_datetime
         target:
           entity_id: input_datetime.emma_awake_at
