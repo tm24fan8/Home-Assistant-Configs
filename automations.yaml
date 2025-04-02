@@ -1310,10 +1310,23 @@
     input:
       dimmer_device: 40c14ccfe958d21d75888a968bbbf908
       on_short_action:
-      - data: {}
-        target:
+      - if:
+        - condition: state
           entity_id: light.tina_desk_lights
-        action: light.turn_on
+          state: 'off'
+        then:
+        - action: input_select.select_option
+          metadata: {}
+          data:
+            option: Reset
+          target:
+            entity_id: input_select.tina_desk_scenes
+        else:
+        - action: light.turn_off
+          metadata: {}
+          data: {}
+          target:
+            entity_id: light.tina_desk_lights
       on_long_action:
       - data:
           option: Reset
