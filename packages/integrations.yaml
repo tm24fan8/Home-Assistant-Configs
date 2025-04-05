@@ -32,7 +32,7 @@ tts:
     text_type: ssml
     voice: Joanna
     cache: true
-    engine: neural
+    engine: generative
 
 conversation:
 
