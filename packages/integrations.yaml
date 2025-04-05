@@ -31,7 +31,6 @@ tts:
     region_name: 'us-east-1'
     text_type: ssml
     voice: Joanna
-    cache: true
     engine: generative
 
 conversation:
