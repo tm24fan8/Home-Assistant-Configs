@@ -1237,11 +1237,9 @@ script:
       data:
         message: >
           <voice name="{{ voice }}">
-          <amazon:auto-breaths>
           <prosody rate="fast">
           {{ message }}
           </prosody>
-          </amazon:auto-breaths>
           </voice>
         target: >
           {% if who in ['living_room_echo_dot', 'media_player.living_room_echo_dot','living_room'] %}
