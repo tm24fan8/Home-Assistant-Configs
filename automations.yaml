@@ -311,102 +311,118 @@
 - id: '1651787468337'
   alias: Reboot handling
   description: ''
-  trigger:
-  - platform: homeassistant
-    event: start
+  triggers:
+  - event: start
     id: hass_start
-  - platform: homeassistant
-    event: shutdown
+    trigger: homeassistant
+  - event: shutdown
     id: hass_stop
-  condition: []
-  action:
-  - if:
-    - condition: trigger
-      id: hass_start
-      alias: Startup
-    then:
-    - delay:
-        hours: 0
-        minutes: 1
-        seconds: 0
-        milliseconds: 0
-    - service: automation.turn_on
-      data: {}
-      target:
-        entity_id:
-        - automation.family_has_arrived
-        - automation.family_has_left
-        - automation.scheduled_alarm_rearm
-        - automation.scheduled_alarm_disarm
-    - service: switch.turn_off
-      target:
-        entity_id:
-        - switch.presence_simulation
-      data: {}
-    - if:
-      - condition: and
-        conditions:
-        - condition: state
-          entity_id: input_boolean.holiday_mode
-          state: 'on'
-          alias: Is holiday mode on?
+    trigger: homeassistant
+  conditions: []
+  actions:
+  - alias: Routing
+    choose:
+    - conditions:
+      - condition: trigger
+        id: hass_start
+        alias: Startup
+      sequence:
+      - delay:
+          hours: 0
+          minutes: 1
+          seconds: 0
+          milliseconds: 0
+      - data: {}
+        target:
+          entity_id:
+          - automation.family_has_arrived
+          - automation.family_has_left
+          - automation.scheduled_alarm_rearm
+          - automation.scheduled_alarm_disarm
+        action: automation.turn_on
+      - if:
         - condition: state
           entity_id: binary_sensor.early_night_mode
-          state: 'on'
-          alias: Is early night mode on?
-        alias: Test conditions
-      then:
-      - service: switch.turn_on
+          state: 'off'
+        then:
+        - action: input_boolean.turn_off
+          metadata: {}
+          data: {}
+          target:
+            entity_id:
+            - input_boolean.give_me_darkness
+            - input_boolean.night_mode
+            - input_boolean.goodnight
+        alias: If early night mode is off, turn off other night-related modes
+      - target:
+          entity_id:
+          - switch.presence_simulation
         data: {}
+        action: switch.turn_off
+      - if:
+        - condition: and
+          conditions:
+          - condition: state
+            entity_id: input_boolean.holiday_mode
+            state: 'on'
+            alias: Is holiday mode on?
+          - condition: state
+            entity_id: binary_sensor.early_night_mode
+            state: 'on'
+            alias: Is early night mode on?
+          alias: Test conditions
+        then:
+        - data: {}
+          target:
+            entity_id: switch.animated_scene_{{ states('input_select.holiday_animation')
+              | lower }}
+          alias: Turn on the appropriate animated holiday scene
+          action: switch.turn_on
+        alias: Turn on animated holiday scene if night time and holiday mode is on
+      - data: {}
+        action: script.tony_desktop_refresh
+      - data: {}
+        action: script.tina_desktop_refresh
+      - data: {}
+        action: script.asus_laptop_refresh
+      - data: {}
+        action: script.kallen_desktop_refresh
+      - data: {}
+        action: script.win10vm_refresh
+      - data:
+          topic: house/basement/server/glances
+          payload: restart
+          qos: 0
+          retain: false
+        alias: Restart Glances via MQTT
+        action: mqtt.publish
+      - data: {}
+        alias: Reset all speaker volumes
+        action: script.volume_reset
+      - if:
+        - condition: state
+          entity_id: input_boolean.studio_quiet
+          state: 'off'
+        then:
+        - data:
+            who: basement
+            call_ha_started: 1
+          action: script.status_annc
+        else:
+        - stop: Studio has requested quiet, and Jarvis respects this
+        alias: Announce back online, unless studio has requested quiet
+    - conditions:
+      - condition: trigger
+        id: hass_stop
+        alias: Shutdown
+      sequence:
+      - data:
+          stop_actions: true
         target:
-          entity_id: switch.animated_scene_{{ states('input_select.holiday_animation')
-            | lower }}
-        alias: Turn on the appropriate animated holiday scene
-      alias: Turn on animated holiday scene if night time and holiday mode is on
-    - service: script.tony_desktop_refresh
-      data: {}
-    - service: script.tina_desktop_refresh
-      data: {}
-    - service: script.asus_laptop_refresh
-      data: {}
-    - service: script.kallen_desktop_refresh
-      data: {}
-    - service: script.win10vm_refresh
-      data: {}
-    - service: mqtt.publish
-      data:
-        topic: house/basement/server/glances
-        payload: restart
-        qos: 0
-        retain: false
-      alias: Restart Glances via MQTT
-    - service: script.volume_reset
-      data: {}
-      alias: Reset all speaker volumes
-    - if:
-      - condition: state
-        entity_id: input_boolean.studio_quiet
-        state: 'off'
-      then:
-      - service: script.status_annc
-        data:
-          who: basement
-          call_ha_started: 1
-      else:
-      - stop: Studio has requested quiet, and Jarvis respects this
-      alias: Announce back online, unless studio has requested quiet
-  - if:
-    - condition: trigger
-      id: hass_stop
-      alias: Shutdown
-    then:
-    - service: automation.turn_off
-      data:
-        stop_actions: true
-      target:
-        entity_id:
-        - automation.family_has_arrived
-        - automation.family_has_left
+          entity_id:
+          - automation.family_has_arrived
+          - automation.family_has_left
+        action: automation.turn_off
   mode: queued
 - id: '1654547257475'
   alias: Battery Monitoring
