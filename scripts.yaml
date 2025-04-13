@@ -1544,14 +1544,14 @@ day_mode_in_tina_desk:
   alias: Day Mode in Tina Desk
   sequence:
   - parallel:
-    - service: light.turn_on
-      target:
+    - target:
         entity_id: light.tina_lamp_top
       data: {}
-    - service: light.turn_off
-      target:
+      action: light.turn_on
+    - target:
         entity_id: light.tina_lamp_side
       data: {}
+      action: light.turn_off
   - wait_template: '{{ is_state(''light.tina_lamp_side'',''off'') }}'
     timeout:
       seconds: 15
@@ -1561,52 +1561,57 @@ day_mode_in_tina_desk:
     - condition: state
       entity_id: switch.adaptive_lighting_tina_lamp
       state: 'off'
-      alias: If switch is off
+      alias: If adaptive lighting is off
     then:
-    - service: switch.turn_on
+    - alias: Turn on adaptive lighting
       data: {}
       target:
-        entity_id: switch.adaptive_lighting_tina_lamp
-      alias: Turn on the switch
+        entity_id:
+        - switch.adaptive_lighting_tina_lamp
+        - switch.adaptive_lighting_adapt_brightness_tina_lamp
+        - switch.adaptive_lighting_adapt_color_tina_lamp
+      action: switch.turn_on
     else:
     - alias: Apply adaptive lighting
-      service: adaptive_lighting.apply
       data:
         entity_id: switch.adaptive_lighting_tina_lamp
         adapt_brightness: true
         adapt_color: true
+      action: adaptive_lighting.apply
   mode: restart
   icon: mdi:palette
 evening_mode_in_tina_desk:
   alias: Evening Mode in Tina Desk
   sequence:
   - alias: Turn on lamp
-    service: light.turn_on
     data: {}
     target:
       entity_id:
       - light.tina_lamp_top
       - light.tina_lamp_side
+    action: light.turn_on
   - alias: Apply adaptive lighting to lamp
     if:
     - condition: state
       entity_id: switch.adaptive_lighting_tina_lamp
       state: 'off'
-      alias: If switch is off
+      alias: If adaptive lighting is off
     then:
-    - service: switch.turn_on
+    - alias: Turn on adaptive lighting
       data: {}
       target:
-        entity_id: switch.adaptive_lighting_tina_lamp
-      alias: Turn on the switch
+        entity_id:
+        - switch.adaptive_lighting_tina_lamp
+        - switch.adaptive_lighting_adapt_brightness_tina_lamp
+        - switch.adaptive_lighting_adapt_color_tina_lamp
+      action: switch.turn_on
     else:
-    - service: adaptive_lighting.apply
+    - alias: Apply adaptive lighting
       data:
         entity_id: switch.adaptive_lighting_tina_lamp
         adapt_brightness: true
         adapt_color: true
-        turn_on_lights: true
-      alias: Apply adaptive lighting
+      action: adaptive_lighting.apply
   mode: restart
   icon: mdi:palette
 night_mode_in_tina_desk:
@@ -3525,3 +3530,41 @@ tina_tylenol:
   icon: mdi:medication
   max: 10
   description: ''
+reading_mode_in_tina_desk:
+  sequence:
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.adaptive_lighting_adapt_brightness_tina_lamp
+    alias: Turn off adaptive brightness, leave adaptive color on
+  - alias: Turn on lamp
+    action: light.turn_on
+    metadata: {}
+    data:
+      brightness_pct: 100
+    target:
+      entity_id: light.tina_desk_lights
+  - alias: Apply adaptive lighting to lamp
+    if:
+    - condition: state
+      entity_id: switch.adaptive_lighting_tina_lamp
+      state: 'off'
+      alias: If switch is off
+    then:
+    - data: {}
+      target:
+        entity_id: switch.adaptive_lighting_tina_lamp
+      alias: Turn on the switch
+      action: switch.turn_on
+    else:
+    - alias: Apply adaptive lighting
+      data:
+        entity_id: switch.adaptive_lighting_tina_lamp
+        adapt_color: true
+        turn_on_lights: true
+        adapt_brightness: false
+      action: adaptive_lighting.apply
+  alias: Reading Mode in Tina Desk
+  description: ''
+  icon: mdi:palette

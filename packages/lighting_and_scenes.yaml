@@ -489,6 +489,7 @@ input_select:
       - Evening Mode
       - Night Mode
       - Bright Mode
+      - Reading Mode
       - Reset
     initial: Select
     icon: mdi:desk
