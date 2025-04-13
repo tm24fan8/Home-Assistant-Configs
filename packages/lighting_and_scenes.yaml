@@ -653,6 +653,21 @@ template:
           {% endif %}
       device_class: problem
       delay_on: "00:00:10"
+    - name: Light Switch Issue
+      unique_id: 381e8038-ea96-474c-92ec-d1296dc1369e
+      state: >
+        {% set lights = states.light.upstairs_bathroom_lights,
+                        states.light.hallway_overhead,
+                        states.light.downstairs_bathroom_lights %}
+        {% set issues = lights | selectattr('state','eq','unavailable') | list | count %}
+        {{ issues > 0 }}
+      attributes:
+        issues: >
+          {% set lights = states.light.upstairs_bathroom_lights,
+                          states.light.hallway_overhead,
+                          states.light.downstairs_bathroom_lights %}
+          {% set ids = lights | selectattr('state','eq','unavailable') | map(attribute='attributes.friendly_name') | list %}
+          {{ ids | join(', ') }}
   - sensor:
     - name: "Basement Studio Lights - Brightness Actual"
       unique_id: dee4dc84-a6a0-4150-903e-5b8bd436d962
