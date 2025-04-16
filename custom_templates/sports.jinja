@@ -28,7 +28,7 @@
   {% set game_clock = state_attr(team,'clock') %}
   {% if state_attr(team,'league') == 'MLB' %}
     {% set inning_parts = game_clock.split(' ') %}
-    in the {{ inning_parts[0] ~ ' of the ' ~ inning_parts[1] ~ ' inning' }}
+    in the {{ inning_parts[0] ~ ' of the ' ~ inning_parts[1] ~ ' ' ~ period_str }}
   {% else %}
     {% if ' - ' in game_clock %}
       {% set clock_time, quarter = game_clock.split(' - ') %}
