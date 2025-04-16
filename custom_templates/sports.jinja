@@ -25,7 +25,7 @@
 {% macro sports_clock(team) %}
   {% macro data() %}
   {% set period_str = period_str(team) %}
-  {% set game_clock = state_attr(team,'clock') %}
+  {% set game_clock = state_attr(team,'clock') | lower %}
   {% if state_attr(team,'league') == 'MLB' %}
     {% set inning_parts = game_clock.split(' ') %}
     in the {{ inning_parts[0] ~ ' of the ' ~ inning_parts[1] ~ ' ' ~ period_str }}
