@@ -22,6 +22,25 @@
 {% endif %}
 {% endmacro %}
 
+{% macro sports_clock(team) %}
+  {% macro data() %}
+  {% set period_str = period_str(team) %}
+  {% set game_clock = state_attr(team,'clock') %}
+  {% if state_attr(team,'league') == 'MLB' %}
+    {% set inning_parts = game_clock.split(' ') %}
+    in the {{ inning_parts[0] ~ ' of the ' ~ inning_parts[1] ~ ' inning' }}
+  {% else %}
+    {% if ' - ' in game_clock %}
+      {% set clock_time, quarter = game_clock.split(' - ') %}
+      with {{ clock_time ~ ' remaining in the ' ~ quarter ~ ' ' ~ period_str }}
+    {% else %}
+      with {{ game_clock ~ ' remaining in the ' ~ period_str }}
+    {% endif %}
+  {% endif %}
+  {% endmacro %}
+{{ cleanup(data()) }}
+{% endmacro %}
+
 {% macro sports_pregame(team) %}
   {% macro data() %}
   {% if state_attr(team,'opponent_name') %}
@@ -43,12 +62,6 @@
 
 {% macro sports_main(team) %}
   {% macro data() %}
-  {% set game_clock = state_attr(team,'clock') %}
-  {% if ' - ' in game_clock %}
-    {% set clock_time, quarter = game_clock.split(' - ') %}
-  {% else %}
-    {{ game_clock }}
-  {% endif %}
   {% if state_attr(team,'opponent_name') %}
     {% set opponent_name = state_attr(team, 'opponent_name') %}
     {% if opponent_name.endswith(' St') %}
@@ -87,14 +100,11 @@
     {% endif %}
   {% elif is_state(team,'IN') %}
     {% if (state_attr(team,'team_score') | int) == (state_attr(team,'opponent_score') | int) %}
-      The {{ state_attr(team,'friendly_name') }} are currently tied in their game against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ opponent_name }} with a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}.
-      There is {{ clock_time }} remaining in the {{ quarter }} {{ period_str(team) }}.
+      The {{ state_attr(team,'friendly_name') }} are currently tied in their game against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ opponent_name }} with a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }} {{ sports_clock(team) }}.
     {% elif (state_attr(team,'team_score') | int) > (state_attr(team,'opponent_score') | int) %}
-      The {{ state_attr(team,'friendly_name') }} are currently winning their game against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ opponent_name }} with a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }}. 
-      There is {{ clock_time }} remaining in the {{ quarter }} {{ period_str(team) }}.
+      The {{ state_attr(team,'friendly_name') }} are currently winning their game against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ opponent_name }} with a score of {{ state_attr(team,'team_score') }} to {{ state_attr(team,'opponent_score') }} {{ sports_clock(team) }}. 
     {% else %}
-      The {{ state_attr(team,'friendly_name') }} are currently losing their game against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ opponent_name }} with a score of {{ state_attr(team,'opponent_score') }} to {{ state_attr(team,'team_score') }}. 
-      There is {{ clock_time }} remaining in the {{ quarter }} {{ period_str(team) }}.
+      The {{ state_attr(team,'friendly_name') }} are currently losing their game against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ opponent_name }} with a score of {{ state_attr(team,'opponent_score') }} to {{ state_attr(team,'team_score') }} {{ sports_clock(team) }}. 
     {% endif %}
   {% endif %}
   {% endmacro %}
