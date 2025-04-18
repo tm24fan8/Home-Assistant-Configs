@@ -1210,14 +1210,23 @@
       min_mireds: 153
       max_mireds: 500
       effect_list:
-      - None
+      - 'off'
       - candle
       - fire
       - prism
+      - sparkle
+      - opal
+      - glisten
+      - underwater
+      - cosmos
+      - sunbeam
+      - enchant
+      - sunrise
+      - sunset
       supported_color_modes:
       - color_temp
       - xy
-      effect: None
+      effect: 'off'
       color_mode: xy
       brightness: 179
       color_temp_kelvin:
@@ -1244,14 +1253,23 @@
       min_mireds: 153
       max_mireds: 500
       effect_list:
-      - None
+      - 'off'
       - candle
       - fire
       - prism
+      - sparkle
+      - opal
+      - glisten
+      - underwater
+      - cosmos
+      - sunbeam
+      - enchant
+      - sunrise
+      - sunset
       supported_color_modes:
       - color_temp
       - xy
-      effect: None
+      effect: 'off'
       color_mode: xy
       brightness: 255
       color_temp_kelvin:
@@ -1278,10 +1296,13 @@
       min_mireds: 153
       max_mireds: 500
       effect_list:
-      - None
+      - 'off'
       - candle
       - fire
       - prism
+      - sparkle
+      - opal
+      - glisten
       supported_color_modes:
       - color_temp
       - xy
@@ -1342,14 +1363,23 @@
       min_mireds: 153
       max_mireds: 500
       effect_list:
-      - None
+      - 'off'
       - candle
       - fire
       - prism
+      - sparkle
+      - opal
+      - glisten
+      - underwater
+      - cosmos
+      - sunbeam
+      - enchant
+      - sunrise
+      - sunset
       supported_color_modes:
       - color_temp
       - xy
-      effect: None
+      effect: 'off'
       color_mode: xy
       brightness: 255
       color_temp_kelvin:
@@ -1376,14 +1406,23 @@
       min_mireds: 153
       max_mireds: 500
       effect_list:
-      - None
+      - 'off'
       - candle
       - fire
       - prism
+      - sparkle
+      - opal
+      - glisten
+      - underwater
+      - cosmos
+      - sunbeam
+      - enchant
+      - sunrise
+      - sunset
       supported_color_modes:
       - color_temp
       - xy
-      effect: None
+      effect: 'off'
       color_mode: xy
       brightness: 255
       color_temp_kelvin:
@@ -1441,14 +1480,17 @@
       min_mireds: 153
       max_mireds: 500
       effect_list:
-      - None
+      - 'off'
       - candle
       - fire
       - prism
+      - sparkle
+      - opal
+      - glisten
       supported_color_modes:
       - color_temp
       - xy
-      effect: None
+      effect: 'off'
       color_mode: xy
       brightness: 204
       color_temp_kelvin:
