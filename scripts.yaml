@@ -2481,25 +2481,26 @@ kallen_morning_meds:
 kallen_night_meds:
   alias: Kallen Night Meds
   sequence:
-  - service: counter.increment
+  - alias: Increment night reminder counter
     metadata: {}
     data: {}
-    alias: Increment night reminder counter
-  - service: script.text_notify
-    data:
+    action: counter.increment
+    target:
+      entity_id: counter.kallen_night_meds_reminder_count
+  - data:
       type: alert
       who: all
       message: clear_notification
       tag: kallen-night-meds
     alias: Clear previous night notification
+    action: script.text_notify
   - delay:
       hours: 0
       minutes: 0
       seconds: 5
       milliseconds: 0
   - parallel:
-    - service: script.text_notify
-      data:
+    - data:
         who: "{% if states('person.christina_stork') in ['Bob Evans','BobEvans'] %}\n
           \ tony\n{% else %}\n  parents\n{% endif %}\n"
         type: alert
@@ -2512,8 +2513,8 @@ kallen_night_meds:
         - action: KALLEN_NIGHT_MEDS_SKIPPED
           title: Skip
       alias: Send to parents
+      action: script.text_notify
     - alias: Send to Kallen
-      service: script.text_notify
       data:
         who: kallen
         type: alert
@@ -2525,6 +2526,7 @@ kallen_night_meds:
           title: Taken
         - action: KALLEN_NIGHT_MEDS_SKIPPED
           title: Skip
+      action: script.text_notify
     alias: Send text notifications
   icon: mdi:medication
   mode: restart
