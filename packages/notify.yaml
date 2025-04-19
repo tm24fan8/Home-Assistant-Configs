@@ -198,6 +198,57 @@ input_number:
     step: 0.05
     icon: mdi:knob
 
+template:
+  - sensor:
+    - name: "Basement Echo Dot Volume"
+      state: >
+        {% if is_state('input_boolean.give_me_darkness','on') %}
+          {{ states('input_number.basement_echo_dot_night_volume') }}
+        {% else %}
+          {{ states('input_number.basement_echo_dot_day_volume') }}
+        {% endif %}
+      icon: mdi:volume-high
+    - name: "Basement Google Speaker Volume"
+      state: >
+        {% if is_state('input_boolean.give_me_darkness','on') %}
+          {{ states('input_number.basement_google_speaker_night_volume') }}
+        {% else %}
+          {{ states('input_number.basement_google_speaker_day_volume') }}
+        {% endif %}
+      icon: mdi:volume-high
+    - name: "Living Room Echo Dot Volume"
+      state: >
+        {% if is_state('input_boolean.give_me_darkness','on') %}
+          {{ states('input_number.living_room_echo_dot_night_volume') }}
+        {% else %}
+          {{ states('input_number.living_room_echo_dot_day_volume') }}
+        {% endif %}
+      icon: mdi:volume-high
+    - name: "Master Bedroom Echo Dot Volume"
+      state: >
+        {% if is_state('input_boolean.give_me_darkness','on') %}
+          {{ states('input_number.master_bedroom_echo_dot_night_volume') }}
+        {% else %}
+          {{ states('input_number.master_bedroom_echo_dot_day_volume') }}
+        {% endif %}
+      icon: mdi:volume-high
+    - name: "Kallen Bedroom Google Speaker Volume"
+      state: >
+        {% if is_state('input_boolean.give_me_darkness','on') %}
+          {{ states('input_number.kallen_bedroom_google_speaker_night_volume') }}
+        {% else %}
+          {{ states('input_number.kallen_bedroom_google_speaker_day_volume') }}
+        {% endif %}
+      icon: mdi:volume-high
+    - name: "Emma Bedroom Google Speaker Volume"
+      state: >
+        {% if is_state('input_boolean.give_me_darkness','on') %}
+          {{ states('input_number.emma_bedroom_google_speaker_night_volume') }}
+        {% else %}
+          {{ states('input_number.emma_bedroom_google_speaker_day_volume') }}
+        {% endif %}
+      icon: mdi:volume-high
+
 # Amazon Polly Sensors to see last message and location of audible notification
 mqtt:
   sensor:
@@ -325,24 +376,14 @@ script:
         - condition: template
           value_template: >
             {% set current = state_attr('media_player.basement_echo_dot','volume_level') | float %}
-            {% set night = states('input_number.basement_echo_dot_night_volume') | float %}
-            {% set day = states('input_number.basement_echo_dot_day_volume') | float %}
-            {% if is_state('input_boolean.give_me_darkness','on') %}
-              {{ current != night }}
-            {% else %}
-              {{ current != day }}
-            {% endif %}
+            {% set expected = states('sensor.basement_echo_dot_volume') | float %}
+            {{ current != expected }}
         then:
         - service: media_player.volume_set
           target:
             entity_id: media_player.basement_echo_dot
           data:
-            volume_level: >
-              {% if is_state('input_boolean.give_me_darkness','on') %}
-                {{ states('input_number.basement_echo_dot_night_volume') }}
-              {% else %}
-                {{ states('input_number.basement_echo_dot_day_volume') }}
-              {% endif %}
+            volume_level: "{{ states('sensor.basement_echo_dot_volume') }}"
 # Basement Google Speaker
     - if:
       - condition: and
@@ -373,24 +414,14 @@ script:
         - condition: template
           value_template: >
             {% set current = state_attr('media_player.basement_google_speaker','volume_level') | float %}
-            {% set night = states('input_number.basement_google_speaker_night_volume') | float %}
-            {% set day = states('input_number.basement_google_speaker_day_volume') | float %}
-            {% if is_state('input_boolean.give_me_darkness','on') %}
-              {{ current != night }}
-            {% else %}
-              {{ current != day }}
-            {% endif %}
+            {% set expected = states('sensor.basement_google_speaker_volume') | float %}
+            {{ current != expected }}
         then:
         - service: media_player.volume_set
           target:
             entity_id: media_player.basement_google_speaker
           data:
-            volume_level: >
-              {% if is_state('input_boolean.give_me_darkness','on') %}
-                {{ states('input_number.basement_google_speaker_night_volume') }}
-              {% else %}
-                {{ states('input_number.basement_google_speaker_day_volume') }}
-              {% endif %}
+            volume_level: "{{ states('sensor.basement_google_speaker_volume') }}"
       - service: media_player.volume_mute
         target:
           entity_id: media_player.basement_google_speaker
@@ -405,24 +436,14 @@ script:
         - condition: template
           value_template: >
             {% set current = state_attr('media_player.living_room_echo_dot','volume_level') | float %}
-            {% set night = states('input_number.living_room_echo_dot_night_volume') | float %}
-            {% set day = states('input_number.living_room_echo_dot_day_volume') | float %}
-            {% if is_state('input_boolean.give_me_darkness','on') %}
-              {{ current != night }}
-            {% else %}
-              {{ current != day }}
-            {% endif %}
+            {% set expected = states('sensor.living_room_echo_dot_volume') | float %}
+            {{ current != expected }}
         then:
         - service: media_player.volume_set
           target:
             entity_id: media_player.living_room_echo_dot
           data:
-            volume_level: >
-              {% if is_state('input_boolean.give_me_darkness','on') %}
-                {{ states('input_number.living_room_echo_dot_night_volume') }}
-              {% else %}
-                {{ states('input_number.living_room_echo_dot_day_volume') }}
-              {% endif %}
+            volume_level: "{{ states('sensor.living_room_echo_dot_volume') }}"
 # Master Bedroom Echo Dot
     - if:
       - condition: state
@@ -435,24 +456,14 @@ script:
         - condition: template
           value_template: >
             {% set current = state_attr('media_player.master_bedroom_echo_dot','volume_level') | float %}
-            {% set night = states('input_number.master_bedroom_echo_dot_night_volume') | float %}
-            {% set day = states('input_number.master_bedroom_echo_dot_day_volume') | float %}
-            {% if is_state('input_boolean.give_me_darkness','on') %}
-              {{ current != night }}
-            {% else %}
-              {{ current != day }}
-            {% endif %}
+            {% set expected = states('sensor.master_bedroom_echo_dot_volume') | float %}
+            {{ current != expected }}
         then:
         - service: media_player.volume_set
           target:
             entity_id: media_player.master_bedroom_echo_dot
           data:
-            volume_level: >
-              {% if is_state('input_boolean.give_me_darkness','on') %}
-                {{ states('input_number.master_bedroom_echo_dot_night_volume') }}
-              {% else %}
-                {{ states('input_number.master_bedroom_echo_dot_day_volume') }}
-              {% endif %}
+            volume_level: "{{ states('sensor.master_bedroom_echo_dot_volume') }}"
 # Kallen Bedroom Speaker
     - if:
       - condition: and
@@ -483,24 +494,14 @@ script:
         - condition: template
           value_template: >
             {% set current = state_attr('media_player.kallen_bedroom_google_speaker','volume_level') | float %}
-            {% set night = states('input_number.kallen_bedroom_google_speaker_night_volume') | float %}
-            {% set day = states('input_number.kallen_bedroom_google_speaker_day_volume') | float %}
-            {% if is_state('input_boolean.give_me_darkness','on') %}
-              {{ current != night }}
-            {% else %}
-              {{ current != day }}
-            {% endif %}
+            {% set expected = states('sensor.kallen_bedroom_google_speaker_volume') | float %}
+            {{ current != expected }}
         then:
         - service: media_player.volume_set
           target:
             entity_id: media_player.kallen_bedroom_google_speaker
           data:
-            volume_level: >
-              {% if is_state('input_boolean.give_me_darkness','on') %}
-                {{ states('input_number.kallen_bedroom_google_speaker_night_volume') }}
-              {% else %}
-                {{ states('input_number.kallen_bedroom_google_speaker_day_volume') }}
-              {% endif %}
+            volume_level: "{{ states('sensor.kallen_bedroom_google_speaker_volume') }}"
       - service: media_player.volume_mute
         target:
           entity_id: media_player.kallen_bedroom_google_speaker
@@ -536,24 +537,14 @@ script:
         - condition: template
           value_template: >
             {% set current = state_attr('media_player.emma_bedroom_google_speaker','volume_level') | float %}
-            {% set night = states('input_number.emma_bedroom_google_speaker_night_volume') | float %}
-            {% set day = states('input_number.emma_bedroom_google_speaker_day_volume') | float %}
-            {% if is_state('input_boolean.give_me_darkness','on') %}
-              {{ current != night }}
-            {% else %}
-              {{ current != day }}
-            {% endif %}
+            {% set expected = states('sensor.emma_bedroom_google_speaker_volume') | float %}
+            {{ current != expected }}
         then:
         - service: media_player.volume_set
           target:
             entity_id: media_player.emma_bedroom_google_speaker
           data:
-            volume_level: >
-              {% if is_state('input_boolean.give_me_darkness','on') %}
-                {{ states('input_number.emma_bedroom_google_speaker_night_volume') }}
-              {% else %}
-                {{ states('input_number.emma_bedroom_google_speaker_day_volume') }}
-              {% endif %}
+            volume_level: "{{ states('sensor.kallen_bedroom_google_speaker_volume') }}"
       - service: media_player.volume_mute
         target:
           entity_id: media_player.emma_bedroom_google_speaker
@@ -1326,53 +1317,34 @@ script:
             media_player.basement_google_speaker
           {% endif %}
         volume_level: >-
-          {% set numbers_night = [
-            states.input_number.emma_bedroom_google_speaker_night_volume.state,
-            states.input_number.kallen_bedroom_google_speaker_night_volume.state
+          {% set numbers = [
+            states.sensor.emma_bedroom_google_speaker_volume.state,
+            states.sensor.kallen_bedroom_google_speaker_volume.state
           ] %}
-          {% set numbers_day = [
-            states.input_number.emma_bedroom_google_speaker_day_volume.state,
-            states.input_number.kallen_bedroom_google_speaker_day_volume.state
-          ] %}
-          {% set kidsgroup_night = numbers_night | list | min | float %}
-          {% set kidsgroup_day = numbers_day | list | max | float %}
+          {% set kidsgroup = numbers | list | min | float %}
           {% if type in ['critical'] %}
             1.0
-          {% elif is_state('input_boolean.give_me_darkness','on') %}
-            {% if who in ['Everywhere','everywhere','kids_bedrooms','all_bedrooms'] %}
-              {% if is_state('input_boolean.emma_sleeping','on') and is_state('input_boolean.kallen_sleeping','off') %}
-                {{ states('input_number.kallen_bedroom_google_speaker_night_volume') }}
-              {% elif is_state('input_boolean.kallen_sleeping','on') and is_state('input_boolean.emma_sleeping','off') %}
-                {{ states('input_number.emma_bedroom_google_speaker_night_volume') }}
-              {% else %}
-                {{ kidsgroup_night }}
-              {% endif %}
-            {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_google_speaker'] %}
-              {{ states('input_number.kallen_bedroom_google_speaker_night_volume') }}
-            {% elif who in ['emma_bedroom','media_player.emma_bedroom_google_speaker'] %}
-              {{ states('input_number.emma_bedroom_google_speaker_night_volume') }}
-            {% elif who in ['Basement Google','basement_google'] %}
-              {{ states('input_number.basement_google_speaker_night_volume') }}
-            {% else %}
-              0.3
-            {% endif %}
           {% else %}
             {% if who in ['Everywhere','everywhere','kids_bedrooms','all_bedrooms'] %}
               {% if is_state('input_boolean.emma_sleeping','on') and is_state('input_boolean.kallen_sleeping','off') %}
-                {{ states('input_number.kallen_bedroom_google_speaker_day_volume') }}
+                {{ states('sensor.kallen_bedroom_google_speaker_volume') }}
               {% elif is_state('input_boolean.kallen_sleeping','on') and is_state('input_boolean.emma_sleeping','off') %}
-                {{ states('input_number.emma_bedroom_google_speaker_day_volume') }}
+                {{ states('sensor.emma_bedroom_google_speaker_volume') }}
               {% else %}
-                {{ kidsgroup_day }}
+                {{ kidsgroup }}
               {% endif %}
             {% elif who in ['kallen_bedroom','media_player.kallen_bedroom_google_speaker'] %}
-              {{ states('input_number.kallen_bedroom_google_speaker_day_volume') }}
+              {{ states('sensor.kallen_bedroom_google_speaker_volume') }}
             {% elif who in ['emma_bedroom','media_player.emma_bedroom_google_speaker'] %}
-              {{ states('input_number.emma_bedroom_google_speaker_day_volume') }}
+              {{ states('sensor.emma_bedroom_google_speaker_volume') }}
             {% elif who in ['Basement Google','basement_google'] %}
-              {{ states('input_number.basement_google_speaker_day_volume') }}
+              {{ states('sensor.basement_google_speaker_volume') }}
             {% else %}
-              0.6
+              {% if is_state('input_boolean.give_me_darkness','on') %}
+                0.3
+              {% else %}
+                0.6
+              {% endif %}
             {% endif %}
           {% endif %}
     - service: tts.amazon_polly_say
