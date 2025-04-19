@@ -226,7 +226,7 @@ template:
       icon: mdi:volume-high
     - name: "Master Bedroom Echo Dot Volume"
       state: >
-        {% if is_state('input_boolean.give_me_darkness','on') %}
+        {% if is_state('input_boolean.give_me_darkness','on') or is_state('binary_sensor.people_sleeping','on') %}
           {{ states('input_number.master_bedroom_echo_dot_night_volume') }}
         {% else %}
           {{ states('input_number.master_bedroom_echo_dot_day_volume') }}
@@ -234,7 +234,7 @@ template:
       icon: mdi:volume-high
     - name: "Kallen Bedroom Google Speaker Volume"
       state: >
-        {% if is_state('input_boolean.give_me_darkness','on') %}
+        {% if is_state('input_boolean.give_me_darkness','on') or is_state('input_boolean.kallen_sleeping','on') %}
           {{ states('input_number.kallen_bedroom_google_speaker_night_volume') }}
         {% else %}
           {{ states('input_number.kallen_bedroom_google_speaker_day_volume') }}
@@ -242,7 +242,7 @@ template:
       icon: mdi:volume-high
     - name: "Emma Bedroom Google Speaker Volume"
       state: >
-        {% if is_state('input_boolean.give_me_darkness','on') %}
+        {% if is_state('input_boolean.give_me_darkness','on') or is_state('input_boolean.emma_sleeping','on') %}
           {{ states('input_number.emma_bedroom_google_speaker_night_volume') }}
         {% else %}
           {{ states('input_number.emma_bedroom_google_speaker_day_volume') }}
