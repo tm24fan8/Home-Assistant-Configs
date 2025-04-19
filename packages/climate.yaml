@@ -118,9 +118,9 @@ template:
       availability: "{{ states('climate.master_bedroom_aircon') not in ['unavailable','unknown'] }}"
     - name: "Master Bedroom Eco Mode"
       unique_id: edf36e23-adcf-4506-80eb-a14f4ea2fce0
-      state: "{{ is_state_attr('climate.master_bedroom_aircon','preset_mode','eco') }}"
+      state: "{{ is_state_attr('climate.master_bedroom_aircon','eco_mode',true) }}"
       icon: >-
-        {% if is_state_attr('climate.master_bedroom_aircon','preset_mode','eco') %}
+        {% if is_state_attr('climate.master_bedroom_aircon','eco_mode',true) %}
           mdi:home-lightning-bolt
         {% else %}
           mdi:home-lightning-bolt-outline
@@ -148,9 +148,9 @@ template:
       availability: "{{ states('climate.emma_bedroom_aircon') not in ['unavailable','unknown'] }}"
     - name: "Emma Bedroom Eco Mode"
       unique_id: 4b6fc8fc-4152-4d8b-ad8d-80f97fcabe44
-      state: "{{ is_state_attr('climate.emma_bedroom_aircon','preset_mode','eco') }}"
+      state: "{{ is_state_attr('climate.emma_bedroom_aircon','eco_mode',true) }}"
       icon: >-
-        {% if is_state_attr('climate.emma_bedroom_aircon','preset_mode','eco') %}
+        {% if is_state_attr('climate.emma_bedroom_aircon','eco_mode',true) %}
           mdi:home-lightning-bolt
         {% else %}
           mdi:home-lightning-bolt-outline
