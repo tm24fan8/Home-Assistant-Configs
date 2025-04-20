@@ -659,14 +659,18 @@ template:
       state: >
         {% set lights = states.light.upstairs_bathroom_lights,
                         states.light.hallway_overhead,
-                        states.light.downstairs_bathroom_lights %}
+                        states.light.downstairs_bathroom_lights,
+                        states.light.living_room_lights,
+                        states.light.front_porch_light %}
         {% set issues = lights | selectattr('state','eq','unavailable') | list | count %}
         {{ issues > 0 }}
       attributes:
         issues: >
           {% set lights = states.light.upstairs_bathroom_lights,
                           states.light.hallway_overhead,
-                          states.light.downstairs_bathroom_lights %}
+                          states.light.downstairs_bathroom_lights,
+                          states.light.living_room_lights,
+                          states.light.front_porch_light %}
           {% set ids = lights | selectattr('state','eq','unavailable') | map(attribute='attributes.friendly_name') | list %}
           {{ ids | join(', ') }}
   - sensor:
