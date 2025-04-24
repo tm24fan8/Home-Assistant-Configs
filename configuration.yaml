@@ -32,7 +32,15 @@ frontend:
   extra_module_url:
   - /hacsfiles/hass-hue-icons/hass-hue-icons.js
   - /hacsfiles/hass-bha-icons/hass-bha-icons.js
+  - /hacsfiles/material-you-utilities/material-you-utilities.min.js
   javascript_version: latest
+
+panel_custom:
+  - name: material-you-panel
+    url_path: material-you-configuration
+    sidebar_title: Material You Utilities
+    sidebar_icon: mdi:material-design
+    module_url: /hacsfiles/material-you-utilities/material-you-utilities.min.js
 
 http:
   use_x_forwarded_for: true
