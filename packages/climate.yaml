@@ -116,16 +116,6 @@ template:
       unique_id: 2ce31844-b115-42b8-8213-feccf24e236c
       state: "{{ state_attr('climate.master_bedroom_aircon','temperature') | float }}"
       availability: "{{ states('climate.master_bedroom_aircon') not in ['unavailable','unknown'] }}"
-    - name: "Master Bedroom Eco Mode"
-      unique_id: edf36e23-adcf-4506-80eb-a14f4ea2fce0
-      state: "{{ is_state_attr('climate.master_bedroom_aircon','eco_mode',true) }}"
-      icon: >-
-        {% if is_state_attr('climate.master_bedroom_aircon','eco_mode',true) %}
-          mdi:home-lightning-bolt
-        {% else %}
-          mdi:home-lightning-bolt-outline
-        {% endif %}
-      availability: "{{ states('climate.master_bedroom_aircon') not in ['unavailable','unknown'] }}"
     - name: "Master Bedroom Aircon Fan Mode"
       unique_id: c0e4f9ba-0c6c-4673-9a75-13f253f2f2e8
       state: "{{ state_attr('climate.master_bedroom_aircon','fan_mode') }}"
@@ -145,16 +135,6 @@ template:
     - name: "Emma Bedroom Target Temp"
       unique_id: b81152a1-d4d9-4e3e-8a78-6039de2884ad
       state: "{{ state_attr('climate.emma_bedroom_aircon','temperature') | float }}"
-      availability: "{{ states('climate.emma_bedroom_aircon') not in ['unavailable','unknown'] }}"
-    - name: "Emma Bedroom Eco Mode"
-      unique_id: 4b6fc8fc-4152-4d8b-ad8d-80f97fcabe44
-      state: "{{ is_state_attr('climate.emma_bedroom_aircon','eco_mode',true) }}"
-      icon: >-
-        {% if is_state_attr('climate.emma_bedroom_aircon','eco_mode',true) %}
-          mdi:home-lightning-bolt
-        {% else %}
-          mdi:home-lightning-bolt-outline
-        {% endif %}
       availability: "{{ states('climate.emma_bedroom_aircon') not in ['unavailable','unknown'] }}"
     - name: "Emma Bedroom Aircon Fan Mode"
       unique_id: d678eb2e-be5b-4626-913d-fc1e32941ead
