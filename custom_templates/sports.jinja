@@ -32,9 +32,11 @@
   {% else %}
     {% if ' - ' in game_clock %}
       {% set clock_time, quarter = game_clock.split(' - ') %}
-      with {{ clock_time ~ ' remaining in the ' ~ quarter ~ ' ' ~ period_str }}
-    {% else %}
-      with {{ game_clock ~ ' remaining in the ' ~ period_str }}
+      {% if quarter == 'ot' %}
+        with {{ clock_time ~ ' remaining in overtime' }}
+      {% else %}
+        with {{ clock_time ~ ' remaining in the ' ~ quarter ~ ' ' ~ period_str }}
+      {% endif %}
     {% endif %}
   {% endif %}
   {% endmacro %}
