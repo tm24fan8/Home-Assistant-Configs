@@ -115,6 +115,7 @@ recorder:
       - sensor.*gpu_core_load
       - sensor.portainer*
       - sensor.mosquitto*
+      - sensor.*_rssi
     entities:
       - sensor.avg_ping
       - sensor.max_ping
