@@ -714,14 +714,19 @@ script:
             entity_id: input_select.scheduled_climate_mode_emma_bedroom
           data:
             option: >
-              {% if is_state('input_boolean.emma_bedroom_aircon_installed','on') %}
-                {% if (states('sensor.overnight_lowest_temperature') | int) >= (states('input_number.emma_aircon_threshold') | int) %}
+              {% set low = states('sensor.overnight_lowest_temperature') | int %}
+              {% set run_threshold = states('input_number.emma_bedroom_aircon_run_threshold') | int %}
+              {% set mode_threshold = states('input_number.emma_bedroom_aircon_mode_threshold') | int %}
+              {% if is_state('input_boolean.emma_bedroom_aircon_installed','off') %}
+                N/A
+              {% elif low >= run_threshold %}
+                {% if low >= mode_threshold %}
                   AC
                 {% else %}
-                  White Noise
+                  Fan
                 {% endif %}
               {% else %}
-                White Noise
+                N/A
               {% endif %}
         - service: input_datetime.set_datetime
           target:
