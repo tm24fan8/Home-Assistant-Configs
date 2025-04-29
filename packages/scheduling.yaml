@@ -723,7 +723,7 @@ script:
               {% set run_threshold = states('input_number.emma_bedroom_aircon_run_threshold') | int %}
               {% set mode_threshold = states('input_number.emma_bedroom_aircon_mode_threshold') | int %}
               {% if is_state('input_boolean.emma_bedroom_aircon_installed','off') %}
-                N/A
+                White Noise
               {% elif low >= run_threshold %}
                 {% if low >= mode_threshold %}
                   AC
@@ -731,7 +731,7 @@ script:
                   Fan
                 {% endif %}
               {% else %}
-                N/A
+                White Noise
               {% endif %}
         - service: input_datetime.set_datetime
           target:
