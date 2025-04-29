@@ -600,20 +600,25 @@ script:
           data:
             time: >
               {% set low = states('sensor.overnight_lowest_temperature') | int %}
+              {% set high = states('sensor.todays_high_temp') | int %}
               {% set kallen_bedtime = state_attr('input_datetime.kallen_bedtime','timestamp') | int %}
-              {% set cutoff = 81000 %}
-              {% if is_state('input_boolean.hot_day','on') and is_state('binary_sensor.kallen_school_tomorrow','on') %}
-                {{ (kallen_bedtime - 3600) | timestamp_custom('%H:%M',false) }}
-              {% elif is_state('input_boolean.hot_day','on') and is_state('binary_sensor.kallen_school_tomorrow','off') %}
-                {{ kallen_bedtime | timestamp_custom('%H:%M',false) }}
-              {% elif 56 <= low <= 60 %}
-                22:30
-              {% elif low > 60 %}
+              {% set cutoff = 81000 %} {# Cutoff time is 22:30 #}
+              {% if is_state('binary_sensor.kallen_school_tomorrow','on') %}
+                {% if is_state('input_boolean.hot_day','on') %}
+                  {{ (kallen_bedtime - 3600) | timestamp_custom('%H:%M',false) }}
+                {% elif low >= 56 or high >= 75 %}
+                  {{ (kallen_bedtime - 1800) | timestamp_custom('%H:%M',false) }}
+                {% else %}
+                  {{ kallen_bedtime | timestamp_custom('%H:%M',false) }}
+                {% endif %}
+              {% elif low > 60 or high > 74 %}
                 {% if kallen_bedtime < cutoff %}
                   {{ kallen_bedtime | timestamp_custom('%H:%M',false) }}
                 {% else %}
-                  21:30
+                  22:00
                 {% endif %}
+              {% elif 56 <= low <= 60 %}
+                22:30
               {% else %}
                 00:00
               {% endif %}
@@ -624,11 +629,11 @@ script:
               {% set low = states('sensor.overnight_lowest_temperature') | int %}
               {% set high = states('sensor.todays_high_temp') | int %}
               {% if low > 60 or is_state('input_boolean.hot_day','on') %}
-                00:00
-              {% elif 50 <= low <= 60 %}
                 01:00
-              {% elif low >= states('input_number.master_bedroom_fan_threshold') | int and high > 60 %}
+              {% elif 50 <= low <= 60 %}
                 02:00
+              {% elif low >= states('input_number.master_bedroom_fan_threshold') | int and high > 60 %}
+                03:00
               {% else %}
                 06:00
               {% endif %}
