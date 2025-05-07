@@ -2744,11 +2744,7 @@
         id:
         - noon
       sequence:
-      - target:
-          entity_id:
-          - input_boolean.tina_night_meds_taken
-        data: {}
-        action: input_boolean.turn_off
+      - stop: No current actions scheduled at noon, remove this action if this changes
   mode: restart
 - id: '1696361494561'
   alias: Turn On Audible Notifications
@@ -6112,4 +6108,68 @@
     target:
       entity_id: input_boolean.emma_awake
     alias: Turn on Emma Awake
+  mode: restart
+- id: '1746632520108'
+  alias: Tina Sleep Handling
+  description: Awareness of when Tina is asleep or wakes up
+  triggers:
+  - alias: Leave Home
+    entity_id: person.christina_stork
+    zone: zone.home
+    event: leave
+    id: wake-leave
+    trigger: zone
+  - alias: Sentence
+    command:
+    - Tina is awake
+    - Christina is awake
+    id: wake-sentence
+    trigger: conversation
+  - alias: Focus off
+    entity_id:
+    - binary_sensor.tinas_iphone_focus
+    from: 'on'
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 30
+    id: wake-focus
+    trigger: state
+  conditions: []
+  actions:
+  - alias: Routing
+    choose:
+    - conditions:
+      - condition: and
+        conditions:
+        - alias: Wakeup
+          condition: trigger
+          id:
+          - wake-sentence
+          - wake-focus
+          - wake-leave
+        - condition: state
+          entity_id: input_boolean.tina_awake
+          state: 'off'
+        alias: Wakeup Trigger
+      sequence:
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 5
+          milliseconds: 0
+      - alias: Set context that Tina is awake
+        data: {}
+        action: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.tina_awake
+      - action: input_boolean.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id:
+          - input_boolean.tina_morning_meds_taken
+          - input_boolean.tina_night_meds_taken
+        alias: Reset Tina meds taken switches
   mode: restart
