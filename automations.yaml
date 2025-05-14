@@ -6173,3 +6173,49 @@
           - input_boolean.tina_night_meds_taken
         alias: Reset Tina meds taken switches
   mode: restart
+- id: '1747130058536'
+  alias: Shower Mode Auto Off
+  description: Kallen keeps leaving shower mode on, so I'm fixing that
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_boolean.shower_mode
+    from: 'off'
+    to: 'on'
+    id: shower-on
+    alias: Shower Mode On
+  - trigger: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.shower_mode_auto_off
+    id: timer-finished
+    alias: Timer Finished
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - shower-on
+        alias: Shower On
+      sequence:
+      - alias: Start timer
+        action: timer.start
+        metadata: {}
+        data: {}
+        target:
+          entity_id: timer.shower_mode_auto_off
+    - conditions:
+      - condition: trigger
+        id:
+        - timer-finished
+        alias: Timer Finished
+      sequence:
+      - alias: Turn off shower mode
+        action: input_boolean.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: input_boolean.shower_mode
+    alias: Routing
+  mode: restart
