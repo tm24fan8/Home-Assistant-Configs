@@ -2,11 +2,9 @@
 
 Just a place to track my work on my personal Home Assistant configuration, and learn as I go. Maybe also TRY to keep myself a little bit more organized ;)
 
-## New location for Node-RED flows
+## Node-RED flows
 
-I have recently started using the Node-RED Projects feature, which makes version control for my flows a LOT easier than it was before.
-
-With this change, the Node-RED flows are now in their own repo. They can be found at [HA-NerdFlows](https://github.com/tm24fan8/HA-NerdFlows).
+My Node-RED flows can be found at [HA-NerdFlows](https://gitea.nerdhomeinc.com/home_automation/HA-NerdFlows). Additionally, code used in function nodes in my Node-RED flows can be found at [HA-NerdFlows-Functions](https://gitea.nerdhomeinc.com/home_automation/HA-NerdFlows-Functions).
 
 ## Attributions
 
@@ -34,7 +32,6 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [Node-RED Companion](https://github.com/zachowj/hass-node-red)
 - [Holidays](https://github.com/bruxy70/Holidays)
 - [Twitch Helix](https://github.com/Radioh/ha_twitch_helix)
-- [Local Tuya](https://github.com/rospogrigio/localtuya)
 - [Pirate Weather](https://github.com/alexander0042/pirate-weather-ha)
 - [Holidays](https://github.com/bruxy70/Holidays)
 - [Thermal Comfort](https://github.com/dolezsa/thermal_comfort)
@@ -42,7 +39,7 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [HASS.Agent Media Player](https://github.com/LAB02-Research/HASS.Agent-MediaPlayer)
 - [Music Assistant](https://github.com/music-assistant/hass-music-assistant)
 - [Blitzortung Lightning Detector](https://github.com/mrk-its/homeassistant-blitzortung)
-- [Midea Air Conditioning](https://github.com/mill1000/midea-ac-py)
+- [Midea Air Conditioning](https://github.com/wuwentao/midea_ac_lan)
 - [WeatherAPI](https://github.com/iprak/weatherapi)
 - [Browser Mod](https://github.com/thomasloven/hass-browser_mod)
 - [Watchman](https://github.com/dummylabs/thewatchman)
@@ -50,7 +47,6 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [PyScript](https://github.com/custom-components/pyscript)
 - [Hass Animated Scenes](https://github.com/chazzu/hass-animated-scenes)
 - [Jokes](https://github.com/LaggAt/ha-jokes)
-- [Google Photos](https://github.com/Daanoz/ha-google-photos)
 - [Uptime Kuma](https://github.com/meichthys/uptime_kuma)
 - [Jellyfin](https://github.com/koying/jellyfin_ha)
 - [Sonoff LAN](https://github.com/AlexxIT/SonoffLAN)
@@ -58,6 +54,9 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [Govee LAN Control](https://github.com/wez/govee-lan-hass)
 - [Discord Game](https://github.com/LordBoos/discord_game)
 - [Versatile Thermostat](https://github.com/jmcollin78/versatile_thermostat)
+- [GasBuddy](https://github.com/firstof9/ha-gasbuddy)
+- [Union Pacific Big Boy Tracker](https://github.com/jheizer/up_4014_tracker)
+- [WeatherFlow Forecast](https://github.com/briis/weatherflow_forecast)
 
 </details>
 
@@ -70,22 +69,19 @@ Again, mostly just the ones I'm **using** or **will use soon**...also a few that
 
 - [Bubble Card](https://github.com/Clooos/Bubble-Card) Backbone of the new mobile dashboard
 - [Config Template Card](https://github.com/iantrich/config-template-card)
-- [Decluttering Card](https://github.com/custom-cards/decluttering-card)
-- [Card Tools](https://github.com/thomasloven/lovelace-card-tools) (required for various other cards)
+- [Streamline Card](https://github.com/brunosabot/streamline-card)
 - [Layout Card](https://github.com/thomasloven/lovelace-layout-card)
 - [Scheduler Card](https://github.com/nielsfaber/scheduler-card) (required for Scheduler component)
 - [Horizon Card](https://github.com/rejuvenate/lovelace-horizon-card)
 - [Lovelace Home Feed Card](https://github.com/gadgetchnnel/lovelace-home-feed-card)
 - [Mini Graph Card](https://github.com/kalkih/mini-graph-card)
 - [Battery State Card](https://github.com/maxwroc/battery-state-card)
-- [Compass Card](https://github.com/tomvanswam/compass-card)
 - [Flipdown Timer Card](https://github.com/pmongloid/flipdown-timer-card)
 - [Atomic Calendar Revive](https://github.com/totaldebug/atomic-calendar-revive)
 - [Plotly Graph Card](https://github.com/dbuezas/lovelace-plotly-graph-card)
 - [Mushroom](https://github.com/piitaya/lovelace-mushroom)
 - [Apexcharts Card](https://github.com/RomRider/apexcharts-card)
 - [Auto Entities Card](https://github.com/thomasloven/lovelace-auto-entities)
-- [Slider Button Card](https://github.com/custom-cards/slider-button-card)
 - [Weather Radar Card](https://github.com/Makin-Things/weather-radar-card)
 - [Stack In Card](https://github.com/custom-cards/stack-in-card)
 - [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row)
@@ -93,32 +89,24 @@ Again, mostly just the ones I'm **using** or **will use soon**...also a few that
 - [Multiple Entity Row](https://github.com/benct/lovelace-multiple-entity-row)
 - [Weather Card](https://github.com/bramkragten/weather-card)
 - [Template Entity Row](https://github.com/thomasloven/lovelace-template-entity-row)
-- [Canvas Gauge Card](https://github.com/custom-cards/canvas-gauge-card)
-- [Datetime Card](https://github.com/a-p-z/datetime-card)
 - [Waze Travel Time](https://github.com/r-renato/ha-card-waze-travel-time)
 - [Fold Entity Row](https://github.com/thomasloven/lovelace-fold-entity-row)
-- [Slider Entity Row](https://github.com/thomasloven/lovelace-slider-entity-row)
 - [Room Card](https://github.com/marcokreeft87/room-card)
 - [Simple Thermostat Card](https://github.com/nervetattoo/simple-thermostat)
 - [Clock Weather Card](https://github.com/pkissling/clock-weather-card)
 - [Tabbed Card](https://github.com/kinghat/tabbed-card)
 - [HA Team Tracker Card](https://github.com/vasqued2/ha-teamtracker-card)
 - [Banner Card](https://github.com/nervetattoo/banner-card)
-- [Lovelace Lock Card](https://github.com/CyrisXD/love-lock-card)
 - [Card Templater](https://github.com/gadgetchnnel/lovelace-card-templater)
-- [Energy Overview Card](https://github.com/Sese-Schneider/ha-energy-overview-card)
 - [Button Card](https://github.com/custom-cards/button-card)
 - [Number Box Card](https://github.com/htmltiger/numberbox-card)
 - [Restriction Card](https://github.com/iantrich/restriction-card)
 - [Timer Bar Card](https://github.com/rianadon/timer-bar-card)
-- [Minimalistic Area Card](https://github.com/junalmeida/homeassistant-minimalistic-area-card)
 - [Sankey Chart Card](https://github.com/MindFreeze/ha-sankey-chart)
 - [Hourly Weather Card](https://github.com/decompil3d/lovelace-hourly-weather)
 - [Formula One Card](https://github.com/marcokreeft87/formulaone-card)
 - [UV Index Card](https://github.com/t1gr0u/uv-index-card)
-- [Github Flexi Card](https://github.com/maxwroc/github-flexi-card)
 - [Windrose Card](https://github.com/aukedejong/lovelace-windrose-card)
-- [Swipe Card](https://github.com/bramkragten/swipe-card)
 - [Meteoalarm Card](https://github.com/MrBartusek/MeteoalarmCard)
 - [Weather Chart Card](https://github.com/mlamberts78/weather-chart-card)
 - [Comfortable Environment Card](https://github.com/argaar/comfortable-environment-card)
@@ -135,6 +123,16 @@ Again, mostly just the ones I'm **using** or **will use soon**...also a few that
 
 </details>
 
+## Custom Jinja2 Templates/Macros
+
+<details>
+<summary>Click here</summary>
+
+- [Easy Time](https://github.com/Petro31/easy-time-jinja)
+- [Relative Time](https://github.com/TheFes/relative-time-plus)
+
+</details>
+
 ## Themes/Icons
 
 <details>
@@ -146,5 +144,6 @@ Again, mostly just the ones I'm **using** or **will use soon**...also a few that
 - [BHA Icon Pack](https://github.com/hulkhaugen/hass-bha-icons)
 - [Custom Icons Library](https://github.com/Mariusthvdb/custom-icons)
 - [FontAwesome](https://github.com/thomasloven/hass-fontawesome)
+- [Material Symbols](https://github.com/beecho01/material-symbols)
 
 </details>
