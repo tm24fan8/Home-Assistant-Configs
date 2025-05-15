@@ -828,30 +828,30 @@ template:
       unique_id: c0faea33-2ac3-40f1-8558-584c3f5d6b16
       icon: mdi:weather-sunny
       state: >-
-          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[0] %}
+          {% set forecast = state_attr('sensor.weatherflow_daily_weather_forecast','forecast')[0] %}
           {{ forecast.condition }}
       attributes:
         high_temp: >-
-          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[0] %}
+          {% set forecast = state_attr('sensor.weatherflow_daily_weather_forecast','forecast')[0] %}
           {{ forecast.temperature }}
         overnight_low: >-
-          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[0] %}
+          {% set forecast = state_attr('sensor.weatherflow_daily_weather_forecast','forecast')[0] %}
           {{ forecast.templow }}
         wind_bearing: >-
-          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[0] %}
+          {% set forecast = state_attr('sensor.weatherflow_daily_weather_forecast','forecast')[0] %}
           {{ forecast.wind_bearing }}
         wind_speed: >-
-          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[0] %}
+          {% set forecast = state_attr('sensor.weatherflow_daily_weather_forecast','forecast')[0] %}
           {{ forecast.wind_speed }}
         precipitation: >-
           {% if state_attr('weather.iron_nerd_weather_station','precipitation') %}
             {% set forecast = state_attr('weather.iron_nerd_weather_station','forecast')[0] %}
           {% else %}
-            {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[0] %}
+            {% set forecast = state_attr('sensor.weatherflow_daily_weather_forecast','forecast')[0] %}
           {% endif %}
           {{ forecast.precipitation }}
         friendly: >-
-          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[0] %}
+          {% set forecast = state_attr('sensor.weatherflow_daily_weather_forecast','forecast')[0] %}
           {{ forecast.condition | replace("partlycloudy","partly cloudy") }}
     - name: Current Forecast Detail
       unique_id: e5ae9864-70b5-402c-9d2f-c4d6a10085df
@@ -966,23 +966,23 @@ template:
       unique_id: a8ae26b0-ed26-4568-bb2b-f7c72707b009
       icon: mdi:weather-sunny
       state: >-
-          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[1] %}
+          {% set forecast = state_attr('sensor.weatherflow_daily_weather_forecast','forecast')[1] %}
           {{ forecast.condition }}
       attributes:
         high_temp: >-
-          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[1] %}
+          {% set forecast = state_attr('sensor.weatherflow_daily_weather_forecast','forecast')[1] %}
           {{ forecast.temperature }}
         overnight_low: >-
-          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[1] %}
+          {% set forecast = state_attr('sensor.weatherflow_daily_weather_forecast','forecast')[1] %}
           {{ forecast.templow }}
         wind_bearing: >-
-          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[1] %}
+          {% set forecast = state_attr('sensor.weatherflow_daily_weather_forecast','forecast')[1] %}
           {{ forecast.wind_bearing }}
         wind_speed: >-
-          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[1] %}
+          {% set forecast = state_attr('sensor.weatherflow_daily_weather_forecast','forecast')[1] %}
           {{ forecast.wind_speed }}
         precipitation: >-
-          {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[1] %}
+          {% set forecast = state_attr('sensor.weatherflow_daily_weather_forecast','forecast')[1] %}
           {{ forecast.precipitation }}
     - name: Tomorrow Forecast Detail
       unique_id: 21374ed0-80d1-49ba-817d-3e93eb3865e4
@@ -1287,7 +1287,7 @@ template:
       unit_of_measurement: '°F'
       device_class: temperature
       state: >-
-        {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[0] %}
+        {% set forecast = state_attr('sensor.weatherflow_daily_weather_forecast','forecast')[0] %}
         {% if is_number(forecast.temperature) %}
           {{ forecast.temperature }}
         {% else %}
@@ -1298,14 +1298,14 @@ template:
       unit_of_measurement: '°F'
       device_class: temperature
       state: >-
-        {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[2] %}
+        {% set forecast = state_attr('sensor.weatherflow_daily_weather_forecast','forecast')[2] %}
         {{ forecast.temperature }}
     - name: "Tonight's Low Temp"
       unique_id: 8ddc55b6-4728-4897-a32f-90be970f744b
       unit_of_measurement: '°F'
       device_class: temperature
       state: >-
-        {% set forecast = state_attr('sensor.weather_com_daily_weather_forecast','forecast')[0] %}
+        {% set forecast = state_attr('sensor.weatherflow_daily_weather_forecast','forecast')[0] %}
         {{ forecast.templow }}
     - name: "Clothing Forecast"
       unique_id: 8ed2684b-d0ad-402c-bc3c-340cb9b2437a
@@ -1566,8 +1566,8 @@ template:
       unit_of_measurement: '°F'
       state: >
         {% set ns = namespace(temps=[]) %}
-        {% set x = state_attr('sensor.weather_com_hourly_weather_forecast','forecast')  | count %}
-        {% set pd = state_attr('sensor.weather_com_hourly_weather_forecast','forecast') %}
+        {% set x = state_attr('sensor.weatherflow_hourly_weather_forecast','forecast')  | count %}
+        {% set pd = state_attr('sensor.weatherflow_hourly_weather_forecast','forecast') %}
         {% for i in range(0,x) %}
           {% set hr = as_timestamp(as_local(as_datetime(pd[i].datetime))) | timestamp_custom('%H') | int %}
           {% if hr in range(21,24) or hr in range(0,8) %}
