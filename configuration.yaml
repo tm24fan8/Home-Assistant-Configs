@@ -134,8 +134,6 @@ recorder:
       - sensor.home_tempest_signal_strength
       - sensor.home_tempest_uptime
   include:
-    entity_globs:
-      - sensor.home_tempest*
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
