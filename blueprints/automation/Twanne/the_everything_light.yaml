@@ -1,7 +1,7 @@
 blueprint:
   name: The Everything Light
   author: AntonH
-  description: "**Version 2.5**\nThe Everything Light: select any trigger and turn
+  description: "**Version 2.10**\nThe Everything Light: select any trigger and turn
     on your light in multiple ways:\n  - just turn the light on in it's default state\n
     \ - turn it on with a set brightness, color and/or temperature value\n  - turn
     it on dynamically with a brightness value that changes according to an ambient
@@ -55,13 +55,13 @@ blueprint:
         Toggle the light.
 
 
-        - **FIXED MODE: **
+        - **FIXED MODE:**
 
         The light will turn on at a set brightness percentage, optionally color or
         temperature can be set.
 
 
-        - **DYNAMIC MODE**
+        - **DYNAMIC MODE:**
 
         The light will be assigned a brightness value based on the value of a ambient
         light sensor, optionally color or temperature can be set.
@@ -74,15 +74,15 @@ blueprint:
           options:
           - label: DEFAULT MODE
             value: default
-          - label: TOGGLE
+          - label: TOGGLE MODE
             value: toggle
           - label: FIXED  MODE
             value: fixed
           - label: DYNAMIC MODE
             value: dynamic
-          multiple: false
-          sort: false
           custom_value: false
+          sort: false
+          multiple: false
     transition_time:
       name: Transition time (FIXED & DYNAMIC MODE)
       description: "The time it takes for the light to transition to the assigned
@@ -110,9 +110,9 @@ blueprint:
             value: include_color
           - label: Set temperature
             value: include_temperature
-          multiple: false
-          sort: false
           custom_value: false
+          sort: false
+          multiple: false
     light_color:
       name: Light color (FIXED & DYNAMIC MODE)
       description: Color of the light when between minimum and maximum ambient light
@@ -125,22 +125,28 @@ blueprint:
         color_rgb: {}
     light_temperature:
       name: Light temperature (FIXED & DYNAMIC MODE)
-      description: Temperature of the light when between minimum and maximum ambient
+      description: 'Temperature of the light when between minimum and maximum ambient
         light values.
+
+        (not all lights will support all values, please consult your lights spec sheet.)
+
+        '
       default: 2000
       selector:
-        color_temp: {}
+        color_temp:
+          unit: kelvin
+          min: 1500
+          max: 6500
     brightness:
       name: Brightness (FIXED BRIGHTNESS MODE)
       description: Set the brightness value the light needs to turn on at
-      default: 0
+      default: 100
       selector:
         number:
           min: 0.0
           max: 100.0
           step: 1.0
           mode: slider
-          unit_of_measurement: '%'
     light_sensor_entity:
       name: Light Sensor (DYNAMIC MODE)
       description: Which light sensor do you want to use to measure the ambient light
@@ -188,7 +194,6 @@ blueprint:
           max: 100.0
           step: 1.0
           mode: slider
-          unit_of_measurement: '%'
     light_value_2:
       name: Brightness at minimum light level (DYNAMIC MODE)
       description: Brightness of the light at minimum ambient light.
@@ -199,7 +204,6 @@ blueprint:
           max: 100.0
           step: 1.0
           mode: slider
-          unit_of_measurement: '%'
     light_brightness_over_max:
       name: Brightness when ambient light value over max (DYNAMIC MODE)
       description: Brightness of the light when the ambient light is higher than the
@@ -211,19 +215,17 @@ blueprint:
           max: 100.0
           step: 1.0
           mode: slider
-          unit_of_measurement: '%'
     light_brightness_under_min:
       name: Brightness when ambient light value under min (DYNAMIC MODE)
       description: Brightness of the light when the ambient light is lower than the
         set minimum value.
-      default: 100
+      default: 255
       selector:
         number:
           min: 0.0
           max: 100.0
           step: 1.0
           mode: slider
-          unit_of_measurement: '%'
     include_color_or_temp_over_under:
       name: Include color or temperature values when outside range (DYNAMIC MODE)
       description: 'Set a color or temperature value for the light when over maximum
@@ -242,9 +244,9 @@ blueprint:
             value: include_color_outside_range
           - label: Set temperature when outside range
             value: include_temp_outside_range
-          multiple: false
-          sort: false
           custom_value: false
+          sort: false
+          multiple: false
     light_color_over_max:
       name: Color when ambient light value over max (DYNAMIC MODE)
       description: Color of the light when the ambient light is higher than the set
@@ -267,18 +269,32 @@ blueprint:
         color_rgb: {}
     light_temp_over_max:
       name: Temperature when ambient light value over max (DYNAMIC MODE)
-      description: Temperature of the light when the ambient light is higher than
+      description: 'Temperature of the light when the ambient light is higher than
         the set maximum value.
+
+        (not all lights will support all values, please consult your lights spec sheet.)
+
+        '
       default: 2000
       selector:
-        color_temp: {}
+        color_temp:
+          unit: kelvin
+          min: 1500
+          max: 6500
     light_temp_under_min:
       name: Temperature when ambient light value under min (DYNAMIC MODE)
-      description: Temperature of the light when the ambient light is lower than the
-        set minimum value.
+      description: 'Temperature of the light when the ambient light is lower than
+        the set minimum value.
+
+        (not all lights will support all values, please consult your lights spec sheet.)
+
+        '
       default: 2000
       selector:
-        color_temp: {}
+        color_temp:
+          unit: kelvin
+          min: 1500
+          max: 6500
     include_turn_off:
       name: Include light turn off function
       description: 'Select if the light needs to turn back off again and how you want
@@ -307,8 +323,8 @@ blueprint:
             value: trigger
           - label: Staircase function
             value: staircase
-          sort: false
           custom_value: false
+          sort: false
     turn_off_triggers:
       name: Turn off triggers
       description: Triggers that turn the light off
@@ -343,71 +359,75 @@ variables:
   include_color_or_temp: !input include_color_or_temp
   light_color: !input light_color
   light_temperature: !input light_temperature
-  light_brightness: !input brightness
+  brightness: !input brightness
+  light_brightness: '{{ brightness * 2.55 }}'
   light_sensor: !input light_sensor_entity
   maxB: !input max_brightness_value
   minB: !input min_brightness_value
-  light1: !input light_value_1
-  light2: !input light_value_2
+  light_value_1: !input light_value_1
+  light_value_2: !input light_value_2
+  light1: '{{ light_value_1 * 2.55 }}'
+  light2: '{{ light_value_2 * 2.55 }}'
   slope: '{{ ( light1 - light2 ) / ( maxB - minB ) }}'
   constant: '{{ light1 - ( slope * maxB ) }}'
-  dynamic_brightness_pct: "{% if mode == \"dynamic\" %}\n  {{ (( slope * states(light_sensor)|int
+  dynamic_brightness: "{% if mode == \"dynamic\" %}\n  {{ (( slope * states(light_sensor)|int
     ) + constant)|round }}\n{% else %}\n  0\n{% endif %}\n"
   include_color_or_temp_over_under: !input include_color_or_temp_over_under
   light_brightness_over_max: !input light_brightness_over_max
+  brightness_over_max_pct: '{{ light_brightness_over_max * 2.55 }}'
   light_color_over_max: !input light_color_over_max
   light_temp_over_max: !input light_temp_over_max
   light_brightness_under_min: !input light_brightness_under_min
+  brightness_under_min_pct: '{{ light_brightness_under_min * 2.55 }}'
   light_color_under_min: !input light_color_under_min
   light_temp_under_min: !input light_temp_under_min
   include_turn_off: !input include_turn_off
 trigger: !input triggers
-condition:
-- condition: !input run_conditions
-action:
+conditions: !input run_conditions
+actions:
 - choose:
   - conditions: '{{ mode == "toggle" }}'
     sequence:
-    - service: homeassistant.toggle
+    - action: homeassistant.toggle
       target: !input target_light
   - conditions: '{{ mode == "default" }}'
     sequence:
-    - service: homeassistant.turn_on
+    - action: homeassistant.turn_on
       target: !input target_light
   - conditions: '{{ mode == "fixed" }}'
     sequence:
-    - service: light.turn_on
+    - action: light.turn_on
       data: "{% if include_color_or_temp == \"include_color\" %}\n  {{ { \"transition\":
-        transition_time, \"brightness_pct\": light_brightness, \"rgb_color\": light_color
+        transition_time, \"brightness\": light_brightness, \"rgb_color\": light_color
         } }}\n{% elif include_color_or_temp == \"include_temperature\" %}\n  {{ {
-        \"transition\": transition_time, \"brightness_pct\": light_brightness, \"color_temp\":
+        \"transition\": transition_time, \"brightness\": light_brightness, \"color_temp\":
         light_temperature } }}\n{% else %}\n  {{ { \"transition\": transition_time,
-        \"brightness_pct\": light_brightness } }}\n{% endif %}\n"
+        \"brightness\": light_brightness } }}\n{% endif %}\n"
       target: !input target_light
   - conditions: '{{ mode == "dynamic" }}'
     sequence:
-    - service: light.turn_on
+    - action: light.turn_on
       data: "{% if states(light_sensor)|int > maxB %}\n  {% if include_color_or_temp_over_under
         == \"include_color_outside_range\" %}\n    {{ { \"transition\": transition_time,
-        \"brightness_pct\": light_brightness_over_max, \"rgb_color\": light_color_over_max
+        \"brightness\": brightness_over_max_pct, \"rgb_color\": light_color_over_max
         } }}\n  {% elif include_color_or_temp_over_under == \"include_temp_outside_range\"
-        %}\n    {{ { \"transition\": transition_time, \"brightness_pct\": light_brightness_over_max,
+        %}\n    {{ { \"transition\": transition_time, \"brightness\": brightness_over_max_pct,
         \"color_temp\": light_temp_over_max } }}\n  {% else %}\n    {{ { \"transition\":
-        transition_time, \"brightness_pct\": light_brightness_over_max } }}\n  {%
-        endif %}\n{% elif states(light_sensor)|int < minB %}\n  {% if include_color_or_temp_over_under
+        transition_time, \"brightness\": brightness_over_max_pct } }}\n  {% endif
+        %}\n{% elif states(light_sensor)|int < minB %}\n  {% if include_color_or_temp_over_under
         == \"include_color_outside_range\" %}\n    {{ { \"transition\": transition_time,
-        \"brightness_pct\": light_brightness_under_min, \"rgb_color\": light_color_under_min
+        \"brightness\": brightness_under_min_pct, \"rgb_color\": light_color_under_min
         } }}\n  {% elif include_color_or_temp_over_under == \"include_temp_outside_range\"
-        %}\n    {{ { \"transition\": transition_time, \"brightness_pct\": light_brightness_under_min,
+        %}\n    {{ { \"transition\": transition_time, \"brightness\": brightness_under_min_pct,
         \"color_temp\": light_temp_under_min } }}\n  {% else %}\n    {{ { \"transition\":
-        transition_time, \"brightness_pct\": light_brightness_under_min } }}\n  {%
-        endif %}\n{% else %}\n  {% if include_color_or_temp == \"include_color\" %}\n
-        \   {{ { \"transition\": transition_time, \"brightness_pct\": light_brightness,
-        \"rgb_color\": light_color } }}\n  {% elif include_color_or_temp == \"include_temperature\"
-        %}\n    {{ { \"transition\": transition_time, \"brightness_pct\": dynamic_brightness_pct,
+        transition_time, \"brightness\": brightness_under_min_pct } }}\n  {% endif
+        %}\n{% else %}\n  {% if include_color_or_temp == \"include_color\" %}\n    {{
+        { \"transition\": transition_time, \"brightness\": light_brightness, \"rgb_color\":
+        light_color } }}\n  {% elif include_color_or_temp == \"include_temperature\"
+        %}\n    {{ { \"transition\": transition_time, \"brightness\": dynamic_brightness,
         \"color_temp\": light_temperature } }}\n  {% else %}\n    {{ { \"transition\":
-        transition_time, \"brightness_pct\": dynamic_brightness_pct } }}\n  {% endif
-        %}\n{% endif %}\n"
+        transition_time, \"brightness\": dynamic_brightness } }}\n  {% endif %}\n{%
+        endif %}\n"
       target: !input target_light
 - if: !input turn_off_conditions
   then:
@@ -420,11 +440,11 @@ action:
           timeout: !input staircase_duration
         else:
         - delay: !input staircase_duration
-      - service: homeassistant.turn_off
+      - action: homeassistant.turn_off
         target: !input target_light
     - conditions: '{{ "trigger" in include_turn_off and not "staircase" in include_turn_off
         }}'
       sequence:
       - wait_for_trigger: !input turn_off_triggers
-      - service: homeassistant.turn_off
+      - action: homeassistant.turn_off
         target: !input target_light
