@@ -12,6 +12,7 @@ weather:
       {{ states(result) }}
     temperature_template: >
       {% set temps = [
+        states.sensor.home_tempest_temperature,
         states.sensor.home_temperature,
         states.sensor.kdfi_temperature,
         states.sensor.pirateweather_temperature,
@@ -22,6 +23,7 @@ weather:
     temperature_unit: °F
     humidity_template: >
       {% set humidity = [
+        states.sensor.home_tempest_humidity,
         states.sensor.home_relative_humidity,
         states.sensor.kdfi_relative_humidity,
         states.sensor.pirateweather_humidity,
@@ -102,6 +104,7 @@ weather:
       {{ states(result) }}
     temperature_template: >
       {% set temps = [
+        states.sensor.home_tempest_temperature,
         states.sensor.home_temperature,
         states.sensor.kdfi_temperature,
         states.sensor.pirateweather_temperature,
@@ -112,6 +115,7 @@ weather:
     temperature_unit: °F
     humidity_template: >
       {% set humidity = [
+        states.sensor.home_tempest_humidity,
         states.sensor.home_relative_humidity,
         states.sensor.kdfi_relative_humidity,
         states.sensor.pirateweather_humidity,
