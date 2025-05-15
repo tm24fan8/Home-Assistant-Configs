@@ -771,17 +771,10 @@ template:
           {% endif %}
     - name: "Lightning Warning"
       unique_id: edaddfc4-f7f0-4d75-aada-a2c588afe029
-      state: "{{ states('sensor.home_tempest_lightning_count') | int > 0 or states('sensor.home_tempest_cloud_sensors_lightnings_strikes') | int > 0 or states('sensor.blitzortung_lightning_counter') | int > 0 }}"
+      state: "{{ states('sensor.home_tempest_cloud_sensors_lightning_strikes_last_hour') | int > 0 }}"
       device_class: safety
       attributes:
-        current_strikes: >
-          {% set strikes = [
-            states.sensor.home_tempest_lightning_count.state,
-            states.sensor.home_tempest_cloud_sensors_lightnings_strikes.state,
-            states.sensor.blitzortung_lightning_counter.state
-            ] %}
-          {% set result = strikes | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | list | max %}
-          {{ result }}
+        current_strikes: "{{ states('sensor.home_tempest_cloud_sensors_lightning_strikes_last_hour') | int }}"
       icon: "{{ 'mdi:flash-alert' if states('sensor.blitzortung_lightning_counter') | int > 0 else 'mdi:flash-outline'}}"
     - name: "Audible Weather Alerts Allowed"
       unique_id: 03851823-32d5-44c1-af42-256fcd922069
