@@ -10,6 +10,7 @@ blueprint:
       selector:
         entity:
           integration: cast
+          multiple: false
     view:
       name: Lovelace view path
       description: Path of the view to cast. A path has to be defined in your Lovelace
@@ -21,11 +22,11 @@ blueprint:
   source_url: https://community.home-assistant.io/t/cast-and-re-cast-a-lovelace-view-to-a-google-hub/259631
 trigger:
 - platform: state
-  entity_id: !input 'player'
+  entity_id: !input player
   to: 'off'
   for: 00:00:20
 - platform: state
-  entity_id: !input 'player'
+  entity_id: !input player
   to: paused
   for: 00:00:20
 - platform: time_pattern
@@ -38,38 +39,38 @@ action:
     - condition: or
       conditions:
       - condition: state
-        entity_id: !input 'player'
+        entity_id: !input player
         state: 'off'
       - condition: state
-        entity_id: !input 'player'
+        entity_id: !input player
         state: paused
         for: 00:00:20
     sequence:
     - service: media_player.volume_mute
       data:
         is_volume_muted: true
-        entity_id: !input 'player'
+        entity_id: !input player
     - service: media_player.turn_off
       data:
-        entity_id: !input 'player'
+        entity_id: !input player
     - delay:
         seconds: 2
     - service: media_player.turn_on
       data:
-        entity_id: !input 'player'
+        entity_id: !input player
     - service: cast.show_lovelace_view
       data:
-        view_path: !input 'view'
-        dashboard_path: !input 'dashboard'
-        entity_id: !input 'player'
+        view_path: !input view
+        dashboard_path: !input dashboard
+        entity_id: !input player
     - service: cast.show_lovelace_view
       data:
-        view_path: !input 'view'
-        dashboard_path: !input 'dashboard'
-        entity_id: !input 'player'
+        view_path: !input view
+        dashboard_path: !input dashboard
+        entity_id: !input player
     - delay:
         seconds: 10
     - service: media_player.volume_mute
       data:
         is_volume_muted: false
-        entity_id: !input 'player'
+        entity_id: !input player
