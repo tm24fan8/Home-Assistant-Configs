@@ -3,6 +3,7 @@ weather:
     name: "Iron Nerd Weather Station"
     condition_template: >
       {% set stations = [
+        states.weather.home_tempest_forecast_home,
         states.weather.home,
         states.weather.kdfi_daynight,
         states.weather.iron_nerd_studios,
@@ -52,6 +53,7 @@ weather:
       {{ states(result) | float }}
     forecast_daily_template: >
       {% set forecasts = [
+        states.sensor.weatherflow_daily_weather_forecast.attributes,
         states.sensor.weather_com_daily_weather_forecast.attributes,
         states.weather.kdfi_daynight.attributes,
         states.sensor.pirateweather_daily_weather_forecast.attributes,
@@ -61,12 +63,14 @@ weather:
       {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
     forecast_hourly_template: >
       {% set forecasts = [
+        states.sensor.weatherflow_hourly_weather_forecast.attributes,
         states.sensor.weather_com_hourly_weather_forecast,
         states.sensor.pirateweather_hourly_weather_forecast.attributes
       ] %}
       {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
     pressure_template: >
       {% set pressures = [
+        states.sensor.home_tempest_cloud_sensors_sea_level_pressure,
         states.sensor.home_pressure,
         states.sensor.kdfi_barometric_pressure
       ] %}
@@ -113,6 +117,7 @@ weather:
     name: "Iron Nerd Weather Station - Hourly"
     condition_template: >
       {% set stations = [
+        states.weather.home_tempest_forecast_home,
         states.weather.home,
         states.weather.tomorrow_io_stratton_ave_hourly,
         states.weather.iron_nerd_studios,
@@ -163,6 +168,7 @@ weather:
       {{ states(result) | float }}
     forecast_hourly_template: >
       {% set forecasts = [
+        states.sensor.weatherflow_hourly_weather_forecast.attributes,
         states.sensor.weather_com_hourly_weather_forecast,
         states.weather.tomorrow_io_stratton_ave_hourly.attributes,
         states.sensor.pirateweather_hourly_weather_forecast.attributes
@@ -170,6 +176,7 @@ weather:
       {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
     pressure_template: >
       {% set pressures = [
+        states.sensor.home_tempest_cloud_sensors_sea_level_pressure,
         states.sensor.home_pressure,
         states.sensor.kdfi_barometric_pressure
       ] %}
@@ -364,6 +371,60 @@ sensor:
   #     days: 7
 
 template:
+  - trigger:
+    - platform: time_pattern
+      minutes: /15
+    - platform: state
+      entity_id: weather.home_tempest_forecast_home
+    - platform: homeassistant
+      event: start
+    action:
+    - service: weather.get_forecasts
+      data:
+        type: daily
+      target:
+        entity_id: weather.home_tempest_forecast_home
+      response_variable: daily
+    - variables:
+        today: "{{ daily['weather.home_tempest_forecast_home'].forecast[0] }}"
+    sensor:
+    - name: Weatherflow Daily Weather Forecast
+      unique_id: 2c70c4ee-7f7f-42b4-ad40-90ce2b6c6d77
+      state: "{{ now().isoformat() }}"
+      attributes:
+        forecast: "{{ daily['weather.home_tempest_forecast_home'].forecast }}"
+    - name: Weatherflow High
+      unique_id: 296b4361-459a-48e7-9793-c003b88fcdef
+      state: "{{ today.temperature }}"
+      unit_of_measurement: °F
+    - name: Weatherflow Low
+      unique_id: 61c344be-33d3-4e1d-8d0d-277c2b850c0d
+      state: "{{ today.templow }}"
+      unit_of_measurement: °F
+    - name: Weatherflow Rain Chance Today
+      unique_id: ab0327ff-f20f-4d16-aeb5-78682b3e2397
+      state: "{{ today.precipitation_probability }}"
+      unit_of_measurement: "%"
+  - trigger:
+    - platform: time_pattern
+      minutes: /15
+    - platform: state
+      entity_id: weather.home_tempest_forecast_home
+    - platform: homeassistant
+      event: start
+    action:
+    - service: weather.get_forecasts
+      data:
+        type: hourly
+      target:
+        entity_id: weather.home_tempest_forecast_home
+      response_variable: hourly
+    sensor:
+    - name: Weatherflow Hourly Weather Forecast
+      unique_id: aa0b368c-ea23-4514-a697-e122353eb76d
+      state: "{{ now().isoformat() }}"
+      attributes:
+        forecast: "{{ hourly['weather.home_tempest_forecast_home'].forecast }}"
   - trigger:
     - platform: time_pattern
       minutes: /15
@@ -758,11 +819,13 @@ template:
       unit_of_measurement: 'sensors'
       state: >
         {% set sensors = [
+          states.sensor.home_tempest_precipitation_type,
           states.sensor.pirateweather_precip,
           states.sensor.openweathermap_precipitation_kind,
           states.sensor.tomorrow_io_stratton_ave_precipitation_type
         ] %}
         {% set numeric_sensors = [
+          states.sensor.home_tempest_precipitation_intensity,
           states.sensor.stratton_ave_precipitation
         ] %}
         {% set c1 = sensors | selectattr('state','eq','rain') | list | count %}
