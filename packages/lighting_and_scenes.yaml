@@ -207,6 +207,14 @@ input_number:
     step: 5
     unit_of_measurement: lx
     icon: mdi:sun-wireless
+  front_porch_lux_threshold:
+    name: Front Porch Lux Threshold
+    min: 0
+    max: 2000
+    step: 5
+    mode: box
+    unit_of_measurement: lx
+    icon: mdi:sun-wireless
 
   # Settings for adaptive adjustments
   daytime_colortemp_front_porch:
