@@ -2997,18 +2997,21 @@
 - id: '1696556688808'
   alias: Rain Window Warning
   description: Warn when it starts raining and a window is open
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.raining
-    from: 'off'
-    to: 'on'
-    alias: Rain starts
-  condition:
+  triggers:
+  - alias: Rain starts
+    entity_id:
+    - sensor.home_tempest_precipitation_type
+    from: none
+    not_to:
+    - unavailable
+    - unknown
+    trigger: state
+  conditions:
   - condition: state
     entity_id: binary_sensor.windows
     state: 'on'
     alias: Windows are open
-  action:
+  actions:
   - variables:
       porch: "{% set windows = states('sensor.windows_open') | int %}  {% set front
         = states('sensor.front_windows_open') | int %} {% if windows == front %}\n
@@ -3019,36 +3022,36 @@
         house. Please close them!\n{% endif %}\n"
     alias: Define variables
   - parallel:
-    - service: script.text_notify
-      data:
+    - data:
         type: alert
         who: all
         title: WINDOWS ARE OPEN!
         message: '{{ message }}'
         tag: rain-window-warning
       alias: Send text notification
-    - service: script.speech_engine
-      data:
+      action: script.text_notify
+    - data:
         who: everywhere
         type: weather
         message: '{{ message }}'
       alias: TTS notification
-    - service: script.living_room_lights_alert
-      data:
+      action: script.speech_engine
+    - data:
         type: blue
         duration: 10
       alias: Light alert in living room
+      action: script.living_room_lights_alert
     - if:
       - condition: state
         entity_id: binary_sensor.basement_occupied
         state: 'on'
         alias: Basement is occupied
       then:
-      - service: script.basement_lights_alert
-        data:
+      - data:
           type: blue
           duration: 10
         alias: Light alert in basement
+        action: script.basement_lights_alert
       alias: Light alert in basement, if occupied
     alias: Send the various alerts
   - wait_template: '{{ is_state(''binary_sensor.windows'',''off'') or is_state(''binary_sensor.raining'',''off'')
@@ -3063,46 +3066,46 @@
           }}'
         alias: Windows closed and still raining
       sequence:
-      - service: script.text_notify
-        data:
+      - data:
           type: alert
           who: all
           message: clear_notification
           tag: rain-window-warning
         alias: Clear text notification
-      - service: script.speech_engine
-        data:
+        action: script.text_notify
+      - data:
           who: common
           type: weather
           message: Windows are now closed. Thank you, and enjoy your dry house.
         alias: TTS notification
+        action: script.speech_engine
     - conditions:
       - condition: template
         value_template: '{{ is_state(''binary_sensor.raining'',''off'') }}'
         alias: Stopped raining
       sequence:
-      - service: script.text_notify
-        data:
+      - data:
           type: alert
           who: all
           message: clear_notification
           tag: rain-window-warning
         alias: Clear text notification
-      - service: script.speech_engine
-        data:
+        action: script.text_notify
+      - data:
           who: common
           type: weather
           message: Nevermind, it has stopped raining. Feel free to do whatever you'd
             like with the windows.
         alias: TTS notification
+        action: script.speech_engine
     default:
-    - service: script.speech_engine
-      data:
+    - data:
         who: common
         type: weather
         message: Well, I guess no one cares if the house floods. Suit yourself, but
           do not say I didn't warn you.
       alias: TTS notification
+      action: script.speech_engine
     alias: After wait completed
   mode: single
 - id: '1696884613752'
