@@ -179,6 +179,7 @@ influxdb:
       - binary_sensor.*tamper*
       - light.*screen*
       - sensor.weatherflow_hub*
+      - sensor.home_tempest*
     entities:
       - sensor.last_boot
       - sensor.date
@@ -277,7 +278,6 @@ influxdb:
       - binary_sensor.asus_laptop*
       - sensor.*ashland*
       - sensor.*kasx*
-      - sensor.home_tempest*
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
@@ -364,6 +364,7 @@ prometheus:
       - binary_sensor.*tamper*
       - light.*screen*
       - sensor.weatherflow_hub*
+      - sensor.home_tempest*
     exclude_entities:
       - sensor.last_boot
       - sensor.date
@@ -461,7 +462,6 @@ prometheus:
       - binary_sensor.asus_laptop*
       - sensor.*ashland*
       - sensor.*kasx*
-      - sensor.home_tempest*
     include_entities:
       - media_player.living_room_tv
       - media_player.basement_tv
