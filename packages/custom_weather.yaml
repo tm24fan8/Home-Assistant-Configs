@@ -53,7 +53,6 @@ weather:
       {{ states(result) | float }}
     forecast_daily_template: >
       {% set forecasts = [
-        states.sensor.weatherflow_daily_weather_forecast.attributes,
         states.sensor.weather_com_daily_weather_forecast.attributes,
         states.weather.kdfi_daynight.attributes,
         states.sensor.pirateweather_daily_weather_forecast.attributes,
@@ -63,7 +62,6 @@ weather:
       {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
     forecast_hourly_template: >
       {% set forecasts = [
-        states.sensor.weatherflow_hourly_weather_forecast.attributes,
         states.sensor.weather_com_hourly_weather_forecast.attributes,
         states.sensor.pirateweather_hourly_weather_forecast.attributes
       ] %}
@@ -168,7 +166,6 @@ weather:
       {{ states(result) | float }}
     forecast_hourly_template: >
       {% set forecasts = [
-        states.sensor.weatherflow_hourly_weather_forecast.attributes,
         states.sensor.weather_com_hourly_weather_forecast.attributes,
         states.weather.tomorrow_io_stratton_ave_hourly.attributes,
         states.sensor.pirateweather_hourly_weather_forecast.attributes
