@@ -1441,16 +1441,42 @@ evening_on_second_floor:
 goodnight_in_basement:
   alias: Goodnight in Basement
   sequence:
-  - service: light.turn_off
-    target:
+  - target:
       area_id:
       - basement_studio
       - furnace_room
     data: {}
-  - service: fan.turn_off
-    target:
+    action: light.turn_off
+    alias: Turn lights off
+  - target:
       entity_id: fan.basement_fan
     data: {}
+    action: fan.turn_off
+    alias: Turn fan off
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 3
+      milliseconds: 0
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.adaptive_lighting_sleep_mode_basement_studio
+    alias: Turn off sleep mode
+  - action: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.adaptive_lighting_basement_studio
+    alias: Turn on adaptive lighting
+  - action: input_text.set_value
+    metadata: {}
+    data:
+      value: Adaptive
+    target:
+      entity_id: input_text.basement_studio_selected_scene
+    alias: Reset selected scene text
 goodnight_on_first_floor:
   alias: Goodnight on First Floor
   sequence:
