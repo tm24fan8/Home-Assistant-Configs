@@ -106,7 +106,7 @@ template:
       unique_id: 2987ae95-f55d-4994-b9dd-018278d2f5ad
       state: >
         {% from 'sports.jinja' import sports_inhibit %}
-        {{ state_attr('sensor.minnesota_twins','opponent_abbr') in ['CLE','LAD'] or sports_inhibit('sensor.minnesota_twins') }}
+        {{ sports_inhibit('sensor.minnesota_twins') }}
     - name: Minnesota Twins Event Today
       unique_id: 30055cb3-d259-4cef-90e1-7dea0a5cb439
       state: >
@@ -116,7 +116,7 @@ template:
       unique_id: b0980d47-d762-4f23-97b1-9e88da729d8f
       state: >
         {% from 'sports.jinja' import sports_inhibit %}
-        {{ sports_inhibit('sensor.cleveland_guardians') }}
+        {{ state_attr('sensor.cleveland_guardians','opponent_abbr') in ['MIN','LAD'] or sports_inhibit('sensor.cleveland_guardians') }}
     - name: Cleveland Guardians Event Today
       unique_id: 985a7b2c-9ebd-4a2e-8ee2-2ab5359310e0
       state: >
@@ -126,7 +126,7 @@ template:
       unique_id: 2c6aae6e-eff6-46e5-bee9-311f9bbc0c0e
       state: >
         {% from 'sports.jinja' import sports_inhibit %}
-        {{ state_attr('sensor.los_angeles_dodgers','opponent_abbr') in ['CLE'] or sports_inhibit('sensor.los_angeles_dodgers') }}
+        {{ state_attr('sensor.los_angeles_dodgers','opponent_abbr') in ['MIN'] or sports_inhibit('sensor.los_angeles_dodgers') }}
     - name: Los Angeles Dodgers Event Today
       unique_id: 7c2bd060-ea2c-4b81-8af7-3e6b9b3c639d
       state: >
