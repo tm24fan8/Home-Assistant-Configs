@@ -807,23 +807,23 @@ template:
             is_state('binary_sensor.home_tempest_cloud_binary_sensors_is_raining','on') }}
       icon: "{{ 'mdi:weather-rainy' if this.state == 'on' else 'mdi:weather-cloudy' }}"
   - sensor:
-    - name: Total Rain Sensors
-      unique_id: b7c2e709-8f5c-4263-aa1d-fa8280afcddb
-      unit_of_measurement: 'sensors'
-      state: >
-        {% set sensors = [
-          states.sensor.home_tempest_precipitation_type,
-          states.sensor.pirateweather_precip,
-          states.sensor.openweathermap_precipitation_kind,
-          states.sensor.tomorrow_io_stratton_ave_precipitation_type
-        ] %}
-        {% set numeric_sensors = [
-          states.sensor.home_tempest_precipitation_intensity,
-          states.sensor.stratton_ave_precipitation
-        ] %}
-        {% set c1 = sensors | selectattr('state','eq','rain') | list | count %}
-        {% set c2 = numeric_sensors | map(attribute='state') | map('float') | select('gt',0) | list | count %}
-        {{ (c1 + c2) | int }}
+    # - name: Total Rain Sensors
+    #   unique_id: b7c2e709-8f5c-4263-aa1d-fa8280afcddb
+    #   unit_of_measurement: 'sensors'
+    #   state: >
+    #     {% set sensors = [
+    #       states.sensor.home_tempest_precipitation_type,
+    #       states.sensor.pirateweather_precip,
+    #       states.sensor.openweathermap_precipitation_kind,
+    #       states.sensor.tomorrow_io_stratton_ave_precipitation_type
+    #     ] %}
+    #     {% set numeric_sensors = [
+    #       states.sensor.home_tempest_precipitation_intensity,
+    #       states.sensor.stratton_ave_precipitation
+    #     ] %}
+    #     {% set c1 = sensors | selectattr('state','eq','rain') | list | count %}
+    #     {% set c2 = numeric_sensors | map(attribute='state') | map('float') | select('gt',0) | list | count %}
+    #     {{ (c1 + c2) | int }}
     - name: Current Forecast
       unique_id: c0faea33-2ac3-40f1-8558-584c3f5d6b16
       icon: mdi:weather-sunny
