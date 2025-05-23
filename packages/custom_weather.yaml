@@ -801,8 +801,11 @@ template:
     - name: Raining
       unique_id: 232b43a4-4598-4315-ab76-42348c11e6ff
       state: >
-        {{ states('sensor.total_rain_sensors') | int > 1 }}
-      icon: "{{ 'mdi:weather-rainy' if states('sensor.total_rain_sensors') | int > 1 else 'mdi:weather-cloudy' }}"
+        {{ states('sensor.home_tempest_precipitation_intensity') | float > 0 or
+            states('sensor.home_tempest_precipitation_type') in ['rain','hail','rain_hail'] or
+            states('sensor.home_tempest_cloud_sensors_precipitation_description') in ['rain','heavy_rain'] or
+            is_state('binary_sensor.home_tempest_cloud_binary_sensors_is_raining','on') }}
+      icon: "{{ 'mdi:weather-rainy' if this.state == 'on' else 'mdi:weather-cloudy' }}"
   - sensor:
     - name: Total Rain Sensors
       unique_id: b7c2e709-8f5c-4263-aa1d-fa8280afcddb
