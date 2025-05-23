@@ -6204,3 +6204,70 @@
           entity_id: input_boolean.shower_mode
     alias: Routing
   mode: restart
+- id: '1747986913670'
+  alias: School Status Notifications
+  description: Sends alert notifications to all phones when school is placed under
+    a two hour delay or cancelled for the day
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_boolean.two_hour_delay
+    from: 'off'
+    to: 'on'
+    id: delay
+    alias: Two Hour Delay
+  - trigger: state
+    entity_id:
+    - input_boolean.school_cancelled
+    from: 'off'
+    to: 'on'
+    id: cancel
+    alias: Cancelled
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - delay
+        alias: Two Hour Delay
+      sequence:
+      - alias: Send Notification
+        action: script.text_notify
+        metadata: {}
+        data:
+          type: alert
+          title: School Alert
+          message: Defiance City Schools is under a two hour delay!
+          tag: two-hour-delay
+          who: all
+    - conditions:
+      - condition: trigger
+        id:
+        - cancel
+        alias: Cancelled
+      sequence:
+      - action: script.text_notify
+        metadata: {}
+        data:
+          type: alert
+          who: all
+          message: clear_notification
+          tag: two-hour-delay
+        alias: Clear previous delay notification
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 2
+          milliseconds: 0
+      - alias: Send Notification
+        action: script.text_notify
+        metadata: {}
+        data:
+          type: alert
+          title: School Alert
+          message: Defiance City Schools has closed for today!
+          tag: school-cancelled
+          who: all
+    alias: Routing
+  mode: restart
