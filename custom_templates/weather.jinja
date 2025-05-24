@@ -39,7 +39,22 @@
           There is lightning in the area. Nearest strike is {{ ltgdist }} miles away.
       {% endif %}
       {% if is_state('binary_sensor.raining','on') %}
-        It is currently raining. Make sure all doors and windows are closed!
+        {% if states('sensor.home_tempest_cloud_sensors_precipitation_intensity') not in ['unavailable','unknown','no_rain'] %}
+          {% set intensity = states('sensor.home_tempest_cloud_sensors_precipitation_intensity') %}
+          {% if intensity == 'very_light' %}
+            There is currently a very light drizzle falling.
+          {% elif intensity == 'light' %}
+            There is currently light rain falling. Front porch windows should be okay, but other windows should be closed.
+          {% elif intensity == 'moderate' %}
+            It is raining pretty good outside, you should probably make sure all windows are closed.
+          {% elif intensity in ['heavy','very_heavy'] %}
+            There is heavy rain falling, please make sure all doors and windows are closed at this time.
+          {% elif intensity == 'extreme' %}
+            It is raining extremely hard outside. Make sure all doors and windows are closed, and I recommend staying inside until it calms down. Perhaps check for roof leaks as well.
+          {% endif %}
+        {% else %}
+          It is currently raining. Make sure all doors and windows are closed!
+        {% endif %}
       {% endif %}
     {% endif %}
     {% if state_attr('weather.iron_nerd_weather_station','visibility') | int < 3 %}
@@ -90,12 +105,49 @@
       "The nearest lightning strike is {{ ltgdist }} miles away. "
     {% endif %}
     {% if is_state('binary_sensor.raining','on') %}
-      {{ [
-        "I have looked outside and determined that it is raining. ",
-        "If you look outside the window, you will notice, it wainin. ",
-        "It wainin sideways! ",
-        "There appears to be excessive moisture currently falling from the sky. Plan accordingly. ",
-      ] | random }}
+      {% if states('sensor.home_tempest_cloud_sensors_precipitation_intensity') not in ['unavailable','unknown','no_rain'] %}
+        {% set intensity = states('sensor.home_tempest_cloud_sensors_precipitation_intensity') %}
+        {% if intensity == 'very_light' %}
+          {{ [
+            "There is currently a very light drizzle falling. ",
+            "It is drizzling outside, but it is not too bad. ",
+            "The sky is spitting on us. That's not very nice, but a mild inconvenience at most. "
+          ] | random }}
+        {% elif intensity == 'light' %}
+          {{ [
+            "There is currently light rain falling. ",
+            "It is raining lightly outside, but it is not too bad. ",
+            "It kinda wainin outside, but just a little. "
+          ] | random }}
+          "Front porch windows should be okay, but other windows should be closed. "
+        {% elif intensity == 'moderate' %}
+          {{ [
+            "It is raining pretty good outside, you should probably make sure all windows are closed. ",
+            "It is raining at a decent rate outside, please make sure all windows are closed. "
+            "If you look outside, you will see that it wainin. "
+          ] | random }}
+        {% elif intensity in ['heavy','very_heavy'] %}
+          {{ [
+            "There is heavy rain falling, please make sure all doors and windows are closed at this time. ",
+            "It is raining heavily outside, please make sure all doors and windows are closed. ",
+            "It wainin sideways! Please make sure all doors and windows are closed. "
+          ] | random }}
+        {% elif intensity == 'extreme' %}
+          {{ [
+            "It is raining extremely hard outside. ",
+            "There is a torrential downpour outside. ",
+            "Holy crap, I have never seen it rain this hard before. "
+          ] | random }}
+          "Make sure all doors and windows are closed, and I recommend staying inside until it calms down. Perhaps check for roof leaks as well. "
+        {% endif %}
+      {% else %}
+        {{ [
+          "I have looked outside and determined that it is raining. ",
+          "If you look outside the window, you will notice, it wainin. ",
+          "It wainin sideways! ",
+          "There appears to be excessive moisture currently falling from the sky. Plan accordingly. ",
+        ] | random }}
+      {% endif %}
     {% endif %}
     {% if (state_attr('weather.iron_nerd_weather_station','visibility') | int ) < 3 %}
       {{ [
