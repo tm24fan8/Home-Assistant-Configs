@@ -68,6 +68,7 @@ weather:
       {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
     pressure_template: >
       {% set pressures = [
+        states.sensor.home_tempest_local_slp,
         states.sensor.home_tempest_cloud_sensors_sea_level_pressure,
         states.sensor.home_pressure,
         states.sensor.kdfi_barometric_pressure
@@ -173,6 +174,7 @@ weather:
       {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
     pressure_template: >
       {% set pressures = [
+        states.sensor.home_tempest_local_slp,
         states.sensor.home_tempest_cloud_sensors_sea_level_pressure,
         states.sensor.home_pressure,
         states.sensor.kdfi_barometric_pressure
