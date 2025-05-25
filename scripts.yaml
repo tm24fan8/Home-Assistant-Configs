@@ -854,6 +854,12 @@ adaptive_on_first_floor:
 adaptive_on_second_floor:
   alias: Adaptive on Second Floor
   sequence:
+  - action: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.adaptive_lighting_stairwell
+    alias: Turn on adaptive lighting in stairwell
   - if:
     - condition: state
       entity_id: light.hallway_overhead
