@@ -1869,54 +1869,70 @@
     to: 'on'
     id: recliner-on
     trigger: state
+    alias: Recliner Mode On
   - entity_id: input_boolean.recliner_mode
     from: 'on'
     to: 'off'
     id: recliner-off
     trigger: state
+    alias: Recliner Mode Off
   conditions: []
   actions:
-  - choose:
+  - alias: Routing
+    choose:
     - conditions:
       - condition: trigger
         id: recliner-on
+        alias: Recliner Mode On
       sequence:
       - target:
           entity_id: input_select.basement_studio_scenes
         data:
           option: Stairwell
         action: input_select.select_option
+        alias: Set scene to Stairwell
       - target:
           entity_id:
           - input_boolean.white_noise_basement
           - input_boolean.studio_quiet
         data: {}
         action: input_boolean.turn_on
-      - if:
+        alias: Turn on white noise and Studio Quiet
+      - alias: Turn off TV
+        if:
         - condition: template
           value_template: "{% if is_state('media_player.basement_tv','playing') %}\n
             \ false\n{% elif is_state('media_player.basement_tv','paused') or is_state('media_player.basement_tv','idle')
             %}\n  {{ state_attr('media_player.basement_tv','app_name') in ['TV','Android
             TV Launcher'] }}\n{% else %}\n  false\n{% endif %}\n"
+          alias: If nothing is playing
         then:
         - target:
             entity_id: media_player.basement_tv
           data: {}
           action: media_player.turn_off
-      - if:
-        - condition: not
+          alias: Turn off TV
+        enabled: false
+      - alias: Turn off computer monitors
+        if:
+        - alias: If I'm not watching something
+          condition: not
           conditions:
           - condition: state
             entity_id: media_player.tony_asus
             state: playing
+            alias: PC playing video or music
         then:
         - target:
             entity_id: script.tony_desktop_displays_off
           data: {}
           action: script.turn_on
+          alias: Turn off computer monitors
+        enabled: false
     - conditions:
       - condition: trigger
         id: recliner-off
+        alias: Recliner Mode Off
       sequence:
       - data: {}
         target:
@@ -2046,10 +2062,12 @@
             - script.tony_desktop_displays_on
           data: {}
           action: script.turn_on
+        enabled: false
       - target:
           entity_id: media_player.basement_tv
         data: {}
         action: media_player.turn_on
+        enabled: false
   mode: restart
 - id: '1696286540644'
   alias: Basement Lights Adaptive Resync
