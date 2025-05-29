@@ -44,6 +44,9 @@ input_boolean:
   adaptive_lighting_adjustments:
     name: Adaptive Lighting Adjustments
     icon: mdi:knob
+  sunset_lights_triggered:
+    name: Sunset Lights Triggered
+    icon: mdi:weather-sunset
 
 input_number:
   upstairs_bathroom_motion_off_delay:
@@ -213,6 +216,13 @@ input_number:
     max: 2000
     step: 5
     mode: box
+    unit_of_measurement: lx
+    icon: mdi:sun-wireless
+  sunset_lights_outdoor_lux_threshold:
+    name: Sunset Lights Outdoor Lux Threshold
+    min: 0
+    max: 10000
+    step: 100
     unit_of_measurement: lx
     icon: mdi:sun-wireless
 
