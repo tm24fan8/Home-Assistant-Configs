@@ -602,25 +602,15 @@ script:
               {% set low = states('sensor.overnight_lowest_temperature') | int %}
               {% set high = states('sensor.todays_high_temp') | int %}
               {% set kallen_bedtime = state_attr('input_datetime.kallen_bedtime','timestamp') | int %}
+              {% set kallen_fantime = state_attr('input_datetime.kallen_fan','timestamp') | int %}
+              {% set bedroom_hot = is_state('binary_sensor.kallen_bedroom_hot','on') %}
               {% set cutoff = 81000 %} {# Cutoff time is 22:30 #}
-              {% if is_state('binary_sensor.kallen_school_tomorrow','on') %}
-                {% if is_state('input_boolean.hot_day','on') %}
-                  {{ (kallen_bedtime - 3600) | timestamp_custom('%H:%M',false) }}
-                {% elif low >= 56 or high >= 75 %}
-                  {{ (kallen_bedtime - 1800) | timestamp_custom('%H:%M',false) }}
-                {% else %}
-                  {{ kallen_bedtime | timestamp_custom('%H:%M',false) }}
-                {% endif %}
-              {% elif low > 60 or high > 74 %}
-                {% if kallen_bedtime < cutoff %}
-                  {{ kallen_bedtime | timestamp_custom('%H:%M',false) }}
-                {% else %}
-                  22:00
-                {% endif %}
-              {% elif 56 <= low <= 60 %}
-                22:30
+              {% if is_state('input_boolean.hot_day','on') or bedroom_hot == true %}
+                {{ (kallen_fantime - 3600) | timestamp_custom('%H:%M',false) }}
+              {% elif low >= 56 or high >= 75 %}
+                {{ (kallen_bedtime - 1800) | timestamp_custom('%H:%M',false) }}
               {% else %}
-                00:00
+                {{ kallen_bedtime | timestamp_custom('%H:%M',false) }}
               {% endif %}
         - service: input_datetime.set_datetime
           entity_id: input_datetime.master_bedroom_fan
