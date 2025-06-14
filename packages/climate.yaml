@@ -273,6 +273,14 @@ input_select:
       - White Noise
       - N/A
     icon: mdi:home-thermometer
+  current_climate_mode_master_bedroom:
+    name: Current Climate Mode - Master Bedroom
+    options:
+      - None
+      - Day Mode
+      - Night Mode
+      - Bedtime Mode
+      - Shower Mode
 
 input_number:
   master_bedroom_daytime_temp:
