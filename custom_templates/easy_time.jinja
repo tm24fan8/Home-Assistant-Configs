@@ -825,7 +825,21 @@
       'ottobre',
       'novembre',
       'dicembre',
-    ]
+    ],
+    'time_of_hour':{
+      0: '{hour}',
+      1: '{hour} e un minuto',
+      15: '{hour} ed un quarto',
+      30: '{hour} e mezzo',
+      45: '15 minuti alle {hour}',
+      59: 'un minuto alle {hour}',
+      'past_hour': '{hour} e {minute}',
+      'to_hour': '{hour} meno {minute}',
+    },
+    'time_of_day':{
+      'midnight': 'mezzanotte',
+      'noon': 'mezzogiorno',
+    }
   },
   'pt':{
     '_language': 'Português',
@@ -1041,7 +1055,21 @@
       'Październik',
       'Listopad',
       'Grudzień',
-    ]
+    ],
+    'time_of_hour': {
+      0: '{hour}',
+      1: 'minuta po {hour}',
+      15: 'kwadrans po {hour}',
+      30: 'pół godziny po {hour}',
+      45: 'za kwadrans {hour}',
+      59: 'za minutę {hour}',
+      'past_hour': '{minute} po {hour}',
+      'to_hour': '{minute} do {hour}'
+    },
+    'time_of_day': {
+      'midnight': 'północ',
+      'noon': 'południe'
+    }
   },
   'ru':{
     '_language': 'Русский',
@@ -1779,9 +1807,9 @@
   {%- else %}
     {%- set t = translate('ago', language=language) %}
     {%- if '%s' in t %}
-      {{ t % items }}
+      {{- t % items }}
     {%- else %}
-      {{- items }} {{ translate('ago', language=language) }}
+      {{- items }} {{ t }}
     {%- endif %}
   {%- endif %}
 {%- else %}
@@ -2045,7 +2073,7 @@
     {%- if '%s' in t %}
       {{- t % ret }}
     {%- else %}
-      {{- ret }} {{ translate('ago', language=language) }}
+      {{- ret }} {{ t }}
     {%- endif %}
   {%- endif %}
 {%- endif %}
