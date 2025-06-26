@@ -27,8 +27,15 @@
   {% set period_str = period_str(team) %}
   {% set game_clock = state_attr(team,'clock') | lower %}
   {% if state_attr(team,'league') == 'MLB' %}
-    {% set inning_parts = game_clock.split(' ') %}
-    in the {{ inning_parts[0] ~ ' of the ' ~ inning_parts[1] ~ ' ' ~ period_str }}
+    {% if 'rain delay' in game_clock %}
+      {# Handle cases like "Rain Delay, Top 1st" #}
+      {% set status, inning = game_clock.split(',', 1) %}
+      {% set inning_parts = inning.split(' ') %}
+      in a {{ status | trim }} in the {{ inning_parts[1] ~ ' of the ' ~ inning_parts[2] }} {{ period_str }}
+    {% else %}
+      {% set inning_parts = game_clock.split(' ') %}
+      in the {{ inning_parts[0] ~ ' of the ' ~ inning_parts[1] ~ ' ' ~ period_str }}
+    {% endif %}
   {% else %}
     {% if ' - ' in game_clock %}
       {% set clock_time, quarter = game_clock.split(' - ') %}
