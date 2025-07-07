@@ -1,0 +1,33 @@
+popup_security_button:
+  name: Popup Security Button
+  version: '1.0'
+  creator: Tony Stork
+  supported:
+    - button
+  description: Will turn the button red if there is a security fault, otherwise default style applies
+  code: |-
+    ${(() => {
+        const state = hass?.states[this.config?.entity]?.state || '';
+
+        let bg_color = 'var(--background-color-2)';
+        let red_color = 'var(--error-color)';
+
+        // Main button background
+        const mainButton = card?.querySelector('.bubble-button-background');
+        if (mainButton) {
+            mainButton.style.opacity = '1';
+            mainButton.style.backgroundColor = state === 'on' ? red_color : bg_color;
+            mainButton.style.transition = 'background-color 1s';
+        }
+
+        // Unavailable state
+        if (mainButton && state === 'unavailable') {
+            mainButton.classList.add('is-unavailable');
+        } else if (mainButton) {
+            mainButton.classList.remove('is-unavailable');
+        }
+
+        // No CSS string needed
+        return '';
+    })()}
+  editor: ''
