@@ -13,3 +13,10 @@ sensor:
     state_characteristic: mean
     max_age:
       hours: 24
+binary_sensor:
+  - platform: trend
+    sensors:
+      local_average_gas_trend:
+        entity_id: sensor.local_average_gas_price
+        friendly_name: Local Average Gas Trend
+        unique_id: 3405a536-1e02-412f-916b-1a62c9cb8a2e
