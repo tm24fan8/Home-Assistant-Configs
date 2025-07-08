@@ -1,0 +1,10 @@
+- name: color
+  label: Color (CSS Variable)
+  selector:
+    text: {}
+  required: false
+- name: alt_entity
+  label: Entity (Optional, overrides main config)
+  selector:
+    entity: {}
+  required: false

@@ -1,0 +1,61 @@
+state_color_button:
+  name: State Color Button
+  version: 1.1.2
+  creator: Tony Stork
+  supported:
+    - button
+  description: |-
+    Module for status buttons that turn a color based on the state of the config entity. Will default to the accent color in your theme. Use the name of a CSS variable. You can also specify an alternate entity to get state from, this will override the main card config.
+    <br><br>
+    Example:
+    <br><br>
+    <code-block><pre>
+    color: error-color
+    alt_entity: sensor.your_face
+    </pre></code-block>
+  code: |-
+    ${(() => {
+        let state;
+        if (this.config?.state_color_button?.alt_entity) {
+            state = hass?.states[this.config?.state_color_button?.alt_entity]?.state || '';
+        } else {
+            state = hass?.states[this.config?.entity]?.state || '';
+        }
+
+        let bg_color = 'var(--bubble-main-background-color)';
+        
+        // Use the configured color or default to accent color
+        let on_color = this.config?.state_color_button?.color
+            ? `var(--${this.config.state_color_button.color})`
+            : 'var(--accent-color)';
+
+        // Main button background
+        const mainButton = card?.querySelector('.bubble-button-background');
+        if (mainButton) {
+            mainButton.style.opacity = '1';
+            mainButton.style.backgroundColor = state === 'on' ? on_color : bg_color;
+            mainButton.style.transition = 'background-color 1s';
+        }
+
+        // Unavailable state
+        if (mainButton && state === 'unavailable') {
+            mainButton.style.opacity = '0.5';
+            mainButton.classList.add('is-unavailable');
+        } else if (mainButton) {
+            mainButton.classList.remove('is-unavailable');
+        }
+
+        // No CSS string needed
+        return '';
+    })()}
+  editor:
+    - name: color
+      label: Color (CSS Variable)
+      selector:
+        text: {}
+      required: false
+    - name: alt_entity
+      label: Entity (Optional, overrides main config)
+      selector:
+        entity: {}
+      required: false
