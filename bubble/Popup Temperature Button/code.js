@@ -1,4 +1,4 @@
-${(() => {
+`${(() => {
     const hot = hass?.states[this.config?.popup_temperature_button?.hot_entity]?.state || '';
     const cold = hass?.states[this.config?.popup_temperature_button?.cold_entity]?.state || '';
 
@@ -29,4 +29,4 @@ ${(() => {
 
     // No CSS string needed
     return '';
-})()}
+})()}`

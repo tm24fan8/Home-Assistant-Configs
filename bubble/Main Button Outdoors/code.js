@@ -1,4 +1,4 @@
-${(() => {
+`${(() => {
     const occupancy = hass?.states[this.config?.main_button_outdoors?.occupancy_entity]?.state || '';
 
     let bg_color = 'var(--bubble-main-background-color)';
@@ -21,4 +21,4 @@ ${(() => {
 
     // No CSS string needed
     return '';
-})()}
+})()}`

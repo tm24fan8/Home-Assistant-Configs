@@ -1,4 +1,4 @@
-${(() => {
+`${(() => {
     const occupancy = hass?.states[this.config?.main_button_floors?.occupancy_entity]?.state || '';
     const hot = hass?.states[this.config?.main_button_floors?.hot_entity]?.state || '';
     const cold = hass?.states[this.config?.main_button_floors?.cold_entity]?.state || '';
@@ -39,4 +39,4 @@ ${(() => {
 
     // No CSS string needed
     return '';
-})()}
+})()}`

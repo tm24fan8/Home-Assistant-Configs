@@ -1,4 +1,4 @@
-${(() => {
+`${(() => {
     const state = hass?.states[this.config?.entity]?.state || '';
 
     let bg_color = 'var(--bubble-main-background-color)';
@@ -21,4 +21,4 @@ ${(() => {
 
     // No CSS string needed
     return '';
-})()}
+})()}`
