@@ -1,0 +1,21 @@
+rotating_icon:
+  name: Rotating Icon
+  version: '0.1'
+  creator: Tony Stork
+  supported:
+    - button
+    - climate
+    - media-player
+    - pop-up
+    - separator
+    - horizontal-buttons-stack
+  description: Simple, make the icon rotate when the config entity is on
+  code: |-
+    .bubble-icon {
+      animation: ${state === 'on' ? 'slow-rotate 2s linear infinite' : ''};
+    }
+    @keyframes slow-rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  editor: ''
