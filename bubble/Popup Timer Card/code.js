@@ -1,0 +1,92 @@
+:host{
+    --circle-color: var(--bubble-accent-color, var(--accent-color));
+    --percentage: ${(() => {
+      card.timerEntity = hass.states[entity];
+      const now = new Date();
+      const endTime = new Date(card.timerEntity.attributes.finishes_at); 
+      const runningTime = Math.round((endTime - now) / 1000);
+      const maxtime = Math.round(new Date("1970-01-01 " + card.timerEntity.attributes.duration + " UTC") / 1000);
+      const remainingTime = Math.round(new Date("1970-01-01 " + card.timerEntity.attributes.remaining + " UTC") / 1000);
+
+      var percentage = 0;
+      if (isNaN(runningTime)) {
+        percentage = 100 - Math.round( 100.0 * remainingTime / maxtime);
+      } else {
+        percentage = 100 - Math.round( 100.0 * runningTime / maxtime);
+      }
+      
+      if (isNaN(percentage)) {
+        return "0%";
+      } else {
+        return "" + percentage +"%";
+      }
+    })()};
+  }
+  .bubble-icon-container {
+    background: radial-gradient(
+        var(--card-background-color) 60%,
+        transparent 0%
+      ), conic-gradient(
+        var(--circle-color) var(--percentage) 0%,
+        var(--card-background-color) 0% 100%
+      ) !important;
+  }
+  .bubble-icon-container:after {
+    content: "" !important;
+    height: 100% !important;
+    width: 100% !important;
+    position: absolute !important;
+    border-radius: 50% !important;
+    background: (var(--bubble-button-icon-background-color), 0.1) !important;
+  }
+  ${(() => {
+    function UpdateState(){
+      try {
+            let now = new Date(); 
+            let endTime = new Date(card.timerEntity.attributes.finishes_at); 
+            let runningTime = Math.round((endTime - now)/1000);
+            let hours = Math.floor(runningTime / 3600);
+            let minutes = Math.floor((runningTime - (hours * 3600)) / 60);
+            let remainingSeconds = runningTime % 60;
+            
+            card.querySelector('.bubble-state').innerText =
+                (hours > 0 ? (hours + ":") : "") +
+                ("0" + minutes).slice(-2) + ":" +
+                ("0" + remainingSeconds).slice(-2);
+
+          } catch (error) {
+            card.querySelector('.bubble-state').innerText = card.timerEntity.attributes.duration;
+          }
+    };
+    
+    if (card.timer == null && card.timerEntity.state === 'active') {
+      card.timer = setInterval(()=>{UpdateState()}, 500);
+    }else if (card.timerEntity.state != 'active'){
+      clearInterval(card.timer);
+      card.timer = null;
+      if (card.timerEntity.state !='paused') {
+          card.querySelector('.bubble-state').innerText = card.timerEntity.attributes.duration;
+        } else if(card.timerEntity.state==='paused') {
+          card.querySelector('.bubble-state').innerText = card.timerEntity.attributes.remaining;
+      }
+    }
+  })()}
+
+  ${(() => {
+    subButtonIcon[0].setAttribute("icon",card.timerEntity.state != 'active' ?'mdi:play' : 'mdi:replay');
+  })()}
+  ${(() => {
+    if (card.timerEntity.state != 'active') {
+      card.querySelector('.bubble-sub-button-2').classList.add("hidden");
+    }
+  })()}
+  ${(() => {
+    if (card.timerEntity.state === 'idle') {
+      card.querySelector('.bubble-sub-button-3').classList.add("hidden");
+    }
+  })()}
+  ${(() => {
+    if (card.timerEntity.state === 'idle') {
+      card.querySelector('.bubble-sub-button-4').classList.add("hidden");
+    }
+  })()}
