@@ -1,0 +1,14 @@
+- type: expandable
+  title: Entity Configuration
+  icon: mdi:format-list-bulleted
+  schema:
+    - name: hot_entity
+      label: Hot Entity
+      selector:
+        entity:
+          device_class: heat
+    - name: cold_entity
+      label: Cold Entity
+      selector:
+        entity:
+          device_class: cold

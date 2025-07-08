@@ -1,0 +1,22 @@
+- type: expandable
+  title: Entity Configuration
+  icon: mdi:format-list-bulleted
+  schema:
+    - name: occupancy_entity
+      label: Occupancy Entity
+      selector:
+        entity:
+          device_class: occupancy
+      required: false
+    - name: hot_entity
+      label: Hot Entity
+      selector:
+        entity:
+          device_class: heat
+      required: false
+    - name: cold_entity
+      label: Cold Entity
+      selector:
+        entity:
+          device_class: cold
+      required: false
