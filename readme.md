@@ -57,6 +57,7 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [GasBuddy](https://github.com/firstof9/ha-gasbuddy)
 - [Union Pacific Big Boy Tracker](https://github.com/jheizer/up_4014_tracker)
 - [WeatherFlow Forecast](https://github.com/briis/weatherflow_forecast)
+- [NWS SPC Outlook](https://github.com/sedward5/nws_spc_outlook)
 
 </details>
 
@@ -111,6 +112,7 @@ Again, mostly just the ones I'm **using** or **will use soon**...also a few that
 - [Weather Chart Card](https://github.com/mlamberts78/weather-chart-card)
 - [Comfortable Environment Card](https://github.com/argaar/comfortable-environment-card)
 - [Versatile Thermostat UI Card](https://github.com/jmcollin78/versatile-thermostat-ui-card)
+- [Gauge Card Pro](https://github.com/benjamin-dcs/gauge-card-pro)
 
 </details>
 
