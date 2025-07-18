@@ -21,6 +21,13 @@
         mainButton.style.transition = 'background-color 1s';
     }
 
+    // Icon color
+    const icon = card?.querySelector('.bubble-icon');
+    if (icon) {
+        icon.style.color = state === 'on' ? on_color : 'var(--bubble-main-icon-color)';
+        icon.style.transition = 'color 1s';
+    }
+
     // Unavailable state
     if (mainButton && state === 'unavailable') {
         mainButton.style.opacity = '0.5';
