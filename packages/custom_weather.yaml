@@ -808,6 +808,11 @@ template:
             states('sensor.home_tempest_cloud_sensors_precipitation_description') in ['rain','heavy_rain'] or
             is_state('binary_sensor.home_tempest_cloud_binary_sensors_is_raining','on') }}
       icon: "{{ 'mdi:weather-rainy' if this.state == 'on' else 'mdi:weather-cloudy' }}"
+    - name: Tornado Possible
+      unique_id: 541fed1d-2086-47ee-be1b-3f1ea4199e1f
+      state: "{{ state_attr('binary_sensor.severe_thunderstorm_warning','tornado_possible') }}"
+      device_class: safety
+      icon: "{{ 'mdi:weather-tornado' if this.state == 'on' else 'mdi:close' }}"
   - sensor:
     # - name: Total Rain Sensors
     #   unique_id: b7c2e709-8f5c-4263-aa1d-fa8280afcddb
