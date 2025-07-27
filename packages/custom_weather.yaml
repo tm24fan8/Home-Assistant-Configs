@@ -1587,6 +1587,28 @@ template:
         {{ ns.temps | min | int }}
       icon: mdi:thermometer
 
+    - name: SPC Wind Risk Day 1
+      unique_id: e415f5bd-7c44-4067-9c5d-4905ce13be26
+      state: "{{ state_attr('sensor.spc_outlook_day_1','wind_probability') }}"
+      attributes:
+        wind_fill: "{{ state_attr('sensor.spc_outlook_day_1','wind_fill') }}"
+        wind_stroke: "{{ state_attr('sensor.spc_outlook_day_1','wind_stroke') }}"
+      icon: mdi:weather-windy
+    - name: SPC Tornado Risk Day 1
+      unique_id: bac1b6d9-d4bf-4434-9260-8765dcc81074
+      state: "{{ state_attr('sensor.spc_outlook_day_1','torn_probability') }}"
+      attributes:
+        torn_fill: "{{ state_attr('sensor.spc_outlook_day_1','torn_fill') }}"
+        torn_stroke: "{{ state_attr('sensor.spc_outlook_day_1','torn_stroke') }}"
+      icon: mdi:weather-tornado
+    - name: SPC Hail Risk Day 1
+      unique_id: a6969cf3-dc48-4e45-85f5-1565137ddf09
+      state: "{{ state_attr('sensor.spc_outlook_day_1','hail_probability') }}"
+      attributes:
+        hail_fill: "{{ state_attr('sensor.spc_outlook_day_1','hail_fill') }}"
+        hail_stroke: "{{ state_attr('sensor.spc_outlook_day_1','hail_stroke') }}"
+      icon: mdi:weather-hail
+
 input_boolean:
   freeze_warning:
     name: Freeze Warning
