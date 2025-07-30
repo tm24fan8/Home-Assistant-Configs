@@ -117,6 +117,7 @@ recorder:
       - sensor.mosquitto*
       - sensor.*_rssi
       - sensor.weatherflow_hub*
+      - sensor.internet_round_trip*
     entities:
       - sensor.avg_ping
       - sensor.max_ping
