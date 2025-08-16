@@ -1317,44 +1317,48 @@ template:
     - name: "Clothing Forecast"
       unique_id: 8ed2684b-d0ad-402c-bc3c-340cb9b2437a
       state: >-
-          {% if is_state('binary_sensor.overnight', 'off') %}
-            {% set temp = states('sensor.todays_high_temp')|int %}
+        {% if is_state('binary_sensor.overnight', 'off') %}
+          {% set temp = states('sensor.todays_high_temp')|int %}
+        {% else %}
+          {% set temp = state_attr('weather.iron_nerd_weather_station','temperature')|round %}
+        {% endif %}
+        {% if states('sensor.todays_high_temp')|int > 63 %}
+          {% if states('sensor.todays_high_temp')|int < 80 %}
+            Nice
+          {% elif states('sensor.todays_high_temp')|int > 90 %}
+            Hot
           {% else %}
-            {% set temp = state_attr('weather.iron_nerd_weather_station','temperature')|round %}
+            Toasty
           {% endif %}
-          {%- if states('sensor.todays_high_temp')|int > 63 %}
-            {%- if states('sensor.todays_high_temp')|int < 80 %}
-              Nice
-            {% elif states('sensor.todays_high_temp')|int > 90 %}
-              Hot
-            {% else %}
-              Toasty
-            {%- endif %}
-          {% elif states('sensor.todays_high_temp')|int < 64 %}
-            {%- if states('sensor.todays_high_temp')|int < 32 %}
-              Freezing
-            {% elif states('sensor.todays_high_temp')|int > 48 %}
-              Chilly
-            {% else %}
-              Cold
-            {%- endif %}
+        {% elif states('sensor.todays_high_temp')|int < 64 %}
+          {% if states('sensor.todays_high_temp')|int < 32 %}
+            Freezing
+          {% elif states('sensor.todays_high_temp')|int > 48 %}
+            Chilly
           {% else %}
-            Unknown
-          {%- endif %}
+            Cold
+          {% endif %}
+        {% else %}
+          Unknown
+        {% endif %}
     - name: "Clothing Forecast Detail"
       unique_id: 13065f50-5eef-4afd-830e-2a2c87f47496
       state: >-
         {% from 'formatting.jinja' import cleanup %}
-        {%- macro getReport() -%}
+        {% macro getReport() %}
+          {% set clothing = states('sensor.clothing_forecast') %}
+          {% set forecast = states('sensor.current_forecast') %}
+          {% set weather = states('weather.iron_nerd_weather_station') %}
+          {% set apparent = state_attr('weather.iron_nerd_weather_station','apparent_temperature') %}
           {% if is_state('binary_sensor.morning','on') %}
             Based on the forecasted high temperature,
-            {% if is_state('sensor.clothing_forecast', 'Freezing') %}
+            {% if clothing == "Freezing" %}
               You're gonna freeze your balls off out there. so I suggest wearing long pants and a heavy coat.
-            {% elif is_state('sensor.clothing_forecast','Cold') %}
+            {% elif clothing == "Cold" %}
               It's gonna be cold as balls today. so I suggest wearing long pants and a light jacket.
-            {% elif is_state('sensor.clothing_forecast', 'Chilly') %}
+            {% elif clothing == "Chilly" %}
               It's gonna be on the chilly side today. so I suggest wearing at least long pants.
-            {% elif is_state('sensor.clothing_forecast', 'Nice') %}
+            {% elif clothing == "Nice" %}
               It is going to be
               {{ [ 'pretty nice outside. ',
                 'a good day to be outside. ',
