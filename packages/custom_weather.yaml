@@ -1366,7 +1366,7 @@ template:
                 'downright tolerable outside. ',
               ] | random }}
               So I suggest wearing shorts.
-            {% elif is_state('sensor.clothing_forecast', 'Toasty') and is_state('sensor.current_forecast', 'sunny') %}
+            {% elif clothing == "Toasty" and forecast == "sunny" %}
               It is going to be
               {{ [ 'on the warm side ',
                 ' rather warm outside ',
@@ -1378,7 +1378,7 @@ template:
                 'preparing to bake under the sun.',
                 'getting ready to be cooked alive.',
               ] | random }}
-            {% elif is_state('sensor.clothing_forecast', 'Hot') and is_state('sensor.current_forecast', 'sunny') %}
+            {% elif clothing == "Hot" and forecast == "sunny" %}
               It is going to be
               {{ [ 'so hot you will sweat your balls off',
                 'hotter than the sun ',
@@ -1389,7 +1389,7 @@ template:
                 'preparing to bake under the sun.',
                 'getting ready to be cooked alive.',
               ] | random }}
-            {% elif is_state('sensor.clothing_forecast', 'Toasty') %}
+            {% elif clothing == "Toasty" %}
               It is going to be
               {{ [ 'on the warm side ',
                 ' rather warm outside ',
@@ -1397,7 +1397,7 @@ template:
                 ' a little warm ',
               ] | random }}
               today. So I suggest wearing shorts.
-            {% elif is_state('sensor.clothing_forecast', 'Hot') %}
+            {% elif clothing == "Hot" %}
               It is going to be
               {{ [ 'so hot you will sweat your balls off',
                 'hotter than the sun ',
@@ -1406,7 +1406,7 @@ template:
               ] | random }}
               today. So I suggest wearing shorts.
             {% else %}
-              It is going to be {{ states('sensor.clothing_forecast') }} today so I suggest wearing shorts.
+              It is going to be {{ clothing }} today so I suggest wearing shorts.
             {% endif %}
             {% if is_state('input_boolean.hot_day','on') %}
               Warning, today will be a very sweaty day, so please remember to stay hydrated!
@@ -1416,14 +1416,14 @@ template:
             {% endif %}
           {% else %}
             Based on the current temperature,
-            {% if is_state('sensor.clothing_forecast', 'Freezing') %}
+            {% if clothing == "Freezing" %}
               You're gonna freeze your balls off out there. so I suggest wearing long pants and a heavy coat if you are going out.
-            {% elif is_state('sensor.clothing_forecast','Cold') %}
+            {% elif clothing == "Cold" %}
               It is cold as balls outside. so I suggest wearing long pants and a light jacket.
-            {% elif is_state('sensor.clothing_forecast', 'Chilly') %}
+            {% elif clothing == "Chilly" %}
               It is chilly right now. so I suggest wearing at least long pants
               if you are going to venture outside.
-            {% elif is_state('sensor.clothing_forecast', 'Nice') %}
+            {% elif clothing == "Nice" %}
               It is
               {{ [ 'pretty nice outside. ',
                 'a good day to be outside. ',
@@ -1431,7 +1431,7 @@ template:
                 'downright tolerable outside. ',
               ] | random }}
               So I suggest wearing shorts.
-            {% elif is_state('sensor.clothing_forecast', 'Toasty') and is_state('weather.iron_nerd_weather_station','sunny') %}
+            {% elif clothing == "Toasty" and weather == "sunny" %}
               It is
               {{ [ 'on the warm side ',
                 ' rather warm ',
@@ -1443,7 +1443,7 @@ template:
                 'preparing to bake under the sun.',
                 'getting ready to be cooked alive.',
               ] | random }}
-            {% elif is_state('sensor.clothing_forecast', 'Hot') and is_state('weather.iron_nerd_weather_station','sunny') %}
+            {% elif clothing == "Hot" and weather == "sunny" %}
               It is
               {{ [ 'so hot you will sweat your balls off',
                 'hotter than the sun ',
@@ -1454,7 +1454,7 @@ template:
                 'preparing to bake under the sun.',
                 'getting ready to be cooked alive.',
               ] | random }}
-            {% elif is_state('sensor.clothing_forecast', 'Toasty') %}
+            {% elif clothing == "Toasty" %}
               It is
               {{ [ 'on the warm side ',
                 ' rather warm ',
@@ -1462,7 +1462,7 @@ template:
                 ' a little warm ',
               ] | random }}
               outside. So I suggest wearing shorts.
-            {% elif is_state('sensor.clothing_forecast', 'Hot') %}
+            {% elif clothing == "Hot" %}
               It is
               {{ [ 'so hot you will sweat your balls off',
                 'hotter than the sun ',
@@ -1471,13 +1471,13 @@ template:
               ] | random }}
               outside. So I suggest wearing shorts.
             {% else %}
-              It is {{ states('sensor.clothing_forecast') }} right now so I suggest wearing shorts.
+              It is {{ clothing }} right now so I suggest wearing shorts.
             {% endif %}
             {% if is_state('binary_sensor.heat_index_threshold','on') %}
-              Warning, the heat index is {{ states('sensor.stratton_ave_apparent_temperature') | float | round }} degrees right now, which is very high. So please make sure to stay hydrated!
+              Warning, the heat index is {{ apparent | int }} degrees right now, which is very high. So please make sure to stay hydrated!
             {% endif %}
             {% if is_state('binary_sensor.wind_chill_threshold','on') %}
-              Warning, it currently feels like {{ states('sensor.stratton_ave_apparent_temperature') | float | round }} degrees outside, so please make sure all exposed skin is covered to avoid frostbite!
+              Warning, it currently feels like {{ apparent | int }} degrees outside, so please make sure all exposed skin is covered to avoid frostbite!
             {% endif %}
           {% endif %}
           {% if states('sensor.thermal_comfort_simmerindex') in ['extremely_warm','danger_of_heatstroke','extreme_danger_of_heatstroke','circulatory_collapse_imminent'] %}
@@ -1497,8 +1497,8 @@ template:
           {% elif is_state('sensor.thermal_comfort_frostrisk','probable') %}
             "The possibility of frost exists currently. Be prepared. "
           {% endif %}
-        {%- endmacro -%}
-        {{- cleanup(getReport()) -}}
+        {% endmacro %}
+        {{ cleanup(getReport()) }}
 
     # current_inside_humidity:
     # - name: "Current Inside Humidity"
