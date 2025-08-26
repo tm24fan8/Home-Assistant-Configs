@@ -1,6 +1,6 @@
 blueprint:
   name: Sensor Light
-  description: "# \U0001F4A1 Sensor Light\n**Version: 8.1**\n\nYour lighting experience,
+  description: "# \U0001F4A1 Sensor Light\n**Version: 8.3**\n\nYour lighting experience,
     your way - take control and customize it to perfection! \U0001F4A1✨\n\n**If you
     like my blueprints, and would like to show your support or just say thank you?**
     [Click Here](https://www.paypal.com/donate/?hosted_button_id=WAZS3QSDTPGA8) \U0001F642\n\n<details>
@@ -27,17 +27,19 @@ blueprint:
     Light Sensing Options:**\n    - Set up an Ambient Light Sensor for activation
     in low-light conditions, customizable with specified LUX values.\n\n  - **Time-Based
     Options:**\n    - Specify precise start and end times along with weekday selections
-    to define when the automation should run.\n\n  - **Device Tracker Options:**\n
-    \   - Utilize \"Device Tracker\" to activate automation when home or within specified
-    zones, preventing unnecessary activations. This feature is particularly useful
-    to prevent unnecessary lighting activations when pets trigger sensors while no
-    one is home.\n\n  - **Night Lights Mode:**\n    - Enable \"Night Lights\" for
-    softer illumination during night time activities, automatically enabled based
-    on conditions.\n    - Opt to use \"Night Glow\". This feature activates a low-level
-    light when no trigger is detected, creating a subtle ambient glow perfect for
-    nighttime use.\n\n  - **HA Restart Safeguards:**\n    - Benefit from built-in
-    safeguards for Home Assistant restarts.\n\n  - **Blueprint Add-On Integration:**\n
-    \   - Sensor Light Add-On - Enhances media control automation. [Click Here](https://community.home-assistant.io/t/591824)
+    to define when the automation can run.\n\n  - **State Control Option:**\n    -
+    Allows the automation to run when the entity is in its selected activation state
+    (ON or OFF).\n\n  - **Device Tracker Options:**\n    - Utilize \"Device Tracker\"
+    to activate automation when home or within specified zones, preventing unnecessary
+    activations. This feature is particularly useful to prevent unnecessary lighting
+    activations when pets trigger sensors while no one is home.\n\n  - **Night Lights
+    Mode:**\n    - Enable \"Night Lights\" for softer illumination during night time
+    activities, automatically enabled based on conditions.\n    - Opt to use \"Night
+    Glow\". This feature activates a low-level light when no trigger is detected,
+    creating a subtle ambient glow perfect for nighttime use.\n\n  - **HA Restart
+    Safeguards:**\n    - Benefit from built-in safeguards for Home Assistant restarts.\n\n
+    \ - **Blueprint Add-On Integration:**\n    - Sensor Light Add-On - Enhances media
+    control automation. [Click Here](https://community.home-assistant.io/t/591824)
     to learn more.\n    - Bathroom Humidity Exhaust Fan - Keeps the lights ON when
     showering. [Click Here](https://community.home-assistant.io/t/509992) to learn
     more.\n</details>\n\nNeed help?\n- The Settings & Best Practice Guidelines: [Click
@@ -75,6 +77,7 @@ blueprint:
                 - binary_sensor
                 - schedule
               multiple: true
+              reorder: false
     lights_settings:
       name: Lights *
       icon: mdi:lightbulb-outline
@@ -118,6 +121,7 @@ blueprint:
               - domain:
                 - input_boolean
               multiple: false
+              reorder: false
         end_scenes:
           name: Scenes - Scripts To Turn OFF
           description: 'If you have selected a scene or a script to be turned ON above
@@ -134,6 +138,7 @@ blueprint:
               - domain:
                 - scene
                 - script
+              reorder: false
         time_delay:
           name: Time Delay
           description: 'The time delay determines how long the lights, switches, scenes,
@@ -171,8 +176,8 @@ blueprint:
                 value: use_brightness
               - label: Use Transition
                 value: use_transition
-              custom_value: false
               sort: false
+              custom_value: false
         light_brightness:
           name: Brightness
           description: 'The brightness setting for the lights when they are turned
@@ -237,9 +242,9 @@ blueprint:
                 value: use_rgbww_colour
               - label: Disable Colour Control
                 value: disable_colour_control
-              custom_value: false
-              sort: false
               multiple: false
+              sort: false
+              custom_value: false
         light_colour_temperature:
           name: Colour Temperature
           description: 'The colour temperature setting for the lights when they are
@@ -357,9 +362,9 @@ blueprint:
                 value: enable_time_controled_brightness_inv
               - label: 13 - Time Controlled - Colour Temp + Brightness
                 value: enable_time_controled_colour_brightness
-              custom_value: false
-              sort: false
               multiple: false
+              sort: false
+              custom_value: false
         dynamic_lighting_lux_sensor:
           name: Dynamic Lighting - Ambient Light Sensor
           description: '**Used in options 1, 2, 8 or 9** - Enter the specific ambient
@@ -375,6 +380,7 @@ blueprint:
                 device_class:
                 - illuminance
               multiple: false
+              reorder: false
         dynamic_lighting_max_lux:
           name: Dynamic Lighting - Max Lux Value
           description: '**Used in options 1, 2, 8 or 9** - Specify the maximum lux
@@ -459,6 +465,7 @@ blueprint:
               - domain:
                 - input_boolean
               multiple: false
+              reorder: false
         dynamic_lighting_max_colour_temp:
           name: Dynamic Lighting - Max Colour Temperature
           description: '**Used in options 3, 6, 7, 8, 9, 10 or 13** - Specify the
@@ -679,9 +686,9 @@ blueprint:
                 value: enable_state_control
               - label: Disable State Control Option
                 value: disable_state_control
-              custom_value: false
-              sort: false
               multiple: false
+              sort: false
+              custom_value: false
         dynamic_lighting_state_control_activation_state:
           name: Dynamic Lighting - State Control Activation State
           description: 'Select the state the entity must be in to activate dynamic
@@ -698,9 +705,9 @@ blueprint:
                 value: 'on'
               - label: OFF State
                 value: 'off'
-              custom_value: false
-              sort: false
               multiple: false
+              sort: false
+              custom_value: false
         dynamic_lighting_state_control_entity:
           name: Dynamic Lighting - State Control Entity
           description: 'If the state control option above is enabled, select the entity
@@ -734,8 +741,8 @@ blueprint:
               - label: 3 - Enable the Bypass - Keep the Lights Current State
                 value: bypass_enabled_stop
               multiple: true
-              custom_value: false
               sort: false
+              custom_value: false
         motion_bypass_lights_on:
           name: Bypass Switch - Turn the Lights ON
           description: 'Select the switches that will turn your lights ON, bypass
@@ -748,6 +755,7 @@ blueprint:
           selector:
             entity:
               multiple: true
+              reorder: false
         motion_bypass_lights_off:
           name: Bypass Switch - Turn the Lights OFF
           description: 'Select the switches that will turn your lights OFF, bypass
@@ -760,6 +768,7 @@ blueprint:
           selector:
             entity:
               multiple: true
+              reorder: false
         motion_bypass_lights_stop:
           name: Bypass Switch - Keep the Lights Current State
           description: 'Select the switches that will keep your lights current state,
@@ -772,6 +781,7 @@ blueprint:
           selector:
             entity:
               multiple: true
+              reorder: false
         bypass_time_delay:
           name: Bypass - Time Delay
           description: "This is only used in two specific bypass scenarios when your
@@ -807,8 +817,8 @@ blueprint:
                   State
                 value: bypass_auto_off_enabled_stop
               multiple: true
-              custom_value: false
               sort: false
+              custom_value: false
         bypass_auto_off_delay:
           name: Bypass Auto OFF - Time Delay
           description: 'Set the bypass auto OFF time delay. The time delay starts
@@ -848,9 +858,9 @@ blueprint:
                 value: sun_enabled
               - label: Disable the sun option
                 value: sun_disabled
-              custom_value: false
-              sort: false
               multiple: false
+              sort: false
+              custom_value: false
         sun_elevation:
           name: Sun Elevation Falling
           description: 'The sun elevation falling refers to the angle between the
@@ -906,9 +916,9 @@ blueprint:
                 value: ambient_enabled
               - label: Disable the ambient options
                 value: ambient_disabled
-              custom_value: false
-              sort: false
               multiple: false
+              sort: false
+              custom_value: false
         ambient_light_sensor:
           name: Ambient Light Sensor
           description: 'Select the ambient sensor to be used.
@@ -923,6 +933,7 @@ blueprint:
                 device_class:
                 - illuminance
               multiple: false
+              reorder: false
         ambient_light_options:
           name: Ambient Light Sensor - Site Conditions
           description: 'In some cases when your lights turn ON, your ambient light
@@ -942,9 +953,9 @@ blueprint:
                 value: ambient_light_option_enabled
               - label: NO - My Ambient Light Sensor is not affected by the Lights
                 value: ambient_light_option_disabled
-              custom_value: false
-              sort: false
               multiple: false
+              sort: false
+              custom_value: false
         ambient_light_value:
           name: Ambient Light - Low Lux Value
           description: 'Set the Ambient Light Low Lux Value. The light will turn ON
@@ -1001,9 +1012,9 @@ blueprint:
                 value: time_enabled
               - label: Disable the time options
                 value: time_disabled
-              custom_value: false
-              sort: false
               multiple: false
+              sort: false
+              custom_value: false
         after_time:
           name: Start Time
           description: 'Set the start time.
@@ -1054,8 +1065,57 @@ blueprint:
                 value: sat
               - label: Sunday
                 value: sun
-              custom_value: false
               sort: false
+              custom_value: false
+    state_control_settings:
+      name: State Control
+      icon: mdi:toggle-switch-outline
+      collapsed: true
+      input:
+        include_state_control:
+          name: Use The State Control Option (Optional)
+          description: 'This option is used to add a condition that only allows the
+            automation to run when the entity is in its selected activation state
+            below.
+
+            '
+          default: state_control_disabled
+          selector:
+            select:
+              options:
+              - label: Enable State Control Option
+                value: state_control_enabled
+              - label: Disable State Control Option
+                value: state_control_disabled
+              multiple: false
+              sort: false
+              custom_value: false
+        state_control_activation_state:
+          name: Activation State
+          description: 'Select the state (ON or OFF) the entity must be in so the
+            automation can run.
+
+            '
+          default: 'off'
+          selector:
+            select:
+              options:
+              - label: ON State
+                value: 'on'
+              - label: OFF State
+                value: 'off'
+              multiple: false
+              sort: false
+              custom_value: false
+        state_control_entity:
+          name: Control Entity
+          description: 'If State Control is enabled, select the entity that will allow
+            the automation to run based on the activation state selected above.
+
+            '
+          default: []
+          selector:
+            entity: {}
     device_tracker_settings:
       name: Device Tracker
       icon: mdi:account-multiple-check-outline
@@ -1083,9 +1143,9 @@ blueprint:
                 value: zone_people_enabled
               - label: Disable the device tracker options
                 value: device_tracker_disabled
-              custom_value: false
-              sort: false
               multiple: false
+              sort: false
+              custom_value: false
         zone:
           name: Device Tracker - Zone
           description: 'Choose the zone that will track your devices and/or people
@@ -1099,6 +1159,7 @@ blueprint:
               - domain:
                 - zone
               multiple: false
+              reorder: false
         people:
           name: Device Tracker - People
           description: 'Select the people you would like to track in the zone selected
@@ -1112,6 +1173,7 @@ blueprint:
               filter:
               - domain:
                 - person
+              reorder: false
     night_lights_trigger_settings:
       name: Night Lights Settings
       icon: mdi:weather-night
@@ -1137,9 +1199,9 @@ blueprint:
                 value: night_lights_enabled
               - label: Disable the night lights options
                 value: night_lights_disabled
-              custom_value: false
-              sort: false
               multiple: false
+              sort: false
+              custom_value: false
         night_lights_conditions:
           name: Night Lights Conditions (Required For Night Lights)
           description: 'Select any night light condition from the options provided
@@ -1161,8 +1223,8 @@ blueprint:
                 value: time_enabled
               - label: Enable sun elevation option
                 value: sun_enabled
-              custom_value: false
               sort: false
+              custom_value: false
         night_lights_entity_state:
           name: Night Lights - Entity State
           description: 'Select an entity that will trigger the activation of night
@@ -1179,6 +1241,7 @@ blueprint:
           selector:
             entity:
               multiple: true
+              reorder: false
         night_lights_after_time:
           name: Night Lights - Start Time
           description: 'Set the start time.
@@ -1270,6 +1333,7 @@ blueprint:
               - domain:
                 - input_boolean
               multiple: false
+              reorder: false
         night_time_delay:
           name: Night Lights - Time Delay
           description: 'The time delay determines how long the night lights will remain
@@ -1315,8 +1379,8 @@ blueprint:
                 value: if_lights_are_on_adjust_when_crossing_over
               - label: Yes - Manage OFF script when crossing over
                 value: manage_scripts_crossing_over
-              custom_value: false
               sort: false
+              custom_value: false
         night_light_brightness:
           name: Night Lights - Brightness
           description: 'The brightness setting of the lights when they are turned
@@ -1379,9 +1443,9 @@ blueprint:
                 value: use_rgbww_colour
               - label: Disable Colour Control
                 value: disable_colour_control
-              custom_value: false
-              sort: false
               multiple: false
+              sort: false
+              custom_value: false
         night_light_colour_temperature:
           name: Night Lights - Colour Temperature
           description: 'The colour temperature setting for the lights when they are
@@ -1460,9 +1524,9 @@ blueprint:
                 value: night_glow_enabled
               - label: Disable night glow
                 value: night_glow_disabled
-              custom_value: false
-              sort: false
               multiple: false
+              sort: false
+              custom_value: false
         night_glow_lights:
           name: Night Glow - Lights
           description: 'The lights, switches, scenes, and scripts to be used for a
@@ -1501,8 +1565,8 @@ blueprint:
                 value: use_brightness
               - label: Use transition
                 value: use_transition
-              custom_value: false
               sort: false
+              custom_value: false
         night_glow_light_brightness:
           name: Night Glow - Brightness
           description: 'The brightness setting of the lights when they are turned
@@ -1565,9 +1629,9 @@ blueprint:
                 value: use_rgbww_colour
               - label: Disable Colour Control
                 value: disable_colour_control
-              custom_value: false
-              sort: false
               multiple: false
+              sort: false
+              custom_value: false
         night_glow_light_colour_temperature:
           name: Night Glow - Colour Temperature
           description: 'The colour temperature setting for the lights when they are
@@ -1683,6 +1747,9 @@ variables:
   after_time: !input after_time
   before_time: !input before_time
   weekday_options: !input weekday_options
+  include_state_control: !input include_state_control
+  state_control_activation_state: !input state_control_activation_state
+  state_control_entity: !input state_control_entity
   include_device_tracker: !input include_device_tracker
   zone: !input zone
   people: !input people
@@ -1963,8 +2030,16 @@ triggers:
   id: t16
   entity_id: !input dynamic_lighting_state_control_entity
   from: !input dynamic_lighting_state_control_activation_state
-- trigger: homeassistant
+- trigger: state
   id: t17
+  entity_id: !input state_control_entity
+  to: !input state_control_activation_state
+- trigger: state
+  id: t18
+  entity_id: !input state_control_entity
+  from: !input state_control_activation_state
+- trigger: homeassistant
+  id: t19
   event: start
 condition:
 - condition: or
@@ -2288,6 +2363,40 @@ condition:
     conditions:
     - condition: trigger
       id: t17
+    - condition: state
+      entity_id: !input motion_trigger
+      state: 'on'
+      match: any
+    - condition: template
+      value_template: '{{ include_state_control == ''state_control_enabled'' }}'
+  - condition: and
+    conditions:
+    - condition: trigger
+      id: t18
+    - condition: template
+      value_template: '{{ include_state_control == ''state_control_enabled'' }}'
+    - condition: or
+      conditions:
+      - '{{ (expand(light_switch.entity_id) | selectattr(''state'', ''=='', ''on'')
+        | list | count > 0) }}'
+      - '{{ (include_night_lights == ''night_lights_enabled'') and (expand(night_lights.entity_id)
+        | selectattr(''state'', ''=='', ''on'') | list | count > 0) }}'
+      - '{{ (include_night_lights == ''night_lights_enabled'') and (include_night_glow
+        == ''night_glow_enabled'') and (expand(night_glow_lights.entity_id) | selectattr(''state'',
+        ''=='', ''on'') | list | count > 0) }}'
+      - condition: template
+        value_template: "{% if boolean_scenes_scripts != [] %}\n  {{ is_state(boolean_scenes_scripts,
+          'on') }}\n{% endif %}"
+      - condition: template
+        value_template: "{% if night_boolean_scenes_scripts != [] %}\n  {{ is_state(night_boolean_scenes_scripts,
+          'on') }}\n{% endif %}"
+      - condition: template
+        value_template: "{% if dynamic_lighting_boolean != [] %}\n  {{ is_state(dynamic_lighting_boolean,
+          'on') }}\n{% endif %}"
+  - condition: and
+    conditions:
+    - condition: trigger
+      id: t19
     - condition: or
       conditions:
       - '{{ (expand(light_switch.entity_id) | selectattr(''state'', ''=='', ''on'')
@@ -2306,7 +2415,7 @@ condition:
   - condition: and
     conditions:
     - condition: trigger
-      id: t17
+      id: t19
     - condition: state
       entity_id: !input motion_trigger
       match: any
@@ -2314,7 +2423,7 @@ condition:
   - condition: and
     conditions:
     - condition: trigger
-      id: t17
+      id: t19
     - '{{ (''bypass_auto_off_enabled_on'' in include_bypass_auto_off) or (''bypass_auto_off_enabled_off''
       in include_bypass_auto_off) or (''bypass_auto_off_enabled_stop'' in include_bypass_auto_off)
       }}'
@@ -2407,7 +2516,7 @@ condition:
     - t8_on
     - t8_off
     - t8_stop
-    - t17
+    - t19
 - condition: or
   conditions:
   - '{{ include_sun == ''sun_disabled'' }}'
@@ -2502,6 +2611,26 @@ condition:
     - t8_off
     - t8_stop
     - t11
+- condition: or
+  conditions:
+  - condition: template
+    value_template: '{{ include_state_control == ''state_control_disabled'' }}'
+  - condition: and
+    conditions:
+    - condition: template
+      value_template: '{{ include_state_control == ''state_control_enabled'' }}'
+    - condition: state
+      entity_id: !input state_control_entity
+      state: !input state_control_activation_state
+  - condition: trigger
+    id:
+    - t7_on
+    - t7_off
+    - t7_stop
+    - t8_on
+    - t8_off
+    - t8_stop
+    - t18
 - condition: or
   conditions:
   - '{{ include_device_tracker == ''device_tracker_disabled'' }}'
@@ -3318,6 +3447,15 @@ action:
                 - condition: time
                   after: !input before_time
                   before: !input after_time
+              - condition: and
+                conditions:
+                - condition: template
+                  value_template: '{{ include_state_control == ''state_control_enabled''
+                    }}'
+                - condition: template
+                  value_template: '{% set opposite = ''off'' if state_control_activation_state
+                    == ''on'' else ''on'' %} {{ is_state(state_control_entity, opposite)
+                    }}'
             sequence:
             - alias: Wait the number of minutes set in the by-pass time delay
               delay:
@@ -3591,13 +3729,14 @@ action:
                 entity_id: '{{ crossover_night_lights_light_on }}'
               data: '{{ night_light_data }}'
     - choose:
-      - alias: Sun, ambient & time above setting to turn off
+      - alias: Sun, ambient, time & state control above setting to turn off
         conditions:
         - condition: trigger
           id:
           - t9
           - t10
           - t11
+          - t18
         sequence:
         - choose:
           - alias: If transition is selected
@@ -3834,7 +3973,7 @@ action:
       - alias: Safe Guard when HA restarts
         conditions:
         - condition: trigger
-          id: t17
+          id: t19
         sequence:
         - choose:
           - alias: Check all by-pass are off and check conditions if enabled
@@ -5310,6 +5449,15 @@ action:
                 after: !input before_time
                 before: !input after_time
               - '{{ include_time == ''time_enabled'' }}'
+            - condition: and
+              conditions:
+              - condition: template
+                value_template: '{{ include_state_control == ''state_control_enabled''
+                  }}'
+              - condition: template
+                value_template: '{% set opposite = ''off'' if state_control_activation_state
+                  == ''on'' else ''on'' %} {{ is_state(state_control_entity, opposite)
+                  }}'
           sequence:
           - alias: Wait the number of minutes set in the by-pass time delay
             delay:
@@ -5663,13 +5811,14 @@ action:
                     data:
                       entity_id: !input dynamic_lighting_boolean
   - choose:
-    - alias: Sun, ambient & time above setting to turn off
+    - alias: Sun, ambient, time & state control above setting to turn off
       conditions:
       - condition: trigger
         id:
         - t9
         - t10
         - t11
+        - t18
       sequence:
       - choose:
         - alias: If transition is selected
@@ -5905,7 +6054,7 @@ action:
     - alias: Safe Guard when HA restarts
       conditions:
       - condition: trigger
-        id: t17
+        id: t19
       sequence:
       - choose:
         - alias: Check all by-pass are off and check conditions if enabled
@@ -6286,7 +6435,11 @@ action:
                     delay:
                       minutes: !input dynamic_lighting_heartbeat
                 - alias: If dynamic lighting brightness is in the dead zone
-                  conditions: '{{ in_dead_zone }}'
+                  conditions:
+                  - condition: template
+                    value_template: '{{ in_dead_zone }}'
+                  - condition: template
+                    value_template: '{{ repeat.index != 1 }}'
                   sequence:
                   - alias: Dynamic lighting heartbeat
                     delay:
@@ -6426,7 +6579,11 @@ action:
                     delay:
                       minutes: !input dynamic_lighting_heartbeat
                 - alias: If dynamic lighting brightness is in the dead zone
-                  conditions: '{{ in_dead_zone }}'
+                  conditions:
+                  - condition: template
+                    value_template: '{{ in_dead_zone }}'
+                  - condition: template
+                    value_template: '{{ repeat.index != 1 }}'
                   sequence:
                   - alias: Dynamic lighting heartbeat
                     delay:
@@ -7492,7 +7649,11 @@ action:
                         delay:
                           minutes: !input dynamic_lighting_heartbeat
                     - alias: If dynamic lighting brightness is in the dead zone
-                      conditions: '{{ in_dead_zone }}'
+                      conditions:
+                      - condition: template
+                        value_template: '{{ in_dead_zone }}'
+                      - condition: template
+                        value_template: '{{ repeat.index != 1 }}'
                       sequence:
                       - alias: Dynamic lighting heartbeat
                         delay:
@@ -7853,7 +8014,11 @@ action:
                         delay:
                           minutes: !input dynamic_lighting_heartbeat
                     - alias: If dynamic lighting brightness is in the dead zone
-                      conditions: '{{ in_dead_zone }}'
+                      conditions:
+                      - condition: template
+                        value_template: '{{ in_dead_zone }}'
+                      - condition: template
+                        value_template: '{{ repeat.index != 1 }}'
                       sequence:
                       - alias: Dynamic lighting heartbeat
                         delay:
