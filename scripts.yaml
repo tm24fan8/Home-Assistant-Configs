@@ -1718,6 +1718,9 @@ tony_morning_meds:
       tag: tony-morning-meds
     alias: Clear previous morning notification
     action: script.text_notify
+  - variables:
+      remindCount: '{{ states(''counter.tony_morning_meds_reminder_count'') }}'
+    alias: Set variable for reminder count
   - alias: Send notifications, using AI if internet is connected
     if:
     - condition: state
@@ -1734,7 +1737,8 @@ tony_morning_meds:
         metadata: {}
         data:
           prompt: Remind Tony to take his morning meds. Use a maximum of two lines.
-            Be snarky, because at this point he's been reminded multiple times.
+            Be snarky, because at this point he's been reminded {{ remindCount }}
+            times.
         response_variable: response
         alias: Generate snarky reminder
       else:
@@ -2025,6 +2029,9 @@ tony_afternoon_meds:
       tag: tony-afternoon-meds
     alias: Clear previous afternoon notification
     action: script.text_notify
+  - variables:
+      remindCount: '{{ states(''counter.tony_afternoon_meds_reminder_count'') }}'
+    alias: Set variable for reminder count
   - alias: Send notifications, using AI if internet is connected
     if:
     - condition: state
@@ -2041,7 +2048,8 @@ tony_afternoon_meds:
         metadata: {}
         data:
           prompt: Remind Tony to take his afternoon meds. Use a maximum of two lines.
-            Be snarky, because at this point he's been reminded multiple times.
+            Be snarky, because at this point he's been reminded {{ remindCount }}
+            times.
         response_variable: response
         alias: Generate snarky reminder
       else:
@@ -3076,13 +3084,17 @@ tina_morning_meds:
       tag: tina-morning-meds
     alias: Clear previous morning notification
     action: script.text_notify
+  - variables:
+      remindCount: '{{ states(''counter.tina_morning_meds_reminder_count'') }}'
+    alias: Set variable for reminder count
   - alias: Send notifications, using AI if internet is connected
     if:
     - condition: state
       entity_id: binary_sensor.internet
       state: 'on'
     then:
-    - if:
+    - alias: Generate reminder, be snarky if it's been several times
+      if:
       - condition: numeric_state
         entity_id: counter.tina_morning_meds_reminder_count
         above: 2
@@ -3091,7 +3103,8 @@ tina_morning_meds:
         metadata: {}
         data:
           prompt: Remind Tina to take her morning meds. Use a maximum of two lines.
-            Be snarky, because at this point she's been reminded multiple times.
+            Be snarky, because at this point she's been reminded {{ remindCount }}
+            times.
         response_variable: response
         alias: Generate snarky reminder
       else:
@@ -3101,7 +3114,6 @@ tina_morning_meds:
           prompt: Remind Tina to take her morning meds. Use a maximum of two lines.
         response_variable: response
         alias: Generate reminder
-      alias: Generate reminder, be snarky if it's been several times
     - delay:
         hours: 0
         minutes: 0
@@ -3157,13 +3169,17 @@ tina_night_meds:
       tag: tina-night-meds
     alias: Clear previous night notification
     action: script.text_notify
+  - variables:
+      remindCount: '{{ states(''counter.tina_night_meds_reminder_count'') }}'
+    alias: Set variable for reminder count
   - alias: Send notifications, using AI if internet is connected
     if:
     - condition: state
       entity_id: binary_sensor.internet
       state: 'on'
     then:
-    - if:
+    - alias: Generate reminder, be snarky if it's been several times
+      if:
       - condition: numeric_state
         entity_id: counter.tina_night_meds_reminder_count
         above: 2
@@ -3172,7 +3188,8 @@ tina_night_meds:
         metadata: {}
         data:
           prompt: Remind Tina to take her night meds. Use a maximum of two lines.
-            Be snarky, because at this point she's been reminded multiple times.
+            Be snarky, because at this point she's been reminded {{ remindCount }}
+            times.
         response_variable: response
         alias: Generate snarky reminder
       else:
@@ -3182,7 +3199,6 @@ tina_night_meds:
           prompt: Remind Tina to take her night meds. Use a maximum of two lines.
         response_variable: response
         alias: Generate reminder
-      alias: Generate reminder, be snarky if it's been several times
     - delay:
         hours: 0
         minutes: 0
