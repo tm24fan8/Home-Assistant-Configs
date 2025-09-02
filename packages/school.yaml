@@ -190,51 +190,51 @@ template:
           {% set dow = now().strftime('%A') %}
           {% if week == 'First Menu' %}
             {% if dow == 'Monday' %}
-              Popcorn chicken, mashed potatoes, corn, apples, corn bread, and milk.
+              Chicken tenders, au gratin potatoes, corn, mixed fruit, cornbread, and milk.
             {% elif dow == 'Tuesday' %}
-              Beef taco or taco salad, refried beans, spanish rice, peaches, and milk.
+              Beef or chicken, taco or salad, refried beans, rice, apple, and milk.
             {% elif dow == 'Wednesday' %}
-              Pulled pork, steamed broccoli, tomatoes, mixed fruit, and milk.
+              Hot dog, french fries, celery, peaches, and milk.
             {% elif dow == 'Thursday' %}
-              Beef Stroganoff, green beans, carrots, fresh fruit, bread, and milk.
+              Mac and cheese, Cheez-Its, side salad, tomatoes, pears, and milk.
             {% elif dow == 'Friday' %}
-              Optionally, Papa Johns Pizza. Otherwise, hamburger, spinach salad, oven potatoes, applesauce, and milk.
+              Corndog, steamed broccoli, carrots, applesauce, and milk.
             {% endif %}
           {% elif week == 'Second Menu' %}
             {% if dow == 'Monday' %}
-              Pizza, spinach salad, tomatoes, fruit, and milk.
+              Popcorn chicken, mashed potatoes, corn, grapes, cornbread, and milk.
             {% elif dow == 'Tuesday' %}
-              Lasagna, garlic bread, steamed cauliflower, celery, apple crisp, and milk.
+              BBQ pork, baked beans, cucumbers, mixed fruit, and milk.
             {% elif dow == 'Wednesday' %}
-              Chicken patty, oven potatoes, broccoli, pears, and milk.
+              Bosco sticks, french fries, tomatoes, banana, and milk.
             {% elif dow == 'Thursday' %}
-              Turkey and noodles, mashed potatoes, green beans, peaches, breadstick, and milk.
-            {% elif down == 'Friday' %}
-              Optionally, Papa Johns Pizza. Otherwise, hot dog with chili sauce, carrots, baked beans, mixed fruit, and milk.
+              Teriyaki beef and broccoli ramen, stir fry, egg roll, strawberry cup, and milk.
+            {% elif dow == 'Friday' %}
+              Hamburger, fries, carrots, applesauce, and milk.
             {% endif %}
           {% elif week == 'Third Menu' %}
             {% if dow == 'Monday' %}
-              Popcorn chicken, au gratin potatoes, corn, mixed fruit, corn bread, milk.
+              Nachoes, carrots, apple, and milk.
             {% elif dow == 'Tuesday' %}
-              Beef taco or taco salad, refried beans, spanish rice, peaches, and milk.
+              Chicken patty, au gratin potatoes, cauliflower, peaches, and milk.
             {% elif dow == 'Wednesday' %}
-              Hamburger, oven potatoes, celery, applesauce, and milk.
+              Pizza Crunchers, side salad, steamed broccoli, mixed fruit, and milk.
             {% elif dow == 'Thursday' %}
-              Mac and cheese, steamed broccoli, tomatoes, pears, bread, and milk.
+              Chicken teriyaki bowl, black beans, corn, apple crisp, egg roll, and milk.
             {% elif dow == 'Friday' %}
-              Optionally, Papa Johns Pizza. Otherwise, sloppy joe, carrots, spinach salad, fruit, and milk.
+              Hot dog, french fries, cherry tomatoes, strawberry cups, and milk.
             {% endif %}
           {% elif week == 'Fourth Menu' %}
             {% if dow == 'Monday' %}
-              Toasted cheese, tomato soup, mixed vegetables, fresh fruit, treat, and milk.
+              French toast or egg omelet, sausage, tomatoes, hash browns, oranges, and milk.
             {% elif dow == 'Tuesday' %}
-              Omelet or french toast, sausage, hash browns, tomatoes, orange, and milk.
+              Orange chicken with vegetable rice, egg roll, fortune cookie, apple crisp, and milk.
             {% elif dow == 'Wednesday' %}
-              Bosco sticks with pizza sauce, carrots, oven potatoes, peach crisp, and milk.
+              Hamburger, fries, steamed carrots, banana, and milk.
             {% elif dow == 'Thursday' %}
-              Spaghetti, broccoli, green beans, fresh fruit, breadstick, and milk.
+              Chicken and noodles, mashed potatoes, green beans, peach cups, breadstick, and milk.
             {% elif dow == 'Friday' %}
-              Optionally, Papa Johns Pizza. Otherwise, hot dog, baked beans, cauliflower, applesauce, and milk.
+              Mozzarella sticks, marinara, side salad, broccoli, mixed fruit, and milk.
             {% endif %}
           {% else %}
             No menu for the current day.
