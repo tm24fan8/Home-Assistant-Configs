@@ -324,6 +324,13 @@ input_number:
     step: 1
     unit_of_measurement: °F
     icon: mdi:thermometer
+  master_bedroom_mode_switch_threshold:
+    name: Master Bedroom Mode Switch Threshold
+    min: 60
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
   emma_bedroom_daytime_temp:
     name: Emma Bedroom Daytime Temp
     min: 65
@@ -370,6 +377,13 @@ input_number:
     name: Emma Bedroom Auto Cooling Threshold
     min: 70
     max: 90
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
+  emma_bedroom_mode_switch_threshold:
+    name: Emma Bedroom Mode Switch Threshold
+    min: 60
+    max: 80
     step: 1
     unit_of_measurement: °F
     icon: mdi:thermometer
