@@ -4646,39 +4646,41 @@
 - id: '1710611198911'
   alias: Kallen Meds Handler
   description: Handles the scheduling of medication reminders for Kallen
-  trigger:
-  - platform: time_pattern
-    minutes: /30
+  triggers:
+  - minutes: /30
     id: trigger30
     alias: Every 30 minutes
-  - platform: time
-    at: input_datetime.kallen_morning_meds_notify
+    trigger: time_pattern
+  - at: input_datetime.kallen_morning_meds_notify
     id: morning-notify
     alias: Morning Notify
-  - platform: time
-    at: input_datetime.kallen_night_meds_notify
+    trigger: time
+  - at: input_datetime.kallen_night_meds_notify
     id: night-notify
     alias: Night Notify
-  - platform: state
-    entity_id:
+    trigger: time
+    enabled: false
+  - entity_id:
     - input_boolean.kallen_morning_meds_taken
     to: 'on'
     id: boolean-morning
     alias: Morning Taken
     from: 'off'
-  - platform: state
-    entity_id:
+    trigger: state
+  - entity_id:
     - input_boolean.kallen_night_meds_taken
     id: boolean-night
     alias: Night Taken
     from: 'off'
     to: 'on'
-  condition:
+    trigger: state
+    enabled: false
+  conditions:
   - condition: state
     entity_id: input_boolean.kallen_overnight
     state: 'off'
     alias: Kallen is not staying the night elsewhere
-  action:
+  actions:
   - alias: Routing
     choose:
     - conditions:
@@ -4693,10 +4695,10 @@
           state: 'on'
           alias: Morning meds reminder needed
         then:
-        - service: script.kallen_morning_meds
-          metadata: {}
+        - metadata: {}
           data: {}
           alias: Run morning meds notification script
+          action: script.kallen_morning_meds
       - alias: Check night reminder switch
         if:
         - condition: state
@@ -4704,10 +4706,10 @@
           state: 'on'
           alias: Night meds reminder needed
         then:
-        - service: script.kallen_night_meds
-          metadata: {}
+        - metadata: {}
           data: {}
           alias: Run night meds notification script
+          action: script.kallen_night_meds
       alias: Every 30 minutes
     - conditions:
       - condition: and
@@ -4719,16 +4721,16 @@
           state: 'off'
         alias: Morning Notify
       sequence:
-      - service: input_boolean.turn_on
-        metadata: {}
+      - metadata: {}
         data: {}
         target:
           entity_id: input_boolean.kallen_morning_meds_reminder
         alias: Activate morning reminders
-      - service: script.kallen_morning_meds
-        metadata: {}
+        action: input_boolean.turn_on
+      - metadata: {}
         data: {}
         alias: Run morning meds notification script
+        action: script.kallen_morning_meds
     - conditions:
       - condition: and
         conditions:
@@ -4741,22 +4743,21 @@
         alias: Night Notify
       sequence:
       - alias: Activate night reminders
-        service: input_boolean.turn_on
         metadata: {}
         data: {}
         target:
           entity_id: input_boolean.kallen_night_meds_reminder
-      - service: script.kallen_night_meds
-        metadata: {}
+        action: input_boolean.turn_on
+      - metadata: {}
         data: {}
         alias: Run night meds notification script
+        action: script.kallen_night_meds
     - conditions:
       - condition: trigger
         id: boolean-morning
         alias: Morning Taken
       sequence:
-      - service: input_datetime.set_datetime
-        target:
+      - target:
           entity_id: input_datetime.kallen_morning_meds_taken
         data:
           datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0)
@@ -4764,27 +4765,27 @@
 
             '
         alias: Set time morning meds were taken
-      - service: input_boolean.turn_off
-        metadata: {}
+        action: input_datetime.set_datetime
+      - metadata: {}
         data: {}
         target:
           entity_id: input_boolean.kallen_morning_meds_reminder
         alias: Deactivate morning reminders
-      - service: script.text_notify
-        metadata: {}
+        action: input_boolean.turn_off
+      - metadata: {}
         data:
           type: alert
           who: kallen
           message: clear_notification
           tag: kallen-left-meds
         alias: Clear kallen-left-meds notification tag
+        action: script.text_notify
     - conditions:
       - condition: trigger
         id: boolean-night
         alias: Night Taken
       sequence:
-      - service: input_datetime.set_datetime
-        target:
+      - target:
           entity_id: input_datetime.kallen_night_meds_taken
         data:
           datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0)
@@ -4792,20 +4793,21 @@
 
             '
         alias: Set time night meds were taken
+        action: input_datetime.set_datetime
       - alias: Deactivate night reminders
-        service: input_boolean.turn_off
         metadata: {}
         data: {}
         target:
           entity_id: input_boolean.kallen_night_meds_reminder
-      - service: script.text_notify
-        metadata: {}
+        action: input_boolean.turn_off
+      - metadata: {}
         data:
           type: alert
           who: kallen
           message: clear_notification
           tag: kallen-left-meds
         alias: Clear kallen-left-meds notification tag
+        action: script.text_notify
   mode: parallel
   max: 12
 - id: '1711657679853'
