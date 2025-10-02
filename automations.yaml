@@ -2967,49 +2967,99 @@
 - id: '1696539209438'
   alias: Tony Custom Meds Handler
   description: ''
-  trigger:
-  - platform: time
-    at: input_datetime.tony_custom_meds_notify_p1
+  triggers:
+  - minutes: /30
+    id: trigger30
+    alias: Every 30 minutes
+    trigger: time_pattern
+  - at: input_datetime.tony_custom_meds_notify_p1
     alias: Notify 1
     id: p1-notify
-  - platform: state
-    entity_id:
+    trigger: time
+  - alias: Notify 2
+    at: input_datetime.tony_custom_meds_notify_p2
+    id: p2-notify
+    trigger: time
+  - entity_id:
     - input_boolean.tony_custom_meds_taken_p1
     from: 'off'
     to: 'on'
     id: p1-taken
     alias: Taken 1
-  condition: []
-  action:
-  - variables:
-      trigger: '{{ trigger.id }}'
-      num: '{{ trigger[:2] }}'
-      reason: '{{ trigger.split(''-'')[1] }}'
-  - if:
-    - condition: template
-      value_template: '{% set active = ''input_boolean.tony_custom_meds_tracker_''
-        + num %}
-
-        {{ is_state(active,''on'') }}'
-      alias: Check tracker
+    trigger: state
+  - alias: Taken 2
+    entity_id:
+    - input_datetime.tony_custom_meds_taken_p2
+    from: 'off'
+    to: 'on'
+    id: p2-taken
+    trigger: state
+  conditions:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_boolean.tony_custom_meds_tracker_p1
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.tony_custom_meds_tracker_p2
+      state: 'on'
+    alias: Any custom med trackers are on
+  actions:
+  - alias: Routing
+    if:
+    - condition: trigger
+      id:
+      - trigger30
     then:
-    - if:
-      - condition: template
-        value_template: '{{ reason == ''notify'' }}'
-        alias: Is this a notification
+    - variables:
+        trigger: '{{ trigger.id }}'
+        num: all
+        reason: notify
+      alias: Override variables to indicate this is an interval notify request
+    - alias: For each reminder entity
+      repeat:
+        for_each: '{{ states.input_boolean | selectattr(''entity_id'',''in'',label_entities(''Tony
+          Custom Meds'')) | selectattr(''entity_id'',''search'',''reminder'') | map(attribute=''entity_id'')
+          | list }}'
+        sequence:
+        - alias: Run custom meds script if tracker is active
+          if:
+          - alias: Check tracker
+            condition: template
+            value_template: '{{ is_state(repeat.item,''on'') }}'
+          then:
+          - data:
+              num: '{{ num }}'
+              reason: '{{ reason }}'
+            alias: Run custom meds script
+            action: script.tony_custom_meds
+    else:
+    - variables:
+        trigger: '{{ trigger.id }}'
+        num: '{{ trigger[:2] }}'
+        reason: '{{ trigger.split(''-'')[1] }}'
+    - alias: Run custom meds script if tracker is active
+      if:
+      - alias: Check tracker
+        condition: template
+        value_template: '{{ is_state(repeat.item,''on'') }}'
       then:
-      - service: input_boolean.turn_off
-        data: {}
-        target:
-          entity_id: '{{ ''input_boolean.tony_custom_meds_taken_'' + num }}'
-        alias: Turn off "taken" boolean
-      alias: Turn off "taken" boolean if this is a notification
-    - service: script.tony_custom_meds
-      data:
-        num: '{{ num }}'
-        reason: '{{ reason }}'
-      alias: Run custom meds script
-    alias: Run custom meds script if tracker is active
+      - if:
+        - condition: template
+          value_template: '{{ reason == ''notify'' }}'
+          alias: Is this a notification
+        then:
+        - data: {}
+          target:
+            entity_id: '{{ ''input_boolean.tony_custom_meds_taken_'' + num }}'
+          alias: Turn off "taken" boolean
+          action: input_boolean.turn_off
+        alias: Turn off "taken" boolean if this is a notification
+      - data:
+          num: '{{ num }}'
+          reason: '{{ reason }}'
+        alias: Run custom meds script
+        action: script.tony_custom_meds
   mode: parallel
   max: 10
 - id: '1696556688808'
