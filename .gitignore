@@ -68,6 +68,7 @@
 **jsconfig*
 .markdownlint.json
 **test.jinja
+**.ha_run.lock
 
 # exceptions
 !/www/bubble/
