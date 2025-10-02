@@ -25,11 +25,17 @@ input_boolean:
   tony_ibuprofen_active:
     name: Tony Ibuprofen Active
     icon: mdi:medication
+  tony_ibuprofen_reminder:
+    name: Tony Ibuprofen Reminder
+    icon: mdi:medication
   tony_ibuprofen_taken:
     name: Tony Ibuprofen Taken
     icon: mdi:medication
   tony_tylenol_active:
     name: Tony Tylenol Active
+    icon: mdi:medication
+  tony_tylenol_reminder:
+    name: Tony Tylenol Reminder
     icon: mdi:medication
   tony_tylenol_taken:
     name: Tony Tylenol Taken
@@ -37,11 +43,17 @@ input_boolean:
   tony_custom_meds_tracker_p1:
     name: Tony Custom Meds Tracker P1
     icon: mdi:medication
+  tony_custom_meds_reminder_p1:
+    name: Tony Custom Meds Reminder P1
+    icon: mdi:medication
   tony_custom_meds_taken_p1:
     name: Tony Custom Meds Taken P1
     icon: mdi:medication
   tony_custom_meds_tracker_p2:
     name: Tony Custom Meds Tracker P2
+    icon: mdi:medication
+  tony_custom_meds_reminder_p2:
+    name: Tony Custom Meds Reminder P2
     icon: mdi:medication
   tony_custom_meds_taken_p2:
     name: Tony Custom Meds Taken P2
