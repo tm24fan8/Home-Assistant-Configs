@@ -268,7 +268,7 @@ script:
               - light.living_room_overhead
         - service: input_text.set_value
           target:
-            entity_id: input_text.living_room_studio_selected_scene
+            entity_id: input_text.living_room_selected_scene
           data:
             value: Alert
       # Define variable for restoration of the current scene if the backup is not needed
