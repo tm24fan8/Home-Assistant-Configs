@@ -1742,6 +1742,12 @@ tony_morning_meds:
             }}.
           task_name: Tony Morning Medication Reminder Snarky
           entity_id: ai_task.google_ai_task
+          structure:
+            notification_text:
+              description: The text to send in the notification to Tony's phone
+              required: true
+              selector:
+                text:
         response_variable: response
       else:
       - alias: Generate reminder
@@ -1752,6 +1758,12 @@ tony_morning_meds:
             lines.
           task_name: Tony Morning Medication Reminder
           entity_id: ai_task.google_ai_task
+          structure:
+            notification_text:
+              description: The text to send in the notification to Tony's phone
+              required: true
+              selector:
+                text:
         response_variable: response
     - delay:
         hours: 0
@@ -1765,7 +1777,7 @@ tony_morning_meds:
           who: tony
           type: alert
           title: Morning Meds
-          message: '{{ response.data }}'
+          message: '{{ response.data.notification_text }}'
           tag: tony-morning-meds
           actions:
           - action: TONY_MORNING_MEDS_TAKEN
@@ -1791,7 +1803,7 @@ tony_morning_meds:
           data:
             who: common_areas
             type: alert
-            message: '{{ response.data }}'
+            message: '{{ response.data.notification_text }}'
           action: script.speech_engine
     else:
     - delay:
@@ -2058,6 +2070,12 @@ tony_afternoon_meds:
             }}.
           task_name: Tony Afternoon Medication Reminder Snarky
           entity_id: ai_task.google_ai_task
+          structure:
+            notification_text:
+              description: The text to send in the notification to Tony's phone
+              required: true
+              selector:
+                text:
         response_variable: response
       else:
       - alias: Generate reminder
@@ -2068,6 +2086,12 @@ tony_afternoon_meds:
             lines.
           task_name: Tony Afternoon Medication Reminder
           entity_id: ai_task.google_ai_task
+          structure:
+            notification_text:
+              description: The text to send in the notification to Tony's phone
+              required: true
+              selector:
+                text:
         response_variable: response
     - delay:
         hours: 0
@@ -2081,7 +2105,7 @@ tony_afternoon_meds:
           who: tony
           type: alert
           title: Afternoon Meds
-          message: '{{ response.data }}'
+          message: '{{ response.data.notification_text }}'
           tag: tony-afternoon-meds
           actions:
           - action: TONY_AFTERNOON_MEDS_TAKEN
@@ -2107,7 +2131,7 @@ tony_afternoon_meds:
           data:
             who: common_areas
             type: alert
-            message: '{{ response.data }}'
+            message: '{{ response.data.notification_text }}'
           action: script.speech_engine
     else:
     - delay:
@@ -3118,6 +3142,12 @@ tina_morning_meds:
             }}.
           task_name: Tina Morning Medication Reminder Snarky
           entity_id: ai_task.google_ai_task
+          structure:
+            notification_text:
+              description: The text to send in the notification to Tina's phone
+              required: true
+              selector:
+                text:
         response_variable: response
       else:
       - alias: Generate reminder
@@ -3128,6 +3158,12 @@ tina_morning_meds:
             lines.
           task_name: Tina Morning Medication Reminder
           entity_id: ai_task.google_ai_task
+          structure:
+            notification_text:
+              description: The text to send in the notification to Tina's phone
+              required: true
+              selector:
+                text:
         response_variable: response
     - delay:
         hours: 0
@@ -3139,7 +3175,7 @@ tina_morning_meds:
         who: tina
         type: alert
         title: Morning Meds
-        message: '{{ response.data }}'
+        message: '{{ response.data.notification_text }}'
         tag: tina-morning-meds
         actions:
         - action: TINA_MORNING_MEDS_TAKEN
@@ -3208,6 +3244,12 @@ tina_night_meds:
             }}.
           task_name: Tina Night Medication Reminder Snarky
           entity_id: ai_task.google_ai_task
+          structure:
+            notification_text:
+              description: The text to send in the notification to Tina's phone
+              required: true
+              selector:
+                text:
         response_variable: response
       else:
       - alias: Generate reminder
@@ -3217,6 +3259,12 @@ tina_night_meds:
           instructions: Remind Tina to take her night meds. Use a maximum of two lines.
           task_name: Tina Night Medication Reminder
           entity_id: ai_task.google_ai_task
+          structure:
+            notification_text:
+              description: The text to send in the notification to Tina's phone
+              required: true
+              selector:
+                text:
         response_variable: response
     - delay:
         hours: 0
@@ -3228,7 +3276,7 @@ tina_night_meds:
         who: tina
         type: alert
         title: Night Meds
-        message: '{{ response.data }}'
+        message: '{{ response.data.notification_text }}'
         tag: tina-night-meds
         actions:
         - action: TINA_NIGHT_MEDS_TAKEN
