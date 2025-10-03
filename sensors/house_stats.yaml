@@ -464,3 +464,51 @@
             map(attribute='attributes.friendly_name') |
             list %}
         {{ uptimekuma | join(', ') }}
+  - name: Media Server Viewer Health
+    unique_id: 51154ade-255e-4dcd-9b89-66910fcc1331
+    unit_of_measurement: '%'
+    icon: mdi:movie
+    state: >
+      {% set total = states.binary_sensor | 
+          selectattr('entity_id','in',label_entities('media_server')) |
+          selectattr('entity_id','in',label_entities('viewer')) |
+          list | count | int %}
+      {% set up = states.binary_sensor | 
+          selectattr('entity_id','in',label_entities('media_server')) |
+          selectattr('entity_id','in',label_entities('viewer')) |
+          selectattr('state','eq','on') |
+          list | count | int %}
+      {{ ((up / total) * 100) | round(0) }}
+    attributes:
+      services_down: >
+        {% set down = states.binary_sensor | 
+            selectattr('entity_id','in',label_entities('media_server')) |
+            selectattr('entity_id','in',label_entities('viewer')) |
+            selectattr('state','eq','off') |
+            map(attribute='attributes.friendly_name') |
+            list %}
+        {{ down | join(', ') }}
+  - name: Media Server Downloaders Health
+    unique_id: f27867fe-700f-45bc-9e6b-8b1ee74cb724
+    unit_of_measurement: '%'
+    icon: mdi:tray-arrow-down
+    state: >
+      {% set total = states.binary_sensor | 
+          selectattr('entity_id','in',label_entities('media_server')) |
+          selectattr('entity_id','in',label_entities('downloader')) |
+          list | count | int %}
+      {% set up = states.binary_sensor | 
+          selectattr('entity_id','in',label_entities('media_server')) |
+          selectattr('entity_id','in',label_entities('downloader')) |
+          selectattr('state','eq','on') |
+          list | count | int %}
+      {{ ((up / total) * 100) | round(0) }}
+    attributes:
+      services_down: >
+        {% set down = states.binary_sensor | 
+            selectattr('entity_id','in',label_entities('media_server')) |
+            selectattr('entity_id','in',label_entities('downloader')) |
+            selectattr('state','eq','off') |
+            map(attribute='attributes.friendly_name') |
+            list %}
+        {{ down | join(', ') }}
