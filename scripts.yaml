@@ -1733,21 +1733,26 @@ tony_morning_meds:
         entity_id: counter.tony_morning_meds_reminder_count
         above: 2
       then:
-      - action: google_generative_ai_conversation.generate_content
+      - alias: Generate snarky reminder
+        action: ai_task.generate_data
         metadata: {}
         data:
-          prompt: Remind Tony to take his morning meds. Use a maximum of two lines.
-            Be snarky, because at this point he's been reminded {{ remindCount }}
-            times.
+          instructions: Remind Tony to take his morning meds. Use a maximum of two
+            lines. Be snarky, because at this point this is reminder number {{ remindCount
+            }}.
+          task_name: Tony Morning Medication Reminder Snarky
+          entity_id: ai_task.google_ai_task
         response_variable: response
-        alias: Generate snarky reminder
       else:
-      - action: google_generative_ai_conversation.generate_content
+      - alias: Generate reminder
+        action: ai_task.generate_data
         metadata: {}
         data:
-          prompt: Remind Tony to take his morning meds. Use a maximum of two lines.
+          instructions: Remind Tony to take his morning meds. Use a maximum of two
+            lines.
+          task_name: Tony Morning Medication Reminder
+          entity_id: ai_task.google_ai_task
         response_variable: response
-        alias: Generate reminder
     - delay:
         hours: 0
         minutes: 0
@@ -1760,7 +1765,7 @@ tony_morning_meds:
           who: tony
           type: alert
           title: Morning Meds
-          message: '{{ response.text }}'
+          message: '{{ response.data }}'
           tag: tony-morning-meds
           actions:
           - action: TONY_MORNING_MEDS_TAKEN
@@ -1782,11 +1787,11 @@ tony_morning_meds:
             state: home
             alias: If Tony is home
         then:
-        - data:
+        - alias: Send TTS notification
+          data:
             who: common_areas
             type: alert
-            message: '{{ response.text }}'
-          alias: Send TTS notification
+            message: '{{ response.data }}'
           action: script.speech_engine
     else:
     - delay:
@@ -2044,21 +2049,26 @@ tony_afternoon_meds:
         entity_id: counter.tony_afternoon_meds_reminder_count
         above: 2
       then:
-      - action: google_generative_ai_conversation.generate_content
+      - alias: Generate snarky reminder
+        action: ai_task.generate_data
         metadata: {}
         data:
-          prompt: Remind Tony to take his afternoon meds. Use a maximum of two lines.
-            Be snarky, because at this point he's been reminded {{ remindCount }}
-            times.
+          instructions: Remind Tony to take his afternoon meds. Use a maximum of two
+            lines. Be snarky, because at this point this is reminder number {{ remindCount
+            }}.
+          task_name: Tony Afternoon Medication Reminder Snarky
+          entity_id: ai_task.google_ai_task
         response_variable: response
-        alias: Generate snarky reminder
       else:
-      - action: google_generative_ai_conversation.generate_content
+      - alias: Generate reminder
+        action: ai_task.generate_data
         metadata: {}
         data:
-          prompt: Remind Tony to take his afternoon meds. Use a maximum of two lines.
+          instructions: Remind Tony to take his afternoon meds. Use a maximum of two
+            lines.
+          task_name: Tony Afternoon Medication Reminder
+          entity_id: ai_task.google_ai_task
         response_variable: response
-        alias: Generate reminder
     - delay:
         hours: 0
         minutes: 0
@@ -2071,7 +2081,7 @@ tony_afternoon_meds:
           who: tony
           type: alert
           title: Afternoon Meds
-          message: '{{ response.text }}'
+          message: '{{ response.data }}'
           tag: tony-afternoon-meds
           actions:
           - action: TONY_AFTERNOON_MEDS_TAKEN
@@ -2093,11 +2103,11 @@ tony_afternoon_meds:
             state: home
             alias: If Tony is home
         then:
-        - data:
+        - alias: Send TTS notification
+          data:
             who: common_areas
             type: alert
-            message: '{{ response.text }}'
-          alias: Send TTS notification
+            message: '{{ response.data }}'
           action: script.speech_engine
     else:
     - delay:
@@ -3099,21 +3109,26 @@ tina_morning_meds:
         entity_id: counter.tina_morning_meds_reminder_count
         above: 2
       then:
-      - action: google_generative_ai_conversation.generate_content
+      - alias: Generate snarky reminder
+        action: ai_task.generate_data
         metadata: {}
         data:
-          prompt: Remind Tina to take her morning meds. Use a maximum of two lines.
-            Be snarky, because at this point she's been reminded {{ remindCount }}
-            times.
+          instructions: Remind Tina to take her morning meds. Use a maximum of two
+            lines. Be snarky, because at this point this is reminder number {{ remindCount
+            }}.
+          task_name: Tina Morning Medication Reminder Snarky
+          entity_id: ai_task.google_ai_task
         response_variable: response
-        alias: Generate snarky reminder
       else:
-      - action: google_generative_ai_conversation.generate_content
+      - alias: Generate reminder
+        action: ai_task.generate_data
         metadata: {}
         data:
-          prompt: Remind Tina to take her morning meds. Use a maximum of two lines.
+          instructions: Remind Tina to take her morning meds. Use a maximum of two
+            lines.
+          task_name: Tina Morning Medication Reminder
+          entity_id: ai_task.google_ai_task
         response_variable: response
-        alias: Generate reminder
     - delay:
         hours: 0
         minutes: 0
@@ -3124,7 +3139,7 @@ tina_morning_meds:
         who: tina
         type: alert
         title: Morning Meds
-        message: '{{ response.text }}'
+        message: '{{ response.data }}'
         tag: tina-morning-meds
         actions:
         - action: TINA_MORNING_MEDS_TAKEN
@@ -3184,21 +3199,25 @@ tina_night_meds:
         entity_id: counter.tina_night_meds_reminder_count
         above: 2
       then:
-      - action: google_generative_ai_conversation.generate_content
+      - alias: Generate snarky reminder
+        action: ai_task.generate_data
         metadata: {}
         data:
-          prompt: Remind Tina to take her night meds. Use a maximum of two lines.
-            Be snarky, because at this point she's been reminded {{ remindCount }}
-            times.
+          instructions: Remind Tina to take her night meds. Use a maximum of two lines.
+            Be snarky, because at this point this is reminder number {{ remindCount
+            }}.
+          task_name: Tina Night Medication Reminder Snarky
+          entity_id: ai_task.google_ai_task
         response_variable: response
-        alias: Generate snarky reminder
       else:
-      - action: google_generative_ai_conversation.generate_content
+      - alias: Generate reminder
+        action: ai_task.generate_data
         metadata: {}
         data:
-          prompt: Remind Tina to take her night meds. Use a maximum of two lines.
+          instructions: Remind Tina to take her night meds. Use a maximum of two lines.
+          task_name: Tina Night Medication Reminder
+          entity_id: ai_task.google_ai_task
         response_variable: response
-        alias: Generate reminder
     - delay:
         hours: 0
         minutes: 0
@@ -3209,7 +3228,7 @@ tina_night_meds:
         who: tina
         type: alert
         title: Night Meds
-        message: '{{ response.text }}'
+        message: '{{ response.data }}'
         tag: tina-night-meds
         actions:
         - action: TINA_NIGHT_MEDS_TAKEN
