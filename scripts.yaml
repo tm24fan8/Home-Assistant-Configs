@@ -3040,14 +3040,14 @@ rabbit_hutch_cleaning:
 emma_sleep:
   alias: Emma Sleep
   sequence:
-  - if:
+  - alias: Run scheduling if it hasn't already been run
+    if:
     - condition: time
-      after: 04:00:00
+      after: 09:00:00
       before: '17:00:00'
     then:
     - data: {}
       action: script.emma_bedroom_scheduling_evening
-    alias: Run scheduling if it hasn't already been run
   - target:
       entity_id:
       - script.emma_ibuprofen
