@@ -124,6 +124,8 @@ template:
       state: >
         {% if is_state('binary_sensor.basement_studio_motion','on') %}
           true
+        {% elif is_state('input_boolean.recliner_mode','on') %}
+          true
         {% elif is_state('sensor.xia_desktop_current_username','tm24f') %}
           false
         {% elif is_state('binary_sensor.tony_desktop_on','off') and 
