@@ -90,8 +90,8 @@
       {% elif state_attr(team,'opponent_winner') == true %}
         The {{ state_attr(team,'friendly_name') }} lost their game today against {% if state_attr(team,'league') != 'NCAAF'%}the{% endif %} {{ opponent_name }} by a score of {{ state_attr(team,'opponent_score') }} to {{ state_attr(team,'team_score') }}. 
       {% endif %}
-      {% if state_attr(team,'clock') not in ['postponed','Postponed'] %}
-        This brings their record to {{ state_attr(team,'team_record') | replace("-"," and ") }} on the season. 
+      {% if state_attr(team,'clock') not in ['postponed','Postponed'] and state_attr(team,'team_record') != None %}
+        This brings their record to {{ state_attr(team,'team_record') | replace("-"," and ") }} on the season.
       {% endif %}
     {% elif yday == date %}
       {% if state_attr(team,'clock') in ['postponed','Postponed'] %}
