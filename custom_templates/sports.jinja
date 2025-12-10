@@ -171,6 +171,15 @@
     {% if is_state('binary_sensor.minnesota_wild_inhibit','off') %}
       {{ sports_pregame('sensor.minnesota_wild') }}
     {% endif %}
+    {% if is_state('binary_sensor.michigan_wolverines_hockey','off') %}
+      {{ sports_pregame('sensor.michigan_wolverines_hockey') }}
+    {% endif %}
+    {% if is_state('binary_sensor.minnesota_golden_gophers_hockey','off') %}
+      {{ sports_pregame('sensor.minnesota_golden_gophers_hockey') }}
+    {% endif %}
+    {% if is_state('binary_sensor.minnesota_state_mavericks_hockey','off') %}
+      {{ sports_pregame('sensor.minnesota_state_mavericks_hockey') }}
+    {% endif %}
   {% elif time == 'main' %}
     {% if is_state('binary_sensor.michigan_wolverines_inhibit','off') %}
       {{ sports_main('sensor.michigan_wolverines') }}
@@ -198,6 +207,15 @@
     {% endif %}
     {% if is_state('binary_sensor.minnesota_wild_inhibit','off') %}
       {{ sports_main('sensor.minnesota_wild') }}
+    {% endif %}
+    {% if is_state('binary_sensor.michigan_wolverines_hockey','off') %}
+      {{ sports_main('sensor.michigan_wolverines_hockey') }}
+    {% endif %}
+    {% if is_state('binary_sensor.minnesota_golden_gophers_hockey','off') %}
+      {{ sports_main('sensor.minnesota_golden_gophers_hockey') }}
+    {% endif %}
+    {% if is_state('binary_sensor.minnesota_state_mavericks_hockey','off') %}
+      {{ sports_main('sensor.minnesota_state_mavericks_hockey') }}
     {% endif %}
   {% endif %}
   {% endmacro %}

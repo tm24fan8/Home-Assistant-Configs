@@ -142,6 +142,36 @@ template:
       state: >
         {% from 'sports.jinja' import sports_today %}
         {{ sports_today('sensor.minnesota_wild') }}
+    - name: Michigan Wolverines Hockey Inhibit
+      unique_id: 8ecd46d5-64c2-49f5-bc8d-d88593273d92
+      state: >
+        {% from 'sports.jinja' import sports_inhibit %}
+        {{ sports_inhibit('sensor.michigan_wolverines_hockey') }}
+    - name: Michigan Wolverines Hockey Event Today
+      unique_id: 551fdae5-e18c-4117-b3ba-df864068b13d
+      state: >
+        {% from 'sports.jinja' import sports_today %}
+        {{ sports_today('sensor.michigan_wolverines_hockey') }}
+    - name: Minnesota Golden Gophers Hockey Inhibit
+      unique_id: 87653f3a-203c-4dbf-87e8-70bcacf6eb22
+      state: >
+        {% from 'sports.jinja' import sports_inhibit %}
+        {{ sports_inhibit('sensor.minnesota_golden_gophers_hockey') }}
+    - name: Minnesota Golden Gophers Hockey Event Today
+      unique_id: 1f4ff7eb-cbc9-4c81-a5c9-6523b5fb52ff
+      state: >
+        {% from 'sports.jinja' import sports_today %}
+        {{ sports_today('sensor.minnesota_golden_gophers_hockey') }}
+    - name: Minnesota State Mavericks Hockey Inhibit
+      unique_id: bd15870d-bccb-4c52-9690-473c31bb4090
+      state: >
+        {% from 'sports.jinja' import sports_inhibit %}
+        {{ sports_inhibit('sensor.minnesota_state_mavericks_hockey') }}
+    - name: Minnesota State Mavericks Hockey Event Today
+      unique_id: e403be15-3ff2-47b1-8398-70f8ccb65026
+      state: >
+        {% from 'sports.jinja' import sports_today %}
+        {{ sports_today('sensor.minnesota_state_mavericks_hockey') }}
 
 intent_script:
   SportsScore:
