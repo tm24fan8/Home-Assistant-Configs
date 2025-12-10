@@ -4659,7 +4659,7 @@
     id: night-notify
     alias: Night Notify
     trigger: time
-    enabled: false
+    enabled: true
   - entity_id:
     - input_boolean.kallen_morning_meds_taken
     to: 'on'
@@ -4674,7 +4674,7 @@
     from: 'off'
     to: 'on'
     trigger: state
-    enabled: false
+    enabled: true
   conditions:
   - condition: state
     entity_id: input_boolean.kallen_overnight
