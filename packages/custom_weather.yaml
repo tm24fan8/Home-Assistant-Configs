@@ -1,375 +1,304 @@
-weather:
-  - platform: template
-    name: "Iron Nerd Weather Station"
-    condition_template: >
-      {% set stations = [
-        states.weather.home_tempest_forecast_home,
-        states.weather.home,
-        states.weather.kdfi_daynight,
-        states.weather.iron_nerd_studios,
-        states.weather.openweathermap
-      ] %}
-      {% set result = stations | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(result) }}
-    temperature_template: >
-      {% set temps = [
-        states.sensor.home_tempest_temperature,
-        states.sensor.home_temperature,
-        states.sensor.kdfi_temperature,
-        states.sensor.pirateweather_temperature,
-        states.sensor.openweathermap_temperature
-      ] %}
-      {% set sensor = temps | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(sensor) | float }}
-    temperature_unit: °F
-    dew_point_template: >
-      {% set dewpoints = [
-        states.sensor.home_tempest_dew_point,
-        states.sensor.home_dew_point,
-        states.sensor.kdfi_dew_point,
-        states.sensor.pirateweather_dew_point,
-        states.sensor.openweathermap_dew_point
-        ] %}
-        {% set sensor = dewpoints | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-        {{ states(sensor) | float }}
-    apparent_temperature_template: >
-      {% set apparent_temps = [
-        states.sensor.home_tempest_feels_like,
-        states.sensor.home_temperature_feels_like,
-        states.sensor.pirateweather_apparent_temperature,
-        states.sensor.stratton_ave_apparent_temperature
-      ] %}
-      {% set sensor = apparent_temps | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(sensor) | float }}
-    humidity_template: >
-      {% set humidity = [
-        states.sensor.home_tempest_humidity,
-        states.sensor.home_relative_humidity,
-        states.sensor.kdfi_relative_humidity,
-        states.sensor.pirateweather_humidity,
-        states.sensor.openweathermap_humidity
-      ] %}
-      {% set result = humidity | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(result) | float }}
-    forecast_daily_template: >
-      {% set forecasts = [
-        states.sensor.weather_com_daily_weather_forecast.attributes,
-        states.weather.kdfi_daynight.attributes,
-        states.sensor.pirateweather_daily_weather_forecast.attributes,
-        states.sensor.openweathermap_daily_weather_forecast.attributes,
-        states.weather.weatherapi_stratton_ave.attributes
-      ] %}
-      {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
-    forecast_hourly_template: >
-      {% set forecasts = [
-        states.sensor.weather_com_hourly_weather_forecast.attributes,
-        states.sensor.pirateweather_hourly_weather_forecast.attributes
-      ] %}
-      {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
-    pressure_template: >
-      {% set pressures = [
-        states.sensor.home_tempest_local_slp,
-        states.sensor.home_tempest_cloud_sensors_sea_level_pressure,
-        states.sensor.home_pressure,
-        states.sensor.kdfi_barometric_pressure
-      ] %}
-      {% set result = pressures | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(result) | float }}
-    pressure_unit: inHg
-    wind_speed_template: >
-      {% set windspeeds = [
-        states.sensor.home_wind_speed,
-        states.sensor.pirateweather_wind_speed,
-        states.sensor.kdfi_wind_speed,
-        states.sensor.openweathermap_wind_speed
-      ] %}
-      {% set result = windspeeds | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(result) | float }}
-    wind_speed_unit: mph
-    wind_bearing_template: >
-      {% set windbearings = [
-        states.sensor.home_wind_direction_degrees,
-        states.sensor.pirateweather_wind_bearing,
-        states.sensor.openweathermap_wind_bearing
-      ] %}
-      {% set result = windbearings | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(result) | float }}
-    visibility_template: >
-      {% set vis = [
-        states.sensor.kdfi_visibility,
-        states.sensor.pirateweather_visibility,
-        states.sensor.openweathermap_visibility
-      ] %}
-      {% set result = vis | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(result) | float }}
-    visibility_unit: mi
-    attribution_template: "Daily weather data from Iron Nerd's custom weather station template"
-    ozone_template: >
-      {% set ozones = [
-        states.sensor.pirateweather_ozone
-      ] %}
-      {% set result = ozones | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(result) | float }}
-    precipitation_unit: in
-
-  - platform: template
-    name: "Iron Nerd Weather Station - Hourly"
-    condition_template: >
-      {% set stations = [
-        states.weather.home_tempest_forecast_home,
-        states.weather.home,
-        states.weather.tomorrow_io_stratton_ave_hourly,
-        states.weather.iron_nerd_studios,
-        states.weather.kdfi_daynight,
-        states.weather.openweathermap
-      ] %}
-      {% set result = stations | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(result) }}
-    temperature_template: >
-      {% set temps = [
-        states.sensor.home_tempest_temperature,
-        states.sensor.home_temperature,
-        states.sensor.kdfi_temperature,
-        states.sensor.pirateweather_temperature,
-        states.sensor.openweathermap_temperature
-      ] %}
-      {% set sensor = temps | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(sensor) | float }}
-    temperature_unit: °F
-    dew_point_template: >
-      {% set dewpoints = [
-        states.sensor.home_tempest_dew_point,
-        states.sensor.home_dew_point,
-        states.sensor.kdfi_dew_point,
-        states.sensor.pirateweather_dew_point,
-        states.sensor.openweathermap_dew_point
-        ] %}
-        {% set sensor = dewpoints | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-        {{ states(sensor) | float }}
-    apparent_temperature_template: >
-      {% set apparent_temps = [
-        states.sensor.home_tempest_feels_like,
-        states.sensor.home_temperature_feels_like,
-        states.sensor.pirateweather_apparent_temperature,
-        states.sensor.stratton_ave_apparent_temperature
-      ] %}
-      {% set sensor = apparent_temps | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(sensor) | float }}
-    humidity_template: >
-      {% set humidity = [
-        states.sensor.home_tempest_humidity,
-        states.sensor.home_relative_humidity,
-        states.sensor.kdfi_relative_humidity,
-        states.sensor.pirateweather_humidity,
-        states.sensor.openweathermap_humidity
-      ] %}
-      {% set result = humidity | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(result) | float }}
-    forecast_hourly_template: >
-      {% set forecasts = [
-        states.sensor.weather_com_hourly_weather_forecast.attributes,
-        states.weather.tomorrow_io_stratton_ave_hourly.attributes,
-        states.sensor.pirateweather_hourly_weather_forecast.attributes
-      ] %}
-      {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
-    pressure_template: >
-      {% set pressures = [
-        states.sensor.home_tempest_local_slp,
-        states.sensor.home_tempest_cloud_sensors_sea_level_pressure,
-        states.sensor.home_pressure,
-        states.sensor.kdfi_barometric_pressure
-      ] %}
-      {% set result = pressures | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(result) | float }}
-    pressure_unit: inHg
-    wind_speed_template: >
-      {% set windspeeds = [
-        states.sensor.home_wind_speed,
-        states.sensor.pirateweather_wind_speed,
-        states.sensor.kdfi_wind_speed,
-        states.sensor.openweathermap_wind_speed
-      ] %}
-      {% set result = windspeeds | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(result) | float }}
-    wind_speed_unit: mph
-    wind_bearing_template: >
-      {% set windbearings = [
-        states.sensor.home_wind_direction_degrees,
-        states.sensor.pirateweather_wind_bearing,
-        states.sensor.openweathermap_wind_bearing
-      ] %}
-      {% set result = windbearings | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(result) | float }}
-    visibility_template: >
-      {% set vis = [
-        states.sensor.kdfi_visibility,
-        states.sensor.pirateweather_visibility,
-        states.sensor.openweathermap_visibility
-      ] %}
-      {% set result = vis | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(result) | float }}
-    visibility_unit: mi
-    attribution_template: "Hourly weather data from Iron Nerd's custom weather station template"
-    ozone_template: >
-      {% set ozones = [
-        states.sensor.pirateweather_ozone
-      ] %}
-      {% set result = ozones | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(result) | float }}
-    precipitation_unit: in
-
-  - platform: template
-    name: "Ashland Weather Station"
-    condition_template: >
-      {% set stations = [
-        states.weather.ashland,
-        states.weather.kasx,
-        states.weather.pirateweather_ashland
-      ] %}
-      {% set result = stations | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(result) }}
-    temperature_template: >
-      {% set temps = [
-        states.sensor.ashland_temperature,
-        states.sensor.kasx_temperature,
-        states.sensor.pirateweather_ashland_temperature
-      ] %}
-      {% set sensor = temps | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(sensor) | float }}
-    temperature_unit: °F
-    humidity_template: >
-      {% set humidity = [
-        states.sensor.ashland_relative_humidity,
-        states.sensor.kasx_relative_humidity,
-        states.sensor.pirateweather_ashland_humidity
-      ] %}
-      {% set result = humidity | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(result) | float }}
-    forecast_daily_template: >
-      {% set forecasts = [
-        states.sensor.weather_com_ashland_daily_weather_forecast.attributes,
-        states.weather.kasx.attributes,
-        states.sensor.pirateweather_ashland_daily_weather_forecast.attributes
-      ] %}
-      {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
-    forecast_hourly_template: >
-      {% set forecasts = [
-        states.sensor.weather_com_ashland_hourly_weather_forecast,
-        states.sensor.pirateweather_ashland_hourly_weather_forecast.attributes
-      ] %}
-      {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
-    pressure_template: >
-      {% set pressures = [
-        states.sensor.ashland_pressure,
-        states.sensor.kasx_barometric_pressure
-      ] %}
-      {% set result = pressures | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(result) | float }}
-    pressure_unit: inHg
-    wind_speed_template: >
-      {% set windspeeds = [
-        states.sensor.ashland_wind_speed,
-        states.sensor.pirateweather_ashland_wind_speed,
-        states.sensor.kasx_wind_speed
-      ] %}
-      {% set result = windspeeds | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(result) | float }}
-    wind_speed_unit: mph
-    wind_bearing_template: >
-      {% set windbearings = [
-        states.sensor.ashland_wind_direction_degrees,
-        states.sensor.pirateweather_ashland_wind_bearing
-      ] %}
-      {% set result = windbearings | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(result) | float }}
-    visibility_template: >
-      {% set vis = [
-        states.sensor.kasx_visibility,
-        states.sensor.pirateweather_ashland_visibility
-      ] %}
-      {% set result = vis | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(result) | float }}
-    visibility_unit: mi
-    attribution_template: "Daily weather data from Iron Nerd's custom weather station template"
-    ozone_template: >
-      {% set ozones = [
-        states.sensor.pirateweather_ashland_ozone
-      ] %}
-      {% set result = ozones | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
-      {{ states(result) | float }}
-    precipitation_unit: in
-
-# binary_sensor:
-#   - platform: bayesian
-#     unique_id: 3e9640d9-57a0-4495-8731-e64b34774065
-#     name: Raining Bayesian
-#     prior: 0.17
-#     probability_threshold: 0.6
-#     observations:
-#       - entity_id: "sensor.pirateweather_precip"
-#         prob_given_true: 0.13
-#         prob_given_false: 0.005
-#         platform: "state"
-#         to_state: "rain"
-#       - entity_id: "sensor.openweathermap_precipitation_kind"
-#         prob_given_true: 0.75
-#         prob_given_false: 0.005
-#         platform: "state"
-#         to_state: "rain"
-#       - entity_id: "sensor.tomorrow_io_stratton_ave_precipitation_type"
-#         prob_given_true: 0.99
-#         prob_given_false: 0.2
-#         platform: "state"
-#         to_state: "rain"
-#       - entity_id: "sensor.stratton_ave_precipitation"
-#         prob_given_true: 0.99
-#         prob_given_false: 0.2
-#         platform: "numeric_state"
-#         above: 0
-
-sensor:
-  - platform: weatheralerts
-    state: OH
-    zone: 4
-    county: 39
-
-  # - platform: statistics
-  #   unique_id: b5996cb4-b715-4fc9-b3d8-98fc12c2b7dd
-  #   name: Outside Temp Average
-  #   entity_id: sensor.pirateweather_temperature
-  #   state_characteristic: average_linear
-  #   max_age:
-  #     days: 7
-  # - platform: statistics
-  #   unique_id: 6192c95a-8fd1-4ba0-87de-d06fdc071d6b
-  #   name: Apparent Temp Average
-  #   entity_id: sensor.stratton_ave_apparent_temperature
-  #   state_characteristic: average_linear
-  #   max_age:
-  #     days: 7
-  # - platform: statistics
-  #   unique_id: 7b9c269c-40b7-4255-a051-2d1b7a6af017
-  #   name: Wind Speed Average
-  #   entity_id: sensor.pirateweather_wind_speed
-  #   state_characteristic: average_linear
-  #   max_age:
-  #     days: 7
-  # - platform: statistics
-  #   unique_id: b43d053f-aafb-4237-a742-a2ca841498fa
-  #   name: Visibility Stats Average
-  #   entity_id: sensor.kdfi_visibility
-  #   state_characteristic: average_linear
-  #   max_age:
-  #     days: 7
-  # - platform: statistics
-  #   unique_id: b1206da2-fa00-4f7d-9af4-f2cf6794bd24
-  #   name: Humidity Stats Average
-  #   entity_id: sensor.pirateweather_humidity
-  #   state_characteristic: average_linear
-  #   max_age:
-  #     days: 7
-
 template:
+  - weather:
+    - name: "Iron Nerd Weather Station"
+      condition_template: >
+        {% set stations = [
+          states.weather.home_tempest_forecast_home,
+          states.weather.home,
+          states.weather.kdfi_daynight,
+          states.weather.iron_nerd_studios,
+          states.weather.openweathermap
+        ] %}
+        {% set result = stations | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(result) }}
+      temperature_template: >
+        {% set temps = [
+          states.sensor.home_tempest_temperature,
+          states.sensor.home_temperature,
+          states.sensor.kdfi_temperature,
+          states.sensor.pirateweather_temperature,
+          states.sensor.openweathermap_temperature
+        ] %}
+        {% set sensor = temps | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(sensor) | float }}
+      temperature_unit: °F
+      dew_point_template: >
+        {% set dewpoints = [
+          states.sensor.home_tempest_dew_point,
+          states.sensor.home_dew_point,
+          states.sensor.kdfi_dew_point,
+          states.sensor.pirateweather_dew_point,
+          states.sensor.openweathermap_dew_point
+          ] %}
+          {% set sensor = dewpoints | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+          {{ states(sensor) | float }}
+      apparent_temperature_template: >
+        {% set apparent_temps = [
+          states.sensor.home_tempest_feels_like,
+          states.sensor.home_temperature_feels_like,
+          states.sensor.pirateweather_apparent_temperature,
+          states.sensor.stratton_ave_apparent_temperature
+        ] %}
+        {% set sensor = apparent_temps | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(sensor) | float }}
+      humidity_template: >
+        {% set humidity = [
+          states.sensor.home_tempest_humidity,
+          states.sensor.home_relative_humidity,
+          states.sensor.kdfi_relative_humidity,
+          states.sensor.pirateweather_humidity,
+          states.sensor.openweathermap_humidity
+        ] %}
+        {% set result = humidity | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(result) | float }}
+      forecast_daily_template: >
+        {% set forecasts = [
+          states.sensor.weather_com_daily_weather_forecast.attributes,
+          states.weather.kdfi_daynight.attributes,
+          states.sensor.pirateweather_daily_weather_forecast.attributes,
+          states.sensor.openweathermap_daily_weather_forecast.attributes,
+          states.weather.weatherapi_stratton_ave.attributes
+        ] %}
+        {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
+      forecast_hourly_template: >
+        {% set forecasts = [
+          states.sensor.weather_com_hourly_weather_forecast.attributes,
+          states.sensor.pirateweather_hourly_weather_forecast.attributes
+        ] %}
+        {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
+      pressure_template: >
+        {% set pressures = [
+          states.sensor.home_tempest_local_slp,
+          states.sensor.home_tempest_cloud_sensors_sea_level_pressure,
+          states.sensor.home_pressure,
+          states.sensor.kdfi_barometric_pressure
+        ] %}
+        {% set result = pressures | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(result) | float }}
+      pressure_unit: inHg
+      wind_speed_template: >
+        {% set windspeeds = [
+          states.sensor.home_wind_speed,
+          states.sensor.pirateweather_wind_speed,
+          states.sensor.kdfi_wind_speed,
+          states.sensor.openweathermap_wind_speed
+        ] %}
+        {% set result = windspeeds | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(result) | float }}
+      wind_speed_unit: mph
+      wind_bearing_template: >
+        {% set windbearings = [
+          states.sensor.home_wind_direction_degrees,
+          states.sensor.pirateweather_wind_bearing,
+          states.sensor.openweathermap_wind_bearing
+        ] %}
+        {% set result = windbearings | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(result) | float }}
+      visibility_template: >
+        {% set vis = [
+          states.sensor.kdfi_visibility,
+          states.sensor.pirateweather_visibility,
+          states.sensor.openweathermap_visibility
+        ] %}
+        {% set result = vis | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(result) | float }}
+      visibility_unit: mi
+      attribution_template: "Daily weather data from Iron Nerd's custom weather station template"
+      ozone_template: >
+        {% set ozones = [
+          states.sensor.pirateweather_ozone
+        ] %}
+        {% set result = ozones | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(result) | float }}
+      precipitation_unit: in
+
+  - weather:
+    - name: "Iron Nerd Weather Station - Hourly"
+      condition_template: >
+        {% set stations = [
+          states.weather.home_tempest_forecast_home,
+          states.weather.home,
+          states.weather.tomorrow_io_stratton_ave_hourly,
+          states.weather.iron_nerd_studios,
+          states.weather.kdfi_daynight,
+          states.weather.openweathermap
+        ] %}
+        {% set result = stations | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(result) }}
+      temperature_template: >
+        {% set temps = [
+          states.sensor.home_tempest_temperature,
+          states.sensor.home_temperature,
+          states.sensor.kdfi_temperature,
+          states.sensor.pirateweather_temperature,
+          states.sensor.openweathermap_temperature
+        ] %}
+        {% set sensor = temps | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(sensor) | float }}
+      temperature_unit: °F
+      dew_point_template: >
+        {% set dewpoints = [
+          states.sensor.home_tempest_dew_point,
+          states.sensor.home_dew_point,
+          states.sensor.kdfi_dew_point,
+          states.sensor.pirateweather_dew_point,
+          states.sensor.openweathermap_dew_point
+          ] %}
+          {% set sensor = dewpoints | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+          {{ states(sensor) | float }}
+      apparent_temperature_template: >
+        {% set apparent_temps = [
+          states.sensor.home_tempest_feels_like,
+          states.sensor.home_temperature_feels_like,
+          states.sensor.pirateweather_apparent_temperature,
+          states.sensor.stratton_ave_apparent_temperature
+        ] %}
+        {% set sensor = apparent_temps | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(sensor) | float }}
+      humidity_template: >
+        {% set humidity = [
+          states.sensor.home_tempest_humidity,
+          states.sensor.home_relative_humidity,
+          states.sensor.kdfi_relative_humidity,
+          states.sensor.pirateweather_humidity,
+          states.sensor.openweathermap_humidity
+        ] %}
+        {% set result = humidity | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(result) | float }}
+      forecast_hourly_template: >
+        {% set forecasts = [
+          states.sensor.weather_com_hourly_weather_forecast.attributes,
+          states.weather.tomorrow_io_stratton_ave_hourly.attributes,
+          states.sensor.pirateweather_hourly_weather_forecast.attributes
+        ] %}
+        {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
+      pressure_template: >
+        {% set pressures = [
+          states.sensor.home_tempest_local_slp,
+          states.sensor.home_tempest_cloud_sensors_sea_level_pressure,
+          states.sensor.home_pressure,
+          states.sensor.kdfi_barometric_pressure
+        ] %}
+        {% set result = pressures | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(result) | float }}
+      pressure_unit: inHg
+      wind_speed_template: >
+        {% set windspeeds = [
+          states.sensor.home_wind_speed,
+          states.sensor.pirateweather_wind_speed,
+          states.sensor.kdfi_wind_speed,
+          states.sensor.openweathermap_wind_speed
+        ] %}
+        {% set result = windspeeds | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(result) | float }}
+      wind_speed_unit: mph
+      wind_bearing_template: >
+        {% set windbearings = [
+          states.sensor.home_wind_direction_degrees,
+          states.sensor.pirateweather_wind_bearing,
+          states.sensor.openweathermap_wind_bearing
+        ] %}
+        {% set result = windbearings | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(result) | float }}
+      visibility_template: >
+        {% set vis = [
+          states.sensor.kdfi_visibility,
+          states.sensor.pirateweather_visibility,
+          states.sensor.openweathermap_visibility
+        ] %}
+        {% set result = vis | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(result) | float }}
+      visibility_unit: mi
+      attribution_template: "Hourly weather data from Iron Nerd's custom weather station template"
+      ozone_template: >
+        {% set ozones = [
+          states.sensor.pirateweather_ozone
+        ] %}
+        {% set result = ozones | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(result) | float }}
+      precipitation_unit: in
+
+  - weather:
+    - name: "Ashland Weather Station"
+      condition_template: >
+        {% set stations = [
+          states.weather.ashland,
+          states.weather.kasx,
+          states.weather.pirateweather_ashland
+        ] %}
+        {% set result = stations | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(result) }}
+      temperature_template: >
+        {% set temps = [
+          states.sensor.ashland_temperature,
+          states.sensor.kasx_temperature,
+          states.sensor.pirateweather_ashland_temperature
+        ] %}
+        {% set sensor = temps | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(sensor) | float }}
+      temperature_unit: °F
+      humidity_template: >
+        {% set humidity = [
+          states.sensor.ashland_relative_humidity,
+          states.sensor.kasx_relative_humidity,
+          states.sensor.pirateweather_ashland_humidity
+        ] %}
+        {% set result = humidity | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(result) | float }}
+      forecast_daily_template: >
+        {% set forecasts = [
+          states.sensor.weather_com_ashland_daily_weather_forecast.attributes,
+          states.weather.kasx.attributes,
+          states.sensor.pirateweather_ashland_daily_weather_forecast.attributes
+        ] %}
+        {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
+      forecast_hourly_template: >
+        {% set forecasts = [
+          states.sensor.weather_com_ashland_hourly_weather_forecast,
+          states.sensor.pirateweather_ashland_hourly_weather_forecast.attributes
+        ] %}
+        {{ forecasts | selectattr('forecast','defined') | map(attribute='forecast') | list | first }}
+      pressure_template: >
+        {% set pressures = [
+          states.sensor.ashland_pressure,
+          states.sensor.kasx_barometric_pressure
+        ] %}
+        {% set result = pressures | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(result) | float }}
+      pressure_unit: inHg
+      wind_speed_template: >
+        {% set windspeeds = [
+          states.sensor.ashland_wind_speed,
+          states.sensor.pirateweather_ashland_wind_speed,
+          states.sensor.kasx_wind_speed
+        ] %}
+        {% set result = windspeeds | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(result) | float }}
+      wind_speed_unit: mph
+      wind_bearing_template: >
+        {% set windbearings = [
+          states.sensor.ashland_wind_direction_degrees,
+          states.sensor.pirateweather_ashland_wind_bearing
+        ] %}
+        {% set result = windbearings | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(result) | float }}
+      visibility_template: >
+        {% set vis = [
+          states.sensor.kasx_visibility,
+          states.sensor.pirateweather_ashland_visibility
+        ] %}
+        {% set result = vis | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(result) | float }}
+      visibility_unit: mi
+      attribution_template: "Daily weather data from Iron Nerd's custom weather station template"
+      ozone_template: >
+        {% set ozones = [
+          states.sensor.pirateweather_ashland_ozone
+        ] %}
+        {% set result = ozones | selectattr('state','ne','unavailable') | selectattr('state','ne','unknown') | map(attribute='entity_id') | list | first %}
+        {{ states(result) | float }}
+      precipitation_unit: in
+
   - trigger:
     - platform: time_pattern
       minutes: /15
@@ -1612,6 +1541,76 @@ template:
         hail_fill: "{{ state_attr('sensor.spc_outlook_day_1','hail_fill') }}"
         hail_stroke: "{{ state_attr('sensor.spc_outlook_day_1','hail_stroke') }}"
       icon: mdi:weather-hail
+
+sensor:
+  - platform: weatheralerts
+    state: OH
+    zone: 4
+    county: 39
+
+  # - platform: statistics
+  #   unique_id: b5996cb4-b715-4fc9-b3d8-98fc12c2b7dd
+  #   name: Outside Temp Average
+  #   entity_id: sensor.pirateweather_temperature
+  #   state_characteristic: average_linear
+  #   max_age:
+  #     days: 7
+  # - platform: statistics
+  #   unique_id: 6192c95a-8fd1-4ba0-87de-d06fdc071d6b
+  #   name: Apparent Temp Average
+  #   entity_id: sensor.stratton_ave_apparent_temperature
+  #   state_characteristic: average_linear
+  #   max_age:
+  #     days: 7
+  # - platform: statistics
+  #   unique_id: 7b9c269c-40b7-4255-a051-2d1b7a6af017
+  #   name: Wind Speed Average
+  #   entity_id: sensor.pirateweather_wind_speed
+  #   state_characteristic: average_linear
+  #   max_age:
+  #     days: 7
+  # - platform: statistics
+  #   unique_id: b43d053f-aafb-4237-a742-a2ca841498fa
+  #   name: Visibility Stats Average
+  #   entity_id: sensor.kdfi_visibility
+  #   state_characteristic: average_linear
+  #   max_age:
+  #     days: 7
+  # - platform: statistics
+  #   unique_id: b1206da2-fa00-4f7d-9af4-f2cf6794bd24
+  #   name: Humidity Stats Average
+  #   entity_id: sensor.pirateweather_humidity
+  #   state_characteristic: average_linear
+  #   max_age:
+  #     days: 7
+
+# binary_sensor:
+#   - platform: bayesian
+#     unique_id: 3e9640d9-57a0-4495-8731-e64b34774065
+#     name: Raining Bayesian
+#     prior: 0.17
+#     probability_threshold: 0.6
+#     observations:
+#       - entity_id: "sensor.pirateweather_precip"
+#         prob_given_true: 0.13
+#         prob_given_false: 0.005
+#         platform: "state"
+#         to_state: "rain"
+#       - entity_id: "sensor.openweathermap_precipitation_kind"
+#         prob_given_true: 0.75
+#         prob_given_false: 0.005
+#         platform: "state"
+#         to_state: "rain"
+#       - entity_id: "sensor.tomorrow_io_stratton_ave_precipitation_type"
+#         prob_given_true: 0.99
+#         prob_given_false: 0.2
+#         platform: "state"
+#         to_state: "rain"
+#       - entity_id: "sensor.stratton_ave_precipitation"
+#         prob_given_true: 0.99
+#         prob_given_false: 0.2
+#         platform: "numeric_state"
+#         above: 0
 
 input_boolean:
   freeze_warning:
