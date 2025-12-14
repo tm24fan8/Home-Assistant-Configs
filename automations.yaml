@@ -6309,3 +6309,27 @@
           who: all
     alias: Routing
   mode: restart
+- id: '1765674032722'
+  alias: Emma Bedroom Heater
+  description: Turns Emma's bedroom heater on at the scheduled time
+  triggers:
+  - trigger: time
+    at: input_datetime.emma_bedroom_climate
+    alias: Emma Bedroom Climate
+  conditions:
+  - condition: state
+    entity_id: input_select.scheduled_climate_mode_emma_bedroom
+    state:
+    - Heat
+  - condition: state
+    entity_id: input_boolean.emma_bedroom_heater_installed
+    state:
+    - 'on'
+  actions:
+  - action: climate.set_hvac_mode
+    metadata: {}
+    target:
+      entity_id: climate.emma_bedroom_vtherm
+    data:
+      hvac_mode: heat
+  mode: restart

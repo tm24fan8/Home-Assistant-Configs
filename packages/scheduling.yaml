@@ -710,33 +710,51 @@ script:
           data:
             option: >
               {% set low = states('sensor.overnight_lowest_temperature') | int %}
-              {% set run_threshold = states('input_number.emma_bedroom_aircon_run_threshold') | int %}
-              {% set mode_threshold = states('input_number.emma_bedroom_aircon_mode_threshold') | int %}
-              {% if is_state('input_boolean.emma_bedroom_aircon_installed','off') %}
+              {% set aircon_run_threshold = states('input_number.emma_bedroom_aircon_run_threshold') | int %}
+              {% set aircon_mode_threshold = states('input_number.emma_bedroom_aircon_mode_threshold') | int %}
+              {% set heater_run_threshold = states('input_number.emma_bedroom_heater_run_threshold') | int %}
+              {% if is_state('input_boolean.emma_bedroom_aircon_installed','off') and is_state('input_boolean.emma_bedroom_heater_installed','off') %}
                 White Noise
-              {% elif low >= run_threshold %}
-                {% if low >= mode_threshold %}
+              {% elif low >= aircon_run_threshold and is_state('input_boolean.emma_bedroom_aircon_installed','on') %}
+                {% if low >= aircon_mode_threshold %}
                   AC
                 {% else %}
                   Fan
                 {% endif %}
+              {% elif low < heater_run_threshold and is_state('input_boolean.emma_bedroom_heater_installed','on') %}
+                Heat
               {% else %}
                 White Noise
               {% endif %}
+        - delay:
+            milliseconds: 500
         - service: input_datetime.set_datetime
           target:
-            entity_id: input_datetime.emma_bedroom_cooling
+            entity_id: input_datetime.emma_bedroom_climate
           data:
             time: >
               {% set high = states('sensor.todays_high_temp') | int %}
               {% set low = states('sensor.overnight_lowest_temperature') | int %}
               {% set bedtime = state_attr('input_datetime.emma_bedtime','timestamp') | int %}
-              {% if is_state('input_boolean.hot_day','on') %}
-                {{ (bedtime - 5400) | timestamp_custom('%H:%M',false) }}
-              {% elif high >= 80 or low >= 60 %}
-                {{ (bedtime - 3600) | timestamp_custom('%H:%M',false) }}
+              {% set schedmode = states('input_select.scheduled_climate_mode_emma_bedroom') %}
+              {% if schedmode in ['AC','Fan'] and is_state('input_boolean.emma_bedroom_aircon_installed','on') %}
+                {% if is_state('input_boolean.hot_day','on') %}
+                  {{ (bedtime - 5400) | timestamp_custom('%H:%M',false) }}
+                {% elif high >= 80 or low >= 60 %}
+                  {{ (bedtime - 3600) | timestamp_custom('%H:%M',false) }}
+                {% else %}
+                  {{ (bedtime - 1800) | timestamp_custom('%H:%M',false) }}
+                {% endif %}
+              {% elif schedmode == 'Heat' and is_state('input_boolean.emma_bedroom_heater_installed','on') %}
+                {% if low <= 20 %}
+                  {{ (bedtime - 5400) | timestamp_custom('%H:%M',false) }}
+                {% elif low <= 32 %}
+                  {{ (bedtime - 3600) | timestamp_custom('%H:%M',false) }}
+                {% else %}
+                  {{ (bedtime - 1800) | timestamp_custom('%H:%M',false) }}
+                {% endif %}
               {% else %}
-                {{ (bedtime - 1800) | timestamp_custom('%H:%M',false) }}
+                {{ bedtime | timestamp_custom('%H:%M',false) }}
               {% endif %}
       - service: input_boolean.turn_on
         target:

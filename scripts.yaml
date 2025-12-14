@@ -2591,27 +2591,28 @@ kallen_night_meds:
       minutes: 0
       seconds: 5
       milliseconds: 0
-  - parallel:
-    - data:
+  - alias: Send text notifications
+    parallel:
+    - alias: Send to parents
+      data:
         who: "{% if states('person.christina_stork') in ['Bob Evans','BobEvans'] %}\n
           \ tony\n{% else %}\n  parents\n{% endif %}\n"
         type: alert
         title: Night Meds
-        message: Kallen needs to take his night meds (melatonin)
+        message: Kallen needs to take his night meds
         tag: kallen-night-meds
         actions:
         - action: KALLEN_NIGHT_MEDS_TAKEN
           title: Taken
         - action: KALLEN_NIGHT_MEDS_SKIPPED
           title: Skip
-      alias: Send to parents
       action: script.text_notify
     - alias: Send to Kallen
       data:
         who: kallen
         type: alert
         title: Night Meds
-        message: You need to take your night meds (melatonin)
+        message: You need to take your night meds
         tag: kallen-night-meds
         actions:
         - action: KALLEN_NIGHT_MEDS_TAKEN
@@ -2619,7 +2620,6 @@ kallen_night_meds:
         - action: KALLEN_NIGHT_MEDS_SKIPPED
           title: Skip
       action: script.text_notify
-    alias: Send text notifications
   icon: mdi:medication
   mode: restart
 reset_annc_switches:
@@ -3071,33 +3071,70 @@ emma_sleep:
       option: Adaptive
     alias: Set lights to adaptive
     action: input_select.select_option
-  - if:
-    - alias: White Noise
-      condition: and
-      conditions:
-      - condition: state
-        entity_id: input_select.scheduled_climate_mode_emma_bedroom
-        state: White Noise
-        alias: Scheduled mode is White Noise
-      - condition: state
-        entity_id: input_boolean.white_noise_emma_bedroom
-        state: 'off'
-        alias: White Noise is not already on
-    then:
-    - target:
-        entity_id: input_boolean.white_noise_emma_bedroom
-      data: {}
-      alias: Turn on white noise
-      action: input_boolean.turn_on
-    - data:
-        who: parents
-        title: Emma Climate Schedule
-        message: White noise has been activated in Emma's Bedroom.
-        type: normal
-        tag: emma-climate
-      alias: Send white noise notification
-      action: script.text_notify
-    alias: Select climate mode
+  - alias: Set climate mode if not already set
+    choose:
+    - conditions:
+      - alias: White Noise
+        condition: and
+        conditions:
+        - condition: state
+          entity_id: input_select.scheduled_climate_mode_emma_bedroom
+          state: White Noise
+          alias: Scheduled mode is White Noise
+        - condition: state
+          entity_id: input_boolean.white_noise_emma_bedroom
+          state: 'off'
+          alias: White Noise is not already on
+      sequence:
+      - target:
+          entity_id: input_boolean.white_noise_emma_bedroom
+        data: {}
+        alias: Turn on white noise
+        action: input_boolean.turn_on
+      - data:
+          who: parents
+          title: Emma Climate Schedule
+          message: White noise has been activated in Emma's Bedroom.
+          type: normal
+          tag: emma-climate
+        alias: Send white noise notification
+        action: script.text_notify
+    - conditions:
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: input_select.scheduled_climate_mode_emma_bedroom
+          state:
+          - Heat
+          alias: Heat
+        - condition: state
+          entity_id: climate.emma_bedroom_vtherm
+          state:
+          - 'off'
+          alias: Heat is not already on
+        alias: Heat
+      sequence:
+      - action: climate.set_hvac_mode
+        metadata: {}
+        target:
+          entity_id: climate.emma_bedroom_vtherm
+        data:
+          hvac_mode: heat
+        alias: Turn on heater
+      - action: input_boolean.turn_on
+        metadata: {}
+        target:
+          entity_id: input_boolean.white_noise_emma_bedroom
+        data: {}
+        alias: Turn on white noise
+      - alias: Send heater notification
+        data:
+          who: parents
+          title: Emma Climate Schedule
+          message: The space heater has been activated in Emma's Bedroom.
+          type: normal
+          tag: emma-climate
+        action: script.text_notify
   icon: mdi:lightbulb-night
   mode: restart
 tina_morning_meds:

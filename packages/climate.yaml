@@ -352,6 +352,20 @@ input_number:
     step: 1
     unit_of_measurement: °F
     icon: mdi:thermometer
+  emma_bedroom_heater_run_threshold:
+    name: Emma Bedroom Heater Run Threshold
+    min: 40
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
+  emma_bedroom_heater_shutoff_threshold:
+    name: Emma Bedroom Heater Shutoff Threshold
+    min: 40
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
   emma_bedroom_aircon_run_threshold:
     name: Emma Bedroom Aircon Run Threshold
     min: 40

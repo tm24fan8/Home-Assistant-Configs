@@ -48,8 +48,8 @@ input_datetime:
     has_date: false
     has_time: true
     icon: mdi:fan-auto
-  emma_bedroom_cooling:
-    name: Emma Bedroom Cooling
+  emma_bedroom_climate:
+    name: Emma Bedroom Climate
     has_date: false
     has_time: true
     icon: mdi:fan-auto
@@ -899,3 +899,6 @@ script:
       - service: input_boolean.turn_off
         target:
           entity_id: input_boolean.white_noise_emma_bedroom
+      - service: climate.turn_off
+        target:
+          entity_id: climate.emma_bedroom_vtherm
