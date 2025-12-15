@@ -33,6 +33,7 @@ frontend:
   - /hacsfiles/hass-hue-icons/hass-hue-icons.js
   - /hacsfiles/hass-bha-icons/hass-bha-icons.js
   - /hacsfiles/material-you-utilities/material-you-utilities.min.js
+  - /hacsfiles/lovelace-card-mod/card-mod.js?v4.1.0
   javascript_version: latest
 
 panel_custom:
