@@ -3100,20 +3100,32 @@ emma_sleep:
         alias: Send white noise notification
         action: script.text_notify
     - conditions:
-      - condition: and
+      - alias: Heat
+        condition: and
         conditions:
         - condition: state
           entity_id: input_select.scheduled_climate_mode_emma_bedroom
           state:
           - Heat
           alias: Heat
-        - condition: state
+      sequence:
+      - if:
+        - alias: Heat is not already on
+          condition: state
           entity_id: climate.emma_bedroom_vtherm
           state:
           - 'off'
-          alias: Heat is not already on
-        alias: Heat
-      sequence:
+        then:
+        - alias: Send heater notification
+          data:
+            who: parents
+            title: Emma Climate Schedule
+            message: The space heater has been activated in Emma's Bedroom.
+            type: normal
+            tag: emma-climate
+          action: script.text_notify
+        alias: If heat was not already on, send notification that it has been turned
+          on
       - action: climate.set_hvac_mode
         metadata: {}
         target:
@@ -3127,14 +3139,6 @@ emma_sleep:
           entity_id: input_boolean.white_noise_emma_bedroom
         data: {}
         alias: Turn on white noise
-      - alias: Send heater notification
-        data:
-          who: parents
-          title: Emma Climate Schedule
-          message: The space heater has been activated in Emma's Bedroom.
-          type: normal
-          tag: emma-climate
-        action: script.text_notify
   icon: mdi:lightbulb-night
   mode: restart
 tina_morning_meds:
