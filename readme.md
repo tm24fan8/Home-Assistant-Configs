@@ -113,6 +113,7 @@ Again, mostly just the ones I'm **using** or **will use soon**...also a few that
 - [Comfortable Environment Card](https://github.com/argaar/comfortable-environment-card)
 - [Versatile Thermostat UI Card](https://github.com/jmcollin78/versatile-thermostat-ui-card)
 - [Gauge Card Pro](https://github.com/benjamin-dcs/gauge-card-pro)
+- [AdGuard Card](https://github.com/homeassistant-extras/adguard-card)
 
 </details>
 
