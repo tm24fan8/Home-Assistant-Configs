@@ -119,6 +119,10 @@ recorder:
       - sensor.*_rssi
       - sensor.weatherflow_hub*
       - sensor.internet_round_trip*
+      - sensor.*_monitor_type
+      - sensor.*_certificate_expiry
+      - sensor.*_monitored_url
+      - sensor.*_response_time
     entities:
       - sensor.avg_ping
       - sensor.max_ping
@@ -280,6 +284,11 @@ influxdb:
       - binary_sensor.asus_laptop*
       - sensor.*ashland*
       - sensor.*kasx*
+      - sensor.*_monitor_type
+      - sensor.*_certificate_expiry
+      - sensor.*_monitored_url
+      - sensor.*_response_time
+      - sensor.*_status
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
@@ -452,6 +461,11 @@ prometheus:
       - binary_sensor.asus_laptop*
       - sensor.*ashland*
       - sensor.*kasx*
+      - sensor.*_monitor_type
+      - sensor.*_certificate_expiry
+      - sensor.*_monitored_url
+      - sensor.*_response_time
+      - sensor.*_status
     include_entities:
       - media_player.living_room_tv
       - media_player.basement_tv

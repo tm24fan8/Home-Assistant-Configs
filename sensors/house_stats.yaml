@@ -450,18 +450,19 @@
     unit_of_measurement: ''
     icon: mdi:close-network-outline
     state: >
-      {% set uptimekuma = states.binary_sensor |
-          selectattr('entity_id','in',integration_entities('uptime_kuma')) |
-          selectattr('state','eq','off') |
+      {% set uptimekuma = states.sensor |
+          selectattr('entity_id','in',integration_entities('192.168.1.111')) |
+          selectattr('state','eq','down') |
           map(attribute='attributes.friendly_name') |
           list %}
       {{ uptimekuma | count | int }}
     attributes:
       services: >
-        {% set uptimekuma = states.binary_sensor |
-            selectattr('entity_id','in',integration_entities('uptime_kuma')) |
-            selectattr('state','eq','off') |
+        {% set uptimekuma = states.sensor |
+            selectattr('entity_id','in',integration_entities('192.168.1.111')) |
+            selectattr('state','eq','down') |
             map(attribute='attributes.friendly_name') |
+            map('regex_replace', ' Status$', '') |
             list %}
         {{ uptimekuma | join(', ') }}
   - name: Media Server Viewer Health
