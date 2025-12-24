@@ -123,6 +123,7 @@ recorder:
       - sensor.*_certificate_expiry
       - sensor.*_monitored_url
       - sensor.*_response_time
+      - sensor.adguard*
     entities:
       - sensor.avg_ping
       - sensor.max_ping
@@ -289,6 +290,7 @@ influxdb:
       - sensor.*_monitored_url
       - sensor.*_response_time
       - sensor.*_status
+      - sensor.adguard*
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
@@ -466,6 +468,7 @@ prometheus:
       - sensor.*_monitored_url
       - sensor.*_response_time
       - sensor.*_status
+      - sensor.adguard*
     include_entities:
       - media_player.living_room_tv
       - media_player.basement_tv
