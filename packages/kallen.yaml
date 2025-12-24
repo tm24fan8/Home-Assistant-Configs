@@ -90,17 +90,33 @@ input_datetime:
 sensor:
 - platform: rest
   name: Kallen Tasks
+  unique_id: 77045665-9222-4a6b-851f-6d9b50110107
   method: GET
-  resource: 'https://api.todoist.com/sync/v9/projects/get_data'
+  resource: 'https://api.todoist.com/api/v1/projects/2285969005/full'
+  headers:
+    Authorization: !secret todoist_api_token
+    Accept: application/json
+  value_template: '{{ value_json.project.id }}'
+  json_attributes:
+    - project
+    - tasks
+    - sections
+  scan_interval: 60
+
+- platform: rest
+  name: Kallen Tasks Comments
+  unique_id: ae3178ad-439a-49f7-8c56-2fa866afaba5
+  method: GET
+  resource: 'https://api.todoist.com/api/v1/comments'
   params:
     project_id: 2285969005
   headers:
     Authorization: !secret todoist_api_token
-  value_template: '{{value_json[''project''][''id'']}}'
+    Accept: application/json
+  value_template: '{{ value_json.results | length }}'
   json_attributes:
-    - project
-    - items
-  scan_interval: 30
+    - results
+  scan_interval: 60
 
 automation:
   - id: 94b57d79-efe0-4f34-b5e3-baeaa5eea9f4

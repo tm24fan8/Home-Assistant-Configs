@@ -189,17 +189,32 @@ input_select:
 sensor:
 - platform: rest
   name: Home Tech
+  unique_id: 83f76f0c-d49c-407f-ad99-57d5896dac93
   method: GET
-  resource: 'https://api.todoist.com/sync/v9/projects/get_data'
+  resource: 'https://api.todoist.com/api/v1/projects/2285967948/full'
+  headers:
+    Authorization: !secret todoist_api_token
+  value_template: '{{ value_json.project.id }}'
+  json_attributes:
+    - project
+    - tasks
+    - sections
+  scan_interval: 60
+
+- platform: rest
+  name: Home Tech Comments
+  unique_id: 93e6b1c1-8e92-423f-ad56-369e9bb86820
+  method: GET
+  resource: 'https://api.todoist.com/api/v1/comments'
   params:
     project_id: 2285967948
   headers:
     Authorization: !secret todoist_api_token
-  value_template: '{{value_json[''project''][''id'']}}'
+    Accept: application/json
+  value_template: '{{ value_json.results | length }}'
   json_attributes:
-    - project
-    - items
-  scan_interval: 30
+    - results
+  scan_interval: 60
 
 # template:
 #   - binary_sensor:
