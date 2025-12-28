@@ -79,6 +79,9 @@ input_boolean:
   tv_notifications:
     name: TV Notifications
     icon: mdi:message
+  pc_notifications:
+    name: PC Notifications
+    icon: mdi:desktop-classic
 
 input_select:
   select_phones:
@@ -103,6 +106,19 @@ input_select:
       - All
     initial: None
     icon: mdi:television-play
+  select_pcs:
+    name: Select PCs
+    options:
+      - None
+      - Tony
+      - Tina
+      - Kallen
+      - Parents
+      - Nerds
+      - Not Tony
+      - All
+    initial: None
+    icon: mdi:desktop-classic
   text_notification_priority_level:
     name: Notification Priority Level
     options:
@@ -352,6 +368,27 @@ notify:
     services:
       - service: alexa_media_living_room_echo_dot
       - service: alexa_media_basement_echo_dot
+  - name: pc_parents
+    platform: group
+    services:
+      - service: notify.tony_asus
+      - service: notify.xia_desktop
+  - name: pc_nerds
+    platform: group
+    services:
+      - service: notify.tony_asus
+      - service: notify.kallen_desktop
+  - name: pc_all
+    platform: group
+    services:
+      - service: notify.tony_asus
+      - service: notify.xia_desktop
+      - service: notify.kallen_desktop
+  - name: pc_not_tony
+    platform: group
+    services:
+      - service: notify.xia_desktop
+      - service: notify.kallen_desktop
 
 script:
   volume_reset:
@@ -804,6 +841,131 @@ script:
           title: '{{ title }}'
           message: '{{ message }}'
           data: '{{ data|default("{}") }}'
+
+  pc_notify:
+    alias: 'PC Notify'
+    description: 'Use this to send popup text notifications to PCs in the house via HASS.Agent'
+    mode: queued
+    max: 20
+    fields:
+      who:
+        name: 'Who'
+        description: 'Which PC to send the notification to'
+        example: 'tony_pc, tina_pc, kallen_pc, all_pcs'
+        required: true
+        selector:
+          select:
+            options:
+              - tony
+              - tina
+              - kallen
+              - parents
+              - nerds
+              - not_tony
+              - all
+      title:
+        name: 'Title'
+        description: 'The title of the notification'
+        example: 'Greetings'
+        required: true
+        selector:
+          text:
+      message:
+        name: 'Message'
+        description: 'The body of the notification'
+        example: 'I am notifying you that this is a notification'
+        required: true
+        selector:
+          text:
+            multiline: true
+      actions:
+        name: 'Actions'
+        description: 'A list of actions for the notification'
+        required: false
+        selector:
+          object:
+    sequence:
+      - variables:
+          mod_who: >
+            {% set tony_notify = is_state('sensor.tony_asus_usernotification','AcceptsNotifications') %}
+            {% set tina_notify = is_state('sensor.xia_desktop_usernotification','AcceptsNotifications') %}
+            {% set kallen_notify = is_state('sensor.kallen_desktop_usernotification','AcceptsNotifications') %}
+            {% if who == 'tony' and not tony_notify %}
+              none
+            {% elif who == 'tina' and not tina_notify %}
+              none
+            {% elif who == 'kallen' and not kallen_notify %}
+              none
+            {% elif who == 'parents' %}
+              {% if tony_notify and not tina_notify %}
+                tony
+              {% elif not tony_notify and tina_notify %}
+                tina
+              {% elif not tony_notify and not tina_notify %}
+                none
+              {% else %}
+                parents
+              {% endif %}
+            {% elif who == 'nerds' %}
+              {% if tony_notify and not kallen_notify %}
+                tony
+              {% elif not tony_notify and kallen_notify %}
+                kallen
+              {% elif not tony_notify and not kallen_notify %}
+                none
+              {% else %}
+                nerds
+              {% endif %}
+            {% elif who == 'all' %}
+              {% if tony_notify %}
+                {% if tina_notify and not kallen_notify %}
+                  parents
+                {% elif kallen_notify and not tina_notify %}
+                  nerds
+                {% elif not tina_notify and not kallen_notify %}
+                  tony
+                {% else %}
+                  all
+                {% endif %}
+              {% elif tina_notify %}
+                {% if kallen_notify %}
+                  not_tony
+                {% else %}
+                  tina
+                {% endif %}
+              {% elif kallen_notify %}
+                kallen
+              {% else %}
+                none
+              {% endif %}
+            {% else %}
+              {{ who }}
+            {% endif %}
+      - if:
+        - condition: template
+          value_template: "{{ mod_who != 'none' and is_state('input_boolean.pc_notifications','on') }}"
+        then:
+        - service: >
+            {% if mod_who == 'tony' %}
+              notify.tony_asus
+            {% elif mod_who == 'tina' %}
+              notify.xia_desktop
+            {% elif mod_who == 'kallen' %}
+              notify.kallen_desktop
+            {% elif mod_who == 'parents' %}
+              notify.pc_parents
+            {% elif mod_who == 'nerds' %}
+              notify.pc_nerds
+            {% elif mod_who == 'not_tony' %}
+              notify.pc_not_tony
+            {% elif mod_who == 'all' %}
+              notify.pc_all
+            {% endif %}
+          data:
+            title: '{{ title }}'
+            message: '{{ message }}'
+            data:
+              actions: '{{ actions|default("{}") }}'
 
   text_alert_image:
     alias: 'Text Alert Image'
