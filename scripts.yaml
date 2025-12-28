@@ -1785,6 +1785,18 @@ tony_morning_meds:
           - action: TONY_MORNING_MEDS_SKIPPED
             title: Skip
         action: script.text_notify
+      - alias: Send PC notification
+        action: script.pc_notify
+        metadata: {}
+        data:
+          who: tony
+          title: Morning Meds
+          message: '{{ response.data.notification_text }}'
+          actions:
+          - action: TONY_MORNING_MEDS_TAKEN
+            title: Taken
+          - action: TONY_MORNING_MEDS_SKIPPED
+            title: Skip
       - alias: Send TTS if reminders > 2 and Tony is home
         if:
         - alias: When reminders > 2 and Tony is home
@@ -1826,6 +1838,18 @@ tony_morning_meds:
             title: Skip
           message: You need to take your morning meds
         action: script.text_notify
+      - alias: Send PC notification
+        action: script.pc_notify
+        metadata: {}
+        data:
+          who: tony
+          title: Morning Meds
+          message: You need to take your morning meds
+          actions:
+          - action: TONY_MORNING_MEDS_TAKEN
+            title: Taken
+          - action: TONY_MORNING_MEDS_SKIPPED
+            title: Skip
       - alias: Send TTS if reminders > 2 and Tony is home
         if:
         - alias: When reminders > 2 and Tony is home
@@ -2113,6 +2137,18 @@ tony_afternoon_meds:
           - action: TONY_AFTERNOON_MEDS_SKIPPED
             title: Skip
         action: script.text_notify
+      - action: script.pc_notify
+        metadata: {}
+        data:
+          who: tony
+          title: Afternoon Meds
+          message: '{{ response.data.notification_text }}'
+          actions:
+          - action: TONY_AFTERNOON_MEDS_TAKEN
+            title: Taken
+          - action: TONY_AFTERNOON_MEDS_SKIPPED
+            title: Skip
+        alias: Send PC notification
       - alias: Send TTS if reminders > 2 and Tony is home
         if:
         - alias: When reminders > 2 and Tony is home
@@ -2154,6 +2190,18 @@ tony_afternoon_meds:
             title: Skip
           message: You need to take your afternoon meds
         action: script.text_notify
+      - alias: Send PC notification
+        action: script.pc_notify
+        metadata: {}
+        data:
+          who: tony
+          title: Afternoon Meds
+          message: You need to take your afternoon meds
+          actions:
+          - action: TONY_AFTERNOON_MEDS_TAKEN
+            title: Taken
+          - action: TONY_AFTERNOON_MEDS_SKIPPED
+            title: Skip
       - alias: Send TTS if reminders > 2 and Tony is home
         if:
         - alias: When reminders > 2 and Tony is home
