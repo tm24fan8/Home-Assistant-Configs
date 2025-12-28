@@ -1,0 +1,228 @@
+template:
+  sensor:
+    - name: Tony Asus - Memory Used
+      unique_id: 5264e038-c3c2-4638-9b4e-6c4e8ba0501d
+      unit_of_measurement: 'MB'
+      icon: mdi:memory
+      state: >
+        {% set sensor_gb = states('sensor.tony_asus_memory_used_gb') | float %}
+        {{ (sensor_gb * 1024) | round(0) | int }}
+      availability: >
+        {{ states('sensor.tony_asus_memory_used_gb') not in ['unknown', 'unavailable'] }}
+    - name: Tony Asus - Memory Available
+      unique_id: 46577cdb-5f23-413d-8b2c-8f0bc0be71d1
+      unit_of_measurement: 'MB'
+      icon: mdi:memory
+      state: >
+        {% set sensor_gb = states('sensor.tony_asus_memory_available_gb') | float %}
+        {{ (sensor_gb * 1024) | round(0) | int }}
+      availability: >
+        {{ states('sensor.tony_asus_memory_available_gb') not in ['unknown', 'unavailable'] }}
+    - name: Tony Asus - Virtual Memory Used
+      unique_id: 1499ad78-5f13-43e5-a1e0-c321cf35c059
+      unit_of_measurement: 'MB'
+      icon: mdi:memory
+      state: >
+        {% set sensor_gb = states('sensor.tony_asus_virtual_memory_used_gb') | float %}
+        {{ (sensor_gb * 1024) | round(0) | int }}
+      availability: >
+        {{ states('sensor.tony_asus_virtual_memory_used_gb') not in ['unknown', 'unavailable'] }}
+    - name: Tony Asus - Virtual Memory Available
+      unique_id: e7646bce-56fb-426f-afce-3671c1624169
+      unit_of_measurement: 'MB'
+      icon: mdi:memory
+      state: >
+        {% set sensor_gb = states('sensor.tony_asus_virtual_memory_available_gb') | float %}
+        {{ (sensor_gb * 1024) | round(0) | int }}
+      availability: >
+        {{ states('sensor.tony_asus_virtual_memory_available_gb') not in ['unknown', 'unavailable'] }}
+    - name: Tony Asus - Storage C Available Free Space
+      unique_id: 873f0624-705d-455e-ac5c-63320b42d90d
+      unit_of_measurement: 'GB'
+      icon: mdi:harddisk
+      state: >
+        {% set sensor_mb = state_attr('sensor.tony_asus_storage_c','AvailableSpaceMB') | int %}
+        {{ (sensor_mb / 1024) | round(0) | int }}
+      availability: >
+        {{ states('sensor.tony_asus_storage_c') not in ['unknown', 'unavailable'] }}
+    - name: Tony Asus - Storage C Used Space
+      unique_id: 772cf000-1be5-403c-aa69-c6c4250094e2
+      unit_of_measurement: 'GB'
+      icon: mdi:harddisk
+      state: >
+        {% set sensor_mb = state_attr('sensor.tony_asus_storage_c','UsedSpaceMB') | int %}
+        {{ (sensor_mb / 1024) | round(0) | int }}
+      availability: >
+        {{ states('sensor.tony_asus_storage_c') not in ['unknown', 'unavailable'] }}
+    - name: Tony Asus - Storage E Available Free Space
+      unique_id: 106839c5-9913-4f47-860d-fdef7e4cdd9c
+      unit_of_measurement: 'GB'
+      icon: mdi:harddisk
+      state: >
+        {% set sensor_mb = state_attr('sensor.tony_asus_storage_e','AvailableSpaceMB') | int %}
+        {{ (sensor_mb / 1024) | round(0) | int }}
+      availability: >
+        {{ states('sensor.tony_asus_storage_e') not in ['unknown', 'unavailable'] }}
+    - name: Tony Asus - Storage E Used Space
+      unique_id: e3e2fe47-809c-4763-afa8-7664515da051
+      unit_of_measurement: 'GB'
+      icon: mdi:harddisk
+      state: >
+        {% set sensor_mb = state_attr('sensor.tony_asus_storage_e','UsedSpaceMB') | int %}
+        {{ (sensor_mb / 1024) | round(0) | int }}
+      availability: >
+        {{ states('sensor.tony_asus_storage_e') not in ['unknown', 'unavailable'] }}
+    - name: Tony Asus - Storage S Available Free Space
+      unique_id: 5e16e11e-c4c8-4267-8ae8-58e67e95ac77
+      unit_of_measurement: 'GB'
+      icon: mdi:harddisk
+      state: >
+        {% set sensor_mb = state_attr('sensor.tony_asus_storage_s','AvailableSpaceMB') | int %}
+        {{ (sensor_mb / 1024) | round(0) | int }}
+      availability: >
+        {{ states('sensor.tony_asus_storage_s') not in ['unknown', 'unavailable'] }}
+    - name: Tony Asus - Storage S Used Space
+      unique_id: 01a4d7f2-ef09-4a20-a4d5-594546651e7d
+      unit_of_measurement: 'GB'
+      icon: mdi:harddisk
+      state: >
+        {% set sensor_mb = state_attr('sensor.tony_asus_storage_s','UsedSpaceMB') | int %}
+        {{ (sensor_mb / 1024) | round(0) | int }}
+      availability: >
+        {{ states('sensor.tony_asus_storage_s') not in ['unknown', 'unavailable'] }}
+    - name: Tony Asus - Storage V Available Free Space
+      unique_id: e5868a4e-628b-44fe-a35e-3ff4a7eceef8
+      unit_of_measurement: 'GB'
+      icon: mdi:harddisk
+      state: >
+        {% set sensor_mb = state_attr('sensor.tony_asus_storage_v','AvailableSpaceMB') | int %}
+        {{ (sensor_mb / 1024) | round(0) | int }}
+      availability: >
+        {{ states('sensor.tony_asus_storage_v') not in ['unknown', 'unavailable'] }}
+    - name: Tony Asus - Storage V Used Space
+      unique_id: 1ee34dac-0ff3-4920-b1db-79830595096b
+      unit_of_measurement: 'GB'
+      icon: mdi:harddisk
+      state: >
+        {% set sensor_mb = state_attr('sensor.tony_asus_storage_v','UsedSpaceMB') | int %}
+        {{ (sensor_mb / 1024) | round(0) | int }}
+      availability: >
+        {{ states('sensor.tony_asus_storage_v') not in ['unknown', 'unavailable'] }}
+
+script:
+  tony_desktop_wake:
+    # To enable see https://www.home-assistant.io/components/wake_on_lan/
+    alias: "Tony Desktop - Wake"
+    sequence:
+      - service: wake_on_lan.send_magic_packet
+        data:
+          mac: "18:C0:4D:82:00:95"
+
+  tony_desktop_shutdown:
+    alias: "Tony Desktop - Shutdown"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/shutdown"
+          payload: ""
+
+  tony_desktop_suspend:
+    alias: "Tony Desktop - Suspend"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/suspend"
+          payload: ""
+
+  tony_desktop_hibernate:
+    alias: "Tony Desktop - Hibernate"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/hibernate"
+          payload: ""
+
+  tony_desktop_reboot:
+    alias: "Tony Desktop - Reboot"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/reboot"
+          payload: ""
+
+  tony_desktop_lock:
+    alias: "Tony Desktop - Lock"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/lock"
+          payload: ""
+
+  tony_desktop_logoff:
+    alias: "Tony Desktop - Logoff"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/logoff"
+          payload: ""
+
+  tony_desktop_vol_mute:
+    alias: "Tony Desktop - Toggle Mute"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/volume/mute"
+          payload: ""
+
+  tony_desktop_vol_max:
+    alias: "Tony Desktop - Vol Max"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/volume/set"
+          payload: "100"
+
+  tony_desktop_displays_on:
+    alias: "Tony Desktop - Displays ON"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/displays/on"
+          payload: ""
+
+  tony_desktop_displays_off:
+    alias: "Tony Desktop - Displays OFF"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/displays/off"
+          payload: ""
+
+  tony_desktop_refresh:
+    alias: "Tony Desktop - Refresh"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/refresh"
+          payload: ""
+      - service: button.press
+        target:
+          entity_id:
+          - button.tony_asus_hassagent_user_refresh
+          - button.tony_asus_hassagent_satellite_refresh
+
+  tony_desktop_notify:
+    alias: "Tony Desktop - Notify"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/notify"
+          payload: '{ "title": "My Notification Title", "message": "This is an example of notification using IOT Link", "launchParams": "toast://open/https://iotlink.gitlab.io" }'
+
+  tony_desktop_run_chrome:
+    alias: "Tony Desktop - Run Chrome"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/tony-asus/commands/run"
+          payload: '{ "command": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", "args": "https://iotlink.gitlab.io", "path": "C:\\Program Files\\Google\\Chrome\\Application", "user": "", "visible": true, "fallback": true }'
