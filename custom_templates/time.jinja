@@ -110,3 +110,8 @@
 {% macro next_twitch_stream() %}
 {{ custom_time('calendar.tony_s_twitch_schedule','week,day,hour') }}
 {% endmacro %}
+
+{% macro time_diff(sensor) %}
+{% set diff = (as_timestamp(now()) - as_timestamp(states(sensor))) | int %}
+{{ diff }}
+{% endmacro %}
