@@ -371,24 +371,24 @@ notify:
   - name: pc_parents
     platform: group
     services:
-      - service: notify.tony_asus
-      - service: notify.xia_desktop
+      - service: tony_asus
+      - service: xia_desktop
   - name: pc_nerds
     platform: group
     services:
-      - service: notify.tony_asus
-      - service: notify.kallen_desktop
+      - service: tony_asus
+      - service: kallen_desktop
   - name: pc_all
     platform: group
     services:
-      - service: notify.tony_asus
-      - service: notify.xia_desktop
-      - service: notify.kallen_desktop
+      - service: tony_asus
+      - service: xia_desktop
+      - service: kallen_desktop
   - name: pc_not_tony
     platform: group
     services:
-      - service: notify.xia_desktop
-      - service: notify.kallen_desktop
+      - service: xia_desktop
+      - service: kallen_desktop
 
 script:
   volume_reset:
