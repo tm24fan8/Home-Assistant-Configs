@@ -97,7 +97,9 @@ template:
         {{ (time_diff('sensor.tony_asus_last_active') | int) > (states('input_number.basement_computers_idle_time') | int * 60) }}
     - name: Tina Desktop Idle
       unique_id: 1933c638-c94b-468e-bb7a-c1c5b36c3651
-      state: "{{ (states('sensor.xia_desktop_system_idle_time') | int) > (states('input_number.first_floor_computers_idle_time') | int * 60) }}"
+      state: >
+        {% from 'time.jinja' import time_diff %}
+        {{ (time_diff('sensor.xia_desktop_last_active') | int) > (states('input_number.first_floor_computers_idle_time') | int * 60) }}
     - name: Kallen Desktop Idle
       unique_id: 680c6ae3-2ed2-451e-858b-2aee688af461
       state: "{{ (states('sensor.kallen_desktop_system_idle_time') | int) > (states('input_number.basement_computers_idle_time') | int * 60) }}"
