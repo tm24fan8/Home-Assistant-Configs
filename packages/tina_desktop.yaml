@@ -1,0 +1,176 @@
+template:
+  sensor:
+    - name: Xia Desktop - Memory Used
+      unique_id: 9890f64e-d530-4824-97f7-0d459acaa97f
+      unit_of_measurement: 'MB'
+      icon: mdi:memory
+      state: >
+        {% set sensor_gb = states('sensor.xia_desktop_memory_used_gb') | float %}
+        {{ (sensor_gb * 1024) | round(0) | int }}
+      availability: >
+        {{ states('sensor.xia_desktop_memory_used_gb') not in ['unknown', 'unavailable'] }}
+    - name: Xia Desktop - Memory Available
+      unique_id: bca791c1-deac-4054-bf06-a25cdb72871a
+      unit_of_measurement: 'MB'
+      icon: mdi:memory
+      state: >
+        {% set sensor_gb = states('sensor.xia_desktop_memory_available_gb') | float %}
+        {{ (sensor_gb * 1024) | round(0) | int }}
+      availability: >
+        {{ states('sensor.xia_desktop_memory_available_gb') not in ['unknown', 'unavailable'] }}
+    - name: Xia Desktop - Virtual Memory Used
+      unique_id: dea6cc3d-f4d8-436c-8638-6070bb6c178a
+      unit_of_measurement: 'MB'
+      icon: mdi:memory
+      state: >
+        {% set sensor_gb = states('sensor.xia_desktop_virtual_memory_used_gb') | float %}
+        {{ (sensor_gb * 1024) | round(0) | int }}
+      availability: >
+        {{ states('sensor.xia_desktop_virtual_memory_used_gb') not in ['unknown', 'unavailable'] }}
+    - name: Xia Desktop - Virtual Memory Available
+      unique_id: 5d6ed1a7-9af9-440f-bd75-feac8998c536
+      unit_of_measurement: 'MB'
+      icon: mdi:memory
+      state: >
+        {% set sensor_gb = states('sensor.xia_desktop_virtual_memory_available_gb') | float %}
+        {{ (sensor_gb * 1024) | round(0) | int }}
+      availability: >
+        {{ states('sensor.xia_desktop_virtual_memory_available_gb') not in ['unknown', 'unavailable'] }}
+    - name: Xia Desktop - Storage C Available Free Space
+      unique_id: 8b23c84e-f3ba-4ddd-ac77-6c7a84851f0f
+      unit_of_measurement: 'GB'
+      icon: mdi:harddisk
+      state: >
+        {% set sensor_mb = state_attr('sensor.xia_desktop_storage_c','AvailableSpaceMB') | int %}
+        {{ (sensor_mb / 1024) | round(0) | int }}
+      availability: >
+        {{ states('sensor.xia_desktop_storage_c') not in ['unknown', 'unavailable'] }}
+    - name: Xia Desktop - Storage C Used Space
+      unique_id: 3de6e5e8-4fbd-49d9-8761-925415ad46ed
+      unit_of_measurement: 'GB'
+      icon: mdi:harddisk
+      state: >
+        {% set sensor_mb = state_attr('sensor.xia_desktop_storage_c','UsedSpaceMB') | int %}
+        {{ (sensor_mb / 1024) | round(0) | int }}
+      availability: >
+        {{ states('sensor.xia_desktop_storage_c') not in ['unknown', 'unavailable'] }}
+    - name: Xia Desktop - Storage D Available Free Space
+      unique_id: d38bb654-8981-44d6-b07b-e270c2a3903c
+      unit_of_measurement: 'GB'
+      icon: mdi:harddisk
+      state: >
+        {% set sensor_mb = state_attr('sensor.xia_desktop_storage_d','AvailableSpaceMB') | int %}
+        {{ (sensor_mb / 1024) | round(0) | int }}
+      availability: >
+        {{ states('sensor.xia_desktop_storage_d') not in ['unknown', 'unavailable'] }}
+    - name: Xia Desktop - Storage D Used Space
+      unique_id: bfbd5783-78ac-410b-8b41-e000c1b06283
+      unit_of_measurement: 'GB'
+      icon: mdi:harddisk
+      state: >
+        {% set sensor_mb = state_attr('sensor.xia_desktop_storage_d','UsedSpaceMB') | int %}
+        {{ (sensor_mb / 1024) | round(0) | int }}
+      availability: >
+        {{ states('sensor.xia_desktop_storage_d') not in ['unknown', 'unavailable'] }}
+
+script:
+  tina_desktop_wake:
+    # To enable see https://www.home-assistant.io/components/wake_on_lan/
+    alias: "Tina Desktop - Wake"
+    sequence:
+      - service: wake_on_lan.send_magic_packet
+        data:
+          mac: "B4:2E:99:A8:CF:88"
+
+  tina_desktop_suspend:
+    alias: "Tina Desktop - Suspend"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/xia-desktop/commands/suspend"
+          payload: ""
+
+  tina_desktop_hibernate:
+    alias: "Tina Desktop - Hibernate"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/xia-desktop/commands/hibernate"
+          payload: ""
+
+  tina_desktop_lock:
+    alias: "Tina Desktop - Lock"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/xia-desktop/commands/lock"
+          payload: ""
+
+  tina_desktop_logoff:
+    alias: "Tina Desktop - Logoff"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/xia-desktop/commands/logoff"
+          payload: ""
+
+  tina_desktop_vol_mute:
+    alias: "Tina Desktop - Toggle Mute"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/xia-desktop/commands/volume/mute"
+          payload: ""
+
+  tina_desktop_vol_max:
+    alias: "Tina Desktop - Vol Max"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/xia-desktop/commands/volume/set"
+          payload: "100"
+
+  tina_desktop_displays_on:
+    alias: "Tina Desktop - Displays ON"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/xia-desktop/commands/displays/on"
+          payload: ""
+
+  tina_desktop_displays_off:
+    alias: "Tina Desktop - Displays OFF"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/xia-desktop/commands/displays/off"
+          payload: ""
+
+  tina_desktop_refresh:
+    alias: "Tina Desktop - Refresh"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/xia-desktop/refresh"
+          payload: ""
+      - service: button.press
+        target:
+          entity_id:
+          - button.xia_desktop_hassagent_user_refresh
+          - button.xia_desktop_hassagent_satellite_refresh
+
+  tina_desktop_notify:
+    alias: "Tina Desktop - Notify"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/xia-desktop/commands/notify"
+          payload: '{ "title": "My Notification Title", "message": "This is an example of notification using IOT Link", "launchParams": "toast://open/https://iotlink.gitlab.io" }'
+
+  tina_desktop_run_chrome:
+    alias: "Tina Desktop - Run Chrome"
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "iotlink/workgroup/xia-desktop/commands/run"
+          payload: '{ "command": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe", "args": "https://iotlink.gitlab.io", "path": "C:\\Program Files (x86)\\Google\\Chrome\\Application", "user": "", "visible": true, "fallback": true }'
