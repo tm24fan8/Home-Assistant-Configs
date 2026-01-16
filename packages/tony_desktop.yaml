@@ -118,14 +118,6 @@ script:
         data:
           mac: "18:C0:4D:82:00:95"
 
-  tony_desktop_shutdown:
-    alias: "Tony Desktop - Shutdown"
-    sequence:
-      - service: mqtt.publish
-        data:
-          topic: "iotlink/workgroup/tony-asus/commands/shutdown"
-          payload: ""
-
   tony_desktop_suspend:
     alias: "Tony Desktop - Suspend"
     sequence:
@@ -140,14 +132,6 @@ script:
       - service: mqtt.publish
         data:
           topic: "iotlink/workgroup/tony-asus/commands/hibernate"
-          payload: ""
-
-  tony_desktop_reboot:
-    alias: "Tony Desktop - Reboot"
-    sequence:
-      - service: mqtt.publish
-        data:
-          topic: "iotlink/workgroup/tony-asus/commands/reboot"
           payload: ""
 
   tony_desktop_lock:
