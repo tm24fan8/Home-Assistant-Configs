@@ -25,91 +25,91 @@ template:
       state: "{{ states('input_datetime.kallen_fan') != states('input_datetime.kallen_bedtime') }}"
     - name: Living Room Front Hot
       unique_id: 8fd9db5e-7883-42f3-8918-e78d52c680c6
-      state: "{{ states('sensor.living_room_front_temperature') | float >= 80 }}"
+      state: "{{ (states('sensor.living_room_front_temperature') | float) >= (states('input_number.living_room_hot_threshold') | float) }}"
       device_class: heat
     - name: Living Room Front Cold
       unique_id: 48494ec8-a63f-4244-b619-ff78c44f28e8
-      state: "{{ states('sensor.living_room_front_temperature') | float <= 60 }}"
+      state: "{{ (states('sensor.living_room_front_temperature') | float) <= (states('input_number.living_room_cold_threshold') | float) }}"
       device_class: cold
     - name: Downstairs Bathroom Hot
       unique_id: b68adefa-e30e-4454-be21-2743af0f1674
-      state: "{{ states('sensor.downstairs_bathroom_temperature') | float >= 80 }}"
+      state: "{{ (states('sensor.downstairs_bathroom_temperature') | float) >= (states('input_number.downstairs_bathroom_hot_threshold') | float) }}"
       device_class: heat
     - name: Downstairs Bathroom Cold
       unique_id: c477a45e-f11c-4af5-87aa-90f006b74ac5
-      state: "{{ states('sensor.downstairs_bathroom_temperature') | float <= 55 }}"
+      state: "{{ (states('sensor.downstairs_bathroom_temperature') | float) <= (states('input_number.downstairs_bathroom_cold_threshold') | float) }}"
       device_class: cold
     - name: Stairwell Bottom Hot
       unique_id: ebd09e52-c31e-442e-8767-a8083b99c66c
-      state: "{{ states('sensor.stairwell_bottom_temperature') | float >= 80 }}"
+      state: "{{ (states('sensor.stairwell_bottom_temperature') | float) >= (states('input_number.stairwell_bottom_hot_threshold') | float) }}"
       device_class: heat
     - name: Stairwell Bottom Cold
       unique_id: 3f8b5340-0fb4-489f-8df7-c2843316009f
-      state: "{{ states('sensor.stairwell_bottom_temperature') | float <= 60 }}"
+      state: "{{ (states('sensor.stairwell_bottom_temperature') | float) <= (states('input_number.stairwell_bottom_cold_threshold') | float) }}"
       device_class: cold
     - name: Upstairs Bathroom Hot
       unique_id: 86394cea-9499-4595-85d1-2a026e8e2b27
-      state: "{{ states('sensor.upstairs_bathroom_temperature') | float >= 80 }}"
+      state: "{{ (states('sensor.upstairs_bathroom_temperature') | float) >= (states('input_number.upstairs_bathroom_hot_threshold') | float) }}"
       device_class: heat
     - name: Upstairs Bathroom Cold
       unique_id: 5d720614-90f0-4e69-8086-8bc0f47a78eb
-      state: "{{ states('sensor.upstairs_bathroom_temperature') | float <= 60 }}"
+      state: "{{ (states('sensor.upstairs_bathroom_temperature') | float) <= (states('input_number.upstairs_bathroom_cold_threshold') | float) }}"
       device_class: cold
     - name: Emma Bedroom Hot
       unique_id: b453e23a-f3c9-4fab-bf82-d08af05e8a94
-      state: "{{ states('sensor.emma_bedroom_temperature') | float >= 75 }}"
+      state: "{{ (states('sensor.emma_bedroom_temperature') | float) >= (states('input_number.emma_bedroom_hot_threshold') | float) }}"
       device_class: heat
     - name: Emma Bedroom Cold
       unique_id: 41174b21-a46f-4deb-8dbc-61a356b33db1
-      state: "{{ states('sensor.emma_bedroom_temperature') | float <= 60 }}"
+      state: "{{ (states('sensor.emma_bedroom_temperature') | float) <= (states('input_number.emma_bedroom_cold_threshold') | float) }}"
       device_class: cold
     - name: Basement Studio Hot
       unique_id: 2c5626e9-9a3f-43b0-9595-3a15c9434b0f
-      state: "{{ states('sensor.basement_studio_temperature') | float >= 80 }}"
+      state: "{{ (states('sensor.basement_studio_temperature') | float) >= (states('input_number.basement_studio_hot_threshold') | float) }}"
       device_class: heat
     - name: Basement Studio Cold
       unique_id: 985f4f8c-2297-4d32-ace7-818534c5e4b5
-      state: "{{ states('sensor.basement_studio_temperature') | float <= 60 }}"
+      state: "{{ (states('sensor.basement_studio_temperature') | float) <= (states('input_number.basement_studio_cold_threshold') | float) }}"
       device_class: cold
     - name: Living Room Back Hot
       unique_id: 9a2be430-9322-492b-a0c1-bb0f034979f5
-      state: "{{ states('sensor.living_room_back_temperature') | float >= 80 }}"
+      state: "{{ (states('sensor.living_room_back_temperature') | float) >= (states('input_number.living_room_hot_threshold') | float) }}"
       device_class: heat
     - name: Living Room Back Cold
       unique_id: 524c2ad1-1f44-42c0-b06b-28a40d439832
-      state: "{{ states('sensor.living_room_back_temperature') | float <= 60 }}"
+      state: "{{ (states('sensor.living_room_back_temperature') | float) <= (states('input_number.living_room_cold_threshold') | float) }}"
       device_class: cold
     - name: Mud Room Hot
       unique_id: 920fa45e-8c6e-4518-9aea-5141e15a4350
-      state: "{{ states('sensor.mud_room_temperature') | float >= 80 }}"
+      state: "{{ (states('sensor.mud_room_temperature') | float) >= (states('input_number.mud_room_hot_threshold') | float) }}"
       device_class: heat
     - name: Mud Room Cold
       unique_id: 459998f5-7011-4e96-aa8a-076591a1b1ce
-      state: "{{ states('sensor.mud_room_temperature') | float <= 60 }}"
+      state: "{{ (states('sensor.mud_room_temperature') | float) <= (states('input_number.mud_room_cold_threshold') | float) }}"
       device_class: cold
     - name: Stairwell Top Hot
       unique_id: 22d325db-e213-4d7b-81a8-a7ba3798e751
-      state: "{{ states('sensor.stairwell_top_temperature') | float >= 80 }}"
+      state: "{{ (states('sensor.stairwell_top_temperature') | float) >= (states('input_number.stairwell_top_hot_threshold') | float) }}"
       device_class: heat
     - name: Stairwell Top Cold
       unique_id: 925bf2d5-cfa6-4508-98c4-b7ad185ddbc1
-      state: "{{ states('sensor.stairwell_top_temperature') | float <= 60 }}"
+      state: "{{ (states('sensor.stairwell_top_temperature') | float) <= (states('input_number.stairwell_top_cold_threshold') | float) }}"
       device_class: cold
     - name: Kallen Bedroom Hot
       unique_id: e47ba60f-e9b2-48d4-899b-f16fdb146e75
-      state: "{{ states('sensor.kallen_bedroom_temperature') | float >= 75 }}"
+      state: "{{ (states('sensor.kallen_bedroom_temperature') | float) >= (states('input_number.kallen_bedroom_hot_threshold') | float) }}"
       device_class: heat
     - name: Kallen Bedroom Cold
       unique_id: 69115462-c159-4f5b-b047-ff8a2600fa7d
-      state: "{{ states('sensor.kallen_bedroom_temperature') | float <= 60 }}"
+      state: "{{ (states('sensor.kallen_bedroom_temperature') | float) <= (states('input_number.kallen_bedroom_cold_threshold') | float) }}"
       device_class: cold
     - name: Master Bedroom Hot
       unique_id: ca7c96e5-ea83-4698-a43c-16e09af6d6fd
-      state: "{{ states('sensor.master_bedroom_temperature') | float >= 75 }}"
+      state: "{{ (states('sensor.master_bedroom_temperature') | float) >= (states('input_number.master_bedroom_hot_threshold') | float) }}"
       device_class: heat
     - name: Master Bedroom Cold
       unique_id: 1577cb2c-234d-41c8-a12e-5111a77df958
-      state: "{{ states('sensor.master_bedroom_temperature') | float <= 60 }}"
+      state: "{{ (states('sensor.master_bedroom_temperature') | float) <= (states('input_number.master_bedroom_cold_threshold') | float) }}"
       device_class: cold
   - sensor:
     - name: "Master Bedroom Target Temp"
@@ -457,6 +457,146 @@ input_number:
     step: 1
     unit_of_measurement: °F
     icon: mdi:thermometer
+  living_room_hot_threshold:
+    name: Living Room Hot Threshold
+    min: 50
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer-chevron-up
+  living_room_cold_threshold:
+    name: Living Room Cold Threshold
+    min: 50
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer-chevron-down
+  downstairs_bathroom_hot_threshold:
+    name: Downstairs Bathroom Hot Threshold
+    min: 50
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer-chevron-up
+  downstairs_bathroom_cold_threshold:
+    name: Downstairs Bathroom Cold Threshold
+    min: 50
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer-chevron-down
+  stairwell_bottom_hot_threshold:
+    name: Stairwell Bottom Hot Threshold
+    min: 50
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer-chevron-up
+  stairwell_bottom_cold_threshold:
+    name: Stairwell Bottom Cold Threshold
+    min: 50
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer-chevron-down
+  upstairs_bathroom_hot_threshold:
+    name: Upstairs Bathroom Hot Threshold
+    min: 50
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer-chevron-up
+  upstairs_bathroom_cold_threshold:
+    name: Upstairs Bathroom Cold Threshold
+    min: 50
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer-chevron-down
+  emma_bedroom_hot_threshold:
+    name: Emma Bedroom Hot Threshold
+    min: 50
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer-chevron-up
+  emma_bedroom_cold_threshold:
+    name: Emma Bedroom Cold Threshold
+    min: 50
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer-chevron-down
+  basement_studio_hot_threshold:
+    name: Basement Studio Hot Threshold
+    min: 50
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer-chevron-up
+  basement_studio_cold_threshold:
+    name: Basement Studio Cold Threshold
+    min: 50
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer-chevron-down
+  mud_room_hot_threshold:
+    name: Mud Room Hot Threshold
+    min: 50
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer-chevron-up
+  mud_room_cold_threshold:
+    name: Mud Room Cold Threshold
+    min: 50
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer-chevron-down
+  stairwell_top_hot_threshold:
+    name: Stairwell Top Hot Threshold
+    min: 50
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer-chevron-up
+  stairwell_top_cold_threshold:
+    name: Stairwell Top Cold Threshold
+    min: 50
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer-chevron-down
+  kallen_bedroom_hot_threshold:
+    name: Kallen Bedroom Hot Threshold
+    min: 50
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer-chevron-up
+  kallen_bedroom_cold_threshold:
+    name: Kallen Bedroom Cold Threshold
+    min: 50
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer-chevron-down
+  master_bedroom_hot_threshold:
+    name: Master Bedroom Hot Threshold
+    min: 50
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer-chevron-up
+  master_bedroom_cold_threshold:
+    name: Master Bedroom Cold Threshold
+    min: 50
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer-chevron-down
 
 climate:
   - platform: generic_thermostat
