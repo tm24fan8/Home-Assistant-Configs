@@ -2,6 +2,9 @@ input_boolean:
   server_maintenance:
     name: Server Maintenance
     icon: mdi:wrench-clock
+  recorder:
+    name: Recorder
+    icon: mdi:database
 
 input_select:
   log_level:

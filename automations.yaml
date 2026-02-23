@@ -6357,3 +6357,50 @@
     data:
       hvac_mode: heat
   mode: restart
+- id: '1771035023213'
+  alias: Recorder Toggle
+  description: Toggles the recorder on or off, so we can do database maintenance without
+    having to shut down Home Assistant
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_boolean.recorder
+    from:
+    - 'off'
+    to:
+    - 'on'
+    id: recorder-on
+    alias: Recorder On
+  - trigger: state
+    entity_id:
+    - input_boolean.recorder
+    from:
+    - 'on'
+    to:
+    - 'off'
+    id: recorder-off
+    alias: Recorder Off
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - recorder-on
+        alias: Recorder On
+      sequence:
+      - action: recorder.enable
+        metadata: {}
+        data: {}
+        alias: Enable Recorder
+    - conditions:
+      - condition: trigger
+        id:
+        - recorder-off
+        alias: Recorder Off
+      sequence:
+      - action: recorder.disable
+        metadata: {}
+        data: {}
+        alias: Disable Recorder
+  mode: restart
