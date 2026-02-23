@@ -156,7 +156,7 @@ template:
       unique_id: 87653f3a-203c-4dbf-87e8-70bcacf6eb22
       state: >
         {% from 'sports.jinja' import sports_inhibit %}
-        {{ sports_inhibit('sensor.minnesota_golden_gophers_hockey') }}
+        {{ state_attr('sensor.minnesota_golden_gophers_hockey','opponent_abbr') in ['MICH','MNST'] or sports_inhibit('sensor.minnesota_golden_gophers_hockey') }}
     - name: Minnesota Golden Gophers Hockey Event Today
       unique_id: 1f4ff7eb-cbc9-4c81-a5c9-6523b5fb52ff
       state: >
@@ -166,7 +166,7 @@ template:
       unique_id: bd15870d-bccb-4c52-9690-473c31bb4090
       state: >
         {% from 'sports.jinja' import sports_inhibit %}
-        {{ sports_inhibit('sensor.minnesota_state_mavericks_hockey') }}
+        {{ state_attr('sensor.minnesota_state_mavericks_hockey','opponent_abbr') in ['MICH'] or sports_inhibit('sensor.minnesota_state_mavericks_hockey') }}
     - name: Minnesota State Mavericks Hockey Event Today
       unique_id: e403be15-3ff2-47b1-8398-70f8ccb65026
       state: >
