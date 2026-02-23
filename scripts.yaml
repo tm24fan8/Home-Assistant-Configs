@@ -2688,122 +2688,261 @@ reset_annc_switches:
 emma_rainbow_lights:
   alias: Emma Rainbow Lights
   sequence:
-  - service: switch.turn_off
-    metadata: {}
-    data: {}
-    target:
-      entity_id:
-      - switch.adaptive_lighting_living_room
-      - switch.adaptive_lighting_sleep_mode_living_room
-    alias: Turn off adaptive lighting
-  - service: lifx.effect_stop
-    metadata: {}
-    data: {}
-    target:
-      entity_id: light.living_room_led_strip
-    alias: Stop any current light strip effects
-  - alias: Choose Effect
-    choose:
+  - choose:
     - conditions:
       - condition: template
-        value_template: '{{ effect in [''Rainbow'',null] }}'
-        alias: Rainbow
+        value_template: '{{ who == ''Living Room'' }}'
+        alias: Living Room
       sequence:
-      - service: light.turn_on
-        metadata: {}
-        data:
-          effect: prism
-        target:
-          entity_id: light.living_room_overhead
-        alias: Turn on living room overhead in prism effect
-      - service: lifx.effect_move
-        metadata: {}
-        data:
-          speed: 8
-          direction: right
-          theme: exciting
-          power_on: true
-        target:
-          entity_id: light.living_room_led_strip
-        alias: Turn on living room LED strip in exciting theme with move effect
-    - conditions:
-      - condition: template
-        value_template: '{{ effect == ''Blue'' }}'
-        alias: Blue
-      sequence:
-      - service: light.turn_on
-        metadata: {}
-        data:
-          rgb_color:
-          - 0
-          - 0
-          - 255
-          brightness_pct: 100
-        target:
-          entity_id: light.living_room_lights
-        alias: Turn on living room lights, set to blue
-    - conditions:
-      - condition: template
-        value_template: '{{ effect == ''Purple'' }}'
-        alias: Purple
-      sequence:
-      - service: light.turn_on
-        metadata: {}
-        data:
-          rgb_color:
-          - 134
-          - 0
-          - 211
-          brightness_pct: 100
-        target:
-          entity_id: light.living_room_lights
-        alias: Turn on living room lights, set to purple
-    - conditions:
-      - alias: Green
-        condition: template
-        value_template: '{{ effect == ''Green'' }}'
-      sequence:
-      - alias: Turn on living room lights, set to green
-        service: light.turn_on
-        metadata: {}
-        data:
-          rgb_color:
-          - 0
-          - 255
-          - 0
-          brightness_pct: 100
-        target:
-          entity_id: light.living_room_lights
-    - conditions:
-      - condition: template
-        value_template: '{{ effect == ''Tokyo'' }}'
-        alias: Tokyo
-      sequence:
-      - service: input_boolean.turn_on
-        metadata: {}
+      - metadata: {}
         data: {}
         target:
-          entity_id: input_boolean.living_room_dynamic_scenes
-        alias: Turn on dynamic scenes
-      - service: input_select.select_option
-        metadata: {}
-        data:
-          option: Tokyo
-        target:
-          entity_id: input_select.living_room_scenes
-        alias: Activate Tokyo scene in Living Room
-      - alias: Turn on living room LED strip in intense theme with move effect
-        service: lifx.effect_move
-        metadata: {}
-        data:
-          speed: 8
-          direction: right
-          theme: intense
-          power_on: true
+          entity_id:
+          - switch.adaptive_lighting_living_room
+          - switch.adaptive_lighting_sleep_mode_living_room
+        alias: Turn off adaptive lighting
+        action: switch.turn_off
+      - metadata: {}
+        data: {}
         target:
           entity_id: light.living_room_led_strip
-  mode: restart
-  icon: fas:rainbow
+        alias: Stop any current light strip effects
+        action: lifx.effect_stop
+      - alias: Choose Effect
+        choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ effect in [''Rainbow'',null] }}'
+            alias: Rainbow
+          sequence:
+          - metadata: {}
+            data:
+              effect: prism
+            target:
+              entity_id: light.living_room_overhead
+            alias: Turn on living room overhead in prism effect
+            action: light.turn_on
+          - metadata: {}
+            data:
+              speed: 8
+              direction: right
+              theme: exciting
+              power_on: true
+            target:
+              entity_id: light.living_room_led_strip
+            alias: Turn on living room LED strip in exciting theme with move effect
+            action: lifx.effect_move
+        - conditions:
+          - condition: template
+            value_template: '{{ effect == ''Blue'' }}'
+            alias: Blue
+          sequence:
+          - metadata: {}
+            data:
+              rgb_color:
+              - 0
+              - 0
+              - 255
+              brightness_pct: 100
+            target:
+              entity_id: light.living_room_lights
+            alias: Turn on living room lights, set to blue
+            action: light.turn_on
+        - conditions:
+          - condition: template
+            value_template: '{{ effect == ''Purple'' }}'
+            alias: Purple
+          sequence:
+          - metadata: {}
+            data:
+              rgb_color:
+              - 134
+              - 0
+              - 211
+              brightness_pct: 100
+            target:
+              entity_id: light.living_room_lights
+            alias: Turn on living room lights, set to purple
+            action: light.turn_on
+        - conditions:
+          - alias: Green
+            condition: template
+            value_template: '{{ effect == ''Green'' }}'
+          sequence:
+          - alias: Turn on living room lights, set to green
+            metadata: {}
+            data:
+              rgb_color:
+              - 0
+              - 255
+              - 0
+              brightness_pct: 100
+            target:
+              entity_id: light.living_room_lights
+            action: light.turn_on
+        - conditions:
+          - condition: template
+            value_template: '{{ effect == ''Tokyo'' }}'
+            alias: Tokyo
+          sequence:
+          - metadata: {}
+            data: {}
+            target:
+              entity_id: input_boolean.living_room_dynamic_scenes
+            alias: Turn on dynamic scenes
+            action: input_boolean.turn_on
+          - metadata: {}
+            data:
+              option: Tokyo
+            target:
+              entity_id: input_select.living_room_scenes
+            alias: Activate Tokyo scene in Living Room
+            action: input_select.select_option
+          - alias: Turn on living room LED strip in intense theme with move effect
+            metadata: {}
+            data:
+              speed: 8
+              direction: right
+              theme: intense
+              power_on: true
+            target:
+              entity_id: light.living_room_led_strip
+            action: lifx.effect_move
+    - conditions:
+      - alias: Basement Studio
+        condition: template
+        value_template: '{{ who == ''Basement Studio'' }}'
+      sequence:
+      - alias: Turn off adaptive lighting
+        metadata: {}
+        data: {}
+        action: switch.turn_off
+        target:
+          entity_id:
+          - switch.adaptive_lighting_basement_studio
+          - switch.adaptive_lighting_sleep_mode_basement_studio
+      - alias: Stop any current light strip effects
+        metadata: {}
+        data: {}
+        action: lifx.effect_stop
+        target:
+          entity_id: light.basement_led_strip_1
+      - alias: Choose Effect
+        choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ effect in [''Rainbow'',null] }}'
+            alias: Rainbow
+          sequence:
+          - metadata: {}
+            data:
+              effect: prism
+            target:
+              entity_id: light.basement_tall_lamp
+            alias: Turn on basement tall lamp in prism effect
+            action: light.turn_on
+          - metadata: {}
+            data:
+              effect: prism
+            target:
+              entity_id: light.basement_short_lamp
+            alias: Turn on basement short lamp in prism effect
+            action: light.turn_on
+          - metadata: {}
+            data:
+              effect: prism
+            target:
+              entity_id: light.basement_stairwell
+            alias: Turn on basement stairwell in prism effect
+            action: light.turn_on
+          - metadata: {}
+            data:
+              speed: 8
+              direction: right
+              theme: exciting
+              power_on: true
+            target:
+              entity_id: light.basement_led_strip_1
+            alias: Turn on basement studio LED strip in exciting theme with move effect
+            action: lifx.effect_move
+        - conditions:
+          - condition: template
+            value_template: '{{ effect == ''Blue'' }}'
+            alias: Blue
+          sequence:
+          - metadata: {}
+            data:
+              rgb_color:
+              - 0
+              - 0
+              - 255
+              brightness_pct: 100
+            target:
+              entity_id: light.basement_studio_lights
+            alias: Turn on basement studio lights, set to blue
+            action: light.turn_on
+        - conditions:
+          - condition: template
+            value_template: '{{ effect == ''Purple'' }}'
+            alias: Purple
+          sequence:
+          - metadata: {}
+            data:
+              rgb_color:
+              - 134
+              - 0
+              - 211
+              brightness_pct: 100
+            target:
+              entity_id: light.basement_studio_lights
+            alias: Turn on basement studio lights, set to purple
+            action: light.turn_on
+        - conditions:
+          - alias: Green
+            condition: template
+            value_template: '{{ effect == ''Green'' }}'
+          sequence:
+          - alias: Turn on basement studio lights, set to green
+            metadata: {}
+            data:
+              rgb_color:
+              - 0
+              - 255
+              - 0
+              brightness_pct: 100
+            target:
+              entity_id: light.basement_studio_lights
+            action: light.turn_on
+        - conditions:
+          - condition: template
+            value_template: '{{ effect == ''Tokyo'' }}'
+            alias: Tokyo
+          sequence:
+          - metadata: {}
+            data: {}
+            target:
+              entity_id: input_boolean.basement_studio_dynamic_scenes
+            alias: Turn on dynamic scenes
+            action: input_boolean.turn_on
+          - metadata: {}
+            data:
+              option: Tokyo
+            target:
+              entity_id: input_select.basement_studio_scenes
+            alias: Activate Tokyo scene in basement studio
+            action: input_select.select_option
+          - alias: Turn on basement studio LED strip in intense theme with move effect
+            metadata: {}
+            data:
+              speed: 8
+              direction: right
+              theme: intense
+              power_on: true
+            target:
+              entity_id: light.basement_led_strip_1
+            action: lifx.effect_move
+  mode: queued
+  icon: fa7-solid:rainbow
   fields:
     effect:
       selector:
@@ -2819,6 +2958,18 @@ emma_rainbow_lights:
       description: What type of effect would you like to run?
       default: Rainbow
       required: true
+    who:
+      selector:
+        select:
+          options:
+          - Living Room
+          - Basement Studio
+          multiple: false
+      default: Living Room
+      name: Who
+      description: In which room should the effect run?
+      required: true
+  max: 10
 rabbit_feeding:
   alias: Rabbit Feeding
   sequence:
