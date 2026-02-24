@@ -2673,16 +2673,28 @@ kallen_night_meds:
 reset_annc_switches:
   alias: Reset Announcement Switches
   sequence:
-  - service: input_boolean.turn_off
-    target:
+  - target:
       entity_id:
       - input_boolean.good_morning
       - input_boolean.daily_briefing
       - input_boolean.nightly_briefing
       - input_boolean.kallen_morning_briefing
       - input_boolean.kallen_nightly_briefing
-      - input_boolean.basement_briefing
     data: {}
+    action: input_boolean.turn_off
+    alias: Turn off housewide briefing switches
+  - if:
+    - condition: state
+      entity_id: binary_sensor.basement_occupied
+      state:
+      - 'off'
+    then:
+    - action: input_boolean.turn_off
+      metadata: {}
+      target:
+        entity_id: input_boolean.basement_briefing
+      data: {}
+    alias: Turn off basement briefing switch if basement is not occupied
   mode: single
   icon: mdi:bullhorn-outline
 emma_rainbow_lights:
