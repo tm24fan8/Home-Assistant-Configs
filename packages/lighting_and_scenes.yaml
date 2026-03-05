@@ -822,51 +822,51 @@ template:
           mdi:lightbulb
         {% endif %}
 
-switch:
-  - platform: animated_scenes
-    name: Christmas
-    restore: False
-    restore_power: False
-    ignore_off: False
-    lights:
-      - light.front_porch_light
-    colors:
-      - color_type: rgb_color
-        color: [255,0,0]
-        brightness: 255
-      - color_type: rgb_color
-        color: [0,255,0]
-        brightness: 255
-    transition: 10
-    change_frequency: 60
-    change_amount: all
-    change_sequence: True
-    animate_brightness: True
-    animate_color: True
-  - platform: animated_scenes
-    name: Christmas Day
-    restore: False
-    restore_power: False
-    ignore_off: False
-    lights:
-      - light.living_room_color_1
-      - light.living_room_color_2
-      - light.living_room_color_3
-      - light.tina_lamp_top
-      - light.tina_lamp_side
-    colors:
-      - color_type: rgb_color
-        color: [255,0,0]
-        brightness: 255
-      - color_type: rgb_color
-        color: [0,255,0]
-        brightness: 255
-    transition: 1
-    change_frequency: 5
-    change_amount: 3
-    change_sequence: False
-    animate_brightness: True
-    animate_color: True
+# switch:
+#   - platform: animated_scenes
+#     name: Christmas
+#     restore: False
+#     restore_power: False
+#     ignore_off: False
+#     lights:
+#       - light.front_porch_light
+#     colors:
+#       - color_type: rgb_color
+#         color: [255,0,0]
+#         brightness: 255
+#       - color_type: rgb_color
+#         color: [0,255,0]
+#         brightness: 255
+#     transition: 10
+#     change_frequency: 60
+#     change_amount: all
+#     change_sequence: True
+#     animate_brightness: True
+#     animate_color: True
+#   - platform: animated_scenes
+#     name: Christmas Day
+#     restore: False
+#     restore_power: False
+#     ignore_off: False
+#     lights:
+#       - light.living_room_color_1
+#       - light.living_room_color_2
+#       - light.living_room_color_3
+#       - light.tina_lamp_top
+#       - light.tina_lamp_side
+#     colors:
+#       - color_type: rgb_color
+#         color: [255,0,0]
+#         brightness: 255
+#       - color_type: rgb_color
+#         color: [0,255,0]
+#         brightness: 255
+#     transition: 1
+#     change_frequency: 5
+#     change_amount: 3
+#     change_sequence: False
+#     animate_brightness: True
+#     animate_color: True
 
 #! Unless there is a good reason, do not define multi-room scenes below.
 #! Use scripts instead, to avoid some straight-up haunted house bullshit...
