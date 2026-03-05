@@ -4,6 +4,7 @@
 /.google.token
 /.ssh
 /.codegpt
+/.cache
 
 # ignore some directories.
 /www/*
