@@ -164,14 +164,7 @@ logger:
     homeassistant.core: fatal
 
 influxdb:
-  api_version: 2
-  host: 192.168.1.254
-  port: 8086
   max_retries: 3
-  ssl: false
-  organization: !secret influxdb_org
-  token: !secret influxdb_token
-  bucket: home_assistant
   default_measurement: state
   tags:
     source: HA
