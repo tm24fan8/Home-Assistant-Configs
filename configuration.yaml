@@ -108,6 +108,7 @@ recorder:
       - sensor.*_count
       - sensor.*memory_available*
       - sensor.*memory_used*
+      - sensor.*memory_usage*
       - sensor.*cpu_usage
       - sensor.*cpu_temperature
       - sensor.*gpu_temperature
@@ -124,6 +125,10 @@ recorder:
       - sensor.*_monitored_url
       - sensor.*_response_time
       - sensor.adguard*
+      - sensor.*iphone_info
+      - sensor.*ipad_info
+      - sensor.*airpods_info
+      - sensor.*airpods_pro_info
     entities:
       - sensor.avg_ping
       - sensor.max_ping
