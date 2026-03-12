@@ -129,6 +129,7 @@ recorder:
       - sensor.*ipad_info
       - sensor.*airpods_info
       - sensor.*airpods_pro_info
+      - sensor.*response_time*
     entities:
       - sensor.avg_ping
       - sensor.max_ping
@@ -289,6 +290,7 @@ influxdb:
       - sensor.*_response_time
       - sensor.*_status
       - sensor.adguard*
+      - sensor.*response_time*
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
@@ -467,6 +469,7 @@ prometheus:
       - sensor.*_response_time
       - sensor.*_status
       - sensor.adguard*
+      - sensor.*response_time*
     include_entities:
       - media_player.living_room_tv
       - media_player.basement_tv
