@@ -314,6 +314,12 @@
           minutes: 1
           seconds: 0
           milliseconds: 0
+      - action: input_boolean.turn_on
+        metadata: {}
+        target:
+          entity_id: input_boolean.recorder
+        data: {}
+        alias: Turn on Recorder
       - data: {}
         target:
           entity_id:
