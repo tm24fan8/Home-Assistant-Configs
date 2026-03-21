@@ -6405,3 +6405,59 @@
         data: {}
         alias: Disable Recorder
   mode: restart
+- id: '1773964427974'
+  alias: Temperature Window Alert
+  description: Alert when the temperature outside gets too cold or too hot for having
+    windows open
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - weather.iron_nerd_weather_station
+    attribute: temperature
+    below: 50
+    id: cold
+    alias: Cold
+  - trigger: numeric_state
+    entity_id:
+    - weather.iron_nerd_weather_station
+    attribute: temperature
+    above: 80
+    id: hot
+    alias: Hot
+  conditions:
+  - condition: state
+    entity_id: binary_sensor.windows
+    state:
+    - 'on'
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - cold
+        alias: Cold
+      sequence:
+      - action: script.speech_engine
+        metadata: {}
+        data:
+          who: everywhere
+          message: It has gotten a bit chilly outside, and there are windows open.
+            Please consider closing them!
+          type: weather
+        alias: Play announcement for cold
+    - conditions:
+      - alias: Hot
+        condition: trigger
+        id:
+        - hot
+      sequence:
+      - alias: Play announcement for hot
+        action: script.speech_engine
+        metadata: {}
+        data:
+          who: everywhere
+          message: It has gotten pretty hot outside, and there are windows open. Please
+            consider closing them!
+          type: weather
+    alias: Routing
+  mode: restart
