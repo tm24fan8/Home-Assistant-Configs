@@ -6405,6 +6405,70 @@
         data: {}
         alias: Disable Recorder
   mode: restart
+- id: '1773604271398'
+  alias: Emma Bedroom Climate Interlock
+  description: Makes sure only one climate device can be enabled at one time, to protect
+    from blowing a breaker
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_boolean.emma_bedroom_aircon_installed
+    from:
+    - 'off'
+    to:
+    - 'on'
+    id: aircon
+    alias: Aircon Installed
+  - trigger: state
+    entity_id:
+    - input_boolean.emma_bedroom_heater_installed
+    from:
+    - 'off'
+    to:
+    - 'on'
+    id: heater
+    alias: Heater Installed
+  conditions: []
+  actions:
+  - alias: Routing
+    choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - aircon
+        alias: Aircon Installed
+      sequence:
+      - action: climate.turn_off
+        metadata: {}
+        target:
+          entity_id: climate.emma_bedroom_vtherm
+        data: {}
+        alias: Turn off heater thermostat
+      - action: input_boolean.turn_off
+        metadata: {}
+        target:
+          entity_id: input_boolean.emma_bedroom_heater_installed
+        data: {}
+        alias: Remove heater
+    - conditions:
+      - condition: trigger
+        id:
+        - heater
+        alias: Heater Installed
+      sequence:
+      - action: climate.turn_off
+        metadata: {}
+        target:
+          entity_id: climate.emma_bedroom_aircon
+        data: {}
+        alias: Turn off aircon
+      - action: input_boolean.turn_off
+        metadata: {}
+        target:
+          entity_id: input_boolean.emma_bedroom_aircon_installed
+        data: {}
+        alias: Remove aircon
+  mode: restart
 - id: '1773964427974'
   alias: Temperature Window Alert
   description: Alert when the temperature outside gets too cold or too hot for having
