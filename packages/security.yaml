@@ -125,6 +125,18 @@ alarm_control_panel:
 
 template:
   - binary_sensor:
+    - name: Windows
+      unique_id: 9ff34cd4-c450-45d2-934a-b4a9fd8b93b2
+      device_class: window
+      state: >
+        {% set windows_open = states.binary_sensor 
+          | selectattr('attributes.device_class','eq','window')
+          | selectattr('attributes.entity_id','eq',null)
+          | rejectattr('entity_id','search','windows')
+          | selectattr('state','eq','on')
+          | list
+          | count %}
+        {{ windows_open > 0 }}
     - name: Living Room Windows
       unique_id: fb4ab414-3ceb-44d2-8276-66027a936329
       device_class: window
