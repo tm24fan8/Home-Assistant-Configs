@@ -6531,3 +6531,55 @@
           type: weather
     alias: Routing
   mode: restart
+- id: '1774435563540'
+  alias: Emma Bedtime Reminder
+  description: We keep losing track of time and putting Emma to bed later than we
+    mean to. This aims to remedy that.
+  triggers:
+  - trigger: time
+    at:
+      entity_id: input_datetime.emma_bedtime
+      offset: -00:30:00
+    id: prewarn
+    alias: Pre-warning
+  - alias: Bedtime
+    trigger: time
+    at: input_datetime.emma_bedtime
+    id: bedtime
+  conditions:
+  - condition: state
+    entity_id: input_boolean.emma_sleeping
+    state:
+    - 'off'
+  actions:
+  - alias: Routing
+    choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - prewarn
+        alias: Prewarn
+      sequence:
+      - action: script.speech_engine
+        metadata: {}
+        data:
+          who: living_room
+          message: Hey, it is getting close to Emma's bedtime. Just making sure you
+            don't lose track of time.
+          type: alert
+        alias: Play pre-warning announcement
+    - conditions:
+      - condition: trigger
+        id:
+        - bedtime
+        alias: Bedtime
+      sequence:
+      - alias: Play bedtime announcement
+        action: script.speech_engine
+        metadata: {}
+        data:
+          who: living_room
+          message: Hey, it is Emma's bedtime. You should probably start getting her
+            ready if you haven't already.
+          type: alert
+  mode: restart
