@@ -1,5 +1,10 @@
-- name: color
-  label: Color (CSS Variable)
+- name: on_color
+  label: On Color (CSS Variable)
+  selector:
+    text: {}
+  required: false
+- name: off_color
+  label: Off Color (CSS Variable)
   selector:
     text: {}
   required: false

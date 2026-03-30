@@ -6,18 +6,20 @@
         state = hass?.states[this.config?.entity]?.state || '';
     }
 
-    let bg_color = 'var(--bubble-main-background-color)';
+    let off_color = this.config?.state_color_button?.off_color
+        ? `var(--${this.config.state_color_button.off_color})`
+        : 'var(--bubble-main-background-color)';
     
     // Use the configured color or default to accent color
-    let on_color = this.config?.state_color_button?.color
-        ? `var(--${this.config.state_color_button.color})`
+    let on_color = this.config?.state_color_button?.on_color
+        ? `var(--${this.config.state_color_button.on_color})`
         : 'var(--bubble-accent-color)';
 
     // Main button background
     const mainButton = card?.querySelector('.bubble-button-background');
     if (mainButton) {
         mainButton.style.opacity = '1';
-        mainButton.style.backgroundColor = state === 'on' ? on_color : bg_color;
+        mainButton.style.backgroundColor = state === 'on' ? on_color : off_color;
         mainButton.style.transition = 'background-color 1s';
     }
 
