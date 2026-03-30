@@ -4,7 +4,7 @@
     const cold = hass?.states[this.config?.main_button_floors?.cold_entity]?.state || '';
 
     let bg_color = 'var(--bubble-main-background-color)';
-    let occupied_color = 'var(--accent-color)';
+    let occupied_color = 'var(--bubble-accent-color)';
     let hot_color = 'var(--error-color)';
     let cold_color = 'var(--purple-color)';
 

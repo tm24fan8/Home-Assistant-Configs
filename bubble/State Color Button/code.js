@@ -11,7 +11,7 @@
     // Use the configured color or default to accent color
     let on_color = this.config?.state_color_button?.color
         ? `var(--${this.config.state_color_button.color})`
-        : 'var(--accent-color)';
+        : 'var(--bubble-accent-color)';
 
     // Main button background
     const mainButton = card?.querySelector('.bubble-button-background');

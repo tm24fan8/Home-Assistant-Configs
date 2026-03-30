@@ -1,6 +1,6 @@
 main_button_outdoors:
   name: Main Button Outdoors
-  version: '1.1'
+  version: '1.2.1'
   creator: Tony Stork
   supported:
     - button
@@ -10,7 +10,7 @@ main_button_outdoors:
         const occupancy = hass?.states[this.config?.main_button_outdoors?.occupancy_entity]?.state || '';
 
         let bg_color = 'var(--bubble-main-background-color)';
-        let occupied_color = 'var(--accent-color)';
+        let occupied_color = 'var(--bubble-accent-color)';
 
         // Main button background
         const mainButton = card?.querySelector('.bubble-button-background');

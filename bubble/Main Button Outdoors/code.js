@@ -2,7 +2,7 @@
     const occupancy = hass?.states[this.config?.main_button_outdoors?.occupancy_entity]?.state || '';
 
     let bg_color = 'var(--bubble-main-background-color)';
-    let occupied_color = 'var(--accent-color)';
+    let occupied_color = 'var(--bubble-accent-color)';
 
     // Main button background
     const mainButton = card?.querySelector('.bubble-button-background');

@@ -2,7 +2,7 @@
     const state = hass?.states[this.config?.entity]?.state || '';
 
     let bg_color = 'var(--background-color-2)';
-    let accent_color = 'var(--accent-color)';
+    let accent_color = 'var(--bubble-accent-color)';
 
     // Main button background
     const mainButton = card?.querySelector('.bubble-button-background');
