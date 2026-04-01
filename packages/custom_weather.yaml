@@ -699,7 +699,7 @@ template:
           {% endif %}
     - name: "Lightning Warning"
       unique_id: edaddfc4-f7f0-4d75-aada-a2c588afe029
-      state: "{{ states('sensor.home_tempest_cloud_sensors_lightning_strikes_last_hour') | int > 0 }}"
+      state: "{{ (states('sensor.home_tempest_cloud_sensors_lightning_strikes_last_hour') | int > 0) or is_state('binary_sensor.home_tempest_cloud_binary_sensors_is_lightning','on') }}"
       device_class: safety
       attributes:
         current_strikes: "{{ states('sensor.home_tempest_cloud_sensors_lightning_strikes_last_hour') | int }}"
