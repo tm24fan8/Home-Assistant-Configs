@@ -341,6 +341,7 @@ influxdb:
       - sensor.national_tornado_warnings
       - sensor.national_severe_thunderstorm_warnings
       - binary_sensor.severe_thunderstorm_warning
+      - binary_sensor.tornado_warning
 
 logbook:
   include:
@@ -520,3 +521,4 @@ prometheus:
       - sensor.national_tornado_warnings
       - sensor.national_severe_thunderstorm_warnings
       - binary_sensor.severe_thunderstorm_warning
+      - binary_sensor.tornado_warning
