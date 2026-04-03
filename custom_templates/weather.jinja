@@ -30,7 +30,7 @@
       {% if state_attr('binary_sensor.severe_thunderstorm_warning','considerable_destructive') == true %}
         This storm has the potential to cause considerable damage. Please take shelter and stay safe!
       {% endif %}
-    {% elif states('sensor.weatheralerts_active_alerts') > '0' and method != 'dashboard' %}
+    {% elif states('sensor.weatheralerts_defiance_ohz004_ohc039') > '0' and method != 'dashboard' %}
       Current weather alerts: {{ states('sensor.weather_alert_string') }}.
     {% endif %}
     {% if method != 'dashboard' %}
@@ -69,7 +69,7 @@
     {% else %}
       {% set alertStrings = ['are','alerts','They are'] %}
     {% endif %}
-    {% if states('sensor.weatheralerts_active_alerts') > '0' %}
+    {% if states('sensor.weatheralerts_defiance_ohz004_ohc039') > '0' %}
       "There {{ alertStrings[0] }} {{ alerts }} weather {{ alertStrings[1] }} active. {{ alertStrings[2] }}, "
         {{ states('sensor.weather_alert_string') }}.
     {% endif %}

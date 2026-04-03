@@ -1,0 +1,156 @@
+blueprint:
+  name: WeatherAlerts – Persistent Notification and Cleanup
+  description: 'Persistent notification for Weather Alerts from a weatheralerts integration  sensor,
+    plus automatic cleanup when no active alerts remain for 30 minutes.  New alerts
+    and alerts less than 30 minutes old will display as a full alert  message in the
+    psrsistent notification. Alerts older than 30 minutes will  only display as a
+    short alert event title in the persistent notification.
+
+    '
+  domain: automation
+  input:
+    sensor:
+      name: WeatherAlerts Sensor
+      description: The weatheralerts sensor to monitor
+      selector:
+        entity:
+          domain:
+          - sensor
+          integration: weatheralerts
+          multiple: false
+          reorder: false
+  source_url: https://github.com/custom-components/weatheralerts/raw/refs/heads/master/blueprints/weatheralerts_persistent_notification_original.yaml
+trigger:
+- platform: homeassistant
+  event: start
+- platform: event
+  event_type: component reload
+  event_data:
+    domain: weatheralerts
+- platform: state
+  entity_id: !input sensor
+  attribute: alert_tracking
+variables:
+  sensor: !input sensor
+  integration: '{{ state_attr(sensor, ''integration'') or ''weatheralerts'' }}'
+  zone: '{{ state_attr(sensor, ''zone'') or ''unknown'' }}'
+  zone_name: '{{ state_attr(sensor, ''zone_name'') or ''unknown'' }}'
+  notif_id: '{{ integration }}_{{ zone | replace('','',''_'') | lower }}'
+  alert_ids: '{{ state_attr(sensor, ''alert_tracking'') or [] }}'
+  alerts: '{{ state_attr(sensor, ''alerts'') or [] }}'
+  now_ts: '{{ now().timestamp() | float }}'
+action:
+- choose:
+  - conditions:
+    - condition: template
+      value_template: "{% set new_ids = alert_ids | selectattr('status','eq','new')
+        | map(attribute='id') | list %} {% set new_alerts_full = alerts | selectattr('id','in',
+        new_ids) | list %} {% set ids = namespace(valid=[]) %} {% for item in alert_ids
+        %}\n  {% if item.status == 'old'\n     and item.sent is defined and item.sent
+        not in ['null','',none]\n     and item.expires is defined and item.expires
+        not in ['null','',none] %}\n    {% set sent_ts = as_timestamp(item.sent, default=0)
+        %}\n    {% set exp_ts = as_timestamp(item.expires, default=0) %}\n    {% if
+        exp_ts > now().timestamp() and (now().timestamp() - sent_ts) < 1800 %}\n      {%
+        set ids.valid = ids.valid + [item.id] %}\n    {% endif %}\n  {% endif %}\n{%
+        endfor %} {% set old_alerts_full = alerts | selectattr('id','in', ids.valid)
+        | list %} {% set ids2 = namespace(valid=[]) %} {% for item in alert_ids %}\n
+        \ {% if item.status == 'old'\n     and item.sent is defined and item.sent
+        not in ['null','',none]\n     and item.expires is defined and item.expires
+        not in ['null','',none] %}\n    {% set sent_ts = as_timestamp(item.sent, default=0)
+        %}\n    {% set exp_ts = as_timestamp(item.expires, default=0) %}\n    {% if
+        exp_ts > now().timestamp() and (now().timestamp() - sent_ts) >= 1800 %}\n
+        \     {% set ids2.valid = ids2.valid + [item.id] %}\n    {% endif %}\n  {%
+        endif %}\n{% endfor %} {% set old_alerts_title = alerts | selectattr('id','in',
+        ids2.valid) | list %} {{ new_alerts_full | length > 0 or old_alerts_full |
+        length > 0 or old_alerts_title | length > 0 }}"
+    sequence:
+    - service: persistent_notification.create
+      data:
+        notification_id: '{{ notif_id }}'
+        title: Weather Alerts for {{ zone_name }}
+        message: "{% set new_ids = alert_ids | selectattr('status','eq','new') | map(attribute='id')
+          | list %}\n{% set new_alerts_full = alerts | selectattr('id','in', new_ids)
+          | list %}\n{% set ids = namespace(valid=[]) %}\n{% for item in alert_ids
+          %}\n  {% if item.status == 'old'\n     and item.sent is defined and item.sent
+          not in ['null','',none]\n     and item.expires is defined and item.expires
+          not in ['null','',none] %}\n    {% set sent_ts = as_timestamp(item.sent,
+          default=0) %}\n    {% set exp_ts = as_timestamp(item.expires, default=0)
+          %}\n    {% if exp_ts > now().timestamp() and (now().timestamp() - sent_ts)
+          < 1800 %}\n      {% set ids.valid = ids.valid + [item.id] %}\n    {% endif
+          %}\n  {% endif %}\n{% endfor %}\n{% set old_alerts_full = alerts | selectattr('id','in',
+          ids.valid) | list %}\n{% set ids2 = namespace(valid=[]) %}\n{% for item
+          in alert_ids %}\n  {% if item.status == 'old'\n     and item.sent is defined
+          and item.sent not in ['null','',none]\n     and item.expires is defined
+          and item.expires not in ['null','',none] %}\n    {% set sent_ts = as_timestamp(item.sent,
+          default=0) %}\n    {% set exp_ts = as_timestamp(item.expires, default=0)
+          %}\n    {% if exp_ts > now().timestamp() and (now().timestamp() - sent_ts)
+          >= 1800 %}\n      {% set ids2.valid = ids2.valid + [item.id] %}\n    {%
+          endif %}\n  {% endif %}\n{% endfor %}\n{% set old_alerts_title = alerts
+          | selectattr('id','in', ids2.valid) | list %}\n{% for alert in new_alerts_full
+          %}\n{# — Clean up title — #}\n{% set clean_title = alert.title\n   | replace('\\n\\n','<br>')\n
+          \  | replace('\\n',' ')\n   | trim %}\n{# — Clean up headline — #}\n{% if
+          alert.NWSheadline and alert.NWSheadline != 'null' %}\n  {% set clean_headline
+          = alert.NWSheadline\n     | replace('\\n\\n','<br>')\n     | replace('\\n','
+          ')\n     | trim %}\n{% else %}\n  {% set clean_headline = \"\" %}\n{% endif
+          %}\n{# — Clean up description — #}\n{% set clean_description = alert.description\n
+          \  | replace('\\n\\n','<br>')\n   | replace('\\n',' ')\n   | replace('<br>','<br>\\n')\n
+          \  | regex_replace('([A-Z ]+?\\\\.\\\\.\\\\.)', '* <strong>\\\\1</strong>')\n
+          \  | replace('**','*')\n   | trim %}\n{# — Optional instruction — #}\n{%
+          if alert.instruction and alert.instruction != 'null' %}\n  {% set clean_instruction
+          = alert.instruction\n     | replace('\\n\\n','<br>')\n     | replace('\\n','
+          ')\n     | trim %}\n{% else %}\n  {% set clean_instruction = \"\" %}\n{%
+          endif %}\n{# — Area — #}\n{% set clean_area = alert.area\n   | replace('\\n\\n','<br>')\n
+          \  | replace('\\n',' ')\n   | trim %}\n<font color=\"orange\">\n  <ha-icon
+          icon=\"{{ alert.icon }}\"></ha-icon>\n</font>\n<strong>\n  <font color=\"red\">{{
+          clean_title }}</font>\n</strong><br>\n{% if clean_headline and clean_headline
+          != 'null' %}\n  {{ clean_headline }}<br>\n{% endif %}\n{{ clean_description
+          }}<br>\n* <strong> AREA…</strong> {{ clean_area }}<br><br>\n{% if clean_instruction
+          and clean_instruction != 'null' %}\n{{ clean_instruction }}<br><br>\n{%
+          endif %}\n{% if alert.sent and alert.sent != 'null' %}\n<strong>Alert Sent:</strong>
+          {{ alert.sent }}<br>\n{% endif %}\n{% if alert.effective and alert.effective
+          != 'null' %}\n<strong>Effective:</strong> {{ alert.effective }}<br>\n{%
+          endif %}\n{% if alert.expires and alert.expires != 'null' %}\n<strong>Expires:</strong>
+          {{ alert.expires }}<br>\n{% endif %}\n{% if alert.onset and alert.onset
+          != 'null' %}\n<strong>Onset:</strong> {{ alert.onset }}<br>\n{% endif %}\n{%
+          if alert.ends and alert.ends != 'null' %}\n<strong>Ends:</strong> {{ alert.ends
+          }}<br>\n{% endif %}\n{% if not loop.last %}\n  <hr>\n{% endif %}\n{% endfor
+          %}\n\n{% if old_alerts_full %}\n  <hr>\n{% for alert in old_alerts_full
+          %}\n{# — Clean up title — #}\n{% set clean_title = alert.title\n   | replace('\\n\\n','<br>')\n
+          \  | replace('\\n',' ')\n   | trim %}\n{# — Clean up headline — #}\n{% if
+          alert.NWSheadline and alert.NWSheadline != 'null' %}\n  {% set clean_headline
+          = alert.NWSheadline\n     | replace('\\n\\n','<br>')\n     | replace('\\n','
+          ')\n     | trim %}\n{% else %}\n  {% set clean_headline = \"\" %}\n{% endif
+          %}\n{# — Clean up description — #}\n{% set clean_description = alert.description\n
+          \  | replace('\\n\\n','<br>')\n   | replace('\\n',' ')\n   | replace('<br>','<br>\\n')\n
+          \  | regex_replace('([A-Z ]+?\\\\.\\\\.\\\\.)', '* <strong>\\\\1</strong>')\n
+          \  | replace('**','*')\n   | trim %}\n{# — Optional instruction — #}\n{%
+          if alert.instruction and alert.instruction != 'null' %}\n  {% set clean_instruction
+          = alert.instruction\n     | replace('\\n\\n','<br>')\n     | replace('\\n','
+          ')\n     | trim %}\n{% else %}\n  {% set clean_instruction = \"\" %}\n{%
+          endif %}\n{# — Area — #}\n{% set clean_area = alert.area\n   | replace('\\n\\n','<br>')\n
+          \  | replace('\\n',' ')\n   | trim %}\n<font color=\"orange\">\n  <ha-icon
+          icon=\"{{ alert.icon }}\"></ha-icon>\n</font>\n<strong>\n  <font color=\"red\">{{
+          clean_title }}</font>\n</strong><br>\n{% if clean_headline and clean_headline
+          != 'null' %}\n  {{ clean_headline }}<br>\n{% endif %}\n{{ clean_description
+          }}<br>\n* <strong>AREA…</strong> {{ clean_area }}<br>\n{% if clean_instruction
+          and clean_instruction != 'null' %}\n{{ clean_instruction }}<br>\n{% endif
+          %}\n{% if alert.sent and alert.sent != 'null' %}\n<strong>Alert Sent:</strong>
+          {{ alert.sent }}<br>\n{% endif %}\n{% if alert.effective and alert.effective
+          != 'null' %}\n<strong>Effective:</strong> {{ alert.effective }}<br>\n{%
+          endif %}\n{% if alert.expires and alert.expires != 'null' %}\n<strong>Expires:</strong>
+          {{ alert.expires }}<br>\n{% endif %}\n{% if alert.onset and alert.onset
+          != 'null' %}\n<strong>Onset:</strong> {{ alert.onset }}<br>\n{% endif %}\n{%
+          if alert.ends and alert.ends != 'null' %}\n<strong>Ends:</strong> {{ alert.ends
+          }}<br>\n{% endif %}\n{% if not loop.last %}\n  <hr>\n{% endif %}\n{% endfor
+          %}\n{% endif %}\n\n{% if old_alerts_title %}\n<hr>\n{% if new_alerts_full
+          %}\n<strong>Other Active Alerts:</strong><br>\n{% else %}\n<strong>Active
+          Alerts:</strong><br>\n{% endif %}\n{% for alert in old_alerts_title %}\n*
+          <font color=\"orange\">\n    <ha-icon icon=\"{{ alert.icon }}\"></ha-icon>\n
+          \ </font>\n  <strong>{{ alert.title }}<strong><br>\n{% endfor %}\n{% endif
+          %}\n"
+  default:
+  - delay: 00:30:00
+  - service: persistent_notification.dismiss
+    data:
+      notification_id: '{{ notif_id }}'
+mode: restart
