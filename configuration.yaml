@@ -291,6 +291,7 @@ influxdb:
       - sensor.*_status
       - sensor.adguard*
       - sensor.*response_time*
+      - sensor.weatheralerts*
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
@@ -471,6 +472,7 @@ prometheus:
       - sensor.*_status
       - sensor.adguard*
       - sensor.*response_time*
+      - sensor.weatheralerts*
     include_entities:
       - media_player.living_room_tv
       - media_player.basement_tv

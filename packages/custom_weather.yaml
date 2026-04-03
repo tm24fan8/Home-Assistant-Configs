@@ -1442,7 +1442,7 @@ template:
     # previous_rainfall:
     # - name: "Past 48h Rainfall"
     #   state: "{{ states('sensor.daily_rainfall_in') | float  + state_attr('sensor.daily_rainfall_in', 'last_period') | float  }}"
-    - name: Weather Alert String
+    - name: Weather Alert String #! REPAIRS NEEDED
       unique_id: 66b5f020-0b5e-48ed-92a2-740d2d708b30
       state: >
         {% from 'formatting.jinja' import cleanup %}
@@ -1468,14 +1468,14 @@ template:
         {% endmacro %}
         {{ cleanup(getReport()) }}
       attributes:
-        active_alerts: "{{ states('sensor.weatheralerts_active_alerts') }}"
+        active_alerts: "{{ states('sensor.weatheralerts_defiance_ohz004_ohc039') }}"
       icon: >
-        {% if (states('sensor.weatheralerts_active_alerts') | int ) > 0 %}
+        {% if (states('sensor.weatheralerts_defiance_ohz004_ohc039') | int ) > 0 %}
           mdi:alert
         {% else %}
           mdi:alert-remove
         {% endif %}
-    - name: 'Weather Alerts Active - Corrected'
+    - name: 'Weather Alerts Active - Corrected' #! REPAIRS NEEDED
       unique_id: e2f51da4-2271-4719-8edf-a28f76ac1e3f
       state: >
         {% from 'formatting.jinja' import cleanup %}
@@ -1494,7 +1494,7 @@ template:
         {% endmacro %}
         {{ cleanup(getReport()) }}
       icon: >
-        {% if (states('sensor.weatheralerts_active_alerts') | int ) > 0 %}
+        {% if (states('sensor.weatheralerts_defiance_ohz004_ohc039') | int ) > 0 %}
           mdi:alert
         {% else %}
           mdi:alert-remove
@@ -1613,6 +1613,9 @@ sensor:
 #         above: 0
 
 input_boolean:
+  tornado_watch:
+    name: Tornado Watch
+    icon: mdi:message-alert
   freeze_warning:
     name: Freeze Warning
     icon: mdi:snowflake-alert
@@ -1676,6 +1679,185 @@ input_boolean:
   #   action:
   #     - service: input_boolean.turn_off
   #       entity_id: input_boolean.freeze_warning
+
+automation:
+  - id: 80465d92-2e06-4cf0-ba92-33376b28b9db
+    alias: WeatherAlerts - Notify on WeatherAlerts Error
+    description: ""
+    triggers:
+      - entity_id:
+          - sensor.weatheralerts_defiance_ohz004_ohc039
+        trigger: state
+    conditions:
+      - condition: template
+        value_template: >
+          {% set errs =
+          state_attr('sensor.weatheralerts_defiance_ohz004_ohc039','error') %}
+
+          {% if errs is not iterable or errs is string or errs is none %}
+            false
+          {% else %}
+            {% set e0 = errs[0] if errs|length > 0 else none %}
+            {{ e0 is mapping and e0.get('type') not in ['success'] }}
+          {% endif %}
+    actions:
+      - data:
+          title: Weather Alerts Error
+          message: >
+            {% set errs =
+            state_attr('sensor.weatheralerts_defiance_ohz004_ohc039','error') %}
+
+            {% set e0 = errs[0] if errs|length > 0 else {} %} 
+
+            **Type:** {{ e0.get('type', 'unknown') }}
+
+            **Status:** {{ e0.get('status', 'unknown') }}
+
+            **Message:** {{ e0.get('message', 'unknown') }}
+
+            **Time:** {{ e0.get('timestamp', 'unknown') }}
+          notification_id: weatheralerts_error_notification_defiance
+        action: persistent_notification.create
+    mode: single
+
+  - id: 3ef6edbc-b24c-4032-a423-5fd3fee64c57
+    alias: WeatherAlerts - Notify on Recovery
+    description: ""
+    triggers:
+      - entity_id: sensor.weatheralerts_defiance_ohz004_ohc039
+        trigger: state
+    conditions:
+      - condition: template
+        value_template: >
+          {% set cur =
+          state_attr('sensor.weatheralerts_defiance_ohz004_ohc039','error')
+          %}
+
+          {% set prev = trigger.from_state.attributes.get('error') if
+          trigger.from_state else none %}
+
+          {% if cur is not iterable or cur is string or cur is none or cur|length ==
+          0 %}
+            false
+          {% else %}
+            {% set cur0 = cur[0] %}
+            {% set prev0 = prev[0] if prev is iterable and prev is not string and prev is not none and prev|length > 0 else none %}
+            {{ cur0.get('type') == 'success' and prev0.get('type') in ['http_error', 'exception'] }}
+          {% endif %}
+    actions:
+      - data:
+          title: Weather Alerts Recovered From Error
+          message: >
+            The Weather Alerts integration has successfully updated after an error.
+
+            {% set errs =
+            state_attr('sensor.weatheralerts_defiance_ohz004_ohc039','error') %}
+
+            {% set e0 = errs[0] if errs|length > 0 else {} %} 
+
+            **Type:** {{ e0.get('type', 'unknown') }}
+
+            **Status:** {{ e0.get('status', 'unknown') }}
+
+            **Message:** {{ e0.get('message', 'unknown') }}
+
+            **Time:** {{ e0.get('timestamp', 'unknown') }}
+          notification_id: weatheralerts_notify_on_recovery_defiance
+        action: persistent_notification.create
+    mode: single
+
+  - id: 7b11243f-2154-45f8-bceb-71b83dac5b03
+    alias: WeatherAlerts - All Clear Notification
+    description: ""
+    triggers:
+      - entity_id: sensor.weatheralerts_defiance_ohz004_ohc039
+        trigger: state
+    conditions:
+      - condition: template
+        value_template: |-
+          {% set prev = trigger.from_state.state if trigger.from_state else '0' %}
+          {% set cur = trigger.to_state.state if trigger.to_state else '0' %}
+          {{ (prev | int(0)) > 0 and (cur | int(0)) == 0 }}
+    actions:
+      - data:
+          title: Weather alerts cleared
+          message: No active weather alerts remain.
+          notification_id: weatheralerts_all_clear_defiance
+        action: persistent_notification.create
+    mode: single
+
+  # Announce Severe Weather
+  - id: b1bdfbf9-d82e-436f-bc60-77c3abfb077b
+    alias: NWS Announce Weather Alert
+    trigger:
+      - trigger: state
+        entity_id: binary_sensor.severe_thunderstorm_warning
+        from:
+          - "off"
+        to:
+          - "on"
+        id: tstorm-warning
+      - trigger: state
+        entity_id: binary_sensor.tornado_watch
+        from:
+          - "off"
+        to:
+          - "on"
+        id: tornado-watch
+      - trigger: state
+        entity_id: binary_sensor.severe_thunderstorm_watch
+        from:
+          - "off"
+        to:
+          - "on"
+        id: tstorm-watch
+      # - platform: numeric_state
+      #   entity_id: sensor.weatheralerts_defiance_ohz004_ohc039
+      #   attribute: freeze_warning_count
+      #   above: 0
+      #   id: freeze-warning
+    action:
+      - choose:
+        - conditions:
+          - condition: trigger
+            id: tstorm-warning
+          sequence:
+          - service: script.status_annc
+            data:
+              who: everywhere
+              type: weather
+              call_interruption: 1
+              call_thunderstorm_warning: 1
+        - conditions:
+          - condition: trigger
+            id: tornado-watch
+          sequence:
+          - service: script.status_annc
+            data:
+              who: everywhere
+              type: weather
+              call_interruption: 1
+              call_tornado_watch: 1
+        - conditions:
+          - condition: trigger
+            id: tstorm-watch
+          sequence:
+          - service: script.status_annc
+            data:
+              who: everywhere
+              type: weather
+              call_interruption: 1
+              call_thunderstorm_watch: 1
+        - conditions:
+          - condition: trigger
+            id: freeze-warning
+          sequence:
+          - service: script.status_annc
+            data:
+              who: everywhere
+              type: weather
+              call_interruption: 1
+              call_freeze_warning: 1
 
 script:
 

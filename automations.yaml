@@ -1,33 +1,35 @@
 - id: '1640833273099'
   alias: NWS Announce Weather Alert for Tornado
   description: ''
-  trigger:
-  - platform: numeric_state
-    entity_id: sensor.weatheralerts_active_alerts
-    attribute: tornado_warning_count
-    above: '0'
-  condition:
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.tornado_warning
+    from:
+    - 'off'
+    to:
+    - 'on'
+  conditions:
   - condition: state
     entity_id: input_boolean.vacation_mode
     state: 'off'
-  action:
-  - service: input_boolean.turn_on
-    data: {}
+  actions:
+  - data: {}
     target:
       entity_id: input_boolean.tornado_alarm
-  - service: input_boolean.turn_off
-    data: {}
+    action: input_boolean.turn_on
+  - data: {}
     target:
       entity_id:
       - input_boolean.white_noise_kallen_bedroom
       - input_boolean.white_noise_basement
       - input_boolean.white_noise_emma_bedroom
     alias: Turn off white noise
-  - service: script.turn_on
-    target:
+    action: input_boolean.turn_off
+  - target:
       entity_id: script.max_brightness
-  - service: script.text_notify
-    data:
+    action: script.turn_on
+  - data:
       type: critical
       title: Tornado Warning - TAKE COVER!
       message: The National Weather Service has issued a Tornado Warning for our area.
@@ -35,34 +37,35 @@
       who: all
       tag: tornado-warning
     alias: CRITICAL PHONE ALERT
-  - service: script.tv_notify
-    data:
+    action: script.text_notify
+  - data:
       who: all
       title: Tornado Warning - TAKE COVER!
       message: The National Weather Service has issued a Tornado Warning for our area.
         Take Cover NOW!!!!
     alias: TV Alert
-  - service: script.speech_engine
-    data:
+    action: script.tv_notify
+  - data:
       who: everywhere
       message: A tornado warning has been issued, please take cover immediately! A
         tornado warning has been issued, please take cover immediately! A tornado
         warning has been issued, please take cover immediately!
       type: alert
     alias: Elevated TTS alert
+    action: script.speech_engine
   - delay:
       hours: 0
       minutes: 1
       seconds: 0
       milliseconds: 0
-  - service: script.speech_engine
-    data:
+  - data:
       who: everywhere
       message: A tornado warning has been issued, please take cover immediately! A
         tornado warning has been issued, please take cover immediately! A tornado
         warning has been issued, please take cover immediately!
       type: critical
     alias: CRITICAL TTS ALERT
+    action: script.speech_engine
   - delay:
       hours: 0
       minutes: 1
@@ -437,52 +440,55 @@
 - id: '1655493590791'
   alias: NWS Announce Weather Alert for Tornado (CLEAR)
   description: ''
-  trigger:
-  - platform: numeric_state
-    entity_id: sensor.weatheralerts_active_alerts
-    attribute: tornado_warning_count
-    below: '1'
-  condition:
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.tornado_warning
+    from:
+    - 'on'
+    to:
+    - 'off'
+  conditions:
   - condition: state
     entity_id: input_boolean.vacation_mode
     state: 'off'
   - condition: state
     entity_id: input_boolean.tornado_alarm
     state: 'on'
-  action:
-  - service: script.text_notify
-    data:
+  actions:
+  - data:
       type: alert
       who: all
       message: clear_notification
       tag: tornado-warning
     alias: Clear critical notification
-  - service: input_boolean.turn_off
-    data: {}
+    action: script.text_notify
+  - data: {}
     target:
       entity_id: input_boolean.tornado_alarm
-  - service: script.volume_reset
-    data: {}
-  - service: script.max_brightness_cleanup
-    data: {}
-  - service: script.text_notify
-    data:
+    action: input_boolean.turn_off
+  - data: {}
+    action: script.volume_reset
+  - data: {}
+    action: script.max_brightness_cleanup
+  - data:
       title: Tornado Warning is cleared
       message: Check your surroundings and make sure it is safe to leave cover
       who: all
       type: alert
       tag: tornado-cleared
-  - service: script.tv_notify
-    data:
+    action: script.text_notify
+  - data:
       title: Tornado Warning is cleared
       message: Check your surroundings and make sure it is safe to leave cover
       who: all
-  - service: script.speech_engine
-    data:
+    action: script.tv_notify
+  - data:
       who: everywhere
       message: Tornado warning has been cleared. Check your surroundings and make
         sure it is safe to leave cover.
       type: alert
+    action: script.speech_engine
   - wait_template: '{{ is_state(''input_boolean.tornado_alarm'',''on'') }}'
     continue_on_timeout: true
     timeout: 00:05:00
@@ -503,15 +509,15 @@
           alias: After audible notifications off
         alias: Should audible notifications be off
       then:
-      - service: input_boolean.turn_off
-        data: {}
+      - data: {}
         target:
           entity_id: input_boolean.audible_notifications
+        action: input_boolean.turn_off
       else:
-      - service: input_boolean.turn_on
-        data: {}
+      - data: {}
         target:
           entity_id: input_boolean.audible_notifications
+        action: input_boolean.turn_on
     else:
     - stop: Tornado alert re-activated
   mode: single
@@ -985,38 +991,44 @@
   alias: Tornado Watch Handling
   description: Controls the input boolean for tornado watches, for use in briefings
     or automations
-  trigger:
-  - platform: numeric_state
-    entity_id: sensor.weatheralerts_active_alerts
-    attribute: tornado_watch_count
-    above: 0
+  triggers:
+  - alias: Watch Issued
+    entity_id:
+    - binary_sensor.tornado_watch
     id: watch_issued
-    alias: Watch Issued
-  - platform: numeric_state
-    entity_id: sensor.weatheralerts_active_alerts
-    attribute: tornado_watch_count
-    below: 1
-    id: watch_cleared
-    alias: Watch Cleared
-  condition: []
-  action:
+    trigger: state
+    from:
+    - 'off'
+    to:
+    - 'on'
+  - alias: Watch Issued
+    entity_id:
+    - binary_sensor.tornado_watch
+    id: watch_issued
+    trigger: state
+    from:
+    - 'on'
+    to:
+    - 'off'
+  conditions: []
+  actions:
   - choose:
     - conditions:
       - condition: trigger
         id: watch_issued
       sequence:
-      - service: input_boolean.turn_on
-        data: {}
+      - data: {}
         target:
           entity_id: input_boolean.tornado_watch
+        action: input_boolean.turn_on
     - conditions:
       - condition: trigger
         id: watch_cleared
       sequence:
-      - service: input_boolean.turn_off
-        data: {}
+      - data: {}
         target:
           entity_id: input_boolean.tornado_watch
+        action: input_boolean.turn_off
     alias: Control input boolean
   mode: restart
 - id: '1679104710155'
@@ -6583,3 +6595,10 @@
             ready if you haven't already.
           type: alert
   mode: restart
+- id: '1775084267580'
+  alias: WeatherAlerts Persistent Notification - Defiance
+  description: ''
+  use_blueprint:
+    path: github.com/weatheralerts_persistent_notification_original.yaml
+    input:
+      sensor: sensor.weatheralerts_defiance_ohz004_ohc039

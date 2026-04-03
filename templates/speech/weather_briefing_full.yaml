@@ -38,7 +38,7 @@
 
     <p>
       {% set alerts = states('weather_alerts_active_corrected') %}
-      {% if states('sensor.weatheralerts_active_alerts') > '0' %}
+      {% if states('sensor.weatheralerts_defiance_ohz004_ohc039') > '0' %}
         "There {% if alerts == '1' %}is{% else %}are{% endif %} {{ states('sensor.weather_alerts_active_corrected') }} weather {% if alerts == '1' %}alert{% else %}alerts{% endif %} active. "
         "{% if alerts == '1' %}It is{% else %}They are{% endif %}, "
         {{ states('sensor.weather_alert_string') }}.
