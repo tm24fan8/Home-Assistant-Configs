@@ -376,7 +376,7 @@ intent_script:
     speech:
       text: >
         {% set location = states(person) %}
-        {% set name = state_attr(person,'friendly_name') %}
+        {% set name = entity_name(person) %}
         {% if location in ['away','not_home'] %}
           {{ name }} is currently away from home
         {% elif location in ['unavailable','unknown'] %}

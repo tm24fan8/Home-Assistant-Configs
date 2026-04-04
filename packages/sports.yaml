@@ -181,7 +181,7 @@ intent_script:
         {% set inhibit = "binary_sensor." + team + "_inhibit" %}
         {% set sensor = "sensor." + team %}
         {% if is_state(inhibit,'on') %}
-          I do not have any information about the {{ state_attr(team,'friendly_name') }} at this time.
+          I do not have any information about the {{ entity_name(sensor) }} at this time.
         {% elif states(sensor) in ["NOT_FOUND"] %}
           They do not appear to have a game scheduled for today.
         {% else %}
