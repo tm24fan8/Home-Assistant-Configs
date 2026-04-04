@@ -271,7 +271,7 @@ template:
           {% endfor %}
           {{ fn.friendly }}
       icon: >-
-        {% if states('sensor.window_faults') | int > 0 %}
+        {% if this.state | int > 0 %}
           mdi:window-open
         {% else %}
           mdi:window-closed
@@ -335,7 +335,7 @@ template:
           {% endfor %}
           {{ fn.friendly }}
       icon: >-
-        {% if states('sensor.door_faults') | int > 0 %}
+        {% if this.state | int > 0 %}
           mdi:door-open
         {% else %}
           mdi:door-closed
@@ -365,7 +365,7 @@ template:
             | list %}
           {{ window_names }}
       icon: >-
-        {% if states('sensor.windows_open') | int == 0 %}
+        {% if this.state | int == 0 %}
           mdi:window-closed
         {% else %}
           mdi:window-open
@@ -392,7 +392,7 @@ template:
             | list %}
           {{ window_names }}
       icon: >-
-        {% if states('sensor.front_windows_open') | int == 0 %}
+        {% if this.state | int == 0 %}
           mdi:window-closed
         {% else %}
           mdi:window-open
@@ -418,7 +418,7 @@ template:
             | list | count %}
           {{ windows_open }}
       icon: >
-        {% if states('sensor.living_room_windows_open') | int == 0 %}
+        {% if this.state | int == 0 %}
           mdi:window-closed
         {% else %}
           mdi:window-open
@@ -442,7 +442,7 @@ template:
             | list %}
           {{ door_names }}
       icon: >-
-        {% if states('sensor.doors_open') | int == 0 %}
+        {% if this.state | int == 0 %}
           mdi:door-closed
         {% else %}
           mdi:door-open
@@ -476,7 +476,7 @@ template:
             | list %}
           {{ interior }}
       icon: >-
-        {% if states('sensor.interior_doors') | int == 0 %}
+        {% if this.state | int == 0 %}
           mdi:door-closed
         {% else %}
           mdi:door-open
@@ -507,7 +507,7 @@ template:
         {% set doors_open = states('sensor.doors_open') | int %}
         {{ doors_open + windows_open }}
       icon: >-
-        {% if states('sensor.air_leaks') | int == 0 %}
+        {% if this.state | int == 0 %}
           mdi:leak-off
         {% else %}
           mdi:leak
