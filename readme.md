@@ -58,6 +58,8 @@ These aren't all the ones I have installed...just the ones I am actively **using
 - [WeatherFlow Forecast](https://github.com/briis/weatherflow_forecast)
 - [NWS SPC Outlook](https://github.com/sedward5/nws_spc_outlook)
 - [Music Assistant Queue Actions](https://github.com/droans/mass_queue)
+- [Bubble Card Tools](https://github.com/Clooos/Bubble-Card-Tools)
+- [Home Assistant Global Health Score](https://github.com/D-N91/home-assistant-global-health-score)
 
 </details>
 
@@ -91,7 +93,7 @@ Again, mostly just the ones I'm **using** or **will use soon**...also a few that
 - [Weather Card](https://github.com/bramkragten/weather-card)
 - [Template Entity Row](https://github.com/thomasloven/lovelace-template-entity-row)
 - [Waze Travel Time](https://github.com/r-renato/ha-card-waze-travel-time)
-- [Fold Entity Row](https://github.com/thomasloven/lovelace-fold-entity-row)
+- [Lovelace Expander Card](https://github.com/MelleD/lovelace-expander-card)
 - [Room Card](https://github.com/marcokreeft87/room-card)
 - [Simple Thermostat Card](https://github.com/nervetattoo/simple-thermostat)
 - [Clock Weather Card](https://github.com/pkissling/clock-weather-card)
