@@ -6602,3 +6602,22 @@
     path: github.com/weatheralerts_persistent_notification_original.yaml
     input:
       sensor: sensor.weatheralerts_defiance_ohz004_ohc039
+- id: '1775709997448'
+  alias: Basement Heat Disallow
+  description: Turn off the heater when the Heat Allowed toggle is switched off
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_boolean.basement_studio_heat_allowed
+    from:
+    - 'on'
+    to:
+    - 'off'
+  conditions: []
+  actions:
+  - action: climate.turn_off
+    metadata: {}
+    target:
+      entity_id: climate.basement_studio_vtherm
+    data: {}
+  mode: restart
