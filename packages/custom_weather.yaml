@@ -742,6 +742,25 @@ template:
       state: "{{ state_attr('binary_sensor.severe_thunderstorm_warning','tornado_possible') }}"
       device_class: safety
       icon: "{{ 'mdi:weather-tornado' if this.state == 'on' else 'mdi:close' }}"
+    - name: Window Weather
+      unique_id: 9b119394-cb05-44bb-9c6e-e8d5c882a470
+      state: >
+        {% set minimum_temp = states('input_number.window_weather_minimum') | int %}
+        {% set maximum_temp = states('input_number.window_weather_maximum') | int %}
+        {% set ns = namespace(raining=false) %}
+        {% for entity, dry_state in [
+          ('binary_sensor.home_tempest_cloud_binary_sensors_is_raining', 'off'),
+          ('sensor.home_tempest_cloud_sensors_precipitation_intensity', 'no_rain'),
+          ('sensor.home_tempest_precipitation_type', 'none')
+        ] %}
+          {% if states(entity) not in ['unavailable', 'unknown'] %}
+            {% if not is_state(entity, dry_state) %}
+              {% set ns.raining = true %}
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+        {% set temp = state_attr('weather.iron_nerd_weather_station','temperature') %}
+        {{ (not ns.raining) and (minimum_temp <= temp <= maximum_temp) }}
   - sensor:
     # - name: Total Rain Sensors
     #   unique_id: b7c2e709-8f5c-4263-aa1d-fa8280afcddb

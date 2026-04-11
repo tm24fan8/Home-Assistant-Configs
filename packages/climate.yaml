@@ -597,6 +597,20 @@ input_number:
     step: 1
     unit_of_measurement: °F
     icon: mdi:thermometer-chevron-down
+  window_weather_minimum:
+    name: Window Weather Minimum
+    min: 40
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:window-closed
+  window_weather_maximum:
+    name: Window Weather Maximum
+    min: 40
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:window-closed
 
 climate:
   - platform: generic_thermostat
