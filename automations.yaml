@@ -6621,3 +6621,75 @@
       entity_id: climate.basement_studio_vtherm
     data: {}
   mode: restart
+- id: '1775731411839'
+  alias: Emma Bedroom Mode Switch
+  description: For switching modes when the temperature goes from one extreme at night
+    to the other during the day
+  triggers:
+  - trigger: time
+    at: input_datetime.emma_bedroom_mode_switch
+    id: switch-time
+    alias: Switch Time
+  conditions:
+  - condition: state
+    entity_id: input_boolean.emma_bedroom_mode_switch
+    state:
+    - 'on'
+  actions:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_select.emma_bedroom_mode_switch
+        state:
+        - To Aircon
+        alias: To Aircon
+      sequence:
+      - action: input_boolean.turn_on
+        metadata: {}
+        target:
+          entity_id: input_boolean.emma_bedroom_aircon_installed
+        data: {}
+        alias: Enable aircon, disable heater
+      - action: input_number.set_value
+        metadata: {}
+        target:
+          entity_id: input_number.emma_bedroom_bedtime_temp
+        data:
+          value: 68
+        alias: Set bedtime temp
+      - action: input_select.select_option
+        metadata: {}
+        target:
+          entity_id: input_select.scheduled_climate_mode_emma_bedroom
+        data:
+          option: AC
+        alias: Set scheduled mode to AC
+      - action: switch.turn_on
+        metadata: {}
+        target:
+          entity_id: switch.emma_bedroom_climate_watchdog
+        data: {}
+        alias: Turn on climate watchdog
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 5
+          milliseconds: 0
+      - action: button.press
+        metadata: {}
+        target:
+          entity_id: button.emma_bedroom_bedtime_mode
+        data: {}
+        alias: Activate bedtime mode to apply new settings
+      - delay:
+          hours: 0
+          minutes: 1
+          seconds: 0
+          milliseconds: 0
+      - action: input_boolean.turn_off
+        metadata: {}
+        target:
+          entity_id: input_boolean.white_noise_emma_bedroom
+        data: {}
+        alias: Turn off white noise
+  mode: restart

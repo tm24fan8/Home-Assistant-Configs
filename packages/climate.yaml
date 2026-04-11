@@ -243,6 +243,10 @@ input_boolean:
     name: Emma Bedroom Heater Installed
     icon: mdi:heating-coil
 
+  emma_bedroom_mode_switch:
+    name: Emma Bedroom Mode Switch
+    icon: mdi:swap-horizontal
+
 input_select:
   scheduled_climate_mode_master_bedroom_aircon:
     name: Scheduled Climate Mode - Master Bedroom Aircon
@@ -273,6 +277,13 @@ input_select:
       - White Noise
       - N/A
     icon: mdi:home-thermometer
+  emma_bedroom_mode_switch:
+    name: Emma Bedroom Mode Switch
+    options:
+      - To Aircon
+      - To Heater
+    initial: To Aircon
+    icon: mdi:swap-horizontal
 
 input_number:
   master_bedroom_daytime_temp:
@@ -397,6 +408,13 @@ input_number:
   emma_bedroom_mode_switch_threshold:
     name: Emma Bedroom Mode Switch Threshold
     min: 60
+    max: 80
+    step: 1
+    unit_of_measurement: °F
+    icon: mdi:thermometer
+  emma_bedroom_auto_mode_threshold:
+    name: Emma Bedroom Auto Mode Threshold
+    min: 40
     max: 80
     step: 1
     unit_of_measurement: °F
@@ -611,6 +629,13 @@ input_number:
     step: 1
     unit_of_measurement: °F
     icon: mdi:window-closed
+
+input_datetime:
+  emma_bedroom_mode_switch:
+    name: Emma Bedroom Mode Switch
+    has_date: false
+    has_time: true
+    icon: mdi:swap-horizontal
 
 climate:
   - platform: generic_thermostat
