@@ -51,79 +51,87 @@ input_datetime:
     has_date: false
     has_time: true
 
-alarm_control_panel:
-  - platform: template
-    panels:
-      nerdhome_alarm_panel:
-        name: Nerd Home Alarm Panel
-        unique_id: d7eb8335-4998-49bf-957e-231aeed35179
-        value_template: "{{ states('alarm_control_panel.stratton_ave_alarm') }}"
-        code_arm_required: false
-        arm_away:
-        - if:
-          - condition: state
-            entity_id: binary_sensor.security_faults
-            state: 'off'
-          then:
-          - service: alarm_control_panel.alarm_arm_away
-            target:
-              entity_id: alarm_control_panel.stratton_ave_alarm
-            data:
-              code: !secret ring_alarm_code
-          - service: input_boolean.turn_off
-            target:
-              entity_id:
-                - input_boolean.lockdown_issue
-          else:
-          - service: input_boolean.turn_on
-            target:
-              entity_id: input_boolean.lockdown_issue
-        arm_home:
-        - if:
-          - condition: state
-            entity_id: binary_sensor.security_faults
-            state: 'off'
-          then:
-          - service: alarm_control_panel.alarm_arm_home
-            target:
-              entity_id: alarm_control_panel.stratton_ave_alarm
-            data:
-              code: !secret ring_alarm_code
-          - service: input_boolean.turn_off
-            target:
-              entity_id:
-                - input_boolean.lockdown_issue
-          - if:
-            - condition: template
-              value_template: "{{ silent != 1 and is_state('input_boolean.vacation_mode','off') }}"
-            then:
-            - service: script.status_annc
-              data:
-                who: living_room
-                call_security_armed: 1
-          else:
-          - service: input_boolean.turn_on
-            target:
-              entity_id: input_boolean.lockdown_issue
-        disarm:
-        - service: alarm_control_panel.alarm_disarm
-          target:
-            entity_id: alarm_control_panel.stratton_ave_alarm
+template:
+  - alarm_control_panel:
+    - name: Nerd Home Alarm Panel
+      unique_id: d7eb8335-4998-49bf-957e-231aeed35179
+      code_arm_required: false
+      arm_away:
+      - if:
+        - condition: state
+          entity_id:
+          - binary_sensor.security_faults
+          state: 'off'
+          match: all
+        then:
+        - target:
+            entity_id:
+            - alarm_control_panel.stratton_ave_alarm
           data:
             code: !secret ring_alarm_code
-        - service: input_boolean.turn_off
-          target:
-            entity_id: input_boolean.lockdown_issue
+          action: alarm_control_panel.alarm_arm_away
+        - target:
+            entity_id:
+            - input_boolean.lockdown_issue
+          action: input_boolean.turn_off
+        else:
+        - target:
+            entity_id:
+            - input_boolean.lockdown_issue
+          action: input_boolean.turn_on
+      arm_home:
+      - if:
+        - condition: state
+          entity_id:
+          - binary_sensor.security_faults
+          state: 'off'
+          match: all
+        then:
+        - target:
+            entity_id:
+            - alarm_control_panel.stratton_ave_alarm
+          data:
+            code: !secret ring_alarm_code
+          action: alarm_control_panel.alarm_arm_home
+        - target:
+            entity_id:
+            - input_boolean.lockdown_issue
+          action: input_boolean.turn_off
         - if:
           - condition: template
             value_template: "{{ silent != 1 and is_state('input_boolean.vacation_mode','off') }}"
           then:
-          - service: script.status_annc
-            data:
+          - data:
               who: living_room
-              call_security_not_armed: 1
-
-template:
+              call_security_armed: 1
+            action: script.status_annc
+        else:
+        - target:
+            entity_id:
+            - input_boolean.lockdown_issue
+          action: input_boolean.turn_on
+      disarm:
+      - target:
+          entity_id:
+          - alarm_control_panel.stratton_ave_alarm
+        data:
+          code: !secret ring_alarm_code
+        action: alarm_control_panel.alarm_disarm
+      - target:
+          entity_id:
+          - input_boolean.lockdown_issue
+        action: input_boolean.turn_off
+      - if:
+        - condition: template
+          value_template: "{{ silent != 1 and is_state('input_boolean.vacation_mode','off') }}"
+        then:
+        - data:
+            who: living_room
+            call_security_not_armed: 1
+          action: script.status_annc
+      code_format: number
+      default_entity_id: alarm_control_panel.nerdhome_alarm_panel
+      state: "{{ states('alarm_control_panel.stratton_ave_alarm') }}"
   - binary_sensor:
     - name: Windows
       unique_id: 9ff34cd4-c450-45d2-934a-b4a9fd8b93b2
