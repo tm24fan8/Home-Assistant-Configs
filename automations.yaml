@@ -6692,4 +6692,10 @@
           entity_id: input_boolean.white_noise_emma_bedroom
         data: {}
         alias: Turn off white noise
+      - action: input_boolean.turn_off
+        metadata: {}
+        target:
+          entity_id: input_boolean.emma_bedroom_mode_switch
+        data: {}
+        alias: Turn off mode switch
   mode: restart
