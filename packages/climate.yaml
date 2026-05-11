@@ -677,3 +677,43 @@ intent_script:
         entity_id: "{{ mode }}"
     speech:
       text: "Master bedroom set to {{ mode }}"
+
+template:
+  - binary_sensor:
+    - name: "Second Floor Windows Open"
+      unique_id: 5656bf10-ac5b-467e-8cf7-e8331598352d
+      state: >
+        {% set open = states.binary_sensor 
+          | selectattr('attributes.device_class','eq','window')
+          | selectattr('entity_id','in',label_entities('window'))
+          | selectattr('entity_id','in',floor_entities('second_floor'))
+          | selectattr('state','eq','on')
+          | list 
+          | count %}
+        {{ open > 0 }}
+      attributes:
+        open_windows: >
+          {% set open = states.binary_sensor 
+            | selectattr('attributes.device_class','eq','window')
+            | selectattr('entity_id','in',label_entities('window'))
+            | selectattr('entity_id','in',floor_entities('second_floor'))
+            | selectattr('state','eq','on')
+            | list 
+            | count %}
+          {{ open }}
+    - name: "Emma Bedroom Climate Inhibit"
+      unique_id: 76f8ff76-2994-46bf-913c-736e97d72c3b
+      state: >
+        {{ is_state('binary_sensor.second_floor_windows_open','on') and is_state('binary_sensor.emma_bedroom_door','on') }}
+    - name: "Master Bedroom Climate Inhibit"
+      unique_id: e529bf0c-7975-477e-a0f8-4a05480674a9
+      state: >
+        {% set open = states.binary_sensor 
+          | selectattr('attributes.device_class','eq','window')
+          | selectattr('entity_id','in',label_entities('window'))
+          | selectattr('entity_id','in',area_entities('master_bedroom'))
+          | selectattr('state','eq','on')
+          | list 
+          | count %}
+        {% set shower_mode = states('input_boolean.shower_mode') %}
+        {{ (open > 0) and (shower_mode == 'off') }}
