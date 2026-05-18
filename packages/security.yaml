@@ -494,12 +494,12 @@ template:
       unit_of_measurement: 'faults'
       state: >-
         {% set window_faults = states('sensor.window_faults') | int %}
-        {% set door_faults = states('sensor.door_faults') | int %}
+        {% set door_faults = states('sensor.doors_open') | int %}
         {{ door_faults + window_faults }}
       attributes:
         faulted: >
           {% set windows = state_attr('sensor.window_faults','faulted') %}
-          {% set doors = state_attr('sensor.door_faults','faulted') %}
+          {% set doors = state_attr('sensor.doors_open','faulted') %}
           {{ doors + windows }}
       icon: >-
         {% if states('sensor.total_faults') | int == 0 %}
