@@ -375,8 +375,6 @@
       - data: {}
         action: script.tina_desktop_refresh
       - data: {}
-        action: script.asus_laptop_refresh
-      - data: {}
         action: script.kallen_desktop_refresh
       - data: {}
         action: script.win10vm_refresh

@@ -106,9 +106,6 @@ template:
     - name: Kallen Desktop Idle
       unique_id: 680c6ae3-2ed2-451e-858b-2aee688af461
       state: "{{ (states('sensor.kallen_desktop_system_idle_time') | int) > (states('input_number.basement_computers_idle_time') | int * 60) }}"
-    - name: Asus Laptop Idle
-      unique_id: 7d8eb80a-0a2e-48a9-84b3-33175304dd95
-      state: "{{ states('sensor.asus_laptop_system_idle_time') | int > 1800 }}"
 
   # - platform: influxdb
   #   host: 192.168.1.26
