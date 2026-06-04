@@ -77,6 +77,7 @@ Again, mostly just the ones I'm **using** or **will use soon**...also a few that
 - [Scheduler Card](https://github.com/nielsfaber/scheduler-card) (required for Scheduler component)
 - [Horizon Card](https://github.com/rejuvenate/lovelace-horizon-card)
 - [Lovelace Home Feed Card](https://github.com/ben-jam1n/lovelace-home-feed-card)
+- [Chronicle Card](https://github.com/KadenThomp36/chronicle-card)
 - [Mini Graph Card](https://github.com/kalkih/mini-graph-card)
 - [Battery State Card](https://github.com/maxwroc/battery-state-card)
 - [Flipdown Timer Card](https://github.com/pmongloid/flipdown-timer-card)
