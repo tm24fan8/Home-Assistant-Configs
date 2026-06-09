@@ -284,6 +284,14 @@ input_boolean:
     name: Emma Bedroom Mode Switch
     icon: mdi:swap-horizontal
 
+  master_bedroom_aircon_eco_hold:
+    name: Master Bedroom Aircon Eco Hold
+    icon: mdi:leaf
+
+  emma_bedroom_aircon_eco_hold:
+    name: Emma Bedroom Aircon Eco Hold
+    icon: mdi:leaf
+
 input_select:
   scheduled_climate_mode_master_bedroom_aircon:
     name: Scheduled Climate Mode - Master Bedroom Aircon
@@ -321,6 +329,23 @@ input_select:
       - To Heater
     initial: To Aircon
     icon: mdi:swap-horizontal
+  master_bedroom_aircon_fan_mode:
+    name: Master Bedroom Aircon Fan Mode
+    options:
+      - auto
+      - low
+      - medium
+      - high
+    icon: mdi:air-conditioner
+  emma_bedroom_aircon_fan_mode:
+    name: Emma Bedroom Aircon Fan Mode
+    options:
+      - auto
+      - low
+      - medium
+      - high
+    icon: mdi:air-conditioner
+
 
 input_number:
   master_bedroom_daytime_temp:

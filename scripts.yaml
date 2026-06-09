@@ -3288,10 +3288,31 @@ emma_sleep:
       - alias: White Noise
         condition: and
         conditions:
-        - condition: state
-          entity_id: input_select.scheduled_climate_mode_emma_bedroom
-          state: White Noise
-          alias: Scheduled mode is White Noise
+        - condition: or
+          conditions:
+          - condition: state
+            entity_id: input_select.scheduled_climate_mode_emma_bedroom
+            state: White Noise
+            alias: Scheduled mode is White Noise
+          - condition: and
+            conditions:
+            - condition: select.is_option_selected
+              target:
+                entity_id: input_select.scheduled_climate_mode_emma_bedroom
+              options:
+                for: 00:00:00
+                option:
+                - AC
+              alias: Scheduled climate mode is AC
+            - condition: switch.is_on
+              target:
+                entity_id: input_boolean.emma_bedroom_aircon_eco_hold
+              options:
+                behavior: any
+                for: 00:00:00
+              alias: Eco Hold is on
+            alias: AC/Eco Hold
+          alias: White Noise needed
         - condition: state
           entity_id: input_boolean.white_noise_emma_bedroom
           state: 'off'
