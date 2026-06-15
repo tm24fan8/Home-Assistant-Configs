@@ -143,6 +143,8 @@ template:
                   states('sensor.kallen_desktop_current_username') in ['unavailable','unknown','NotPresent','SYSTEM']) and
                   is_state('binary_sensor.tony_desktop_on','off') %}
           false
+        {% elif is_state('sensor.tony_asus_os_booted','Linux') %}
+          true
         {% else %}
           true
         {% endif %}

@@ -108,6 +108,21 @@ template:
         {{ (sensor_mb / 1024) | round(0) | int }}
       availability: >
         {{ states('sensor.tony_asus_storage_v') not in ['unknown', 'unavailable'] }}
+    - name: Tony Asus - OS Booted
+      unique_id: 0fb9a12c-3895-41ef-84eb-539aa8a7939a
+      icon: mdi:desktop-tower-monitor
+      state: >
+        {% if is_state('binary_sensor.tony_desktop_on','on') %}
+          {% if is_number(states('sensor.tony_desktop_cachyos_cpu_temperature')) %}
+            Linux
+          {% elif is_number(states('sensor.tony_asus_cpu_temperature')) %}
+            Windows
+          {% else %}
+            Running
+          {% endif %}
+        {% else %}
+          Off
+        {% endif %}
 
 script:
   tony_desktop_wake:
