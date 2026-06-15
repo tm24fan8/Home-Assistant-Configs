@@ -6697,3 +6697,85 @@
         data: {}
         alias: Turn off mode switch
   mode: restart
+- id: '1780983278571'
+  alias: Dual Compressor Protection
+  description: Protects from both second floor AC compressors running at once. Usually
+    not needed, but should be enabled on the super hot days as a precaution to reduce
+    the frequent spikes hammering the circuit.
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.emma_bedroom_aircon_compressor
+    to:
+    - 'on'
+    id: compressor_start
+    alias: Compressor Start
+  - trigger: state
+    entity_id:
+    - binary_sensor.emma_bedroom_aircon_compressor
+    to:
+    - 'off'
+    id: compressor_stop
+    alias: Compressor Stop
+  conditions: []
+  actions:
+  - alias: Routing
+    choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - compressor_start
+        alias: Compressor Start
+      sequence:
+      - alias: Set MBR aircon to Fan Only, if it is running
+        if:
+        - condition: not
+          conditions:
+          - condition: state
+            entity_id: climate.master_bedroom_aircon
+            state:
+            - 'off'
+          alias: Aircon is not off
+        then:
+        - action: climate.set_hvac_mode
+          metadata: {}
+          target:
+            entity_id: climate.master_bedroom_aircon
+          data:
+            hvac_mode: fan_only
+          alias: Set MBR aircon to Fan Only
+    - conditions:
+      - condition: trigger
+        id:
+        - compressor_stop
+        alias: Compressor Stop
+      sequence:
+      - alias: Set MBR aircon to Cool, if appropriate
+        if:
+        - condition: and
+          conditions:
+          - condition: climate.is_hvac_mode
+            target:
+              entity_id: climate.master_bedroom_aircon
+            options:
+              for: 00:00:00
+              hvac_mode:
+              - fan_only
+          - condition: select.is_option_selected
+            target:
+              entity_id: input_select.scheduled_climate_mode_master_bedroom_aircon
+            options:
+              behavior: any
+              for: 00:00:00
+              option:
+              - AC
+          alias: Aircon in Fan Only, and scheduled for AC
+        then:
+        - action: climate.set_hvac_mode
+          metadata: {}
+          target:
+            entity_id: climate.master_bedroom_aircon
+          data:
+            hvac_mode: cool
+          alias: Set MBR aircon to Cool
+  mode: restart
