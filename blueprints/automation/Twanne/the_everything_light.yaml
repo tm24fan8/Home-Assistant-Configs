@@ -159,6 +159,7 @@ blueprint:
             - sensor
             device_class:
             - illuminance
+          reorder: false
           multiple: false
     max_brightness_value:
       name: Maximum ambient light value (DYNAMIC MODE)
@@ -342,6 +343,7 @@ blueprint:
       selector:
         duration:
           enable_day: true
+          enable_second: true
     turn_off_conditions:
       name: Turn off Conditions
       description: 'Only turn the light off when these conditions are met.
