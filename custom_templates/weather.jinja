@@ -60,6 +60,7 @@
     {% if state_attr('weather.iron_nerd_weather_station','visibility') | int < 3 %}
       Caution: Current outdoor visibility is {{ state_attr('weather.iron_nerd_weather_station','visibility') }} miles.
     {% endif %}
+    For the weather nerds, the current Iron Nerd National Weather Severity Score (experimental) is {{ states('sensor.iron_nerd_weather_national_weather_severity_score') }}.
   {% endif %}
 {% elif method == 'tts' %}
   {% if type in ['alerts','full'] %}
@@ -158,6 +159,7 @@
         "Be advised, it is very difficult to see outside right now. Drive safely. "
       ] | random }}
     {% endif %}
+  For the weather nerds, the current Iron Nerd National Weather Severity Score is {{ states('sensor.iron_nerd_weather_national_weather_severity_score') }}.
   {% endif %}
   {% if type in ['current','full'] %}
     {{ states('sensor.current_conditions_detail') }}

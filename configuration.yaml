@@ -294,6 +294,8 @@ influxdb:
       - sensor.*response_time*
       - sensor.weatheralerts*
       - sensor.system_monitor*
+      - sensor.iron_nerd_weather*
+      - sensor.inw_*
     entities:
       - media_player.living_room_tv
       - media_player.basement_tv
@@ -476,6 +478,8 @@ prometheus:
       - sensor.*response_time*
       - sensor.weatheralerts*
       - sensor.system_monitor*
+      - sensor.iron_nerd_weather*
+      - sensor.inw_*
     include_entities:
       - media_player.living_room_tv
       - media_player.basement_tv
