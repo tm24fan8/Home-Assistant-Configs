@@ -1,0 +1,537 @@
+blueprint:
+  name: Motion-Controlled Lighting 4.0 – Full-featured Fixed
+  description: 'Motion-controlled lighting with day/night, scenes, lux, sunrise/sunset,
+    workday, failsafe, fixed off times (with weekdays), snapshots, and logging.  Auto-off
+    durations can be set separately for main, day, and night lights.
+
+    '
+  domain: automation
+  input:
+    motion_sensors:
+      name: Motion sensor(s)
+      default: []
+      selector:
+        entity:
+          domain:
+          - binary_sensor
+          multiple: true
+          reorder: false
+    optional_switches:
+      name: Optional manual switch
+      default: []
+      selector:
+        entity:
+          domain:
+          - switch
+          multiple: true
+          reorder: false
+    main_lights:
+      name: Main lights
+      default: []
+      selector:
+        target:
+          entity:
+          - domain:
+            - light
+    scene_day:
+      name: Day scene
+      default: []
+      selector:
+        entity:
+          domain:
+          - scene
+          multiple: false
+          reorder: false
+    scene_night:
+      name: Night scene
+      default: []
+      selector:
+        entity:
+          domain:
+          - scene
+          multiple: false
+          reorder: false
+    day_lights:
+      name: Day lights
+      default: []
+      selector:
+        target:
+          entity:
+          - domain:
+            - light
+    night_lights:
+      name: Night lights
+      default: []
+      selector:
+        target:
+          entity:
+          - domain:
+            - light
+    lux_sensor:
+      name: Lux sensor
+      default: []
+      selector:
+        entity:
+          domain:
+          - sensor
+          device_class:
+          - illuminance
+          reorder: false
+          multiple: false
+    lux_threshold:
+      name: Lux threshold
+      default: 50
+      selector:
+        number:
+          min: 0.0
+          max: 1000.0
+          step: 1.0
+          unit_of_measurement: lx
+          mode: slider
+    use_sun_times:
+      name: Use sunrise/sunset
+      default: false
+      selector:
+        boolean: {}
+    sunset_offset:
+      name: Sunset offset
+      default: -02:00:00
+      selector:
+        text:
+          multiline: false
+          multiple: false
+    sunrise_offset:
+      name: Sunrise offset
+      default: +02:00:00
+      selector:
+        text:
+          multiline: false
+          multiple: false
+    sun_trigger_text:
+      name: Input Text for sun-trigger
+      default: []
+      selector:
+        entity:
+          domain:
+          - input_text
+          reorder: false
+          multiple: false
+    fixed_off_time_1:
+      name: Fixed off time 1 (optional)
+      default: []
+      selector:
+        time: {}
+    fixed_off_weekdays_1:
+      name: Active weekdays (Fixed time 1)
+      default: []
+      selector:
+        select:
+          multiple: true
+          options:
+          - label: Monday
+            value: mon
+          - label: Tuesday
+            value: tue
+          - label: Wednesday
+            value: wed
+          - label: Thursday
+            value: thu
+          - label: Friday
+            value: fri
+          - label: Saturday
+            value: sat
+          - label: Sunday
+            value: sun
+          custom_value: false
+          sort: false
+    fixed_off_time_2:
+      name: Fixed off time 2 (optional)
+      default: []
+      selector:
+        time: {}
+    fixed_off_weekdays_2:
+      name: Active weekdays (Fixed time 2)
+      default: []
+      selector:
+        select:
+          multiple: true
+          options:
+          - label: Monday
+            value: mon
+          - label: Tuesday
+            value: tue
+          - label: Wednesday
+            value: wed
+          - label: Thursday
+            value: thu
+          - label: Friday
+            value: fri
+          - label: Saturday
+            value: sat
+          - label: Sunday
+            value: sun
+          custom_value: false
+          sort: false
+    day_start:
+      name: Day start
+      default: 07:00:00
+      selector:
+        time: {}
+    day_end:
+      name: Day end
+      default: '22:00:00'
+      selector:
+        time: {}
+    night_start:
+      name: Night start
+      default: '22:00:00'
+      selector:
+        time: {}
+    night_end:
+      name: Night end
+      default: 07:00:00
+      selector:
+        time: {}
+    active_weekdays_day:
+      name: Active weekdays (Day)
+      default: []
+      selector:
+        select:
+          multiple: true
+          options:
+          - label: Monday
+            value: mon
+          - label: Tuesday
+            value: tue
+          - label: Wednesday
+            value: wed
+          - label: Thursday
+            value: thu
+          - label: Friday
+            value: fri
+          - label: Saturday
+            value: sat
+          - label: Sunday
+            value: sun
+          custom_value: false
+          sort: false
+    active_weekdays_night:
+      name: Active weekdays (Night)
+      default: []
+      selector:
+        select:
+          multiple: true
+          options:
+          - label: Monday
+            value: mon
+          - label: Tuesday
+            value: tue
+          - label: Wednesday
+            value: wed
+          - label: Thursday
+            value: thu
+          - label: Friday
+            value: fri
+          - label: Saturday
+            value: sat
+          - label: Sunday
+            value: sun
+          custom_value: false
+          sort: false
+    workday_sensor:
+      name: Workday sensor
+      default: []
+      selector:
+        entity:
+          domain:
+          - binary_sensor
+          reorder: false
+          multiple: false
+    enable_failsafe:
+      name: Enable failsafe
+      default: true
+      selector:
+        boolean: {}
+    failsafe_timer_day:
+      name: Failsafe timer day (minutes)
+      default: 15
+      selector:
+        number:
+          min: 1.0
+          max: 120.0
+          step: 1.0
+          unit_of_measurement: min
+          mode: slider
+    failsafe_timer_night:
+      name: Failsafe timer night (minutes)
+      default: 15
+      selector:
+        number:
+          min: 1.0
+          max: 120.0
+          step: 1.0
+          unit_of_measurement: min
+          mode: slider
+    input_text_last_scene:
+      name: Input Text - Last scene
+      default: []
+      selector:
+        entity:
+          domain:
+          - input_text
+          reorder: false
+          multiple: false
+    auto_off_main:
+      name: Main lights duration (minutes)
+      default: 10
+      selector:
+        number:
+          min: 1.0
+          max: 120.0
+          step: 1.0
+          unit_of_measurement: min
+          mode: box
+    auto_off_day:
+      name: Day light duration (minutes)
+      default: 5
+      selector:
+        number:
+          min: 1.0
+          max: 120.0
+          step: 1.0
+          unit_of_measurement: min
+          mode: box
+    auto_off_night:
+      name: Night light duration (minutes)
+      default: 1
+      selector:
+        number:
+          min: 1.0
+          max: 120.0
+          step: 1.0
+          unit_of_measurement: min
+          mode: box
+  source_url: https://github.com/razzietheman/Advanced-Motion-Activated-Light-Blueprint/blob/073a14fa7875f9b1d3f1cfb6f376899d92970a8d/Smarter_Lighting.yaml
+trigger:
+- platform: state
+  entity_id: !input motion_sensors
+  to: 'on'
+  id: motion_on
+- platform: state
+  entity_id: !input motion_sensors
+  to: 'off'
+  id: motion_off
+- platform: state
+  entity_id: !input optional_switches
+  to: 'on'
+  id: switch_on
+- platform: state
+  entity_id: !input optional_switches
+  to: 'off'
+  id: switch_off
+- platform: sun
+  event: sunrise
+  offset: !input sunrise_offset
+  id: sun_rise
+- platform: sun
+  event: sunset
+  offset: !input sunset_offset
+  id: sun_set
+- platform: time
+  at: !input fixed_off_time_1
+  id: fixed_off_1
+- platform: time
+  at: !input fixed_off_time_2
+  id: fixed_off_2
+mode: parallel
+max: 100
+variables:
+  main_lights_var: !input main_lights
+  day_lights_var: !input day_lights
+  night_lights_var: !input night_lights
+  scene_day_var: !input scene_day
+  scene_night_var: !input scene_night
+  last_scene_entity: !input input_text_last_scene
+  lux_sensor_var: !input lux_sensor
+  lux_threshold_var: !input lux_threshold
+  use_sun_times_var: !input use_sun_times
+  workday_sensor_var: !input workday_sensor
+  auto_off_main_var: !input auto_off_main
+  auto_off_day_var: !input auto_off_day
+  auto_off_night_var: !input auto_off_night
+  fixed_off_weekdays_1_var: !input fixed_off_weekdays_1
+  fixed_off_weekdays_2_var: !input fixed_off_weekdays_2
+condition: []
+action:
+- choose:
+  - conditions:
+    - condition: or
+      conditions:
+      - condition: trigger
+        id: motion_on
+      - condition: trigger
+        id: switch_on
+    - condition: template
+      value_template: '{% set ls = lux_sensor_var %} {% if ls == [] %} true {% else
+        %} {{ states(ls[0]) | float(9999) < lux_threshold_var }} {% endif %}
+
+        '
+    - condition: or
+      conditions:
+      - condition: and
+        conditions:
+        - condition: template
+          value_template: '{{ not use_sun_times_var }}'
+        - condition: time
+          after: !input day_start
+          before: !input day_end
+          weekday: !input active_weekdays_day
+      - condition: and
+        conditions:
+        - condition: template
+          value_template: '{{ use_sun_times_var }}'
+        - condition: sun
+          after: sunrise
+    - condition: template
+      value_template: '{% set w = workday_sensor_var %} {% if w == [] %} true {% else
+        %} {{ is_state(w[0], ''on'') }} {% endif %}
+
+        '
+    sequence:
+    - choose:
+      - conditions:
+        - condition: template
+          value_template: '{{ main_lights_var != [] }}'
+        sequence:
+        - service: scene.create
+          data:
+            scene_id: snapshot_before_on
+            snapshot_entities: '{{ main_lights_var }}'
+    - choose:
+      - conditions:
+        - condition: template
+          value_template: '{{ scene_day_var != [] }}'
+        sequence:
+        - service: scene.turn_on
+          target:
+            entity_id: '{{ scene_day_var }}'
+      - conditions:
+        - condition: template
+          value_template: '{{ day_lights_var != [] }}'
+        sequence:
+        - service: light.turn_on
+          target:
+            entity_id: '{{ day_lights_var }}'
+      - conditions:
+        - condition: template
+          value_template: '{{ main_lights_var != [] }}'
+        sequence:
+        - service: light.turn_on
+          target:
+            entity_id: '{{ main_lights_var }}'
+    - choose:
+      - conditions:
+        - condition: template
+          value_template: '{{ last_scene_entity != [] }}'
+        sequence:
+        - service: input_text.set_value
+          data:
+            entity_id: '{{ last_scene_entity }}'
+            value: day/night ON
+    - service: logbook.log
+      data:
+        name: Motion Control
+        message: Day/night ON activated via motion or switch.
+- choose:
+  - conditions:
+    - condition: or
+      conditions:
+      - condition: trigger
+        id: motion_off
+      - condition: trigger
+        id: switch_off
+    sequence:
+    - delay:
+        minutes: '{{ auto_off_main_var }}'
+    - service: light.turn_off
+      target:
+        entity_id: '{{ main_lights_var }}'
+    - delay:
+        minutes: '{{ auto_off_day_var }}'
+    - service: light.turn_off
+      target:
+        entity_id: '{{ day_lights_var }}'
+    - delay:
+        minutes: '{{ auto_off_night_var }}'
+    - service: light.turn_off
+      target:
+        entity_id: '{{ night_lights_var }}'
+    - service: logbook.log
+      data:
+        name: Motion Control
+        message: 'Day/night OFF executed; main lights off after {{ auto_off_main_var
+          }} min, day lights off after {{ auto_off_day_var }} min, night lights off
+          after {{ auto_off_night_var }} min.
+
+          '
+- choose:
+  - conditions:
+    - condition: trigger
+      id: fixed_off_1
+    - condition: template
+      value_template: '{{ now().strftime(''%a'').lower() in fixed_off_weekdays_1_var
+        }}
+
+        '
+    sequence:
+    - service: light.turn_off
+      target:
+        entity_id: '{{ main_lights_var + day_lights_var + night_lights_var }}'
+    - service: logbook.log
+      data:
+        name: Motion Control
+        message: Fixed off time 1 executed.
+  - conditions:
+    - condition: trigger
+      id: fixed_off_2
+    - condition: template
+      value_template: '{{ now().strftime(''%a'').lower() in fixed_off_weekdays_2_var
+        }}
+
+        '
+    sequence:
+    - service: light.turn_off
+      target:
+        entity_id: '{{ main_lights_var + day_lights_var + night_lights_var }}'
+    - service: logbook.log
+      data:
+        name: Motion Control
+        message: Fixed off time 2 executed.
+- choose:
+  - conditions:
+    - condition: template
+      value_template: '{{ enable_failsafe }}'
+    sequence:
+    - delay:
+        minutes: '{{ auto_off_main_var }}'
+    - service: light.turn_off
+      target:
+        entity_id: '{{ main_lights_var }}'
+    - delay:
+        minutes: '{{ auto_off_day_var }}'
+    - service: light.turn_off
+      target:
+        entity_id: '{{ day_lights_var }}'
+    - delay:
+        minutes: '{{ auto_off_night_var }}'
+    - service: light.turn_off
+      target:
+        entity_id: '{{ night_lights_var }}'
+    - service: logbook.log
+      data:
+        name: Motion Control
+        message: 'Failsafe executed; main lights off after {{ auto_off_main_var }}
+          min, day lights off after {{ auto_off_day_var }} min, night lights off after
+          {{ auto_off_night_var }} min.
+
+          '
