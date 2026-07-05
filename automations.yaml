@@ -6725,6 +6725,20 @@
     - 'off'
     id: compressor_stop
     alias: Compressor Stop
+  - trigger: switch.turned_on
+    target:
+      entity_id: input_boolean.shower_mode
+    options:
+      behavior: each
+      for: 00:00:00
+    id: shower-mode-on
+  - trigger: switch.turned_off
+    target:
+      entity_id: input_boolean.shower_mode
+    options:
+      behavior: each
+      for: 00:00:00
+    id: shower-mode-off
   conditions: []
   actions:
   - alias: Routing
@@ -6805,4 +6819,77 @@
           data:
             hvac_mode: cool
           alias: Set MBR aircon to Cool
+    - conditions:
+      - condition: trigger
+        id:
+        - shower-mode-on
+        alias: Shower Mode On
+      sequence:
+      - alias: Turn off Emma's aircon if needed
+        if:
+        - condition: and
+          conditions:
+          - condition: climate.is_on
+            target:
+              entity_id: climate.emma_bedroom_aircon
+            options:
+              behavior: any
+              for: 00:00:00
+          - condition: switch.is_off
+            target:
+              entity_id: input_boolean.emma_sleeping
+            options:
+              behavior: any
+              for: 00:00:00
+          alias: If aircon is on and Emma is not sleeping
+        then:
+        - repeat:
+            until:
+            - condition: climate.is_off
+              target:
+                entity_id: climate.emma_bedroom_aircon
+              options:
+                behavior: any
+                for: 00:00:00
+            sequence:
+            - action: climate.turn_off
+              metadata: {}
+              target:
+                entity_id: climate.emma_bedroom_aircon
+              data: {}
+            - delay:
+                hours: 0
+                minutes: 0
+                seconds: 8
+                milliseconds: 0
+          alias: Send Off command to aircon until successful
+    - conditions:
+      - condition: trigger
+        id:
+        - shower-mode-off
+        alias: Shower Mode Off
+      sequence:
+      - alias: Turn on Emma's aircon if needed
+        if:
+        - alias: If it is cooling time and Emma is not sleeping
+          condition: and
+          conditions:
+          - condition: switch.is_on
+            target:
+              entity_id: input_boolean.emma_bedroom_cooling_on
+            options:
+              behavior: any
+              for: 00:00:00
+          - condition: switch.is_off
+            target:
+              entity_id: input_boolean.emma_sleeping
+            options:
+              behavior: any
+              for: 00:00:00
+        then:
+        - action: button.press
+          metadata: {}
+          target:
+            entity_id: button.emma_bedroom_night_mode
+          data: {}
   mode: restart
