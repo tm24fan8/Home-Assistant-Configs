@@ -6745,13 +6745,32 @@
             - 'off'
           alias: Aircon is not off
         then:
-        - action: climate.set_hvac_mode
-          metadata: {}
-          target:
-            entity_id: climate.master_bedroom_aircon
-          data:
-            hvac_mode: fan_only
-          alias: Set MBR aircon to Fan Only
+        - repeat:
+            until:
+            - condition: climate.is_hvac_mode
+              target:
+                entity_id: climate.master_bedroom_aircon
+              options:
+                for:
+                  hours: 0
+                  minutes: 0
+                  seconds: 5
+                hvac_mode:
+                - fan_only
+            sequence:
+            - action: climate.set_hvac_mode
+              metadata: {}
+              target:
+                entity_id: climate.master_bedroom_aircon
+              data:
+                hvac_mode: fan_only
+              alias: Set MBR aircon to Fan Only
+            - delay:
+                hours: 0
+                minutes: 0
+                seconds: 8
+                milliseconds: 0
+          alias: Send Fan Only command to aircon until successful
     - conditions:
       - condition: trigger
         id:
