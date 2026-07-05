@@ -5680,6 +5680,13 @@
     to: Bob Evans
     id: at-work
     alias: At Work
+  - trigger: state
+    entity_id:
+    - sensor.xia_desktop_current_username
+    to:
+    - irish
+    id: pc-login
+    alias: PC Login
   conditions: []
   actions:
   - alias: Routing
@@ -5800,10 +5807,11 @@
             tag: tina-left-meds
           action: script.text_notify
     - conditions:
-      - condition: trigger
+      - alias: At Work or PC logged in
+        condition: trigger
         id:
         - at-work
-        alias: At Work
+        - pc-login
       sequence:
       - action: input_boolean.turn_off
         metadata: {}
