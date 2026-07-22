@@ -797,6 +797,7 @@ script:
       - service: media_player.turn_off
         target:
           entity_id: media_player.living_room_tv
+        continue_on_error: true
       - service: alarm_control_panel.alarm_arm_away
         target:
           entity_id: alarm_control_panel.nerdhome_alarm_panel
