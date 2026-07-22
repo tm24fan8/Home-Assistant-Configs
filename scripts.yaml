@@ -2993,18 +2993,17 @@ rabbit_feeding:
         entity_id: counter.rabbit_feeding_reminder_count
         above: 2
       then:
-      - service: script.speech_engine
-        data:
+      - data:
           who: common_areas
           type: alert
           message: Zeus needs to be fed. This is reminder number {{ states('counter.rabbit_feeding_reminder_count')
             }} for today.
         alias: Play TTS announcement
+        action: script.speech_engine
     - alias: Send phone notifications
-      service: script.text_notify
       metadata: {}
       data:
-        type: alert
+        type: normal
         who: all
         title: Rabbit Feeding
         message: Zeus needs to be fed, please do this ASAP!
@@ -3016,39 +3015,40 @@ rabbit_feeding:
           title: Skip
         - action: RABBIT_FEEDING_ASK_LATER
           title: Ask Later
+      action: script.text_notify
   - wait_for_trigger:
-    - platform: event
-      event_type: ios.notification_action_fired
+    - event_type: ios.notification_action_fired
       event_data:
         actionName: RABBIT_FEEDING_DONE
       alias: Done
       id: done
+      trigger: event
     - alias: Skipped
-      platform: event
       event_type: ios.notification_action_fired
       event_data:
         actionName: RABBIT_FEEDING_SKIPPED
       id: skipped
+      trigger: event
     - alias: Ask Later
-      platform: event
       event_type: ios.notification_action_fired
       event_data:
         actionName: RABBIT_FEEDING_ASK_LATER
       id: ask-later
-    - platform: state
-      entity_id:
+      trigger: event
+    - entity_id:
       - binary_sensor.parents_home
       from: 'on'
       to: 'off'
       id: left
       alias: Left
-    - platform: state
-      entity_id:
+      trigger: state
+    - entity_id:
       - input_boolean.rabbit_fed
       from: 'off'
       to: 'on'
       alias: Manual
       id: manual
+      trigger: state
     timeout:
       hours: 1
       minutes: 0
@@ -3062,27 +3062,26 @@ rabbit_feeding:
         value_template: '{{ wait.trigger.id in [''done'',''manual''] }}'
         alias: Feeding done
       sequence:
-      - service: input_boolean.turn_on
-        metadata: {}
+      - metadata: {}
         data: {}
         target:
           entity_id: input_boolean.rabbit_fed
         alias: Turn on input boolean
+        action: input_boolean.turn_on
       - alias: Clear critical notification, if it was sent
-        service: script.text_notify
         metadata: {}
         data:
           type: alert
           who: all
           message: clear_notification
           tag: rabbit-feeding-critical
+        action: script.text_notify
     - conditions:
       - condition: template
         value_template: '{{ wait.trigger.id == ''ask-later'' }}'
         alias: Ask later
       sequence:
-      - service: input_datetime.set_datetime
-        data:
+      - data:
           datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(1)
             }}
 
@@ -3090,28 +3089,29 @@ rabbit_feeding:
         target:
           entity_id: input_datetime.rabbit_feeding_notify
         alias: Bump feeding notification by an hour
+        action: input_datetime.set_datetime
     - conditions:
       - condition: template
         value_template: '{{ wait.trigger.id == ''left'' }}'
         alias: Left
       sequence:
-      - service: script.text_notify
-        metadata: {}
+      - metadata: {}
         data:
           type: critical
-          who: parents
+          who: "{% if is_state('person.christina_stork','Bob Evans') %}\n  tony\n{%
+            else %}\n  parents\n{% endif %}\n"
           title: YOU DICK
           message: YOU FORGOT TO FEED THE RABBIT!
           tag: rabbit-feeding-critical
         alias: Send critical text notification
+        action: script.text_notify
     - conditions:
       - condition: template
         value_template: '{{ wait.trigger == ''none'' or wait.trigger.idx is undefined
           }}'
         alias: None or undefined
       sequence:
-      - service: input_datetime.set_datetime
-        target:
+      - target:
           entity_id: input_datetime.rabbit_feeding_notify
         data:
           datetime: '{% from ''time.jinja'' import set_datetime %} {{ set_datetime(0,1)
@@ -3119,14 +3119,15 @@ rabbit_feeding:
 
             '
         alias: Notify again
+        action: input_datetime.set_datetime
   - alias: Clear notification
-    service: script.text_notify
     metadata: {}
     data:
       type: alert
       who: all
       message: clear_notification
       tag: rabbit-feeding
+    action: script.text_notify
   mode: restart
   icon: mdi:rabbit
 rabbit_hutch_cleaning:
@@ -3150,7 +3151,7 @@ rabbit_hutch_cleaning:
     - alias: Send phone notifications
       metadata: {}
       data:
-        type: alert
+        type: normal
         who: parents
         title: Rabbit Hutch Cleaning
         message: The rabbit hutch is in need of cleaning. For the sake of smell, please
@@ -3167,30 +3168,30 @@ rabbit_hutch_cleaning:
   - alias: Triggers
     wait_for_trigger:
     - alias: Done
-      platform: event
       event_type: ios.notification_action_fired
       event_data:
         actionName: RABBIT_HUTCH_CLEANING_DONE
       id: done
+      trigger: event
     - alias: Skipped
-      platform: event
       event_type: ios.notification_action_fired
       event_data:
         actionName: RABBIT_HUTCH_CLEANING_SKIPPED
       id: skipped
+      trigger: event
     - alias: Ask Later
-      platform: event
       event_type: ios.notification_action_fired
       event_data:
         actionName: RABBIT_HUTCH_CLEANING_ASK_LATER
       id: ask-later
+      trigger: event
     - alias: Manual
-      platform: state
       entity_id:
       - input_boolean.rabbit_hutch_cleaned
       from: 'off'
       to: 'on'
       id: manual
+      trigger: state
     timeout:
       hours: 1
       minutes: 0
