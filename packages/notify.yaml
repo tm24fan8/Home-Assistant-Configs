@@ -217,6 +217,7 @@ input_number:
 template:
   - sensor:
     - name: "Basement Echo Dot Volume"
+      unique_id: 55c3edb6-669d-4f03-bcc8-dbf5b3bdf25a
       state: >
         {% if is_state('input_boolean.give_me_darkness','on') %}
           {{ states('input_number.basement_echo_dot_night_volume') }}
@@ -225,6 +226,7 @@ template:
         {% endif %}
       icon: mdi:volume-high
     - name: "Basement Google Speaker Volume"
+      unique_id: 0a200394-547a-4afe-b7d8-6e80d86f2ec1
       state: >
         {% if is_state('input_boolean.give_me_darkness','on') %}
           {{ states('input_number.basement_google_speaker_night_volume') }}
@@ -233,6 +235,7 @@ template:
         {% endif %}
       icon: mdi:volume-high
     - name: "Living Room Echo Dot Volume"
+      unique_id: 4a3c290e-909c-487f-83a7-483106746b79
       state: >
         {% if is_state('input_boolean.give_me_darkness','on') %}
           {{ states('input_number.living_room_echo_dot_night_volume') }}
@@ -241,6 +244,7 @@ template:
         {% endif %}
       icon: mdi:volume-high
     - name: "Master Bedroom Echo Dot Volume"
+      unique_id: ae01d5cb-48e9-40f3-a41e-1604713352dc
       state: >
         {% if is_state('input_boolean.give_me_darkness','on') or is_state('binary_sensor.people_sleeping','on') %}
           {{ states('input_number.master_bedroom_echo_dot_night_volume') }}
@@ -249,6 +253,7 @@ template:
         {% endif %}
       icon: mdi:volume-high
     - name: "Kallen Bedroom Google Speaker Volume"
+      unique_id: 88765d1f-2a10-46ce-aa04-4bc95455c4cb
       state: >
         {% if is_state('input_boolean.give_me_darkness','on') or is_state('input_boolean.kallen_sleeping','on') %}
           {{ states('input_number.kallen_bedroom_google_speaker_night_volume') }}
@@ -257,6 +262,7 @@ template:
         {% endif %}
       icon: mdi:volume-high
     - name: "Emma Bedroom Google Speaker Volume"
+      unique_id: 7eb5d197-c883-4e77-ad70-bb9bb4acfc40
       state: >
         {% if is_state('input_boolean.give_me_darkness','on') or is_state('input_boolean.emma_sleeping','on') %}
           {{ states('input_number.emma_bedroom_google_speaker_night_volume') }}
