@@ -3977,3 +3977,70 @@ reading_mode_in_tina_desk:
   alias: Reading Mode in Tina Desk
   description: ''
   icon: mdi:palette
+tony_manual_wakeup:
+  sequence:
+  - action: input_boolean.turn_off
+    metadata: {}
+    target:
+      entity_id: input_boolean.basement_briefing
+    data: {}
+    alias: Reset basement briefing
+  - action: input_boolean.turn_on
+    metadata: {}
+    target:
+      entity_id: input_boolean.tony_awake
+    data: {}
+    alias: Set context that I am awake
+  - action: input_datetime.set_datetime
+    metadata: {}
+    target:
+      entity_id: input_datetime.tony_morning_meds_notify
+    data:
+      datetime: '{% from ''time.jinja'' import set_datetime %}
+
+        {{ set_datetime(0,1) }}'
+    alias: Set time to start notifying for morning meds
+  - alias: Set time to start notifying for afternoon meds
+    target:
+      entity_id: input_datetime.tony_afternoon_meds_notify
+    data:
+      datetime: '{% from ''time.jinja'' import set_datetime %}
+
+        {% set morning = state_attr(''input_datetime.tony_morning_meds_notify'',''timestamp'')
+        | int %}
+
+        {% set interval = states(''input_number.tony_afternoon_meds_interval'') |
+        int %}
+
+        {% set math = (interval * 60) * 60 %}
+
+        {% set newtime = morning + math %}
+
+        {{ newtime | timestamp_custom(''%Y-%m-%d %H:%M:%S'') }}'
+    action: input_datetime.set_datetime
+  - alias: Set time to start notifying for night meds
+    target:
+      entity_id: input_datetime.tony_night_meds_notify
+    data:
+      date: "{% from 'time.jinja' import set_datetime %}\n{% set current = as_timestamp(now())
+        %}\n{% set math = (24 * 60) * 60 %} \n{% set newtime = current + math %}\n{{
+        newtime | timestamp_custom('%Y-%m-%d') }}"
+      time: 04:00:00
+    action: input_datetime.set_datetime
+  - alias: Turn off all meds booleans
+    action: input_boolean.turn_off
+    metadata: {}
+    target:
+      entity_id:
+      - input_boolean.tony_morning_meds_taken
+      - input_boolean.tony_afternoon_meds_taken
+      - input_boolean.tony_night_meds_taken
+      - input_boolean.tony_morning_meds_reminder
+      - input_boolean.tony_afternoon_meds_reminder
+      - input_boolean.tony_night_meds_reminder
+    data: {}
+  mode: restart
+  alias: Tony Manual Wakeup
+  description: For the frequent occurrence where the automation doesn't work when
+    I wake up
+  icon: mdi:weather-sunset-up
