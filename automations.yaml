@@ -4024,17 +4024,17 @@
   - entity_id: person.tony_stork
     event: leave
     platform: zone
-    zone: zone.middle_school
+    zone: zone.high_school
     id: tony-leave
   - entity_id: person.christina_stork
     event: leave
     platform: zone
-    zone: zone.middle_school
+    zone: zone.high_school
     id: tina-leave
   - entity_id: person.kallen_stork
     event: leave
     platform: zone
-    zone: zone.middle_school
+    zone: zone.high_school
     id: kallen-leave
   - platform: time
     at: input_datetime.kallen_school_day_end
@@ -4114,15 +4114,15 @@
   - entity_id: person.tony_stork
     event: leave
     platform: zone
-    zone: zone.middle_school
+    zone: zone.high_school
   - entity_id: person.christina_stork
     event: leave
     platform: zone
-    zone: zone.middle_school
+    zone: zone.high_school
   - entity_id: person.kallen_stork
     event: enter
     platform: zone
-    zone: zone.middle_school
+    zone: zone.high_school
   condition:
   - condition: time
     before: '11:30:00'
