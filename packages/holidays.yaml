@@ -1,0 +1,41 @@
+input_datetime:
+  christmas_start:
+    name: Christmas Start
+    has_date: true
+    has_time: true
+    icon: mdi:pine-tree-variant
+  christmas_end:
+    name: Christmas End
+    has_date: true
+    has_time: true
+    icon: mdi:pine-tree-variant-outline
+  halloween_start:
+    name: Halloween Start
+    has_date: true
+    has_time: true
+    icon: mdi:halloween
+  halloween_end:
+    name: Halloween End
+    has_date: true
+    has_time: true
+    icon: mdi:pumpkin
+  st_patricks_start:
+    name: St Patricks Start
+    has_date: true
+    has_time: true
+    icon: mdi:clover
+  st_patricks_end:
+    name: St Patricks End
+    has_date: true
+    has_time: true
+    icon: mdi:clover-outline
+  new_years_start:
+    name: New Years Start
+    has_date: true
+    has_time: true
+    icon: mdi:firework
+  new_years_end:
+    name: New Years End
+    has_date: true
+    has_time: true
+    icon: mdi:firework-off

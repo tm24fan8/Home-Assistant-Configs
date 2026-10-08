@@ -6893,3 +6893,122 @@
             entity_id: button.emma_bedroom_night_mode
           data: {}
   mode: restart
+- id: '1791418847258'
+  alias: Holiday Mode
+  description: Automates the activation and deactivation of holiday mode, rather than
+    using Scheduler which requires me actually remembering to do it
+  triggers:
+  - trigger: time
+    at: input_datetime.new_years_start
+    alias: New Years Start
+    id: new-years-start
+  - trigger: time
+    at: input_datetime.new_years_end
+    alias: New Years End
+    id: new-years-end
+  - trigger: time
+    at: input_datetime.st_patricks_start
+    alias: St Patricks Start
+    id: st-patricks-start
+  - trigger: time
+    at: input_datetime.st_patricks_end
+    alias: St Patricks End
+    id: st-patricks-end
+  - trigger: time
+    at: input_datetime.halloween_start
+    alias: Halloween Start
+    id: halloween-start
+  - trigger: time
+    at: input_datetime.halloween_end
+    alias: Halloween End
+    id: halloween-end
+  - trigger: time
+    at: input_datetime.christmas_start
+    alias: Christmas Start
+    id: christmas-start
+  - trigger: time
+    at: input_datetime.christmas_end
+    alias: Christmas End
+    id: christmas-end
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - new-years-start
+      sequence:
+      - action: automation.turn_on
+        metadata: {}
+        target:
+          entity_id: automation.new_years
+        data: {}
+    - conditions:
+      - condition: trigger
+        id:
+        - new-years-end
+      sequence:
+      - action: automation.turn_off
+        metadata: {}
+        target:
+          entity_id: automation.new_years
+        data:
+          stop_actions: true
+    - conditions:
+      - condition: trigger
+        id:
+        - halloween-start
+      sequence:
+      - action: input_select.select_option
+        metadata: {}
+        target:
+          entity_id: input_select.holiday_animation
+        data:
+          option: Halloween
+      - action: input_boolean.turn_on
+        metadata: {}
+        target:
+          entity_id: input_boolean.holiday_mode
+        data: {}
+    - conditions:
+      - condition: trigger
+        id:
+        - halloween-end
+      sequence:
+      - action: input_boolean.turn_off
+        metadata: {}
+        target:
+          entity_id:
+          - input_boolean.holiday_mode
+          - input_boolean.holiday_mode_hold
+        data: {}
+    - conditions:
+      - condition: trigger
+        id:
+        - christmas-start
+      sequence:
+      - action: input_select.select_option
+        metadata: {}
+        target:
+          entity_id: input_select.holiday_animation
+        data:
+          option: Christmas
+      - action: input_boolean.turn_on
+        metadata: {}
+        target:
+          entity_id: input_boolean.holiday_mode
+        data: {}
+    - conditions:
+      - condition: trigger
+        id:
+        - christmas-end
+      sequence:
+      - action: input_boolean.turn_off
+        metadata: {}
+        target:
+          entity_id:
+          - input_boolean.holiday_mode
+          - input_boolean.holiday_mode_hold
+        data: {}
+    alias: Routing
+  mode: restart
