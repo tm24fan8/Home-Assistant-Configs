@@ -24,6 +24,7 @@
 /bubble/Scratchpad/
 /custom_icons
 /bubble_card
+/pyscript/modules/stubs
 
 # ignore any of these files no matter where they are using double *
 **.DS_Store
@@ -70,6 +71,7 @@
 **jsconfig*
 .markdownlint.json
 **test.jinja
+**test.py
 **.ha_run.lock
 
 # exceptions

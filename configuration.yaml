@@ -169,6 +169,7 @@ logger:
   default: error
   logs:
     homeassistant.core: fatal
+    custom_components.pyscript: info
 
 influxdb:
   max_retries: 3
