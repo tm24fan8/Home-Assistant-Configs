@@ -4044,3 +4044,21 @@ tony_manual_wakeup:
   description: For the frequent occurrence where the automation doesn't work when
     I wake up
   icon: mdi:weather-sunset-up
+sunset_lights_manual_trigger:
+  sequence:
+  - action: pyscript.sunset_lights_manual_trigger
+    metadata: {}
+    data: {}
+  mode: restart
+  alias: Sunset Lights Manual Trigger
+  description: New method of triggering sunset lights manually, now that they live
+    in Pyscript
+  icon: mdi:weather-sunset
+basement_on_manual:
+  sequence:
+  - action: pyscript.basement_on_manual
+    metadata: {}
+    data: {}
+  mode: restart
+  alias: Basement On Manual
+  description: Manually activate Basement On protocol
