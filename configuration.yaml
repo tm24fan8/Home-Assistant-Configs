@@ -43,11 +43,6 @@ panel_custom:
     sidebar_icon: mdi:material-design
     module_url: /hacsfiles/material-you-utilities/material-you-utilities.min.js
 
-http:
-  use_x_forwarded_for: true
-  trusted_proxies:
-    - 192.168.1.6
-
 calendar:
   - platform: caldav
     username: !secret userIcloud
