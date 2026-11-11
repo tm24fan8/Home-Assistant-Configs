@@ -131,6 +131,16 @@ recorder:
       - sensor.*airpods_pro_info
       - sensor.*response_time*
       - sensor.system_monitor*
+      - sensor.*iphone_badge
+      - sensor.*ipad_badge
+      - sensor.*airpods_badge
+      - sensor.*airpods_pro_badge
+      - sensor.*apple_watch_badge
+      - sensor.*iphone_next_update
+      - sensor.*ipad_next_update
+      - sensor.*airpods_next_update
+      - sensor.*airpods_pro_next_update
+      - sensor.*apple_watch_next_update
     entities:
       - sensor.avg_ping
       - sensor.max_ping
