@@ -1,10 +1,11 @@
 from stubs.pyscript_builtins import state, log, task, state_trigger, state_active, time_trigger
-from stubs.pyscript_generated import scene, light, lifx, switch
+from stubs.pyscript_generated import scene, light, lifx, switch, script
 
 DOORBELL = "binary_sensor.front_doorbell_ding_mqtt"
 FRONT_DOOR = "binary_sensor.front_door"
 PEOPLE_HOME = "binary_sensor.parents_home"
-TIMEOUT = 30
+MAIN_TIMEOUT = 30
+BASEMENT_TIMEOUT = 10
 
 def build_config() -> tuple[str, list[str], str, list[str], bool]:
     led_strip = False
@@ -62,19 +63,27 @@ def doorbell_ring():
                                 brightness=255)
         except Exception as e:
             log.warning(f"LED strip pulse failed: {e}")
-    log.info("Doorbell lights and effects activated")
+    log.info("Doorbell lights and effects activated on first floor")
 
-    log.info(f"Waiting for front door to open or timeout of {TIMEOUT} seconds")
+    if state.get("light.basement_studio_lights") == "on" and state.get("input_boolean.studio_quiet") == "off":
+        script.turn_on(
+            entity_id="script.basement_lights_alert",
+            variables={"duration": BASEMENT_TIMEOUT, "type": "green"} # pyright: ignore[reportCallIssue]
+        )
+        log.info(f"Basement lights alert activated for {BASEMENT_TIMEOUT} seconds")
+
+    log.info(f"Waiting for front door to open or timeout of {MAIN_TIMEOUT} seconds")
     result = task.wait_until(
         state_trigger=f"{FRONT_DOOR} == 'on'",
-        timeout=TIMEOUT
+        timeout=MAIN_TIMEOUT
     )
     if result["trigger_type"] == "timeout":
-        log.info(f"Resetting lights, adaptive lighting, and effects due to door not opening within {TIMEOUT} seconds")
+        log.info(f"Resetting lights, adaptive lighting, and effects due to door not opening within {MAIN_TIMEOUT} seconds")
     else:
         log.info("Front door opened...resetting lights, adaptive lighting, and effects")
 
     scene.turn_on(entity_id=f"scene.{lights_scene}")
+    task.sleep(3)
     if led_strip:
         try:
             lifx.effect_stop(entity_id="light.living_room_led_strip")
