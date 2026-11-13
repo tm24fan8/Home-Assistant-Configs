@@ -7012,3 +7012,17 @@
         data: {}
     alias: Routing
   mode: restart
+- id: '1794528273414'
+  alias: Refresh PyScript Stubs
+  description: Make sure my PyScript stubs stay relatively up-to-date with the current
+    state of our Home Assistant system
+  triggers:
+  - trigger: time
+    at: '12:00:00'
+  conditions: []
+  actions:
+  - action: pyscript.generate_stubs
+    metadata: {}
+    data: {}
+    response_variable: result
+  mode: single
