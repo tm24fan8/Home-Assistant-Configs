@@ -5,18 +5,21 @@ user_id_list = {
     "c3909d27048140729f002aaef0391775": {
         "short_name": "tony",
         "first_name": "Tony",
+        "first_name_tts": "Tony",
         "last_name": "Stork",
         "hass_user": "tonystork"
     },
     "f387a983651a4321a7411ff8cf36f949": {
         "short_name": "tina",
         "first_name": "Christina",
+        "first_name_tts": "Christina",
         "last_name": "Stork",
         "hass_user": "christinastork"
     },
     "879b4c04e32841b3ad1d2763a11b4e70": {
         "short_name": "kallen",
         "first_name": "Kallen",
+        "first_name_tts": "Collin", # Speakers are too stupid to pronounce "Kallen" correctly
         "last_name": "Stork",
         "hass_user": "kallenstork"
     }
