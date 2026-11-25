@@ -37,7 +37,7 @@ input_number:
   emma_bedtime_hours:
     name: Emma Bedtime Hours
     min: 8
-    max: 12
+    max: 16
     step: 1
     unit_of_measurement: hours
     icon: mdi:bed-clock
